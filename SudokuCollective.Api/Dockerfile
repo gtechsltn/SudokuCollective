@@ -9,8 +9,8 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["SudokuCollective.Api.csproj", "SudokuCollective.Api/"]
 RUN dotnet restore "SudokuCollective.Api/SudokuCollective.Api.csproj"
-COPY . .
 WORKDIR "/src/SudokuCollective.Api"
+COPY . .
 RUN dotnet build "SudokuCollective.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
