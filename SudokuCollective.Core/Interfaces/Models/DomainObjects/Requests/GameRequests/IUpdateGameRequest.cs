@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 
-namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests.GameRequests
+namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests
 {
     public interface IUpdateGameRequest : IDomainObject
     {

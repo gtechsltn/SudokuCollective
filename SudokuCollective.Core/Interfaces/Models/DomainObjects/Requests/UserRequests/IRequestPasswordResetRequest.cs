@@ -1,4 +1,4 @@
-﻿namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests.UserRequests
+﻿namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests
 {
     public interface IRequestPasswordResetRequest : IDomainObject
     {

@@ -1,4 +1,4 @@
-﻿namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests.SolveRequests
+﻿namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests
 {
     public interface IAddSolutionRequest : IDomainObject
     {

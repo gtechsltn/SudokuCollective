@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests.SolveRequests
+namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests
 {
     public interface ISolutionRequest : IDomainObject
     {

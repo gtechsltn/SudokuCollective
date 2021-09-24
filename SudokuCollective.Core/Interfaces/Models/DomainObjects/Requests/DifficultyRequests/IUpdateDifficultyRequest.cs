@@ -1,4 +1,4 @@
-﻿namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests.DifficultyRequests
+﻿namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests
 {
     public interface IUpdateDifficultyRequest : IDomainObject
     {

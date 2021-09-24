@@ -1,4 +1,4 @@
-﻿namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests.RegisterRequests
+﻿namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests
 {
     public interface IConfirmUserNameRequest : IDomainObject
     {

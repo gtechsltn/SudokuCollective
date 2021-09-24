@@ -1,6 +1,6 @@
 ﻿using SudokuCollective.Core.Enums;
 
-namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests.RoleRequests
+namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests
 {
     public interface IUpdateRoleRequest : IDomainObject
     {
