@@ -9,10 +9,12 @@ namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
         string Name { get; set; }
         string License { get; set; }
         int OwnerId { get; set; }
+        string LocalUrl { get; set; }
         string DevUrl { get; set; }
+        string QaUrl { get; set; }
         string LiveUrl { get; set; }
         bool IsActive { get; set; }
-        bool InDevelopment { get; set; }
+        ReleaseEnvironment Environment { get; set; }
         bool PermitSuperUserAccess { get; set; }
         bool PermitCollectiveLogins { get; set; }
         bool UseCustomEmailConfirmationAction { get; }
