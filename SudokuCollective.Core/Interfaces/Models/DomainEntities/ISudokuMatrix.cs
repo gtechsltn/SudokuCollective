@@ -74,7 +74,7 @@ namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
         List<int> ToIntList();
         List<int> ToDisplayedIntList();
         string ToString();
-        void SetDifficulty(IDifficulty difficulty);
+        void SetDifficulty(IDifficulty difficulty = null);
         void GenerateSolution();
         Task Solve();
         void HandleSudokuCellEvent(object sender, SudokuCellEventArgs e);
