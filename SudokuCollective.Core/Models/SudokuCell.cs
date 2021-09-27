@@ -82,9 +82,21 @@ namespace SudokuCollective.Core.Models
         public bool Hidden { get; set; }
         public int SudokuMatrixId { get; set; }
         [IgnoreDataMember]
-        public ISudokuMatrix SudokuMatrix { get; set; }
+        ISudokuMatrix ISudokuCell.SudokuMatrix
+        {
+            get
+            {
+                return SudokuMatrix;
+            }
+            set
+            {
+                SudokuMatrix = (SudokuMatrix)value;
+            }
+        }
+        [IgnoreDataMember]
+        public virtual SudokuMatrix SudokuMatrix { get; set; }
         [JsonIgnore]
-        public List<IAvailableValue> AvailableValues { get; set; }
+        public ICollection<IAvailableValue> AvailableValues { get; set; }
         #endregion
 
         #region Constructors

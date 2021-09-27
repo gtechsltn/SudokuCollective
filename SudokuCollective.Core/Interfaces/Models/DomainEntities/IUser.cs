@@ -20,9 +20,9 @@ namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
         bool IsAdmin { get; set; }
         DateTime DateCreated { get; set; }
         DateTime DateUpdated { get; set; }
-        List<IGame> Games { get; set; }
-        List<IUserRole> Roles { get; set; }
-        List<IUserApp> Apps { get; set; }
+        ICollection<IGame> Games { get; set; }
+        ICollection<IUserRole> Roles { get; set; }
+        ICollection<IUserApp> Apps { get; set; }
         void ActivateUser();
         void DeactiveUser();
         void UpdateRoles();

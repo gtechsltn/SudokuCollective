@@ -10,9 +10,32 @@ namespace SudokuCollective.Core.Models
         public int Id { get; set; }
         public int UserId { get; set; }
         [IgnoreDataMember]
-        public IUser User { get; set; }
+        IUser IUserRole.User
+        {
+            get
+            {
+                return User;
+            }
+            set
+            {
+                User = (User)value;
+            }
+        }
+        [IgnoreDataMember]
+        public User User { get; set; }
         public int RoleId { get; set; }
-        public IRole Role { get; set; }
+        IRole IUserRole.Role
+        {
+            get
+            {
+                return Role;
+            }
+            set
+            {
+                Role = (Role)value;
+            }
+        }
+        public Role Role { get; set; }
         #endregion
 
         #region Constructors

@@ -17,7 +17,6 @@ namespace SudokuCollective.Core.Models
     public class SudokuMatrix : ISudokuMatrix
     {
         #region Fields
-        private List<ISudokuCell> _sudokuCells = new List<ISudokuCell>();
         private Stopwatch _stopwatch = new Stopwatch();
         #endregion
 
@@ -27,17 +26,18 @@ namespace SudokuCollective.Core.Models
         public IGame Game { get; set; }
         public int DifficultyId { get; set; }
         public IDifficulty Difficulty { get; set; }
-        public virtual List<ISudokuCell> SudokuCells
+        ICollection<ISudokuCell> ISudokuMatrix.SudokuCells
         {
             get
             {
-                return _sudokuCells;
+                return SudokuCells.ToList().ConvertAll(cell => (ISudokuCell)cell);
             }
             set
             {
-                _sudokuCells = value;
+                SudokuCells = value.ToList().ConvertAll(cell => (SudokuCell)cell);
             }
         }
+        public virtual ICollection<SudokuCell> SudokuCells { get; set; }
         [JsonIgnore]
         public Stopwatch Stopwatch
         {
@@ -49,56 +49,184 @@ namespace SudokuCollective.Core.Models
 
         #region SudokuCell List Properties
         [JsonIgnore]
-        public List<ISudokuCell> FirstColumn { get => SudokuCells.Where(column => column.Column == 1).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> FirstColumn
+        { 
+            get => SudokuCells
+                .Where(column => column.Column == 1)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> SecondColumn { get => SudokuCells.Where(column => column.Column == 2).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> SecondColumn
+        {
+            get => SudokuCells
+                .Where(column => column.Column == 2)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell); 
+        }
         [JsonIgnore]
-        public List<ISudokuCell> ThirdColumn { get => SudokuCells.Where(column => column.Column == 3).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> ThirdColumn
+        {
+            get => SudokuCells
+                .Where(column => column.Column == 3)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> FourthColumn { get => SudokuCells.Where(column => column.Column == 4).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> FourthColumn
+        {
+            get => SudokuCells
+                .Where(column => column.Column == 4)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> FifthColumn { get => SudokuCells.Where(column => column.Column == 5).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> FifthColumn
+        {
+            get => SudokuCells
+                .Where(column => column.Column == 5)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> SixthColumn { get => SudokuCells.Where(column => column.Column == 6).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> SixthColumn
+        {
+            get => SudokuCells
+                .Where(column => column.Column == 6)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> SeventhColumn { get => SudokuCells.Where(column => column.Column == 7).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> SeventhColumn
+        {
+            get => SudokuCells
+                .Where(column => column.Column == 7)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> EighthColumn { get => SudokuCells.Where(column => column.Column == 8).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> EighthColumn
+        {
+            get => SudokuCells
+                .Where(column => column.Column == 8)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> NinthColumn { get => SudokuCells.Where(column => column.Column == 9).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> NinthColumn
+        {
+            get => SudokuCells
+                .Where(column => column.Column == 9)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
 
         public List<List<ISudokuCell>> Columns
         {
-            get => new List<List<ISudokuCell>> {
-            FirstColumn,
-            SecondColumn,
-            ThirdColumn,
-            FourthColumn,
-            FifthColumn,
-            SixthColumn,
-            SeventhColumn,
-            EighthColumn,
-            NinthColumn };
+            get => new()
+            {
+                FirstColumn,
+                SecondColumn,
+                ThirdColumn,
+                FourthColumn,
+                FifthColumn,
+                SixthColumn,
+                SeventhColumn,
+                EighthColumn,
+                NinthColumn 
+            };
         }
 
         [JsonIgnore]
-        public List<ISudokuCell> FirstRegion { get => SudokuCells.Where(region => region.Region == 1).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> FirstRegion
+        {
+            get => SudokuCells
+                .Where(region => region.Region == 1)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> SecondRegion { get => SudokuCells.Where(region => region.Region == 2).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> SecondRegion
+        {
+            get => SudokuCells
+                .Where(region => region.Region == 2)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> ThirdRegion { get => SudokuCells.Where(region => region.Region == 3).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> ThirdRegion
+        {
+            get => SudokuCells
+                .Where(region => region.Region == 3)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> FourthRegion { get => SudokuCells.Where(region => region.Region == 4).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> FourthRegion
+        {
+            get => SudokuCells
+                .Where(region => region.Region == 4)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> FifthRegion { get => SudokuCells.Where(region => region.Region == 5).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> FifthRegion 
+        {
+            get => SudokuCells
+                .Where(region => region.Region == 5)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> SixthRegion { get => SudokuCells.Where(region => region.Region == 6).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> SixthRegion
+        {
+            get => SudokuCells
+                .Where(region => region.Region == 6)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> SeventhRegion { get => SudokuCells.Where(region => region.Region == 7).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> SeventhRegion
+        {
+            get => SudokuCells
+                .Where(region => region.Region == 7)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> EighthRegion { get => SudokuCells.Where(region => region.Region == 8).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> EighthRegion
+        {
+            get => SudokuCells
+                .Where(region => region.Region == 8)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> NinthRegion { get => SudokuCells.Where(region => region.Region == 9).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> NinthRegion
+        {
+            get => SudokuCells
+                .Where(region => region.Region == 9)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
 
         public List<List<ISudokuCell>> Regions
         {
@@ -116,23 +244,86 @@ namespace SudokuCollective.Core.Models
             };
         }
         [JsonIgnore]
-        public List<ISudokuCell> FirstRow { get => SudokuCells.Where(row => row.Row == 1).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> FirstRow
+        {
+            get => SudokuCells
+                .Where(row => row.Row == 1)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> SecondRow { get => SudokuCells.Where(row => row.Row == 2).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> SecondRow
+        {
+            get => SudokuCells
+                .Where(row => row.Row == 2)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> ThirdRow { get => SudokuCells.Where(row => row.Row == 3).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> ThirdRow
+        {
+            get => SudokuCells
+                .Where(row => row.Row == 3)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> FourthRow { get => SudokuCells.Where(row => row.Row == 4).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> FourthRow
+        {
+            get => SudokuCells
+                .Where(row => row.Row == 4)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> FifthRow { get => SudokuCells.Where(row => row.Row == 5).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> FifthRow
+        {
+            get => SudokuCells
+                .Where(row => row.Row == 5)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> SixthRow { get => SudokuCells.Where(row => row.Row == 6).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> SixthRow
+        {
+            get => SudokuCells
+                .Where(row => row.Row == 6)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> SeventhRow { get => SudokuCells.Where(row => row.Row == 7).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> SeventhRow
+        {
+            get => SudokuCells
+                .Where(row => row.Row == 7)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> EighthRow { get => SudokuCells.Where(row => row.Row == 8).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> EighthRow
+        {
+            get => SudokuCells
+                .Where(row => row.Row == 8)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         [JsonIgnore]
-        public List<ISudokuCell> NinthRow { get => SudokuCells.Where(row => row.Row == 9).OrderBy(cell => cell.Index).ToList(); }
+        public List<ISudokuCell> NinthRow
+        {
+            get => SudokuCells
+                .Where(row => row.Row == 9)
+                .OrderBy(cell => cell.Index)
+                .ToList()
+                .ConvertAll(cell => (ISudokuCell)cell);
+        }
         public List<List<ISudokuCell>> Rows
         {
             get => new()
@@ -298,7 +489,7 @@ namespace SudokuCollective.Core.Models
             var regionIndexer = 1;
             var rowIndexer = 1;
 
-            SudokuCells = new List<ISudokuCell>();
+            SudokuCells = new List<SudokuCell>();
 
             for (var i = 1; i < 82; i++)
             {
@@ -350,7 +541,7 @@ namespace SudokuCollective.Core.Models
                     )
                 );
 
-                SudokuCells[i - 1].SudokuCellEvent += HandleSudokuCellEvent;
+                SudokuCells.ToList()[i - 1].SudokuCellEvent += HandleSudokuCellEvent;
 
                 columnIndexer++;
 
@@ -368,7 +559,7 @@ namespace SudokuCollective.Core.Models
         {
             for (var i = 0; i < SudokuCells.Count; i++)
             {
-                SudokuCells[i].Value = intList[i];
+                SudokuCells.ToList()[i].Value = intList[i];
             }
         }
 
@@ -401,7 +592,7 @@ namespace SudokuCollective.Core.Models
 
             for (var i = 0; i < SudokuCells.Count; i++)
             {
-                SudokuCells[i].Value = intList[i];
+                SudokuCells.ToList()[i].Value = intList[i];
             }
         }
 

@@ -5,7 +5,7 @@ namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
 {
     public interface ISudokuSolution : IDomainEntity
     {
-        List<int> SolutionList { get; set; }
+        ICollection<int> SolutionList { get; set; }
         DateTime DateCreated { get; set; }
         DateTime DateSolved { get; set; }
         List<int> FirstRow { get; }

@@ -15,9 +15,6 @@ namespace SudokuCollective.Core.Models
         private string _email;
         private bool _isSuperUser;
         private bool _isAdmin;
-        private List<IGame> _games;
-        private List<IUserRole> _roles;
-        private List<IUserApp> _apps;
         #endregion
 
         #region Properties
@@ -129,39 +126,42 @@ namespace SudokuCollective.Core.Models
         }
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
-        public virtual List<IGame> Games
+        ICollection<IGame> IUser.Games
         {
             get
             {
-                return _games;
+                return (ICollection<IGame>)Games;
             }
             set
             {
-                _games = value;
+                Games = (ICollection<Game>)value;
             }
         }
-        public virtual List<IUserRole> Roles
+        public virtual ICollection<Game> Games { get; set; }
+        ICollection<IUserRole> IUser.Roles
         {
             get
             {
-                return _roles;
+                return (ICollection<IUserRole>)Roles;
             }
             set
             {
-                _roles = value;
+                Roles = (ICollection<UserRole>)value;
             }
         }
-        public virtual List<IUserApp> Apps
+        public virtual ICollection<UserRole> Roles { get; set; }
+        ICollection<IUserApp> IUser.Apps
         {
             get
             {
-                return _apps;
+                return (ICollection<IUserApp>)Apps;
             }
             set
             {
-                _apps = value;
+                Apps = (ICollection<UserApp>)value;
             }
         }
+        public virtual ICollection<UserApp> Apps { get; set; }
         #endregion
 
         #region Constructors
@@ -185,9 +185,9 @@ namespace SudokuCollective.Core.Models
 
         public User()
         {
-            _games = new List<IGame>();
-            _roles = new List<IUserRole>();
-            _apps = new List<IUserApp>();
+            Games = new List<Game>();
+            Roles = new List<UserRole>();
+            Apps = new List<UserApp>();
 
             Id = 0;
             UserName = string.Empty;
@@ -220,9 +220,9 @@ namespace SudokuCollective.Core.Models
             DateTime dateCreated,
             DateTime dateUpdated)
         {
-            _games = new List<IGame>();
-            _roles = new List<IUserRole>();
-            _apps = new List<IUserApp>();
+            Games = new List<Game>();
+            Roles = new List<UserRole>();
+            Apps = new List<UserApp>();
 
             Id = id;
             UserName = userName;

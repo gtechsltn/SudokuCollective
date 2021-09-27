@@ -13,11 +13,45 @@ namespace SudokuCollective.Core.Models
         public int Id { get; set; }
         public int UserId { get; set; }
         [IgnoreDataMember]
-        public IUser User { get; set; }
+        IUser IGame.User
+        { 
+            get
+            {
+                return User;
+            }
+            set
+            {
+                User = (User)value;
+            }
+        }
+        [IgnoreDataMember]
+        public User User { get; set; }
         public int SudokuMatrixId { get; set; }
-        public ISudokuMatrix SudokuMatrix { get; set; }
+        ISudokuMatrix IGame.SudokuMatrix
+        {
+            get
+            {
+                return SudokuMatrix;
+            }
+            set
+            {
+                SudokuMatrix = (SudokuMatrix)value;
+            }
+        }
+        public virtual SudokuMatrix SudokuMatrix { get; set; }
         public int SudokuSolutionId { get; set; }
-        public ISudokuSolution SudokuSolution { get; set; }
+        ISudokuSolution IGame.SudokuSolution
+        {
+            get
+            {
+                return SudokuSolution;
+            }
+            set
+            {
+                SudokuSolution = (SudokuSolution)value;
+            }
+        }
+        public virtual SudokuSolution SudokuSolution { get; set; }
         public int AppId { get; set; }
         public bool ContinueGame { get; set; }
         public int Score { get; set; }
@@ -45,8 +79,8 @@ namespace SudokuCollective.Core.Models
         }
 
         public Game(
-            IUser user,
-            ISudokuMatrix matrix,
+            User user,
+            SudokuMatrix matrix,
             IDifficulty difficulty,
             int appId = 0) : this()
         {

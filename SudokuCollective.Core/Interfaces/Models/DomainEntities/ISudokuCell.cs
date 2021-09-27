@@ -15,7 +15,7 @@ namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
         bool Hidden { get; set; }
         int SudokuMatrixId { get; set; }
         ISudokuMatrix SudokuMatrix { get; set; }
-        List<IAvailableValue> AvailableValues { get; set; }
+        ICollection<IAvailableValue> AvailableValues { get; set; }
         int ToInt32() => DisplayedValue;
         string ToString() => DisplayedValue.ToString();
         void UpdateAvailableValues(int i);

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SudokuCollective.Data.Models.Results;
 
 namespace SudokuCollective.Api.Controllers
 {
@@ -12,7 +13,7 @@ namespace SudokuCollective.Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var result = new BaseResult
+            var result = new Result
             {
                 IsSuccess = true,
                 Message = "Status Code 200: Hello World from Sudoku Collective!"
@@ -20,19 +21,5 @@ namespace SudokuCollective.Api.Controllers
 
             return Ok(result);
         }
-    }
-}
-
-public class BaseResult
-{
-    public bool IsSuccess { get; set; }
-    public bool IsFromCache { get; set; }
-    public string Message { get; set; }
-
-    public BaseResult()
-    {
-        IsSuccess = false;
-        IsFromCache = false;
-        Message = string.Empty;
     }
 }

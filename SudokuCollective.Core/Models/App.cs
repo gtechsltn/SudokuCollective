@@ -10,7 +10,6 @@ namespace SudokuCollective.Core.Models
     public class App : IApp
     {
         #region Fields
-        private List<IUserApp> _users;
         private TimeFrame _timeFrame;
         private int _accessDuration;
         #endregion
@@ -209,26 +208,25 @@ namespace SudokuCollective.Core.Models
         }
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
-        public List<IUserApp> Users
+        ICollection<IUserApp> IApp.Users
         {
 
             get
             {
-                return _users;
+                return (ICollection<IUserApp>)Users;
             }
 
             set
             {
-                _users = value;
+                Users = (ICollection<UserApp>)value;
             }
         }
+        public virtual ICollection<UserApp> Users { get; set; }
         #endregion
 
         #region Constructors
         public App()
         {
-            _users = new List<IUserApp>();
-
             Id = 0;
             Name = string.Empty;
             License = string.Empty;
@@ -245,7 +243,7 @@ namespace SudokuCollective.Core.Models
             DisableCustomUrls = true;
             CustomEmailConfirmationAction = string.Empty;
             CustomPasswordResetAction = string.Empty;
-            Users = new List<IUserApp>();
+            Users = new List<UserApp>();
             TimeFrame = TimeFrame.DAYS;
             AccessDuration = 1;
         }
@@ -257,8 +255,6 @@ namespace SudokuCollective.Core.Models
             string devUrl,
             string liveUrl) : this()
         {
-            _users = new List<IUserApp>();
-
             Name = name;
             License = license;
             OwnerId = ownerId;
@@ -289,8 +285,6 @@ namespace SudokuCollective.Core.Models
             DateTime dateCreated,
             DateTime dateUpdated)
         {
-            _users = new List<IUserApp>();
-
             Id = id;
             Name = name;
             License = license;
@@ -310,6 +304,7 @@ namespace SudokuCollective.Core.Models
             AccessDuration = accessDuration;
             DateCreated = dateCreated;
             DateUpdated = dateUpdated;
+            Users = new List<UserApp>();
         }
         #endregion
 

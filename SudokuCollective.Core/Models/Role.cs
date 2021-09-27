@@ -7,50 +7,48 @@ using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 
 namespace SudokuCollective.Core.Models
 {
-    public class Difficulty : IDifficulty
+    public class Role : IRole
     {
         #region Properties
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
-        public string DisplayName { get; set; }
-        [Required]
-        public DifficultyLevel DifficultyLevel { get; set; }
+        public RoleLevel RoleLevel { get; set; }
         [IgnoreDataMember]
-        ICollection<ISudokuMatrix> IDifficulty.Matrices
+        ICollection<IUserRole> IRole.Users
         {
+
             get
             {
-                return (ICollection<ISudokuMatrix>)Matrices;
+                return (ICollection<IUserRole>)Users;
             }
 
             set
             {
-                Matrices = (ICollection<SudokuMatrix>)value;
+                Users = (ICollection<UserRole>)value;
             }
         }
-        public virtual ICollection<SudokuMatrix> Matrices { get; set; }
+        [IgnoreDataMember]
+        public virtual ICollection<UserRole> Users { get; set; }
         #endregion
 
         #region Constructors
-        public Difficulty()
+        public Role()
         {
             Id = 0;
             Name = string.Empty;
-            DifficultyLevel = DifficultyLevel.NULL;
-            Matrices = new List<SudokuMatrix>();
+            RoleLevel = RoleLevel.NULL;
+            Users = new List<UserRole>();
         }
 
         [JsonConstructor]
-        public Difficulty(int id, string name,
-            string displayName, DifficultyLevel difficultyLevel)
+        public Role(int id, string name, RoleLevel roleLevel)
         {
             Id = id;
             Name = name;
-            DisplayName = displayName;
-            DifficultyLevel = difficultyLevel;
-            Matrices = new List<SudokuMatrix>();
+            RoleLevel = roleLevel;
+            Users = new List<UserRole>();
         }
         #endregion
     }

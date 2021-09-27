@@ -10,7 +10,7 @@ namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
         IGame Game { get; set; }
         int DifficultyId { get; set; }
         IDifficulty Difficulty { get; set; }
-        List<ISudokuCell> SudokuCells { get; set; }
+        ICollection<ISudokuCell> SudokuCells { get; set; }
         Stopwatch Stopwatch { get; }
         List<ISudokuCell> FirstColumn { get; }
         List<ISudokuCell> SecondColumn { get; }

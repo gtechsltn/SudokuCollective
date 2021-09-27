@@ -7,6 +7,6 @@ namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
     {
         string Name { get; set; }
         RoleLevel RoleLevel { get; set; }
-        public List<IUserRole> Users { get; set; }
+        ICollection<IUserRole> Users { get; set; }
     }
 }

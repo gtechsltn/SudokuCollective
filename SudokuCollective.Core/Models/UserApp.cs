@@ -10,10 +10,34 @@ namespace SudokuCollective.Core.Models
         public int Id { get; set; }
         public int UserId { get; set; }
         [IgnoreDataMember]
-        public IUser User { get; set; }
+        IUser IUserApp.User
+        {
+            get
+            {
+                return User;
+            }
+            set
+            {
+                User = (User)value;
+            }
+        }
+        [IgnoreDataMember]
+        public virtual User User { get; set; }
         public int AppId { get; set; }
         [IgnoreDataMember]
-        public IApp App { get; set; }
+        IApp IUserApp.App
+        {
+            get
+            {
+                return App;
+            }
+            set
+            {
+                App = (App)value;
+            }
+        }
+        [IgnoreDataMember]
+        public virtual App App { get; set; }
         #endregion
 
         #region Constructors

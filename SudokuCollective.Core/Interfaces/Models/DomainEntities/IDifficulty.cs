@@ -8,6 +8,6 @@ namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
         string Name { get; set; }
         string DisplayName { get; set; }
         DifficultyLevel DifficultyLevel { get; set; }
-        List<ISudokuMatrix> Matrices { get; set; }
+        ICollection<ISudokuMatrix> Matrices { get; set; }
     }
 }

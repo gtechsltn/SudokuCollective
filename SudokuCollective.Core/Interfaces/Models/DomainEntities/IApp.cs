@@ -27,7 +27,7 @@ namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
         int AccessDuration { get; set; }
         DateTime DateCreated { get; set; }
         DateTime DateUpdated { get; set; }
-        List<IUserApp> Users { get; set; }
+        ICollection<IUserApp> Users { get; set; }
         public string GetLicense(int id, int ownerId);
         public void ActivateApp();
         public void DeactivateApp();
