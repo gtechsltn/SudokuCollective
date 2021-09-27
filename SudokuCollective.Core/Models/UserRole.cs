@@ -22,7 +22,7 @@ namespace SudokuCollective.Core.Models
             }
         }
         [IgnoreDataMember]
-        public User User { get; set; }
+        public virtual User User { get; set; }
         public int RoleId { get; set; }
         IRole IUserRole.Role
         {
@@ -35,7 +35,7 @@ namespace SudokuCollective.Core.Models
                 Role = (Role)value;
             }
         }
-        public Role Role { get; set; }
+        public virtual Role Role { get; set; }
         #endregion
 
         #region Constructors
