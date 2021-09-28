@@ -1,6 +1,6 @@
 ﻿namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests
 {
-    public interface IAddSolutionRequest : IDomainObject
+    public interface IAddSolutionRequest
     {
         int Limit { get; set; }
     }

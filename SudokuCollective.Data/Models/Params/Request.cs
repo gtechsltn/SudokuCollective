@@ -9,7 +9,7 @@ namespace SudokuCollective.Data.Models.Params
         public int RequestorId { get; set; }
         public int AppId { get; set; }
         public IPaginator Paginator { get; set; }
-        public IDomainObject DataPacket { get; set; }
+        public object DataPacket { get; set; }
 
         public Request()
         {

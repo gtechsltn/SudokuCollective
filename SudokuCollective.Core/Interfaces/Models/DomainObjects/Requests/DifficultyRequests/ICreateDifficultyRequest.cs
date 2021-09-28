@@ -2,7 +2,7 @@
 
 namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests
 {
-    public interface ICreateDifficultyRequest : IDomainObject
+    public interface ICreateDifficultyRequest
     {
         string Name { get; set; }
         string DisplayName { get; set; }

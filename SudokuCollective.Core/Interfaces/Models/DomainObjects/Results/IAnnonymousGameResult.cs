@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Results
 {
-    public interface IAnnonymousGameResult : IDomainObject
+    public interface IAnnonymousGameResult
     {
     }
 }

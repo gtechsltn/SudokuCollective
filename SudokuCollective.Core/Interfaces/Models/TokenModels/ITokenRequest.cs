@@ -1,6 +1,6 @@
 ﻿namespace SudokuCollective.Core.Interfaces.Models.TokenModels
 {
-    public interface ITokenRequest : IDomainObject
+    public interface ITokenRequest
     {
         string UserName { get; set; }
         string Password { get; set; }

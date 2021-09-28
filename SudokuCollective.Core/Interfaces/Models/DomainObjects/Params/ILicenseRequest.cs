@@ -1,6 +1,6 @@
 ﻿namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Params
 {
-    public interface ILicenseRequest : IDomainObject
+    public interface ILicenseRequest
     {
         string Name { get; set; }
         int OwnerId { get; set; }

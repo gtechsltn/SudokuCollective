@@ -2,7 +2,7 @@
 
 namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Results
 {
-    public interface IAuthenticationResult : IDomainObject
+    public interface IAuthenticationResult
     {
         IAuthenticatedUser User { get; set; }
         string Token { get; set; }

@@ -2,7 +2,7 @@
 
 namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Params
 {
-    public interface IPaginator : IDomainObject
+    public interface IPaginator
     {
         int Page { get; set; }
         int ItemsPerPage { get; set; }

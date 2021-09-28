@@ -1,6 +1,6 @@
 ﻿namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Results
 {
-    public interface IConfirmEmailResult : IDomainObject
+    public interface IConfirmEmailResult
     {
         string UserName { get; set; }
         string AppTitle { get; set; }

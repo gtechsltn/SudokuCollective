@@ -1,6 +1,6 @@
 ﻿namespace SudokuCollective.Core.Interfaces.Models
 {
-    public interface IDomainEntity : IDomainObject
+    public interface IDomainEntity
     {
         int Id { get; set; }
     }

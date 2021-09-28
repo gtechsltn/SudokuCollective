@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\Requests\" />
     <Folder Include="Models\Results\" />
   </ItemGroup>
 

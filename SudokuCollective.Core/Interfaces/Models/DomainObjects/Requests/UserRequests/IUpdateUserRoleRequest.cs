@@ -2,7 +2,7 @@
 
 namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests
 {
-    public interface IUpdateUserRoleRequest : IDomainObject
+    public interface IUpdateUserRoleRequest
     {
         List<int> RoleIds { get; set; }
     }
