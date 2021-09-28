@@ -2,7 +2,7 @@
 using SudokuCollective.Core.Interfaces.Models;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 
-namespace SudokuCollective.Data.Models.Results
+namespace SudokuCollective.Data.Models.Params
 {
     public class Result : IResult
     {
