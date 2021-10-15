@@ -2,7 +2,7 @@
 
 namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests
 {
-    public interface ISolutionRequest : IDomainObject
+    public interface ISolutionRequest
     {
         List<int> FirstRow { get; set; }
         List<int> SecondRow { get; set; }

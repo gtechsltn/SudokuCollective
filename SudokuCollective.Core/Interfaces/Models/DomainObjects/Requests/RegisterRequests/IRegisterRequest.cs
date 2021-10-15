@@ -1,6 +1,6 @@
 ﻿namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests
 {
-    public interface IRegisterRequest : IDomainObject
+    public interface IRegisterRequest
     {
         string UserName { get; set; }
         string FirstName { get; set; }

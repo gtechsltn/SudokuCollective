@@ -2,7 +2,7 @@
 
 namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests
 {
-    public interface IAppRequest : IDomainObject
+    public interface IAppRequest
     {
         string Name { get; set; }
         string LocalUrl { get; set; }

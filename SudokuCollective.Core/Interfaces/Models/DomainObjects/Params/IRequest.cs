@@ -1,11 +1,11 @@
 ﻿namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Params
 {
-    public interface IRequest : IDomainObject
+    public interface IRequest
     {
         string License { get; set; }
         int RequestorId { get; set; }
         int AppId { get; set; }
         IPaginator Paginator { get; set; }
-        IDomainObject DataPacket { get; set; }
+        object DataPacket { get; set; }
     }
 }

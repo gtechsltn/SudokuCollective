@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SudokuCollective.Data.Models.Results;
+using SudokuCollective.Data.Models.Params;
 
 namespace SudokuCollective.Api.Controllers
 {

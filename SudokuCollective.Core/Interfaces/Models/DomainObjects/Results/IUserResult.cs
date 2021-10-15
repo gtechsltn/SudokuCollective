@@ -2,7 +2,7 @@
 
 namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Results
 {
-    public interface IUserResult : IDomainObject
+    public interface IUserResult
     {
         IUser User { get; set; }
         bool? ConfirmationEmailSuccessfullySent { get; set; }

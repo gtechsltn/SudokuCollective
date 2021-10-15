@@ -2,11 +2,11 @@
 
 namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Params
 {
-    public interface IResult : IDomainObject
+    public interface IResult
     {
         bool IsSuccess { get; set; }
         bool IsFromCache { get; set; }
         string Message { get; set; }
-        List<IDomainObject> DataPacket { get; set; }
+        List<object> DataPacket { get; set; }
     }
 }

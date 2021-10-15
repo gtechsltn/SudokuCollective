@@ -1,6 +1,6 @@
 ﻿namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests
 {
-    public interface IUpdateUserRequest : IDomainObject
+    public interface IUpdateUserRequest
     {
         string UserName { get; set; }
         string FirstName { get; set; }
