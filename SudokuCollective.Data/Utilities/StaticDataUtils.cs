@@ -7,9 +7,9 @@ using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Data.Models;
 
-namespace SudokuCollective.Data.Helpers
+namespace SudokuCollective.Data.Utilities
 {
-    public static class StaticDataHelpers
+    public static class StaticDataUtils
     {
         public async static Task AttachSudokuCells(
             this ISudokuMatrix matrix,
