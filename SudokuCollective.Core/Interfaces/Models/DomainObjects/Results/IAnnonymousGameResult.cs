@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Results
 {
     public interface IAnnonymousGameResult
     {
+        List<List<int>> SudokuMatrix { get; set; }
     }
 }
