@@ -7,6 +7,6 @@
         string LocalUrl { get; set; }
         string DevUrl { get; set; }
         string QaUrl { get; set; }
-        string LiveUrl { get; set; }
+        string ProdUrl { get; set; }
     }
 }

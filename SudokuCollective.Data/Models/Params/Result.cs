@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using SudokuCollective.Core.Interfaces.Models;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 
 namespace SudokuCollective.Data.Models.Params

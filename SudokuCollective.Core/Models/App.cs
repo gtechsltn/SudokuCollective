@@ -26,7 +26,7 @@ namespace SudokuCollective.Core.Models
         public string LocalUrl { get; set; }
         public string DevUrl { get; set; }
         public string QaUrl { get; set; }
-        public string LiveUrl { get; set; }
+        public string ProdUrl { get; set; }
         public bool IsActive { get; set; }
         public ReleaseEnvironment Environment { get; set; }
         public bool PermitSuperUserAccess { get; set; }
@@ -60,7 +60,7 @@ namespace SudokuCollective.Core.Models
                 }
                 if (Environment == ReleaseEnvironment.PROD
                     && !DisableCustomUrls
-                    && !string.IsNullOrEmpty(LiveUrl)
+                    && !string.IsNullOrEmpty(ProdUrl)
                     && !string.IsNullOrEmpty(CustomEmailConfirmationAction))
                 {
                     return true;
@@ -100,7 +100,7 @@ namespace SudokuCollective.Core.Models
                 }
                 if (Environment == ReleaseEnvironment.PROD
                     && !DisableCustomUrls
-                    && !string.IsNullOrEmpty(LiveUrl)
+                    && !string.IsNullOrEmpty(ProdUrl)
                     && !string.IsNullOrEmpty(CustomEmailConfirmationAction))
                 {
                     return true;
@@ -235,7 +235,7 @@ namespace SudokuCollective.Core.Models
             LocalUrl = string.Empty;
             DevUrl = string.Empty;
             QaUrl = string.Empty;
-            LiveUrl = string.Empty;
+            ProdUrl = string.Empty;
             IsActive = false;
             PermitSuperUserAccess = false;
             PermitCollectiveLogins = false;
@@ -253,14 +253,14 @@ namespace SudokuCollective.Core.Models
             string license,
             int ownerId,
             string devUrl,
-            string liveUrl) : this()
+            string ProdUrl) : this()
         {
             Name = name;
             License = license;
             OwnerId = ownerId;
             DateCreated = DateTime.UtcNow;
             DevUrl = devUrl;
-            LiveUrl = liveUrl;
+            ProdUrl = ProdUrl;
         }
 
         [JsonConstructor]
@@ -272,7 +272,7 @@ namespace SudokuCollective.Core.Models
             string localUrl,
             string devUrl,
             string qaUrl,
-            string liveUrl,
+            string ProdUrl,
             bool isActive,
             bool permitSuperUserAccess,
             bool permitCollectiveLogins,
@@ -292,7 +292,7 @@ namespace SudokuCollective.Core.Models
             LocalUrl = localUrl;
             DevUrl = devUrl;
             QaUrl = qaUrl;
-            LiveUrl = liveUrl;
+            ProdUrl = ProdUrl;
             IsActive = isActive;
             PermitSuperUserAccess = permitSuperUserAccess;
             PermitCollectiveLogins = permitCollectiveLogins;

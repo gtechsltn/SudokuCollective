@@ -9,7 +9,7 @@ namespace SudokuCollective.Data.Models.Requests
         public string LocalUrl { get; set; }
         public string DevUrl { get; set; }
         public string QaUrl { get; set; }
-        public string LiveUrl { get; set; }
+        public string ProdUrl { get; set; }
         public bool IsActive { get; set; }
         public ReleaseEnvironment Environment { get; set; }
         public bool PermitSuperUserAccess { get; set; }
@@ -26,7 +26,7 @@ namespace SudokuCollective.Data.Models.Requests
             LocalUrl = string.Empty;
             DevUrl = string.Empty;
             QaUrl = string.Empty;
-            LiveUrl = string.Empty;
+            ProdUrl = string.Empty;
             IsActive = false;
             Environment = ReleaseEnvironment.NULL;
             PermitSuperUserAccess = false;
@@ -43,7 +43,7 @@ namespace SudokuCollective.Data.Models.Requests
             string localUrl, 
             string devUrl, 
             string qaUrl, 
-            string liveUrl, 
+            string prodUrl, 
             bool isActive, 
             int environment, 
             bool permitSuperUserAccess, 
@@ -58,7 +58,7 @@ namespace SudokuCollective.Data.Models.Requests
             LocalUrl = localUrl;
             DevUrl = devUrl;
             QaUrl = qaUrl;
-            LiveUrl = liveUrl;
+            ProdUrl = prodUrl;
             IsActive = isActive;
             Environment = (ReleaseEnvironment)environment;
             PermitSuperUserAccess = permitSuperUserAccess;
@@ -75,7 +75,7 @@ namespace SudokuCollective.Data.Models.Requests
             string localUrl, 
             string devUrl, 
             string qaUrl, 
-            string liveUrl, 
+            string prodUrl, 
             bool isActive, 
             ReleaseEnvironment environment, 
             bool permitSuperUserAccess, 
@@ -90,7 +90,7 @@ namespace SudokuCollective.Data.Models.Requests
             LocalUrl = localUrl;
             DevUrl = devUrl;
             QaUrl = qaUrl;
-            LiveUrl = liveUrl;
+            ProdUrl = prodUrl;
             IsActive = isActive;
             Environment = environment;
             PermitSuperUserAccess = permitSuperUserAccess;

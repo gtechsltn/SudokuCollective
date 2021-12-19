@@ -9,7 +9,7 @@ using SudokuCollective.Data.Models;
 
 namespace SudokuCollective.Data.Utilities
 {
-    public static class StaticDataUtils
+    public static class DataUtilities
     {
         public async static Task AttachSudokuCells(
             this ISudokuMatrix matrix,

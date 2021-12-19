@@ -6,7 +6,7 @@ namespace SudokuCollective.Core.Interfaces.Services
 {
     public interface IRolesService : IService
     {
-        Task<IResult> Create(string name, RoleLevel roleLevel);
+        Task<IResult> Create(IRequest request);
         Task<IResult> Get(int id);
         Task<IResult> Update(int id, IRequest request);
         Task<IResult> Delete(int id);

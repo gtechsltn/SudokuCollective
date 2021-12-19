@@ -7,10 +7,10 @@ namespace SudokuCollective.Core.Interfaces.Services
 {
     public interface IUsersService : IService
     {
-        Task<IUserResult> Create(
+        Task<IResult> Create(
             IRequest request,
             string baseUrl,
-            string emailtTemplatePath);
+            string emailTemplatePath);
         Task<IResult> Get(
             int id,
             string license);
@@ -18,7 +18,7 @@ namespace SudokuCollective.Core.Interfaces.Services
             int requestorId,
             string license,
             IPaginator paginator);
-        Task<IUserResult> Update(
+        Task<IResult> Update(
             int id,
             IRequest request,
             string baseUrl,
@@ -28,10 +28,10 @@ namespace SudokuCollective.Core.Interfaces.Services
             IRequest request,
             string baseUrl,
             string emailTemplatePath);
-        Task<IInitiatePasswordResetResult> InitiatePasswordReset(
+        Task<IResult> InitiatePasswordReset(
             string token,
             string license);
-        Task<IUserResult> GetUserByPasswordToken(string token);
+        Task<IResult> GetUserByPasswordToken(string token);
         Task<ILicenseResult> GetAppLicenseByPasswordToken(string token);
         Task<IResult> UpdatePassword(
             IRequest request,
@@ -46,23 +46,23 @@ namespace SudokuCollective.Core.Interfaces.Services
             string license);
         Task<IResult> Activate(int id);
         Task<IResult> Deactivate(int id);
-        Task<IConfirmEmailResult> ConfirmEmail(
+        Task<IResult> ConfirmEmail(
             string token,
             string baseUrl,
-            string emailtTemplatePath);
+            string emailTemplatePath);
         Task<IResult> ResendPasswordReset(
             int userId,
             int appId,
             string baseUrl,
-            string emailTamplatePath);
-        Task<IUserResult> ResendEmailConfirmation(
+            string emailTemplatePath);
+        Task<IResult> ResendEmailConfirmation(
             int userId,
             int appId,
             string baseUrl,
             string emailTemplatePath,
             string license);
-        Task<IUserResult> CancelEmailConfirmationRequest(int id, int appId);
-        Task<IUserResult> CancelPasswordResetRequest(int id, int appId);
-        Task<IUserResult> CancelAllEmailRequests(int id, int appId);
+        Task<IResult> CancelEmailConfirmationRequest(int id, int appId);
+        Task<IResult> CancelPasswordResetRequest(int id, int appId);
+        Task<IResult> CancelAllEmailRequests(int id, int appId);
     }
 }

@@ -12,7 +12,7 @@ namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
         string LocalUrl { get; set; }
         string DevUrl { get; set; }
         string QaUrl { get; set; }
-        string LiveUrl { get; set; }
+        string ProdUrl { get; set; }
         bool IsActive { get; set; }
         ReleaseEnvironment Environment { get; set; }
         bool PermitSuperUserAccess { get; set; }

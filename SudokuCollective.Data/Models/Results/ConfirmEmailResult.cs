@@ -1,3 +1,4 @@
+using System;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Results;
 
 namespace SudokuCollective.Data.Models.Results
@@ -5,6 +6,8 @@ namespace SudokuCollective.Data.Models.Results
     public class ConfirmEmailResult : IConfirmEmailResult
     {
         public string UserName { get; set; }
+        public string Email { get; set; }
+        public DateTime DateUpdated { get; set; }
         public string AppTitle { get; set; }
         public string Url { get; set; }
         public bool? IsUpdate { get; set; }
@@ -14,6 +17,8 @@ namespace SudokuCollective.Data.Models.Results
         public ConfirmEmailResult()
         {
             UserName = string.Empty;
+            Email = string.Empty;
+            DateUpdated = DateTime.MinValue;
             AppTitle = string.Empty;
             Url = string.Empty;
             IsUpdate = null;
@@ -22,7 +27,9 @@ namespace SudokuCollective.Data.Models.Results
         }
 
         public ConfirmEmailResult(
-            string userName, 
+            string userName,
+            string email,
+            DateTime dateUpdated,
             string appTitle, 
             string url, 
             bool? isUpdate, 
@@ -30,6 +37,8 @@ namespace SudokuCollective.Data.Models.Results
             bool? confirmationEmailSuccessfullySent)
         {
             UserName = userName;
+            Email = email;
+            DateUpdated = dateUpdated;
             AppTitle = appTitle;
             Url = url;
             IsUpdate = isUpdate;
