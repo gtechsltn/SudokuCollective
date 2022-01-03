@@ -20,7 +20,7 @@ namespace SudokuCollective.Data.Utilities
                 .Where(cell => cell.SudokuMatrixId == matrix.Id)
                 .ToListAsync();
 
-            matrix.SudokuCells = cells.ConvertAll(cell => (ISudokuCell)cell);
+            matrix.SudokuCells = cells.ConvertAll(cell => cell);
         }
 
         public async static Task<bool> IsGameInActiveApp(this IGame game, DatabaseContext context)

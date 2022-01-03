@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using SudokuCollective.Core.Models;
 using SudokuCollective.Core.Structs;
 
 namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
@@ -10,7 +11,7 @@ namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
         IGame Game { get; set; }
         int DifficultyId { get; set; }
         IDifficulty Difficulty { get; set; }
-        ICollection<ISudokuCell> SudokuCells { get; set; }
+        List<SudokuCell> SudokuCells { get; set; }
         Stopwatch Stopwatch { get; }
         List<ISudokuCell> FirstColumn { get; }
         List<ISudokuCell> SecondColumn { get; }
