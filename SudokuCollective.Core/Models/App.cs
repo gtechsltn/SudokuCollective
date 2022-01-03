@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
@@ -44,21 +45,21 @@ namespace SudokuCollective.Core.Models
         {
           return true;
         }
-        if (Environment == ReleaseEnvironment.DEV
+        else if (Environment == ReleaseEnvironment.DEV
             && !DisableCustomUrls
             && !string.IsNullOrEmpty(DevUrl)
             && !string.IsNullOrEmpty(CustomEmailConfirmationAction))
         {
           return true;
         }
-        if (Environment == ReleaseEnvironment.QA
+        else if (Environment == ReleaseEnvironment.QA
             && !DisableCustomUrls
             && !string.IsNullOrEmpty(QaUrl)
             && !string.IsNullOrEmpty(CustomEmailConfirmationAction))
         {
           return true;
         }
-        if (Environment == ReleaseEnvironment.PROD
+        else if (Environment == ReleaseEnvironment.PROD
             && !DisableCustomUrls
             && !string.IsNullOrEmpty(ProdUrl)
             && !string.IsNullOrEmpty(CustomEmailConfirmationAction))
@@ -80,28 +81,28 @@ namespace SudokuCollective.Core.Models
         if (Environment == ReleaseEnvironment.LOCAL
             && !DisableCustomUrls
             && !string.IsNullOrEmpty(LocalUrl)
-            && !string.IsNullOrEmpty(CustomEmailConfirmationAction))
+            && !string.IsNullOrEmpty(CustomPasswordResetAction))
         {
           return true;
         }
-        if (Environment == ReleaseEnvironment.DEV
+        else if (Environment == ReleaseEnvironment.DEV
             && !DisableCustomUrls
             && !string.IsNullOrEmpty(DevUrl)
-            && !string.IsNullOrEmpty(CustomEmailConfirmationAction))
+            && !string.IsNullOrEmpty(CustomPasswordResetAction))
         {
           return true;
         }
-        if (Environment == ReleaseEnvironment.QA
+        else if (Environment == ReleaseEnvironment.QA
             && !DisableCustomUrls
             && !string.IsNullOrEmpty(QaUrl)
-            && !string.IsNullOrEmpty(CustomEmailConfirmationAction))
+            && !string.IsNullOrEmpty(CustomPasswordResetAction))
         {
           return true;
         }
-        if (Environment == ReleaseEnvironment.PROD
+        else if (Environment == ReleaseEnvironment.PROD
             && !DisableCustomUrls
             && !string.IsNullOrEmpty(ProdUrl)
-            && !string.IsNullOrEmpty(CustomEmailConfirmationAction))
+            && !string.IsNullOrEmpty(CustomPasswordResetAction))
         {
           return true;
         }
@@ -208,20 +209,7 @@ namespace SudokuCollective.Core.Models
     }
     public DateTime DateCreated { get; set; }
     public DateTime DateUpdated { get; set; }
-    ICollection<IUserApp> IApp.Users
-    {
-
-      get
-      {
-        return (ICollection<IUserApp>)Users;
-      }
-
-      set
-      {
-        Users = (ICollection<UserApp>)value;
-      }
-    }
-    public virtual ICollection<UserApp> Users { get; set; }
+    public virtual List<UserApp> Users { get; set; }
     #endregion
 
     #region Constructors
