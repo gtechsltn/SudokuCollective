@@ -26,18 +26,7 @@ namespace SudokuCollective.Core.Models
         public IGame Game { get; set; }
         public int DifficultyId { get; set; }
         public IDifficulty Difficulty { get; set; }
-        ICollection<ISudokuCell> ISudokuMatrix.SudokuCells
-        {
-            get
-            {
-                return SudokuCells.ToList().ConvertAll(cell => (ISudokuCell)cell);
-            }
-            set
-            {
-                SudokuCells = value.ToList().ConvertAll(cell => (SudokuCell)cell);
-            }
-        }
-        public virtual ICollection<SudokuCell> SudokuCells { get; set; }
+        public virtual List<SudokuCell> SudokuCells { get; set; }
         [JsonIgnore]
         public Stopwatch Stopwatch
         {

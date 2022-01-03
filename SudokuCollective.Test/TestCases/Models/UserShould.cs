@@ -21,6 +21,10 @@ namespace SudokuCollective.Test.TestCases.Models
         public void ImplementIDomainEntity()
         {
             // Arrange and Act
+            if (sut == null)
+            {
+                sut = new User();
+            }
 
             // Assert
             Assert.That(sut, Is.InstanceOf<IDomainEntity>());
