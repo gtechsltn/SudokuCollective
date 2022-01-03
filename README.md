@@ -4,7 +4,7 @@ Sudoku Collective is a project that serves as a ready made Web API that you can 
 
 ## Requirements
 
-- [.Net 5.0](https://dotnet.microsoft.com/download/dotnet/5.0)
+- [.Net 6.0](https://dotnet.microsoft.com/download/dotnet/6.0)
 - [PostgreSQL 11](https://www.postgresql.org/download/)
 - [Vue/CLI - version 4.5.7](https://cli.vuejs.org/)
 - [Redis Server - version 5.0.7](https://redis.io/download)
