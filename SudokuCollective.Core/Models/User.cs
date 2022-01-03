@@ -126,42 +126,9 @@ namespace SudokuCollective.Core.Models
         }
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
-        ICollection<IGame> IUser.Games
-        {
-            get
-            {
-                return (ICollection<IGame>)Games;
-            }
-            set
-            {
-                Games = (ICollection<Game>)value;
-            }
-        }
-        public virtual ICollection<Game> Games { get; set; }
-        ICollection<IUserRole> IUser.Roles
-        {
-            get
-            {
-                return (ICollection<IUserRole>)Roles;
-            }
-            set
-            {
-                Roles = (ICollection<UserRole>)value;
-            }
-        }
-        public virtual ICollection<UserRole> Roles { get; set; }
-        ICollection<IUserApp> IUser.Apps
-        {
-            get
-            {
-                return (ICollection<IUserApp>)Apps;
-            }
-            set
-            {
-                Apps = (ICollection<UserApp>)value;
-            }
-        }
-        public virtual ICollection<UserApp> Apps { get; set; }
+        public virtual List<Game> Games { get; set; }
+        public virtual List<UserRole> Roles { get; set; }
+        public virtual List<UserApp> Apps { get; set; }
         #endregion
 
         #region Constructors

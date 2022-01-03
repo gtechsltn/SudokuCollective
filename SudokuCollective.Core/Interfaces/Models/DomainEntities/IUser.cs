@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SudokuCollective.Core.Models;
 
 namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
 {
@@ -20,9 +21,9 @@ namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
         bool IsAdmin { get; set; }
         DateTime DateCreated { get; set; }
         DateTime DateUpdated { get; set; }
-        ICollection<IGame> Games { get; set; }
-        ICollection<IUserRole> Roles { get; set; }
-        ICollection<IUserApp> Apps { get; set; }
+        List<Game> Games { get; set; }
+        List<UserRole> Roles { get; set; }
+        List<UserApp> Apps { get; set; }
         void ActivateUser();
         void DeactiveUser();
         void UpdateRoles();
