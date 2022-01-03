@@ -184,8 +184,7 @@ namespace SudokuCollective.Test.TestCases.Models
             Assert.That(sut.CustomEmailConfirmationAction, Is.EqualTo(customAction));
         }
 
-        [Test]
-        [Category("Models")]
+        [Test, Category("Models")]
         public void UseCustomPasswordResetAction()
         {
             // Arrange
