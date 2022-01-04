@@ -10,19 +10,10 @@ namespace SudokuCollective.Test.TestCases.Models
     public class SudokuCellShould
     {
         private ISudokuCell? sut;
-        //private List<int>? intList;
-        //private int firstInt;
-        //private SudokuMatrix? populatedTestMatrix;
 
         [SetUp]
         public void Setup()
         {
-            //populatedTestMatrix = new SudokuMatrix();
-            //populatedTestMatrix.GenerateSolution();
-            //intList = populatedTestMatrix.ToIntList();
-            //firstInt = intList[0];
-
-            //populatedTestMatrix = new SudokuMatrix(intList);
             sut = new SudokuCell();
         }
 
