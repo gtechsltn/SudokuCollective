@@ -159,7 +159,7 @@ namespace SudokuCollective.Core.Models
 
                     if (KeepScore)
                     {
-                        TimeToSolve = DateTime.Now - DateCreated;
+                        TimeToSolve = DateTime.UtcNow - DateCreated;
 
                         if (SudokuMatrix.Difficulty.DifficultyLevel == DifficultyLevel.EASY)
                         {
