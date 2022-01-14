@@ -86,7 +86,7 @@ namespace SudokuCollective.Core.Models
         {
             User = user;
             SudokuMatrix = matrix;
-            SudokuMatrix.Difficulty = difficulty;
+            SudokuMatrix.Difficulty = (Difficulty)difficulty;
             SudokuMatrix.SetDifficulty(SudokuMatrix.Difficulty);
             AppId = appId;
 
@@ -101,7 +101,7 @@ namespace SudokuCollective.Core.Models
             }
             else
             {
-                SudokuMatrix.Difficulty = difficulty;
+                SudokuMatrix.Difficulty = (Difficulty)difficulty;
             }
 
             SudokuMatrix.SetDifficulty();
@@ -159,7 +159,7 @@ namespace SudokuCollective.Core.Models
 
                     if (KeepScore)
                     {
-                        TimeToSolve = DateTime.Now - DateCreated;
+                        TimeToSolve = DateTime.UtcNow - DateCreated;
 
                         if (SudokuMatrix.Difficulty.DifficultyLevel == DifficultyLevel.EASY)
                         {
