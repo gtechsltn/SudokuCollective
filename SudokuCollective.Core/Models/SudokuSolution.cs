@@ -12,7 +12,7 @@ namespace SudokuCollective.Core.Models
     {
         #region Properites
         public int Id { get; set; }
-        public virtual ICollection<int> SolutionList { get; set; }
+        public virtual List<int> SolutionList { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateSolved { get; set; }
         public List<int> FirstRow { get => GetValues(0, 9); }

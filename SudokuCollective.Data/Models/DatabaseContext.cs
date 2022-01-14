@@ -75,7 +75,7 @@ namespace SudokuCollective.Data.Models
 
             modelBuilder.Entity<SudokuMatrix>()
                 .HasOne(matrix => matrix.Difficulty)
-                .WithMany(difficulty => (ICollection<SudokuMatrix>)difficulty.Matrices)
+                .WithMany(difficulty => difficulty.Matrices)
                 .HasForeignKey(matrix => matrix.DifficultyId);
 
             modelBuilder.Entity<SudokuMatrix>()

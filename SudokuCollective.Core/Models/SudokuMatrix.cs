@@ -25,7 +25,7 @@ namespace SudokuCollective.Core.Models
         [IgnoreDataMember]
         public IGame Game { get; set; }
         public int DifficultyId { get; set; }
-        public IDifficulty Difficulty { get; set; }
+        public Difficulty Difficulty { get; set; }
         public virtual List<SudokuCell> SudokuCells { get; set; }
         [JsonIgnore]
         public Stopwatch Stopwatch
@@ -556,7 +556,7 @@ namespace SudokuCollective.Core.Models
             IDifficulty difficulty,
             List<int> intList) : this(intList)
         {
-            Difficulty = difficulty;
+            Difficulty = (Difficulty)difficulty;
             SetDifficulty();
         }
 
