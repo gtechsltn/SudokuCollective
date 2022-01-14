@@ -16,21 +16,7 @@ namespace SudokuCollective.Core.Models
         [Required]
         public RoleLevel RoleLevel { get; set; }
         [IgnoreDataMember]
-        ICollection<IUserRole> IRole.Users
-        {
-
-            get
-            {
-                return (ICollection<IUserRole>)Users;
-            }
-
-            set
-            {
-                Users = (ICollection<UserRole>)value;
-            }
-        }
-        [IgnoreDataMember]
-        public virtual ICollection<UserRole> Users { get; set; }
+        public virtual List<UserRole> Users { get; set; }
         #endregion
 
         #region Constructors
