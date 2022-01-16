@@ -5,6 +5,7 @@ using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Core.Interfaces.Models;
 using SudokuCollective.Core.Enums;
+using System.Linq;
 
 namespace SudokuCollective.Test.TestCases.Models
 {
@@ -72,7 +73,10 @@ namespace SudokuCollective.Test.TestCases.Models
             Assert.That(sut.AccessDuration, Is.TypeOf<int>());
             Assert.That(sut.DateCreated, Is.TypeOf<DateTime>());
             Assert.That(sut.DateUpdated, Is.TypeOf<DateTime>());
-            Assert.That(sut.Users, Is.InstanceOf<ICollection<IUserApp>>());
+            Assert.That(sut
+                .Users
+                .ToList()
+                .ConvertAll(u => (UserApp)u), Is.InstanceOf<List<UserApp>>());
         }
 
         [Test, Category("Models")]
