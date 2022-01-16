@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
@@ -13,6 +10,11 @@ namespace SudokuCollective.Test.TestData
     public static class TestObjects
     {
         public static string GetLicense()
+        {
+            return "D17F0ED3-BE9A-450A-A146-F6733DB2BBDB";
+        }
+        
+        public static string GetToken()
         {
             return "D17F0ED3-BE9A-450A-A146-F6733DB2BBDB";
         }
