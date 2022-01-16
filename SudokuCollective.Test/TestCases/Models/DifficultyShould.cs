@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models;
@@ -84,7 +85,10 @@ namespace SudokuCollective.Test.TestCases.Models
             }
 
             // Assert
-            Assert.That(sut.Matrices, Is.InstanceOf<List<SudokuMatrix>>());
+            Assert.That(sut
+                .Matrices
+                .ToList()
+                .ConvertAll(m => (SudokuMatrix)m), Is.InstanceOf<List<SudokuMatrix>>());
         }
 
         [Test, Category("Models")]
