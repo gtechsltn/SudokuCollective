@@ -72,7 +72,7 @@ namespace SudokuCollective.Test.TestCases.Models
             Assert.That(sut.AccessDuration, Is.TypeOf<int>());
             Assert.That(sut.DateCreated, Is.TypeOf<DateTime>());
             Assert.That(sut.DateUpdated, Is.TypeOf<DateTime>());
-            Assert.That(sut.Users, Is.InstanceOf<List<UserApp>>());
+            Assert.That(sut.Users, Is.InstanceOf<ICollection<IUserApp>>());
         }
 
         [Test, Category("Models")]
@@ -233,9 +233,9 @@ namespace SudokuCollective.Test.TestCases.Models
             var initialUserCount = sut.UserCount;
 
             var user = new User();
-            sut.Users.Add(new UserApp { App = (App)sut, User = user });
+            ((App)sut).Users.Add(new UserApp { App = (App)sut, User = user });
 
-            var finalUserCount = sut.UserCount;
+            var finalUserCount = ((App)sut).UserCount;
 
             // Assert
             Assert.That(initialUserCount, Is.EqualTo(0));

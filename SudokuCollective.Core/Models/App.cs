@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
@@ -115,7 +117,6 @@ namespace SudokuCollective.Core.Models
     public bool DisableCustomUrls { get; set; }
     public string CustomEmailConfirmationAction { get; set; }
     public string CustomPasswordResetAction { get; set; }
-
     public int UserCount
     {
       get
@@ -130,7 +131,6 @@ namespace SudokuCollective.Core.Models
         }
       }
     }
-
     public TimeFrame TimeFrame
     {
       get
@@ -208,6 +208,20 @@ namespace SudokuCollective.Core.Models
     }
     public DateTime DateCreated { get; set; }
     public DateTime DateUpdated { get; set; }
+    [JsonIgnore]
+    ICollection<IUserApp> IApp.Users
+    {
+
+        get
+        {
+            return Users.ConvertAll(u => (IUserApp)u);
+        }
+
+        set
+        {
+            Users = value.ToList().ConvertAll(u => (UserApp)u);
+        }
+    }
     public virtual List<UserApp> Users { get; set; }
     #endregion
 
