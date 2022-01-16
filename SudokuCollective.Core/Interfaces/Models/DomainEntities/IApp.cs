@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using SudokuCollective.Core.Enums;
-using SudokuCollective.Core.Models;
 
 namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
 {
@@ -28,9 +27,9 @@ namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
         int AccessDuration { get; set; }
         DateTime DateCreated { get; set; }
         DateTime DateUpdated { get; set; }
-        List<UserApp> Users { get; set; }
-        public string GetLicense(int id, int ownerId);
-        public void ActivateApp();
-        public void DeactivateApp();
+        ICollection<IUserApp> Users { get; set; }
+        string GetLicense(int id, int ownerId);
+        void ActivateApp();
+        void DeactivateApp();
     }
 }
