@@ -13,6 +13,7 @@ namespace SudokuCollective.Test.TestData
         {
             return "D17F0ED3-BE9A-450A-A146-F6733DB2BBDB";
         }
+        
         public static string GetToken()
         {
             return "D17F0ED3-BE9A-450A-A146-F6733DB2BBDB";
