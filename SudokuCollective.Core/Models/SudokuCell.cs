@@ -95,8 +95,20 @@ namespace SudokuCollective.Core.Models
         }
         [IgnoreDataMember]
         public virtual SudokuMatrix SudokuMatrix { get; set; }
+        [IgnoreDataMember]
+        ICollection<IAvailableValue> ISudokuCell.AvailableValues
+        {
+            get
+            {
+                return AvailableValues.ConvertAll(av => (IAvailableValue)av);
+            }
+            set
+            {
+                AvailableValues = value.ToList().ConvertAll(av => (AvailableValue)av);
+            }
+        }
         [JsonIgnore]
-        public ICollection<IAvailableValue> AvailableValues { get; set; }
+        public List<AvailableValue> AvailableValues { get; set; }
         #endregion
 
         #region Constructors
@@ -149,7 +161,7 @@ namespace SudokuCollective.Core.Models
             Value = 0;
             SudokuMatrixId = 0;
             Hidden = true;
-            AvailableValues = new List<IAvailableValue>();
+            AvailableValues = new List<AvailableValue>();
 
             for (var i = 1; i <= 9; i++)
             {
@@ -184,7 +196,7 @@ namespace SudokuCollective.Core.Models
             DisplayedValue = displayedValue;
             Hidden = hidden;
             SudokuMatrixId = sudokuMatrixId;
-            AvailableValues = new List<IAvailableValue>();
+            AvailableValues = new List<AvailableValue>();
 
             var availability = true;
 
