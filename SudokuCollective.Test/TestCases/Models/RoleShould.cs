@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models;
@@ -66,7 +67,10 @@ namespace SudokuCollective.Test.TestCases.Models
             }
 
             // Assert
-            Assert.That(sut.Users, Is.InstanceOf<List<UserRole>>());
+            Assert.That(sut
+                .Users
+                .ToList()
+                .ConvertAll(ur => (UserRole)ur), Is.InstanceOf<List<UserRole>>());
         }
 
         [Test, Category("Models")]

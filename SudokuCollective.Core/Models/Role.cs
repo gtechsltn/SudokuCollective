@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Enums;
@@ -15,6 +16,18 @@ namespace SudokuCollective.Core.Models
         public string Name { get; set; }
         [Required]
         public RoleLevel RoleLevel { get; set; }
+        [IgnoreDataMember]
+        ICollection<IUserRole> IRole.Users
+        {
+            get
+            {
+                return Users.ConvertAll(ur => (IUserRole)ur);
+            }
+            set
+            {
+                Users = value.ToList().ConvertAll(ur => (UserRole)ur);
+            }
+        }
         [IgnoreDataMember]
         public virtual List<UserRole> Users { get; set; }
         #endregion
