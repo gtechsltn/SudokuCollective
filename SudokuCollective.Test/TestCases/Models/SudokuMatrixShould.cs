@@ -94,15 +94,15 @@ namespace SudokuCollective.Test.TestCases.Models
             sut = new SudokuMatrix();
 
             // Assert
-            Assert.That(sut.SudokuCells[0].Value, Is.EqualTo(0));
-            Assert.That(sut.SudokuCells[9].Value, Is.EqualTo(0));
-            Assert.That(sut.SudokuCells[18].Value, Is.EqualTo(0));
-            Assert.That(sut.SudokuCells[27].Value, Is.EqualTo(0));
-            Assert.That(sut.SudokuCells[36].Value, Is.EqualTo(0));
-            Assert.That(sut.SudokuCells[45].Value, Is.EqualTo(0));
-            Assert.That(sut.SudokuCells[54].Value, Is.EqualTo(0));
-            Assert.That(sut.SudokuCells[63].Value, Is.EqualTo(0));
-            Assert.That(sut.SudokuCells[72].Value, Is.EqualTo(0));
+            Assert.That(((SudokuMatrix)sut).SudokuCells[0].Value, Is.EqualTo(0));
+            Assert.That(((SudokuMatrix)sut).SudokuCells[9].Value, Is.EqualTo(0));
+            Assert.That(((SudokuMatrix)sut).SudokuCells[18].Value, Is.EqualTo(0));
+            Assert.That(((SudokuMatrix)sut).SudokuCells[27].Value, Is.EqualTo(0));
+            Assert.That(((SudokuMatrix)sut).SudokuCells[36].Value, Is.EqualTo(0));
+            Assert.That(((SudokuMatrix)sut).SudokuCells[45].Value, Is.EqualTo(0));
+            Assert.That(((SudokuMatrix)sut).SudokuCells[54].Value, Is.EqualTo(0));
+            Assert.That(((SudokuMatrix)sut).SudokuCells[63].Value, Is.EqualTo(0));
+            Assert.That(((SudokuMatrix)sut).SudokuCells[72].Value, Is.EqualTo(0));
         }
 
         [Test, Category("Models")]

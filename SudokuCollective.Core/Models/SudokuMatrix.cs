@@ -25,7 +25,18 @@ namespace SudokuCollective.Core.Models
         [IgnoreDataMember]
         public IGame Game { get; set; }
         public int DifficultyId { get; set; }
-        public IDifficulty Difficulty { get; set; }
+        IDifficulty ISudokuMatrix.Difficulty
+        {
+            get
+            {
+                return Difficulty;
+            }
+            set
+            {
+                Difficulty = (Difficulty)value;
+            }
+        }
+        public Difficulty Difficulty { get; set; }
         ICollection<ISudokuCell> ISudokuMatrix.SudokuCells
         {
             get
