@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using SudokuCollective.Core.Enums;
@@ -126,8 +127,44 @@ namespace SudokuCollective.Core.Models
         }
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
+        [JsonIgnore]
+        ICollection<IGame> IUser.Games
+        {
+            get
+            {
+                return Games.ConvertAll(g => (IGame)g);
+            }
+            set
+            {
+                Games = value.ToList().ConvertAll(g => (Game)g);
+            }
+        }
         public virtual List<Game> Games { get; set; }
+        [JsonIgnore]
+        ICollection<IUserRole> IUser.Roles
+        {
+            get
+            {
+                return Roles.ConvertAll(ur => (IUserRole)ur);
+            }
+            set
+            {
+                Roles = value.ToList().ConvertAll(ur => (UserRole)ur);
+            }
+        }
         public virtual List<UserRole> Roles { get; set; }
+        [JsonIgnore]
+        ICollection<IUserApp> IUser.Apps
+        {
+            get
+            {
+                return Apps.ConvertAll(a => (IUserApp)a);
+            }
+            set
+            {
+                Apps = value.ToList().ConvertAll(a => (UserApp)a);
+            }
+        }
         public virtual List<UserApp> Apps { get; set; }
         #endregion
 
