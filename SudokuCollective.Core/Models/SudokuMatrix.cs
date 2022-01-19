@@ -23,7 +23,19 @@ namespace SudokuCollective.Core.Models
         #region Properties
         public int Id { get; set; }
         [IgnoreDataMember]
-        public IGame Game { get; set; }
+        IGame ISudokuMatrix.Game
+        {
+            get
+            {
+                return Game;
+            }
+            set
+            {
+                Game = (Game)value;
+            }
+        }
+        [IgnoreDataMember]
+        public Game Game { get; set; }
         public int DifficultyId { get; set; }
         IDifficulty ISudokuMatrix.Difficulty
         {
