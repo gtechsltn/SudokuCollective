@@ -247,6 +247,22 @@ namespace SudokuCollective.Test.TestCases.Models
         }
 
         [Test, Category("Models")]
+        public void DefaultAllowSuperUserAccessToFalse()
+        {
+            // Arrange
+            if (sut == null)
+            {
+                sut = new App();
+            }
+
+            // Act
+
+            // Assert
+            Assert.That(sut.PermitSuperUserAccess, Is.InstanceOf<bool>());
+            Assert.That(sut.PermitSuperUserAccess, Is.False);
+        }
+
+        [Test, Category("Models")]
         public void HaveAConstructorWhichAcceptsProperties()
         {
             // Arrange
@@ -292,22 +308,6 @@ namespace SudokuCollective.Test.TestCases.Models
 
             // Assert
             Assert.That(sut, Is.InstanceOf<App>());
-        }
-
-        [Test, Category("Models")]
-        public void DefaultAllowSuperUserAccessToFalse()
-        {
-            // Arrange
-            if (sut == null)
-            {
-                sut = new App();
-            }
-
-            // Act
-
-            // Assert
-            Assert.That(sut.PermitSuperUserAccess, Is.InstanceOf<bool>());
-            Assert.That(sut.PermitSuperUserAccess, Is.False);
         }
     }
 }
