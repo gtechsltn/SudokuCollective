@@ -294,7 +294,26 @@ namespace SudokuCollective.Test.TestCases.Models
             }
 
             // Assert
-            Assert.That(result, Is.False); ;
+            Assert.That(result, Is.False);
+        }
+
+        [Test, Category("Models")]
+        public void AcceptsReferenceToGameObjects()
+        {
+            // Arrange
+            if (sut == null)
+            {
+                InitializeSetup(out stringList, out populatedTestMatrix, out sut);
+            }
+
+            var game = new Game();
+
+            // Act
+            sut.Game = game;
+
+            // Assert
+            Assert.That(game, Is.InstanceOf<Game>());
+            Assert.That(((SudokuMatrix)sut).Game, Is.InstanceOf<Game>());
         }
 
         [Test, Category("Models")]

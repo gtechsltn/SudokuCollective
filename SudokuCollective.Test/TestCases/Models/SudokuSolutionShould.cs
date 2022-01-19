@@ -72,5 +72,24 @@ namespace SudokuCollective.Test.TestCases.Models
             Assert.That(((SudokuSolution)sut).NinthRow, Is.InstanceOf<List<int>>());
             Assert.That(((SudokuSolution)sut).NinthRow.Count, Is.EqualTo(9));
         }
+
+        [Test, Category("Models")]
+        public void AcceptsReferenceToGameObjects()
+        {
+            // Arrange
+            if (sut == null)
+            {
+                sut = new SudokuSolution();
+            }
+
+            var game = new Game();
+
+            // Act
+            sut.Game = game;
+
+            // Assert
+            Assert.That(game, Is.InstanceOf<Game>());
+            Assert.That(((SudokuSolution)sut).Game, Is.InstanceOf<Game>());
+        }
     }
 }
