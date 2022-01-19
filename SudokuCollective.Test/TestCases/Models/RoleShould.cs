@@ -32,6 +32,20 @@ namespace SudokuCollective.Test.TestCases.Models
         }
 
         [Test, Category("Models")]
+        public void HaveAnID()
+        {
+            // Arrange and Act
+            if (sut == null)
+            {
+                sut = new Role();
+            }
+
+            // Assert
+            Assert.That(sut.Id, Is.TypeOf<int>());
+            Assert.That(sut.Id, Is.EqualTo(0));
+        }
+
+        [Test, Category("Models")]
         public void HasANameValue()
         {
             // Arrange and Act
