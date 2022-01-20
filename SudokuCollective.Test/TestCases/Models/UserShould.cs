@@ -158,7 +158,7 @@ namespace SudokuCollective.Test.TestCases.Models
             /* Between 4 and up to 20 characters with at least 1 capital letter, one lower case letter and one 
              * special character of [!,@,#,$,%,^,&,*,+,=] */
             var originalPassword = "T3stPassw0rd!";
-            var updatedPassword = "updatedPassw0rd";
+            var updatedPassword = "updatedp@ssw0rd";
 
             sut.Password = originalPassword;
 

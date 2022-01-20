@@ -22,4 +22,8 @@
     <ProjectReference Include="..\SudokuCollective.Data\SudokuCollective.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TestCases\Attributes\" />
+  </ItemGroup>
+
 </Project>
