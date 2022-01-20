@@ -51,13 +51,13 @@ namespace SudokuCollective.Test.TestCases.Models
             sut = new User(
                 "John",
                 "Doe",
-                "Password");
+                "T3stPass0rd?1");
 
             // Assert
             Assert.That(((User)sut).FirstName, Is.EqualTo("John"));
             Assert.That(((User)sut).LastName, Is.EqualTo("Doe"));
             Assert.That(((User)sut).FullName, Is.EqualTo("John Doe"));
-            Assert.That(((User)sut).Password, Is.EqualTo("Password"));
+            Assert.That(((User)sut).Password, Is.EqualTo("T3stPass0rd?1"));
         }
 
         [Test, Category("Models")]
@@ -144,6 +144,29 @@ namespace SudokuCollective.Test.TestCases.Models
 
             // Assert
             Assert.That(((User)sut).Password, Is.TypeOf<string>());
+        }
+
+        [Test, Category("Models")]
+        public void RejectInvalidPassword()
+        {
+            // Arrange
+            if (sut == null)
+            {
+                sut = new User();
+            }
+
+            /* Between 4 and up to 20 characters with at least 1 capital letter, one lower case letter and one 
+             * special character of [!,@,#,$,%,^,&,*,+,=] */
+            var originalPassword = "T3stPassw0rd!";
+            var updatedPassword = "updatedPassw0rd";
+
+            sut.Password = originalPassword;
+
+            // Act
+            sut.Password = updatedPassword;
+
+            // Assert
+            Assert.That(((User)sut).Password, Is.EqualTo(originalPassword));
         }
 
         [Test, Category("Models")]
@@ -295,6 +318,27 @@ namespace SudokuCollective.Test.TestCases.Models
             // Assert
             Assert.That(emailTrackingStatePriorToUpdate, Is.True);
             Assert.That(((User)sut).IsEmailConfirmed, Is.False);
+        }
+
+        [Test, Category("Models")]
+        public void RejectInvalidEmails()
+        {
+            // Arrange
+            if (sut == null)
+            {
+                sut = new User();
+            }
+            var originalEmail = "test@example.com";
+            var updatedEmail = "testUPDATED@example";
+
+            sut.Email = originalEmail;
+            sut.IsEmailConfirmed = true;
+
+            // Act
+            sut.Email = updatedEmail;
+
+            // Assert
+            Assert.That(((User)sut).Email, Is.EqualTo(originalEmail));
         }
     }
 }

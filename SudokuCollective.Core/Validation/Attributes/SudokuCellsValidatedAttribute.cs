@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using SudokuCollective.Core.Models;
 
-namespace SudokuCollective.Data.Validation.Attributes
+namespace SudokuCollective.Core.Validation.Attributes
 {
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Property)]
     public sealed class SudokuCellsValidatedAttribute : ValidationAttribute
