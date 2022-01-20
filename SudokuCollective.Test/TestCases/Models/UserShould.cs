@@ -147,7 +147,7 @@ namespace SudokuCollective.Test.TestCases.Models
         }
 
         [Test, Category("Models")]
-        public void RejectInvalidPassword()
+        public void RejectInvalidPasswords()
         {
             // Arrange
             if (sut == null)
@@ -339,6 +339,49 @@ namespace SudokuCollective.Test.TestCases.Models
 
             // Assert
             Assert.That(((User)sut).Email, Is.EqualTo(originalEmail));
+        }
+
+        [Test, Category("Models")]
+        public void HaveAConstructorWhichAcceptsProperties()
+        {
+            // Arrange
+            string firstName = "name";
+            string lastName = "license";
+            string password = "T3stPassw0rd!";
+
+            // Act
+            var user = new User(firstName, lastName, password);
+
+            // Assert
+            Assert.That(user, Is.TypeOf<User>());
+            Assert.That(user.FirstName, Is.EqualTo(firstName));
+            Assert.That(user.LastName, Is.EqualTo(lastName));
+            Assert.That(user.Password, Is.EqualTo(password));
+        }
+
+        [Test, Category("Models")]
+        public void HasAJsonConstructor()
+        {
+            // Arrange
+
+            // Act
+            sut = new User(
+                0,
+                "userName",
+                "firstName",
+                "lastName",
+                "nickName",
+                "user@example.com",
+                true,
+                false,
+                "T3stPassw0rd!",
+                false,
+                true,
+                DateTime.Now,
+                DateTime.MinValue);
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<User>());
         }
     }
 }
