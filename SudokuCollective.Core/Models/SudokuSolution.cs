@@ -25,7 +25,18 @@ namespace SudokuCollective.Core.Models
         public List<int> EighthRow { get => GetValues(63, 9); }
         public List<int> NinthRow { get => GetValues(72, 9); }
         [IgnoreDataMember]
-        public virtual IGame Game { get; set; }
+        IGame ISudokuSolution.Game
+        {
+            get
+            {
+                return Game;
+            }
+            set
+            {
+                Game = (Game)value;
+            }
+        }
+        public virtual Game Game { get; set; }
         #endregion
 
         #region Constructors
@@ -34,22 +45,31 @@ namespace SudokuCollective.Core.Models
             var createdDate = DateTime.UtcNow;
 
             Id = 0;
-            SolutionList = new List<int>();
             DateCreated = createdDate;
             DateSolved = DateTime.MinValue;
+            SolutionList = new List<int>();
+
+            for (var i = 0; i < 81; i++)
+            {
+                SolutionList.Add(0);
+            }
         }
 
         public SudokuSolution(List<int> intList) : this()
         {
             var solvedDate = DateTime.UtcNow;
-
-            SolutionList = intList;
             DateSolved = solvedDate;
+
+            SolutionList = new List<int>();
+            SolutionList = intList;
         }
 
         [JsonConstructor]
-        public SudokuSolution(int id, List<int> intList,
-            DateTime dateCreated, DateTime dateSolved)
+        public SudokuSolution(
+            int id,
+            List<int> intList,
+            DateTime dateCreated, 
+            DateTime dateSolved)
         {
             Id = id;
             SolutionList = intList;

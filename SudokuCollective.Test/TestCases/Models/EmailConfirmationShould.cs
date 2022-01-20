@@ -22,8 +22,7 @@ namespace SudokuCollective.Test.TestCases.Models
             context = await InitializeDB();
         }
 
-        [Test]
-        [Category("Models")]
+        [Test, Category("Models")]
         public void ImplementIDomainEntity()
         {
             // Arrange and Act
@@ -36,8 +35,21 @@ namespace SudokuCollective.Test.TestCases.Models
             Assert.That(sut, Is.InstanceOf<IDomainEntity>());
         }
 
-        [Test]
-        [Category("Models")]
+        [Test, Category("Models")]
+        public void HaveAnID()
+        {
+            // Arrange and Act
+            if (sut == null)
+            {
+                sut = InitializeSut();
+            }
+
+            // Assert
+            Assert.That(sut.Id, Is.TypeOf<int>());
+            Assert.That(sut.Id, Is.EqualTo(0));
+        }
+
+        [Test, Category("Models")]
         public void DistinguishBetweenNewAndUpdateRequests()
         {
             // Arrange and Act
@@ -49,8 +61,7 @@ namespace SudokuCollective.Test.TestCases.Models
             Assert.That(sutUpdateEmailConfirmation.IsUpdate, Is.True);
         }
 
-        [Test]
-        [Category("Models")]
+        [Test, Category("Models")]
         public async Task HasAReferenceToAUser()
         {
             // Arrange
@@ -74,8 +85,7 @@ namespace SudokuCollective.Test.TestCases.Models
             Assert.That(user, Is.InstanceOf<User>());
         }
 
-        [Test]
-        [Category("Models")]
+        [Test, Category("Models")]
         public async Task HasAReferenceToAnApp()
         {
             // Arrange
@@ -99,8 +109,7 @@ namespace SudokuCollective.Test.TestCases.Models
             Assert.That(app, Is.InstanceOf<App>());
         }
 
-        [Test]
-        [Category("Models")]
+        [Test, Category("Models")]
         public void SetsOldEmailAddressConfirmedToFalseWhenSettingOldEmailAddress()
         {
             // Arrange
@@ -116,8 +125,7 @@ namespace SudokuCollective.Test.TestCases.Models
             Assert.That(sut.OldEmailAddressConfirmed, Is.False);
         }
 
-        [Test]
-        [Category("Models")]
+        [Test, Category("Models")]
         public void HasAValueToTrackTheNewEmailAddress()
         {
             // Arrange and Act
@@ -130,8 +138,7 @@ namespace SudokuCollective.Test.TestCases.Models
             Assert.That(sut.NewEmailAddress, Is.InstanceOf<string>());
         }
 
-        [Test]
-        [Category("Models")]
+        [Test, Category("Models")]
         public void TrackDateCreated()
         {
             // Arrange and Act
@@ -144,8 +151,7 @@ namespace SudokuCollective.Test.TestCases.Models
             Assert.That(sut.DateCreated, Is.InstanceOf<DateTime>());
         }
 
-        [Test]
-        [Category("Models")]
+        [Test, Category("Models")]
         public void HasADefaultConstructor()
         {
             // Arrange and Act
@@ -155,8 +161,7 @@ namespace SudokuCollective.Test.TestCases.Models
             Assert.That(sut, Is.InstanceOf<EmailConfirmation>());
         }
 
-        [Test]
-        [Category("Models")]
+        [Test, Category("Models")]
         public void HaveAConstructorForSignUps()
         {
             // Arrange
@@ -170,8 +175,7 @@ namespace SudokuCollective.Test.TestCases.Models
             Assert.That(sut, Is.InstanceOf<EmailConfirmation>());
         }
 
-        [Test]
-        [Category("Models")]
+        [Test, Category("Models")]
         public void HaveAConstructorForEmailUpdates()
         {
             // Arrange
@@ -191,8 +195,7 @@ namespace SudokuCollective.Test.TestCases.Models
             Assert.That(sut, Is.InstanceOf<EmailConfirmation>());
         }
 
-        [Test]
-        [Category("Models")]
+        [Test, Category("Models")]
         public void HasAJsonConstructor()
         {
             // Arrange

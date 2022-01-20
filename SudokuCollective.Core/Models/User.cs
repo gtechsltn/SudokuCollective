@@ -1,25 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
+using SudokuCollective.Core.Validation;
+using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Core.Models
 {
     public class User : IUser
     {
         #region Fields
-        private string _userName;
-        private string _email;
+        private string _userName = string.Empty;
+        private string _email = string.Empty;
+        private string _password = string.Empty;
         private bool _isSuperUser;
         private bool _isAdmin;
         #endregion
 
         #region Properties
         public int Id { get; set; }
-        [Required]
+        [Required, UserNameRegex]
         public string UserName
         {
             get
@@ -31,7 +35,7 @@ namespace SudokuCollective.Core.Models
             {
                 if (!string.IsNullOrEmpty(value))
                 {
-                    var regex = new Regex("^[^-]{1}?[^\"\']*$");
+                    var regex = new Regex(RegexValidators.UserNameRegexPattern);
 
                     if (regex.IsMatch(value))
                     {
@@ -63,14 +67,41 @@ namespace SudokuCollective.Core.Models
 
             set
             {
-                _email = value;
-                IsEmailConfirmed = false;
+                if (!string.IsNullOrEmpty(value))
+                {
+                    var regex = new Regex(RegexValidators.EmailRegexPattern);
+
+                    if (regex.IsMatch(value))
+                    {
+                        _email = value;
+                        IsEmailConfirmed = false;
+                    }
+                }
             }
         }
         public bool IsEmailConfirmed { get; set; }
         public bool ReceivedRequestToUpdateEmail { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
-        public string Password { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.Always), PasswordRegex]
+        public string Password
+        {
+            get
+            {
+                return _password;
+            }
+
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    var regex = new Regex(RegexValidators.PasswordRegexPattern);
+
+                    if (regex.IsMatch(value))
+                    {
+                        _password = value;
+                    }
+                }
+            }
+        }
         public bool ReceivedRequestToUpdatePassword { get; set; }
         public bool IsActive { get; set; }
         public bool IsSuperUser
@@ -126,8 +157,44 @@ namespace SudokuCollective.Core.Models
         }
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
+        [JsonIgnore]
+        ICollection<IGame> IUser.Games
+        {
+            get
+            {
+                return Games.ConvertAll(g => (IGame)g);
+            }
+            set
+            {
+                Games = value.ToList().ConvertAll(g => (Game)g);
+            }
+        }
         public virtual List<Game> Games { get; set; }
+        [JsonIgnore]
+        ICollection<IUserRole> IUser.Roles
+        {
+            get
+            {
+                return Roles.ConvertAll(ur => (IUserRole)ur);
+            }
+            set
+            {
+                Roles = value.ToList().ConvertAll(ur => (UserRole)ur);
+            }
+        }
         public virtual List<UserRole> Roles { get; set; }
+        [JsonIgnore]
+        ICollection<IUserApp> IUser.Apps
+        {
+            get
+            {
+                return Apps.ConvertAll(a => (IUserApp)a);
+            }
+            set
+            {
+                Apps = value.ToList().ConvertAll(a => (UserApp)a);
+            }
+        }
         public virtual List<UserApp> Apps { get; set; }
         #endregion
 

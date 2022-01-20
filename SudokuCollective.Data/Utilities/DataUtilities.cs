@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using SudokuCollective.Core.Interfaces.Models;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
+using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 
 namespace SudokuCollective.Data.Utilities
@@ -20,7 +21,7 @@ namespace SudokuCollective.Data.Utilities
                 .Where(cell => cell.SudokuMatrixId == matrix.Id)
                 .ToListAsync();
 
-            matrix.SudokuCells = cells.ConvertAll(cell => cell);
+            ((SudokuMatrix)matrix).SudokuCells = cells.ConvertAll(cell => cell);
         }
 
         public async static Task<bool> IsGameInActiveApp(this IGame game, DatabaseContext context)

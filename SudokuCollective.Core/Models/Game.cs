@@ -27,6 +27,7 @@ namespace SudokuCollective.Core.Models
         [IgnoreDataMember]
         public User User { get; set; }
         public int SudokuMatrixId { get; set; }
+        [IgnoreDataMember]
         ISudokuMatrix IGame.SudokuMatrix
         {
             get
@@ -40,6 +41,7 @@ namespace SudokuCollective.Core.Models
         }
         public virtual SudokuMatrix SudokuMatrix { get; set; }
         public int SudokuSolutionId { get; set; }
+        [IgnoreDataMember]
         ISudokuSolution IGame.SudokuSolution
         {
             get

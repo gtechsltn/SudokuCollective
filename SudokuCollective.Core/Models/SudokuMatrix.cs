@@ -23,9 +23,43 @@ namespace SudokuCollective.Core.Models
         #region Properties
         public int Id { get; set; }
         [IgnoreDataMember]
-        public IGame Game { get; set; }
+        IGame ISudokuMatrix.Game
+        {
+            get
+            {
+                return Game;
+            }
+            set
+            {
+                Game = (Game)value;
+            }
+        }
+        [IgnoreDataMember]
+        public Game Game { get; set; }
         public int DifficultyId { get; set; }
+        IDifficulty ISudokuMatrix.Difficulty
+        {
+            get
+            {
+                return Difficulty;
+            }
+            set
+            {
+                Difficulty = (Difficulty)value;
+            }
+        }
         public Difficulty Difficulty { get; set; }
+        ICollection<ISudokuCell> ISudokuMatrix.SudokuCells
+        {
+            get
+            {
+                return SudokuCells.ConvertAll(cell => (ISudokuCell)cell);
+            }
+            set
+            {
+                SudokuCells = value.ToList().ConvertAll(cell => (SudokuCell)cell);
+            }
+        }
         public virtual List<SudokuCell> SudokuCells { get; set; }
         [JsonIgnore]
         public Stopwatch Stopwatch

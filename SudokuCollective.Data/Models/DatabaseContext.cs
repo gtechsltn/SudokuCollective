@@ -170,12 +170,12 @@ namespace SudokuCollective.Data.Models
 
             modelBuilder.Entity<Game>()
                 .HasOne(game => game.SudokuMatrix)
-                .WithOne(matrix => (Game)matrix.Game)
+                .WithOne(matrix => matrix.Game)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Game>()
                 .HasOne(game => game.SudokuSolution)
-                .WithOne(solution => (Game)solution.Game);
+                .WithOne(solution => solution.Game);
 
             modelBuilder.Entity<Game>()
                 .HasOne(game => game.User)

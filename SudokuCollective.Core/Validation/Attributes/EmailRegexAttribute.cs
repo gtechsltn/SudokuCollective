@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SudokuCollective.Data.Validation.Attributes
+namespace SudokuCollective.Core.Validation.Attributes
 {
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Property)]
-    public sealed class GuidRegexAttribute : RegularExpressionAttribute
+    public sealed class EmailRegexAttribute : RegularExpressionAttribute
     {
-        public GuidRegexAttribute() : base(RegexValidators.GuidRegexPattern)
+        public EmailRegexAttribute() : base(RegexValidators.EmailRegexPattern)
         {
         }
     }
