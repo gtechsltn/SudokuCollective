@@ -7,7 +7,7 @@ namespace SudokuCollective.Test.TestCases.Models
 {
     public class AppAdminShould
     {
-        private IAppAdmin? sut;
+        private IAppAdmin sut;
 
         [SetUp]
         public void Setup()
@@ -19,10 +19,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void ImplementIDomainEntity()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new AppAdmin();
-            }
 
             // Assert
             Assert.That(sut, Is.InstanceOf<IDomainEntity>());
@@ -32,10 +28,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveAnID()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new AppAdmin();
-            }
 
             // Assert
             Assert.That(sut.Id, Is.TypeOf<int>());
@@ -46,10 +38,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveExpectedProperties()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new AppAdmin();
-            }
 
             // Assert
             Assert.That(sut.AppId, Is.TypeOf<int>());
@@ -61,10 +49,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void DefaultToIsActiveTrueStatus()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new AppAdmin();
-            }
 
             // Assert
             Assert.That(sut.IsActive, Is.True);

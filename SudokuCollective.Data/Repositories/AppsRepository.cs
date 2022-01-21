@@ -12,14 +12,14 @@ using SudokuCollective.Data.Models;
 
 namespace SudokuCollective.Data.Repositories
 {
-    public class AppsRepsitory<TEntity> : IAppsRepository<TEntity> where TEntity : App
+    public class AppsRepository<TEntity> : IAppsRepository<TEntity> where TEntity : App
     {
         #region Fields
         private readonly DatabaseContext _context;
         #endregion
 
         #region Constructor
-        public AppsRepsitory(DatabaseContext context)
+        public AppsRepository(DatabaseContext context)
         {
             _context = context;
         }

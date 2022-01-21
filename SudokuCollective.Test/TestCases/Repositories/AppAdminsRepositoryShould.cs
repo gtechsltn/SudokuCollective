@@ -12,9 +12,9 @@ namespace SudokuCollective.Test.TestCases.Repositories
 {
     public class AppAdminsRepositoryShould
     {
-        private DatabaseContext? context;
-        private IAppAdminsRepository<AppAdmin>? sut;
-        private AppAdmin? newAppAdmin;
+        private DatabaseContext context;
+        private IAppAdminsRepository<AppAdmin> sut;
+        private AppAdmin newAppAdmin;
 
         [SetUp]
         public async Task Setup()
@@ -33,22 +33,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         [Category("Repository")]
         public async Task CreateAppAdmins()
         {
-            // Arrange
-            if (sut == null)
-            {
-                sut = new AppAdminsRepository<AppAdmin>(context);
-            }
-
-            if (newAppAdmin == null)
-            {
-                newAppAdmin = new AppAdmin()
-                {
-                    AppId = 2,
-                    UserId = 2
-                };
-            }
-
-            // Act
+            // Arrange and Act
             var result = await sut.Add(newAppAdmin);
 
             // Assert
@@ -61,19 +46,6 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ReturnFalseIfCreateDifficutliesFails()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new AppAdminsRepository<AppAdmin>(context);
-            }
-
-            if (newAppAdmin == null)
-            {
-                newAppAdmin = new AppAdmin()
-                {
-                    AppId = 2,
-                    UserId = 2
-                };
-            }
 
             // EF is responsible for assigning ID numbers, a non-zero ID should cause failure
             newAppAdmin.Id = 1;
@@ -89,13 +61,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         [Category("Repository")]
         public async Task GetAppAdminsById()
         {
-            // Arrange
-            if (sut == null)
-            {
-                sut = new AppAdminsRepository<AppAdmin>(context);
-            }
-
-            // Act
+            // Arrange and Act
             var result = await sut.Get(1);
 
             // Assert
@@ -107,13 +73,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         [Category("Repository")]
         public async Task ReturnFalseIfGetByIdFails()
         {
-            // Arrange
-            if (sut == null)
-            {
-                sut = new AppAdminsRepository<AppAdmin>(context);
-            }
-
-            // Act
+            // Arrange and Act
             var result = await sut.Get(7);
 
             // Assert
@@ -125,13 +85,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         [Category("Repository")]
         public async Task GetAllAppAdmins()
         {
-            // Arrange
-            if (sut == null)
-            {
-                sut = new AppAdminsRepository<AppAdmin>(context);
-            }
-
-            // Act
+            // Arrange and Act
             var result = await sut.GetAll();
 
             // Assert
@@ -144,22 +98,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task UpdateAppAdmins()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new AppAdminsRepository<AppAdmin>(context);
-            }
-
-            if (context == null)
-            {
-                context = await TestDatabase.GetDatabaseContext();
-            }
-
             var appAdmin = context.AppAdmins.FirstOrDefault(aa => aa.Id == 1);
-
-            if (appAdmin == null)
-            {
-                appAdmin = new AppAdmin(1, 1, 1, true);
-            }
             
             appAdmin.IsActive = false;
 
@@ -176,22 +115,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         [Category("Repository")]
         public async Task ReturnFalseIfUpdateAppAdminsFails()
         {
-            // Arrange
-            if (sut == null)
-            {
-                sut = new AppAdminsRepository<AppAdmin>(context);
-            }
-
-            if (newAppAdmin == null)
-            {
-                newAppAdmin = new AppAdmin()
-                {
-                    AppId = 2,
-                    UserId = 2
-                };
-            }
-
-            // Act
+            // Arrange and Act
             var result = await sut.Update(newAppAdmin);
 
             // Assert
@@ -204,24 +128,9 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task DeleteAppAdmins()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new AppAdminsRepository<AppAdmin>(context);
-            }
-
-            if (context == null)
-            {
-                context = await TestDatabase.GetDatabaseContext();
-            }
-
             var appAdmin = context
                 .AppAdmins
                 .FirstOrDefault(aa => aa.Id == 1);
-
-            if (appAdmin == null)
-            {
-                appAdmin = new AppAdmin(1, 1, 1, true);
-            }
 
             // Act
             var result = await sut.Delete(appAdmin);
@@ -234,22 +143,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         [Category("Repository")]
         public async Task ReturnFalseIfDeleteAppAdminsFails()
         {
-            // Arrange
-            if (sut == null)
-            {
-                sut = new AppAdminsRepository<AppAdmin>(context);
-            }
-
-            if (newAppAdmin == null)
-            {
-                newAppAdmin = new AppAdmin()
-                {
-                    AppId = 2,
-                    UserId = 2
-                };
-            }
-
-            // Act
+            // Arrange and Act
             var result = await sut.Delete(newAppAdmin);
 
             // Assert
@@ -260,13 +154,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         [Category("Repository")]
         public async Task ConfirmItHasAnAppAdmin()
         {
-            // Arrange
-            if (sut == null)
-            {
-                sut = new AppAdminsRepository<AppAdmin>(context);
-            }
-
-            // Act
+            // Arrange and Act
             var result = await sut.HasEntity(1);
 
             // Assert
@@ -278,15 +166,6 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ReturnFalseIfConfirmItHasAnAppAdminFails()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new AppAdminsRepository<AppAdmin>(context);
-            }
-
-            if (context == null)
-            {
-                context = await TestDatabase.GetDatabaseContext();
-            }
 
             // Add 1 to the last ID to ensure failure
             var id = context
@@ -308,16 +187,6 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ConfirmItHasAnAdminRecord()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new AppAdminsRepository<AppAdmin>(context);
-            }
-
-            if (context == null)
-            {
-                context = await TestDatabase.GetDatabaseContext();
-            }
-
             var userId = context
                 .Users
                 .Where(u => u.Id == 1)
@@ -342,16 +211,6 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ReturnFalseIfConfirmItHasAnAdminRecordFails()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new AppAdminsRepository<AppAdmin>(context);
-            }
-
-            if (context == null)
-            {
-                context = await TestDatabase.GetDatabaseContext();
-            }
-
             var userId = context
                 .Users
                 .Where(u => u.Id == 1)
@@ -376,16 +235,6 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task GetAppAdminsRecords()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new AppAdminsRepository<AppAdmin>(context);
-            }
-
-            if (context == null)
-            {
-                context = await TestDatabase.GetDatabaseContext();
-            }
-
             var userId = context
                 .Users
                 .Where(u => u.Id == 1)
@@ -411,16 +260,6 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ReturnFalseIfGetRecordsFails()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new AppAdminsRepository<AppAdmin>(context);
-            }
-
-            if (context == null)
-            {
-                context = await TestDatabase.GetDatabaseContext();
-            }
-
             var userId = context
                 .Users
                 .Where(u => u.Id == 1)

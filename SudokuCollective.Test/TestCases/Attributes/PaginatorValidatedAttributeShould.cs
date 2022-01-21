@@ -8,7 +8,7 @@ namespace SudokuCollective.Test.TestCases.Attributes
 {
     public class PaginatorValidatedAttributeShould
     {
-        private PaginatorValidatedAttribute? sut;
+        private PaginatorValidatedAttribute sut;
 
         [SetUp]
         public void Setup()
@@ -20,11 +20,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void AcceptsValidPaginators()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new PaginatorValidatedAttribute();
-            }
-
             var paginator = TestObjects.GetPaginator();
 
             // Act
@@ -39,10 +34,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void RejectsPaginatorsWithSortValuesHigherThanFourteen()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new PaginatorValidatedAttribute();
-            }
 
             // Score is the highest sort value, we add 1 to create an invalid paginator
             var paginator = new Paginator()
@@ -66,10 +57,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void RejectsPaginatorsWithSortValuesLessThanZero()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new PaginatorValidatedAttribute();
-            }
 
             // Null is the lowest sort value, we subtract 1 to create an invalid paginator
             var paginator = new Paginator()

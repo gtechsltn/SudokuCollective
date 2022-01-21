@@ -5,7 +5,7 @@ namespace SudokuCollective.Test.TestCases.Attributes
 {
     public class UserNameRegexAttributeShould
     {
-        private UserNameRegexAttribute? sut;
+        private UserNameRegexAttribute sut;
 
         [SetUp]
         public void Setup()
@@ -17,11 +17,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void HaveAtLeast4Characters()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new UserNameRegexAttribute();
-            }
-
             var userName = "JoeK";
 
             // Act
@@ -36,11 +31,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void RejectStringsOfLessThen3Characters()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new UserNameRegexAttribute();
-            }
-
             var userName = "Joe";
 
             // Act
@@ -55,11 +45,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void AcceptsAlphaNumericAndSpecialCharacters()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new UserNameRegexAttribute();
-            }
-
             var userName = "Joe!@#$%^&*(),.?<>+-";
 
             // Act

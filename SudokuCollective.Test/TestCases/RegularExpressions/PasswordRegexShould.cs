@@ -6,7 +6,7 @@ namespace SudokuCollective.Test.TestCases.RegularExpressions
 {
     public class PasswordRegexShould
     {
-        private Regex? sut;
+        private Regex sut;
 
         [SetUp]
         public void Setup()
@@ -18,11 +18,6 @@ namespace SudokuCollective.Test.TestCases.RegularExpressions
         public void HaveAtLeast4CharactersWithOneCapitalOneLowerOneNumericAndOneSpecialCharacter()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new Regex(RegexValidators.PasswordRegexPattern);
-            }
-
             var password = "P@s1";
 
             // Act
@@ -37,11 +32,6 @@ namespace SudokuCollective.Test.TestCases.RegularExpressions
         public void RejectPasswordsOfLessThen3Characters()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new Regex(RegexValidators.PasswordRegexPattern);
-            }
-
             var password = "P@s";
 
             // Act
@@ -56,11 +46,6 @@ namespace SudokuCollective.Test.TestCases.RegularExpressions
         public void HaveAPasswordLimitOf20Characters()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new Regex(RegexValidators.PasswordRegexPattern);
-            }
-
             var password = "P@s1abcdefghijklmnop";
 
             // Act
@@ -75,11 +60,6 @@ namespace SudokuCollective.Test.TestCases.RegularExpressions
         public void RejectPasswordsOver20Characters()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new Regex(RegexValidators.PasswordRegexPattern);
-            }
-
             var password = "P@s1abcdefghijklmnop2";
 
             // Act
@@ -94,11 +74,6 @@ namespace SudokuCollective.Test.TestCases.RegularExpressions
         public void AcceptsSpecialCharacters()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new Regex(RegexValidators.PasswordRegexPattern);
-            }
-
             var password = "P@s1!@#$%^&*+=?-_.,";
 
             // Act

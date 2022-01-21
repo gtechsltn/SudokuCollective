@@ -5,7 +5,7 @@ namespace SudokuCollective.Test.TestCases.Attributes
 {
     public class GuidRegexAttributeShould
     {
-        private GuidRegexAttribute? sut;
+        private GuidRegexAttribute sut;
 
         [SetUp]
         public void Setup()
@@ -17,11 +17,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void AcceptsProperlyFormattedGUIDs()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new GuidRegexAttribute();
-            }
-
             var guidString = "d36ddcfd-5161-4c20-80aa-b312ef161433";
 
             // Act
@@ -35,11 +30,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void AcceptsLowerCaseCharsFormattedGUIDs()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new GuidRegexAttribute();
-            }
-
             var guidString = "d36ddcfd-5161-4c20-80aa-b312ef161433";
             var allLowerCase = true;
 
@@ -63,11 +53,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void WorksRegardlessOfCapitalization()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new GuidRegexAttribute();
-            }
-
             var guidString = "D36DDCFD-5161-4C20-80AA-B312EF161433";
             var allCaps = true;
 
@@ -91,11 +76,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void RequiresHyphens()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new GuidRegexAttribute();
-            }
-
             var guidString = "d36ddcfd51614c2080aab312ef161433";
 
             // Act
@@ -109,11 +89,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void RejectsNonHexGUIDs()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new GuidRegexAttribute();
-            }
-
             var guidString = "h36ddcfd-5161-4c20-80aa-b312ef161433";
 
             // Act

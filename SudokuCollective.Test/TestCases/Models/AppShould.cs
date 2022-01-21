@@ -11,7 +11,7 @@ namespace SudokuCollective.Test.TestCases.Models
 {
     public class AppShould
     {
-        private IApp? sut;
+        private IApp sut;
 
         [SetUp]
         public void Setup()
@@ -32,10 +32,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveAnID()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new App();
-            }
 
             // Assert
             Assert.That(sut.Id, Is.TypeOf<int>());
@@ -46,10 +42,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveExpectedProperties()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new App();
-            }
 
             // Assert
             Assert.That(sut.Name, Is.TypeOf<string>());
@@ -83,10 +75,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void DefaultToDeactiveStatus()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new App();
-            }
 
             // Assert
             Assert.That(sut.IsActive, Is.False);
@@ -96,10 +84,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void ProvideLicenseByCallingGetLicense()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new App();
-            }
 
             // Assert
             Assert.That(sut.GetLicense(0, 0), Is.TypeOf<string>());
@@ -109,13 +93,7 @@ namespace SudokuCollective.Test.TestCases.Models
         [Test, Category("Models")]
         public void HaveATrueActiveStatusIfActivateAppCalled()
         {
-            // Arrange
-            if (sut == null)
-            {
-                sut = new App();
-            }
-
-            // Act
+            // Arrange and Act
             sut.ActivateApp();
 
             // Assert
@@ -125,13 +103,7 @@ namespace SudokuCollective.Test.TestCases.Models
         [Test, Category("Models")]
         public void HaveAFalseActiveStatusIfDeactivateAppCalled()
         {
-            // Arrange
-            if (sut == null)
-            {
-                sut = new App();
-            }
-
-            // Act
+            // Arrange and Act
             sut.DeactivateApp();
 
             // Assert
@@ -142,10 +114,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveAReleaseEnvironmentThatDefaultsToLocal()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new App();
-            }
 
             // Assert
             Assert.That(sut.Environment, Is.InstanceOf<ReleaseEnvironment>());
@@ -156,10 +124,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveTheAbilityToDisableCustomUrlsThatDefaultsToTrue()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new App();
-            }
 
             // Assert
             Assert.That(sut.DisableCustomUrls, Is.InstanceOf<bool>());
@@ -170,11 +134,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void UseCustomEmailConfirmationAction()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new App();
-            }
-
             var localUrl = "http://localhost:5001";
             var customAction = "customurl";
 
@@ -192,11 +151,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void UseCustomPasswordResetAction()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new App();
-            }
-
             var localUrl = "http://localhost:5001";
             var customAction = "customurl";
 
@@ -214,10 +168,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void TrackUserCountThatDefaultsToZero()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new App();
-            }
 
             // Assert
             Assert.That(sut.UserCount, Is.InstanceOf<int>());
@@ -227,13 +177,7 @@ namespace SudokuCollective.Test.TestCases.Models
         [Test, Category("Models")]
         public void TrackUserCount()
         {
-            // Arrange
-            if (sut == null)
-            {
-                sut = new App();
-            }
-
-            // Act
+            // Arrange and Act
             var initialUserCount = sut.UserCount;
 
             var user = new User();
@@ -249,13 +193,7 @@ namespace SudokuCollective.Test.TestCases.Models
         [Test, Category("Models")]
         public void DefaultAllowSuperUserAccessToFalse()
         {
-            // Arrange
-            if (sut == null)
-            {
-                sut = new App();
-            }
-
-            // Act
+            // Arrange and Act
 
             // Assert
             Assert.That(sut.PermitSuperUserAccess, Is.InstanceOf<bool>());

@@ -6,7 +6,7 @@ namespace SudokuCollective.Test.TestCases.Models
 {
     public class AvailableValueShould
     {
-        private AvailableValue? sut;
+        private AvailableValue sut;
 
         [SetUp]
         public void Setup()
@@ -18,10 +18,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void DoesNotImplementIDomainEntity()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new AvailableValue();
-            }
 
             // Assert
             Assert.That(sut, Is.Not.InstanceOf<IDomainEntity>());
@@ -31,10 +27,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void TracksIntegerAndBooleanFields()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new AvailableValue();
-            }
 
             // Assert
             Assert.That(sut.Value, Is.InstanceOf<int>());

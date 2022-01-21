@@ -12,7 +12,7 @@ namespace SudokuCollective.Test.TestCases.Models
 {
     public class GameShould
     {
-        private IGame? sut;
+        private IGame sut;
 
         [SetUp]
         public void Setup()
@@ -24,10 +24,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void ImplementIDomainEntity()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                InitializeSetup(out sut);
-            }
 
             // Assert
             Assert.That(sut, Is.InstanceOf<IDomainEntity>());
@@ -37,10 +33,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveAnID()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                InitializeSetup(out sut);
-            }
 
             // Assert
             Assert.That(sut.Id, Is.TypeOf<int>());
@@ -51,10 +43,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveAWorkingConstructor()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                InitializeSetup(out sut);
-            }
 
             // Assert
             Assert.IsNotNull(sut);
@@ -89,10 +77,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveAnAssociatedMatrix()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                InitializeSetup(out sut);
-            }
 
             // Assert
             Assert.That(sut.SudokuMatrix, Is.InstanceOf<SudokuMatrix>());
@@ -104,10 +88,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveAnAssociatedSolution()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                InitializeSetup(out sut);
-            }
 
             // Assert
             Assert.That(sut.SudokuSolution, Is.TypeOf<SudokuSolution>());
@@ -119,10 +99,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HasAReferenceToTheHostingApp()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                InitializeSetup(out sut);
-            }
 
             // Asser
             Assert.That(sut.AppId, Is.InstanceOf<int>());
@@ -132,10 +108,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void ContinueGameFieldDefaultsToTrue()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                InitializeSetup(out sut);
-            }
 
             // Assert
             Assert.That(sut.ContinueGame, Is.InstanceOf<bool>());
@@ -145,13 +117,7 @@ namespace SudokuCollective.Test.TestCases.Models
         [Test, Category("Models")]
         public void ReturnTrueIfSolved()
         {
-            // Arrange
-            if (sut == null)
-            {
-                InitializeSetup(out sut);
-            }
-
-            // Act
+            // Arrange and Act
             sut.KeepScore = true;
             sut.SudokuMatrix.Stopwatch.Start();
             Thread.Sleep(10000);

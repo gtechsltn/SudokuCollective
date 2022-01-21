@@ -5,7 +5,7 @@ namespace SudokuCollective.Test.TestCases.Attributes
 {
     public class PasswordRegexAttributeShould
     {
-        private PasswordRegexAttribute? sut;
+        private PasswordRegexAttribute sut;
 
         [SetUp]
         public void Setup()
@@ -17,11 +17,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void HaveAtLeast4CharactersWithOneCapitalOneLowerOneNumericAndOneSpecialCharacter()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new PasswordRegexAttribute();
-            }
-
             var password = "P@s1";
 
             // Act
@@ -36,11 +31,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void RejectPasswordsOfLessThen3Characters()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new PasswordRegexAttribute();
-            }
-
             var password = "P@s";
 
             // Act
@@ -55,11 +45,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void HaveAPasswordLimitOf20Characters()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new PasswordRegexAttribute();
-            }
-
             var password = "P@s1abcdefghijklmnop";
 
             // Act
@@ -74,11 +59,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void RejectPasswordsOver20Characters()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new PasswordRegexAttribute();
-            }
-
             var password = "P@s1abcdefghijklmnop2";
 
             // Act
@@ -93,11 +73,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void AcceptsSpecialCharacters()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new PasswordRegexAttribute();
-            }
-
             var password = "P@s1!@#$%^&*+=?-_.,";
 
             // Act

@@ -7,7 +7,7 @@ namespace SudokuCollective.Test.TestCases.Models
 {
     public class UserAppShould
     {
-        private IUserApp? sut;
+        private IUserApp sut;
 
         [SetUp]
         public void Setup()
@@ -19,10 +19,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void ImplementIDomainEntity()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new UserApp();
-            }
 
             // Assert
             Assert.That(sut, Is.InstanceOf<IDomainEntity>());
@@ -32,10 +28,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveAnID()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new UserApp();
-            }
 
             // Assert
             Assert.That(sut.Id, Is.TypeOf<int>());
@@ -46,10 +38,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void UserIdAndAppIdAreInts()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new UserApp();
-            }
 
             // Assert
             Assert.That(sut.UserId, Is.TypeOf<int>());
@@ -60,11 +48,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void AcceptsReferenceToUserObjects()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new UserApp();
-            }
-
             var user = new User();
 
             // Act
@@ -79,11 +62,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void AcceptsReferenceToAppObjects()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new UserApp();
-            }
-
             var app = new App();
 
             // Act
