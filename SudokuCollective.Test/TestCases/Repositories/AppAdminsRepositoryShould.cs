@@ -29,8 +29,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             };
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task CreateAppAdmins()
         {
             // Arrange and Act
@@ -41,8 +40,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That((AppAdmin)result.Object, Is.InstanceOf<AppAdmin>());
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfCreateDifficutliesFails()
         {
             // Arrange
@@ -57,8 +55,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Success, Is.False);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task GetAppAdminsById()
         {
             // Arrange and Act
@@ -69,8 +66,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That((AppAdmin)result.Object, Is.InstanceOf<AppAdmin>());
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfGetByIdFails()
         {
             // Arrange and Act
@@ -81,8 +77,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Object, Is.Null);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task GetAllAppAdmins()
         {
             // Arrange and Act
@@ -93,8 +88,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Objects.ConvertAll(aa => (AppAdmin)aa), Is.InstanceOf<List<AppAdmin>>());
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task UpdateAppAdmins()
         {
             // Arrange
@@ -111,8 +105,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(((AppAdmin)result.Object).IsActive, Is.False);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfUpdateAppAdminsFails()
         {
             // Arrange and Act
@@ -123,8 +116,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Object, Is.Null);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task DeleteAppAdmins()
         {
             // Arrange
@@ -139,8 +131,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Success, Is.True);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfDeleteAppAdminsFails()
         {
             // Arrange and Act
@@ -150,8 +141,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Success, Is.False);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ConfirmItHasAnAppAdmin()
         {
             // Arrange and Act
@@ -161,8 +151,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result, Is.True);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfConfirmItHasAnAppAdminFails()
         {
             // Arrange
@@ -182,8 +171,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result, Is.False);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ConfirmItHasAnAdminRecord()
         {
             // Arrange
@@ -206,8 +194,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result, Is.True);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfConfirmItHasAnAdminRecordFails()
         {
             // Arrange
@@ -230,8 +217,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result, Is.False);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task GetAppAdminsRecords()
         {
             // Arrange
@@ -255,8 +241,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That((AppAdmin)result.Object, Is.InstanceOf<AppAdmin>());
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfGetRecordsFails()
         {
             // Arrange

@@ -31,8 +31,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             };
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task CreateDifficulties()
         {
             // Arrange
@@ -48,8 +47,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That((Difficulty)result.Object, Is.InstanceOf<Difficulty>());
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfCreateDifficutliesFails()
         {
             // Arrange and Act
@@ -59,8 +57,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Success, Is.False);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task GetDifficultiesById()
         {
             // Arrange and Act
@@ -71,8 +68,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That((Difficulty)result.Object, Is.InstanceOf<Difficulty>());
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfGetByIdFails()
         {
             // Arrange and Act
@@ -83,8 +79,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Object, Is.Null);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task GetAllDifficulties()
         {
             // Arrange and Act
@@ -95,8 +90,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Objects.ConvertAll(d => (Difficulty)d), Is.InstanceOf<List<Difficulty>>());
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task UpdateDifficulties()
         {
             // Arrange
@@ -112,8 +106,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(((Difficulty)result.Object).Name, Is.EqualTo(difficulty.Name));
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfUpdateDifficultiesFails()
         {
             // Arrange and Act
@@ -124,8 +117,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Object, Is.Null);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task DeleteDifficulties()
         {
             // Arrange
@@ -138,8 +130,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Success, Is.True);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfDeleteDifficultiesFails()
         {
             // Arrange and Act
@@ -149,8 +140,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Success, Is.False);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ConfirmItHasAnDifficulty()
         {
             // Arrange and Act
@@ -160,8 +150,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result, Is.True);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfConfirmItHasAnDifficultyFails()
         {
             // Arrange
@@ -179,8 +168,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result, Is.False);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ConfirmItHasAnDifficultyLevel()
         {
             // Arrange and Act
@@ -190,8 +178,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result, Is.True);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfConfirmItHasAnDifficultyLevelFails()
         {
             // Arrange

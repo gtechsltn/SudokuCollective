@@ -32,8 +32,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 "https://testapp3.com");
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task CreateApps()
         {
             // Arrange and Act
@@ -44,8 +43,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That((App)result.Object, Is.InstanceOf<App>());
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ThrowExceptionIfCreateAppsFails()
         {
             // Arrange
@@ -61,8 +59,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Exception, Is.Not.Null);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task GetAppsById()
         {
             // Arrange and Act
@@ -73,8 +70,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That((App)result.Object, Is.InstanceOf<App>());
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfGetByIdFails()
         {
             // Arrange
@@ -94,8 +90,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Object, Is.Null);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task GetAppsByLicense()
         {
             // Arrange
@@ -109,8 +104,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That((App)result.Object, Is.InstanceOf<App>());
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfGetAppsByLicenseFails()
         {
             // Arrange
@@ -124,8 +118,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Object, Is.Null);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task GetAllApps()
         {
             // Arrange
@@ -138,8 +131,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Objects.ConvertAll(a => (App)a), Is.InstanceOf<List<App>>());
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task GetUsersByApp()
         {
             // Arrange
@@ -153,8 +145,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Objects.ConvertAll(a => (User)a), Is.InstanceOf<List<User>>());
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfGetUsersByAppFails()
         {
             // Arrange
@@ -169,8 +160,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Success, Is.False);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task GetNonAppUsersByApp()
         {
             // Arrange
@@ -184,8 +174,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Objects.ConvertAll(a => (User)a), Is.InstanceOf<List<User>>());
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfGetNonAppUsersByAppFails()
         {
             // Arrange
@@ -200,8 +189,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Success, Is.False);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task UpdateApps()
         {
             // Arrange
@@ -217,8 +205,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(((App)result.Object).Name, Is.EqualTo(app.Name));
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfUpdateAppsFails()
         {
             // Arrange and Act
@@ -231,8 +218,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Object, Is.Null);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task AddUsersToApps()
         {
             // Arrange
@@ -247,8 +233,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Success, Is.True);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfAddUsersToAppsFails()
         {
             // Arrange
@@ -264,8 +249,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Success, Is.False);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task RemoveUsersFromApps()
         {
             // Arrange
@@ -288,8 +272,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Success, Is.True);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfRemoveUsersFromAppsFails()
         {
             // Arrange
@@ -305,8 +288,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Success, Is.False);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task DeleteApps()
         {
             // Arrange
@@ -319,8 +301,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Success, Is.True);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfDeleteAppsFails()
         {
             // Arrange and Act
@@ -332,8 +313,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Success, Is.False);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ResetApps()
         {
             // Arrange
@@ -346,8 +326,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Success, Is.True);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfResetAppsFails()
         {
             // Arrange and Act
@@ -359,8 +338,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Success, Is.False);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ActivateApps()
         {
             // Arrange
@@ -373,8 +351,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Success, Is.True);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfActivateAppsFails()
         {
             // Arrange
@@ -389,8 +366,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Success, Is.False);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task DeactivateApps()
         {
             // Arrange
@@ -403,8 +379,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Success, Is.True);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfDeactivateAppsFails()
         {
             // Arrange
@@ -419,8 +394,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Success, Is.False);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ConfirmItHasAnApp()
         {
             // Arrange
@@ -433,8 +407,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result, Is.True);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfConfirmItHasAnAppFails()
         {
             // Arrange
@@ -452,8 +425,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result, Is.False);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ConfirmAppLicenseIsValid()
         {
             // Arrange
@@ -466,8 +438,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result, Is.True);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfConfirmAppLicenseIsValidFails()
         {
             // Arrange and Act
@@ -479,8 +450,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result, Is.False);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ConfirmIfUserIsRegisteredToApp()
         {
             // Arrange
@@ -493,8 +463,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result, Is.True);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfConfirmIfUserIsRegisteredToAppFails()
         {
             // Arrange
@@ -510,8 +479,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result, Is.False);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ConfirmIfUserIsOwnerToApp()
         {
             // Arrange
@@ -525,8 +493,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result, Is.True);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIfConfirmIfUserIsOwnerToAppFails()
         {
             // Arrange
@@ -560,8 +527,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result, Is.False);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task GetLicenses()
         {
             // Arrange
@@ -575,8 +541,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result, Is.EqualTo(app.License));
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnNullIfGetLicensesFails()
         {
             // Arrange
@@ -591,8 +556,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result, Is.Null);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task GetMyApps()
         {
             // Arrange
@@ -606,8 +570,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Objects.ConvertAll(a => (App)a), Is.InstanceOf<List<App>>());
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseIgGetMyAppsFails()
         {
             // Arrange
@@ -622,8 +585,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Success, Is.False);
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task GetMyRegisteredApps()
         {
             // Arrange
@@ -638,8 +600,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             Assert.That(result.Objects.Count, Is.EqualTo(2));
         }
 
-        [Test]
-        [Category("Repository")]
+        [Test, Category("Repository")]
         public async Task ReturnFalseifGetMyRegisteredAppsFails()
         {
             // Arrange
