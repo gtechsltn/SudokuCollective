@@ -1,0 +1,110 @@
+﻿using NUnit.Framework;
+using SudokuCollective.Core.Validation.Attributes;
+
+namespace SudokuCollective.Test.TestCases.Attributes
+{
+    public class PasswordRegexAttributeShould
+    {
+        private PasswordRegexAttribute? sut;
+
+        [SetUp]
+        public void Setup()
+        {
+            sut = new PasswordRegexAttribute();
+        }
+
+        [Test, Category("Attributes")]
+        public void HaveAtLeast4CharactersWithOneCapitalOneLowerOneNumericAndOneSpecialCharacter()
+        {
+            // Arrange
+            if (sut == null)
+            {
+                sut = new PasswordRegexAttribute();
+            }
+
+            var password = "P@s1";
+
+            // Act
+            var result = sut.IsValid(password);
+
+            // Assert
+            Assert.That(password.Length, Is.EqualTo(4));
+            Assert.That(result, Is.True);
+        }
+
+        [Test, Category("Attributes")]
+        public void RejectPasswordsOfLessThen3Characters()
+        {
+            // Arrange
+            if (sut == null)
+            {
+                sut = new PasswordRegexAttribute();
+            }
+
+            var password = "P@s";
+
+            // Act
+            var result = sut.IsValid(password);
+
+            // Assert
+            Assert.That(password.Length, Is.EqualTo(3));
+            Assert.That(result, Is.False);
+        }
+
+        [Test, Category("Attributes")]
+        public void HaveAPasswordLimitOf20Characters()
+        {
+            // Arrange
+            if (sut == null)
+            {
+                sut = new PasswordRegexAttribute();
+            }
+
+            var password = "P@s1abcdefghijklmnop";
+
+            // Act
+            var result = sut.IsValid(password);
+
+            // Assert
+            Assert.That(password.Length, Is.EqualTo(20));
+            Assert.That(result, Is.True);
+        }
+
+        [Test, Category("Attributes")]
+        public void RejectPasswordsOver20Characters()
+        {
+            // Arrange
+            if (sut == null)
+            {
+                sut = new PasswordRegexAttribute();
+            }
+
+            var password = "P@s1abcdefghijklmnop2";
+
+            // Act
+            var result = sut.IsValid(password);
+
+            // Assert
+            Assert.That(password.Length, Is.EqualTo(21));
+            Assert.That(result, Is.False);
+        }
+
+        [Test, Category("Attributes")]
+        public void AcceptsSpecialCharacters()
+        {
+            // Arrange
+            if (sut == null)
+            {
+                sut = new PasswordRegexAttribute();
+            }
+
+            var password = "P@s1!@#$%^&*+=?-_.,";
+
+            // Act
+            var result = sut.IsValid(password);
+
+            // Assert
+            Assert.That(result, Is.True);
+        }
+    }
+}
