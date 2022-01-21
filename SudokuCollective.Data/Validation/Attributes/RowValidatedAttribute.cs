@@ -16,9 +16,27 @@ namespace SudokuCollective.Data.Validation.Attributes
 
         public override bool IsValid(object value)
         {
+            // Reject if value is null
+            if (value == null)
+            {
+                return false;
+            }
+
             var instanceArray = value as List<int>;
 
+            // Reject if value cannot be cast to int list
+            if (instanceArray == null)
+            {
+                return false;
+            }
+
             var possibleIntList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            // Reject if less than or more than nine elements in the list
+            if (instanceArray != null && instanceArray.Count != possibleIntList.Count)
+            {
+                return false;
+            }
 
             var containsDuplicates = false;
 
@@ -37,6 +55,7 @@ namespace SudokuCollective.Data.Validation.Attributes
                 }
             }
 
+            // Reject if there are duplicates, otherwise accept
             if (!containsDuplicates && instanceArray.Count == 9)
             {
                 return true;
