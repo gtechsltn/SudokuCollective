@@ -52,9 +52,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         [Category("Repository")]
         public async Task ReturnFalseIfCreateDifficutliesFails()
         {
-            // Arrange
-
-            // Act
+            // Arrange and Act
             var result = await sut.Add(newDifficutly);
 
             // Assert
@@ -65,9 +63,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         [Category("Repository")]
         public async Task GetDifficultiesById()
         {
-            // Arrange
-
-            // Act
+            // Arrange and Act
             var result = await sut.Get(1);
 
             // Assert
@@ -79,9 +75,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         [Category("Repository")]
         public async Task ReturnFalseIfGetByIdFails()
         {
-            // Arrange
-
-            // Act
+            // Arrange and Act
             var result = await sut.Get(7);
 
             // Assert
@@ -93,9 +87,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         [Category("Repository")]
         public async Task GetAllDifficulties()
         {
-            // Arrange
-
-            // Act
+            // Arrange and Act
             var result = await sut.GetAll();
 
             // Assert
@@ -124,9 +116,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         [Category("Repository")]
         public async Task ReturnFalseIfUpdateDifficultiesFails()
         {
-            // Arrange
-
-            // Act
+            // Arrange and Act
             var result = await sut.Update(newDifficutly);
 
             // Assert
@@ -152,9 +142,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         [Category("Repository")]
         public async Task ReturnFalseIfDeleteDifficultiesFails()
         {
-            // Arrange
-
-            // Act
+            // Arrange and Act
             var result = await sut.Delete(newDifficutly);
 
             // Assert
@@ -165,9 +153,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         [Category("Repository")]
         public async Task ConfirmItHasAnDifficulty()
         {
-            // Arrange
-
-            // Act
+            // Arrange and Act
             var result = await sut.HasEntity(1);
 
             // Assert
@@ -197,9 +183,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         [Category("Repository")]
         public async Task ConfirmItHasAnDifficultyLevel()
         {
-            // Arrange
-
-            // Act
+            // Arrange and Act
             var result = await sut.HasDifficultyLevel(DifficultyLevel.TEST);
 
             // Assert
