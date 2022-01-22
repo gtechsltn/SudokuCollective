@@ -3,6 +3,7 @@ using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.DataModels;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Data.Models.Params;
+using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Params
 {
@@ -46,7 +47,10 @@ namespace SudokuCollective.Test.TestCases.Params
         [Test, Category("Params")]
         public void IsNullReturnsTrueIfSortValueIsNotSet()
         {
-            // Arrange and Act
+            // Arrange
+            sut = new Paginator();
+
+            // Act
             var result = sut.IsNull();
             
             // Assert
