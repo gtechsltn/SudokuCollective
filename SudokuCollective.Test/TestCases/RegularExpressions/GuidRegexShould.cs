@@ -6,7 +6,7 @@ namespace SudokuCollective.Test.TestCases.RegularExpressions
 {
     public class GuidRegexShould
     {
-        private Regex? sut;
+        private Regex sut;
 
         [SetUp]
         public void Setup()
@@ -18,11 +18,6 @@ namespace SudokuCollective.Test.TestCases.RegularExpressions
         public void AcceptsProperlyFormattedGUIDs()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new Regex(RegexValidators.GuidRegexPattern);
-            }
-
             var guidString = "d36ddcfd-5161-4c20-80aa-b312ef161433";
 
             // Act
@@ -36,11 +31,6 @@ namespace SudokuCollective.Test.TestCases.RegularExpressions
         public void AcceptsLowerCaseCharsFormattedGUIDs()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new Regex(RegexValidators.GuidRegexPattern);
-            }
-
             var guidString = "d36ddcfd-5161-4c20-80aa-b312ef161433";
             var allLowerCase = true;
 
@@ -64,11 +54,6 @@ namespace SudokuCollective.Test.TestCases.RegularExpressions
         public void WorksRegardlessOfCapitalization()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new Regex(RegexValidators.GuidRegexPattern);
-            }
-
             var guidString = "D36DDCFD-5161-4C20-80AA-B312EF161433";
             var allCaps = true;
 
@@ -92,11 +77,6 @@ namespace SudokuCollective.Test.TestCases.RegularExpressions
         public void RequiresHyphens()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new Regex(RegexValidators.GuidRegexPattern);
-            }
-
             var guidString = "d36ddcfd51614c2080aab312ef161433";
 
             // Act
@@ -110,11 +90,6 @@ namespace SudokuCollective.Test.TestCases.RegularExpressions
         public void RejectsNonHexGUIDs()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new Regex(RegexValidators.GuidRegexPattern);
-            }
-
             var guidString = "h36ddcfd-5161-4c20-80aa-b312ef161433";
 
             // Act

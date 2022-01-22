@@ -8,7 +8,7 @@ namespace SudokuCollective.Test.TestCases.Models
 {
     public class SudokuSolutionShould
     {
-        private ISudokuSolution? sut;
+        private ISudokuSolution sut;
 
         [SetUp]
         public void Setup()
@@ -20,10 +20,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void ImplementIDomainEntity()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new SudokuSolution();
-            }
 
             // Assert
             Assert.That(sut, Is.InstanceOf<IDomainEntity>());
@@ -33,10 +29,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveAnID()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new SudokuSolution();
-            }
 
             // Assert
             Assert.That(sut.Id, Is.TypeOf<int>());
@@ -47,10 +39,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HasNineRowsWithNineCells()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new SudokuSolution();
-            }
 
             // Assert
             Assert.That(((SudokuSolution)sut).FirstRow, Is.InstanceOf<List<int>>());
@@ -77,11 +65,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void AcceptsReferenceToGameObjects()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new SudokuSolution();
-            }
-
             var game = new Game();
 
             // Act

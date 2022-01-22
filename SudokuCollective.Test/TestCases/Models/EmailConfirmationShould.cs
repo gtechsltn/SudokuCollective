@@ -12,8 +12,8 @@ namespace SudokuCollective.Test.TestCases.Models
 {
     public class EmailConfirmationShould
     {
-        private IEmailConfirmation? sut;
-        private DatabaseContext? context;
+        private IEmailConfirmation sut;
+        private DatabaseContext context;
 
         [SetUp]
         public async Task Setup()
@@ -26,10 +26,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void ImplementIDomainEntity()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = InitializeSut();
-            }
 
             // Assert
             Assert.That(sut, Is.InstanceOf<IDomainEntity>());
@@ -39,10 +35,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveAnID()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = InitializeSut();
-            }
 
             // Assert
             Assert.That(sut.Id, Is.TypeOf<int>());
@@ -62,20 +54,9 @@ namespace SudokuCollective.Test.TestCases.Models
         }
 
         [Test, Category("Models")]
-        public async Task HasAReferenceToAUser()
+        public void HasAReferenceToAUser()
         {
-            // Arrange
-            if (sut == null)
-            {
-                sut = InitializeSut();
-            }
-
-            if (context == null)
-            {
-                context = await InitializeDB();
-            }
-
-            // Act
+            // Arrange and Act
             var user = context
                 .Users
                 .Where(u => u.Id == sut.UserId)
@@ -86,20 +67,9 @@ namespace SudokuCollective.Test.TestCases.Models
         }
 
         [Test, Category("Models")]
-        public async Task HasAReferenceToAnApp()
+        public void HasAReferenceToAnApp()
         {
-            // Arrange
-            if (context == null)
-            {
-                context = await InitializeDB();
-            }
-
-            if (sut == null)
-            {
-                sut = InitializeSut();
-            }
-
-            // Act
+            // Arrange and Act
             var app = context
                 .Apps
                 .Where(a => a.Id == sut.AppId)
@@ -112,13 +82,7 @@ namespace SudokuCollective.Test.TestCases.Models
         [Test, Category("Models")]
         public void SetsOldEmailAddressConfirmedToFalseWhenSettingOldEmailAddress()
         {
-            // Arrange
-            if (sut == null)
-            {
-                sut = InitializeSut();
-            }
-
-            // Act
+            // Arrange and Act
             sut.OldEmailAddress = "example@example.com";
 
             // Assert
@@ -129,10 +93,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HasAValueToTrackTheNewEmailAddress()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = InitializeSut();
-            }
 
             // Assert
             Assert.That(sut.NewEmailAddress, Is.InstanceOf<string>());
@@ -142,10 +102,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void TrackDateCreated()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = InitializeSut();
-            }
 
             // Assert
             Assert.That(sut.DateCreated, Is.InstanceOf<DateTime>());

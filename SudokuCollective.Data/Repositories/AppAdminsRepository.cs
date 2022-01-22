@@ -11,14 +11,14 @@ using SudokuCollective.Data.Models;
 
 namespace SudokuCollective.Data.Repositories
 {
-    public class AppAdminsReposiory<TEntity> : IAppAdminsRepository<TEntity> where TEntity : AppAdmin
+    public class AppAdminsRepository<TEntity> : IAppAdminsRepository<TEntity> where TEntity : AppAdmin
     {
         #region Fields
         private readonly DatabaseContext _context;
         #endregion
 
         #region Constructor
-        public AppAdminsReposiory(DatabaseContext context)
+        public AppAdminsRepository(DatabaseContext context)
         {
             _context = context;
         }

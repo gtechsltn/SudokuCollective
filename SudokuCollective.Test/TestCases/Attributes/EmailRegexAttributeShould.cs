@@ -5,7 +5,7 @@ namespace SudokuCollective.Test.TestCases.Attributes
 {
     public class EmailRegexAttributeShould
     {
-        private EmailRegexAttribute? sut;
+        private EmailRegexAttribute sut;
 
         [SetUp]
         public void Setup()
@@ -17,11 +17,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void AcceptsProperlyFormattedEmails()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new EmailRegexAttribute();
-            }
-
             var email = "TestEmail@example.com";
 
             // Act
@@ -35,11 +30,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void RejectsImproperlyFormattedEmails()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new EmailRegexAttribute();
-            }
-
             var email = "TestEmail@example";
 
             // Act
@@ -53,11 +43,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void RejectsEmailsWithoutAtSign()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new EmailRegexAttribute();
-            }
-
             var email = "TestEmailexample";
 
             // Act

@@ -10,7 +10,7 @@ namespace SudokuCollective.Test.TestCases.Models
 {
     public class DifficultyShould
     {
-        private IDifficulty? sut;
+        private IDifficulty sut;
 
         [SetUp]
         public void Setup()
@@ -22,10 +22,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void ImplementIDomainEntity()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new Difficulty();
-            }
 
             // Assert
             Assert.That(sut, Is.InstanceOf<IDomainEntity>());
@@ -35,10 +31,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveAnID()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new Difficulty();
-            }
 
             // Assert
             Assert.That(sut.Id, Is.TypeOf<int>());
@@ -49,10 +41,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HasANameValue()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new Difficulty();
-            }
 
             // Assert
             Assert.That(sut.Name, Is.InstanceOf<string>());
@@ -62,10 +50,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HasADifficultyLevel()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new Difficulty();
-            }
 
             // Assert
             Assert.That(sut.DifficultyLevel, Is.InstanceOf<DifficultyLevel>());
@@ -74,13 +58,7 @@ namespace SudokuCollective.Test.TestCases.Models
         [Test, Category("Models")]
         public void HaveADisplayNameDifferentThanTheName()
         {
-            // Arrange
-            if (sut == null)
-            {
-                sut = new Difficulty();
-            }
-
-            // Act
+            // Arrange and Act
             sut.Name = "name";
             sut.DisplayName = "displayName";
 
@@ -93,10 +71,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HasANavigationPropertyToSudokuMatrices()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new Difficulty();
-            }
 
             // Assert
             Assert.That(sut

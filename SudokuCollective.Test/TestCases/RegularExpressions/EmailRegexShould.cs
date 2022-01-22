@@ -6,7 +6,7 @@ namespace SudokuCollective.Test.TestCases.RegularExpressions
 {
     public class EmailRegexShould
     {
-        private Regex? sut;
+        private Regex sut;
 
         [SetUp]
         public void Setup()
@@ -18,11 +18,6 @@ namespace SudokuCollective.Test.TestCases.RegularExpressions
         public void AcceptsProperlyFormattedEmails()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new Regex(RegexValidators.EmailRegexPattern);
-            }
-
             var email = "TestEmail@example.com";
 
             // Act
@@ -36,11 +31,6 @@ namespace SudokuCollective.Test.TestCases.RegularExpressions
         public void RejectsImproperlyFormattedEmails()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new Regex(RegexValidators.EmailRegexPattern);
-            }
-
             var email = "TestEmail@example";
 
             // Act
@@ -54,11 +44,6 @@ namespace SudokuCollective.Test.TestCases.RegularExpressions
         public void RejectsEmailsWithoutAtSign()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new Regex(RegexValidators.EmailRegexPattern);
-            }
-
             var email = "TestEmailexample";
 
             // Act

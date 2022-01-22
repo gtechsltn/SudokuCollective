@@ -7,7 +7,7 @@ namespace SudokuCollective.Test.TestCases.Models
 {
     public class UserRoleShould
     {
-        private IUserRole? sut;
+        private IUserRole sut;
 
         [SetUp]
         public void Setup()
@@ -19,10 +19,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void ImplementIDomainEntity()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new UserRole();
-            }
 
             // Assert
             Assert.That(sut, Is.InstanceOf<IDomainEntity>());
@@ -32,10 +28,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveAnID()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new UserRole();
-            }
 
             // Assert
             Assert.That(sut.Id, Is.TypeOf<int>());
@@ -46,10 +38,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void UserIdAndRoleIdAreInts()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new UserRole();
-            }
 
             // Assert
             Assert.That(sut.UserId, Is.TypeOf<int>());
@@ -60,11 +48,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void AcceptsReferenceToUserObjects()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new UserRole();
-            }
-
             var user = new User();
 
             // Act
@@ -79,11 +62,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void AcceptsReferenceToAppObjects()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new UserRole();
-            }
-
             var role = new Role();
 
             // Act

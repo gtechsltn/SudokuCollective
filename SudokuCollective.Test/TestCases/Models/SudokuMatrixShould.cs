@@ -11,9 +11,9 @@ namespace SudokuCollective.Test.TestCases.Models
 {
     public class SudokuMatrixShould
     {
-        private string? stringList;
-        private ISudokuMatrix? populatedTestMatrix;
-        private ISudokuMatrix? sut;
+        private string stringList;
+        private ISudokuMatrix populatedTestMatrix;
+        private ISudokuMatrix sut;
 
         [SetUp]
         public void Setup()
@@ -25,10 +25,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void ImplementIDomainEntity()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                InitializeSetup(out stringList, out populatedTestMatrix, out sut);
-            }
 
             // Assert
             Assert.That(sut, Is.InstanceOf<IDomainEntity>());
@@ -38,10 +34,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveAnID()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                InitializeSetup(out stringList, out populatedTestMatrix, out sut);
-            }
 
             // Assert
             Assert.That(sut.Id, Is.TypeOf<int>());
@@ -51,13 +43,7 @@ namespace SudokuCollective.Test.TestCases.Models
         [Test, Category("Models")]
         public void AcceptStringInConstructor()
         {
-            // Arrange
-            if (stringList == null)
-            {
-                InitializeSetup(out stringList, out populatedTestMatrix, out sut);
-            }
-
-            // Act
+            // Arrange and Act
             sut = new SudokuMatrix(stringList);
 
             // Assert
@@ -70,13 +56,7 @@ namespace SudokuCollective.Test.TestCases.Models
         [Test, Category("Models")]
         public void AcceptIntListInConstructor()
         {
-            // Arrange
-            if (populatedTestMatrix == null)
-            {
-                InitializeSetup(out stringList, out populatedTestMatrix, out sut);
-            }
-
-            // Act
+            // Arrange and Act
             var intList = populatedTestMatrix.ToIntList();
             sut = new SudokuMatrix(intList);
 
@@ -109,11 +89,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void AcceptDifficultyAndIntListConstructor()
         {
             // Arrange
-            if (populatedTestMatrix == null)
-            {
-                InitializeSetup(out stringList, out populatedTestMatrix, out sut);
-            }
-
             var difficulty = new Difficulty { DifficultyLevel = DifficultyLevel.TEST };
             var intList = populatedTestMatrix.ToIntList();
 
@@ -131,13 +106,7 @@ namespace SudokuCollective.Test.TestCases.Models
         [Test, Category("Models")]
         public void ReturnTrueIfValid()
         {
-            // Arrange
-            if (populatedTestMatrix == null)
-            {
-                InitializeSetup(out stringList, out populatedTestMatrix, out sut);
-            }
-
-            // Act
+            // Arrange and Act
             sut = populatedTestMatrix;
 
             // Assert
@@ -148,11 +117,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void OutputValuesAsIntListWithToInt32List()
         {
             // Arrange
-            if (populatedTestMatrix == null)
-            {
-                InitializeSetup(out stringList, out populatedTestMatrix, out sut);
-            }
-
             sut = populatedTestMatrix;
 
             // Act
@@ -167,11 +131,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void OutputValuesAsIntListWithToDisplayedValuesList()
         {
             // Arrange
-            if (populatedTestMatrix == null)
-            {
-                InitializeSetup(out stringList, out populatedTestMatrix, out sut);
-            }
-
             sut = populatedTestMatrix;
 
             // Act
@@ -186,11 +145,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void OutputValuesAsStringWithToString()
         {
             // Arrange
-            if (populatedTestMatrix == null)
-            {
-                InitializeSetup(out stringList, out populatedTestMatrix, out sut);
-            }
-
             sut = populatedTestMatrix;
 
             // Act
@@ -205,11 +159,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveNoObscuredCellsOnTestDifficulty()
         {
             // Arrange
-            if (populatedTestMatrix == null)
-            {
-                InitializeSetup(out stringList, out populatedTestMatrix, out sut);
-            }
-
             populatedTestMatrix.SetDifficulty(new Difficulty()
             {
                 Name = "Test",
@@ -237,11 +186,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveHiddenCellsIfDifficultyIsNotTest()
         {
             // Arrange
-            if (populatedTestMatrix == null)
-            {
-                InitializeSetup(out stringList, out populatedTestMatrix, out sut);
-            }
-
             populatedTestMatrix.SetDifficulty(new Difficulty()
             {
                 Name = "Easy",
@@ -269,11 +213,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveNoHiddenCellsIfDifficultyIsTest()
         {
             // Arrange
-            if (populatedTestMatrix == null)
-            {
-                InitializeSetup(out stringList, out populatedTestMatrix, out sut);
-            }
-
             populatedTestMatrix.SetDifficulty(new Difficulty()
             {
                 Name = "Test",
@@ -301,11 +240,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void AcceptsReferenceToGameObjects()
         {
             // Arrange
-            if (sut == null)
-            {
-                InitializeSetup(out stringList, out populatedTestMatrix, out sut);
-            }
-
             var game = new Game();
 
             // Act

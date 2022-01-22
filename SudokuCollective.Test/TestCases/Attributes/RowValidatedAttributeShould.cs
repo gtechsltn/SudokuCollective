@@ -6,7 +6,7 @@ namespace SudokuCollective.Test.TestCases.Attributes
 {
     public class RowValidatedAttributeShould
     {
-        private RowValidatedAttribute? sut;
+        private RowValidatedAttribute sut;
 
         [SetUp]
         public void Setup()
@@ -18,11 +18,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void AcceptsValidSudokuRows()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new RowValidatedAttribute();
-            }
-
             var row = new List<int> { 9, 1, 7, 5, 6, 8, 3, 2, 4 };
 
             // Act
@@ -37,11 +32,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void RejectSudokuRowsWithDuplicateValues()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new RowValidatedAttribute();
-            }
-
             var row = new List<int> { 9, 1, 7, 5, 6, 8, 3, 2, 9 };
 
             // Act
@@ -56,11 +46,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void RejectsSudokuRowsWithCountsLessThanNine()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new RowValidatedAttribute();
-            }
-
             var row = new List<int> { 9, 1, 7, 5, 6, 8, 3, 2 };
 
             // Act
@@ -75,11 +60,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void RejectsSudokuRowsWithCountsMoreThanNine()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new RowValidatedAttribute();
-            }
-
             var row = new List<int> { 9, 1, 7, 5, 6, 8, 3, 2, 4, 0 };
 
             // Act
@@ -94,11 +74,6 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void RejectsSudokuRowsWithNonIntValues()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new RowValidatedAttribute();
-            }
-
             var row = new List<char> { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' };
 
             // Act
@@ -113,12 +88,7 @@ namespace SudokuCollective.Test.TestCases.Attributes
         public void RejectsNullValues()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new RowValidatedAttribute();
-            }
-
-            List<int>? row = null;
+            List<int> row = null;
 
             // Act
             var result = sut.IsValid(row);

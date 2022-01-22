@@ -8,7 +8,7 @@ namespace SudokuCollective.Test.TestCases.Models
 {
     public class SudokuCellShould
     {
-        private ISudokuCell? sut;
+        private ISudokuCell sut;
 
         [SetUp]
         public void Setup()
@@ -20,10 +20,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void ImplementIDomainEntity()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new SudokuCell();
-            }
 
             // Assert
             Assert.That(sut, Is.InstanceOf<IDomainEntity>());
@@ -33,10 +29,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveAnID()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new SudokuCell();
-            }
 
             // Assert
             Assert.That(sut.Id, Is.TypeOf<int>());
@@ -80,10 +72,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveADefaultValueOfZero()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new SudokuCell();
-            }
 
             // Assert
             Assert.That(sut.Value, Is.EqualTo(0));
@@ -93,11 +81,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void BeObscuredByDefault()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new SudokuCell();
-            }
-
             sut.Value = 9;
 
             // Assert
@@ -110,11 +93,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void BeVisibleIfObscuredIsFalse()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new SudokuCell();
-            }
-
             var setValue = 9;
 
             sut.Value = setValue;
@@ -143,11 +121,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveAvailableValuesZeroCountIfValueNonZero()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new SudokuCell();
-            }
-
             sut.Value = 9;
 
             // Assert
@@ -158,11 +131,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveToInt32OutputValueAsInt()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new SudokuCell();
-            }
-
             var setValue = 9;
             sut.Value = setValue;
             sut.Hidden = false;
@@ -176,11 +144,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveToStringOutputValueAsString()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new SudokuCell();
-            }
-
             var setValue = 9;
             sut.Value = setValue;
             sut.Hidden = false;

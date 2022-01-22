@@ -8,7 +8,7 @@ namespace SudokuCollective.Test.TestCases.Models
 {
     public class AuthenticatedUserShould
     {
-        private IAuthenticatedUser? sut;
+        private IAuthenticatedUser sut;
 
         [SetUp]
         public void Setup()
@@ -20,10 +20,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void ImplementIDomainEntity()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new AuthenticatedUser();
-            }
 
             // Assert
             Assert.That(sut, Is.InstanceOf<IDomainEntity>());
@@ -33,10 +29,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveAnID()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new AuthenticatedUser();
-            }
 
             // Assert
             Assert.That(sut.Id, Is.TypeOf<int>());
@@ -47,10 +39,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveAllRequiredProperties()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new AuthenticatedUser();
-            }
 
             // Assert
             Assert.That(sut.UserName, Is.TypeOf<string>());
@@ -73,11 +61,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void UpdateBaseOnUserInfo()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new AuthenticatedUser();
-            }
-
             var user = new User { 
                 UserName = "Name", 
                 FirstName = "FirstName", 

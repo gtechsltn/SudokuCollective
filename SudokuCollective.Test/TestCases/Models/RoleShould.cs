@@ -10,7 +10,7 @@ namespace SudokuCollective.Test.TestCases.Models
 {
     public class RoleShould
     {
-        private IRole? sut;
+        private IRole sut;
 
         [SetUp]
         public void Setup()
@@ -22,10 +22,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void ImplementIDomainEntity()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new Role();
-            }
 
             // Assert
             Assert.That(sut, Is.InstanceOf<IDomainEntity>());
@@ -35,10 +31,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HaveAnID()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new Role();
-            }
 
             // Assert
             Assert.That(sut.Id, Is.TypeOf<int>());
@@ -49,10 +41,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HasANameValue()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new Role();
-            }
 
             // Assert
             Assert.That(sut.Name, Is.InstanceOf<string>());
@@ -62,10 +50,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HasARoleLevel()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new Role();
-            }
 
             // Assert
             Assert.That(sut.RoleLevel, Is.InstanceOf<RoleLevel>());
@@ -75,10 +59,6 @@ namespace SudokuCollective.Test.TestCases.Models
         public void HasAListOfUsers()
         {
             // Arrange and Act
-            if (sut == null)
-            {
-                sut = new Role();
-            }
 
             // Assert
             Assert.That(sut

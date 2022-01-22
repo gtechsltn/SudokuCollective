@@ -6,7 +6,7 @@ namespace SudokuCollective.Test.TestCases.RegularExpressions
 {
     public class UserNameRegexShould
     {
-        private Regex? sut;
+        private Regex sut;
 
         [SetUp]
         public void Setup()
@@ -18,11 +18,6 @@ namespace SudokuCollective.Test.TestCases.RegularExpressions
         public void HaveAtLeast4Characters()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new Regex(RegexValidators.UserNameRegexPattern);
-            }
-
             var userName = "JoeK";
 
             // Act
@@ -37,11 +32,6 @@ namespace SudokuCollective.Test.TestCases.RegularExpressions
         public void RejectStringsOfLessThen3Characters()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new Regex(RegexValidators.UserNameRegexPattern);
-            }
-
             var userName = "Joe";
 
             // Act
@@ -56,11 +46,6 @@ namespace SudokuCollective.Test.TestCases.RegularExpressions
         public void AcceptsAlphaNumericAndSpecialCharacters()
         {
             // Arrange
-            if (sut == null)
-            {
-                sut = new Regex(RegexValidators.UserNameRegexPattern);
-            }
-
             var userName = "Joe!@#$%^&*(),.?<>+-";
 
             // Act
