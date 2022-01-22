@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 
@@ -5,19 +6,33 @@ namespace SudokuCollective.Data.Models.Requests
 {
     public class AppRequest : IAppRequest
     {
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string LocalUrl { get; set; }
+        [Required]
         public string DevUrl { get; set; }
+        [Required]
         public string QaUrl { get; set; }
+        [Required]
         public string ProdUrl { get; set; }
+        [Required]
         public bool IsActive { get; set; }
+        [Required]
         public ReleaseEnvironment Environment { get; set; }
+        [Required]
         public bool PermitSuperUserAccess { get; set; }
+        [Required]
         public bool PermitCollectiveLogins { get; set; }
+        [Required]
         public bool DisableCustomUrls { get; set; }
+        [Required]
         public string CustomEmailConfirmationAction { get; set; }
+        [Required]
         public string CustomPasswordResetAction { get; set; }
+        [Required]
         public TimeFrame TimeFrame { get; set; }
+        [Required]
         public int AccessDuration { get; set; }
 
         public AppRequest()
