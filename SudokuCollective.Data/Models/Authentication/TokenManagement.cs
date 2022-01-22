@@ -1,15 +1,16 @@
 using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
 using SudokuCollective.Core.Interfaces.DataModels;
 
 namespace SudokuCollective.Data.Models.Authentication
 {
     public class TokenManagement : ITokenManagement
     {
-        [JsonPropertyName("Secret")]
+        [JsonPropertyName("Secret"), Required]
         public string Secret { get; set; }
-        [JsonPropertyName("Issuer")]
+        [JsonPropertyName("Issuer"), Required]
         public string Issuer { get; set; }
-        [JsonPropertyName("Audience")]
+        [JsonPropertyName("Audience"), Required]
         public string Audience { get; set; }
 
         public TokenManagement()
