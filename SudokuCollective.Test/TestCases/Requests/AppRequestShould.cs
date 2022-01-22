@@ -15,7 +15,7 @@ namespace SudokuCollective.Test.TestCases.Requests
             sut = new AppRequest();
         }
 
-        [Test, Category("Params")]
+        [Test, Category("Requests")]
         public void HasRequiredProperties()
         {
             // Arrange and Act
