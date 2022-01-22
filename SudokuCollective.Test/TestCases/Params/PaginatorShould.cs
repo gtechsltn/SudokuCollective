@@ -13,7 +13,7 @@ namespace SudokuCollective.Test.TestCases.Params
         [SetUp]
         public void Setup()
         {
-            sut = new Paginator();
+            sut = TestObjects.GetPaginator();
         }
 
         [Test, Category("Params")]
