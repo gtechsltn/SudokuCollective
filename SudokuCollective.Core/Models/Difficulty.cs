@@ -10,6 +10,7 @@ namespace SudokuCollective.Core.Models
     public class Difficulty : IDifficulty
     {
         #region Properties
+        [Required]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
