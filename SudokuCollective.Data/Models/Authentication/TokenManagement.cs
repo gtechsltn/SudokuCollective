@@ -11,5 +11,12 @@ namespace SudokuCollective.Data.Models.Authentication
         public string Issuer { get; set; }
         [JsonPropertyName("Audience")]
         public string Audience { get; set; }
+
+        public TokenManagement()
+        {
+            Secret = string.Empty;
+            Issuer = string.Empty;
+            Audience = string.Empty;
+        }
     }
 }
