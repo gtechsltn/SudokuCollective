@@ -1,20 +1,159 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
+using SudokuCollective.Data.Validation.Attributes;
 
 namespace SudokuCollective.Data.Models.Requests
 {
     public class AnnonymousCheckRequest : IAnnonymousCheckRequest
     {
-        public List<int> FirstRow { get; set; }
-        public List<int> SecondRow { get; set; }
-        public List<int> ThirdRow { get; set; }
-        public List<int> FourthRow { get; set; }
-        public List<int> FifthRow { get; set; }
-        public List<int> SixthRow { get; set; }
-        public List<int> SeventhRow { get; set; }
-        public List<int> EighthRow { get; set; }
-        public List<int> NinthRow { get; set; }
+        private List<int> _firstRow = new List<int>();
+        private List<int> _secondRow = new List<int>();
+        private List<int> _thirdRow = new List<int>();
+        private List<int> _fourthRow = new List<int>();
+        private List<int> _fifthRow = new List<int>();
+        private List<int> _sixthRow = new List<int>();
+        private List<int> _seventhRow = new List<int>();
+        private List<int> _eighthRow = new List<int>();
+        private List<int> _ninthRow = new List<int>();
+        private RowValidatedAttribute validator = new RowValidatedAttribute();
+
+        [Required, RowValidated]
+        public List<int> FirstRow
+        {
+            get
+            {
+                return _firstRow;
+            }
+            set
+            {
+                if (validator.IsValid(value))
+                {
+                    _firstRow = value;
+                }
+            }
+        }
+        [Required, RowValidated]
+        public List<int> SecondRow
+        {
+            get
+            {
+                return _secondRow;
+            }
+            set
+            {
+                if (validator.IsValid(value))
+                {
+                    _secondRow = value;
+                }
+            }
+        }
+        [Required, RowValidated]
+        public List<int> ThirdRow
+        {
+            get
+            {
+                return _thirdRow;
+            }
+            set
+            {
+                if (validator.IsValid(value))
+                {
+                    _thirdRow = value;
+                }
+            }
+        }
+        [Required, RowValidated]
+        public List<int> FourthRow
+        {
+            get
+            {
+                return _fourthRow;
+            }
+            set
+            {
+                if (validator.IsValid(value))
+                {
+                    _fourthRow = value;
+                }
+            }
+        }
+        [Required, RowValidated]
+        public List<int> FifthRow
+        {
+            get
+            {
+                return _fifthRow;
+            }
+            set
+            {
+                if (validator.IsValid(value))
+                {
+                    _fifthRow = value;
+                }
+            }
+        }
+        [Required, RowValidated]
+        public List<int> SixthRow
+        {
+            get
+            {
+                return _sixthRow;
+            }
+            set
+            {
+                if (validator.IsValid(value))
+                {
+                    _sixthRow = value;
+                }
+            }
+        }
+        [Required, RowValidated]
+        public List<int> SeventhRow
+        {
+            get
+            {
+                return _seventhRow;
+            }
+            set
+            {
+                if (validator.IsValid(value))
+                {
+                    _seventhRow = value;
+                }
+            }
+        }
+        [Required, RowValidated]
+        public List<int> EighthRow
+        {
+            get
+            {
+                return _eighthRow;
+            }
+            set
+            {
+                if (validator.IsValid(value))
+                {
+                    _eighthRow = value;
+                }
+            }
+        }
+        [Required, RowValidated]
+        public List<int> NinthRow
+        {
+            get
+            {
+                return _ninthRow;
+            }
+            set
+            {
+                if (validator.IsValid(value))
+                {
+                    _ninthRow = value;
+                }
+            }
+        }
 
         public AnnonymousCheckRequest()
         {
