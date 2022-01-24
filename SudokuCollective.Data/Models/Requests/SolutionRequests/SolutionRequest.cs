@@ -1,21 +1,165 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
+using SudokuCollective.Data.Validation.Attributes;
 
 namespace SudokuCollective.Data.Models.Requests
 {
     public class SolutionRequest : ISolutionRequest
     {
-        public List<int> FirstRow { get; set; }
-        public List<int> SecondRow { get; set; }
-        public List<int> ThirdRow { get; set; }
-        public List<int> FourthRow { get; set; }
-        public List<int> FifthRow { get; set; }
-        public List<int> SixthRow { get; set; }
-        public List<int> SeventhRow { get; set; }
-        public List<int> EighthRow { get; set; }
-        public List<int> NinthRow { get; set; }
+        #region Fields
+        private List<int> _firstRow = new();
+        private List<int> _secondRow = new();
+        private List<int> _thirdRow = new();
+        private List<int> _fourthRow = new();
+        private List<int> _fifthRow = new();
+        private List<int> _sixthRow = new();
+        private List<int> _seventhRow = new();
+        private List<int> _eighthRow = new();
+        private List<int> _ninthRow = new();
+        private readonly RowValidatedAttribute _rowValidator = new();
+        #endregion
 
+        #region Properties
+        [Required, RowValidated]
+        public List<int> FirstRow
+        {
+            get
+            {
+                return _firstRow;
+            }
+            set
+            {
+                if (value != null && _rowValidator.IsValid(value))
+                {
+                    _firstRow = value;
+                }
+            }
+        }
+        [Required, RowValidated]
+        public List<int> SecondRow
+        {
+            get
+            {
+                return _secondRow;
+            }
+            set
+            {
+                if (value != null && _rowValidator.IsValid(value))
+                {
+                    _secondRow = value;
+                }
+            }
+        }
+        [Required, RowValidated]
+        public List<int> ThirdRow
+        {
+            get
+            {
+                return _thirdRow;
+            }
+            set
+            {
+                if (value != null && _rowValidator.IsValid(value))
+                {
+                    _thirdRow = value;
+                }
+            }
+        }
+        [Required, RowValidated]
+        public List<int> FourthRow
+        {
+            get
+            {
+                return _fourthRow;
+            }
+            set
+            {
+                if (value != null && _rowValidator.IsValid(value))
+                {
+                    _fourthRow = value;
+                }
+            }
+        }
+        [Required, RowValidated]
+        public List<int> FifthRow
+        {
+            get
+            {
+                return _fifthRow;
+            }
+            set
+            {
+                if (value != null && _rowValidator.IsValid(value))
+                {
+                    _fifthRow = value;
+                }
+            }
+        }
+        [Required, RowValidated]
+        public List<int> SixthRow
+        {
+            get
+            {
+                return _sixthRow;
+            }
+            set
+            {
+                if (value != null && _rowValidator.IsValid(value))
+                {
+                    _sixthRow = value;
+                }
+            }
+        }
+        [Required, RowValidated]
+        public List<int> SeventhRow
+        {
+            get
+            {
+                return _seventhRow;
+            }
+            set
+            {
+                if (value != null && _rowValidator.IsValid(value))
+                {
+                    _seventhRow = value;
+                }
+            }
+        }
+        [Required, RowValidated]
+        public List<int> EighthRow
+        {
+            get
+            {
+                return _eighthRow;
+            }
+            set
+            {
+                if (value != null && _rowValidator.IsValid(value))
+                {
+                    _eighthRow = value;
+                }
+            }
+        }
+        [Required, RowValidated]
+        public List<int> NinthRow
+        {
+            get
+            {
+                return _ninthRow;
+            }
+            set
+            {
+                if (value != null && _rowValidator.IsValid(value))
+                {
+                    _ninthRow = value;
+                }
+            }
+        }
+        #endregion
+
+        #region Constructors
         public SolutionRequest()
         {
             FirstRow = new List<int>();
@@ -72,5 +216,6 @@ namespace SudokuCollective.Data.Models.Requests
             EighthRow = eighthRow;
             NinthRow = ninthRow;
         }
+        #endregion
     }
 }
