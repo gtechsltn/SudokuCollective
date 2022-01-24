@@ -3,7 +3,7 @@ using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Test.TestCases.Attributes
 {
-    public class GuidRegexAttributeShould
+    public class GuidValidatedAttributeShould
     {
         private GuidValidatedAttribute sut;
 
