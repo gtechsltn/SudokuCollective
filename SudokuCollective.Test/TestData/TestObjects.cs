@@ -4,6 +4,7 @@ using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
+using SudokuCollective.Data.Models.Requests;
 
 namespace SudokuCollective.Test.TestData
 {
@@ -38,6 +39,38 @@ namespace SudokuCollective.Test.TestData
                 SortBy = SortValue.NULL,
                 OrderByDescending = false,
                 IncludeCompletedGames = false
+            };
+        }
+
+        public static AnnonymousCheckRequest GetValidAnnonymousCheckRequest()
+        {
+            return new AnnonymousCheckRequest
+            {
+                FirstRow = new List<int> { 7, 8, 5, 4, 1, 3, 2, 9, 6 },
+                SecondRow = new List<int> { 1, 4, 2, 8, 6, 9, 5, 7, 3 },
+                ThirdRow = new List<int> { 6, 9, 3, 2, 7, 5, 4, 1, 8 },
+                FourthRow = new List<int> { 5, 1, 4, 3, 8, 2, 7, 6, 9 },
+                FifthRow = new List<int> { 2, 6, 7, 9, 4, 1, 3, 8, 5 },
+                SixthRow = new List<int> { 8, 3, 9, 7, 5, 6, 1, 2, 4 },
+                SeventhRow = new List<int> { 4, 2, 1, 6, 3, 8, 9, 5, 7 },
+                EighthRow = new List<int> { 3, 5, 8, 1, 9, 7, 6, 4, 2 },
+                NinthRow = new List<int> { 9, 7, 6, 5, 2, 4, 8, 3, 1 }
+            };
+        }
+
+        public static AnnonymousCheckRequest GetInValidAnnonymousCheckRequest()
+        {
+            return new AnnonymousCheckRequest
+            {
+                FirstRow = new List<int> { 7, 8, 5, 4, 1, 3, 2, 9, 6, 0 },
+                SecondRow = new List<int> { 1, 4, 2, 8, 6, 9, 5, 7, 3 },
+                ThirdRow = new List<int> { 6, 9, 3, 2, 7, 5, 4, 1, 8 },
+                FourthRow = new List<int> { 5, 1, 4, 3, 8, 2, 7, 6, 9 },
+                FifthRow = new List<int> { 2, 6, 7, 9, 4, 1, 3, 8, 5 },
+                SixthRow = new List<int> { 8, 3, 9, 7, 5, 6, 1, 2, 4 },
+                SeventhRow = new List<int> { 4, 2, 1, 6, 3, 8, 9, 5, 7 },
+                EighthRow = new List<int> { 3, 5, 8, 1, 9, 7, 6, 4, 2 },
+                NinthRow = new List<int> { 9, 7, 6, 5, 2, 4, 8, 3, 1 }
             };
         }
 
