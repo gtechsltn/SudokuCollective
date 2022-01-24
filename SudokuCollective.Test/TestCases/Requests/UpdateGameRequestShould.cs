@@ -37,5 +37,46 @@ namespace SudokuCollective.Test.TestCases.Requests
             Assert.That(sut.SudokuCells, Is.InstanceOf<List<ISudokuCell>>());
             Assert.That(sut.SudokuCells.Count, Is.EqualTo(81));
         }
+
+        [Test, Category("Requests")]
+        public void HasADefaultConstructor()
+        {
+            // Arrange and Act
+            sut = new UpdateGameRequest();
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<UpdateGameRequest>());
+        }
+
+        [Test, Category("Requests")]
+        public void HasAConstructorThatAcceptsISudokuCellArray()
+        {
+            // Arrange
+            var sudokuCellArray = TestObjects
+                .GetValidSudokuCells()
+                .ConvertAll(c => (ISudokuCell)c)
+                .ToArray();
+
+            // Act
+            sut = new UpdateGameRequest(1, sudokuCellArray);
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<UpdateGameRequest>());
+        }
+
+        [Test, Category("Requests")]
+        public void HasAConstructorThatAcceptsISudokuCellList()
+        {
+            // Arrange
+            var sudokuCellList = TestObjects
+                .GetValidSudokuCells()
+                .ConvertAll(c => (ISudokuCell)c);
+
+            // Act
+            sut = new UpdateGameRequest(1, sudokuCellList);
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<UpdateGameRequest>());
+        }
     }
 }

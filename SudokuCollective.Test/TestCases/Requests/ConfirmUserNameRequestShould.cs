@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Data.Models.Requests;
+using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Requests
 {
@@ -42,6 +43,26 @@ namespace SudokuCollective.Test.TestCases.Requests
 
             // Assert
             Assert.That(sut.License, Is.EqualTo(string.Empty));
+        }
+
+        [Test, Category("Requests")]
+        public void HasADefaultConstructor()
+        {
+            // Arrange and Act
+            sut = new ConfirmUserNameRequest();
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<ConfirmUserNameRequest>());
+        }
+
+        [Test, Category("Requests")]
+        public void HasAConstructorThatAcceptsParams()
+        {
+            // Arrange and Act
+            sut = new ConfirmUserNameRequest("userName1", TestObjects.GetLicense());
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<ConfirmUserNameRequest>());
         }
     }
 }

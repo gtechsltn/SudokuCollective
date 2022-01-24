@@ -24,5 +24,28 @@ namespace SudokuCollective.Test.TestCases.Requests
             Assert.That(sut.Name, Is.InstanceOf<string>());
             Assert.That(sut.DisplayName, Is.InstanceOf<string>());
         }
+
+        [Test, Category("Requests")]
+        public void HaveADefaultConstructor()
+        {
+            // Arrange and Act
+            sut = new UpdateDifficultyRequest();
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<UpdateDifficultyRequest>());
+        }
+
+        [Test, Category("Requests")]
+        public void HaveAConstructorThatAcceptsParams()
+        {
+            // Arrange and Act
+            sut = new UpdateDifficultyRequest(
+                1,
+                "name",
+                "displayName");
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<UpdateDifficultyRequest>());
+        }
     }
 }

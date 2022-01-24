@@ -56,5 +56,31 @@ namespace SudokuCollective.Test.TestCases.Requests
             // Assert
             Assert.That(sut.Password, Is.EqualTo(string.Empty));
         }
+
+        [Test, Category("Requests")]
+        public void HasADefaultConstructor()
+        {
+            // Arrange and Act
+            sut = new RegisterRequest();
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<RegisterRequest>());
+        }
+
+        [Test, Category("Requests")]
+        public void HasAConstructorThatAcceptsParams()
+        {
+            // Arrange and Act
+            sut = new RegisterRequest(
+                "userName",
+                "firstName", 
+                "lastName", 
+                string.Empty, 
+                "testemail@example.com", 
+                "t2stP@ssw0rd!");
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<RegisterRequest>());
+        }
     }
 }

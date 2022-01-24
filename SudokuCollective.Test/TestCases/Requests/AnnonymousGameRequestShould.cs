@@ -23,5 +23,35 @@ namespace SudokuCollective.Test.TestCases.Requests
             // Assert
             Assert.That(sut.DifficultyLevel, Is.InstanceOf<DifficultyLevel>());
         }
+
+        [Test, Category("Requests")]
+        public void HasADefaultConstructor()
+        {
+            // Arrange and Act
+            sut = new AnnonymousGameRequest();
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<AnnonymousGameRequest>());
+        }
+
+        [Test, Category("Requests")]
+        public void HasAConstructorThatAcceptsInts()
+        {
+            // Arrange and Act
+            sut = new AnnonymousGameRequest(1);
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<AnnonymousGameRequest>());
+        }
+
+        [Test, Category("Requests")]
+        public void HasAConstructorThatAcceptsDifficultyLevels()
+        {
+            // Arrange and Act
+            sut = new AnnonymousGameRequest(DifficultyLevel.EASY);
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<AnnonymousGameRequest>());
+        }
     }
 }

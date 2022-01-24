@@ -25,5 +25,41 @@ namespace SudokuCollective.Test.TestCases.Requests
             Assert.That(sut.DisplayName, Is.InstanceOf<string>());
             Assert.That(sut.DifficultyLevel, Is.InstanceOf<DifficultyLevel>());
         }
+
+        [Test, Category("Requests")]
+        public void HaveADefaultConstructor()
+        {
+            // Arrange and Act
+            sut = new CreateDifficultyRequest();
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<CreateDifficultyRequest>());
+        }
+
+        [Test, Category("Requests")]
+        public void HaveAConstructorThatAcceptsIntsForEnums()
+        {
+            // Arrange and Act
+            sut = new CreateDifficultyRequest(
+                "name",
+                "displayName",
+                2);
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<CreateDifficultyRequest>());
+        }
+
+        [Test, Category("Requests")]
+        public void HaveAConstructorThatAcceptsEnums()
+        {
+            // Arrange and Act
+            sut = new CreateDifficultyRequest(
+                "name",
+                "displayName",
+                DifficultyLevel.EASY);
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<CreateDifficultyRequest>());
+        }
     }
 }

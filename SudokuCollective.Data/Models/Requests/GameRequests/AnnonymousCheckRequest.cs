@@ -8,6 +8,7 @@ namespace SudokuCollective.Data.Models.Requests
 {
     public class AnnonymousCheckRequest : IAnnonymousCheckRequest
     {
+        #region Fields
         private List<int> _firstRow = new();
         private List<int> _secondRow = new();
         private List<int> _thirdRow = new();
@@ -18,7 +19,9 @@ namespace SudokuCollective.Data.Models.Requests
         private List<int> _eighthRow = new();
         private List<int> _ninthRow = new();
         private readonly RowValidatedAttribute _rowValidator = new();
+        #endregion
 
+        #region Properties
         [Required, RowValidated]
         public List<int> FirstRow
         {
@@ -154,6 +157,7 @@ namespace SudokuCollective.Data.Models.Requests
                 }
             }
         }
+        #endregion
 
         public AnnonymousCheckRequest()
         {

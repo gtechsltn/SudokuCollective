@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
+using SudokuCollective.Data.Models.Requests;
 using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Requests
@@ -66,6 +67,54 @@ namespace SudokuCollective.Test.TestCases.Requests
             Assert.That(sutInvalid.SeventhRow.Count, Is.EqualTo(9));
             Assert.That(sutInvalid.EighthRow.Count, Is.EqualTo(9));
             Assert.That(sutInvalid.NinthRow.Count, Is.EqualTo(9));
+        }
+
+        [Test, Category("Requests")]
+        public void HasADefaultConstructor()
+        {
+            // Arrange and Act
+            sut = new AnnonymousCheckRequest();
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<AnnonymousCheckRequest>());
+        }
+
+        [Test, Category("Requests")]
+        public void HasAConstructorThatAcceptsIntArrays()
+        {
+            // Arrange and Act
+            sut = new AnnonymousCheckRequest(
+                new int[9], 
+                new int[9], 
+                new int[9], 
+                new int[9], 
+                new int[9], 
+                new int[9], 
+                new int[9], 
+                new int[9], 
+                new int[9]);
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<AnnonymousCheckRequest>());
+        }
+
+        [Test, Category("Requests")]
+        public void HasAConstructorThatAcceptsIntLists()
+        {
+            // Arrange and Act
+            sut = new AnnonymousCheckRequest(
+                new List<int> { 1, 7, 4, 6, 8, 2, 5, 3, 9 },
+                new List<int> { 3, 9, 2, 1, 5, 7, 6, 4, 8 },
+                new List<int> { 5, 6, 3, 4, 5, 6, 1, 7, 2 },
+                new List<int> { 7, 8, 5, 4, 1, 3, 2, 9, 6 },
+                new List<int> { 2, 1, 6, 5, 7, 9, 4, 8, 3 },
+                new List<int> { 9, 4, 3, 8, 2, 6, 7, 5, 1 },
+                new List<int> { 4, 5, 9, 2, 6, 8, 3, 1, 7 },
+                new List<int> { 6, 3, 7, 9, 4, 1, 8, 2, 5 },
+                new List<int> { 8, 2, 1, 7, 3, 5, 9, 6, 4 }); ;
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<AnnonymousCheckRequest>());
         }
     }
 }
