@@ -25,7 +25,7 @@ namespace SudokuCollective.Core.Models
         #region Properties
         [Required]
         public int Id { get; set; }
-        [Required, UserNameRegex(ErrorMessage = "User name must be at least f characters and can contain alphanumeric characters and special characters of [! @ # $ % ^ & * + = ? - _ . ,]")]
+        [Required, UserNameValidated(ErrorMessage = "User name must be at least 4 characters and can contain alphanumeric characters and special characters of [! @ # $ % ^ & * + = ? - _ . ,]")]
         public string UserName
         {
             get
@@ -59,7 +59,7 @@ namespace SudokuCollective.Core.Models
         {
             get => string.Format("{0} {1}", FirstName, LastName);
         }
-        [Required, EmailRegex(ErrorMessage = "Email must be in a valid format")]
+        [Required, EmailValidated(ErrorMessage = "Email must be in a valid format")]
         public string Email
         {
             get
@@ -84,7 +84,7 @@ namespace SudokuCollective.Core.Models
         [Required]
         public bool IsEmailConfirmed { get; set; }
         public bool ReceivedRequestToUpdateEmail { get; set; }
-        [IgnoreDataMember, PasswordRegex(ErrorMessage = "Password must be between 4 and up to 20 characters with at least 1 capital letter, 1 lower case letter, and 1 special character of[! @ # $ % ^ & * + = ? - _ . ,]")]
+        [IgnoreDataMember, PasswordValidated(ErrorMessage = "Password must be between 4 and up to 20 characters with at least 1 capital letter, 1 lower case letter, and 1 special character of[! @ # $ % ^ & * + = ? - _ . ,]")]
         public string Password
         {
             get

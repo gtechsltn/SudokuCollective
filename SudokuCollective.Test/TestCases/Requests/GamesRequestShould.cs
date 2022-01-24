@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Data.Models.Requests;
 

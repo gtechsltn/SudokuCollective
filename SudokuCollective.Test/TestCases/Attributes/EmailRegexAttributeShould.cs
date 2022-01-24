@@ -5,12 +5,12 @@ namespace SudokuCollective.Test.TestCases.Attributes
 {
     public class EmailRegexAttributeShould
     {
-        private EmailRegexAttribute sut;
+        private EmailValidatedAttribute sut;
 
         [SetUp]
         public void Setup()
         {
-            sut = new EmailRegexAttribute();
+            sut = new EmailValidatedAttribute();
         }
 
         [Test, Category("Attributes")]

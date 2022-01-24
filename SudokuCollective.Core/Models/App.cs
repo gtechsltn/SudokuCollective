@@ -23,7 +23,7 @@ namespace SudokuCollective.Core.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        [IgnoreDataMember, GuidRegex(ErrorMessage = "Guid must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters")]
+        [IgnoreDataMember, GuidValidated(ErrorMessage = "Guid must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters")]
         public string License
         {
             get
@@ -32,7 +32,7 @@ namespace SudokuCollective.Core.Models
             }
             set
             {
-                var validator = new GuidRegexAttribute();
+                var validator = new GuidValidatedAttribute();
 
                 if (!string.IsNullOrEmpty(value) && validator.IsValid(value))
                 {

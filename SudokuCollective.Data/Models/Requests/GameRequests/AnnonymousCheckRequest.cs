@@ -8,16 +8,16 @@ namespace SudokuCollective.Data.Models.Requests
 {
     public class AnnonymousCheckRequest : IAnnonymousCheckRequest
     {
-        private List<int> _firstRow = new List<int>();
-        private List<int> _secondRow = new List<int>();
-        private List<int> _thirdRow = new List<int>();
-        private List<int> _fourthRow = new List<int>();
-        private List<int> _fifthRow = new List<int>();
-        private List<int> _sixthRow = new List<int>();
-        private List<int> _seventhRow = new List<int>();
-        private List<int> _eighthRow = new List<int>();
-        private List<int> _ninthRow = new List<int>();
-        private RowValidatedAttribute validator = new RowValidatedAttribute();
+        private List<int> _firstRow = new();
+        private List<int> _secondRow = new();
+        private List<int> _thirdRow = new();
+        private List<int> _fourthRow = new();
+        private List<int> _fifthRow = new();
+        private List<int> _sixthRow = new();
+        private List<int> _seventhRow = new();
+        private List<int> _eighthRow = new();
+        private List<int> _ninthRow = new();
+        private readonly RowValidatedAttribute _rowValidator = new();
 
         [Required, RowValidated]
         public List<int> FirstRow
@@ -28,7 +28,7 @@ namespace SudokuCollective.Data.Models.Requests
             }
             set
             {
-                if (validator.IsValid(value))
+                if (value != null && _rowValidator.IsValid(value))
                 {
                     _firstRow = value;
                 }
@@ -43,7 +43,7 @@ namespace SudokuCollective.Data.Models.Requests
             }
             set
             {
-                if (validator.IsValid(value))
+                if (value != null && _rowValidator.IsValid(value))
                 {
                     _secondRow = value;
                 }
@@ -58,7 +58,7 @@ namespace SudokuCollective.Data.Models.Requests
             }
             set
             {
-                if (validator.IsValid(value))
+                if (value != null && _rowValidator.IsValid(value))
                 {
                     _thirdRow = value;
                 }
@@ -73,7 +73,7 @@ namespace SudokuCollective.Data.Models.Requests
             }
             set
             {
-                if (validator.IsValid(value))
+                if (value != null && _rowValidator.IsValid(value))
                 {
                     _fourthRow = value;
                 }
@@ -88,7 +88,7 @@ namespace SudokuCollective.Data.Models.Requests
             }
             set
             {
-                if (validator.IsValid(value))
+                if (value != null && _rowValidator.IsValid(value))
                 {
                     _fifthRow = value;
                 }
@@ -103,7 +103,7 @@ namespace SudokuCollective.Data.Models.Requests
             }
             set
             {
-                if (validator.IsValid(value))
+                if (value != null && _rowValidator.IsValid(value))
                 {
                     _sixthRow = value;
                 }
@@ -118,7 +118,7 @@ namespace SudokuCollective.Data.Models.Requests
             }
             set
             {
-                if (validator.IsValid(value))
+                if (value != null && _rowValidator.IsValid(value))
                 {
                     _seventhRow = value;
                 }
@@ -133,7 +133,7 @@ namespace SudokuCollective.Data.Models.Requests
             }
             set
             {
-                if (validator.IsValid(value))
+                if (value != null && _rowValidator.IsValid(value))
                 {
                     _eighthRow = value;
                 }
@@ -148,7 +148,7 @@ namespace SudokuCollective.Data.Models.Requests
             }
             set
             {
-                if (validator.IsValid(value))
+                if (value != null && _rowValidator.IsValid(value))
                 {
                     _ninthRow = value;
                 }

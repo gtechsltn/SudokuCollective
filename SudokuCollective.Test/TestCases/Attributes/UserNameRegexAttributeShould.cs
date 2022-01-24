@@ -5,12 +5,12 @@ namespace SudokuCollective.Test.TestCases.Attributes
 {
     public class UserNameRegexAttributeShould
     {
-        private UserNameRegexAttribute sut;
+        private UserNameValidatedAttribute sut;
 
         [SetUp]
         public void Setup()
         {
-            sut = new UserNameRegexAttribute();
+            sut = new UserNameValidatedAttribute();
         }
 
         [Test, Category("Attributes")]

@@ -19,7 +19,7 @@ namespace SudokuCollective.Core.Models
         public int UserId { get; set; }
         [Required]
         public int AppId { get; set; }
-        [Required, GuidRegex(ErrorMessage = "Token must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters")]
+        [Required, GuidValidated(ErrorMessage = "Token must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters")]
         public string Token
         {
             get
@@ -28,7 +28,7 @@ namespace SudokuCollective.Core.Models
             }
             set
             {
-                var validator = new GuidRegexAttribute();
+                var validator = new GuidValidatedAttribute();
 
                 if (!string.IsNullOrEmpty(value) && validator.IsValid(value))
                 {

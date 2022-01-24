@@ -5,12 +5,12 @@ namespace SudokuCollective.Test.TestCases.Attributes
 {
     public class GuidRegexAttributeShould
     {
-        private GuidRegexAttribute sut;
+        private GuidValidatedAttribute sut;
 
         [SetUp]
         public void Setup()
         {
-            sut = new GuidRegexAttribute();
+            sut = new GuidValidatedAttribute();
         }
 
         [Test, Category("Attributes")]
