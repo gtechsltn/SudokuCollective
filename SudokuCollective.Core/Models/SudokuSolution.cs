@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -11,9 +12,13 @@ namespace SudokuCollective.Core.Models
     public class SudokuSolution : ISudokuSolution
     {
         #region Properites
+        [Required]
         public int Id { get; set; }
+        [Required]
         public virtual List<int> SolutionList { get; set; }
+        [Required]
         public DateTime DateCreated { get; set; }
+        [Required]
         public DateTime DateSolved { get; set; }
         public List<int> FirstRow { get => GetValues(0, 9); }
         public List<int> SecondRow { get => GetValues(9, 9); }
@@ -36,6 +41,7 @@ namespace SudokuCollective.Core.Models
                 Game = (Game)value;
             }
         }
+        [IgnoreDataMember]
         public virtual Game Game { get; set; }
         #endregion
 

@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 
 namespace SudokuCollective.Core.Models
@@ -6,9 +7,13 @@ namespace SudokuCollective.Core.Models
     public class AppAdmin : IAppAdmin
     {
         #region Properties
+        [Required]
         public int Id { get; set; }
+        [Required]
         public int AppId { get; set; }
+        [Required]
         public int UserId { get; set; }
+        [Required]
         public bool IsActive { get; set; }
         #endregion
 

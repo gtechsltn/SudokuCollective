@@ -9,10 +9,7 @@ namespace SudokuCollective.Data.Validation.Attributes
     {
         private const string defaultError = "{0} is invalid.";
 
-        public RowValidatedAttribute() : base(defaultError)
-        {
-
-        }
+        public RowValidatedAttribute() : base(defaultError) { }
 
         public override bool IsValid(object value)
         {

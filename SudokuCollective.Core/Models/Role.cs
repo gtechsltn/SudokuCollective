@@ -11,6 +11,7 @@ namespace SudokuCollective.Core.Models
     public class Role : IRole
     {
         #region Properties
+        [Required]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }

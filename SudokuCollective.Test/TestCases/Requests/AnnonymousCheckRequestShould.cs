@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
-using SudokuCollective.Data.Models.Requests;
 using SudokuCollective.Test.TestData;
 
-namespace SudokuCollective.Test.TestCases
+namespace SudokuCollective.Test.TestCases.Requests
 {
     public class AnnonymousCheckRequestShould
     {

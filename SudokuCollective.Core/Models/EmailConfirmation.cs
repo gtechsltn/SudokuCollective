@@ -1,20 +1,41 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
+using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Core.Models
 {
     public class EmailConfirmation : IEmailConfirmation
     {
         #region Fields
-        private string _oldEmailAddress;
+        private string _token = string.Empty;
+        private string _oldEmailAddress = string.Empty;
+        private readonly GuidRegexAttribute _validator = new();
         #endregion
 
         #region Properties
+        [Required]
         public int Id { get; set; }
+        [Required]
         public int UserId { get; set; }
+        [Required]
         public int AppId { get; set; }
-        public string Token { get; set; }
+        [Required, GuidRegex(ErrorMessage = "Token must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters")]
+        public string Token
+        {
+            get
+            {
+                return _token;
+            }
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && _validator.IsValid(value))
+                {
+                    _token = value;
+                }
+            }
+        }
         public string OldEmailAddress
         {
             get
@@ -30,6 +51,7 @@ namespace SudokuCollective.Core.Models
         }
         public string NewEmailAddress { get; set; }
         public bool? OldEmailAddressConfirmed { get; set; }
+        [Required]
         public bool IsUpdate
         {
             get
@@ -44,6 +66,7 @@ namespace SudokuCollective.Core.Models
                 }
             }
         }
+        [Required]
         public DateTime DateCreated { get; set; }
         #endregion
 

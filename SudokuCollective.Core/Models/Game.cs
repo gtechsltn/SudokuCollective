@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Enums;
@@ -10,7 +11,9 @@ namespace SudokuCollective.Core.Models
     public class Game : IGame
     {
         #region Properties
+        [Required]
         public int Id { get; set; }
+        [Required]
         public int UserId { get; set; }
         [IgnoreDataMember]
         IUser IGame.User
@@ -26,6 +29,7 @@ namespace SudokuCollective.Core.Models
         }
         [IgnoreDataMember]
         public User User { get; set; }
+        [Required]
         public int SudokuMatrixId { get; set; }
         [IgnoreDataMember]
         ISudokuMatrix IGame.SudokuMatrix
@@ -39,7 +43,9 @@ namespace SudokuCollective.Core.Models
                 SudokuMatrix = (SudokuMatrix)value;
             }
         }
+        [Required]
         public virtual SudokuMatrix SudokuMatrix { get; set; }
+        [Required]
         public int SudokuSolutionId { get; set; }
         [IgnoreDataMember]
         ISudokuSolution IGame.SudokuSolution
@@ -53,14 +59,23 @@ namespace SudokuCollective.Core.Models
                 SudokuSolution = (SudokuSolution)value;
             }
         }
+        [Required]
         public virtual SudokuSolution SudokuSolution { get; set; }
+        [Required]
         public int AppId { get; set; }
+        [Required]
         public bool ContinueGame { get; set; }
+        [Required]
         public int Score { get; set; }
+        [Required]
         public bool KeepScore { get; set; }
+        [Required]
         public TimeSpan TimeToSolve { get; set; }
+        [Required]
         public DateTime DateCreated { get; set; }
+        [Required]
         public DateTime DateUpdated { get; set; }
+        [Required]
         public DateTime DateCompleted { get; set; }
         #endregion
 
