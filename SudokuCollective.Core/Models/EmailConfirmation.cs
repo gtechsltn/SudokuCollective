@@ -11,7 +11,7 @@ namespace SudokuCollective.Core.Models
         #region Fields
         private string _token = string.Empty;
         private string _oldEmailAddress = string.Empty;
-        private readonly GuidRegexAttribute _validator = new();
+        private readonly GuidRegexAttribute _guidValidator = new();
         #endregion
 
         #region Properties
@@ -30,7 +30,7 @@ namespace SudokuCollective.Core.Models
             }
             set
             {
-                if (!string.IsNullOrEmpty(value) && _validator.IsValid(value))
+                if (!string.IsNullOrEmpty(value) && _guidValidator.IsValid(value))
                 {
                     _token = value;
                 }

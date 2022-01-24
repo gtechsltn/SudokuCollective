@@ -20,7 +20,7 @@ namespace SudokuCollective.Core.Models
     {
         #region Fields
         private List<SudokuCell> _sudokuCells = new();
-        private readonly SudokuCellValidAttribute _validator = new();
+        private readonly SudokuCellValidAttribute _sudokuCellsValidator = new();
         private readonly Stopwatch _stopwatch = new();
         #endregion
 
@@ -78,7 +78,7 @@ namespace SudokuCollective.Core.Models
             }
             set
             {
-                if (_validator.IsValid(value))
+                if (value != null && _sudokuCellsValidator.IsValid(value))
                 {
                     _sudokuCells = value;
                 }
