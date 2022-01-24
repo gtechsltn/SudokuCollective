@@ -2,42 +2,60 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
+using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Core.Models
 {
     public class App : IApp
     {
         #region Fields
-        private TimeFrame _timeFrame;
-        private int _accessDuration;
+        private string _license = string.Empty;
+        private TimeFrame _timeFrame = TimeFrame.NULL;
+        private int _accessDuration = 0;
         #endregion
 
         #region Properties
         [Required]
         public int Id { get; set; }
-
         [Required]
         public string Name { get; set; }
+        [IgnoreDataMember, GuidRegex(ErrorMessage = "Guid must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters")]
+        public string License
+        {
+            get
+            {
+                return _license;
+            }
+            set
+            {
+                var validator = new GuidRegexAttribute();
 
-        [JsonIgnore]
-        [Required]
-        public string License { get; set; }
-
+                if (!string.IsNullOrEmpty(value) && validator.IsValid(value))
+                {
+                    _license = value;
+                }
+            }
+        }
         [Required]
         public int OwnerId { get; set; }
         public string LocalUrl { get; set; }
         public string DevUrl { get; set; }
         public string QaUrl { get; set; }
         public string ProdUrl { get; set; }
+        [Required]
         public bool IsActive { get; set; }
+        [Required]
         public ReleaseEnvironment Environment { get; set; }
+        [Required]
         public bool PermitSuperUserAccess { get; set; }
+        [Required]
         public bool PermitCollectiveLogins { get; set; }
 
-        [JsonIgnore]
+        [IgnoreDataMember]
         public bool UseCustomEmailConfirmationAction
         {
             get
@@ -85,7 +103,7 @@ namespace SudokuCollective.Core.Models
             }
         }
 
-        [JsonIgnore]
+        [IgnoreDataMember]
         public bool UseCustomPasswordResetAction
         {
             get
@@ -136,6 +154,7 @@ namespace SudokuCollective.Core.Models
         public bool DisableCustomUrls { get; set; }
         public string CustomEmailConfirmationAction { get; set; }
         public string CustomPasswordResetAction { get; set; }
+        [Required]
         public int UserCount
         {
             get
@@ -214,15 +233,18 @@ namespace SudokuCollective.Core.Models
                 }
             }
         }
+        [Required]
         public DateTime DateCreated { get; set; }
+        [Required]
         public DateTime DateUpdated { get; set; }
 
-        [JsonIgnore]
+        [IgnoreDataMember]
         ICollection<IUserApp> IApp.Users
         {
             get { return Users.ConvertAll(u => (IUserApp)u); }
             set { Users = value.ToList().ConvertAll(u => (UserApp)u); }
         }
+        [Required]
         public virtual List<UserApp> Users { get; set; }
         #endregion
 

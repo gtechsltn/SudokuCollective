@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Regex\" />
+    <Compile Remove="Regex\**" />
+    <EmbeddedResource Remove="Regex\**" />
+    <None Remove="Regex\**" />
   </ItemGroup>
 
 </Project>

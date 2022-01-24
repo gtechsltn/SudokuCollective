@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 
 namespace SudokuCollective.Core.Models
@@ -6,20 +7,35 @@ namespace SudokuCollective.Core.Models
     public class AuthenticatedUser : IAuthenticatedUser
     {
         #region Properties
+        [Required]
         public int Id { get; set; }
+        [Required]
         public string UserName { get; set; }
+        [Required]
         public string FirstName { get; set; }
+        [Required]
         public string LastName { get; set; }
+        [Required]
         public string NickName { get; set; }
+        [Required]
         public string FullName { get; set; }
+        [Required]
         public string Email { get; set; }
+        [Required]
         public bool IsEmailConfirmed { get; set; }
+        [Required]
         public bool ReceivedRequestToUpdateEmail { get; set; }
+        [Required]
         public bool ReceivedRequestToUpdatePassword { get; set; }
+        [Required]
         public bool IsActive { get; set; }
+        [Required]
         public bool IsSuperUser { get; set; }
+        [Required]
         public bool IsAdmin { get; set; }
+        [Required]
         public DateTime DateCreated { get; set; }
+        [Required]
         public DateTime DateUpdated { get; set; }
         #endregion
 

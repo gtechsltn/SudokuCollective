@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using SudokuCollective.Core.Enums;
@@ -22,8 +23,9 @@ namespace SudokuCollective.Core.Models
         #endregion
 
         #region Properties
+        [Required]
         public int Id { get; set; }
-        [Required, UserNameRegex]
+        [Required, UserNameRegex(ErrorMessage = "User name must be at least f characters and can contain alphanumeric characters and special characters of [! @ # $ % ^ & * + = ? - _ . ,]")]
         public string UserName
         {
             get
@@ -57,7 +59,7 @@ namespace SudokuCollective.Core.Models
         {
             get => string.Format("{0} {1}", FirstName, LastName);
         }
-        [Required]
+        [Required, EmailRegex(ErrorMessage = "Email must be in a valid format")]
         public string Email
         {
             get
@@ -79,9 +81,10 @@ namespace SudokuCollective.Core.Models
                 }
             }
         }
+        [Required]
         public bool IsEmailConfirmed { get; set; }
         public bool ReceivedRequestToUpdateEmail { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.Always), PasswordRegex]
+        [IgnoreDataMember, PasswordRegex(ErrorMessage = "Password must be between 4 and up to 20 characters with at least 1 capital letter, 1 lower case letter, and 1 special character of[! @ # $ % ^ & * + = ? - _ . ,]")]
         public string Password
         {
             get
@@ -103,7 +106,9 @@ namespace SudokuCollective.Core.Models
             }
         }
         public bool ReceivedRequestToUpdatePassword { get; set; }
+        [Required]
         public bool IsActive { get; set; }
+        [Required]
         public bool IsSuperUser
         {
             get
@@ -130,6 +135,7 @@ namespace SudokuCollective.Core.Models
                 _isSuperUser = value;
             }
         }
+        [Required]
         public bool IsAdmin
         {
             get
@@ -155,9 +161,11 @@ namespace SudokuCollective.Core.Models
                 _isAdmin = value;
             }
         }
+        [Required]
         public DateTime DateCreated { get; set; }
+        [Required]
         public DateTime DateUpdated { get; set; }
-        [JsonIgnore]
+        [IgnoreDataMember]
         ICollection<IGame> IUser.Games
         {
             get
@@ -169,8 +177,9 @@ namespace SudokuCollective.Core.Models
                 Games = value.ToList().ConvertAll(g => (Game)g);
             }
         }
+        [Required]
         public virtual List<Game> Games { get; set; }
-        [JsonIgnore]
+        [IgnoreDataMember]
         ICollection<IUserRole> IUser.Roles
         {
             get
@@ -182,8 +191,9 @@ namespace SudokuCollective.Core.Models
                 Roles = value.ToList().ConvertAll(ur => (UserRole)ur);
             }
         }
+        [Required]
         public virtual List<UserRole> Roles { get; set; }
-        [JsonIgnore]
+        [IgnoreDataMember]
         ICollection<IUserApp> IUser.Apps
         {
             get
@@ -195,6 +205,7 @@ namespace SudokuCollective.Core.Models
                 Apps = value.ToList().ConvertAll(a => (UserApp)a);
             }
         }
+        [Required]
         public virtual List<UserApp> Apps { get; set; }
         #endregion
 

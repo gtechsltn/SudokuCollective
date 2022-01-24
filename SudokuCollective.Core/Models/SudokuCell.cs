@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
@@ -11,16 +12,79 @@ namespace SudokuCollective.Core.Models
     public class SudokuCell : ISudokuCell
     {
         #region Fields
-        private int _value;
-        private int _displayValue;
+        private int _index = 0;
+        private int _column = 0;
+        private int _region = 0;
+        private int _row = 0;
+        private int _value = 0;
+        private int _displayValue = 0;
         #endregion
 
         #region Properties
+        [Required]
         public int Id { get; set; }
-        public int Index { get; set; }
-        public int Column { get; set; }
-        public int Region { get; set; }
-        public int Row { get; set; }
+        [Required, Range(1, 81, ErrorMessage = "Index must be between 1 and 81")]
+        public int Index
+        {
+            get
+            {
+                return _index;
+            }
+            set
+            {
+                if (value >= 1 && value <= 81)
+                {
+                    _index = value;
+                }
+            }
+        }
+
+        [Required, Range(1, 9, ErrorMessage = "Column must be between 1 and 9")]
+        public int Column
+        {
+            get
+            {
+                return _column;
+            }
+            set
+            {
+                if (value >= 1 && value <= 9)
+                {
+                    _column = value;
+                }
+            }
+        }
+        [Required, Range(1, 9, ErrorMessage = "Region must be between 1 and 9")]
+        public int Region
+        {
+            get
+            {
+                return _region;
+            }
+            set
+            {
+                if (value >= 1 && value <= 9)
+                {
+                    _region = value;
+                }
+            }
+        }
+        [Required, Range(1, 9, ErrorMessage = "Row must be between 1 and 9")]
+        public int Row
+        {
+            get
+            {
+                return _row;
+            }
+            set
+            {
+                if (value >= 1 && value <= 9)
+                {
+                    _row = value;
+                }
+            }
+        }
+        [Required, Range(1, 9, ErrorMessage = "Value must be between 1 and 9")]
         public int Value
         {
             get => _value;
@@ -61,6 +125,7 @@ namespace SudokuCollective.Core.Models
                 _value = value;
             }
         }
+        [Required, Range(0, 9, ErrorMessage = "DisplayedValue must be between 0 and 9")]
         public int DisplayedValue
         {
             get
@@ -76,7 +141,10 @@ namespace SudokuCollective.Core.Models
             }
             set
             {
-                _displayValue = value;
+                if (value >= 0 && value <= 9)
+                {
+                    _displayValue = value;
+                }
             }
         }
         public bool Hidden { get; set; }
@@ -107,11 +175,30 @@ namespace SudokuCollective.Core.Models
                 AvailableValues = value.ToList().ConvertAll(av => (AvailableValue)av);
             }
         }
-        [JsonIgnore]
+        [IgnoreDataMember]
         public List<AvailableValue> AvailableValues { get; set; }
         #endregion
 
         #region Constructors
+        public SudokuCell()
+        {
+            Id = 0;
+            SudokuMatrixId = 0;
+            Hidden = true;
+            AvailableValues = new List<AvailableValue>();
+
+            for (var i = 1; i <= 9; i++)
+            {
+                AvailableValues.Add(
+                        new AvailableValue
+                        {
+                            Value = i,
+                            Available = true
+                        }
+                    );
+            }
+        }
+
         public SudokuCell(
             int index,
             int column,
@@ -124,7 +211,6 @@ namespace SudokuCollective.Core.Models
             Region = region;
             Row = row;
             SudokuMatrixId = matrixID;
-            Value = 0;
         }
 
         public SudokuCell(
@@ -148,30 +234,6 @@ namespace SudokuCollective.Core.Models
                 {
                     availableValue.Available = false;
                 }
-            }
-        }
-
-        public SudokuCell()
-        {
-            Id = 0;
-            Index = 0;
-            Column = 0;
-            Region = 0;
-            Row = 0;
-            Value = 0;
-            SudokuMatrixId = 0;
-            Hidden = true;
-            AvailableValues = new List<AvailableValue>();
-
-            for (var i = 1; i <= 9; i++)
-            {
-                AvailableValues.Add(
-                        new AvailableValue
-                        {
-                            Value = i,
-                            Available = true
-                        }
-                    );
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 
@@ -7,7 +8,9 @@ namespace SudokuCollective.Core.Models
     public class UserRole : IUserRole
     {
         #region Properties
+        [Required]
         public int Id { get; set; }
+        [Required]
         public int UserId { get; set; }
         [IgnoreDataMember]
         IUser IUserRole.User
@@ -23,7 +26,9 @@ namespace SudokuCollective.Core.Models
         }
         [IgnoreDataMember]
         public virtual User User { get; set; }
+        [Required]
         public int RoleId { get; set; }
+        [IgnoreDataMember]
         IRole IUserRole.Role
         {
             get
@@ -35,6 +40,7 @@ namespace SudokuCollective.Core.Models
                 Role = (Role)value;
             }
         }
+        [Required]
         public virtual Role Role { get; set; }
         #endregion
 

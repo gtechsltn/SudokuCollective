@@ -1,16 +1,42 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
+using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Core.Models
 {
     public class PasswordReset : IPasswordReset
     {
+        #region Fields
+        private string _token = string.Empty;
+        #endregion
+
         #region Properties
+        [Required]
         public int Id { get; set; }
+        [Required]
         public int UserId { get; set; }
+        [Required]
         public int AppId { get; set; }
-        public string Token { get; set; }
+        [Required, GuidRegex(ErrorMessage = "Token must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters")]
+        public string Token
+        {
+            get
+            {
+                return _token;
+            }
+            set
+            {
+                var validator = new GuidRegexAttribute();
+
+                if (!string.IsNullOrEmpty(value) && validator.IsValid(value))
+                {
+                    _token = value;
+                }
+            }
+        }
+        [Required]
         public DateTime DateCreated { get; set; }
         #endregion
 
