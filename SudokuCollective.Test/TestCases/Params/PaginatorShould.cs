@@ -31,6 +31,36 @@ namespace SudokuCollective.Test.TestCases.Params
         }
 
         [Test, Category("Params")]
+        public void HasADefaultConstructor()
+        {
+            // Arrange and Act
+            sut = new Paginator();
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<Paginator>());
+        }
+
+        [Test, Category("Params")]
+        public void HasAConstructorThatTakesParams()
+        {
+            // Arrange and Act
+            sut = new Paginator(1, 10, 1, false, false);
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<Paginator>());
+        }
+
+        [Test, Category("Params")]
+        public void HasAConstructorThatTakesSortValue()
+        {
+            // Arrange and Act
+            sut = new Paginator(1, 10, SortValue.ID, false, false);
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<Paginator>());
+        }
+
+        [Test, Category("Params")]
         public void IsNullReturnsFalseIfSortValueIsSet()
         {
             // Arrange

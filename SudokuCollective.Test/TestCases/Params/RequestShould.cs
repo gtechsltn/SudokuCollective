@@ -15,6 +15,16 @@ namespace SudokuCollective.Test.TestCases.Params
         }
 
         [Test, Category("Params")]
+        public void HaveADefaultConstructor()
+        {
+            // Arrange and Act
+            sut = new Request();
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<Request>());
+        }
+
+        [Test, Category("Params")]
         public void HasRequiredProperties()
         {
             // Arrange and Act
