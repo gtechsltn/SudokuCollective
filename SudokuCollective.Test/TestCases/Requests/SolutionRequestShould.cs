@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Data.Models.Requests;
@@ -6,23 +6,23 @@ using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Requests
 {
-    public class AnnonymousCheckRequestShould
+    public class SolutionRequestShould
     {
-        private IAnnonymousCheckRequest sut;
-        private IAnnonymousCheckRequest sutInvalid;
+        private ISolutionRequest sut;
+        private ISolutionRequest sutInvalid;
 
         [SetUp]
         public void Setup()
         {
-            sut = TestObjects.GetValidAnnonymousCheckRequest();
-            sutInvalid = TestObjects.GetInvalidAnnonymousCheckRequest();
+            sut = TestObjects.GetValidSolutionRequest();
+            sutInvalid = TestObjects.GetInvalidSolutionRequest();
         }
 
         [Test, Category("Requests")]
         public void HasRequiredProperties()
         {
             // Arrange and Act
-            
+
             // Assert
             Assert.That(sut.FirstRow, Is.InstanceOf<List<int>>());
             Assert.That(sut.SecondRow, Is.InstanceOf<List<int>>());
@@ -39,7 +39,7 @@ namespace SudokuCollective.Test.TestCases.Requests
         public void OnlyAcceptsValidLists()
         {
             // Arrange and Act
-            
+
             // Assert
             Assert.That(sut.FirstRow.Count, Is.EqualTo(9));
             Assert.That(sut.SecondRow.Count, Is.EqualTo(9));
@@ -56,7 +56,7 @@ namespace SudokuCollective.Test.TestCases.Requests
         public void RejectsInvalidLists()
         {
             // Arrange and Act
-            
+
             // Assert
             Assert.That(sutInvalid.FirstRow.Count, Is.EqualTo(0));
             Assert.That(sutInvalid.SecondRow.Count, Is.EqualTo(9));
@@ -73,36 +73,36 @@ namespace SudokuCollective.Test.TestCases.Requests
         public void HasADefaultConstructor()
         {
             // Arrange and Act
-            sut = new AnnonymousCheckRequest();
+            sut = new SolutionRequest();
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<AnnonymousCheckRequest>());
+            Assert.That(sut, Is.InstanceOf<SolutionRequest>());
         }
 
         [Test, Category("Requests")]
         public void HasAConstructorThatAcceptsIntArrays()
         {
             // Arrange and Act
-            sut = new AnnonymousCheckRequest(
-                new int[9], 
-                new int[9], 
-                new int[9], 
-                new int[9], 
-                new int[9], 
-                new int[9], 
-                new int[9], 
-                new int[9], 
+            sut = new SolutionRequest(
+                new int[9],
+                new int[9],
+                new int[9],
+                new int[9],
+                new int[9],
+                new int[9],
+                new int[9],
+                new int[9],
                 new int[9]);
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<AnnonymousCheckRequest>());
+            Assert.That(sut, Is.InstanceOf<SolutionRequest>());
         }
 
         [Test, Category("Requests")]
         public void HasAConstructorThatAcceptsIntLists()
         {
             // Arrange and Act
-            sut = new AnnonymousCheckRequest(
+            sut = new SolutionRequest(
                 new List<int> { 1, 7, 4, 6, 8, 2, 5, 3, 9 },
                 new List<int> { 3, 9, 2, 1, 5, 7, 6, 4, 8 },
                 new List<int> { 5, 6, 3, 4, 5, 6, 1, 7, 2 },
@@ -114,7 +114,7 @@ namespace SudokuCollective.Test.TestCases.Requests
                 new List<int> { 8, 2, 1, 7, 3, 5, 9, 6, 4 }); ;
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<AnnonymousCheckRequest>());
+            Assert.That(sut, Is.InstanceOf<SolutionRequest>());
         }
     }
 }

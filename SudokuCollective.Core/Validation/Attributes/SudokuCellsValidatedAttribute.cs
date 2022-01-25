@@ -1,29 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Models;
+using SudokuCollective.Core.Utilities;
 
 namespace SudokuCollective.Core.Validation.Attributes
 {
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter | AttributeTargets.Property)]
     public sealed class SudokuCellsValidatedAttribute : ValidationAttribute
     {
-        private const string defaultError = "{0} must have {1} items.";
-        private readonly int count;
-
-        public SudokuCellsValidatedAttribute(int number) : base(defaultError)
-        {
-            count = number;
-        }
+        public SudokuCellsValidatedAttribute() : base() { }
 
         public override bool IsValid(object value)
         {
-            return (value is List<SudokuCell> list && list.Count == count);
-        }
+            if (value == null)
+            {
+                return false;
+            }
 
-        public override string FormatErrorMessage(string name)
-        {
-            return string.Format(this.ErrorMessageString, name, count);
+            // Reject if value cannot be cast to ISudokuCell list
+            if (value is not List<ISudokuCell> sudokuCells || sudokuCells.Count != 81)
+            {
+                return false;
+            }
+
+            foreach (var cell in sudokuCells)
+            {
+                if (!ModelValidator.Validate((SudokuCell)cell, out ICollection<ValidationResult> _results))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

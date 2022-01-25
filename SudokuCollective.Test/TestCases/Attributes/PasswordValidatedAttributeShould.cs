@@ -3,14 +3,14 @@ using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Test.TestCases.Attributes
 {
-    public class PasswordRegexAttributeShould
+    public class PasswordValidatedAttributeShould
     {
-        private PasswordRegexAttribute sut;
+        private PasswordValidatedAttribute sut;
 
         [SetUp]
         public void Setup()
         {
-            sut = new PasswordRegexAttribute();
+            sut = new PasswordValidatedAttribute();
         }
 
         [Test, Category("Attributes")]

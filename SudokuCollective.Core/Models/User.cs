@@ -20,12 +20,14 @@ namespace SudokuCollective.Core.Models
         private string _password = string.Empty;
         private bool _isSuperUser;
         private bool _isAdmin;
+        private readonly EmailValidatedAttribute _emailValidator = new();
+        private readonly PasswordValidatedAttribute _passwordValidator = new();
         #endregion
 
         #region Properties
         [Required]
         public int Id { get; set; }
-        [Required, UserNameRegex(ErrorMessage = "User name must be at least f characters and can contain alphanumeric characters and special characters of [! @ # $ % ^ & * + = ? - _ . ,]")]
+        [Required, UserNameValidated(ErrorMessage = "User name must be at least 4 characters and can contain alphanumeric characters and special characters of [! @ # $ % ^ & * + = ? - _ . ,]")]
         public string UserName
         {
             get
@@ -59,7 +61,7 @@ namespace SudokuCollective.Core.Models
         {
             get => string.Format("{0} {1}", FirstName, LastName);
         }
-        [Required, EmailRegex(ErrorMessage = "Email must be in a valid format")]
+        [Required, EmailValidated(ErrorMessage = "Email must be in a valid format")]
         public string Email
         {
             get
@@ -69,22 +71,17 @@ namespace SudokuCollective.Core.Models
 
             set
             {
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrEmpty(value) && _emailValidator.IsValid(value))
                 {
-                    var regex = new Regex(RegexValidators.EmailRegexPattern);
-
-                    if (regex.IsMatch(value))
-                    {
-                        _email = value;
-                        IsEmailConfirmed = false;
-                    }
+                    _email = value;
+                    IsEmailConfirmed = false;
                 }
             }
         }
         [Required]
         public bool IsEmailConfirmed { get; set; }
         public bool ReceivedRequestToUpdateEmail { get; set; }
-        [IgnoreDataMember, PasswordRegex(ErrorMessage = "Password must be between 4 and up to 20 characters with at least 1 capital letter, 1 lower case letter, and 1 special character of[! @ # $ % ^ & * + = ? - _ . ,]")]
+        [IgnoreDataMember, PasswordValidated(ErrorMessage = "Password must be between 4 and up to 20 characters with at least 1 capital letter, 1 lower case letter, and 1 special character of[! @ # $ % ^ & * + = ? - _ . ,]")]
         public string Password
         {
             get
@@ -94,14 +91,9 @@ namespace SudokuCollective.Core.Models
 
             set
             {
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrEmpty(value) && _passwordValidator.IsValid(value))
                 {
-                    var regex = new Regex(RegexValidators.PasswordRegexPattern);
-
-                    if (regex.IsMatch(value))
-                    {
-                        _password = value;
-                    }
+                    _password = value;
                 }
             }
         }

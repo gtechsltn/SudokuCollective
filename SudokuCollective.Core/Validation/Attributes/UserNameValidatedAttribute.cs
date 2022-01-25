@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 namespace SudokuCollective.Core.Validation.Attributes
 {
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Property)]
-    public sealed class EmailRegexAttribute : RegularExpressionAttribute
+    public sealed class UserNameValidatedAttribute : RegularExpressionAttribute
     {
-        public EmailRegexAttribute() : base(RegexValidators.EmailRegexPattern)
+        public UserNameValidatedAttribute() : base(RegexValidators.UserNameRegexPattern)
         {
         }
     }

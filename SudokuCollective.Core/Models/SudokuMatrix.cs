@@ -20,7 +20,7 @@ namespace SudokuCollective.Core.Models
     {
         #region Fields
         private List<SudokuCell> _sudokuCells = new();
-        private readonly SudokuCellValidAttribute _sudokuCellsValidator = new();
+        private readonly SudokuCellsValidatedAttribute _sudokuCellsValidator = new();
         private readonly Stopwatch _stopwatch = new();
         #endregion
 
@@ -69,7 +69,7 @@ namespace SudokuCollective.Core.Models
                 SudokuCells = value.ToList().ConvertAll(cell => (SudokuCell)cell);
             }
         }
-        [Required, SudokuCellValid(ErrorMessage = "The list of sudoku values is not valid")]
+        [Required, SudokuCellsValidated(ErrorMessage = "The list of sudoku values is not valid")]
         public virtual List<SudokuCell> SudokuCells
         {
             get

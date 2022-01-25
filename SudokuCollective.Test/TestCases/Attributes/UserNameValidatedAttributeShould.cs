@@ -3,14 +3,14 @@ using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Test.TestCases.Attributes
 {
-    public class UserNameRegexAttributeShould
+    public class UserNameValidatedAttributeShould
     {
-        private UserNameRegexAttribute sut;
+        private UserNameValidatedAttribute sut;
 
         [SetUp]
         public void Setup()
         {
-            sut = new UserNameRegexAttribute();
+            sut = new UserNameValidatedAttribute();
         }
 
         [Test, Category("Attributes")]

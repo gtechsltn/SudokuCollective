@@ -11,7 +11,7 @@ namespace SudokuCollective.Core.Models
         #region Fields
         private string _token = string.Empty;
         private string _oldEmailAddress = string.Empty;
-        private readonly GuidRegexAttribute _guidValidator = new();
+        private readonly GuidValidatedAttribute _guidValidator = new();
         #endregion
 
         #region Properties
@@ -21,7 +21,7 @@ namespace SudokuCollective.Core.Models
         public int UserId { get; set; }
         [Required]
         public int AppId { get; set; }
-        [Required, GuidRegex(ErrorMessage = "Token must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters")]
+        [Required, GuidValidated(ErrorMessage = "Token must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters")]
         public string Token
         {
             get

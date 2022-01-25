@@ -36,5 +36,63 @@ namespace SudokuCollective.Test.TestCases.Requests
             Assert.That(sut.TimeFrame, Is.InstanceOf<TimeFrame>());
             Assert.That(sut.AccessDuration, Is.InstanceOf<int>());
         }
+
+        [Test, Category("Requests")]
+        public void HaveADefaultConstructor()
+        {
+            // Arrange and Act
+            sut = new AppRequest();
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<AppRequest>());
+        }
+
+        [Test, Category("Requests")]
+        public void HaveAConstructorThatAcceptsIntsForEnums()
+        {
+            // Arrange and Act
+            sut = new AppRequest(
+                "name",
+                "localUrl",
+                "devUrl",
+                "qaUrl",
+                "prodUrl",
+                true,
+                1,
+                true,
+                false,
+                false,
+                "customEmailConfirmationAction",
+                "customPasswordResetAction",
+                4,
+                1);
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<AppRequest>());
+        }
+
+        [Test, Category("Requests")]
+        public void HaveAConstructorThatAcceptsEnums()
+        {
+            // Arrange and Act
+            sut = new AppRequest(
+                "name",
+                "localUrl",
+                "devUrl",
+                "qaUrl",
+                "prodUrl",
+                true,
+                ReleaseEnvironment.LOCAL,
+                true,
+                false,
+                false,
+                "customEmailConfirmationAction",
+                "customPasswordResetAction",
+                TimeFrame.DAYS,
+                1);
+
+            // Assert
+            Assert.That(sut, Is.InstanceOf<AppRequest>());
+        }
     }
 }

@@ -16,6 +16,7 @@ namespace SudokuCollective.Core.Models
         private string _license = string.Empty;
         private TimeFrame _timeFrame = TimeFrame.NULL;
         private int _accessDuration = 0;
+        private readonly GuidValidatedAttribute _guidValidator = new();
         #endregion
 
         #region Properties
@@ -23,7 +24,7 @@ namespace SudokuCollective.Core.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        [IgnoreDataMember, GuidRegex(ErrorMessage = "Guid must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters")]
+        [IgnoreDataMember, GuidValidated(ErrorMessage = "Guid must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters")]
         public string License
         {
             get
@@ -32,9 +33,7 @@ namespace SudokuCollective.Core.Models
             }
             set
             {
-                var validator = new GuidRegexAttribute();
-
-                if (!string.IsNullOrEmpty(value) && validator.IsValid(value))
+                if (!string.IsNullOrEmpty(value) && _guidValidator.IsValid(value))
                 {
                     _license = value;
                 }

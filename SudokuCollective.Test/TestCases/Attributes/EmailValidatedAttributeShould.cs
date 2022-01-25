@@ -3,14 +3,14 @@ using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Test.TestCases.Attributes
 {
-    public class EmailRegexAttributeShould
+    public class EmailValidatedAttributeShould
     {
-        private EmailRegexAttribute sut;
+        private EmailValidatedAttribute sut;
 
         [SetUp]
         public void Setup()
         {
-            sut = new EmailRegexAttribute();
+            sut = new EmailValidatedAttribute();
         }
 
         [Test, Category("Attributes")]

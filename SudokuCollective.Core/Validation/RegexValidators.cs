@@ -9,7 +9,7 @@
         /* Password must be between 4 and up to 20 characters with at least 1 capital letter, 1 lower case letter, and 1 
          * special character of [! @ # $ % ^ & * + = ? - _ . ,] */
         public const string PasswordRegexPattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*+=?-_.,]).{4,20}$";
-        /* User name must be at least f characters and can contain alphanumeric characters and special characters of
+        /* User name must be at least 4 characters and can contain alphanumeric characters and special characters of
          * [! @ # $ % ^ & * + = ? - _ . ,] */
         public const string UserNameRegexPattern = @"^[a-zA-Z0-9!@#$%^&*+=<>?-_.,].{3,}$";
     }
