@@ -20,7 +20,7 @@ namespace SudokuCollective.Data.Models.Requests
             }
             set
             {
-                if (value != null && _emailRegexAttribute.IsValid(value))
+                if (!string.IsNullOrEmpty(value) && _emailRegexAttribute.IsValid(value))
                 {
                     _email = value;
                 }
@@ -35,7 +35,7 @@ namespace SudokuCollective.Data.Models.Requests
             }
             set
             {
-                if (value != null && _guidRegexAttribute.IsValid(value))
+                if (!string.IsNullOrEmpty(value) && _guidRegexAttribute.IsValid(value))
                 {
                     _license = value;
                 }

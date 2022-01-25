@@ -16,6 +16,7 @@ namespace SudokuCollective.Core.Models
         private string _license = string.Empty;
         private TimeFrame _timeFrame = TimeFrame.NULL;
         private int _accessDuration = 0;
+        private readonly GuidValidatedAttribute _guidValidator = new();
         #endregion
 
         #region Properties
@@ -32,9 +33,7 @@ namespace SudokuCollective.Core.Models
             }
             set
             {
-                var validator = new GuidValidatedAttribute();
-
-                if (!string.IsNullOrEmpty(value) && validator.IsValid(value))
+                if (!string.IsNullOrEmpty(value) && _guidValidator.IsValid(value))
                 {
                     _license = value;
                 }

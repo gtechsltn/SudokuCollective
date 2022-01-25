@@ -22,7 +22,7 @@ namespace SudokuCollective.Data.Models.Requests
             }
             set
             {
-                if (value != null && _userNameValidator.IsValid(value))
+                if (!string.IsNullOrEmpty(value) && _userNameValidator.IsValid(value))
                 {
                     _userName = value;
                 }
@@ -42,7 +42,7 @@ namespace SudokuCollective.Data.Models.Requests
             }
             set
             {
-                if (value != null && _emailValidator.IsValid(value))
+                if (!string.IsNullOrEmpty(value) && _emailValidator.IsValid(value))
                 {
                     _email = value;
                 }
@@ -57,7 +57,7 @@ namespace SudokuCollective.Data.Models.Requests
             }
             set
             {
-                if (value != null && _passwordValidator.IsValid(value))
+                if (!string.IsNullOrEmpty(value) && _passwordValidator.IsValid(value))
                 {
                     _password = value;
                 }

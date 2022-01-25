@@ -20,6 +20,8 @@ namespace SudokuCollective.Core.Models
         private string _password = string.Empty;
         private bool _isSuperUser;
         private bool _isAdmin;
+        private readonly EmailValidatedAttribute _emailValidator = new();
+        private readonly PasswordValidatedAttribute _passwordValidator = new();
         #endregion
 
         #region Properties
@@ -69,15 +71,10 @@ namespace SudokuCollective.Core.Models
 
             set
             {
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrEmpty(value) && _emailValidator.IsValid(value))
                 {
-                    var regex = new Regex(RegexValidators.EmailRegexPattern);
-
-                    if (regex.IsMatch(value))
-                    {
-                        _email = value;
-                        IsEmailConfirmed = false;
-                    }
+                    _email = value;
+                    IsEmailConfirmed = false;
                 }
             }
         }
@@ -94,14 +91,9 @@ namespace SudokuCollective.Core.Models
 
             set
             {
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrEmpty(value) && _passwordValidator.IsValid(value))
                 {
-                    var regex = new Regex(RegexValidators.PasswordRegexPattern);
-
-                    if (regex.IsMatch(value))
-                    {
-                        _password = value;
-                    }
+                    _password = value;
                 }
             }
         }
