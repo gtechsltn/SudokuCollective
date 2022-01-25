@@ -34,6 +34,20 @@ namespace SudokuCollective.Data.Models.Params
             IncludeCompletedGames = includeCompletedGames;
         }
 
+        public Paginator(
+            int page,
+            int itemsPerPage,
+            SortValue sortValue,
+            bool orderByDescending,
+            bool includeCompletedGames)
+        {
+            Page = page;
+            ItemsPerPage = itemsPerPage;
+            SortBy = sortValue;
+            OrderByDescending = orderByDescending;
+            IncludeCompletedGames = includeCompletedGames;
+        }
+
         public bool IsNull()
         {
             var result = false;
