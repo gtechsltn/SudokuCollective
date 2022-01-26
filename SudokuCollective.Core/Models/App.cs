@@ -237,7 +237,7 @@ namespace SudokuCollective.Core.Models
         [Required]
         public DateTime DateUpdated { get; set; }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         ICollection<IUserApp> IApp.Users
         {
             get { return Users.ConvertAll(u => (IUserApp)u); }

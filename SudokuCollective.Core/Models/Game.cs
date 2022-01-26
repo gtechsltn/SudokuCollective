@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
@@ -15,7 +14,7 @@ namespace SudokuCollective.Core.Models
         public int Id { get; set; }
         [Required]
         public int UserId { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         IUser IGame.User
         { 
             get
@@ -27,11 +26,11 @@ namespace SudokuCollective.Core.Models
                 User = (User)value;
             }
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public User User { get; set; }
         [Required]
         public int SudokuMatrixId { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         ISudokuMatrix IGame.SudokuMatrix
         {
             get
@@ -47,7 +46,7 @@ namespace SudokuCollective.Core.Models
         public virtual SudokuMatrix SudokuMatrix { get; set; }
         [Required]
         public int SudokuSolutionId { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         ISudokuSolution IGame.SudokuSolution
         {
             get

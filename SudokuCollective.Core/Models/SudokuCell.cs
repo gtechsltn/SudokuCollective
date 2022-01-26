@@ -149,7 +149,7 @@ namespace SudokuCollective.Core.Models
         }
         public bool Hidden { get; set; }
         public int SudokuMatrixId { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         ISudokuMatrix ISudokuCell.SudokuMatrix
         {
             get
@@ -161,7 +161,7 @@ namespace SudokuCollective.Core.Models
                 SudokuMatrix = (SudokuMatrix)value;
             }
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public virtual SudokuMatrix SudokuMatrix { get; set; }
         [IgnoreDataMember]
         ICollection<IAvailableValue> ISudokuCell.AvailableValues

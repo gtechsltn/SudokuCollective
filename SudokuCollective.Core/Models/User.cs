@@ -157,7 +157,7 @@ namespace SudokuCollective.Core.Models
         public DateTime DateCreated { get; set; }
         [Required]
         public DateTime DateUpdated { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         ICollection<IGame> IUser.Games
         {
             get
@@ -171,7 +171,7 @@ namespace SudokuCollective.Core.Models
         }
         [Required]
         public virtual List<Game> Games { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         ICollection<IUserRole> IUser.Roles
         {
             get
@@ -185,7 +185,7 @@ namespace SudokuCollective.Core.Models
         }
         [Required]
         public virtual List<UserRole> Roles { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         ICollection<IUserApp> IUser.Apps
         {
             get
