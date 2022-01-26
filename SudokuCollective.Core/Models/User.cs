@@ -4,10 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
-using System.Text.RegularExpressions;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
-using SudokuCollective.Core.Validation;
 using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Core.Models
@@ -20,6 +18,7 @@ namespace SudokuCollective.Core.Models
         private string _password = string.Empty;
         private bool _isSuperUser;
         private bool _isAdmin;
+        private readonly UserNameValidatedAttribute _userNameValidatedAttribute = new();
         private readonly EmailValidatedAttribute _emailValidator = new();
         private readonly PasswordValidatedAttribute _passwordValidator = new();
         #endregion
@@ -37,18 +36,9 @@ namespace SudokuCollective.Core.Models
 
             set
             {
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrEmpty(value) && _userNameValidatedAttribute.IsValid(value))
                 {
-                    var regex = new Regex(RegexValidators.UserNameRegexPattern);
-
-                    if (regex.IsMatch(value))
-                    {
-                        _userName = value;
-                    }
-                }
-                else
-                {
-                    _userName = string.Empty;
+                    _userName = value;
                 }
             }
         }
@@ -81,7 +71,7 @@ namespace SudokuCollective.Core.Models
         [Required]
         public bool IsEmailConfirmed { get; set; }
         public bool ReceivedRequestToUpdateEmail { get; set; }
-        [IgnoreDataMember, PasswordValidated(ErrorMessage = "Password must be between 4 and up to 20 characters with at least 1 capital letter, 1 lower case letter, and 1 special character of[! @ # $ % ^ & * + = ? - _ . ,]")]
+        [IgnoreDataMember, PasswordValidated(ErrorMessage = "Password must be between 4 and up to 20 characters with at least 1 capital letter, 1 lower case letter, and 1 special character of [! @ # $ % ^ & * + = ? - _ . ,]")]
         public string Password
         {
             get

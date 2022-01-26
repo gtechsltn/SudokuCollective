@@ -48,7 +48,7 @@ namespace SudokuCollective.Data.Models.Requests
                 }
             }
         }
-        [Required, PasswordValidated(ErrorMessage = "Password must be between 4 and up to 20 characters with at least 1 capital letter, 1 lower case letter, and 1 special character of[! @ # $ % ^ & * + = ? - _ . ,]")]
+        [Required, PasswordValidated(ErrorMessage = "Password must be between 4 and up to 20 characters with at least 1 capital letter, 1 lower case letter, and 1 special character of [! @ # $ % ^ & * + = ? - _ . ,]")]
         public string Password
         {
             get
