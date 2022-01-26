@@ -13,14 +13,14 @@ using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.Repositories
 {
-    public class MockAppsRepository
+    public class MockedAppsRepository
     {
         private readonly DatabaseContext context;
         internal Mock<IAppsRepository<App>> SuccessfulRequest { get; set; }
         internal Mock<IAppsRepository<App>> FailedRequest { get; set; }
         internal Mock<IAppsRepository<App>> InitiatePasswordSuccessfulRequest { get; set; }
 
-        public MockAppsRepository(DatabaseContext ctxt)
+        public MockedAppsRepository(DatabaseContext ctxt)
         {
             context = ctxt;
             var todaysDate = DateTime.UtcNow;
@@ -29,8 +29,8 @@ namespace SudokuCollective.Test.Repositories
             FailedRequest = new Mock<IAppsRepository<App>>();
             InitiatePasswordSuccessfulRequest = new Mock<IAppsRepository<App>>();
 
-            SuccessfulRequest.Setup(appsRepo =>
-                appsRepo.Add(It.IsAny<App>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.Add(It.IsAny<App>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
@@ -56,32 +56,32 @@ namespace SudokuCollective.Test.Repositories
                             DateTime.MinValue)
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appsRepo =>
-                appsRepo.Get(It.IsAny<int>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
                         Object = context.Apps.FirstOrDefault(a => a.Id == 1)
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appsRepo =>
-                appsRepo.GetByLicense(It.IsAny<string>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.GetByLicense(It.IsAny<string>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
                         Object = context.Apps.FirstOrDefault(a => a.Id == 1)
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appsRepo =>
-                appsRepo.GetAll())
+            SuccessfulRequest.Setup(repo =>
+                repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
                         Success = true,
                         Objects = context.Apps.ToList().ConvertAll(a => (IDomainEntity)a)
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appsRepo =>
-                appsRepo.GetMyApps(It.IsAny<int>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.GetMyApps(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
@@ -92,8 +92,8 @@ namespace SudokuCollective.Test.Repositories
                             .ConvertAll(a => (IDomainEntity)a)
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appsRepo =>
-                appsRepo.GetMyRegisteredApps(It.IsAny<int>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.GetMyRegisteredApps(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
                         Success = true,
@@ -104,8 +104,8 @@ namespace SudokuCollective.Test.Repositories
                             .ConvertAll(a => (IDomainEntity)a)
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appsRepo =>
-                appsRepo.GetAppUsers(It.IsAny<int>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.GetAppUsers(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
                         Success = true,
@@ -115,8 +115,8 @@ namespace SudokuCollective.Test.Repositories
                             .ConvertAll(a => (IDomainEntity)a)
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appsRepo =>
-                appsRepo.GetNonAppUsers(It.IsAny<int>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.GetNonAppUsers(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
@@ -126,241 +126,241 @@ namespace SudokuCollective.Test.Repositories
                             .ConvertAll(a => (IDomainEntity)a)
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appsRepo =>
-                appsRepo.Update(It.IsAny<App>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.Update(It.IsAny<App>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
                         Success = true,
                         Object = context.Apps.FirstOrDefault(a => a.Id == 1)
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appsRepo => 
-                appsRepo.UpdateRange(It.IsAny<List<App>>()))
+            SuccessfulRequest.Setup(repo => 
+                repo.UpdateRange(It.IsAny<List<App>>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appsRepo =>
-                appsRepo.AddAppUser(It.IsAny<int>(), It.IsAny<string>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.AddAppUser(It.IsAny<int>(), It.IsAny<string>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appsRepo =>
-                appsRepo.RemoveAppUser(It.IsAny<int>(), It.IsAny<string>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.RemoveAppUser(It.IsAny<int>(), It.IsAny<string>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appsRepo =>
-                appsRepo.Delete(It.IsAny<App>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.Delete(It.IsAny<App>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appsRepo =>
-                appsRepo.DeleteRange(It.IsAny<List<App>>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.DeleteRange(It.IsAny<List<App>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appsRepo =>
-                appsRepo.Reset(It.IsAny<App>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.Reset(It.IsAny<App>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appsRepo =>
-                appsRepo.Activate(It.IsAny<int>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.Activate(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appsRepo =>
-                appsRepo.Deactivate(It.IsAny<int>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.Deactivate(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appsRepo =>
-                appsRepo.HasEntity(It.IsAny<int>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.HasEntity(It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
-            SuccessfulRequest.Setup(appsRepo =>
-                appsRepo.IsAppLicenseValid(It.IsAny<string>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.IsAppLicenseValid(It.IsAny<string>()))
                     .Returns(Task.FromResult(true));
 
-            SuccessfulRequest.Setup(appsRepo =>
-                appsRepo.GetLicense(It.IsAny<int>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.GetLicense(It.IsAny<int>()))
                     .Returns(Task.FromResult(
                         TestObjects.GetLicense()));
 
-            SuccessfulRequest.Setup(appsRepo =>
-                appsRepo.IsUserRegisteredToApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.IsUserRegisteredToApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
-            SuccessfulRequest.Setup(appsRepo =>
-                appsRepo.IsUserOwnerOfApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.IsUserOwnerOfApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
-            FailedRequest.Setup(appsRepo =>
-                appsRepo.Add(It.IsAny<App>()))
+            FailedRequest.Setup(repo =>
+                repo.Add(It.IsAny<App>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false,
                         Object = null
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appsRepo =>
-                appsRepo.Get(It.IsAny<int>()))
+            FailedRequest.Setup(repo =>
+                repo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false,
                         Object = null
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appsRepo =>
-                appsRepo.GetByLicense(It.IsAny<string>()))
+            FailedRequest.Setup(repo =>
+                repo.GetByLicense(It.IsAny<string>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false,
                         Object = null
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appsRepo =>
-                appsRepo.GetAll())
+            FailedRequest.Setup(repo =>
+                repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false,
                         Objects = null
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appsRepo =>
-                appsRepo.GetMyApps(It.IsAny<int>()))
+            FailedRequest.Setup(repo =>
+                repo.GetMyApps(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false,
                         Objects = null
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appsRepo =>
-                appsRepo.GetMyRegisteredApps(It.IsAny<int>()))
+            FailedRequest.Setup(repo =>
+                repo.GetMyRegisteredApps(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false,
                         Objects = null
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appsRepo =>
-                appsRepo.GetAppUsers(It.IsAny<int>()))
+            FailedRequest.Setup(repo =>
+                repo.GetAppUsers(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false,
                         Objects = null
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appsRepo =>
-                appsRepo.GetNonAppUsers(It.IsAny<int>()))
+            FailedRequest.Setup(repo =>
+                repo.GetNonAppUsers(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false,
                         Objects = null
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appsRepo =>
-                appsRepo.Update(It.IsAny<App>()))
+            FailedRequest.Setup(repo =>
+                repo.Update(It.IsAny<App>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false,
                         Object = null
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appsRepo =>
-                appsRepo.UpdateRange(It.IsAny<List<App>>()))
+            FailedRequest.Setup(repo =>
+                repo.UpdateRange(It.IsAny<List<App>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appsRepo =>
-                appsRepo.AddAppUser(It.IsAny<int>(), It.IsAny<string>()))
+            FailedRequest.Setup(repo =>
+                repo.AddAppUser(It.IsAny<int>(), It.IsAny<string>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appsRepo =>
-                appsRepo.RemoveAppUser(It.IsAny<int>(), It.IsAny<string>()))
+            FailedRequest.Setup(repo =>
+                repo.RemoveAppUser(It.IsAny<int>(), It.IsAny<string>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appsRepo =>
-                appsRepo.Delete(It.IsAny<App>()))
+            FailedRequest.Setup(repo =>
+                repo.Delete(It.IsAny<App>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appsRepo =>
-                appsRepo.DeleteRange(It.IsAny<List<App>>()))
+            FailedRequest.Setup(repo =>
+                repo.DeleteRange(It.IsAny<List<App>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appsRepo =>
-                appsRepo.Reset(It.IsAny<App>()))
+            FailedRequest.Setup(repo =>
+                repo.Reset(It.IsAny<App>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appsRepo =>
-                appsRepo.Activate(It.IsAny<int>()))
+            FailedRequest.Setup(repo =>
+                repo.Activate(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appsRepo =>
-                appsRepo.Deactivate(It.IsAny<int>()))
+            FailedRequest.Setup(repo =>
+                repo.Deactivate(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appsRepo =>
-                appsRepo.HasEntity(It.IsAny<int>()))
+            FailedRequest.Setup(repo =>
+                repo.HasEntity(It.IsAny<int>()))
                     .Returns(Task.FromResult(false));
 
-            FailedRequest.Setup(appsRepo =>
-                appsRepo.IsAppLicenseValid(It.IsAny<string>()))
+            FailedRequest.Setup(repo =>
+                repo.IsAppLicenseValid(It.IsAny<string>()))
                     .Returns(Task.FromResult(false));
 
-            FailedRequest.Setup(appsRepo =>
-                appsRepo.GetLicense(It.IsAny<int>()))
+            FailedRequest.Setup(repo =>
+                repo.GetLicense(It.IsAny<int>()))
                     .Returns(Task.FromResult(string.Empty));
 
-            FailedRequest.Setup(appsRepo =>
-                appsRepo.IsUserRegisteredToApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
+            FailedRequest.Setup(repo =>
+                repo.IsUserRegisteredToApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(false));
 
-            FailedRequest.Setup(appsRepo =>
-                appsRepo.IsUserOwnerOfApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
+            FailedRequest.Setup(repo =>
+                repo.IsUserOwnerOfApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(false));
 
-            InitiatePasswordSuccessfulRequest.Setup(appsRepo =>
-                appsRepo.Add(It.IsAny<App>()))
+            InitiatePasswordSuccessfulRequest.Setup(repo =>
+                repo.Add(It.IsAny<App>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
@@ -386,32 +386,32 @@ namespace SudokuCollective.Test.Repositories
                             DateTime.MinValue)
                     } as IRepositoryResponse));
 
-            InitiatePasswordSuccessfulRequest.Setup(appsRepo =>
-                appsRepo.Get(It.IsAny<int>()))
+            InitiatePasswordSuccessfulRequest.Setup(repo =>
+                repo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
                         Object = context.Apps.FirstOrDefault(a => a.Id == 2)
                     } as IRepositoryResponse));
 
-            InitiatePasswordSuccessfulRequest.Setup(appsRepo =>
-                appsRepo.GetByLicense(It.IsAny<string>()))
+            InitiatePasswordSuccessfulRequest.Setup(repo =>
+                repo.GetByLicense(It.IsAny<string>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
                         Object = context.Apps.FirstOrDefault(a => a.Id == 1)
                     } as IRepositoryResponse));
 
-            InitiatePasswordSuccessfulRequest.Setup(appsRepo =>
-                appsRepo.GetAll())
+            InitiatePasswordSuccessfulRequest.Setup(repo =>
+                repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
                         Objects = context.Apps.ToList().ConvertAll(a => (IDomainEntity)a)
                     } as IRepositoryResponse));
 
-            InitiatePasswordSuccessfulRequest.Setup(appsRepo =>
-                appsRepo.GetMyApps(It.IsAny<int>()))
+            InitiatePasswordSuccessfulRequest.Setup(repo =>
+                repo.GetMyApps(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
@@ -422,16 +422,16 @@ namespace SudokuCollective.Test.Repositories
                             .ConvertAll(a => (IDomainEntity)a)
                     } as IRepositoryResponse));
 
-            InitiatePasswordSuccessfulRequest.Setup(appsRepo =>
-                appsRepo.GetMyRegisteredApps(It.IsAny<int>()))
+            InitiatePasswordSuccessfulRequest.Setup(repo =>
+                repo.GetMyRegisteredApps(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false,
                         Objects = null
                     } as IRepositoryResponse));
 
-            InitiatePasswordSuccessfulRequest.Setup(appsRepo =>
-                appsRepo.GetAppUsers(It.IsAny<int>()))
+            InitiatePasswordSuccessfulRequest.Setup(repo =>
+                repo.GetAppUsers(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
@@ -441,8 +441,8 @@ namespace SudokuCollective.Test.Repositories
                             .ConvertAll(a => (IDomainEntity)a)
                     } as IRepositoryResponse));
 
-            InitiatePasswordSuccessfulRequest.Setup(appsRepo =>
-                appsRepo.GetNonAppUsers(It.IsAny<int>()))
+            InitiatePasswordSuccessfulRequest.Setup(repo =>
+                repo.GetNonAppUsers(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
@@ -452,89 +452,89 @@ namespace SudokuCollective.Test.Repositories
                             .ConvertAll(a => (IDomainEntity)a)
                     } as IRepositoryResponse));
 
-            InitiatePasswordSuccessfulRequest.Setup(appsRepo =>
-                appsRepo.Update(It.IsAny<App>()))
+            InitiatePasswordSuccessfulRequest.Setup(repo =>
+                repo.Update(It.IsAny<App>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
                         Object = context.Apps.FirstOrDefault(a => a.Id == 1)
                     } as IRepositoryResponse));
 
-            InitiatePasswordSuccessfulRequest.Setup(appsRepo =>
-                appsRepo.UpdateRange(It.IsAny<List<App>>()))
+            InitiatePasswordSuccessfulRequest.Setup(repo =>
+                repo.UpdateRange(It.IsAny<List<App>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            InitiatePasswordSuccessfulRequest.Setup(appsRepo =>
-                appsRepo.AddAppUser(It.IsAny<int>(), It.IsAny<string>()))
+            InitiatePasswordSuccessfulRequest.Setup(repo =>
+                repo.AddAppUser(It.IsAny<int>(), It.IsAny<string>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            InitiatePasswordSuccessfulRequest.Setup(appsRepo =>
-                appsRepo.RemoveAppUser(It.IsAny<int>(), It.IsAny<string>()))
+            InitiatePasswordSuccessfulRequest.Setup(repo =>
+                repo.RemoveAppUser(It.IsAny<int>(), It.IsAny<string>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            InitiatePasswordSuccessfulRequest.Setup(appsRepo =>
-                appsRepo.Delete(It.IsAny<App>()))
+            InitiatePasswordSuccessfulRequest.Setup(repo =>
+                repo.Delete(It.IsAny<App>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            InitiatePasswordSuccessfulRequest.Setup(appsRepo =>
-                appsRepo.DeleteRange(It.IsAny<List<App>>()))
+            InitiatePasswordSuccessfulRequest.Setup(repo =>
+                repo.DeleteRange(It.IsAny<List<App>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            InitiatePasswordSuccessfulRequest.Setup(appsRepo =>
-                appsRepo.Reset(It.IsAny<App>()))
+            InitiatePasswordSuccessfulRequest.Setup(repo =>
+                repo.Reset(It.IsAny<App>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            InitiatePasswordSuccessfulRequest.Setup(appsRepo =>
-                appsRepo.Activate(It.IsAny<int>()))
+            InitiatePasswordSuccessfulRequest.Setup(repo =>
+                repo.Activate(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            InitiatePasswordSuccessfulRequest.Setup(appsRepo =>
-                appsRepo.Deactivate(It.IsAny<int>()))
+            InitiatePasswordSuccessfulRequest.Setup(repo =>
+                repo.Deactivate(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            InitiatePasswordSuccessfulRequest.Setup(appsRepo =>
-                appsRepo.HasEntity(It.IsAny<int>()))
+            InitiatePasswordSuccessfulRequest.Setup(repo =>
+                repo.HasEntity(It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
-            InitiatePasswordSuccessfulRequest.Setup(appsRepo =>
-                appsRepo.IsAppLicenseValid(It.IsAny<string>()))
+            InitiatePasswordSuccessfulRequest.Setup(repo =>
+                repo.IsAppLicenseValid(It.IsAny<string>()))
                     .Returns(Task.FromResult(true));
 
-            InitiatePasswordSuccessfulRequest.Setup(appsRepo =>
-                appsRepo.GetLicense(It.IsAny<int>()))
+            InitiatePasswordSuccessfulRequest.Setup(repo =>
+                repo.GetLicense(It.IsAny<int>()))
                     .Returns(Task.FromResult(
                         TestObjects.GetLicense()));
 
-            InitiatePasswordSuccessfulRequest.Setup(appsRepo =>
-                appsRepo.IsUserRegisteredToApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
+            InitiatePasswordSuccessfulRequest.Setup(repo =>
+                repo.IsUserRegisteredToApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
-            InitiatePasswordSuccessfulRequest.Setup(appsRepo =>
-                appsRepo.IsUserOwnerOfApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
+            InitiatePasswordSuccessfulRequest.Setup(repo =>
+                repo.IsUserOwnerOfApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
         }
     }

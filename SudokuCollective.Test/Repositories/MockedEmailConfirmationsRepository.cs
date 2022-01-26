@@ -9,37 +9,37 @@ using SudokuCollective.Data.Models;
 
 namespace SudokuCollective.Test.Repositories
 {
-    public class MockEmailConfirmationsRepository
+    public class MockedEmailConfirmationsRepository
     {
         private readonly DatabaseContext context;
         internal Mock<IEmailConfirmationsRepository<EmailConfirmation>> SuccessfulRequest { get; set; }
         internal Mock<IEmailConfirmationsRepository<EmailConfirmation>> FailedRequest { get; set; }
 
-        public MockEmailConfirmationsRepository(DatabaseContext ctxt)
+        public MockedEmailConfirmationsRepository(DatabaseContext ctxt)
         {
             context = ctxt;
 
             SuccessfulRequest = new Mock<IEmailConfirmationsRepository<EmailConfirmation>>();
             FailedRequest = new Mock<IEmailConfirmationsRepository<EmailConfirmation>>();
 
-            SuccessfulRequest.Setup(emailConfirmationsRepo =>
-                emailConfirmationsRepo.Create(It.IsAny<EmailConfirmation>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.Create(It.IsAny<EmailConfirmation>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
                         Object = new EmailConfirmation()
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(emailConfirmationsRepo =>
-                emailConfirmationsRepo.Get(It.IsAny<string>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.Get(It.IsAny<string>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
                         Object = context.EmailConfirmations.FirstOrDefault(ec => ec.Id == 1)
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(emailConfirmationsRepo =>
-                emailConfirmationsRepo.GetAll())
+            SuccessfulRequest.Setup(repo =>
+                repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
@@ -48,82 +48,82 @@ namespace SudokuCollective.Test.Repositories
                             .ConvertAll(d => (IDomainEntity)d)
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(emailConfirmationsRepo =>
-                emailConfirmationsRepo.Update(It.IsAny<EmailConfirmation>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.Update(It.IsAny<EmailConfirmation>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
                         Object = context.EmailConfirmations.FirstOrDefault(ec => ec.Id == 1)
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(emailConfirmationsRepo =>
-                emailConfirmationsRepo.Delete(It.IsAny<EmailConfirmation>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.Delete(It.IsAny<EmailConfirmation>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(emailConfirmationsRepo =>
-                emailConfirmationsRepo.HasEntity(It.IsAny<int>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.HasEntity(It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
-            SuccessfulRequest.Setup(emailConfirmationsRepo =>
-                emailConfirmationsRepo.HasOutstandingEmailConfirmation(It.IsAny<int>(), It.IsAny<int>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.HasOutstandingEmailConfirmation(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
-            SuccessfulRequest.Setup(emailConfirmationsRepo =>
-                emailConfirmationsRepo.RetrieveEmailConfirmation(It.IsAny<int>(), It.IsAny<int>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.RetrieveEmailConfirmation(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
                         Success = true,
                         Object = context.EmailConfirmations.FirstOrDefault(ec => ec.Id == 1)
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(emailConfirmationsRepo =>
-                emailConfirmationsRepo.Create(It.IsAny<EmailConfirmation>()))
+            FailedRequest.Setup(repo =>
+                repo.Create(It.IsAny<EmailConfirmation>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(emailConfirmationsRepo =>
-                emailConfirmationsRepo.Get(It.IsAny<string>()))
+            FailedRequest.Setup(repo =>
+                repo.Get(It.IsAny<string>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(emailConfirmationsRepo =>
-                emailConfirmationsRepo.GetAll())
+            FailedRequest.Setup(repo =>
+                repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(emailConfirmationsRepo =>
-                emailConfirmationsRepo.Update(It.IsAny<EmailConfirmation>()))
+            FailedRequest.Setup(repo =>
+                repo.Update(It.IsAny<EmailConfirmation>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(emailConfirmationsRepo =>
-                emailConfirmationsRepo.Delete(It.IsAny<EmailConfirmation>()))
+            FailedRequest.Setup(repo =>
+                repo.Delete(It.IsAny<EmailConfirmation>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(emailConfirmationsRepo =>
-                emailConfirmationsRepo.HasEntity(It.IsAny<int>()))
+            FailedRequest.Setup(repo =>
+                repo.HasEntity(It.IsAny<int>()))
                     .Returns(Task.FromResult(false));
 
-            FailedRequest.Setup(emailConfirmationsRepo =>
-                emailConfirmationsRepo.HasOutstandingEmailConfirmation(It.IsAny<int>(), It.IsAny<int>()))
+            FailedRequest.Setup(repo =>
+                repo.HasOutstandingEmailConfirmation(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(false));
 
-            FailedRequest.Setup(emailConfirmationsRepo =>
-                emailConfirmationsRepo.RetrieveEmailConfirmation(It.IsAny<int>(), It.IsAny<int>()))
+            FailedRequest.Setup(repo =>
+                repo.RetrieveEmailConfirmation(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
                         Success = false

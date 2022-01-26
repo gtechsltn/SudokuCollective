@@ -11,14 +11,14 @@ using SudokuCollective.Data.Models;
 
 namespace SudokuCollective.Test.Repositories
 {
-    public class MockDifficultiesRepository
+    public class MockedDifficultiesRepository
     {
         private readonly DatabaseContext context;
         internal Mock<IDifficultiesRepository<Difficulty>> SuccessfulRequest { get; set; }
         internal Mock<IDifficultiesRepository<Difficulty>> FailedRequest { get; set; }
         internal Mock<IDifficultiesRepository<Difficulty>> CreateDifficultyRequest { get; set; }
 
-        public MockDifficultiesRepository(DatabaseContext ctxt)
+        public MockedDifficultiesRepository(DatabaseContext ctxt)
         {
             context = ctxt;
 
@@ -26,24 +26,24 @@ namespace SudokuCollective.Test.Repositories
             FailedRequest = new Mock<IDifficultiesRepository<Difficulty>>();
             CreateDifficultyRequest = new Mock<IDifficultiesRepository<Difficulty>>();
 
-            SuccessfulRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.Add(It.IsAny<Difficulty>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.Add(It.IsAny<Difficulty>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
                         Success = true,
                         Object = new Difficulty() { DifficultyLevel = DifficultyLevel.NULL }
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.Get(It.IsAny<int>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
                         Object = context.Difficulties.FirstOrDefault(d => d.Id == 4)
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.GetAll())
+            SuccessfulRequest.Setup(repo =>
+                repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
                         Success = true,
@@ -54,118 +54,118 @@ namespace SudokuCollective.Test.Repositories
                             .ConvertAll(d => (IDomainEntity)d)
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.Update(It.IsAny<Difficulty>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.Update(It.IsAny<Difficulty>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
                         Object = context.Difficulties.FirstOrDefault(d => d.Id == 4)
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.UpdateRange(It.IsAny<List<Difficulty>>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.UpdateRange(It.IsAny<List<Difficulty>>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     { 
                         Success = true
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.Delete(It.IsAny<Difficulty>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.Delete(It.IsAny<Difficulty>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.DeleteRange(It.IsAny<List<Difficulty>>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.DeleteRange(It.IsAny<List<Difficulty>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.HasEntity(It.IsAny<int>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.HasEntity(It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
-            SuccessfulRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.HasDifficultyLevel(It.IsAny<DifficultyLevel>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.HasDifficultyLevel(It.IsAny<DifficultyLevel>()))
                     .Returns(Task.FromResult(true));
 
-            FailedRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.Add(It.IsAny<Difficulty>()))
+            FailedRequest.Setup(repo =>
+                repo.Add(It.IsAny<Difficulty>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.Get(It.IsAny<int>()))
+            FailedRequest.Setup(repo =>
+                repo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.GetAll())
+            FailedRequest.Setup(repo =>
+                repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.Update(It.IsAny<Difficulty>()))
+            FailedRequest.Setup(repo =>
+                repo.Update(It.IsAny<Difficulty>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.UpdateRange(It.IsAny<List<Difficulty>>()))
+            FailedRequest.Setup(repo =>
+                repo.UpdateRange(It.IsAny<List<Difficulty>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.Delete(It.IsAny<Difficulty>()))
+            FailedRequest.Setup(repo =>
+                repo.Delete(It.IsAny<Difficulty>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.DeleteRange(It.IsAny<List<Difficulty>>()))
+            FailedRequest.Setup(repo =>
+                repo.DeleteRange(It.IsAny<List<Difficulty>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.HasEntity(It.IsAny<int>()))
+            FailedRequest.Setup(repo =>
+                repo.HasEntity(It.IsAny<int>()))
                     .Returns(Task.FromResult(false));
 
-            FailedRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.HasDifficultyLevel(It.IsAny<DifficultyLevel>()))
+            FailedRequest.Setup(repo =>
+                repo.HasDifficultyLevel(It.IsAny<DifficultyLevel>()))
                     .Returns(Task.FromResult(false));
 
-            CreateDifficultyRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.Add(It.IsAny<Difficulty>()))
+            CreateDifficultyRequest.Setup(repo =>
+                repo.Add(It.IsAny<Difficulty>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
                         Object = new Difficulty() { DifficultyLevel = DifficultyLevel.NULL }
                     } as IRepositoryResponse));
 
-            CreateDifficultyRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.Get(It.IsAny<int>()))
+            CreateDifficultyRequest.Setup(repo =>
+                repo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
                         Object = context.Difficulties.FirstOrDefault(d => d.Id == 4)
                     } as IRepositoryResponse));
 
-            CreateDifficultyRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.GetAll())
+            CreateDifficultyRequest.Setup(repo =>
+                repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
@@ -176,41 +176,41 @@ namespace SudokuCollective.Test.Repositories
                             .ConvertAll(d => (IDomainEntity)d)
                     } as IRepositoryResponse));
 
-            CreateDifficultyRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.Update(It.IsAny<Difficulty>()))
+            CreateDifficultyRequest.Setup(repo =>
+                repo.Update(It.IsAny<Difficulty>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
                         Object = context.Difficulties.FirstOrDefault(d => d.Id == 4)
                     } as IRepositoryResponse));
 
-            CreateDifficultyRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.UpdateRange(It.IsAny<List<Difficulty>>()))
+            CreateDifficultyRequest.Setup(repo =>
+                repo.UpdateRange(It.IsAny<List<Difficulty>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            CreateDifficultyRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.Delete(It.IsAny<Difficulty>()))
+            CreateDifficultyRequest.Setup(repo =>
+                repo.Delete(It.IsAny<Difficulty>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            CreateDifficultyRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.DeleteRange(It.IsAny<List<Difficulty>>()))
+            CreateDifficultyRequest.Setup(repo =>
+                repo.DeleteRange(It.IsAny<List<Difficulty>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            CreateDifficultyRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.HasEntity(It.IsAny<int>()))
+            CreateDifficultyRequest.Setup(repo =>
+                repo.HasEntity(It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
-            CreateDifficultyRequest.Setup(difficultiesRepo =>
-                difficultiesRepo.HasDifficultyLevel(It.IsAny<DifficultyLevel>()))
+            CreateDifficultyRequest.Setup(repo =>
+                repo.HasDifficultyLevel(It.IsAny<DifficultyLevel>()))
                     .Returns(Task.FromResult(false));
         }
     }

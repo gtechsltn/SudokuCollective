@@ -10,14 +10,14 @@ using SudokuCollective.Data.Models;
 
 namespace SudokuCollective.Test.Repositories
 {
-    public class MockAppAdminsRepository
+    public class MockedAppAdminsRepository
     {
         private readonly DatabaseContext context;
         internal Mock<IAppAdminsRepository<AppAdmin>> SuccessfulRequest { get; set; }
         internal Mock<IAppAdminsRepository<AppAdmin>> FailedRequest { get; set; }
         internal Mock<IAppAdminsRepository<AppAdmin>> PromoteUserRequest { get; set; }
 
-        public MockAppAdminsRepository(DatabaseContext ctxt)
+        public MockedAppAdminsRepository(DatabaseContext ctxt)
         {
             context = ctxt;
 
@@ -25,8 +25,8 @@ namespace SudokuCollective.Test.Repositories
             FailedRequest = new Mock<IAppAdminsRepository<AppAdmin>>();
             PromoteUserRequest = new Mock<IAppAdminsRepository<AppAdmin>>();
 
-            SuccessfulRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.Add(It.IsAny<AppAdmin>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.Add(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
                         Success = true,
@@ -37,16 +37,16 @@ namespace SudokuCollective.Test.Repositories
                             IsActive = true }
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.Get(It.IsAny<int>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
                         Object = context.AppAdmins.FirstOrDefault(aa => aa.Id == 1)
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.GetAll())
+            SuccessfulRequest.Setup(repo =>
+                repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
                         Success = true,
@@ -55,117 +55,117 @@ namespace SudokuCollective.Test.Repositories
                             .ConvertAll(aa => (IDomainEntity)aa)
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.Update(It.IsAny<AppAdmin>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.Update(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
                         Object = context.Difficulties.FirstOrDefault(d => d.Id == 1)
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.UpdateRange(It.IsAny<List<AppAdmin>>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.UpdateRange(It.IsAny<List<AppAdmin>>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     { 
                         Success = true
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.Delete(It.IsAny<AppAdmin>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.Delete(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.DeleteRange(It.IsAny<List<AppAdmin>>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.DeleteRange(It.IsAny<List<AppAdmin>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            SuccessfulRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.HasEntity(It.IsAny<int>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.HasEntity(It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
-            SuccessfulRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.HasAdminRecord(It.IsAny<int>(), It.IsAny<int>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.HasAdminRecord(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
-            SuccessfulRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.GetAdminRecord(It.IsAny<int>(), It.IsAny<int>()))
+            SuccessfulRequest.Setup(repo =>
+                repo.GetAdminRecord(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
                         Object = context.AppAdmins.FirstOrDefault(aa => aa.Id == 1)
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.Add(It.IsAny<AppAdmin>()))
+            FailedRequest.Setup(repo =>
+                repo.Add(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.Get(It.IsAny<int>()))
+            FailedRequest.Setup(repo =>
+                repo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.GetAll())
+            FailedRequest.Setup(repo =>
+                repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.Update(It.IsAny<AppAdmin>()))
+            FailedRequest.Setup(repo =>
+                repo.Update(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.UpdateRange(It.IsAny<List<AppAdmin>>()))
+            FailedRequest.Setup(repo =>
+                repo.UpdateRange(It.IsAny<List<AppAdmin>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.Delete(It.IsAny<AppAdmin>()))
+            FailedRequest.Setup(repo =>
+                repo.Delete(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.DeleteRange(It.IsAny<List<AppAdmin>>()))
+            FailedRequest.Setup(repo =>
+                repo.DeleteRange(It.IsAny<List<AppAdmin>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            FailedRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.HasEntity(It.IsAny<int>()))
+            FailedRequest.Setup(repo =>
+                repo.HasEntity(It.IsAny<int>()))
                     .Returns(Task.FromResult(false));
 
-            FailedRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.HasAdminRecord(It.IsAny<int>(), It.IsAny<int>()))
+            FailedRequest.Setup(repo =>
+                repo.HasAdminRecord(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(false));
 
-            FailedRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.GetAdminRecord(It.IsAny<int>(), It.IsAny<int>()))
+            FailedRequest.Setup(repo =>
+                repo.GetAdminRecord(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = false
                     } as IRepositoryResponse));
 
-            PromoteUserRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.Add(It.IsAny<AppAdmin>()))
+            PromoteUserRequest.Setup(repo =>
+                repo.Add(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
@@ -178,16 +178,16 @@ namespace SudokuCollective.Test.Repositories
                         }
                     } as IRepositoryResponse));
 
-            PromoteUserRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.Get(It.IsAny<int>()))
+            PromoteUserRequest.Setup(repo =>
+                repo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
                         Object = context.AppAdmins.FirstOrDefault(aa => aa.Id == 1)
                     } as IRepositoryResponse));
 
-            PromoteUserRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.GetAll())
+            PromoteUserRequest.Setup(repo =>
+                repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
@@ -196,45 +196,45 @@ namespace SudokuCollective.Test.Repositories
                             .ConvertAll(aa => (IDomainEntity)aa)
                     } as IRepositoryResponse));
 
-            PromoteUserRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.Update(It.IsAny<AppAdmin>()))
+            PromoteUserRequest.Setup(repo =>
+                repo.Update(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
                         Object = context.Difficulties.FirstOrDefault(d => d.Id == 1)
                     } as IRepositoryResponse));
 
-            PromoteUserRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.UpdateRange(It.IsAny<List<AppAdmin>>()))
+            PromoteUserRequest.Setup(repo =>
+                repo.UpdateRange(It.IsAny<List<AppAdmin>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            PromoteUserRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.Delete(It.IsAny<AppAdmin>()))
+            PromoteUserRequest.Setup(repo =>
+                repo.Delete(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            PromoteUserRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.DeleteRange(It.IsAny<List<AppAdmin>>()))
+            PromoteUserRequest.Setup(repo =>
+                repo.DeleteRange(It.IsAny<List<AppAdmin>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true
                     } as IRepositoryResponse));
 
-            PromoteUserRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.HasEntity(It.IsAny<int>()))
+            PromoteUserRequest.Setup(repo =>
+                repo.HasEntity(It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
-            PromoteUserRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.HasAdminRecord(It.IsAny<int>(), It.IsAny<int>()))
+            PromoteUserRequest.Setup(repo =>
+                repo.HasAdminRecord(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(false));
 
-            PromoteUserRequest.Setup(appAdminsRepo =>
-                appAdminsRepo.GetAdminRecord(It.IsAny<int>(), It.IsAny<int>()))
+            PromoteUserRequest.Setup(repo =>
+                repo.GetAdminRecord(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         Success = true,
