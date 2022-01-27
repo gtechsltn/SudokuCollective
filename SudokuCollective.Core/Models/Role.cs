@@ -17,7 +17,7 @@ namespace SudokuCollective.Core.Models
         public string Name { get; set; }
         [Required]
         public RoleLevel RoleLevel { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         ICollection<IUserRole> IRole.Users
         {
             get
@@ -29,7 +29,7 @@ namespace SudokuCollective.Core.Models
                 Users = value.ToList().ConvertAll(ur => (UserRole)ur);
             }
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public virtual List<UserRole> Users { get; set; }
         #endregion
 

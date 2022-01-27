@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 
@@ -12,7 +11,7 @@ namespace SudokuCollective.Core.Models
         public int Id { get; set; }
         [Required]
         public int UserId { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         IUser IUserApp.User
         {
             get
@@ -24,11 +23,11 @@ namespace SudokuCollective.Core.Models
                 User = (User)value;
             }
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public virtual User User { get; set; }
         [Required]
         public int AppId { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         IApp IUserApp.App
         {
             get
@@ -40,7 +39,7 @@ namespace SudokuCollective.Core.Models
                 App = (App)value;
             }
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public virtual App App { get; set; }
         #endregion
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
@@ -9,13 +10,11 @@ namespace SudokuCollective.Test.TestCases.Requests
     public class AnnonymousCheckRequestShould
     {
         private IAnnonymousCheckRequest sut;
-        private IAnnonymousCheckRequest sutInvalid;
 
         [SetUp]
         public void Setup()
         {
             sut = TestObjects.GetValidAnnonymousCheckRequest();
-            sutInvalid = TestObjects.GetInvalidAnnonymousCheckRequest();
         }
 
         [Test, Category("Requests")]
@@ -53,23 +52,6 @@ namespace SudokuCollective.Test.TestCases.Requests
         }
 
         [Test, Category("Requests")]
-        public void RejectsInvalidLists()
-        {
-            // Arrange and Act
-            
-            // Assert
-            Assert.That(sutInvalid.FirstRow.Count, Is.EqualTo(0));
-            Assert.That(sutInvalid.SecondRow.Count, Is.EqualTo(9));
-            Assert.That(sutInvalid.ThirdRow.Count, Is.EqualTo(9));
-            Assert.That(sutInvalid.FourthRow.Count, Is.EqualTo(9));
-            Assert.That(sutInvalid.FifthRow.Count, Is.EqualTo(9));
-            Assert.That(sutInvalid.SixthRow.Count, Is.EqualTo(9));
-            Assert.That(sutInvalid.SeventhRow.Count, Is.EqualTo(9));
-            Assert.That(sutInvalid.EighthRow.Count, Is.EqualTo(9));
-            Assert.That(sutInvalid.NinthRow.Count, Is.EqualTo(9));
-        }
-
-        [Test, Category("Requests")]
         public void HasADefaultConstructor()
         {
             // Arrange and Act
@@ -103,18 +85,27 @@ namespace SudokuCollective.Test.TestCases.Requests
         {
             // Arrange and Act
             sut = new AnnonymousCheckRequest(
-                new List<int> { 1, 7, 4, 6, 8, 2, 5, 3, 9 },
-                new List<int> { 3, 9, 2, 1, 5, 7, 6, 4, 8 },
-                new List<int> { 5, 6, 3, 4, 5, 6, 1, 7, 2 },
                 new List<int> { 7, 8, 5, 4, 1, 3, 2, 9, 6 },
-                new List<int> { 2, 1, 6, 5, 7, 9, 4, 8, 3 },
-                new List<int> { 9, 4, 3, 8, 2, 6, 7, 5, 1 },
-                new List<int> { 4, 5, 9, 2, 6, 8, 3, 1, 7 },
-                new List<int> { 6, 3, 7, 9, 4, 1, 8, 2, 5 },
-                new List<int> { 8, 2, 1, 7, 3, 5, 9, 6, 4 }); ;
+                new List<int> { 1, 4, 2, 8, 6, 9, 5, 7, 3 },
+                new List<int> { 6, 9, 3, 2, 7, 5, 4, 1, 8 },
+                new List<int> { 5, 1, 4, 3, 8, 2, 7, 6, 9 },
+                new List<int> { 2, 6, 7, 9, 4, 1, 3, 8, 5 },
+                new List<int> { 8, 3, 9, 7, 5, 6, 1, 2, 4 },
+                new List<int> { 4, 2, 1, 6, 3, 8, 9, 5, 7 },
+                new List<int> { 3, 5, 8, 1, 9, 7, 6, 4, 2 },
+                new List<int> { 9, 7, 6, 5, 2, 4, 8, 3, 1 });
 
             // Assert
             Assert.That(sut, Is.InstanceOf<AnnonymousCheckRequest>());
+        }
+
+        [Test, Category("Requests")]
+        public void ThrowsExceptionWithInvalidIntLists()
+        {
+            // Arrange and Act
+
+            // Assert
+            Assert.Throws<ArgumentException>(() => TestObjects.GetInvalidAnnonymousCheckRequest());
         }
     }
 }

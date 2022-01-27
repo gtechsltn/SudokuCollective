@@ -829,7 +829,7 @@ namespace SudokuCollective.Data.Services
                             foreach (var user in result.DataPacket)
                             {
                                 var emailConfirmed = ((IUser)user).IsEmailConfirmed;
-                                ((IUser)user).Email = null;
+                                ((IUser)user).HideEmail();
                                 ((IUser)user).IsEmailConfirmed = emailConfirmed;
                             }
                         }

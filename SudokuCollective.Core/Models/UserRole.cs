@@ -12,7 +12,7 @@ namespace SudokuCollective.Core.Models
         public int Id { get; set; }
         [Required]
         public int UserId { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         IUser IUserRole.User
         {
             get
@@ -24,11 +24,11 @@ namespace SudokuCollective.Core.Models
                 User = (User)value;
             }
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public virtual User User { get; set; }
         [Required]
         public int RoleId { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         IRole IUserRole.Role
         {
             get

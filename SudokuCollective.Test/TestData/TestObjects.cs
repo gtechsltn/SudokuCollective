@@ -498,7 +498,7 @@ namespace SudokuCollective.Test.TestData
                 LastName = "Doe",
                 UserName = "Johnny",
                 Email = "john.doe@example.com",
-                Password = "password1",
+                Password = "P@s5w1",
                 DateCreated = DateTime.UtcNow
             };
         }

@@ -56,8 +56,6 @@ namespace SudokuCollective.Test.TestData
 
             if (!await databaseContext.Users.AnyAsync())
             {
-                var salt = BCrypt.Net.BCrypt.GenerateSalt();
-
                 databaseContext.Users.AddRange(
 
                     new User(
@@ -69,7 +67,7 @@ namespace SudokuCollective.Test.TestData
                         "TestSuperUser@example.com",
                         true,
                         false,
-                        BCrypt.Net.BCrypt.HashPassword("T3stPass0rd?1", salt),
+                        "T3stPass0rd?1",
                         false,
                         true,
                         dateCreated,
@@ -84,7 +82,7 @@ namespace SudokuCollective.Test.TestData
                         "TestUser@example.com",
                         true,
                         false,
-                        BCrypt.Net.BCrypt.HashPassword("T3stPass0rd?2", salt),
+                        "T3stPass0rd?2",
                         false,
                         true,
                         dateCreated,
@@ -99,7 +97,7 @@ namespace SudokuCollective.Test.TestData
                         "TestUser2@example.com",
                         false,
                         false,
-                        BCrypt.Net.BCrypt.HashPassword("T3stPass0rd?3", salt),
+                        "T3stPass0rd?3",
                         true,
                         true,
                         dateCreated,
@@ -405,7 +403,7 @@ namespace SudokuCollective.Test.TestData
             {
                 databaseContext.EmailConfirmations.AddRange(
 
-                    new EmailConfirmation(1, 1, 1, "F5D6377E-B170-4335-A425-25066A112987", string.Empty, string.Empty, false, DateTime.UtcNow)
+                    new EmailConfirmation(1, 1, 1, "F5D6377E-B170-4335-A425-25066A112987", "oldEmail@example.com", "newEmail@example.com", false, DateTime.UtcNow)
                 );
 
                 await databaseContext.SaveChangesAsync();

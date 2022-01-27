@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
@@ -19,7 +18,7 @@ namespace SudokuCollective.Core.Models
         public string DisplayName { get; set; }
         [Required]
         public DifficultyLevel DifficultyLevel { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         ICollection<ISudokuMatrix> IDifficulty.Matrices
         { 
             get
@@ -31,7 +30,7 @@ namespace SudokuCollective.Core.Models
                 Matrices = value.ToList().ConvertAll(m => (SudokuMatrix)m);
             }
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public virtual List<SudokuMatrix> Matrices { get; set; }
         #endregion
 
