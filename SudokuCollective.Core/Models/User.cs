@@ -40,6 +40,10 @@ namespace SudokuCollective.Core.Models
                 {
                     _userName = value;
                 }
+                else
+                {
+                    throw new ArgumentException("User name must be at least 4 characters and can contain alphanumeric characters and special characters of [! @ # $ % ^ & * + = ? - _ . ,]");
+                }
             }
         }
         [Required]
@@ -66,12 +70,16 @@ namespace SudokuCollective.Core.Models
                     _email = value;
                     IsEmailConfirmed = false;
                 }
+                else
+                {
+                    throw new ArgumentException("Email must be in a valid format");
+                }
             }
         }
         [Required]
         public bool IsEmailConfirmed { get; set; }
         public bool ReceivedRequestToUpdateEmail { get; set; }
-        [IgnoreDataMember, PasswordValidated(ErrorMessage = "Password must be between 4 and up to 20 characters with at least 1 capital letter, 1 lower case letter, and 1 special character of [! @ # $ % ^ & * + = ? - _ . ,]")]
+        [IgnoreDataMember]
         public string Password
         {
             get
@@ -81,7 +89,7 @@ namespace SudokuCollective.Core.Models
 
             set
             {
-                if (!string.IsNullOrEmpty(value) && _passwordValidator.IsValid(value))
+                if (!string.IsNullOrEmpty(value))
                 {
                     _password = value;
                 }
@@ -217,14 +225,11 @@ namespace SudokuCollective.Core.Models
             Apps = new List<UserApp>();
 
             Id = 0;
-            UserName = string.Empty;
             FirstName = string.Empty;
             LastName = string.Empty;
             NickName = string.Empty;
-            Email = string.Empty;
             IsEmailConfirmed = false;
             ReceivedRequestToUpdateEmail = false;
-            Password = string.Empty;
             ReceivedRequestToUpdatePassword = false;
             DateCreated = DateTime.MinValue;
             DateUpdated = DateTime.MinValue;
@@ -298,6 +303,11 @@ namespace SudokuCollective.Core.Models
                     }
                 }
             }
+        }
+
+        public void HideEmail()
+        {
+            _email = null;
         }
         #endregion
     }

@@ -11,6 +11,8 @@ namespace SudokuCollective.Core.Models
         #region Fields
         private string _token = string.Empty;
         private string _oldEmailAddress = string.Empty;
+        private string _newEmailAddress = string.Empty;
+        private readonly EmailValidatedAttribute _emailValidatedAttribute = new();
         private readonly GuidValidatedAttribute _guidValidator = new();
         #endregion
 
@@ -34,8 +36,13 @@ namespace SudokuCollective.Core.Models
                 {
                     _token = value;
                 }
+                else
+                {
+                    throw new ArgumentException("Token must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters");
+                }
             }
         }
+        [EmailValidated(ErrorMessage = "Old email must be in a valid format")]
         public string OldEmailAddress
         {
             get
@@ -45,11 +52,37 @@ namespace SudokuCollective.Core.Models
 
             set
             {
-                _oldEmailAddress = value;
-                OldEmailAddressConfirmed = false;
+                if (!string.IsNullOrEmpty(value) && _emailValidatedAttribute.IsValid(value))
+                {
+                    _oldEmailAddress = value;
+                    OldEmailAddressConfirmed = false;
+                }
+                else
+                {
+                    throw new ArgumentException("Old email must be in a valid format");
+                }
             }
         }
-        public string NewEmailAddress { get; set; }
+        [EmailValidated(ErrorMessage = "New email must be in a valid format")]
+        public string NewEmailAddress
+        {
+            get
+            {
+                return _newEmailAddress;
+            }
+
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && _emailValidatedAttribute.IsValid(value))
+                {
+                    _newEmailAddress = value;
+                }
+                else
+                {
+                    throw new ArgumentException("New email must be in a valid format");
+                }
+            }
+        }
         public bool? OldEmailAddressConfirmed { get; set; }
         [Required]
         public bool IsUpdate
@@ -76,9 +109,6 @@ namespace SudokuCollective.Core.Models
             Id = 0;
             UserId = 0;
             AppId = 0;
-            Token = string.Empty;
-            OldEmailAddress = string.Empty;
-            NewEmailAddress = string.Empty;
             OldEmailAddressConfirmed = null;
             DateCreated = DateTime.MinValue;
         }
@@ -96,8 +126,14 @@ namespace SudokuCollective.Core.Models
             UserId = userId;
             AppId = appId;
             Token = Guid.NewGuid().ToString();
-            OldEmailAddress = oldEmailAddress;
-            NewEmailAddress = newEmailAddress;
+            if (!string.IsNullOrEmpty(oldEmailAddress))
+            {
+                OldEmailAddress = oldEmailAddress;
+            }
+            if (!string.IsNullOrEmpty(newEmailAddress))
+            {
+                NewEmailAddress = newEmailAddress;
+            }
             OldEmailAddressConfirmed = false;
             DateCreated = DateTime.UtcNow;
         }
@@ -116,9 +152,18 @@ namespace SudokuCollective.Core.Models
             Id = id;
             UserId = userId;
             AppId = appId;
-            Token = token;
-            OldEmailAddress = oldEmailAddress;
-            NewEmailAddress = newEmailAddress;
+            if (!string.IsNullOrEmpty(oldEmailAddress))
+            {
+                Token = token;
+            }
+            if (!string.IsNullOrEmpty(oldEmailAddress))
+            {
+                OldEmailAddress = oldEmailAddress;
+            }
+            if (!string.IsNullOrEmpty(newEmailAddress))
+            {
+                NewEmailAddress = newEmailAddress;
+            }
             OldEmailAddressConfirmed = oldEmailAddressConfirmed;
             DateCreated = dateCreated;
         }

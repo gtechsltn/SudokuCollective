@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Core.Validation.Attributes;
@@ -23,6 +24,10 @@ namespace SudokuCollective.Data.Models.Requests
                 if (!string.IsNullOrEmpty(value) && _passwordValidator.IsValid(value))
                 {
                     _newPassword = value;
+                }
+                else
+                {
+                    throw new ArgumentException("Password must be between 4 and up to 20 characters with at least 1 capital letter, 1 lower case letter, and 1 special character of [! @ # $ % ^ & * + = ? - _ . ,]");
                 }
             }
         }

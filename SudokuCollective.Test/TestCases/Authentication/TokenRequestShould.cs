@@ -1,6 +1,8 @@
 ﻿using NUnit.Framework;
 using SudokuCollective.Core.Interfaces.Models.TokenModels;
 using SudokuCollective.Data.Models.Authentication;
+using SudokuCollective.Test.TestData;
+using System;
 
 namespace SudokuCollective.Test.TestCases.Authentication
 {
@@ -39,10 +41,49 @@ namespace SudokuCollective.Test.TestCases.Authentication
         public void HasAConstructorThatAcceptsParams()
         {
             // Arrange and Act
-            sut = new TokenRequest("username", "password", "license");
+            sut = new TokenRequest("username", "T3stP4ssw0rd$", TestObjects.GetLicense());
 
             // Assert
             Assert.That(sut, Is.InstanceOf<TokenRequest>());
+        }
+
+        [Test, Category("Authentication")]
+        public void ThrowAnExceptionIfUserNameIsInvalid()
+        {
+            // Arrange
+            
+            // Act and Assert
+            Assert.Throws<ArgumentException>(
+                () => new TokenRequest(
+                    "usn", 
+                    "T3stP4ssw0rd$", 
+                    TestObjects.GetLicense()));
+        }
+
+        [Test, Category("Authentication")]
+        public void ThrowAnExceptionIfPasswordIsInvalid()
+        {
+            // Arrange
+
+            // Act and Assert
+            Assert.Throws<ArgumentException>(
+                () => new TokenRequest(
+                    "username",
+                    "test",
+                    TestObjects.GetLicense()));
+        }
+
+        [Test, Category("Authentication")]
+        public void ThrowAnExceptionIfLicenseIsInvalid()
+        {
+            // Arrange
+
+            // Act and Assert
+            Assert.Throws<ArgumentException>(
+                () => new TokenRequest(
+                    "username",
+                    "test",
+                    "license"));
         }
     }
 }

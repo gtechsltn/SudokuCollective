@@ -33,7 +33,7 @@ namespace SudokuCollective.Test.TestCases.Services
         private IAppsService sutPromoteUser;
         private DateTime dateCreated;
         private string license;
-        private Request baseRequest;
+        private Request request;
         private Paginator paginator;
         private int userId;
         private int appId;
@@ -80,7 +80,7 @@ namespace SudokuCollective.Test.TestCases.Services
 
             dateCreated = DateTime.UtcNow;
             license = TestObjects.GetLicense();
-            baseRequest = TestObjects.GetRequest();
+            request = TestObjects.GetRequest();
             paginator = TestObjects.GetPaginator();
             userId = 1;
             appId = 1;

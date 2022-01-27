@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Core.Utilities;
 
@@ -20,7 +19,7 @@ namespace SudokuCollective.Core.Validation.Attributes
             }
 
             // Reject if value cannot be cast to ISudokuCell list
-            if (value is not List<ISudokuCell> sudokuCells || sudokuCells.Count != 81)
+            if (value is not List<SudokuCell> sudokuCells || sudokuCells.Count > 81)
             {
                 return false;
             }

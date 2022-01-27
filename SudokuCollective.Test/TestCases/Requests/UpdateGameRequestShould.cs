@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
-using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
+using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models.Requests;
 using SudokuCollective.Test.TestData;
 
@@ -24,17 +25,17 @@ namespace SudokuCollective.Test.TestCases.Requests
 
             // Assert
             Assert.That(sut.GameId, Is.InstanceOf<int>());
-            Assert.That(sut.SudokuCells, Is.InstanceOf<List<ISudokuCell>>());
+            Assert.That(sut.SudokuCells, Is.InstanceOf<List<SudokuCell>>());
         }
 
         [Test, Category("Requests")]
         public void AcceptsValidSudokuCells()
         {
             // Arrange and Act
-            sut.SudokuCells = TestObjects.GetValidSudokuCells().ConvertAll(c => (ISudokuCell)c);
+            sut.SudokuCells = TestObjects.GetValidSudokuCells();
 
             // Assert
-            Assert.That(sut.SudokuCells, Is.InstanceOf<List<ISudokuCell>>());
+            Assert.That(sut.SudokuCells, Is.InstanceOf<List<SudokuCell>>());
             Assert.That(sut.SudokuCells.Count, Is.EqualTo(81));
         }
 
@@ -54,7 +55,6 @@ namespace SudokuCollective.Test.TestCases.Requests
             // Arrange
             var sudokuCellArray = TestObjects
                 .GetValidSudokuCells()
-                .ConvertAll(c => (ISudokuCell)c)
                 .ToArray();
 
             // Act
@@ -69,14 +69,27 @@ namespace SudokuCollective.Test.TestCases.Requests
         {
             // Arrange
             var sudokuCellList = TestObjects
-                .GetValidSudokuCells()
-                .ConvertAll(c => (ISudokuCell)c);
+                .GetValidSudokuCells();
 
             // Act
             sut = new UpdateGameRequest(1, sudokuCellList);
 
             // Assert
             Assert.That(sut, Is.InstanceOf<UpdateGameRequest>());
+        }
+
+        [Test, Category("Requests")]
+        public void ThrowsAnExceptionIfSudokuCellsAreInvalid()
+        {
+            // Arrange
+            var sudokuCellList = TestObjects
+                .GetValidSudokuCells();
+
+            sudokuCellList.Add(new SudokuCell());
+
+            // Act and Assert
+            Assert.Throws<ArgumentException>(() => 
+                new UpdateGameRequest(1, sudokuCellList));
         }
     }
 }

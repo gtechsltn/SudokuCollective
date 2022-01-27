@@ -113,25 +113,6 @@ namespace SudokuCollective.Test.TestCases.Models
         }
 
         [Test, Category("Models")]
-        public void RejectInvalidPasswords()
-        {
-            // Arrange
-
-            /* Between 4 and up to 20 characters with at least 1 capital letter, one lower case letter and one 
-             * special character of [!,@,#,$,%,^,&,*,+,=] */
-            var originalPassword = "T3stPassw0rd!";
-            var updatedPassword = "updatedp@ssw0rd";
-
-            sut.Password = originalPassword;
-
-            // Act
-            sut.Password = updatedPassword;
-
-            // Assert
-            Assert.That(((User)sut).Password, Is.EqualTo(originalPassword));
-        }
-
-        [Test, Category("Models")]
         public void HaveAnActiveStatus()
         {
             // Arrange and Act
@@ -234,7 +215,7 @@ namespace SudokuCollective.Test.TestCases.Models
         }
 
         [Test, Category("Models")]
-        public void RejectInvalidEmails()
+        public void InvalidEmailThrowException()
         {
             // Arrange
             var originalEmail = "test@example.com";
@@ -243,11 +224,18 @@ namespace SudokuCollective.Test.TestCases.Models
             sut.Email = originalEmail;
             sut.IsEmailConfirmed = true;
 
-            // Act
-            sut.Email = updatedEmail;
+            // Act and Assert
+            Assert.Throws<ArgumentException>(() => sut.Email = updatedEmail);
+        }
 
-            // Assert
-            Assert.That(((User)sut).Email, Is.EqualTo(originalEmail));
+        [Test, Category("Models")]
+        public void CanHideEmail()
+        {
+            // Arrange and Act
+            sut.HideEmail();
+
+            // Act and Assert
+            Assert.That(sut.Email, Is.Null);
         }
 
         [Test, Category("Models")]

@@ -82,6 +82,10 @@ namespace SudokuCollective.Core.Models
                 {
                     _sudokuCells = value;
                 }
+                else
+                {
+                    throw new ArgumentException("The list of sudoku values is not valid");
+                }
             }
         }
         [IgnoreDataMember]
@@ -534,8 +538,6 @@ namespace SudokuCollective.Core.Models
             var columnIndexer = 1;
             var regionIndexer = 1;
             var rowIndexer = 1;
-
-            SudokuCells = new List<SudokuCell>();
 
             for (var i = 1; i < 82; i++)
             {

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using SudokuCollective.Core.Interfaces.Models.TokenModels;
 using SudokuCollective.Core.Validation.Attributes;
 
@@ -26,6 +27,10 @@ namespace SudokuCollective.Data.Models.Authentication
                 {
                     _userName = value;
                 }
+                else
+                {
+                    throw new ArgumentException("User name must be at least 4 characters and can contain alphanumeric characters and special characters of [! @ # $ % ^ & * + = ? - _ . ,]");
+                }
             }
         }
 
@@ -42,6 +47,10 @@ namespace SudokuCollective.Data.Models.Authentication
                 {
                     _password = value;
                 }
+                else
+                {
+                    throw new ArgumentException("Password must be between 4 and up to 20 characters with at least 1 capital letter, 1 lower case letter, and 1 special character of [! @ # $ % ^ & * + = ? - _ . ,]");
+                }
             }
         }
 
@@ -57,6 +66,10 @@ namespace SudokuCollective.Data.Models.Authentication
                 if (!string.IsNullOrEmpty(value) && _guidValidator.IsValid(value))
                 {
                     _license = value;
+                }
+                else
+                {
+                    throw new ArgumentException("Guid must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters");
                 }
             }
         }

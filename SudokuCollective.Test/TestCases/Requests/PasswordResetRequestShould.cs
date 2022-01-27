@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Data.Models.Requests;
 
@@ -45,13 +46,12 @@ namespace SudokuCollective.Test.TestCases.Requests
         }
 
         [Test, Category("Requests")]
-        public void RejectInvalidPasswords()
+        public void ThrowsExceptionForInvalidPasswords()
         {
-            // Arrange and Act
-            sut.NewPassword = "invalidpassword";
+            // Arrange
 
-            // Assert
-            Assert.That(sut.NewPassword, Is.EqualTo(string.Empty));
+            // Act and Assert
+            Assert.Throws<ArgumentException>(() => sut.NewPassword = "invalidpassword");
         }
     }
 }

@@ -6,6 +6,7 @@ using SudokuCollective.Core.Models;
 using SudokuCollective.Core.Interfaces.Models;
 using SudokuCollective.Core.Enums;
 using System.Linq;
+using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Models
 {
@@ -205,7 +206,7 @@ namespace SudokuCollective.Test.TestCases.Models
         {
             // Arrange
             string name = "name";
-            string license = "license";
+            string license = TestObjects.GetLicense();
             int ownerId = 0;
             string devUrl = "devUrl";
             string liveUrl = "liveUrl";
@@ -226,7 +227,7 @@ namespace SudokuCollective.Test.TestCases.Models
             sut = new App(
                 0,
                 "name",
-                "license",
+                TestObjects.GetLicense(),
                 0,
                 "localUrl",
                 "devUrl",

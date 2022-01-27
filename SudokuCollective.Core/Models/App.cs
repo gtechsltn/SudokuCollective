@@ -37,6 +37,10 @@ namespace SudokuCollective.Core.Models
                 {
                     _license = value;
                 }
+                else
+                {
+                    throw new ArgumentException("Guid must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters");
+                }
             }
         }
         [Required]
@@ -252,7 +256,6 @@ namespace SudokuCollective.Core.Models
         {
             Id = 0;
             Name = string.Empty;
-            License = string.Empty;
             OwnerId = 0;
             DateCreated = DateTime.UtcNow;
             LocalUrl = string.Empty;

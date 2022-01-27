@@ -33,7 +33,7 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task Setup()
         {
             userName = "TestSuperUser";
-            password = "password1";
+            password = "T3stp4ssw@rd";
 
             context = await TestDatabase.GetDatabaseContext();
 
