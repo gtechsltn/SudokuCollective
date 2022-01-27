@@ -473,7 +473,7 @@ namespace SudokuCollective.Test.TestData
                 SmtpServer = "smtp.gmail.com",
                 Port = 465,
                 UserName = "sudokucollectivetesting@gmail.com",
-                Password = "testing@123",
+                Password = "T3sting@123",
                 FromEmail = "SudokuCollectivetesting@gmail.com"
             };
         }
