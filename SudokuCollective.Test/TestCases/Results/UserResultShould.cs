@@ -46,7 +46,7 @@ namespace SudokuCollective.Test.TestCases.Results
             sut = new UserResult(
                 new User(),
                 false,
-                TestObjects.GetLicense());
+                TestObjects.GetToken());
 
             // Assert
             Assert.That(sut, Is.InstanceOf<UserResult>());

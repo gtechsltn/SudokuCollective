@@ -41,7 +41,10 @@ namespace SudokuCollective.Test.TestCases.Authentication
         public void HasAConstructorThatAcceptsParams()
         {
             // Arrange and Act
-            sut = new TokenRequest("username", "T3stP4ssw0rd$", TestObjects.GetLicense());
+            sut = new TokenRequest(
+                "username", 
+                "T3stP4ssw0rd$", 
+                TestObjects.GetToken());
 
             // Assert
             Assert.That(sut, Is.InstanceOf<TokenRequest>());
@@ -57,7 +60,7 @@ namespace SudokuCollective.Test.TestCases.Authentication
                 () => new TokenRequest(
                     "usn", 
                     "T3stP4ssw0rd$", 
-                    TestObjects.GetLicense()));
+                    TestObjects.GetToken()));
         }
 
         [Test, Category("Authentication")]
@@ -70,7 +73,7 @@ namespace SudokuCollective.Test.TestCases.Authentication
                 () => new TokenRequest(
                     "username",
                     "test",
-                    TestObjects.GetLicense()));
+                    TestObjects.GetToken()));
         }
 
         [Test, Category("Authentication")]

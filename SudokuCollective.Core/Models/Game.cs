@@ -120,7 +120,7 @@ namespace SudokuCollective.Core.Models
                 SudokuMatrix.Difficulty = (Difficulty)difficulty;
             }
 
-            SudokuMatrix.SetDifficulty();
+            SudokuMatrix.SetDifficulty(SudokuMatrix.Difficulty);
         }
 
         [JsonConstructor]

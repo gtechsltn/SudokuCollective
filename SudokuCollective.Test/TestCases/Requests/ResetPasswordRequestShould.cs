@@ -40,7 +40,7 @@ namespace SudokuCollective.Test.TestCases.Requests
         public void HasAConstructorThatAcceptsParams()
         {
             // Arrange and Act
-            sut = new ResetPasswordRequest(TestObjects.GetLicense(), "T3stPass0rd?1");
+            sut = new ResetPasswordRequest(TestObjects.GetToken(), "T3stPass0rd?1");
 
             // Assert
             Assert.That(sut, Is.InstanceOf<ResetPasswordRequest>());

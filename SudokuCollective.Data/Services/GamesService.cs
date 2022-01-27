@@ -407,12 +407,6 @@ namespace SudokuCollective.Data.Services
                                 {
                                     return result;
                                 }
-                                {
-                                    result.IsSuccess = false;
-                                    result.Message = ServicesMesages.SortValueNotImplementedMessage;
-
-                                    return result;
-                                }
                             }
                             else
                             {

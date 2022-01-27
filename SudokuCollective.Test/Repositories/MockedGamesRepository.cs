@@ -17,6 +17,7 @@ namespace SudokuCollective.Test.Repositories
         private readonly DatabaseContext context;
         internal Mock<IGamesRepository<Game>> SuccessfulRequest { get; set; }
         internal Mock<IGamesRepository<Game>> FailedRequest { get; set; }
+        internal Mock<IGamesRepository<Game>> SolvedRequest { get; set; }
         internal Mock<IGamesRepository<Game>> UpdateFailedRequest { get; set; }
 
         public MockedGamesRepository(DatabaseContext ctxt)
@@ -26,6 +27,7 @@ namespace SudokuCollective.Test.Repositories
 
             SuccessfulRequest = new Mock<IGamesRepository<Game>>();
             FailedRequest = new Mock<IGamesRepository<Game>>();
+            SolvedRequest = new Mock<IGamesRepository<Game>>();
             UpdateFailedRequest = new Mock<IGamesRepository<Game>>();
 
             SuccessfulRequest.Setup(repo =>
@@ -227,6 +229,107 @@ namespace SudokuCollective.Test.Repositories
                             new SudokuMatrix(),
                             context.Difficulties.FirstOrDefault(d => d.DifficultyLevel == DifficultyLevel.TEST),
                             context.Apps.Where(a => a.Id == 1).Select(a => a.Id).FirstOrDefault())
+                    } as IRepositoryResponse));
+
+            SolvedRequest.Setup(repo =>
+                repo.Add(It.IsAny<Game>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        Success = true,
+                        Object = new Game(
+                            context.Users.FirstOrDefault(u => u.Id == 1),
+                            new SudokuMatrix(),
+                            context.Difficulties.FirstOrDefault(d => d.DifficultyLevel == DifficultyLevel.TEST),
+                            context.Apps.Where(a => a.Id == 1).Select(a => a.Id).FirstOrDefault())
+                    } as IRepositoryResponse));
+
+            SolvedRequest.Setup(repo =>
+                repo.Get(It.IsAny<int>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        Success = true,
+                        Object = context.Games.FirstOrDefault(g => g.Id == 2)
+                    } as IRepositoryResponse));
+
+            SolvedRequest.Setup(repo =>
+                repo.GetAll())
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        Success = true,
+                        Objects = context.Games.ToList().ConvertAll(g => (IDomainEntity)g)
+                    } as IRepositoryResponse));
+
+            SolvedRequest.Setup(repo =>
+                repo.Update(It.IsAny<Game>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        Success = true,
+                        Object = context.Games.FirstOrDefault(g => g.Id == 1)
+                    } as IRepositoryResponse));
+
+            SolvedRequest.Setup(repo =>
+                repo.UpdateRange(It.IsAny<List<Game>>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        Success = true,
+                        Objects = context.Games.ToList().ConvertAll(g => (IDomainEntity)g)
+                    } as IRepositoryResponse));
+
+            SolvedRequest.Setup(repo =>
+                repo.Delete(It.IsAny<Game>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        Success = true
+                    } as IRepositoryResponse));
+
+            SolvedRequest.Setup(repo =>
+                repo.DeleteRange(It.IsAny<List<Game>>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        Success = true
+                    } as IRepositoryResponse));
+
+            SolvedRequest.Setup(repo =>
+                repo.HasEntity(It.IsAny<int>()))
+                    .Returns(Task.FromResult(true));
+
+            SolvedRequest.Setup(repo =>
+                repo.GetAppGame(It.IsAny<int>(), It.IsAny<int>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        Success = true,
+                        Object = context.Games.FirstOrDefault(g => g.Id == 1)
+                    } as IRepositoryResponse));
+
+            SolvedRequest.Setup(repo =>
+                repo.GetAppGames(It.IsAny<int>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        Success = true,
+                        Objects = context.Games.ToList().ConvertAll(g => (IDomainEntity)g)
+                    } as IRepositoryResponse));
+
+            SolvedRequest.Setup(repo =>
+                repo.GetMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        Success = true,
+                        Object = context.Games.FirstOrDefault(g => g.Id == 1)
+                    } as IRepositoryResponse));
+
+            SolvedRequest.Setup(repo =>
+                repo.GetMyGames(It.IsAny<int>(), It.IsAny<int>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        Success = true,
+                        Objects = context.Games.ToList().ConvertAll(g => (IDomainEntity)g)
+                    } as IRepositoryResponse));
+
+            SolvedRequest.Setup(repo =>
+                repo.DeleteMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        Success = true
                     } as IRepositoryResponse));
 
             UpdateFailedRequest.Setup(repo =>

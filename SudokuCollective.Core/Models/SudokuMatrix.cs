@@ -616,7 +616,7 @@ namespace SudokuCollective.Core.Models
             List<int> intList) : this(intList)
         {
             Difficulty = (Difficulty)difficulty;
-            SetDifficulty();
+            SetDifficulty(Difficulty);
         }
 
         public SudokuMatrix(string values) : this()
