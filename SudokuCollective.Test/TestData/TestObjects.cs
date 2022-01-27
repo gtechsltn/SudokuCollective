@@ -578,5 +578,25 @@ namespace SudokuCollective.Test.TestData
                 UserId = 1,
             };
         }
+
+        public static UpdateRoleRequest GetUpdateRoleRequest()
+        {
+            return new UpdateRoleRequest()
+            {
+                Id = 1,
+                Name = "Null UPDATED!",
+                RoleLevel = RoleLevel.NULL
+            };
+        }
+
+        public static UpdateRoleRequest GetInvalidUpdateRoleRequest()
+        {
+            return new UpdateRoleRequest()
+            {
+                Id = 10,
+                Name = "Null UPDATED!",
+                RoleLevel = RoleLevel.NULL
+            };
+        }
     }
 }
