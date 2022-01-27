@@ -35,7 +35,6 @@ namespace SudokuCollective.Data.Models.Requests
         public PasswordResetRequest()
         {
             UserId = 0;
-            NewPassword = string.Empty;
         }
 
         public PasswordResetRequest(int userId, string newPassword)
