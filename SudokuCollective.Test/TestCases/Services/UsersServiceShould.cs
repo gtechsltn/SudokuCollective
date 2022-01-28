@@ -118,8 +118,7 @@ namespace SudokuCollective.Test.TestCases.Services
             request = TestObjects.GetRequest();
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task GetUser()
         {
             // Arrange
@@ -135,8 +134,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That((User)result.DataPacket[0], Is.TypeOf<User>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ReturnMessageIfUserNotFound()
         {
             // Arrange
@@ -151,8 +149,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("User not Found"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task GetUsers()
         {
             // Arrange
@@ -170,8 +167,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.DataPacket.ConvertAll(u => (IUser)u), Is.TypeOf<List<IUser>>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task CreateUser()
         {
             // Arrange
@@ -200,8 +196,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(((UserResult)result.DataPacket[0]).User, Is.TypeOf<User>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ConfirmUserEmail()
         {
             // Arrange
@@ -219,8 +214,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Old Email Confirmed"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task NotifyIfConfirmUserEmailFails()
         {
             // Arrange
@@ -238,8 +232,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Email not Confirmed"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task RequireUserNameUnique()
         {
             // Arrange
@@ -267,8 +260,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("User Name not Unique"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task RequireUserName()
         {
             // Arrange
@@ -295,8 +287,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("User Name Required"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task RequireUniqueEmail()
         {
             // Arrange
@@ -326,8 +317,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Email not Unique"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task RequireEmail()
         {
             // Arrange
@@ -354,8 +344,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Email Required"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task UpdateUser()
         {
             // Arrange
@@ -385,8 +374,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(((UserResult)result.DataPacket[0]).User.UserName, Is.EqualTo("TestUserUPDATED"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task RequestPasswordReset()
         {
             // Arrange
@@ -413,8 +401,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Processed Password Reset Request"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ReturnsFalseIfRequestPasswordResetFails()
         {
             // Arrange
@@ -441,8 +428,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("No User is using this Email"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task RequireUniqueUserNameForUpdates()
         {
             // Arrange
@@ -471,8 +457,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("User Name not Unique"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task RequireUserNameForUpdates()
         {
             // Arrange
@@ -501,8 +486,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("User Name Required"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task RequireUniqueEmailWithUpdates()
         {
             // Arrange
@@ -531,8 +515,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Email not Unique"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task RequireEmailWithUpdates()
         {
             // Arrange
@@ -560,8 +543,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Email Required"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task UpdateUserPassword()
         {
             // Arrange
@@ -589,8 +571,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Password Reset"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task DeleteUsers()
         {
             // Arrange
@@ -604,8 +585,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.IsSuccess, Is.True);
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ReturnErrorMessageIfUserNotFoundForDeletion()
         {
             // Arrange
@@ -620,8 +600,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("User not Found"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task AddRolesToUsers()
         {
             // Arrange
@@ -646,8 +625,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Roles Added"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task RemoveRolesFromUsers()
         {
             // Arrange
@@ -672,8 +650,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Roles Removed"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ActivateUsers()
         {
             // Arrange
@@ -687,8 +664,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("User Activated"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task DeactivateUsers()
         {
             // Arrange
@@ -702,8 +678,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("User Deactivated"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task InitiatePasswordReset()
         {
             // Arrange
@@ -719,8 +694,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("User Found"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ReturnsFalseIfInitiatePasswordResetFails()
         {
             // Arrange
@@ -736,8 +710,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Password Reset Request not Found"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ResendEmailConfirmations()
         {
             // Arrange
@@ -760,8 +733,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Email Confirmation Email Resent"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ReturnsFalseForResendEmailConfirmationsIfUserEmailConfirmed()
         {
             // Arrange
@@ -784,8 +756,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Email Confirmed"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task CancelEmailConfirmationRequests()
         {
             // Arrange
@@ -801,8 +772,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That((UserResult)result.DataPacket[0], Is.TypeOf<UserResult>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ReturnsFalseIfCancelEmailConfirmationRequestsFails()
         {
             // Arrange
@@ -817,8 +787,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("User not Found"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ResendPasswordResetEmail()
         {
             // Arrange
@@ -834,8 +803,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Password Reset Email Resent"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ReturnsFalseIfResendPasswordResetEmailFails()
         {
             // Arrange
@@ -851,8 +819,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("No Outstanding Request to Reset Password"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task CancelPasswordResetRequests()
         {
             // Arrange
@@ -868,8 +835,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That((UserResult)result.DataPacket[0], Is.TypeOf<UserResult>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ReturnsFalseIfCancelPasswordResetRequestFails()
         {
             // Arrange
@@ -884,8 +850,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("User not Found"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task CancelAllEmailRequests()
         {
             // Arrange
@@ -901,8 +866,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That((UserResult)result.DataPacket[0], Is.TypeOf<UserResult>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ReturnFalseIfCancelAllEmailRequestsFails()
         {
             // Arrange
@@ -917,8 +881,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("User not Found"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task SuccessfullyGetUserByPasswordToken()
         {
             // Arrange
@@ -932,8 +895,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That((User)result.DataPacket[0], Is.TypeOf<User>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ReturnFalseIfGetUserByPasswordTokenFails()
         {
             // Arrange
@@ -946,8 +908,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("User not Found"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task SuccessfullyGetLicenseByPasswordToken()
         {
             // Arrange
@@ -961,8 +922,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.License, Is.TypeOf<string>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ReturnFalseIfGetLicenseByPasswordTokenFails()
         {
             // Arrange

@@ -44,8 +44,7 @@ namespace SudokuCollective.Test.TestCases.Services
             paginator = TestObjects.GetPaginator();
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task GetADifficulty()
         {
             // Arrange
@@ -59,8 +58,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That((Difficulty)result.DataPacket[0], Is.TypeOf<Difficulty>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task GetDifficulties()
         {
             // Arrange
@@ -74,8 +72,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.DataPacket.Count, Is.EqualTo(4));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task GetDifficultiesWithoutNullOrTestDifficultyLevel()
         {
             // Arrange
@@ -94,8 +91,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(nullAndTestDifficultyLevelsBlocked, Is.False);
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task UpdateADifficulty()
         {
             // Arrange
@@ -120,8 +116,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(((Difficulty)result.DataPacket[0]).Name, Is.EqualTo("Medium UPDATED!"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task DeleteADifficulty()
         {
             // Arrange
@@ -134,8 +129,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Difficulty Deleted"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task CreateADifficulty()
         {
             // Arrange

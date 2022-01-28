@@ -45,8 +45,7 @@ namespace SudokuCollective.Test.TestCases.Services
             license = TestObjects.GetLicense();
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task GetARole()
         {
             // Arrange
@@ -60,8 +59,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That((Role)result.DataPacket[0], Is.TypeOf<Role>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task IssueMessageIfRoleNotFound()
         {
             // Arrange
@@ -74,8 +72,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Role not Found"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task GetRoles()
         {
             // Arrange
@@ -89,8 +86,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.DataPacket.ConvertAll(r => (IRole)r), Is.TypeOf<List<IRole>>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task IssueMessageIfRolesNotFound()
         {
             // Arrange
@@ -103,8 +99,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Roles not Found"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task GetRolesWithoutNullOrSuperUserRoleLevel()
         {
             // Arrange
@@ -123,8 +118,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(nullAndSuperUserRoleLevelsBlocked, Is.False);
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task UpdateADifficulty()
         {
             // Arrange
@@ -142,8 +136,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Role Updated"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task IssueMessageIfUpdateFails()
         {
             // Arrange
@@ -159,8 +152,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Role not Found"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task DeleteADifficulty()
         {
             // Arrange
@@ -173,8 +165,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Role Deleted"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task IssueMessageIfRoleNotDeleted()
         {
             // Arrange

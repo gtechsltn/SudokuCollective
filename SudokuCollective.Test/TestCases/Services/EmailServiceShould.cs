@@ -30,8 +30,7 @@ namespace SudokuCollective.Test.TestCases.Services
             html = "<h1>Hello World!</h1>";
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public void SendEmails()
         {
             // Arrange
@@ -43,8 +42,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result, Is.True);
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public void ReturnFalseIfSendEmailsFails()
         {
             // Arrange

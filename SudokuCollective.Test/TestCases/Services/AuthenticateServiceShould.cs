@@ -73,8 +73,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 memoryCache);
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public void AuthenticateUsersIfValidated()
         {
             // Arrange
@@ -94,8 +93,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.AreEqual(userName, ((AuthenticationResult)result.DataPacket[0]).User.UserName);
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public void RejectUsersIfNotValidated()
         {
             // Arrange

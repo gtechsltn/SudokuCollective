@@ -44,8 +44,7 @@ namespace SudokuCollective.Test.TestCases.Services
             email = "TestSuperUser@example.com";
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ConfirmUserIfValid()
         {
             // Arrange
@@ -57,8 +56,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result, Is.True);
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task DenyUserIfUserNameInvalid()
         {
             // Arrange
@@ -71,8 +69,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result, Is.False);
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task DenyUserIfPasswordInvalid()
         {
             // Arrange
@@ -85,8 +82,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result, Is.False);
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ReturnUserAuthenticationErrorTypeIfUserInvalid()
         {
             // Arrange
@@ -103,8 +99,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result, Is.EqualTo(UserAuthenticationErrorType.USERNAMEINVALID));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ReturnPasswordAuthenticationErrorTypeIfPasswordInvalid()
         {
             // Arrange
@@ -121,8 +116,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result, Is.EqualTo(UserAuthenticationErrorType.PASSWORDINVALID));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ReturnUserNameIfEmailIsValid()
         {
             // Arrange
@@ -140,8 +134,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(username, Is.EqualTo("TestSuperUser"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ReturnMessageIfUserNameInvalid()
         {
             // Arrange
