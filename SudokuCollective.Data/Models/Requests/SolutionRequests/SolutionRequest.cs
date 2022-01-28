@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
+using SudokuCollective.Core.Messages;
 using SudokuCollective.Data.Validation.Attributes;
 
 namespace SudokuCollective.Data.Models.Requests
@@ -38,7 +39,7 @@ namespace SudokuCollective.Data.Models.Requests
                 }
                 else
                 {
-                    throw new ArgumentException("First row is invalid");
+                    throw new ArgumentException(AttributeMessages.InvalidFirstRow);
                 }
             }
         }
@@ -57,7 +58,7 @@ namespace SudokuCollective.Data.Models.Requests
                 }
                 else
                 {
-                    throw new ArgumentException("Second row is invalid");
+                    throw new ArgumentException(AttributeMessages.InvalidSecondRow);
                 }
             }
         }
@@ -76,7 +77,7 @@ namespace SudokuCollective.Data.Models.Requests
                 }
                 else
                 {
-                    throw new ArgumentException("Third row is invalid");
+                    throw new ArgumentException(AttributeMessages.InvalidThirdRow);
                 }
             }
         }
@@ -95,7 +96,7 @@ namespace SudokuCollective.Data.Models.Requests
                 }
                 else
                 {
-                    throw new ArgumentException("Fourth row is invalid");
+                    throw new ArgumentException(AttributeMessages.InvalidFourthRow);
                 }
             }
         }
@@ -114,7 +115,7 @@ namespace SudokuCollective.Data.Models.Requests
                 }
                 else
                 {
-                    throw new ArgumentException("Fifth row is invalid");
+                    throw new ArgumentException(AttributeMessages.InvalidFifthRow);
                 }
             }
         }
@@ -133,7 +134,7 @@ namespace SudokuCollective.Data.Models.Requests
                 }
                 else
                 {
-                    throw new ArgumentException("Sixth row is invalid");
+                    throw new ArgumentException(AttributeMessages.InvalidSixthRow);
                 }
             }
         }
@@ -152,7 +153,7 @@ namespace SudokuCollective.Data.Models.Requests
                 }
                 else
                 {
-                    throw new ArgumentException("Seventh row is invalid");
+                    throw new ArgumentException(AttributeMessages.InvalidSeventhRow);
                 }
             }
         }
@@ -171,7 +172,7 @@ namespace SudokuCollective.Data.Models.Requests
                 }
                 else
                 {
-                    throw new ArgumentException("Eighth row is invalid");
+                    throw new ArgumentException(AttributeMessages.InvalidEighthRow);
                 }
             }
         }
@@ -190,7 +191,7 @@ namespace SudokuCollective.Data.Models.Requests
                 }
                 else
                 {
-                    throw new ArgumentException("Ninth row is invalid");
+                    throw new ArgumentException(AttributeMessages.InvalidNinthRow);
                 }
             }
         }

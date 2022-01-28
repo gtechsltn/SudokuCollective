@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
+using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Structs;
 
 namespace SudokuCollective.Core.Models
@@ -23,7 +24,7 @@ namespace SudokuCollective.Core.Models
         #region Properties
         [Required]
         public int Id { get; set; }
-        [Required, Range(1, 81, ErrorMessage = "Sudoku Cell index must be between 1 and 81")]
+        [Required, Range(1, 81, ErrorMessage = AttributeMessages.InvalidIndex)]
         public int Index
         {
             get
@@ -38,11 +39,11 @@ namespace SudokuCollective.Core.Models
                 }
                 else
                 {
-                    throw new ArgumentException("Sudoku Cell index must be between 1 and 81");
+                    throw new ArgumentException(AttributeMessages.InvalidIndex);
                 }
             }
         }
-        [Required, Range(1, 9, ErrorMessage = "Sudoku cell column must be between 1 and 9")]
+        [Required, Range(1, 9, ErrorMessage = AttributeMessages.InvalidColumn)]
         public int Column
         {
             get
@@ -57,11 +58,11 @@ namespace SudokuCollective.Core.Models
                 }
                 else
                 {
-                    throw new ArgumentException("Sudoku cell column must be between 1 and 9");
+                    throw new ArgumentException(AttributeMessages.InvalidColumn);
                 }
             }
         }
-        [Required, Range(1, 9, ErrorMessage = "Sudoku cell region must be between 1 and 9")]
+        [Required, Range(1, 9, ErrorMessage = AttributeMessages.InvalidRegion)]
         public int Region
         {
             get
@@ -76,11 +77,11 @@ namespace SudokuCollective.Core.Models
                 }
                 else
                 {
-                    throw new ArgumentException("Sudoku cell region must be between 1 and 9");
+                    throw new ArgumentException(AttributeMessages.InvalidRegion);
                 }
             }
         }
-        [Required, Range(1, 9, ErrorMessage = "Sudoku cell row must be between 1 and 9")]
+        [Required, Range(1, 9, ErrorMessage = AttributeMessages.InvalidRow)]
         public int Row
         {
             get
@@ -95,11 +96,11 @@ namespace SudokuCollective.Core.Models
                 }
                 else
                 {
-                    throw new ArgumentException("Sudoku cell row must be between 1 and 9");
+                    throw new ArgumentException(AttributeMessages.InvalidRow);
                 }
             }
         }
-        [Required, Range(1, 9, ErrorMessage = "Sudoku cell value must be between 1 and 9")]
+        [Required, Range(1, 9, ErrorMessage = AttributeMessages.InvalidValue)]
         public int Value
         {
             get => _value;
@@ -138,13 +139,13 @@ namespace SudokuCollective.Core.Models
                 }
                 else
                 {
-                    throw new ArgumentException("Sudoku cell value must be between 1 and 9");
+                    throw new ArgumentException(AttributeMessages.InvalidValue);
                 }
 
                 _value = value;
             }
         }
-        [Required, Range(0, 9, ErrorMessage = "Sudoku cell displayed value must be between 0 and 9")]
+        [Required, Range(0, 9, ErrorMessage = AttributeMessages.InvalidDisplayedValue)]
         public int DisplayedValue
         {
             get
@@ -166,7 +167,7 @@ namespace SudokuCollective.Core.Models
                 }
                 else
                 {
-                    throw new ArgumentException("Sudoku cell displayed value must be between 0 and 9");
+                    throw new ArgumentException(AttributeMessages.InvalidDisplayedValue);
                 }
             }
         }

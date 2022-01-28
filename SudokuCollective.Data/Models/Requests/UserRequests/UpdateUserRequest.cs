@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
+using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Data.Models.Requests
@@ -18,7 +19,7 @@ namespace SudokuCollective.Data.Models.Requests
         public string LastName { get; set; }
         [Required]
         public string NickName { get; set; }
-        [Required, EmailValidated(ErrorMessage = "Email must be in a valid format")]
+        [Required, EmailValidated(ErrorMessage = AttributeMessages.InvalidEmail)]
         public string Email
         {
             get
@@ -33,7 +34,7 @@ namespace SudokuCollective.Data.Models.Requests
                 }
                 else
                 {
-                    throw new ArgumentException("Email must be in a valid format");
+                    throw new ArgumentException(AttributeMessages.InvalidEmail);
                 }
             }
         }

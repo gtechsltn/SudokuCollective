@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
+using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Core.Models
@@ -24,7 +25,7 @@ namespace SudokuCollective.Core.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        [IgnoreDataMember, GuidValidated(ErrorMessage = "Guid must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters")]
+        [IgnoreDataMember, GuidValidated(ErrorMessage = AttributeMessages.InvalidLicense)]
         public string License
         {
             get
@@ -39,7 +40,7 @@ namespace SudokuCollective.Core.Models
                 }
                 else
                 {
-                    throw new ArgumentException("Guid must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters");
+                    throw new ArgumentException(AttributeMessages.InvalidLicense);
                 }
             }
         }

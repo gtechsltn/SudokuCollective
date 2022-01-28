@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Extensions;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
+using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Structs;
 using SudokuCollective.Core.Utilities;
 using SudokuCollective.Core.Validation.Attributes;
@@ -69,7 +70,7 @@ namespace SudokuCollective.Core.Models
                 SudokuCells = value.ToList().ConvertAll(cell => (SudokuCell)cell);
             }
         }
-        [Required, SudokuCellsValidated(ErrorMessage = "The list of sudoku values is not valid")]
+        [Required, SudokuCellsValidated(ErrorMessage = AttributeMessages.InvalidSudokuCells)]
         public virtual List<SudokuCell> SudokuCells
         {
             get
@@ -84,7 +85,7 @@ namespace SudokuCollective.Core.Models
                 }
                 else
                 {
-                    throw new ArgumentException("The list of sudoku values is not valid");
+                    throw new ArgumentException(AttributeMessages.InvalidSudokuCells);
                 }
             }
         }

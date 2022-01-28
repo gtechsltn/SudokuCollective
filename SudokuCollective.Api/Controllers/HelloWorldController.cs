@@ -17,7 +17,7 @@ namespace SudokuCollective.Api.Controllers
             var result = new Result
             {
                 IsSuccess = true,
-                Message = ControllerMessages.StatusCode200(ControllerMessages.HelloWorld())
+                Message = ControllerMessages.StatusCode200(ControllerMessages.HelloWorld)
             };
 
             return Ok(result);

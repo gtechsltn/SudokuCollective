@@ -2,6 +2,7 @@
 {
     public static class ControllerMessages
     {
+        public const string HelloWorld = "Hello World from SudokuCollective!";
         public const string InvalidLicenseRequestMessage = "Status Code 400: Invalid Request on this License";
         public const string NotOwnerMessage = "Status Code 400: You are not the Owner of this App";
         public const string IdIncorrectMessage = "Status Code 400: Id is Incorrect";
@@ -15,7 +16,5 @@
         public static string StatusCode404(string serviceMessage) => string.Format("Status Code 404: {0}", serviceMessage);
 
         public static string StatusCode500(string serviceMessage) => string.Format("Status Code 500: {0}", serviceMessage);
-
-        public static string HelloWorld() => "Hello World from SudokuCollective!";
     }
 }
