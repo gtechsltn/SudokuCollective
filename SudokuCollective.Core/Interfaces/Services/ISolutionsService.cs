@@ -9,6 +9,6 @@ namespace SudokuCollective.Core.Interfaces.Services
         Task<IResult> GetSolutions(IRequest request);
         Task<IResult> Solve(IRequest request);
         Task<IResult> Generate();
-        Task<IResult> Add(int limit);
+        Task<IResult> Add(int limitArg);
     }
 }
