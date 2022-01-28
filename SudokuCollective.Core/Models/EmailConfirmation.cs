@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
+using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Core.Models
@@ -23,7 +24,7 @@ namespace SudokuCollective.Core.Models
         public int UserId { get; set; }
         [Required]
         public int AppId { get; set; }
-        [Required, GuidValidated(ErrorMessage = "Token must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters")]
+        [Required, GuidValidated(ErrorMessage = AttributeMessages.InvalidToken)]
         public string Token
         {
             get
@@ -38,11 +39,11 @@ namespace SudokuCollective.Core.Models
                 }
                 else
                 {
-                    throw new ArgumentException("Token must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters");
+                    throw new ArgumentException(AttributeMessages.InvalidToken);
                 }
             }
         }
-        [EmailValidated(ErrorMessage = "Old email must be in a valid format")]
+        [EmailValidated(ErrorMessage = AttributeMessages.InvalidOldEmail)]
         public string OldEmailAddress
         {
             get
@@ -59,11 +60,11 @@ namespace SudokuCollective.Core.Models
                 }
                 else
                 {
-                    throw new ArgumentException("Old email must be in a valid format");
+                    throw new ArgumentException(AttributeMessages.InvalidOldEmail);
                 }
             }
         }
-        [EmailValidated(ErrorMessage = "New email must be in a valid format")]
+        [EmailValidated(ErrorMessage = AttributeMessages.InvalidNewEmail)]
         public string NewEmailAddress
         {
             get
@@ -79,7 +80,7 @@ namespace SudokuCollective.Core.Models
                 }
                 else
                 {
-                    throw new ArgumentException("New email must be in a valid format");
+                    throw new ArgumentException(AttributeMessages.InvalidNewEmail);
                 }
             }
         }

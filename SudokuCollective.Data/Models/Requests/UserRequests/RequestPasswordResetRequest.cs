@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
+using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Data.Models.Requests
@@ -12,7 +13,7 @@ namespace SudokuCollective.Data.Models.Requests
         private readonly GuidValidatedAttribute _guidValidator = new();
         private readonly EmailValidatedAttribute _emailValidator = new();
 
-        [Required, GuidValidated(ErrorMessage = "Guid must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters")]
+        [Required, GuidValidated(ErrorMessage = AttributeMessages.InvalidLicense)]
         public string License
         {
             get
@@ -27,11 +28,11 @@ namespace SudokuCollective.Data.Models.Requests
                 }
                 else
                 {
-                    throw new ArgumentException("Guid must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters");
+                    throw new ArgumentException(AttributeMessages.InvalidLicense);
                 }
             }
         }
-        [Required, EmailValidated(ErrorMessage = "Email must be in a valid format")]
+        [Required, EmailValidated(ErrorMessage = AttributeMessages.InvalidEmail)]
         public string Email
         {
             get
@@ -46,7 +47,7 @@ namespace SudokuCollective.Data.Models.Requests
                 }
                 else
                 {
-                    throw new ArgumentException("Email must be in a valid format");
+                    throw new ArgumentException(AttributeMessages.InvalidEmail);
                 }
             }
         }

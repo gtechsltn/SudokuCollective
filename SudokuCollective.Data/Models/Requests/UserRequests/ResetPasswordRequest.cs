@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
+using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Data.Models.Requests
@@ -12,7 +13,7 @@ namespace SudokuCollective.Data.Models.Requests
         private readonly GuidValidatedAttribute _guidValidator = new();
         private readonly PasswordValidatedAttribute _passwordValidator = new();
 
-        [Required, GuidValidated(ErrorMessage = "Guid must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters")]
+        [Required, GuidValidated(ErrorMessage = AttributeMessages.InvalidToken)]
         public string Token
         {
             get
@@ -27,11 +28,11 @@ namespace SudokuCollective.Data.Models.Requests
                 }
                 else
                 {
-                    throw new ArgumentException("Guid must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters");
+                    throw new ArgumentException(AttributeMessages.InvalidToken);
                 }
             }
         }
-        [Required, PasswordValidated(ErrorMessage = "Password must be between 4 and up to 20 characters with at least 1 capital letter, 1 lower case letter, and 1 special character of [! @ # $ % ^ & * + = ? - _ . ,]")]
+        [Required, PasswordValidated(ErrorMessage = AttributeMessages.InvalidPassword)]
         public string NewPassword
         {
             get
@@ -46,7 +47,7 @@ namespace SudokuCollective.Data.Models.Requests
                 }
                 else
                 {
-                    throw new ArgumentException("Password must be between 4 and up to 20 characters with at least 1 capital letter, 1 lower case letter, and 1 special character of [! @ # $ % ^ & * + = ? - _ . ,]");
+                    throw new ArgumentException(AttributeMessages.InvalidPassword);
                 }
             }
         }

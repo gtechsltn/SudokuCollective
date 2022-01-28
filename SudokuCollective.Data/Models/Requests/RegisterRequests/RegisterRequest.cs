@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
+using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Data.Models.Requests
@@ -14,7 +15,7 @@ namespace SudokuCollective.Data.Models.Requests
         private readonly EmailValidatedAttribute _emailValidator = new();
         private readonly PasswordValidatedAttribute _passwordValidator = new();
 
-        [Required, UserNameValidated(ErrorMessage = "User name must be at least 4 characters and can contain alphanumeric characters and special characters of [! @ # $ % ^ & * + = ? - _ . ,]")]
+        [Required, UserNameValidated(ErrorMessage = AttributeMessages.InvalidUserName)]
         public string UserName
         {
             get
@@ -29,7 +30,7 @@ namespace SudokuCollective.Data.Models.Requests
                 }
                 else
                 {
-                    throw new ArgumentException("User name must be at least 4 characters and can contain alphanumeric characters and special characters of [! @ # $ % ^ & * + = ? - _ . ,]");
+                    throw new ArgumentException(AttributeMessages.InvalidUserName);
                 }
             }
         }
@@ -38,7 +39,7 @@ namespace SudokuCollective.Data.Models.Requests
         [Required]
         public string LastName { get; set; }
         public string NickName { get; set; }
-        [Required, EmailValidated(ErrorMessage = "Email must be in a valid format")]
+        [Required, EmailValidated(ErrorMessage = AttributeMessages.InvalidEmail)]
         public string Email
         {
             get
@@ -53,11 +54,11 @@ namespace SudokuCollective.Data.Models.Requests
                 }
                 else
                 {
-                    throw new ArgumentException("Email must be in a valid format");
+                    throw new ArgumentException(AttributeMessages.InvalidEmail);
                 }
             }
         }
-        [Required, PasswordValidated(ErrorMessage = "Password must be between 4 and up to 20 characters with at least 1 capital letter, 1 lower case letter, and 1 special character of [! @ # $ % ^ & * + = ? - _ . ,]")]
+        [Required, PasswordValidated(ErrorMessage = AttributeMessages.InvalidPassword)]
         public string Password
         {
             get
@@ -72,7 +73,7 @@ namespace SudokuCollective.Data.Models.Requests
                 }
                 else
                 {
-                    throw new ArgumentException("Password must be between 4 and up to 20 characters with at least 1 capital letter, 1 lower case letter, and 1 special character of [! @ # $ % ^ & * + = ? - _ . ,]");
+                    throw new ArgumentException(AttributeMessages.InvalidPassword);
                 }
             }
         }

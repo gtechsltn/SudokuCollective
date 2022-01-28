@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
+using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Core.Validation.Attributes;
 
@@ -15,7 +16,7 @@ namespace SudokuCollective.Data.Models.Requests
 
         [Required]
         public int GameId { get; set; }
-        [Required, SudokuCellsValidated(ErrorMessage = "The list of sudoku values is not valid")]
+        [Required, SudokuCellsValidated(ErrorMessage = AttributeMessages.InvalidSudokuCells)]
         public List<SudokuCell> SudokuCells
         {
             get
@@ -30,7 +31,7 @@ namespace SudokuCollective.Data.Models.Requests
                 }
                 else
                 {
-                    throw new ArgumentException("The list of sudoku values is not valid");
+                    throw new ArgumentException(AttributeMessages.InvalidSudokuCells);
                 }
             }
         }

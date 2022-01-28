@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
+using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Core.Models
@@ -20,13 +21,12 @@ namespace SudokuCollective.Core.Models
         private bool _isAdmin;
         private readonly UserNameValidatedAttribute _userNameValidatedAttribute = new();
         private readonly EmailValidatedAttribute _emailValidator = new();
-        private readonly PasswordValidatedAttribute _passwordValidator = new();
         #endregion
 
         #region Properties
         [Required]
         public int Id { get; set; }
-        [Required, UserNameValidated(ErrorMessage = "User name must be at least 4 characters and can contain alphanumeric characters and special characters of [! @ # $ % ^ & * + = ? - _ . ,]")]
+        [Required, UserNameValidated(ErrorMessage = AttributeMessages.InvalidUserName)]
         public string UserName
         {
             get
@@ -42,7 +42,7 @@ namespace SudokuCollective.Core.Models
                 }
                 else
                 {
-                    throw new ArgumentException("User name must be at least 4 characters and can contain alphanumeric characters and special characters of [! @ # $ % ^ & * + = ? - _ . ,]");
+                    throw new ArgumentException(AttributeMessages.InvalidUserName);
                 }
             }
         }
@@ -55,7 +55,7 @@ namespace SudokuCollective.Core.Models
         {
             get => string.Format("{0} {1}", FirstName, LastName);
         }
-        [Required, EmailValidated(ErrorMessage = "Email must be in a valid format")]
+        [Required, EmailValidated(ErrorMessage = AttributeMessages.InvalidEmail)]
         public string Email
         {
             get
@@ -72,7 +72,7 @@ namespace SudokuCollective.Core.Models
                 }
                 else
                 {
-                    throw new ArgumentException("Email must be in a valid format");
+                    throw new ArgumentException(AttributeMessages.InvalidEmail);
                 }
             }
         }

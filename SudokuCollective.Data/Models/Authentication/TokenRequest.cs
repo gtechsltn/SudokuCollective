@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using SudokuCollective.Core.Interfaces.Models.TokenModels;
+using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Data.Models.Authentication
@@ -14,7 +15,7 @@ namespace SudokuCollective.Data.Models.Authentication
         private readonly PasswordValidatedAttribute _passwordValidator = new();
         private readonly GuidValidatedAttribute _guidValidator = new();
 
-        [Required, UserNameValidated(ErrorMessage = "User name must be at least 4 characters and can contain alphanumeric characters and special characters of [! @ # $ % ^ & * + = ? - _ . ,]")]
+        [Required, UserNameValidated(ErrorMessage = AttributeMessages.InvalidUserName)]
         public string UserName
         {
             get
@@ -29,12 +30,12 @@ namespace SudokuCollective.Data.Models.Authentication
                 }
                 else
                 {
-                    throw new ArgumentException("User name must be at least 4 characters and can contain alphanumeric characters and special characters of [! @ # $ % ^ & * + = ? - _ . ,]");
+                    throw new ArgumentException(AttributeMessages.InvalidUserName);
                 }
             }
         }
 
-        [Required, PasswordValidated(ErrorMessage = "Password must be between 4 and up to 20 characters with at least 1 capital letter, 1 lower case letter, and 1 special character of [! @ # $ % ^ & * + = ? - _ . ,]")]
+        [Required, PasswordValidated(ErrorMessage = AttributeMessages.InvalidPassword)]
         public string Password
         {
             get
@@ -49,12 +50,12 @@ namespace SudokuCollective.Data.Models.Authentication
                 }
                 else
                 {
-                    throw new ArgumentException("Password must be between 4 and up to 20 characters with at least 1 capital letter, 1 lower case letter, and 1 special character of [! @ # $ % ^ & * + = ? - _ . ,]");
+                    throw new ArgumentException(AttributeMessages.InvalidPassword);
                 }
             }
         }
 
-        [Required, GuidValidated(ErrorMessage = "Guid must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters")]
+        [Required, GuidValidated(ErrorMessage = AttributeMessages.InvalidLicense)]
         public string License
         {
             get
@@ -69,7 +70,7 @@ namespace SudokuCollective.Data.Models.Authentication
                 }
                 else
                 {
-                    throw new ArgumentException("Guid must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters");
+                    throw new ArgumentException(AttributeMessages.InvalidLicense);
                 }
             }
         }
