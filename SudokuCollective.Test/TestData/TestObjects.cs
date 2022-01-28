@@ -20,16 +20,6 @@ namespace SudokuCollective.Test.TestData
             return "D17F0ED3-BE9A-450A-A146-F6733DB2BBDB";
         }
 
-        public static Request GetRequest()
-        {
-            return new Request()
-            {
-                License = GetLicense(),
-                RequestorId = 1,
-                AppId = 1
-            };
-        }
-
         public static Paginator GetPaginator()
         {
             return new Paginator()
@@ -473,7 +463,7 @@ namespace SudokuCollective.Test.TestData
                 SmtpServer = "smtp.gmail.com",
                 Port = 465,
                 UserName = "sudokucollectivetesting@gmail.com",
-                Password = "testing@123",
+                Password = "T3sting@123",
                 FromEmail = "SudokuCollectivetesting@gmail.com"
             };
         }
@@ -498,7 +488,7 @@ namespace SudokuCollective.Test.TestData
                 LastName = "Doe",
                 UserName = "Johnny",
                 Email = "john.doe@example.com",
-                Password = "password1",
+                Password = "P@s5w1",
                 DateCreated = DateTime.UtcNow
             };
         }
@@ -522,6 +512,90 @@ namespace SudokuCollective.Test.TestData
                 Token = "CC924471-AAB6-4809-8E6D-723AE422CB33",
                 OldEmailAddress = "TestSuperUser@example.com",
                 NewEmailAddress = "UPDATEDTestSuperUser@example.com"
+            };
+        }
+
+        public static Request GetRequest()
+        {
+            return new Request()
+            {
+                License = GetLicense(),
+                RequestorId = 1,
+                AppId = 1,
+                Paginator = GetPaginator()
+            };
+        }
+
+        public static CreateGameRequest GetCreateGameRequest()
+        {
+            return new CreateGameRequest()
+            {
+                UserId = 1,
+                DifficultyId = 4
+            };
+        }
+
+        public static UpdateGameRequest GetUpdateGameRequest(int updatedValue)
+        {
+            return new UpdateGameRequest()
+            {
+                GameId = 1,
+                SudokuCells = GetUpdateSudokuCells(updatedValue)
+            };
+        }
+
+        public static UpdateGameRequest GetInvalidUpdateGameRequest(int updatedValue)
+        {
+            return new UpdateGameRequest()
+            {
+                GameId = 1,
+                SudokuCells = GetUpdateInvalidSudokuCells(updatedValue)
+            };
+        }
+
+        public static UpdateGameRequest GetSolvedUpdateGameRequest()
+        {
+            return new UpdateGameRequest()
+            {
+                GameId = 1,
+                SudokuCells = GetValidSudokuCells()
+            };
+        }
+
+        public static UpdateGameRequest GetGameNotFoundUpdateGameRequest()
+        {
+            return new UpdateGameRequest()
+            {
+                GameId = 5,
+                SudokuCells = GetValidSudokuCells()
+            };
+        }
+
+        public static GamesRequest GetGamesRequest()
+        {
+            return new GamesRequest()
+            {
+                UserId = 1,
+            };
+        }
+
+        public static UpdateRoleRequest GetUpdateRoleRequest()
+        {
+            return new UpdateRoleRequest()
+            {
+                Id = 1,
+                Name = "Null UPDATED!",
+                RoleLevel = RoleLevel.NULL
+            };
+        }
+
+        public static UpdateRoleRequest GetInvalidUpdateRoleRequest()
+        {
+            return new UpdateRoleRequest()
+            {
+                Id = 10,
+                Name = "Null UPDATED!",
+                RoleLevel = RoleLevel.NULL
             };
         }
     }

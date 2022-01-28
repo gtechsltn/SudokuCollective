@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -35,6 +36,10 @@ namespace SudokuCollective.Data.Models.Requests
                 {
                     _firstRow = value;
                 }
+                else
+                {
+                    throw new ArgumentException("First row is invalid");
+                }
             }
         }
         [Required, RowValidated]
@@ -49,6 +54,10 @@ namespace SudokuCollective.Data.Models.Requests
                 if (value != null && _rowValidator.IsValid(value))
                 {
                     _secondRow = value;
+                }
+                else
+                {
+                    throw new ArgumentException("Second row is invalid");
                 }
             }
         }
@@ -65,6 +74,10 @@ namespace SudokuCollective.Data.Models.Requests
                 {
                     _thirdRow = value;
                 }
+                else
+                {
+                    throw new ArgumentException("Third row is invalid");
+                }
             }
         }
         [Required, RowValidated]
@@ -79,6 +92,10 @@ namespace SudokuCollective.Data.Models.Requests
                 if (value != null && _rowValidator.IsValid(value))
                 {
                     _fourthRow = value;
+                }
+                else
+                {
+                    throw new ArgumentException("Fourth row is invalid");
                 }
             }
         }
@@ -95,6 +112,10 @@ namespace SudokuCollective.Data.Models.Requests
                 {
                     _fifthRow = value;
                 }
+                else
+                {
+                    throw new ArgumentException("Fifth row is invalid");
+                }
             }
         }
         [Required, RowValidated]
@@ -109,6 +130,10 @@ namespace SudokuCollective.Data.Models.Requests
                 if (value != null && _rowValidator.IsValid(value))
                 {
                     _sixthRow = value;
+                }
+                else
+                {
+                    throw new ArgumentException("Sixth row is invalid");
                 }
             }
         }
@@ -125,6 +150,10 @@ namespace SudokuCollective.Data.Models.Requests
                 {
                     _seventhRow = value;
                 }
+                else
+                {
+                    throw new ArgumentException("Seventh row is invalid");
+                }
             }
         }
         [Required, RowValidated]
@@ -139,6 +168,10 @@ namespace SudokuCollective.Data.Models.Requests
                 if (value != null && _rowValidator.IsValid(value))
                 {
                     _eighthRow = value;
+                }
+                else
+                {
+                    throw new ArgumentException("Eighth row is invalid");
                 }
             }
         }
@@ -155,23 +188,16 @@ namespace SudokuCollective.Data.Models.Requests
                 {
                     _ninthRow = value;
                 }
+                else
+                {
+                    throw new ArgumentException("Ninth row is invalid");
+                }
             }
         }
         #endregion
 
         #region Constructors
-        public SolutionRequest()
-        {
-            FirstRow = new List<int>();
-            SecondRow = new List<int>();
-            ThirdRow = new List<int>();
-            FourthRow = new List<int>();
-            FifthRow = new List<int>();
-            SixthRow = new List<int>();
-            SeventhRow = new List<int>();
-            EighthRow = new List<int>();
-            NinthRow = new List<int>();
-        }
+        public SolutionRequest() { }
 
         public SolutionRequest(
             int[] firstRow, 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
@@ -29,7 +28,7 @@ namespace SudokuCollective.Core.Models
         public List<int> SeventhRow { get => GetValues(54, 9); }
         public List<int> EighthRow { get => GetValues(63, 9); }
         public List<int> NinthRow { get => GetValues(72, 9); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         IGame ISudokuSolution.Game
         {
             get
@@ -41,7 +40,7 @@ namespace SudokuCollective.Core.Models
                 Game = (Game)value;
             }
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public virtual Game Game { get; set; }
         #endregion
 

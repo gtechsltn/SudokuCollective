@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Core.Validation.Attributes;
@@ -24,6 +25,10 @@ namespace SudokuCollective.Data.Models.Requests
                 {
                     _email = value;
                 }
+                else
+                {
+                    throw new ArgumentException("Email must be in a valid format");
+                }
             }
         }
         [Required, GuidValidated(ErrorMessage = "License must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters")]
@@ -39,14 +44,14 @@ namespace SudokuCollective.Data.Models.Requests
                 {
                     _license = value;
                 }
+                else
+                {
+                    throw new ArgumentException("License must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters");
+                }
             }
         }
 
-        public ConfirmUserNameRequest()
-        {
-            Email = string.Empty;
-            License = string.Empty;
-        }
+        public ConfirmUserNameRequest() { }
 
         public ConfirmUserNameRequest(string email, string license)
         {

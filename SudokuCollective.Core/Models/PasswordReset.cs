@@ -34,6 +34,10 @@ namespace SudokuCollective.Core.Models
                 {
                     _token = value;
                 }
+                else
+                {
+                    throw new ArgumentException("Token must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters");
+                }
             }
         }
         [Required]
@@ -46,7 +50,6 @@ namespace SudokuCollective.Core.Models
             Id = 0;
             UserId = 0;
             AppId = 0;
-            Token = string.Empty;
             DateCreated = DateTime.MinValue;
         }
 

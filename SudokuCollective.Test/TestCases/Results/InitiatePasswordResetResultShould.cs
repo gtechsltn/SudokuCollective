@@ -49,7 +49,7 @@ namespace SudokuCollective.Test.TestCases.Results
                 new App(),
                 new User(),
                 false,
-                TestObjects.GetLicense());
+                TestObjects.GetToken());
 
             // Assert
             Assert.That(sut, Is.InstanceOf<InitiatePasswordResetResult>());

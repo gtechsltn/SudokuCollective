@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Data.Models.Requests;
 
@@ -53,13 +54,12 @@ namespace SudokuCollective.Test.TestCases.Requests
         }
 
         [Test, Category("Requests")]
-        public void RejectInvalidEmails()
+        public void ThrowsExceptionForInvalidEmails()
         {
-            // Arrange and Act
-            sut.Email = "InvalidEmail@";
+            // Arrange
 
-            // Assert
-            Assert.That(sut.Email, Is.EqualTo(string.Empty));
+            // Act and Assert
+            Assert.Throws<ArgumentException>(() => sut.Email = "InvalidEmail@");
         }
     }
 }

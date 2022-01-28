@@ -27,7 +27,7 @@ namespace SudokuCollective.Core.Models
         #region Properties
         [Required]
         public int Id { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         IGame ISudokuMatrix.Game
         {
             get
@@ -39,11 +39,11 @@ namespace SudokuCollective.Core.Models
                 Game = (Game)value;
             }
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public Game Game { get; set; }
         [Required]
         public int DifficultyId { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         IDifficulty ISudokuMatrix.Difficulty
         {
             get
@@ -57,7 +57,7 @@ namespace SudokuCollective.Core.Models
         }
         [Required]
         public Difficulty Difficulty { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         ICollection<ISudokuCell> ISudokuMatrix.SudokuCells
         {
             get
@@ -81,6 +81,10 @@ namespace SudokuCollective.Core.Models
                 if (value != null && _sudokuCellsValidator.IsValid(value))
                 {
                     _sudokuCells = value;
+                }
+                else
+                {
+                    throw new ArgumentException("The list of sudoku values is not valid");
                 }
             }
         }
@@ -192,7 +196,7 @@ namespace SudokuCollective.Core.Models
             };
         }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> FirstRegion
         {
             get => SudokuCells
@@ -201,7 +205,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> SecondRegion
         {
             get => SudokuCells
@@ -210,7 +214,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> ThirdRegion
         {
             get => SudokuCells
@@ -219,7 +223,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> FourthRegion
         {
             get => SudokuCells
@@ -228,7 +232,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> FifthRegion 
         {
             get => SudokuCells
@@ -237,7 +241,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> SixthRegion
         {
             get => SudokuCells
@@ -246,7 +250,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> SeventhRegion
         {
             get => SudokuCells
@@ -255,7 +259,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> EighthRegion
         {
             get => SudokuCells
@@ -264,7 +268,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> NinthRegion
         {
             get => SudokuCells
@@ -289,7 +293,7 @@ namespace SudokuCollective.Core.Models
                 NinthRegion
             };
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> FirstRow
         {
             get => SudokuCells
@@ -298,7 +302,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> SecondRow
         {
             get => SudokuCells
@@ -307,7 +311,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> ThirdRow
         {
             get => SudokuCells
@@ -316,7 +320,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> FourthRow
         {
             get => SudokuCells
@@ -325,7 +329,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> FifthRow
         {
             get => SudokuCells
@@ -334,7 +338,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> SixthRow
         {
             get => SudokuCells
@@ -343,7 +347,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> SeventhRow
         {
             get => SudokuCells
@@ -352,7 +356,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> EighthRow
         {
             get => SudokuCells
@@ -361,7 +365,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> NinthRow
         {
             get => SudokuCells
@@ -388,118 +392,118 @@ namespace SudokuCollective.Core.Models
         #endregion
 
         #region Sudoku Cell Value Lists
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> FirstColumnValues { get => SudokuCells.Where(column => column.Column == 1).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> SecondColumnValues { get => SudokuCells.Where(column => column.Column == 2).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> ThirdColumnValues { get => SudokuCells.Where(column => column.Column == 3).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> FourthColumnValues { get => SudokuCells.Where(column => column.Column == 4).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> FifthColumnValues { get => SudokuCells.Where(column => column.Column == 5).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> SixthColumnValues { get => SudokuCells.Where(column => column.Column == 6).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> SeventhColumnValues { get => SudokuCells.Where(column => column.Column == 7).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> EighthColumnValues { get => SudokuCells.Where(column => column.Column == 8).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> NinthColumnValues { get => SudokuCells.Where(column => column.Column == 9).Select(i => i.Value).Distinct().ToList(); }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> FirstRegionValues { get => SudokuCells.Where(region => region.Region == 1).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> SecondRegionValues { get => SudokuCells.Where(region => region.Region == 2).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> ThirdRegionValues { get => SudokuCells.Where(region => region.Region == 3).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> FourthRegionValues { get => SudokuCells.Where(region => region.Region == 4).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> FifthRegionValues { get => SudokuCells.Where(region => region.Region == 5).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> SixthRegionValues { get => SudokuCells.Where(region => region.Region == 6).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> SeventhRegionValues { get => SudokuCells.Where(region => region.Region == 7).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> EighthRegionValues { get => SudokuCells.Where(region => region.Region == 8).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> NinthRegionValues { get => SudokuCells.Where(region => region.Region == 9).Select(i => i.Value).Distinct().ToList(); }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> FirstRowValues { get => SudokuCells.Where(row => row.Row == 1).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> SecondRowValues { get => SudokuCells.Where(row => row.Row == 2).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> ThirdRowValues { get => SudokuCells.Where(row => row.Row == 3).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> FourthRowValues { get => SudokuCells.Where(row => row.Row == 4).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> FifthRowValues { get => SudokuCells.Where(row => row.Row == 5).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> SixthRowValues { get => SudokuCells.Where(row => row.Row == 6).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> SeventhRowValues { get => SudokuCells.Where(row => row.Row == 7).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> EighthRowValues { get => SudokuCells.Where(row => row.Row == 8).Select(i => i.Value).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> NinthRowValues { get => SudokuCells.Where(row => row.Row == 9).Select(i => i.Value).Distinct().ToList(); }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> FirstColumnDisplayedValues { get => SudokuCells.Where(column => column.Column == 1).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> SecondColumnDisplayedValues { get => SudokuCells.Where(column => column.Column == 2).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> ThirdColumnDisplayedValues { get => SudokuCells.Where(column => column.Column == 3).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> FourthColumnDisplayedValues { get => SudokuCells.Where(column => column.Column == 4).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> FifthColumnDisplayedValues { get => SudokuCells.Where(column => column.Column == 5).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> SixthColumnDisplayedValues { get => SudokuCells.Where(column => column.Column == 6).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> SeventhColumnDisplayedValues { get => SudokuCells.Where(column => column.Column == 7).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> EighthColumnDisplayedValues { get => SudokuCells.Where(column => column.Column == 8).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> NinthColumnDisplayedValues { get => SudokuCells.Where(column => column.Column == 9).Select(i => i.DisplayedValue).Distinct().ToList(); }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> FirstRegionDisplayedValues { get => SudokuCells.Where(region => region.Region == 1).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> SecondRegionDisplayedValues { get => SudokuCells.Where(region => region.Region == 2).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> ThirdRegionDisplayedValues { get => SudokuCells.Where(region => region.Region == 3).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> FourthRegionDisplayedValues { get => SudokuCells.Where(region => region.Region == 4).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> FifthRegionDisplayedValues { get => SudokuCells.Where(region => region.Region == 5).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> SixthRegionDisplayedValues { get => SudokuCells.Where(region => region.Region == 6).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> SeventhRegionDisplayedValues { get => SudokuCells.Where(region => region.Region == 7).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> EighthRegionDisplayedValues { get => SudokuCells.Where(region => region.Region == 8).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> NinthRegionDisplayedValues { get => SudokuCells.Where(region => region.Region == 9).Select(i => i.DisplayedValue).Distinct().ToList(); }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> FirstRowDisplayedValues { get => SudokuCells.Where(row => row.Row == 1).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> SecondRowDisplayedValues { get => SudokuCells.Where(row => row.Row == 2).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> ThirdRowDisplayedValues { get => SudokuCells.Where(row => row.Row == 3).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> FourthRowDisplayedValues { get => SudokuCells.Where(row => row.Row == 4).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> FifthRowDisplayedValues { get => SudokuCells.Where(row => row.Row == 5).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> SixthRowDisplayedValues { get => SudokuCells.Where(row => row.Row == 6).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> SeventhRowDisplayedValues { get => SudokuCells.Where(row => row.Row == 7).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> EighthRowDisplayedValues { get => SudokuCells.Where(row => row.Row == 8).Select(i => i.DisplayedValue).Distinct().ToList(); }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<int> NinthRowDisplayedValues { get => SudokuCells.Where(row => row.Row == 9).Select(i => i.DisplayedValue).Distinct().ToList(); }
         #endregion
         #endregion
@@ -534,8 +538,6 @@ namespace SudokuCollective.Core.Models
             var columnIndexer = 1;
             var regionIndexer = 1;
             var rowIndexer = 1;
-
-            SudokuCells = new List<SudokuCell>();
 
             for (var i = 1; i < 82; i++)
             {
@@ -614,7 +616,7 @@ namespace SudokuCollective.Core.Models
             List<int> intList) : this(intList)
         {
             Difficulty = (Difficulty)difficulty;
-            SetDifficulty();
+            SetDifficulty(Difficulty);
         }
 
         public SudokuMatrix(string values) : this()

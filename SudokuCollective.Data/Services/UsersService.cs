@@ -55,9 +55,10 @@ namespace SudokuCollective.Data.Services
             _passwordResetsRepository = passwordResetsRepository;
             _emailService = emailService;
             _distributedCache = distributedCache;
-            
-            throw new System.NotImplementedException();
         }
+        #endregion
+
+        #region Methods
         public async Task<IResult> Create(
             IRequest request, 
             string baseUrl, 
@@ -888,7 +889,7 @@ namespace SudokuCollective.Data.Services
                         foreach (var user in result.DataPacket.ConvertAll(u => (IUser)u))
                         {
                             var emailConfirmed = user.IsEmailConfirmed;
-                            user.Email = null;
+                            user.HideEmail();
                             user.IsEmailConfirmed = emailConfirmed;
                         }
                     }

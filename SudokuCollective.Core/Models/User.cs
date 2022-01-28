@@ -4,10 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
-using System.Text.RegularExpressions;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
-using SudokuCollective.Core.Validation;
 using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Core.Models
@@ -20,6 +18,7 @@ namespace SudokuCollective.Core.Models
         private string _password = string.Empty;
         private bool _isSuperUser;
         private bool _isAdmin;
+        private readonly UserNameValidatedAttribute _userNameValidatedAttribute = new();
         private readonly EmailValidatedAttribute _emailValidator = new();
         private readonly PasswordValidatedAttribute _passwordValidator = new();
         #endregion
@@ -37,18 +36,13 @@ namespace SudokuCollective.Core.Models
 
             set
             {
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrEmpty(value) && _userNameValidatedAttribute.IsValid(value))
                 {
-                    var regex = new Regex(RegexValidators.UserNameRegexPattern);
-
-                    if (regex.IsMatch(value))
-                    {
-                        _userName = value;
-                    }
+                    _userName = value;
                 }
                 else
                 {
-                    _userName = string.Empty;
+                    throw new ArgumentException("User name must be at least 4 characters and can contain alphanumeric characters and special characters of [! @ # $ % ^ & * + = ? - _ . ,]");
                 }
             }
         }
@@ -76,12 +70,16 @@ namespace SudokuCollective.Core.Models
                     _email = value;
                     IsEmailConfirmed = false;
                 }
+                else
+                {
+                    throw new ArgumentException("Email must be in a valid format");
+                }
             }
         }
         [Required]
         public bool IsEmailConfirmed { get; set; }
         public bool ReceivedRequestToUpdateEmail { get; set; }
-        [IgnoreDataMember, PasswordValidated(ErrorMessage = "Password must be between 4 and up to 20 characters with at least 1 capital letter, 1 lower case letter, and 1 special character of[! @ # $ % ^ & * + = ? - _ . ,]")]
+        [IgnoreDataMember]
         public string Password
         {
             get
@@ -91,7 +89,7 @@ namespace SudokuCollective.Core.Models
 
             set
             {
-                if (!string.IsNullOrEmpty(value) && _passwordValidator.IsValid(value))
+                if (!string.IsNullOrEmpty(value))
                 {
                     _password = value;
                 }
@@ -157,7 +155,7 @@ namespace SudokuCollective.Core.Models
         public DateTime DateCreated { get; set; }
         [Required]
         public DateTime DateUpdated { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         ICollection<IGame> IUser.Games
         {
             get
@@ -171,7 +169,7 @@ namespace SudokuCollective.Core.Models
         }
         [Required]
         public virtual List<Game> Games { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         ICollection<IUserRole> IUser.Roles
         {
             get
@@ -185,7 +183,7 @@ namespace SudokuCollective.Core.Models
         }
         [Required]
         public virtual List<UserRole> Roles { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         ICollection<IUserApp> IUser.Apps
         {
             get
@@ -227,14 +225,11 @@ namespace SudokuCollective.Core.Models
             Apps = new List<UserApp>();
 
             Id = 0;
-            UserName = string.Empty;
             FirstName = string.Empty;
             LastName = string.Empty;
             NickName = string.Empty;
-            Email = string.Empty;
             IsEmailConfirmed = false;
             ReceivedRequestToUpdateEmail = false;
-            Password = string.Empty;
             ReceivedRequestToUpdatePassword = false;
             DateCreated = DateTime.MinValue;
             DateUpdated = DateTime.MinValue;
@@ -308,6 +303,11 @@ namespace SudokuCollective.Core.Models
                     }
                 }
             }
+        }
+
+        public void HideEmail()
+        {
+            _email = null;
         }
         #endregion
     }

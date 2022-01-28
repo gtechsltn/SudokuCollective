@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Data.Models.Requests;
+using System;
 
 namespace SudokuCollective.Test.TestCases.Requests
 {
@@ -28,33 +29,30 @@ namespace SudokuCollective.Test.TestCases.Requests
         }
 
         [Test, Category("Requests")]
-        public void RejectInvalidUserNames()
+        public void ThrowsAnExceptionIfUserNameInvalid()
         {
             // Arrange and Act
-            sut.UserName = "joe";
 
-            // Assert
-            Assert.That(sut.UserName, Is.EqualTo(string.Empty));
+            // Act and Assert
+            Assert.Throws<ArgumentException>(() => sut.UserName = "joe");
         }
 
         [Test, Category("Requests")]
-        public void RejectInvalidEmails()
+        public void ThrowsAnExceptionIfEmailInvalid()
         {
-            // Arrange and Act
-            sut.Email = "invalidEmail@";
+            // Arrange
 
-            // Assert
-            Assert.That(sut.Email, Is.EqualTo(string.Empty));
+            // Act and Assert
+            Assert.Throws<ArgumentException>(() => sut.Email = "invalidEmail@");
         }
 
         [Test, Category("Requests")]
         public void RejectInvalidPassword()
         {
-            // Arrange and Act
-            sut.Password = "password";
+            // Arrange
 
-            // Assert
-            Assert.That(sut.Password, Is.EqualTo(string.Empty));
+            // Act and Assert
+            Assert.Throws<ArgumentException>(() => sut.Password = "password");
         }
 
         [Test, Category("Requests")]

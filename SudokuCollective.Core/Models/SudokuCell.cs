@@ -23,7 +23,7 @@ namespace SudokuCollective.Core.Models
         #region Properties
         [Required]
         public int Id { get; set; }
-        [Required, Range(1, 81, ErrorMessage = "Index must be between 1 and 81")]
+        [Required, Range(1, 81, ErrorMessage = "Sudoku Cell index must be between 1 and 81")]
         public int Index
         {
             get
@@ -36,10 +36,13 @@ namespace SudokuCollective.Core.Models
                 {
                     _index = value;
                 }
+                else
+                {
+                    throw new ArgumentException("Sudoku Cell index must be between 1 and 81");
+                }
             }
         }
-
-        [Required, Range(1, 9, ErrorMessage = "Column must be between 1 and 9")]
+        [Required, Range(1, 9, ErrorMessage = "Sudoku cell column must be between 1 and 9")]
         public int Column
         {
             get
@@ -52,9 +55,13 @@ namespace SudokuCollective.Core.Models
                 {
                     _column = value;
                 }
+                else
+                {
+                    throw new ArgumentException("Sudoku cell column must be between 1 and 9");
+                }
             }
         }
-        [Required, Range(1, 9, ErrorMessage = "Region must be between 1 and 9")]
+        [Required, Range(1, 9, ErrorMessage = "Sudoku cell region must be between 1 and 9")]
         public int Region
         {
             get
@@ -67,9 +74,13 @@ namespace SudokuCollective.Core.Models
                 {
                     _region = value;
                 }
+                else
+                {
+                    throw new ArgumentException("Sudoku cell region must be between 1 and 9");
+                }
             }
         }
-        [Required, Range(1, 9, ErrorMessage = "Row must be between 1 and 9")]
+        [Required, Range(1, 9, ErrorMessage = "Sudoku cell row must be between 1 and 9")]
         public int Row
         {
             get
@@ -82,9 +93,13 @@ namespace SudokuCollective.Core.Models
                 {
                     _row = value;
                 }
+                else
+                {
+                    throw new ArgumentException("Sudoku cell row must be between 1 and 9");
+                }
             }
         }
-        [Required, Range(1, 9, ErrorMessage = "Value must be between 1 and 9")]
+        [Required, Range(1, 9, ErrorMessage = "Sudoku cell value must be between 1 and 9")]
         public int Value
         {
             get => _value;
@@ -101,7 +116,7 @@ namespace SudokuCollective.Core.Models
                         }
                     }
                 }
-                else
+                else if (value >= 1 && value <= 9)
                 {
                     foreach (var availableValue in AvailableValues)
                     {
@@ -121,11 +136,15 @@ namespace SudokuCollective.Core.Models
                         );
                     }
                 }
+                else
+                {
+                    throw new ArgumentException("Sudoku cell value must be between 1 and 9");
+                }
 
                 _value = value;
             }
         }
-        [Required, Range(0, 9, ErrorMessage = "DisplayedValue must be between 0 and 9")]
+        [Required, Range(0, 9, ErrorMessage = "Sudoku cell displayed value must be between 0 and 9")]
         public int DisplayedValue
         {
             get
@@ -145,11 +164,15 @@ namespace SudokuCollective.Core.Models
                 {
                     _displayValue = value;
                 }
+                else
+                {
+                    throw new ArgumentException("Sudoku cell displayed value must be between 0 and 9");
+                }
             }
         }
         public bool Hidden { get; set; }
         public int SudokuMatrixId { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         ISudokuMatrix ISudokuCell.SudokuMatrix
         {
             get
@@ -161,7 +184,7 @@ namespace SudokuCollective.Core.Models
                 SudokuMatrix = (SudokuMatrix)value;
             }
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public virtual SudokuMatrix SudokuMatrix { get; set; }
         [IgnoreDataMember]
         ICollection<IAvailableValue> ISudokuCell.AvailableValues

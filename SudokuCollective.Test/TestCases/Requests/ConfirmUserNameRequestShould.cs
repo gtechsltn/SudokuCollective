@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Data.Models.Requests;
 using SudokuCollective.Test.TestData;
@@ -26,23 +27,21 @@ namespace SudokuCollective.Test.TestCases.Requests
         }
 
         [Test, Category("Requests")]
-        public void RejectInvalidEmails()
+        public void ThrowsAnExceptionIfEmailIsInvalid()
         {
-            // Arrange and Act
-            sut.Email = "invalidEmail@";
+            // Arrange
 
-            // Assert
-            Assert.That(sut.Email, Is.EqualTo(string.Empty));
+            // Assert and Assert
+            Assert.Throws<ArgumentException>(() => sut.Email = "invalidEmail@");
         }
 
         [Test, Category("Requests")]
-        public void RejectInvalidLicenses()
+        public void ThrowsAnExceptionIfLicenseIsInvalid()
         {
             // Arrange and Act
-            sut.License = "invalidLicense";
 
-            // Assert
-            Assert.That(sut.License, Is.EqualTo(string.Empty));
+            // Assert and Assert
+            Assert.Throws<ArgumentException>(() => sut.License = "invalidLicense");
         }
 
         [Test, Category("Requests")]
@@ -59,7 +58,7 @@ namespace SudokuCollective.Test.TestCases.Requests
         public void HasAConstructorThatAcceptsParams()
         {
             // Arrange and Act
-            sut = new ConfirmUserNameRequest("userName1", TestObjects.GetLicense());
+            sut = new ConfirmUserNameRequest("testEmail@example.com", TestObjects.GetLicense());
 
             // Assert
             Assert.That(sut, Is.InstanceOf<ConfirmUserNameRequest>());

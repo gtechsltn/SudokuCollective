@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Data.Models.Requests;
 using SudokuCollective.Test.TestData;
@@ -39,30 +40,28 @@ namespace SudokuCollective.Test.TestCases.Requests
         public void HasAConstructorThatAcceptsParams()
         {
             // Arrange and Act
-            sut = new ResetPasswordRequest(TestObjects.GetLicense(), "T3stPass0rd?1");
+            sut = new ResetPasswordRequest(TestObjects.GetToken(), "T3stPass0rd?1");
 
             // Assert
             Assert.That(sut, Is.InstanceOf<ResetPasswordRequest>());
         }
 
         [Test, Category("Requests")]
-        public void RejectInvalidLicenses()
+        public void ThrowExceptionForInvalidLicenses()
         {
-            // Arrange and Act
-            sut.Token = "InvalidLicense";
+            // Arrange
 
-            // Assert
-            Assert.That(sut.Token, Is.EqualTo(string.Empty));
+            // Act and Assert
+            Assert.Throws<ArgumentException>(() => sut.Token = "InvalidLicense");
         }
 
         [Test, Category("Requests")]
-        public void RejectInvalidEmails()
+        public void ThrowExceptionForInvalidEmails()
         {
-            // Arrange and Act
-            sut.NewPassword = "invalidpassword";
+            // Arrange
 
-            // Assert
-            Assert.That(sut.NewPassword, Is.EqualTo(string.Empty));
+            // Act and Assert
+            Assert.Throws<ArgumentException>(() => sut.NewPassword = "invalidpassword");
         }
     }
 }

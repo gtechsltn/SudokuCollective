@@ -158,7 +158,7 @@ namespace SudokuCollective.Test.TestCases.Models
             var id = 0;
             var userId = 2;
             var appId = 1;
-            var token = "token";
+            var token = TestObjects.GetToken();
             var oldEmailAddress = "old@example.com";
             var newEmailAddress = "new@example.com";
             var oldEmailAddressConfirmed = false;

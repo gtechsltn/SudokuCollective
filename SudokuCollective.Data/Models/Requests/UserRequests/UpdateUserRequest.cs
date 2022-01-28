@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Core.Validation.Attributes;
@@ -30,6 +31,10 @@ namespace SudokuCollective.Data.Models.Requests
                 {
                     _email = value;
                 }
+                else
+                {
+                    throw new ArgumentException("Email must be in a valid format");
+                }
             }
         }
 
@@ -39,7 +44,6 @@ namespace SudokuCollective.Data.Models.Requests
             FirstName = string.Empty;
             LastName = string.Empty;
             NickName = string.Empty;
-            Email = string.Empty;
         }
 
         public UpdateUserRequest(

@@ -276,6 +276,7 @@ namespace SudokuCollective.Data.Services
                     {
                         result.IsSuccess = updateDifficultyResponse.Success;
                         result.Message = DifficultiesMessages.DifficultyUpdatedMessage;
+                        result.DataPacket.Add(updateDifficultyResponse.Object);
 
                         return result;
                     }
