@@ -44,8 +44,7 @@ namespace SudokuCollective.Test.TestCases.Services
             request = TestObjects.GetRequest();
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task GetASolution()
         {
             // Arrange
@@ -59,8 +58,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That((SudokuSolution)result.DataPacket[0], Is.TypeOf<SudokuSolution>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task IssueMessageIfGetSolutionFails()
         {
             // Arrange
@@ -73,8 +71,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Solution not Found"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task GetSolutions()
         {
             // Arrange
@@ -88,8 +85,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.DataPacket.ConvertAll(s => (ISudokuSolution)s), Is.TypeOf<List<ISudokuSolution>>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task IssueMessageIfGetSolutionsFails()
         {
             // Arrange
@@ -102,8 +98,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Solutions not Found"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task SolveSudokuMatrices()
         {
             // Arrange
@@ -130,8 +125,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That((SudokuSolution)result.DataPacket[0], Is.TypeOf<SudokuSolution>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task GenerateASolution()
         {
             // Arrange
@@ -145,8 +139,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That((SudokuSolution)result.DataPacket[0], Is.TypeOf<SudokuSolution>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task AddSolutions()
         {
             // Arrange
@@ -159,8 +152,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Solutions Added"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task IssueMessageIfAddSolutionsFails()
         {
             // Arrange

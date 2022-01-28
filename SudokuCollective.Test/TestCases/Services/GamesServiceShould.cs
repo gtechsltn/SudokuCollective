@@ -100,8 +100,7 @@ namespace SudokuCollective.Test.TestCases.Services
 
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task CreateGames()
         {
             // Arrange
@@ -116,8 +115,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That((Game)result.DataPacket[0], Is.TypeOf<Game>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task FailToCreateGameIfUserDoesNotExist()
         {
             // Arrange
@@ -136,8 +134,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Game not Created"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task UpdateGames()
         {
             // Arrange
@@ -163,8 +160,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(checkValue, Is.EqualTo(updatedValue));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task RejectUpdateIfCellsAreInvalid()
         {
             // Arrange
@@ -184,8 +180,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Game not Updated"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task DeleteGames()
         {
             // Arrange
@@ -199,8 +194,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Game Deleted"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task DeleteReturnsErrorMessageIfGameNotFound()
         {
             // Arrange
@@ -214,8 +208,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Game not Found"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task GetAGame()
         {
             // Arrange
@@ -231,8 +224,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That((Game)result.DataPacket[0], Is.TypeOf<Game>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ReturnErrorMessageIfGameNotFound()
         {
             // Arrange
@@ -247,8 +239,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Game not Found"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task GetGames()
         {
             // Arrange
@@ -263,8 +254,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.DataPacket.ConvertAll(g => (IGame)g), Is.TypeOf<List<IGame>>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task GetUsersGame()
         {
             // Arrange
@@ -280,8 +270,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That((Game)result.DataPacket[0], Is.TypeOf<Game>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task GetUsersGames()
         {
             // Arrange
@@ -296,8 +285,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.DataPacket.ConvertAll(g => (IGame)g), Is.TypeOf<List<IGame>>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task DeleteAUsersGame()
         {
             // Arrange
@@ -312,8 +300,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Game Deleted"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task CheckGames()
         {
             // Arrange
@@ -340,8 +327,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(checkValue, Is.EqualTo(updatedValue));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task NoteWhenGameIsSolvedOnUpdate()
         {
             // Arrange
@@ -364,8 +350,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(game.IsSolved(), Is.True);
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task CheckGameShouldReturnMessageIfGameNotFound()
         {
             // Arrange
@@ -381,8 +366,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Game not Found"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task CreateAnnonymousGames()
         {
             // Arrange
@@ -396,8 +380,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(((AnnonymousGameResult)result.DataPacket[0]).SudokuMatrix, Is.TypeOf<List<List<int>>>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task CreateAnnonymousGamesShouldReturnMessageIfDifficultyNotFound()
         {
             // Arrange
@@ -415,8 +398,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Difficulty not Found"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task CheckAnnonymousGames()
         {
             // Arrange
@@ -439,8 +421,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Game Solved"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task CheckAnnonymousGamesShouldReturnMessageIfSolutionNotFound()
         {
             // Arrange

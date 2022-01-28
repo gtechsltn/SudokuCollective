@@ -2308,6 +2308,7 @@ namespace SudokuCollective.Data.Services
                                     result.Message = UsersMessages.UserFoundMessage;
                                     initiatePasswordResetResult.User = user;
                                     initiatePasswordResetResult.App = app;
+                                    result.DataPacket.Add(initiatePasswordResetResult);
 
                                     return result;
                                 }

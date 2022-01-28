@@ -86,8 +86,7 @@ namespace SudokuCollective.Test.TestCases.Services
             appId = 1;
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task GetAppByID()
         {
             // Arrange
@@ -101,8 +100,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.DataPacket[0], Is.TypeOf<App>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task GetAppByIDReturnsFalseIfNotFound()
         {
             // Arrange
@@ -116,8 +114,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.DataPacket.Count, Is.EqualTo(0));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task GetApps()
         {
             // Arrange
@@ -131,8 +128,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.DataPacket.Count, Is.EqualTo(2));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task CreateApps()
         {
             // Arrange
@@ -156,8 +152,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(((App)result.DataPacket[0]).IsActive, Is.True);
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task NotCreateAppsIfOwnerDoesNotExist()
         {
             // Arrange
@@ -181,8 +176,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(apps.Count, Is.EqualTo(2));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task GetAppByLicense()
         {
             // Arrange
@@ -197,8 +191,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.DataPacket[0], Is.TypeOf<App>());
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task NotGetAppByLicenseIfInvalid()
         {
             // Arrange
@@ -212,8 +205,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("App not Found"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task RetrieveLicense()
         {
             // Arrange
@@ -227,8 +219,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.License, Is.EqualTo(license));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task NotRetrieveLicenseIfAppDoesNotExist()
         {
             // Arrange
@@ -242,8 +233,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.License, Is.Not.EqualTo(license));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task GetUsersByApp()
         {
             // Arrange
@@ -257,8 +247,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.DataPacket.Count, Is.EqualTo(2));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task UpdateApps()
         {
             // Arrange
@@ -294,8 +283,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(name, Is.EqualTo("Test App 1... UPDATED!"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task AddUsersToApp()
         {
             // Arrange
@@ -309,8 +297,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("User Added to App"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task RemoveUsersFromApps()
         {
             // Arrange
@@ -323,8 +310,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("User Removed from App"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task DeleteApps()
         {
             // Arrange
@@ -337,8 +323,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("App Deleted"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ActivateApps()
         {
             // Arrange
@@ -353,8 +338,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(app.IsActive, Is.True);
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task DeactivateApps()
         {
             // Arrange
@@ -368,8 +352,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("App Deactivated"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task PermitValidRequests()
         {
             // Arrange
@@ -381,8 +364,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result, Is.True);
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task DenyInvalidLicenseRequests()
         {
             // Arrange
@@ -395,8 +377,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result, Is.False);
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task DenyRequestWhereUserIsNotRegisteredToApp()
         {
             // Arrange
@@ -421,8 +402,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result, Is.False);
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task PermitSuperUserSystemWideAccess()
         {
             // Arrange
@@ -452,8 +432,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result, Is.True);
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task PermitOwnerRequests()
         {
             // Arrange
@@ -465,8 +444,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result, Is.True);
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task DenyInvalidOwnerRequests()
         {
             // Arrange
@@ -479,8 +457,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result, Is.False);
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task PromoteUsersToAdmin()
         {
             // Arrange
@@ -493,8 +470,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("User has been Promoted to Admin"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ReturnFalseIfPromoteUsersToAdminFails()
         {
             // Arrange
@@ -507,8 +483,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("App not Found"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task DeactivateUserAdminPrivileges()
         {
             // Arrange
@@ -525,8 +500,7 @@ namespace SudokuCollective.Test.TestCases.Services
 
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ReturnFalseIfDeactivateUserAdminPrivilegesFails()
         {
             // Arrange
@@ -541,8 +515,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("App not Found"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task GetMyApps()
         {
             // Arrange
@@ -556,8 +529,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.DataPacket.Count, Is.EqualTo(2));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ReturnFalseIfGetMyAppsFails()
         {
             // Arrange
@@ -570,8 +542,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.Message, Is.EqualTo("Apps not Found"));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task GetRegisteredApps()
         {
             // Arrange
@@ -585,8 +556,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result.DataPacket.Count, Is.EqualTo(2));
         }
 
-        [Test]
-        [Category("Services")]
+        [Test, Category("Services")]
         public async Task ReturnFalseIfGetRegisteredAppsFails()
         {
             // Arrange

@@ -5,6 +5,7 @@ using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Requests;
+using SudokuCollective.Data.Models.Results;
 
 namespace SudokuCollective.Test.TestData
 {
@@ -63,6 +64,19 @@ namespace SudokuCollective.Test.TestData
                 NinthRow = new List<int> { 9, 7, 6, 5, 2, 4, 8, 3, 1 }
             };
         }
+
+        public static List<List<int>> GetAnnonymousGame() => new List<List<int>>()
+            {
+                new List<int> { 7, 8, 5, 4, 1, 3, 2, 9, 6 },
+                new List<int> { 1, 4, 2, 8, 6, 9, 5, 7, 3 },
+                new List<int> { 6, 9, 3, 2, 7, 5, 4, 1, 8 },
+                new List<int> { 5, 1, 4, 3, 8, 2, 7, 6, 9 },
+                new List<int> { 2, 6, 7, 9, 4, 1, 3, 8, 5 },
+                new List<int> { 8, 3, 9, 7, 5, 6, 1, 2, 4 },
+                new List<int> { 4, 2, 1, 6, 3, 8, 9, 5, 7 },
+                new List<int> { 3, 5, 8, 1, 9, 7, 6, 4, 2 },
+                new List<int> { 9, 7, 6, 5, 2, 4, 8, 3, 1 }
+            };
 
         public static SolutionRequest GetValidSolutionRequest()
         {
@@ -596,6 +610,42 @@ namespace SudokuCollective.Test.TestData
                 Id = 10,
                 Name = "Null UPDATED!",
                 RoleLevel = RoleLevel.NULL
+            };
+        }
+
+        public static ConfirmEmailResult GetConfirmEmailResult()
+        {
+            return new ConfirmEmailResult()
+            {
+                UserName = "TestSuperUser",
+                Email = "TestSuperUser@example.com",
+                DateUpdated = DateTime.Now,
+                AppTitle = "Test App 1",
+                Url = "https://localhost:4200",
+                IsUpdate = true,
+                NewEmailAddressConfirmed = false,
+                ConfirmationEmailSuccessfullySent = true
+            };
+        }
+
+        public static InitiatePasswordResetResult GetInitiatePasswordResetResult()
+        {
+            return new InitiatePasswordResetResult()
+            {
+                App = new App(),
+                User = new User(),
+                ConfirmationEmailSuccessfullySent = true,
+                Token = GetToken()
+            };
+        }
+
+        public static UserResult GetUserResult()
+        {
+            return new UserResult()
+            {
+                User = new User(),
+                ConfirmationEmailSuccessfullySent = true,
+                Token = GetToken()
             };
         }
     }
