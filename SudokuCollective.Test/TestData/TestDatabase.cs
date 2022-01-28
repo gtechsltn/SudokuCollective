@@ -56,6 +56,8 @@ namespace SudokuCollective.Test.TestData
 
             if (!await databaseContext.Users.AnyAsync())
             {
+                var salt = BCrypt.Net.BCrypt.GenerateSalt();
+
                 databaseContext.Users.AddRange(
 
                     new User(
@@ -67,7 +69,7 @@ namespace SudokuCollective.Test.TestData
                         "TestSuperUser@example.com",
                         true,
                         false,
-                        "T3stPass0rd?1",
+                        BCrypt.Net.BCrypt.HashPassword("T3stPass0rd?1", salt),
                         false,
                         true,
                         dateCreated,
@@ -82,7 +84,7 @@ namespace SudokuCollective.Test.TestData
                         "TestUser@example.com",
                         true,
                         false,
-                        "T3stPass0rd?2",
+                        BCrypt.Net.BCrypt.HashPassword("T3stPass0rd?2", salt),
                         false,
                         true,
                         dateCreated,
@@ -97,7 +99,7 @@ namespace SudokuCollective.Test.TestData
                         "TestUser2@example.com",
                         false,
                         false,
-                        "T3stPass0rd?3",
+                        BCrypt.Net.BCrypt.HashPassword("T3stPass0rd?3", salt),
                         true,
                         true,
                         dateCreated,
