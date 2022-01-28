@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sudoku Collective</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="js/site.js"></script>
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/site.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+</head>
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <a class="navbar-brand" href="/">Sudoku Collective</a>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="jumbotron">
+                <img src="images/logo.png" class="center"/>
+                <h1 class="text-center">Welcome to Sudoku Collective</h1>
+                <p id="apiMessage" class="text-center"></p>
+                <div class="col-md-12 text-center">
+                    <a href="/swagger/index.html"
+                        target="_blank"
+                        title="Sudoku Collective API Documentation"
+                        class="btn btn-primary"
+                        role="button">API Documentation</a>
+                    <a href="https://github.com/Joseph-Anthony-King/SudokuCollective"
+                        target="_blank"
+                        title="Sudoku Collective on Github"
+                        class="btn btn-primary"
+                        role="button">View Code on Github</a>
+                    <!-- link for the admin app which has started as of yet -->
+                    <!--<a href="http://localhost:8080"
+                        target="_blank"
+                        title="Sudoku Collective Admin Vue"
+                        class="btn btn-primary"
+                        role="button">Open Admin App</a>-->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">            
+                    <p>Sudoku Collective is a project that serves as a ready made Web API that you can use to learn client 
+                    side technologies.  The API is documented and the end points and code can be reviewed by using the 
+                    above links so you can fully integrate this API into your own projects.  My particular implementation 
+                    will include console and Vue apps.</p>
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+        </div>
+        <footer>
+            <div class="container">
+                <div class="footer-copyright text-right py-3">© Copyright <span id="year"></span>:
+                    <a href="https://www.linkedin.com/in/joseph-king-23650256/"
+                        target="_blank"
+                        title="LinkedIn Profile: Joseph Anthony King"> Joseph-Anthony-King</a>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
