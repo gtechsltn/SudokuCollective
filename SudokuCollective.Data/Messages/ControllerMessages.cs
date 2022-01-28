@@ -40,5 +40,7 @@
 
             return result;
         }
+
+        public static string HelloWorld() => "Hello World from SudokuCollective!";
     }
 }
