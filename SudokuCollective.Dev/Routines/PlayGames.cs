@@ -11,11 +11,24 @@ namespace SudokuCollective.Dev.Routines
     {
         internal static void Run()
         {
-            Console.Write("\nPlease enter your nickname: ");
+            User user;
+            begin:
 
-            var nickName = new string(Console.ReadLine());
+            try
+            {
+                Console.Write("\nPlease enter your nickname: ");
 
-            var user = new User() { NickName = nickName };
+                var nickName = new string(Console.ReadLine());
+
+                user = new User() { NickName = nickName };
+            } 
+            catch (Exception e)
+            {
+                Console.WriteLine("\nError creating user: " + e.Message);
+                Console.WriteLine("\nPlease try again...");
+
+                goto begin;
+            }
 
             Console.WriteLine("\nSet a difficulty level:\n");
             Console.WriteLine("Enter 1 for Steady Sloth (EASY)");
@@ -228,10 +241,6 @@ namespace SudokuCollective.Dev.Routines
                 }
 
             } while (game.ContinueGame);
-
-            Console.WriteLine("\nPress enter to return to the main menu.");
-
-            Console.ReadLine();
         }
     }
 }

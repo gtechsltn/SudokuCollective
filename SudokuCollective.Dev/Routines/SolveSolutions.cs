@@ -1,20 +1,40 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Models;
+using SudokuCollective.Data.Validation.Attributes;
 using SudokuCollective.Dev.Classes;
 
 namespace SudokuCollective.Dev.Routines
 {
     internal static class SolveSolutions
     {
+        private static readonly List<string> _order = new()
+        { 
+            "first", 
+            "second", 
+            "third", 
+            "fourth", 
+            "fifth", 
+            "sixth", 
+            "seventh", 
+            "eighth", 
+            "ninth"
+        };
+        private static readonly RowValidatedAttribute _rowValidatedAttribute = new();
+
         internal static void Run()
         {
-            Console.WriteLine("\nPlease enter the sudoku puzzle you wish to solve.");
-            Console.WriteLine("You will be entering the nine values for each row.");
-            Console.WriteLine("Just enter the values with no spaces, for unknown");
-            Console.WriteLine("values enter 0.  Once you're done the solver will");
+            Console.WriteLine("\nPlease enter the sudoku puzzle you wish to solve.\n");
+            Console.WriteLine("You will be entering 9 characters for each row. You");
+            Console.WriteLine("cannot enter more than 9 characters per row.  Valid");
+            Console.WriteLine("values are numeric characters of 0 through 9, for");
+            Console.WriteLine("unknown values enter 0.  Only the 0 character can");
+            Console.WriteLine("be duplicate per row, characters 1 through 9 can only");
+            Console.WriteLine("be used once per row.  Once you're done the solver will");
             Console.WriteLine("produce an answer.  The solver will notify you if");
             Console.WriteLine("the sodoku puzzle cannot be solved.\n");
             Console.WriteLine("Press enter to continue!");
@@ -25,43 +45,63 @@ namespace SudokuCollective.Dev.Routines
 
             do
             {
-                var response = new StringBuilder();
+                var intList = new List<int>();
 
-                Console.Write("Enter the first row:   ");
+                for (var i = 0; i < _order.Count; i++)
+                {
+                rowEntry:
 
-                response.Append(Console.ReadLine());
+                    var prompt = string.Format("Enter the {0} row:", _order[i]);
 
-                Console.Write("Enter the second row:  ");
+                    if (_order[i].Equals("first") || _order[i].Equals("third") || _order[i].Equals("fifth") || _order[i].Equals("sixth") || _order[i].Equals("ninth"))
+                    {
+                        for (var j = 0; j < 3; j++)
+                        {
+                            prompt = string.Format("{0} ", prompt);
+                        }
+                    }
+                    else if (_order[i].Equals("second") || _order[i].Equals("fourth") || _order[i].Equals("eighth"))
+                    {
+                        for (var j = 0; j < 2; j++)
+                        {
+                            prompt = string.Format("{0} ", prompt);
+                        }
+                    }
+                    else
+                    {
+                        for (var j = 0; j < 1; j++)
+                        {
+                            prompt = string.Format("{0} ", prompt);
+                        }
+                    }
 
-                response.Append(Console.ReadLine());
+                    Console.Write(prompt);
 
-                Console.Write("Enter the third row:   ");
+                    var response = Console.ReadLine();
 
-                response.Append(Console.ReadLine());
+                    var charArray = response.ToCharArray();
+                    var rowList = new List<int>();
 
-                Console.Write("Enter the fourth row:  ");
+                    for (var j = 0; j < charArray.Length; j++)
+                    {
+                        var success = int.TryParse(charArray[j].ToString(), out int outInt);
 
-                response.Append(Console.ReadLine());
+                        if (success)
+                        {
+                            rowList.Add(outInt);
+                        }
+                    }
 
-                Console.Write("Enter the fifth row:   ");
-
-                response.Append(Console.ReadLine());
-
-                Console.Write("Enter the sixth row:   ");
-
-                response.Append(Console.ReadLine());
-
-                Console.Write("Enter the seventh row: ");
-
-                response.Append(Console.ReadLine());
-
-                Console.Write("Enter the eighth row:  ");
-
-                response.Append(Console.ReadLine());
-
-                Console.Write("Enter the ninth row:   ");
-
-                response.Append(Console.ReadLine());
+                    if (rowList.Count == 9 && _rowValidatedAttribute.IsValid(rowList))
+                    {
+                        intList.AddRange(rowList);
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nEntry was invalid, please try again...\n");
+                        goto rowEntry;
+                    }
+                }
 
                 Console.Write("\nPress enter to continue... ");
 
@@ -69,7 +109,7 @@ namespace SudokuCollective.Dev.Routines
 
                 Console.WriteLine();
 
-                var matrix = new SudokuMatrix(response.ToString());
+                var matrix = new SudokuMatrix(intList);
 
                 Task solver = matrix.Solve();
 

@@ -12,13 +12,21 @@ namespace SudokuCollective.Api.Controllers
     {
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(string param = null)
         {
             var result = new Result
             {
                 IsSuccess = true,
-                Message = ControllerMessages.StatusCode200(ControllerMessages.HelloWorld)
             };
+
+            if (string.IsNullOrEmpty(param))
+            {
+                result.Message = ControllerMessages.StatusCode200(ControllerMessages.HelloWorld);
+            }
+            else
+            {
+                result.Message = ControllerMessages.StatusCode200(ControllerMessages.Echo(param));
+            }
 
             return Ok(result);
         }

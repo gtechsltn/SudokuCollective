@@ -16,5 +16,7 @@
         public static string StatusCode404(string serviceMessage) => string.Format("Status Code 404: {0}", serviceMessage);
 
         public static string StatusCode500(string serviceMessage) => string.Format("Status Code 500: {0}", serviceMessage);
+
+        public static string Echo(string param) => string.Format("You Entered - {0}", param);
     }
 }

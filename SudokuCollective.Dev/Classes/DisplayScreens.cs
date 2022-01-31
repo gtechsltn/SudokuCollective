@@ -23,7 +23,7 @@ namespace SudokuCollective.Dev.Classes
             Console.WriteLine("Enter 1 to generate solutions");
             Console.WriteLine("Enter 2 to solve a solution");
             Console.WriteLine("Enter 3 to play a game");
-            Console.WriteLine("Enter 4 to exit program\n");
+            Console.WriteLine("Enter 4 to Sudoku Collective Dev App\n");
             Console.Write("Please make your selection: ");
 
         }

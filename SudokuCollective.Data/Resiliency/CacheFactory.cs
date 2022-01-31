@@ -578,8 +578,8 @@ namespace SudokuCollective.Data.Resiliency
 
                     if (response.Success && response.Objects.Count > 0)
                     {
-                        var serializedItems = JsonSerializer.Serialize(
-                            response.Objects.ConvertAll(u => (IUser)u), 
+                        var serializedItems = JsonSerializer.Serialize<List<User>>(
+                            response.Objects.ConvertAll(u => (User)u), 
                             new JsonSerializerOptions 
                             { 
                                 ReferenceHandler = ReferenceHandler.Preserve 
@@ -639,8 +639,8 @@ namespace SudokuCollective.Data.Resiliency
 
                     if (response.Success && response.Objects.Count > 0)
                     {
-                        var serializedItems = JsonSerializer.Serialize(
-                            response.Objects.ConvertAll(u => (IUser)u), 
+                        var serializedItems = JsonSerializer.Serialize<List<User>>(
+                            response.Objects.ConvertAll(u => (User)u), 
                             new JsonSerializerOptions 
                             { 
                                 ReferenceHandler = ReferenceHandler.Preserve 
@@ -700,8 +700,8 @@ namespace SudokuCollective.Data.Resiliency
 
                     if (response.Success && response.Objects.Count > 0)
                     {
-                        var serializedItems = JsonSerializer.Serialize(
-                            response.Objects.ConvertAll(a => (IApp)a), 
+                        var serializedItems = JsonSerializer.Serialize<List<App>>(
+                            response.Objects.ConvertAll(a => (App)a), 
                             new JsonSerializerOptions 
                             { 
                                 ReferenceHandler = ReferenceHandler.Preserve
@@ -761,8 +761,8 @@ namespace SudokuCollective.Data.Resiliency
 
                     if (response.Success && response.Objects.Count > 0)
                     {
-                        var serializedItems = JsonSerializer.Serialize(
-                            response.Objects.ConvertAll(a => (IApp)a), 
+                        var serializedItems = JsonSerializer.Serialize<List<App>>(
+                            response.Objects.ConvertAll(a => (App)a), 
                             new JsonSerializerOptions 
                             { 
                                 ReferenceHandler = ReferenceHandler.Preserve 
@@ -817,7 +817,7 @@ namespace SudokuCollective.Data.Resiliency
 
                     if (!string.IsNullOrEmpty(license))
                     {
-                        var serializedItem = JsonSerializer.Serialize(
+                        var serializedItem = JsonSerializer.Serialize<string>(
                             license, 
                             new JsonSerializerOptions 
                             { 
@@ -956,7 +956,7 @@ namespace SudokuCollective.Data.Resiliency
                 {
                     var response = await repo.IsAppLicenseValid(license);
 
-                    var serializedItem = JsonSerializer.Serialize(
+                    var serializedItem = JsonSerializer.Serialize<bool>(
                         response, 
                         new JsonSerializerOptions 
                         { 
@@ -1020,8 +1020,8 @@ namespace SudokuCollective.Data.Resiliency
 
                     if (response.Success && response.Object != null)
                     {
-                        var serializedItem = JsonSerializer.Serialize(
-                            response.Object, 
+                        var serializedItem = JsonSerializer.Serialize<User>(
+                            (User)response.Object, 
                             new JsonSerializerOptions 
                             { 
                                 ReferenceHandler = ReferenceHandler.Preserve 
@@ -1087,8 +1087,8 @@ namespace SudokuCollective.Data.Resiliency
 
                     if (response.Success && response.Object != null)
                     {
-                        var serializedItem = JsonSerializer.Serialize(
-                            response.Object, 
+                        var serializedItem = JsonSerializer.Serialize<User>(
+                            (User)response.Object, 
                             new JsonSerializerOptions 
                             { 
                                 ReferenceHandler = ReferenceHandler.Preserve
@@ -1200,7 +1200,7 @@ namespace SudokuCollective.Data.Resiliency
                 {
                     var response = await repo.IsUserRegistered(id);
 
-                    var serializedItem = JsonSerializer.Serialize(
+                    var serializedItem = JsonSerializer.Serialize<bool>(
                         response, 
                         new JsonSerializerOptions 
                         { 
@@ -1250,7 +1250,7 @@ namespace SudokuCollective.Data.Resiliency
                 {
                     var response = await repo.HasDifficultyLevel(difficultyLevel);
 
-                    var serializedItem = JsonSerializer.Serialize(
+                    var serializedItem = JsonSerializer.Serialize<bool>(
                         response, 
                         new JsonSerializerOptions 
                         { 
@@ -1300,7 +1300,7 @@ namespace SudokuCollective.Data.Resiliency
                 {
                     var response = await repo.HasRoleLevel(roleLevel);
 
-                    var serializedItem = JsonSerializer.Serialize(
+                    var serializedItem = JsonSerializer.Serialize<bool>(
                         response, 
                         new JsonSerializerOptions 
                         { 

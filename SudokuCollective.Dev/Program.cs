@@ -53,9 +53,19 @@ namespace SudokuCollective.Dev
                         }
                         else if (number == 4)
                         {
+                            Console.Write("\nAre you sure you want to exit Sudoku Collective Dev App (yes/no): ");
 
-                            break;
+                            var exitCommand = Console.ReadLine();
 
+                            if (exitCommand.ToLower().Equals("yes") || exitCommand.ToLower().Equals("y"))
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                DisplayScreens.ProgramPrompt();
+                                goto begin;
+                            }
                         }
                         else
                         {
@@ -85,7 +95,7 @@ namespace SudokuCollective.Dev
 
             } while (true);
 
-            Console.WriteLine("\nPress enter to exit the app...");
+            Console.WriteLine("\nThanks for playing! (Press Enter to Exit)");
             Console.ReadLine();
         }
     }
