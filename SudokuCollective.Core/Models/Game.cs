@@ -183,19 +183,19 @@ namespace SudokuCollective.Core.Models
                         {
                             if (SudokuMatrix.Difficulty.DifficultyLevel == DifficultyLevel.EASY)
                             {
-                                Score = Convert.ToInt32(((maxTicks - TimeToSolve.Ticks) / 200000000) * .2);
+                                Score = Convert.ToInt32(((maxTicks - TimeToSolve.Ticks) / 50000000) * .2);
                             }
                             else if (SudokuMatrix.Difficulty.DifficultyLevel == DifficultyLevel.MEDIUM)
                             {
-                                Score = Convert.ToInt32(((maxTicks - TimeToSolve.Ticks) / 200000000) * .4);
+                                Score = Convert.ToInt32(((maxTicks - TimeToSolve.Ticks) / 50000000) * .4);
                             }
                             else if (SudokuMatrix.Difficulty.DifficultyLevel == DifficultyLevel.HARD)
                             {
-                                Score = Convert.ToInt32(((maxTicks - TimeToSolve.Ticks) / 200000000) * .6);
+                                Score = Convert.ToInt32(((maxTicks - TimeToSolve.Ticks) / 50000000) * .6);
                             }
                             else if (SudokuMatrix.Difficulty.DifficultyLevel == DifficultyLevel.EVIL)
                             {
-                                Score = Convert.ToInt32(((maxTicks - TimeToSolve.Ticks) / 200000000) * .8);
+                                Score = Convert.ToInt32(((maxTicks - TimeToSolve.Ticks) / 50000000) * .8);
                             }
                             else
                             {
