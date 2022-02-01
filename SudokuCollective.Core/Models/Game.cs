@@ -204,7 +204,7 @@ namespace SudokuCollective.Core.Models
 
                             if (SudokuMatrix.Difficulty.DifficultyLevel != DifficultyLevel.NULL || SudokuMatrix.Difficulty.DifficultyLevel != DifficultyLevel.TEST)
                             {
-                                if (Score < 0)
+                                if (Score < 1)
                                 {
                                     Score = 1;
                                 }
