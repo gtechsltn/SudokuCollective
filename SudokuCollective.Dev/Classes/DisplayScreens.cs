@@ -12,8 +12,8 @@ namespace SudokuCollective.Dev.Classes
             DisplayMatix(game.SudokuMatrix);
 
             Console.Write(string.Format("\n\n{0}, please make your selection\n\nEnter 1 to enter a value or 'ENTER'", game.User.NickName));
-            Console.Write("\nEnter 2 to delete a value or 'DELETE' \nEnter 3 to check Your Answer or 'CHECK'");
-            Console.Write("\nEnter 4 to exit to Main Menu or 'EXIT'\n");
+            Console.Write("\nEnter 2 to delete a value or 'DELETE' \nEnter 3 to check your answer or 'CHECK'");
+            Console.Write("\nEnter 4 to reset the sudoku puzzle or 'RESET'\nEnter 5 to exit to Main Menu or 'EXIT'\n");
             Console.Write("\nYour Selection: ");
         }
 

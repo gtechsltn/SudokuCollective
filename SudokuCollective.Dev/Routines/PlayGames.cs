@@ -227,7 +227,25 @@ namespace SudokuCollective.Dev.Routines
                     }
 
                 }
-                else if (command.Equals("4") || command.Equals("EXIT"))
+                else if (command.Equals("4") || command.Equals("RESET"))
+                {
+
+                    Console.Write("\n{0}, are you sure you want to reset this sudoku puzzle (yes/no): ", user.NickName);
+
+                    var exitCommand = Console.ReadLine();
+
+                    if (exitCommand.ToLower().Equals("yes") || exitCommand.ToLower().Equals("y"))
+                    {
+                        foreach (var cell in game.SudokuMatrix.SudokuCells)
+                        {
+                            if (cell.Hidden)
+                            {
+                                cell.DisplayedValue = 0;
+                            }
+                        }
+                    }
+                }
+                else if (command.Equals("5") || command.Equals("EXIT"))
                 {
 
                     Console.Write("\n{0}, are you sure you want to exit to the main menu (yes/no): ", user.NickName);
