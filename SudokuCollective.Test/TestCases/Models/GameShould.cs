@@ -119,8 +119,13 @@ namespace SudokuCollective.Test.TestCases.Models
         {
             // Arrange and Act
             sut.KeepScore = true;
+            sut.SudokuMatrix.Difficulty.DifficultyLevel = DifficultyLevel.EVIL;
+            foreach (var cell in sut.SudokuMatrix.SudokuCells)
+            {
+                cell.DisplayedValue = cell.Value;
+            }
             sut.SudokuMatrix.Stopwatch.Start();
-            Thread.Sleep(10000);
+            Thread.Sleep(1000);
             sut.SudokuMatrix.Stopwatch.Stop();
             sut.IsSolved();
 
