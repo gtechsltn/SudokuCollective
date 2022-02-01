@@ -183,23 +183,31 @@ namespace SudokuCollective.Core.Models
                         {
                             if (SudokuMatrix.Difficulty.DifficultyLevel == DifficultyLevel.EASY)
                             {
-                                Score = Convert.ToInt32(((maxTicks - TimeToSolve.Ticks) / 100000000) * .2);
+                                Score = Convert.ToInt32(((maxTicks - TimeToSolve.Ticks) / 200000000) * .2);
                             }
                             else if (SudokuMatrix.Difficulty.DifficultyLevel == DifficultyLevel.MEDIUM)
                             {
-                                Score = Convert.ToInt32(((maxTicks - TimeToSolve.Ticks) / 100000000) * .4);
+                                Score = Convert.ToInt32(((maxTicks - TimeToSolve.Ticks) / 200000000) * .4);
                             }
                             else if (SudokuMatrix.Difficulty.DifficultyLevel == DifficultyLevel.HARD)
                             {
-                                Score = Convert.ToInt32(((maxTicks - TimeToSolve.Ticks) / 100000000) * .6);
+                                Score = Convert.ToInt32(((maxTicks - TimeToSolve.Ticks) / 200000000) * .6);
                             }
                             else if (SudokuMatrix.Difficulty.DifficultyLevel == DifficultyLevel.EVIL)
                             {
-                                Score = Convert.ToInt32(((maxTicks - TimeToSolve.Ticks) / 100000000) * .8);
+                                Score = Convert.ToInt32(((maxTicks - TimeToSolve.Ticks) / 200000000) * .8);
                             }
                             else
                             {
                                 Score = 0;
+                            }
+
+                            if (SudokuMatrix.Difficulty.DifficultyLevel != DifficultyLevel.NULL || SudokuMatrix.Difficulty.DifficultyLevel != DifficultyLevel.TEST)
+                            {
+                                if (Score < 0)
+                                {
+                                    Score = 1;
+                                }
                             }
                         }
                         else
