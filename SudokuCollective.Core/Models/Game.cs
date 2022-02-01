@@ -175,27 +175,29 @@ namespace SudokuCollective.Core.Models
 
                     if (KeepScore)
                     {
+                        var maxScore = 72000000000;
+
                         TimeToSolve = DateTime.UtcNow - DateCreated;
 
                         if (SudokuMatrix.Difficulty.DifficultyLevel == DifficultyLevel.EASY)
                         {
-                            Score = Convert.ToInt32((TimeToSolve.Ticks * .80) / 1000000000);
+                            Score = Convert.ToInt32(((maxScore - TimeToSolve.Ticks) / 100000000) * .2);
                         }
                         else if (SudokuMatrix.Difficulty.DifficultyLevel == DifficultyLevel.MEDIUM)
                         {
-                            Score = Convert.ToInt32((TimeToSolve.Ticks * .60) / 1000000000);
+                            Score = Convert.ToInt32(((maxScore - TimeToSolve.Ticks) / 100000000) * .4);
                         }
                         else if (SudokuMatrix.Difficulty.DifficultyLevel == DifficultyLevel.HARD)
                         {
-                            Score = Convert.ToInt32((TimeToSolve.Ticks * .40) / 1000000000);
+                            Score = Convert.ToInt32(((maxScore - TimeToSolve.Ticks) / 100000000) * .6);
                         }
                         else if (SudokuMatrix.Difficulty.DifficultyLevel == DifficultyLevel.EVIL)
                         {
-                            Score = Convert.ToInt32((TimeToSolve.Ticks * 20) / 1000000000);
+                            Score = Convert.ToInt32(((maxScore - TimeToSolve.Ticks) / 100000000) * .8);
                         }
                         else
                         {
-                            Score = int.MaxValue;
+                            Score = 0;
                         }
                     }
 
