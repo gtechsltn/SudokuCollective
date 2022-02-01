@@ -175,25 +175,32 @@ namespace SudokuCollective.Core.Models
 
                     if (KeepScore)
                     {
-                        var maxScore = 72000000000;
+                        var maxTicks = 144000000000;
 
                         TimeToSolve = DateTime.UtcNow - DateCreated;
 
-                        if (SudokuMatrix.Difficulty.DifficultyLevel == DifficultyLevel.EASY)
+                        if (TimeToSolve.Ticks < maxTicks)
                         {
-                            Score = Convert.ToInt32(((maxScore - TimeToSolve.Ticks) / 100000000) * .2);
-                        }
-                        else if (SudokuMatrix.Difficulty.DifficultyLevel == DifficultyLevel.MEDIUM)
-                        {
-                            Score = Convert.ToInt32(((maxScore - TimeToSolve.Ticks) / 100000000) * .4);
-                        }
-                        else if (SudokuMatrix.Difficulty.DifficultyLevel == DifficultyLevel.HARD)
-                        {
-                            Score = Convert.ToInt32(((maxScore - TimeToSolve.Ticks) / 100000000) * .6);
-                        }
-                        else if (SudokuMatrix.Difficulty.DifficultyLevel == DifficultyLevel.EVIL)
-                        {
-                            Score = Convert.ToInt32(((maxScore - TimeToSolve.Ticks) / 100000000) * .8);
+                            if (SudokuMatrix.Difficulty.DifficultyLevel == DifficultyLevel.EASY)
+                            {
+                                Score = Convert.ToInt32(((maxTicks - TimeToSolve.Ticks) / 100000000) * .2);
+                            }
+                            else if (SudokuMatrix.Difficulty.DifficultyLevel == DifficultyLevel.MEDIUM)
+                            {
+                                Score = Convert.ToInt32(((maxTicks - TimeToSolve.Ticks) / 100000000) * .4);
+                            }
+                            else if (SudokuMatrix.Difficulty.DifficultyLevel == DifficultyLevel.HARD)
+                            {
+                                Score = Convert.ToInt32(((maxTicks - TimeToSolve.Ticks) / 100000000) * .6);
+                            }
+                            else if (SudokuMatrix.Difficulty.DifficultyLevel == DifficultyLevel.EVIL)
+                            {
+                                Score = Convert.ToInt32(((maxTicks - TimeToSolve.Ticks) / 100000000) * .8);
+                            }
+                            else
+                            {
+                                Score = 0;
+                            }
                         }
                         else
                         {
