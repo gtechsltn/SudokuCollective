@@ -333,7 +333,12 @@ namespace SudokuCollective.Core.Models
 
         public override string ToString() => DisplayedValue.ToString();
 
-        public string ToJson() => JsonSerializer.Serialize(this);
+        public string ToJson() => JsonSerializer.Serialize(
+            this,
+            new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.IgnoreCycles
+            });
         #endregion
 
         #region Events

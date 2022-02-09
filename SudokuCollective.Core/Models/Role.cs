@@ -55,7 +55,12 @@ namespace SudokuCollective.Core.Models
         #region Methods
         public override string ToString() => string.Format(base.ToString() + ".Id:{0}.Name:{1}", Id, Name);
 
-        public string ToJson() => JsonSerializer.Serialize(this);
+        public string ToJson() => JsonSerializer.Serialize(
+            this,
+            new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.IgnoreCycles
+            });
         #endregion
     }
 }

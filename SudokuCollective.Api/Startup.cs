@@ -99,6 +99,7 @@ namespace SudokuCollective.Api
                 {
                     x.JsonSerializerOptions.IncludeFields = false;
                     x.JsonSerializerOptions.IgnoreReadOnlyProperties = true;
+                    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                 });
 
 

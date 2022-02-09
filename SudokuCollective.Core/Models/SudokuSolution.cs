@@ -102,7 +102,12 @@ namespace SudokuCollective.Core.Models
             return result.ToString();
         }
 
-        public string ToJson() => JsonSerializer.Serialize(this);
+        public string ToJson() => JsonSerializer.Serialize(
+            this,
+            new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.IgnoreCycles
+            });
         #endregion
     }
 }

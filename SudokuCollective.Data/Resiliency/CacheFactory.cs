@@ -36,7 +36,7 @@ namespace SudokuCollective.Data.Resiliency
                         (T)response.Object, 
                         new JsonSerializerOptions 
                         { 
-                            ReferenceHandler = ReferenceHandler.Preserve 
+                            ReferenceHandler = ReferenceHandler.IgnoreCycles 
                         });
                     var encodedItem = Encoding.UTF8.GetBytes(serializedItem);
                     var options = new DistributedCacheEntryOptions()
@@ -158,7 +158,7 @@ namespace SudokuCollective.Data.Resiliency
                             (T)response.Object, 
                             new JsonSerializerOptions 
                             { 
-                                ReferenceHandler = ReferenceHandler.Preserve 
+                                ReferenceHandler = ReferenceHandler.IgnoreCycles
                             });
                         var encodedItem = Encoding.UTF8.GetBytes(serializedItem);
                         var options = new DistributedCacheEntryOptions()
@@ -218,7 +218,7 @@ namespace SudokuCollective.Data.Resiliency
                             response.Objects.ConvertAll(x => (T)x), 
                             new JsonSerializerOptions 
                             { 
-                                ReferenceHandler = ReferenceHandler.Preserve 
+                                ReferenceHandler = ReferenceHandler.IgnoreCycles 
                             });
                         var encodedItems = Encoding.UTF8.GetBytes(serializedItems);
                         var options = new DistributedCacheEntryOptions()
@@ -446,7 +446,7 @@ namespace SudokuCollective.Data.Resiliency
                         response, 
                         new JsonSerializerOptions 
                         { 
-                            ReferenceHandler = ReferenceHandler.Preserve
+                            ReferenceHandler = ReferenceHandler.IgnoreCycles
                         });
                     var encodedItem = Encoding.UTF8.GetBytes(serializedItem);
                     var options = new DistributedCacheEntryOptions()
@@ -521,7 +521,7 @@ namespace SudokuCollective.Data.Resiliency
                             (App)response.Object, 
                             new JsonSerializerOptions 
                             { 
-                                ReferenceHandler = ReferenceHandler.Preserve 
+                                ReferenceHandler = ReferenceHandler.IgnoreCycles 
                             });
                         var encodedItem = Encoding.UTF8.GetBytes(serializedItem);
                         var options = new DistributedCacheEntryOptions()
@@ -582,7 +582,7 @@ namespace SudokuCollective.Data.Resiliency
                             response.Objects.ConvertAll(u => (User)u), 
                             new JsonSerializerOptions 
                             { 
-                                ReferenceHandler = ReferenceHandler.Preserve 
+                                ReferenceHandler = ReferenceHandler.IgnoreCycles 
                             });
                         var encodedItems = Encoding.UTF8.GetBytes(serializedItems);
                         var options = new DistributedCacheEntryOptions()
@@ -643,7 +643,7 @@ namespace SudokuCollective.Data.Resiliency
                             response.Objects.ConvertAll(u => (User)u), 
                             new JsonSerializerOptions 
                             { 
-                                ReferenceHandler = ReferenceHandler.Preserve 
+                                ReferenceHandler = ReferenceHandler.IgnoreCycles 
                             });
                         var encodedItems = Encoding.UTF8.GetBytes(serializedItems);
                         var options = new DistributedCacheEntryOptions()
@@ -704,7 +704,7 @@ namespace SudokuCollective.Data.Resiliency
                             response.Objects.ConvertAll(a => (App)a), 
                             new JsonSerializerOptions 
                             { 
-                                ReferenceHandler = ReferenceHandler.Preserve
+                                ReferenceHandler = ReferenceHandler.IgnoreCycles
                             });
                         var encodedItems = Encoding.UTF8.GetBytes(serializedItems);
                         var options = new DistributedCacheEntryOptions()
@@ -765,7 +765,7 @@ namespace SudokuCollective.Data.Resiliency
                             response.Objects.ConvertAll(a => (App)a), 
                             new JsonSerializerOptions 
                             { 
-                                ReferenceHandler = ReferenceHandler.Preserve 
+                                ReferenceHandler = ReferenceHandler.IgnoreCycles 
                             });
                         var encodedItems = Encoding.UTF8.GetBytes(serializedItems);
                         var options = new DistributedCacheEntryOptions()
@@ -821,7 +821,7 @@ namespace SudokuCollective.Data.Resiliency
                             license, 
                             new JsonSerializerOptions 
                             { 
-                                ReferenceHandler = ReferenceHandler.Preserve 
+                                ReferenceHandler = ReferenceHandler.IgnoreCycles 
                             });
                         var encodedItem = Encoding.UTF8.GetBytes(serializedItem);
                         var options = new DistributedCacheEntryOptions()
@@ -960,7 +960,7 @@ namespace SudokuCollective.Data.Resiliency
                         response, 
                         new JsonSerializerOptions 
                         { 
-                            ReferenceHandler = ReferenceHandler.Preserve 
+                            ReferenceHandler = ReferenceHandler.IgnoreCycles 
                         });
                     var encodedItem = Encoding.UTF8.GetBytes(serializedItem);
                     var options = new DistributedCacheEntryOptions()
@@ -1025,7 +1025,7 @@ namespace SudokuCollective.Data.Resiliency
                             (User)response.Object, 
                             new JsonSerializerOptions 
                             { 
-                                ReferenceHandler = ReferenceHandler.Preserve 
+                                ReferenceHandler = ReferenceHandler.IgnoreCycles 
                             });
                         var encodedItem = Encoding.UTF8.GetBytes(serializedItem);
                         var options = new DistributedCacheEntryOptions()
@@ -1092,7 +1092,7 @@ namespace SudokuCollective.Data.Resiliency
                             (User)response.Object, 
                             new JsonSerializerOptions 
                             { 
-                                ReferenceHandler = ReferenceHandler.Preserve
+                                ReferenceHandler = ReferenceHandler.IgnoreCycles
                             });
                         var encodedItem = Encoding.UTF8.GetBytes(serializedItem);
                         var options = new DistributedCacheEntryOptions()
@@ -1205,7 +1205,7 @@ namespace SudokuCollective.Data.Resiliency
                         response, 
                         new JsonSerializerOptions 
                         { 
-                            ReferenceHandler = ReferenceHandler.Preserve 
+                            ReferenceHandler = ReferenceHandler.IgnoreCycles 
                         });
                     var encodedItem = Encoding.UTF8.GetBytes(serializedItem);
                     var options = new DistributedCacheEntryOptions()
@@ -1255,7 +1255,7 @@ namespace SudokuCollective.Data.Resiliency
                         response, 
                         new JsonSerializerOptions 
                         { 
-                            ReferenceHandler = ReferenceHandler.Preserve 
+                            ReferenceHandler = ReferenceHandler.IgnoreCycles 
                         });
                     var encodedItem = Encoding.UTF8.GetBytes(serializedItem);
                     var options = new DistributedCacheEntryOptions()
@@ -1305,7 +1305,7 @@ namespace SudokuCollective.Data.Resiliency
                         response, 
                         new JsonSerializerOptions 
                         { 
-                            ReferenceHandler = ReferenceHandler.Preserve 
+                            ReferenceHandler = ReferenceHandler.IgnoreCycles 
                         });
                     var encodedItem = Encoding.UTF8.GetBytes(serializedItem);
                     var options = new DistributedCacheEntryOptions()

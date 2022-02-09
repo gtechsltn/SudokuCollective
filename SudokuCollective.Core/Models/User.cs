@@ -263,13 +263,27 @@ namespace SudokuCollective.Core.Models
             {
                 Games = games;
             }
+            else
+            {
+                Games = new List<Game>();
+            }
+
             if (roles != null)
             {
                 Roles = roles;
             }
+            else
+            {
+                Roles = new List<UserRole>();
+            }
+
             if (apps != null)
             {
                 Apps = apps;
+            }
+            else
+            {
+                Apps = new List<UserApp>();
             }
         }
         #endregion
@@ -314,7 +328,12 @@ namespace SudokuCollective.Core.Models
 
         public override string ToString() => string.Format(base.ToString() + ".Id:{0}.UserName:{1}", Id, UserName);
 
-        public string ToJson() => JsonSerializer.Serialize(this);
+        public string ToJson() => JsonSerializer.Serialize(
+            this,
+            new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.IgnoreCycles
+            });
         #endregion
     }
 }

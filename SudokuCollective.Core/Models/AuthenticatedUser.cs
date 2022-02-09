@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 
 namespace SudokuCollective.Core.Models
@@ -86,7 +87,12 @@ namespace SudokuCollective.Core.Models
 
         public override string ToString() => string.Format(base.ToString() + ".Id:{0}.UserName:{1}", Id, UserName);
 
-        public string ToJson() => JsonSerializer.Serialize(this);
+        public string ToJson() => JsonSerializer.Serialize(
+            this,
+            new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.IgnoreCycles
+            });
         #endregion
     }
 }
