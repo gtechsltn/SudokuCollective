@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using SudokuCollective.Core.Enums;
@@ -704,42 +705,6 @@ namespace SudokuCollective.Core.Models
             }
         }
 
-        public List<int> ToIntList()
-        {
-            var result = new List<int>();
-
-            foreach (var SudokuCell in SudokuCells)
-            {
-                result.Add(SudokuCell.Value);
-            }
-
-            return result;
-        }
-
-        public List<int> ToDisplayedIntList()
-        {
-            var result = new List<int>();
-
-            foreach (var SudokuCell in SudokuCells)
-            {
-                result.Add(SudokuCell.DisplayedValue);
-            }
-
-            return result;
-        }
-
-        public override string ToString()
-        {
-            var result = new StringBuilder();
-
-            foreach (var SudokuCell in SudokuCells)
-            {
-                result.Append(SudokuCell);
-            }
-
-            return result.ToString();
-        }
-
         public void SetDifficulty(IDifficulty difficulty = null)
         {
             if (difficulty != null)
@@ -1055,6 +1020,44 @@ namespace SudokuCollective.Core.Models
                 }
             }
         }
+
+        public List<int> ToIntList()
+        {
+            var result = new List<int>();
+
+            foreach (var SudokuCell in SudokuCells)
+            {
+                result.Add(SudokuCell.Value);
+            }
+
+            return result;
+        }
+
+        public List<int> ToDisplayedIntList()
+        {
+            var result = new List<int>();
+
+            foreach (var SudokuCell in SudokuCells)
+            {
+                result.Add(SudokuCell.DisplayedValue);
+            }
+
+            return result;
+        }
+
+        public override string ToString()
+        {
+            var result = new StringBuilder();
+
+            foreach (var SudokuCell in SudokuCells)
+            {
+                result.Append(SudokuCell);
+            }
+
+            return result.ToString();
+        }
+
+        public string ToJson() => JsonSerializer.Serialize(this);
         #endregion
 
         #region Event Handlers

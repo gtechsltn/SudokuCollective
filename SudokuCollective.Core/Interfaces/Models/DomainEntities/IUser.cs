@@ -16,8 +16,8 @@ namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
         string Password { get; set; }
         bool ReceivedRequestToUpdatePassword { get; set; }
         bool IsActive { get; set; }
-        bool IsSuperUser { get; set; }
-        bool IsAdmin { get; set; }
+        bool IsSuperUser { get; }
+        bool IsAdmin { get; }
         DateTime DateCreated { get; set; }
         DateTime DateUpdated { get; set; }
         ICollection<IGame> Games { get; set; }

@@ -71,12 +71,11 @@ namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
         List<int> NinthRowValues { get; }
         bool IsValid();
         bool IsSolved();
-        List<int> ToIntList();
-        List<int> ToDisplayedIntList();
-        string ToString();
         void SetDifficulty(IDifficulty difficulty = null);
         void GenerateSolution();
         Task Solve();
+        List<int> ToIntList();
+        List<int> ToDisplayedIntList();
         void HandleSudokuCellEvent(object sender, SudokuCellEventArgs e);
     }
 }

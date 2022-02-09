@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
@@ -228,6 +229,10 @@ namespace SudokuCollective.Core.Models
 
             return !ContinueGame;
         }
+
+        public override string ToString() => string.Format(base.ToString() + ".Id:{0}.AppId:{1}.UserId:{2}", Id, AppId, UserId);
+
+        public string ToJson() => JsonSerializer.Serialize(this);
         #endregion
     }
 }

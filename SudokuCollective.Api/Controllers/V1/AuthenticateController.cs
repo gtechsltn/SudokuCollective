@@ -41,36 +41,18 @@ namespace SudokuCollective.Api.Controllers.V1
                     return BadRequest(ModelState);
                 }
 
-                var authenticateResult = await authService.IsAuthenticated(request);
+                var result = await authService.IsAuthenticated(request);
 
-                if (authenticateResult.IsSuccess)
+                if (result.IsSuccess)
                 {
-                    var result = new Result()
-                    {
-                        IsSuccess = true,
-                        Message = ControllerMessages.StatusCode200(authenticateResult.Message),
-                        DataPacket = new List<object>() { authenticateResult }
-                    };
+                    result.Message = ControllerMessages.StatusCode200(result.Message);
 
                     return Ok(result);
                 }
-                else if (authenticateResult.Message.Equals(AppsMessages.AppDeactivatedMessage))
+                else if (result.Message.Equals(AppsMessages.AppDeactivatedMessage) || 
+                    result.Message.Equals(AppsMessages.UserIsNotARegisteredUserOfThisAppMessage))
                 {
-                    var result = new Result()
-                    {
-                        IsSuccess = false,
-                        Message = ControllerMessages.StatusCode404(authenticateResult.Message),
-                    };
-
-                    return NotFound(result);
-                }
-                else if (authenticateResult.Message.Equals(AppsMessages.UserIsNotARegisteredUserOfThisAppMessage))
-                {
-                    var result = new Result()
-                    {
-                        IsSuccess = false,
-                        Message = ControllerMessages.StatusCode404(authenticateResult.Message),
-                    };
+                    result.Message = ControllerMessages.StatusCode404(result.Message);
 
                     return NotFound(result);
                 }
@@ -81,11 +63,6 @@ namespace SudokuCollective.Api.Controllers.V1
                             request.UserName,
                             request.Password,
                             request.License);
-
-                    var result = new Result
-                    {
-                        IsSuccess = false
-                    };
 
                     if (confirmAuthenticationIssueResponse == UserAuthenticationErrorType.USERNAMEINVALID)
                     {

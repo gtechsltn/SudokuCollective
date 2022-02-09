@@ -16,9 +16,8 @@ namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
         int SudokuMatrixId { get; set; }
         ISudokuMatrix SudokuMatrix { get; set; }
         ICollection<IAvailableValue> AvailableValues { get; set; }
-        int ToInt32() => DisplayedValue;
-        string ToString() => DisplayedValue.ToString();
         void UpdateAvailableValues(int i);
+        int ToInt32() => DisplayedValue;
         void OnSuccessfulSudokuCellUpdate(SudokuCellEventArgs e);
         event EventHandler<SudokuCellEventArgs> SudokuCellEvent;
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Messages;
@@ -305,10 +306,6 @@ namespace SudokuCollective.Core.Models
         #endregion
 
         #region Methods
-        public int ToInt32() => DisplayedValue;
-
-        public override string ToString() => DisplayedValue.ToString();
-
         public void UpdateAvailableValues(int i)
         {
             if (AvailableValues.Any(a => a.Value == i && a.Available))
@@ -331,6 +328,12 @@ namespace SudokuCollective.Core.Models
                 }
             }
         }
+
+        public int ToInt32() => DisplayedValue;
+
+        public override string ToString() => DisplayedValue.ToString();
+
+        public string ToJson() => JsonSerializer.Serialize(this);
         #endregion
 
         #region Events

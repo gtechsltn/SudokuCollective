@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 
@@ -84,6 +85,11 @@ namespace SudokuCollective.Core.Models
         #endregion
 
         #region Methods
+        private List<int> GetValues(int skipValue, int takeValue)
+        {
+            return SolutionList.Skip(skipValue).Take(takeValue).ToList();
+        }
+
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
@@ -96,10 +102,7 @@ namespace SudokuCollective.Core.Models
             return result.ToString();
         }
 
-        private List<int> GetValues(int skipValue, int takeValue)
-        {
-            return SolutionList.Skip(skipValue).Take(takeValue).ToList();
-        }
+        public string ToJson() => JsonSerializer.Serialize(this);
         #endregion
     }
 }

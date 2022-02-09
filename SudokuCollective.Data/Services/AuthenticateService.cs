@@ -78,7 +78,8 @@ namespace SudokuCollective.Data.Services
                     string.Format(CacheKeys.GetUserByUsernameCacheKey, request.UserName, request.License),
                     CachingStrategy.Medium,
                     request.UserName,
-                    request.License);
+                    request.License,
+                    result);
 
                 var user = (User)((RepositoryResponse)userResponse.Item1).Object;
 

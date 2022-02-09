@@ -3,5 +3,6 @@
     public interface IDomainEntity
     {
         int Id { get; set; }
+        string ToJson();
     }
 }

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Messages;
+using SudokuCollective.Core.Utilities;
 using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Core.Models
@@ -248,7 +250,8 @@ namespace SudokuCollective.Core.Models
             get { return Users.ConvertAll(u => (IUserApp)u); }
             set { Users = value.ToList().ConvertAll(u => (UserApp)u); }
         }
-        [Required]
+
+        [Required, JsonConverter(typeof(IDomainEntityListConverter<List<UserApp>>))]
         public virtual List<UserApp> Users { get; set; }
         #endregion
 
@@ -353,6 +356,10 @@ namespace SudokuCollective.Core.Models
 
             return result;
         }
+
+        public override string ToString() => string.Format(base.ToString() + ".Id:{0}.Name:{1}", Id, Name);
+
+        public string ToJson() => JsonSerializer.Serialize(this);
         #endregion
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 
 namespace SudokuCollective.Core.Models
@@ -82,6 +83,10 @@ namespace SudokuCollective.Core.Models
             DateCreated = user.DateCreated;
             DateUpdated = user.DateUpdated;
         }
+
+        public override string ToString() => string.Format(base.ToString() + ".Id:{0}.UserName:{1}", Id, UserName);
+
+        public string ToJson() => JsonSerializer.Serialize(this);
         #endregion
     }
 }

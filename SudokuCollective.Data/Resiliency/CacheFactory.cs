@@ -999,6 +999,7 @@ namespace SudokuCollective.Data.Resiliency
 
                 var cachedItem = await cache.GetAsync(cacheKey);
 
+
                 if (cachedItem != null)
                 {
                     var serializedItem = Encoding.UTF8.GetString(cachedItem);

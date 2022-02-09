@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Messages;
+using SudokuCollective.Core.Utilities;
 using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Core.Models
@@ -51,6 +53,7 @@ namespace SudokuCollective.Core.Models
         [Required]
         public string LastName { get; set; }
         public string NickName { get; set; }
+        [JsonIgnore]
         public string FullName
         {
             get => string.Format("{0} {1}", FirstName, LastName);
@@ -98,7 +101,7 @@ namespace SudokuCollective.Core.Models
         public bool ReceivedRequestToUpdatePassword { get; set; }
         [Required]
         public bool IsActive { get; set; }
-        [Required]
+        [JsonIgnore]
         public bool IsSuperUser
         {
             get
@@ -118,14 +121,8 @@ namespace SudokuCollective.Core.Models
 
                 return _isSuperUser;
             }
-
-            set
-            {
-
-                _isSuperUser = value;
-            }
         }
-        [Required]
+        [JsonIgnore]
         public bool IsAdmin
         {
             get
@@ -145,11 +142,6 @@ namespace SudokuCollective.Core.Models
 
                 return _isAdmin;
             }
-
-            set
-            {
-                _isAdmin = value;
-            }
         }
         [Required]
         public DateTime DateCreated { get; set; }
@@ -167,7 +159,7 @@ namespace SudokuCollective.Core.Models
                 Games = value.ToList().ConvertAll(g => (Game)g);
             }
         }
-        [Required]
+        [Required, JsonConverter(typeof(IDomainEntityListConverter<List<Game>>))]
         public virtual List<Game> Games { get; set; }
         [JsonIgnore]
         ICollection<IUserRole> IUser.Roles
@@ -181,7 +173,7 @@ namespace SudokuCollective.Core.Models
                 Roles = value.ToList().ConvertAll(ur => (UserRole)ur);
             }
         }
-        [Required]
+        [Required, JsonConverter(typeof(IDomainEntityListConverter<List<UserRole>>))]
         public virtual List<UserRole> Roles { get; set; }
         [JsonIgnore]
         ICollection<IUserApp> IUser.Apps
@@ -195,7 +187,7 @@ namespace SudokuCollective.Core.Models
                 Apps = value.ToList().ConvertAll(a => (UserApp)a);
             }
         }
-        [Required]
+        [Required, JsonConverter(typeof(IDomainEntityListConverter<List<UserApp>>))]
         public virtual List<UserApp> Apps { get; set; }
         #endregion
 
@@ -213,8 +205,6 @@ namespace SudokuCollective.Core.Models
             ReceivedRequestToUpdatePassword = false;
             DateCreated = dateUserCreated;
             IsActive = true;
-            IsSuperUser = false;
-            IsAdmin = false;
             IsEmailConfirmed = false;
         }
 
@@ -244,31 +234,43 @@ namespace SudokuCollective.Core.Models
             string lastName,
             string nickName,
             string email,
-            bool emailConfirmed,
+            bool isEmailConfirmed,
             bool receivedRequestToUpdateEmail,
             string password,
             bool receivedRequestToUpdatePassword,
             bool isActive,
             DateTime dateCreated,
-            DateTime dateUpdated)
+            DateTime dateUpdated,
+            List<Game> games = null,
+            List<UserRole> roles = null,
+            List<UserApp> apps = null)
         {
-            Games = new List<Game>();
-            Roles = new List<UserRole>();
-            Apps = new List<UserApp>();
-
             Id = id;
             UserName = userName;
             FirstName = firstName;
             LastName = lastName;
             NickName = nickName;
             Email = email;
-            IsEmailConfirmed = emailConfirmed;
+            IsEmailConfirmed = isEmailConfirmed;
             ReceivedRequestToUpdateEmail = receivedRequestToUpdateEmail;
             Password = password;
             ReceivedRequestToUpdatePassword = receivedRequestToUpdatePassword;
             IsActive = isActive;
             DateCreated = dateCreated;
             DateUpdated = dateUpdated;
+
+            if (games != null)
+            {
+                Games = games;
+            }
+            if (roles != null)
+            {
+                Roles = roles;
+            }
+            if (apps != null)
+            {
+                Apps = apps;
+            }
         }
         #endregion
 
@@ -291,7 +293,7 @@ namespace SudokuCollective.Core.Models
                 {
                     if (role.Role.RoleLevel == RoleLevel.SUPERUSER)
                     {
-                        IsSuperUser = true;
+                        _isSuperUser = true;
                     }
                     else if (role.Role.RoleLevel == RoleLevel.ADMIN)
                     {
@@ -309,6 +311,10 @@ namespace SudokuCollective.Core.Models
         {
             _email = null;
         }
+
+        public override string ToString() => string.Format(base.ToString() + ".Id:{0}.UserName:{1}", Id, UserName);
+
+        public string ToJson() => JsonSerializer.Serialize(this);
         #endregion
     }
 }

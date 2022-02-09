@@ -96,7 +96,11 @@ namespace SudokuCollective.Api
 
             services.AddControllers()
                 .AddJsonOptions(x =>
-                    x.JsonSerializerOptions.IncludeFields = true);
+                {
+                    x.JsonSerializerOptions.IncludeFields = false;
+                    x.JsonSerializerOptions.IgnoreReadOnlyProperties = true;
+                });
+
 
             var emailMetaData = Configuration.GetSection("emailMetaData").Get<EmailMetaData>();
 

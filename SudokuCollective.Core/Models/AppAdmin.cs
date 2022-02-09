@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 
@@ -45,6 +46,12 @@ namespace SudokuCollective.Core.Models
             UserId = userId;
             IsActive = isActive;
         }
+        #endregion
+
+        #region Methods
+        public override string ToString() => string.Format(base.ToString() + ".Id:{0}.AppId:{1}.UserId:{2}", Id, AppId, UserId);
+
+        public string ToJson() => JsonSerializer.Serialize(this);
         #endregion
     }
 }
