@@ -17,6 +17,6 @@
 
         public static string StatusCode500(string serviceMessage) => string.Format("Status Code 500: {0}", serviceMessage);
 
-        public static string Echo(string param) => string.Format("You Entered - {0}", param);
+        public static string Echo(string param) => string.Format("You Submitted: {0}", param);
     }
 }
