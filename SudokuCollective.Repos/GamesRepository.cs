@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SudokuCollective.Core.Interfaces.DataModels;
 using SudokuCollective.Core.Interfaces.Models;
@@ -9,7 +5,7 @@ using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 
-namespace SudokuCollective.Data.Repositories
+namespace SudokuCollective.Repos
 {
     public class GamesRepository<TEntity> : IGamesRepository<TEntity> where TEntity : Game
     {

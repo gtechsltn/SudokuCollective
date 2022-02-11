@@ -1,30 +1,28 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.DataModels;
 using SudokuCollective.Core.Interfaces.Models;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 
-namespace SudokuCollective.Data.Repositories
+namespace SudokuCollective.Repos
 {
-    public class PasswordResetsRepository<TEntity> : IPasswordResetsRepository<TEntity> where TEntity : PasswordReset
+    public class RolesRepository<TEntity> : IRolesRepository<TEntity> where TEntity : Role
     {
         #region Fields
         private readonly DatabaseContext _context;
         #endregion
 
         #region Constructor
-        public PasswordResetsRepository(DatabaseContext context)
+        public RolesRepository(DatabaseContext context)
         {
             _context = context;
         }
         #endregion
 
         #region Methods
-        public async Task<IRepositoryResponse> Create(TEntity entity)
+        public async Task<IRepositoryResponse> Add(TEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -39,8 +37,7 @@ namespace SudokuCollective.Data.Repositories
 
             try
             {
-                if (await _context.PasswordResets
-                        .AnyAsync(pu => pu.Token.ToLower().Equals(entity.Token.ToLower())))
+                if (await _context.Roles.AnyAsync(r => r.RoleLevel == entity.RoleLevel))
                 {
                     result.Success = false;
 
@@ -83,17 +80,24 @@ namespace SudokuCollective.Data.Repositories
             }
         }
 
-        public async Task<IRepositoryResponse> Get(string token)
+        public async Task<IRepositoryResponse> Get(int id)
         {
-            if (string.IsNullOrEmpty(token)) throw new ArgumentNullException(nameof(token));
-
             var result = new RepositoryResponse();
+
+            if (id == 0)
+            {
+                result.Success = false;
+
+                return result;
+            }
 
             try
             {
-                var query = await _context
-                    .PasswordResets
-                    .FirstOrDefaultAsync(pu => pu.Token.ToLower().Equals(token.ToLower()));
+                var query = new Role();
+
+                query = await _context
+                    .Roles
+                    .FirstOrDefaultAsync(r => r.Id == id);
 
                 if (query == null)
                 {
@@ -122,9 +126,13 @@ namespace SudokuCollective.Data.Repositories
 
             try
             {
-                var query = await _context
-                    .PasswordResets
-                    .OrderBy(ec => ec.Id)
+                var query = new List<Role>();
+
+                query = await _context
+                    .Roles
+                    .Where(r =>
+                        r.RoleLevel != RoleLevel.NULL)
+                    .OrderBy(r => r.RoleLevel)
                     .ToListAsync();
 
                 if (query.Count == 0)
@@ -135,7 +143,7 @@ namespace SudokuCollective.Data.Repositories
                 {
                     result.Success = true;
                     result.Objects = query
-                        .ConvertAll(pu => (IDomainEntity)pu)
+                        .ConvertAll(r => (IDomainEntity)r)
                         .ToList();
                 }
 
@@ -165,9 +173,16 @@ namespace SudokuCollective.Data.Repositories
 
             try
             {
-                if (await _context.PasswordResets.AnyAsync(a => a.Id == entity.Id))
+                if (await _context.Roles.AnyAsync(r => r.Id == entity.Id))
                 {
-                    _context.Attach(entity);
+                    try
+                    {
+                        _context.Update(entity);
+                    }
+                    catch
+                    {
+                        _context.Attach(entity);
+                    }
 
                     foreach (var entry in _context.ChangeTracker.Entries())
                     {
@@ -200,6 +215,68 @@ namespace SudokuCollective.Data.Repositories
 
                     return result;
                 }
+            }
+            catch (Exception exp)
+            {
+                result.Success = false;
+                result.Exception = exp;
+
+                return result;
+            }
+        }
+
+        public async Task<IRepositoryResponse> UpdateRange(List<TEntity> entities)
+        {
+            if (entities == null) throw new ArgumentNullException(nameof(entities));
+
+            var result = new RepositoryResponse();
+
+            try
+            {
+                foreach (var entity in entities)
+                {
+                    if (entity.Id == 0)
+                    {
+                        result.Success = false;
+
+                        return result;
+                    }
+
+                    if (await _context.Roles.AnyAsync(d => d.Id == entity.Id))
+                    {
+                        _context.Attach(entity);
+                    }
+                    else
+                    {
+                        result.Success = false;
+
+                        return result;
+                    }
+                }
+
+                foreach (var entry in _context.ChangeTracker.Entries())
+                {
+                    var dbEntry = (IDomainEntity)entry.Entity;
+
+                    if (dbEntry is UserApp)
+                    {
+                        entry.State = EntityState.Modified;
+                    }
+                    else if (dbEntry is UserRole)
+                    {
+                        entry.State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        // Otherwise do nothing...
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+
+                result.Success = true;
+
+                return result;
             }
             catch (Exception exp)
             {
@@ -225,7 +302,7 @@ namespace SudokuCollective.Data.Repositories
 
             try
             {
-                if (await _context.PasswordResets.AnyAsync(pu => pu.Id == entity.Id))
+                if (await _context.Roles.AnyAsync(d => d.Id == entity.Id))
                 {
                     _context.Remove(entity);
 
@@ -237,9 +314,16 @@ namespace SudokuCollective.Data.Repositories
                         {
                             entry.State = EntityState.Modified;
                         }
-                        else if (dbEntry is UserRole)
+                        else if (dbEntry is UserRole userRole)
                         {
-                            entry.State = EntityState.Modified;
+                            if (userRole.RoleId == entity.Id)
+                            {
+                                entry.State = EntityState.Deleted;
+                            }
+                            else
+                            {
+                                entry.State = EntityState.Modified;
+                            }
                         }
                         else
                         {
@@ -270,42 +354,66 @@ namespace SudokuCollective.Data.Repositories
             }
         }
 
-        public async Task<bool> HasEntity(int id) => 
-            await _context.PasswordResets.AnyAsync(ec => ec.Id == id);
-
-        public async Task<bool> HasOutstandingPasswordReset(int userId, int appid) => 
-            await _context
-                .PasswordResets
-                .AnyAsync(pw => pw.UserId == userId && pw.AppId == appid);
-
-        public async Task<IRepositoryResponse> RetrievePasswordReset(int userId, int appid)
+        public async Task<IRepositoryResponse> DeleteRange(List<TEntity> entities)
         {
+            if (entities == null) throw new ArgumentNullException(nameof(entities));
+
             var result = new RepositoryResponse();
-
-            if (userId == 0 || appid == 0)
-            {
-                result.Success = false;
-
-                return result;
-            }
 
             try
             {
-                var query = await _context
-                    .PasswordResets
-                    .FirstOrDefaultAsync(pw =>
-                        pw.UserId == userId &&
-                        pw.AppId == appid);
+                var roleIds = new List<int>();
 
-                if (query == null)
+                foreach (var entity in entities)
                 {
-                    result.Success = false;
+                    if (entity.Id == 0)
+                    {
+                        result.Success = false;
+
+                        return result;
+                    }
+
+                    if (await _context.Roles.AnyAsync(d => d.Id == entity.Id))
+                    {
+                        _context.Remove(entity);
+                        roleIds.Add(entity.Id);
+                    }
+                    else
+                    {
+                        result.Success = false;
+
+                        return result;
+                    }
                 }
-                else
+
+                foreach (var entry in _context.ChangeTracker.Entries())
                 {
-                    result.Success = true;
-                    result.Object = query;
+                    var dbEntry = (IDomainEntity)entry.Entity;
+
+                    if (dbEntry is UserApp)
+                    {
+                        entry.State = EntityState.Modified;
+                    }
+                    else if (dbEntry is UserRole userRole)
+                    {
+                        if (roleIds.Contains(userRole.RoleId))
+                        {
+                            entry.State = EntityState.Deleted;
+                        }
+                        else
+                        {
+                            entry.State = EntityState.Modified;
+                        }
+                    }
+                    else
+                    {
+                        // Otherwise do nothing...
+                    }
                 }
+
+                await _context.SaveChangesAsync();
+
+                result.Success = true;
 
                 return result;
             }
@@ -316,6 +424,31 @@ namespace SudokuCollective.Data.Repositories
 
                 return result;
             }
+        }
+
+        public async Task<bool> HasEntity(int id) => 
+            await _context.Roles.AnyAsync(r => r.Id == id);
+
+        public async Task<bool> HasRoleLevel(RoleLevel level) => 
+            await _context.Roles.AnyAsync(r => r.RoleLevel == level);
+
+        public async Task<bool> IsListValid(List<int> ids)
+        {
+            if (ids == null) throw new ArgumentNullException(nameof(ids));
+
+            var result = true;
+
+            foreach (var id in ids)
+            {
+                var isIdValid = await _context.Roles.AnyAsync(r => r.Id == id);
+
+                if (!isIdValid)
+                {
+                    result = false;
+                }
+            }
+
+            return result;
         }
         #endregion
     }

@@ -18,8 +18,8 @@ using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Authentication;
-using SudokuCollective.Data.Repositories;
 using SudokuCollective.Data.Services;
+using SudokuCollective.Repos;
 
 namespace SudokuCollective.Api
 {

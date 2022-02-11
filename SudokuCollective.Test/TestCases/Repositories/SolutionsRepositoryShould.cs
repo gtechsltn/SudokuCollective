@@ -5,7 +5,7 @@ using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
-using SudokuCollective.Data.Repositories;
+using SudokuCollective.Repos;
 using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Repositories

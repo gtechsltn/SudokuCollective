@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SudokuCollective.Core.Interfaces.DataModels;
 using SudokuCollective.Core.Interfaces.Models;
@@ -9,37 +5,45 @@ using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 
-namespace SudokuCollective.Data.Repositories
+namespace SudokuCollective.Repos
 {
-    public class AppAdminsRepository<TEntity> : IAppAdminsRepository<TEntity> where TEntity : AppAdmin
+    public class EmailConfirmationsRepository<TEntity> : IEmailConfirmationsRepository<TEntity> where TEntity : EmailConfirmation
     {
         #region Fields
         private readonly DatabaseContext _context;
         #endregion
 
         #region Constructor
-        public AppAdminsRepository(DatabaseContext context)
+        public EmailConfirmationsRepository(DatabaseContext context)
         {
             _context = context;
         }
         #endregion
 
         #region Methods
-        public async Task<IRepositoryResponse> Add(TEntity entity)
+        public async Task<IRepositoryResponse> Create(TEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
             var result = new RepositoryResponse();
 
-            if (await _context.AppAdmins.AnyAsync(aa => aa.Id == entity.Id))
-            {
-                result.Success = false;
-
-                return result;
-            }
-
             try
             {
+                if (entity.Id != 0)
+                {
+                    result.Success = false;
+
+                    return result;
+                }
+
+                if (await _context.EmailConfirmations
+                        .AnyAsync(pu => pu.Token.ToLower().Equals(entity.Token.ToLower())))
+                {
+                    result.Success = false;
+
+                    return result;
+                }
+
                 _context.Attach(entity);
 
                 foreach (var entry in _context.ChangeTracker.Entries())
@@ -76,17 +80,22 @@ namespace SudokuCollective.Data.Repositories
             }
         }
 
-        public async Task<IRepositoryResponse> Get(int id)
+        public async Task<IRepositoryResponse> Get(string token)
         {
             var result = new RepositoryResponse();
+
+            if (string.IsNullOrEmpty(token))
+            {
+                result.Success = false;
+
+                return result;
+            }
 
             try
             {
                 var query = await _context
-                    .AppAdmins
-                    .FirstOrDefaultAsync(aa => aa.Id == id);
-
-                result.Object = query;
+                    .EmailConfirmations
+                    .FirstOrDefaultAsync(ec => ec.Token.ToLower().Equals(token.ToLower()));
 
                 if (query == null)
                 {
@@ -95,6 +104,7 @@ namespace SudokuCollective.Data.Repositories
                 else
                 {
                     result.Success = true;
+                    result.Object = query;
                 }
 
                 return result;
@@ -115,7 +125,8 @@ namespace SudokuCollective.Data.Repositories
             try
             {
                 var query = await _context
-                    .AppAdmins
+                    .EmailConfirmations
+                    .OrderBy(ec => ec.Id)
                     .ToListAsync();
 
                 if (query.Count == 0)
@@ -125,9 +136,8 @@ namespace SudokuCollective.Data.Repositories
                 else
                 {
                     result.Success = true;
-
                     result.Objects = query
-                        .ConvertAll(aa => (IDomainEntity)aa)
+                        .ConvertAll(ec => (IDomainEntity)ec)
                         .ToList();
                 }
 
@@ -150,16 +160,14 @@ namespace SudokuCollective.Data.Repositories
 
             try
             {
-                if (await _context.AppAdmins.AnyAsync(d => d.Id == entity.Id))
+                var tokenNotUniqueList = await _context.EmailConfirmations
+                    .Where(ec => ec.Token.ToLower().Equals(entity.Token.ToLower()) && ec.Id != entity.Id)
+                    .ToListAsync();
+
+                if (await _context.EmailConfirmations
+                    .AnyAsync(ec => ec.Id == entity.Id) && tokenNotUniqueList.Count == 0)
                 {
-                    try
-                    {
-                        _context.Update(entity);
-                    }
-                    catch
-                    {
-                        _context.Attach(entity);
-                    }
+                    _context.Attach(entity);
 
                     foreach (var entry in _context.ChangeTracker.Entries())
                     {
@@ -202,68 +210,6 @@ namespace SudokuCollective.Data.Repositories
             }
         }
 
-        public async Task<IRepositoryResponse> UpdateRange(List<TEntity> entities)
-        {
-            if (entities == null) throw new ArgumentNullException(nameof(entities));
-
-            var result = new RepositoryResponse();
-
-            try
-            {
-                foreach (var entity in entities)
-                {
-                    if (entity.Id == 0)
-                    {
-                        result.Success = false;
-
-                        return result;
-                    }
-
-                    if (await _context.AppAdmins.AnyAsync(d => d.Id == entity.Id))
-                    {
-                        _context.Attach(entity);
-                    }
-                    else
-                    {
-                        result.Success = false;
-
-                        return result;
-                    }
-                }
-
-                foreach (var entry in _context.ChangeTracker.Entries())
-                {
-                    var dbEntry = (IDomainEntity)entry.Entity;
-
-                    if (dbEntry is UserApp)
-                    {
-                        entry.State = EntityState.Modified;
-                    }
-                    else if (dbEntry is UserRole)
-                    {
-                        entry.State = EntityState.Modified;
-                    }
-                    else
-                    {
-                        // Otherwise do nothing...
-                    }
-                }
-
-                await _context.SaveChangesAsync();
-
-                result.Success = true;
-
-                return result;
-            }
-            catch (Exception exp)
-            {
-                result.Success = false;
-                result.Exception = exp;
-
-                return result;
-            }
-        }
-
         public async Task<IRepositoryResponse> Delete(TEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -272,7 +218,7 @@ namespace SudokuCollective.Data.Repositories
 
             try
             {
-                if (await _context.AppAdmins.AnyAsync(d => d.Id == entity.Id))
+                if (await _context.EmailConfirmations.AnyAsync(ec => ec.Id == entity.Id))
                 {
                     _context.Remove(entity);
 
@@ -317,95 +263,40 @@ namespace SudokuCollective.Data.Repositories
             }
         }
 
-        public async Task<IRepositoryResponse> DeleteRange(List<TEntity> entities)
-        {
-            if (entities == null) throw new ArgumentNullException(nameof(entities));
+        public async Task<bool> HasEntity(int id) => 
+            await _context.EmailConfirmations.AnyAsync(ec => ec.Id == id);
 
+        public async Task<bool> HasOutstandingEmailConfirmation(int userId, int appid) => 
+            await _context.EmailConfirmations.AnyAsync(ec => ec.UserId == userId && ec.AppId == appid);
+
+        public async Task<IRepositoryResponse> RetrieveEmailConfirmation(int userId, int appid)
+        {
             var result = new RepositoryResponse();
 
-            try
-            {
-                foreach (var entity in entities)
-                {
-                    if (entity.Id == 0)
-                    {
-                        result.Success = false;
-
-                        return result;
-                    }
-
-                    if (await _context.AppAdmins.AnyAsync(d => d.Id == entity.Id))
-                    {
-                        _context.Remove(entity);
-                    }
-                    else
-                    {
-                        result.Success = false;
-
-                        return result;
-                    }
-                }
-
-                foreach (var entry in _context.ChangeTracker.Entries())
-                {
-                    var dbEntry = (IDomainEntity)entry.Entity;
-
-                    if (dbEntry is UserApp)
-                    {
-                        entry.State = EntityState.Modified;
-                    }
-                    else if (dbEntry is UserRole)
-                    {
-                        entry.State = EntityState.Modified;
-                    }
-                    else
-                    {
-                        // Otherwise do nothing...
-                    }
-                }
-
-                await _context.SaveChangesAsync();
-
-                result.Success = true;
-
-                return result;
-            }
-            catch (Exception exp)
+            if (userId == 0 || appid == 0)
             {
                 result.Success = false;
-                result.Exception = exp;
 
                 return result;
             }
-        }
-
-        public async Task<bool> HasEntity(int id) => 
-            await _context.AppAdmins.AnyAsync(aa => aa.Id == id);
-
-        public async Task<bool> HasAdminRecord(int appId, int userId) => 
-            await _context
-                .AppAdmins
-                .AnyAsync(aa => aa.AppId == appId && aa.UserId == userId);
-
-        public async Task<IRepositoryResponse> GetAdminRecord(int appId, int userId)
-        {
-            var result = new RepositoryResponse();
 
             try
             {
                 var query = await _context
-                    .AppAdmins
-                    .FirstOrDefaultAsync(aa => aa.AppId == appId && aa.UserId == userId);
+                    .EmailConfirmations
+                    .FirstOrDefaultAsync(ec => 
+                        ec.UserId == userId && 
+                        ec.AppId == appid);
 
                 if (query == null)
                 {
                     result.Success = false;
-
-                    return result;
                 }
-
-                result.Success = true;
-                result.Object = query;
+                else
+                {
+                    result.Success = true;
+                    result.Object = query;
+                }
 
                 return result;
             }
