@@ -5,6 +5,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
+using SudokuCollective.Cache;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Models;
@@ -12,6 +13,7 @@ using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Requests;
 using SudokuCollective.Data.Services;
+using SudokuCollective.Test.Cache;
 using SudokuCollective.Test.Repositories;
 using SudokuCollective.Test.TestData;
 
@@ -21,10 +23,10 @@ namespace SudokuCollective.Test.TestCases.Services
     {
         private DatabaseContext context;
         private MockedRolesRepository mockedkRolesRepository;
+        private MockedCacheService mockedCacheService;
         private MemoryDistributedCache memoryCache;
         private RolesService sut;
         private RolesService sutFailue;
-        private string license;
         private Request request;
         private UpdateRoleRequest updateRoleRequest;
 
@@ -33,16 +35,22 @@ namespace SudokuCollective.Test.TestCases.Services
         {
             context = await TestDatabase.GetDatabaseContext();
             mockedkRolesRepository = new MockedRolesRepository(context);
+            mockedCacheService = new MockedCacheService(context);
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
 
             sut = new RolesService(
                 mockedkRolesRepository.SuccessfulRequest.Object,
-                memoryCache);
+                memoryCache,
+                mockedCacheService.SuccessfulRequest.Object,
+                new CacheKeys(),
+                new CachingStrategy());
             sutFailue = new RolesService(
                 mockedkRolesRepository.FailedRequest.Object,
-                memoryCache);
-            license = TestObjects.GetLicense();
+                memoryCache,
+                mockedCacheService.FailedRequest.Object,
+                new CacheKeys(),
+                new CachingStrategy());
         }
 
         [Test, Category("Services")]

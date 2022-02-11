@@ -11,6 +11,9 @@ using SudokuCollective.Test.Repositories;
 using SudokuCollective.Data.Models.Authentication;
 using SudokuCollective.Test.Services;
 using SudokuCollective.Data.Models.Results;
+using SudokuCollective.Test.Cache;
+using SudokuCollective.Core.Models;
+using SudokuCollective.Cache;
 
 namespace SudokuCollective.Test.TestCases.Services
 {
@@ -22,6 +25,7 @@ namespace SudokuCollective.Test.TestCases.Services
         private MockedUserManagementService mockedUserManagementService;
         private MockedAppsRepository mockedAppsRepository;
         private MockedAppAdminsRepository mockedAppAdminsRepository;
+        private MockedCacheService mockedCacheService;
         private TokenManagement tokenManagement;
         private MemoryDistributedCache memoryCache;
         private IAuthenticateService sutValid;
@@ -41,6 +45,7 @@ namespace SudokuCollective.Test.TestCases.Services
             mockedRolesRepository = new MockedRolesRepository(context);
             mockedAppsRepository = new MockedAppsRepository(context);
             mockedAppAdminsRepository = new MockedAppAdminsRepository(context);
+            mockedCacheService = new MockedCacheService(context);
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
 
@@ -62,7 +67,10 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedAppAdminsRepository.SuccessfulRequest.Object,
                 mockedUserManagementService.SuccssfulRequest.Object,
                 options,
-                memoryCache);
+                memoryCache,
+                mockedCacheService.SuccessfulRequest.Object,
+                new CacheKeys(),
+                new CachingStrategy());
             sutInvalid = new AuthenticateService(
                 mockedUsersRepository.FailedRequest.Object,
                 mockedRolesRepository.FailedRequest.Object,
@@ -70,7 +78,10 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedAppAdminsRepository.FailedRequest.Object,
                 mockedUserManagementService.ServiceFailedRequest.Object,
                 options,
-                memoryCache);
+                memoryCache,
+                mockedCacheService.SuccessfulRequest.Object,
+                new CacheKeys(),
+                new CachingStrategy());
         }
 
         [Test, Category("Services")]

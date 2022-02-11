@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SudokuCollective.Cache\SudokuCollective.Cache.csproj" />
     <ProjectReference Include="..\SudokuCollective.Data\SudokuCollective.Data.csproj" />
   </ItemGroup>
 

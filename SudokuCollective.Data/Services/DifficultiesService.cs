@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
+using SudokuCollective.Core.Interfaces.Cache;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Interfaces.Services;
@@ -9,7 +10,6 @@ using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Requests;
-using SudokuCollective.Data.Resiliency;
 
 namespace SudokuCollective.Data.Services
 {
@@ -18,15 +18,24 @@ namespace SudokuCollective.Data.Services
         #region Fields
         private readonly IDifficultiesRepository<Difficulty> _difficultiesRepository;
         private readonly IDistributedCache _distributedCache;
+        private readonly ICacheService _cacheService;
+        private readonly ICacheKeys _cacheKeys;
+        private readonly ICachingStrategy _cachingStrategy;
         #endregion
 
         #region Constructor
         public DifficultiesService(
             IDifficultiesRepository<Difficulty> difficultiesRepository,
-            IDistributedCache distributedCache)
+            IDistributedCache distributedCache,
+            ICacheService cacheService,
+            ICacheKeys cacheKeys,
+            ICachingStrategy cachingStrategy)
         {
             _difficultiesRepository = difficultiesRepository;
             _distributedCache = distributedCache;
+            _cacheService = cacheService;
+            _cacheKeys = cacheKeys;
+            _cachingStrategy = cachingStrategy;
         }
         #endregion
         
@@ -59,11 +68,11 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                if (!await CacheFactory.HasDifficultyLevelWithCacheAsync(
+                if (!await _cacheService.HasDifficultyLevelWithCacheAsync(
                     _difficultiesRepository,
                     _distributedCache,
-                    string.Format(CacheKeys.GetDifficulty, createDifficultyRequest.DifficultyLevel),
-                    CachingStrategy.Heavy,
+                    string.Format(_cacheKeys.GetDifficulty, createDifficultyRequest.DifficultyLevel),
+                    _cachingStrategy.Heavy,
                     createDifficultyRequest.DifficultyLevel))
                 {
 
@@ -74,11 +83,12 @@ namespace SudokuCollective.Data.Services
                         DifficultyLevel = createDifficultyRequest.DifficultyLevel
                     };
 
-                    var response = await CacheFactory.AddWithCacheAsync<Difficulty>(
+                    var response = await _cacheService.AddWithCacheAsync<Difficulty>(
                         _difficultiesRepository,
                         _distributedCache,
-                        CacheKeys.GetDifficulty,
-                        CachingStrategy.Heavy,
+                        _cacheKeys.GetDifficulty,
+                        _cachingStrategy.Heavy,
+                        _cacheKeys,
                         difficulty);
 
                     if (response.Success)
@@ -135,16 +145,16 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                var cacheFactoryResponse = await CacheFactory.GetWithCacheAsync(
+                var cacheServiceResponse = await _cacheService.GetWithCacheAsync(
                     _difficultiesRepository,
                     _distributedCache,
-                    string.Format(CacheKeys.GetDifficulty, id),
-                    CachingStrategy.Heavy,
+                    string.Format(_cacheKeys.GetDifficulty, id),
+                    _cachingStrategy.Heavy,
                     id,
                     result);
 
-                var response = (RepositoryResponse)cacheFactoryResponse.Item1;
-                result = (Result)cacheFactoryResponse.Item2;
+                var response = (RepositoryResponse)cacheServiceResponse.Item1;
+                result = (Result)cacheServiceResponse.Item2;
 
                 if (response.Success)
                 {
@@ -184,15 +194,15 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                var cacheFactoryResponse = await CacheFactory.GetAllWithCacheAsync(
+                var cacheServiceResponse = await _cacheService.GetAllWithCacheAsync(
                     _difficultiesRepository,
                     _distributedCache,
-                    CacheKeys.GetDifficulties,
-                    CachingStrategy.Heavy,
+                    _cacheKeys.GetDifficulties,
+                    _cachingStrategy.Heavy,
                     result);
 
-                var response = (RepositoryResponse)cacheFactoryResponse.Item1;
-                result = (Result)cacheFactoryResponse.Item2;
+                var response = (RepositoryResponse)cacheServiceResponse.Item1;
+                result = (Result)cacheServiceResponse.Item2;
 
                 if (response.Success)
                 {
@@ -267,9 +277,10 @@ namespace SudokuCollective.Data.Services
                     difficulty.Name = updateDifficultyRequest.Name;
                     difficulty.DisplayName = updateDifficultyRequest.DisplayName;
 
-                    var updateDifficultyResponse = await CacheFactory.UpdateWithCacheAsync(
+                    var updateDifficultyResponse = await _cacheService.UpdateWithCacheAsync(
                         _difficultiesRepository,
                         _distributedCache,
+                        _cacheKeys,
                         difficulty);
 
                     if (updateDifficultyResponse.Success)
@@ -338,9 +349,10 @@ namespace SudokuCollective.Data.Services
 
                 if (response.Success)
                 {
-                    var updateDeleteResponse = await CacheFactory.DeleteWithCacheAsync(
+                    var updateDeleteResponse = await _cacheService.DeleteWithCacheAsync(
                         _difficultiesRepository,
                         _distributedCache,
+                        _cacheKeys,
                         (Difficulty)response.Object);
 
                     if (updateDeleteResponse.Success)

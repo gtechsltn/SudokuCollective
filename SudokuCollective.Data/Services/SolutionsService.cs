@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using SudokuCollective.Core.Extensions;
+using SudokuCollective.Core.Interfaces.Cache;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Core.Interfaces.Repositories;
@@ -13,7 +14,6 @@ using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Requests;
-using SudokuCollective.Data.Resiliency;
 using SudokuCollective.Data.Utilities;
 
 namespace SudokuCollective.Data.Services
@@ -23,15 +23,21 @@ namespace SudokuCollective.Data.Services
         #region Fields
         private readonly ISolutionsRepository<SudokuSolution> _solutionsRepository;
         private readonly IDistributedCache _distributedCache;
+        private readonly ICacheService _cacheService;
+        private readonly ICacheKeys _cacheKeys;
         #endregion
 
         #region Constructor
         public SolutionsService(
             ISolutionsRepository<SudokuSolution> solutionsRepository,
-            IDistributedCache distributedCache)
+            IDistributedCache distributedCache,
+            ICacheService cacheService,
+            ICacheKeys cacheKeys)
         {
             _solutionsRepository = solutionsRepository;
             _distributedCache = distributedCache;
+            _cacheService = cacheService;
+            _cacheKeys = cacheKeys;
         }
         #endregion
 
@@ -96,15 +102,15 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                var cacheFactoryResponse = await CacheFactory.GetAllWithCacheAsync<SudokuSolution>(
+                var cacheServiceResponse = await _cacheService.GetAllWithCacheAsync<SudokuSolution>(
                     _solutionsRepository,
                     _distributedCache,
-                    CacheKeys.GetSolutionsCacheKey,
+                    _cacheKeys.GetSolutionsCacheKey,
                     DateTime.Now.AddHours(1),
                     result);
 
-                response = (RepositoryResponse)cacheFactoryResponse.Item1;
-                result = (Result)cacheFactoryResponse.Item2;
+                response = (RepositoryResponse)cacheServiceResponse.Item1;
+                result = (Result)cacheServiceResponse.Item2;
 
                 if (response.Success)
                 {
@@ -297,15 +303,15 @@ namespace SudokuCollective.Data.Services
 
                     matrix.GenerateSolution();
 
-                    var cacheFactoryResponse = await CacheFactory.GetAllWithCacheAsync<SudokuSolution>(
+                    var cacheServiceResponse = await _cacheService.GetAllWithCacheAsync<SudokuSolution>(
                         _solutionsRepository,
                         _distributedCache,
-                        CacheKeys.GetSolutionsCacheKey,
+                        _cacheKeys.GetSolutionsCacheKey,
                         DateTime.Now.AddHours(1),
                         result);
 
-                    var response = cacheFactoryResponse.Item1;
-                    result = (Result)cacheFactoryResponse.Item2;
+                    var response = cacheServiceResponse.Item1;
+                    result = (Result)cacheServiceResponse.Item2;
 
                     var matrixNotInDB = true;
 

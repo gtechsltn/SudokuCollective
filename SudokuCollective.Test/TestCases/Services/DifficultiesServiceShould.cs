@@ -13,6 +13,8 @@ using SudokuCollective.Test.TestData;
 using SudokuCollective.Test.Repositories;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Requests;
+using SudokuCollective.Test.Cache;
+using SudokuCollective.Cache;
 
 namespace SudokuCollective.Test.TestCases.Services
 {
@@ -20,6 +22,7 @@ namespace SudokuCollective.Test.TestCases.Services
     {
         private DatabaseContext context;
         private MockedDifficultiesRepository mockedDifficultiesRepository;
+        private MockedCacheService mockedCacheService;
         private MemoryDistributedCache memoryCache;
         private IDifficultiesService sut;
         private IDifficultiesService sutCreateDifficulty;
@@ -31,15 +34,22 @@ namespace SudokuCollective.Test.TestCases.Services
         {
             context = await TestDatabase.GetDatabaseContext();
             mockedDifficultiesRepository = new MockedDifficultiesRepository(context);
+            mockedCacheService = new MockedCacheService(context);
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
 
             sut = new DifficultiesService(
                 mockedDifficultiesRepository.SuccessfulRequest.Object,
-                memoryCache);
+                memoryCache,
+                mockedCacheService.SuccessfulRequest.Object,
+                new CacheKeys(),
+                new CachingStrategy());
             sutCreateDifficulty = new DifficultiesService(
                 mockedDifficultiesRepository.CreateDifficultyRequest.Object,
-                memoryCache);
+                memoryCache,
+                mockedCacheService.CreateDifficultyRoleSuccessfulRequest.Object,
+                new CacheKeys(),
+                new CachingStrategy());
             license = TestObjects.GetLicense();
             paginator = TestObjects.GetPaginator();
         }

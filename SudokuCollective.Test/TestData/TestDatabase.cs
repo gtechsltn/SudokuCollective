@@ -82,10 +82,10 @@ namespace SudokuCollective.Test.TestData
                         "User",
                         "Test User",
                         "TestUser@example.com",
+                        false,
                         true,
-                        false,
                         BCrypt.Net.BCrypt.HashPassword("T3stPass0rd?2", salt),
-                        false,
+                        true,
                         true,
                         dateCreated,
                         DateTime.MinValue),
@@ -98,7 +98,7 @@ namespace SudokuCollective.Test.TestData
                         "Test User 2",
                         "TestUser2@example.com",
                         false,
-                        false,
+                        true,
                         BCrypt.Net.BCrypt.HashPassword("T3stPass0rd?3", salt),
                         true,
                         true,
@@ -179,7 +179,6 @@ namespace SudokuCollective.Test.TestData
                 databaseContext.UsersApps.AddRange(
 
                     new UserApp(1, 1, 1),
-                    new UserApp(2, 1, 2),
                     new UserApp(3, 2, 1),
                     new UserApp(4, 2, 2),
                     new UserApp(5, 3, 2)
@@ -405,7 +404,8 @@ namespace SudokuCollective.Test.TestData
             {
                 databaseContext.EmailConfirmations.AddRange(
 
-                    new EmailConfirmation(1, 1, 1, "F5D6377E-B170-4335-A425-25066A112987", "oldEmail@example.com", "newEmail@example.com", false, DateTime.UtcNow)
+                    new EmailConfirmation(1, 1, 1, "F5D6377E-B170-4335-A425-25066A112987", "oldEmail@example.com", "newEmail@example.com", false, DateTime.UtcNow),
+                    new EmailConfirmation(2, 3, 1, "4667A7D3-70C7-4DA1-B472-8C34C8280723", "oldEmail@example.com", "newEmail@example.com", false, DateTime.UtcNow)
                 );
 
                 await databaseContext.SaveChangesAsync();
@@ -415,7 +415,8 @@ namespace SudokuCollective.Test.TestData
             {
                 databaseContext.PasswordResets.AddRange(
 
-                    new PasswordReset(1, 1)
+                    new PasswordReset(1, 1),
+                    new PasswordReset(3, 1)
                 );
 
                 await databaseContext.SaveChangesAsync();

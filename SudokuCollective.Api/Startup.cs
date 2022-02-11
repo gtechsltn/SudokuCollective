@@ -10,14 +10,16 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using SudokuCollective.Data.Models.Authentication;
-using SudokuCollective.Core.Interfaces.Services;
-using SudokuCollective.Data.Services;
-using SudokuCollective.Core.Interfaces.Repositories;
-using SudokuCollective.Core.Models;
-using SudokuCollective.Data.Repositories;
-using SudokuCollective.Data.Models;
 using SudokuCollective.Api.Models;
+using SudokuCollective.Cache;
+using SudokuCollective.Core.Interfaces.Cache;
+using SudokuCollective.Core.Models;
+using SudokuCollective.Core.Interfaces.Services;
+using SudokuCollective.Core.Interfaces.Repositories;
+using SudokuCollective.Data.Models;
+using SudokuCollective.Data.Models.Authentication;
+using SudokuCollective.Data.Repositories;
+using SudokuCollective.Data.Services;
 
 namespace SudokuCollective.Api
 {
@@ -106,6 +108,8 @@ namespace SudokuCollective.Api
             var emailMetaData = Configuration.GetSection("emailMetaData").Get<EmailMetaData>();
 
             services.AddSingleton(emailMetaData);
+            services.AddSingleton<ICacheKeys, CacheKeys>();
+            services.AddSingleton<ICachingStrategy, CachingStrategy>();
 
             services.AddStackExchangeRedisCache(options =>
             {
@@ -131,6 +135,7 @@ namespace SudokuCollective.Api
             services.AddScoped<IRolesService, RolesService>();
             services.AddScoped<ISolutionsService, SolutionsService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<ICacheService, CacheService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

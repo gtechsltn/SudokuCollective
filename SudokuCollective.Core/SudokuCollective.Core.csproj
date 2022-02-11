@@ -10,4 +10,8 @@
     <None Remove="Regex\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.2" />
+  </ItemGroup>
+
 </Project>

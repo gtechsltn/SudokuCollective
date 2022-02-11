@@ -1,25 +1,25 @@
 using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
+using SudokuCollective.Core.Enums;
+using SudokuCollective.Core.Interfaces.Cache;
 using SudokuCollective.Core.Interfaces.DataModels;
 using SudokuCollective.Core.Interfaces.Models.TokenModels;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
-using SudokuCollective.Data.Models.Authentication;
-using SudokuCollective.Data.Messages;
-using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
-using SudokuCollective.Data.Resiliency;
+using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models;
-using System.Linq;
-using SudokuCollective.Core.Enums;
-using Microsoft.IdentityModel.Tokens;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Text;
+using SudokuCollective.Data.Models.Authentication;
+using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Results;
 
 namespace SudokuCollective.Data.Services
@@ -33,6 +33,9 @@ namespace SudokuCollective.Data.Services
         private readonly IUserManagementService _userManagementService;
         private readonly ITokenManagement _tokenManagement;
         private readonly IDistributedCache _distributedCache;
+        private readonly ICacheService _cacheService;
+        private readonly ICacheKeys _cacheKeys;
+        private readonly ICachingStrategy _cachingStrategy;
 
         public AuthenticateService(
             IUsersRepository<User> usersRepository,
@@ -41,7 +44,10 @@ namespace SudokuCollective.Data.Services
             IAppAdminsRepository<AppAdmin> appsAdminRepository,
             IUserManagementService userManagementService,
             IOptions<TokenManagement> tokenManagement,
-            IDistributedCache distributedCache)
+            IDistributedCache distributedCache,
+            ICacheService cacheService,
+            ICacheKeys cacheKeys,
+            ICachingStrategy cachingStrategy)
         {
             _usersRepository = usersRepository;
             _rolesRepository = rolesRepository;
@@ -50,6 +56,9 @@ namespace SudokuCollective.Data.Services
             _userManagementService = userManagementService;
             _tokenManagement = tokenManagement.Value;
             _distributedCache = distributedCache;
+            _cacheService = cacheService;
+            _cacheKeys = cacheKeys;
+            _cachingStrategy = cachingStrategy;
         }
         
         public async Task<IResult> IsAuthenticated(ITokenRequest request)
@@ -72,22 +81,24 @@ namespace SudokuCollective.Data.Services
                     return result;
                 }
 
-                var userResponse = await CacheFactory.GetByUserNameWithCacheAsync(
+                var userResponse = await _cacheService.GetByUserNameWithCacheAsync(
                     _usersRepository,
                     _distributedCache,
-                    string.Format(CacheKeys.GetUserByUsernameCacheKey, request.UserName, request.License),
-                    CachingStrategy.Medium,
+                    string.Format(_cacheKeys.GetUserByUsernameCacheKey, request.UserName, request.License),
+                    _cachingStrategy.Medium,
+                    _cacheKeys,
                     request.UserName,
                     request.License,
                     result);
 
                 var user = (User)((RepositoryResponse)userResponse.Item1).Object;
+                result = (Result)userResponse.Item2;
 
-                var appResponse = await CacheFactory.GetAppByLicenseWithCacheAsync(
+                var appResponse = await _cacheService.GetAppByLicenseWithCacheAsync(
                     _appsRepository,
                     _distributedCache,
-                    string.Format(CacheKeys.GetAppByLicenseCacheKey, request.License),
-                    CachingStrategy.Medium,
+                    string.Format(_cacheKeys.GetAppByLicenseCacheKey, request.License),
+                    _cachingStrategy.Medium,
                     request.License);
 
                 var app = (App)((RepositoryResponse)appResponse.Item1).Object;

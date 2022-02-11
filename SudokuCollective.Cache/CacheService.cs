@@ -1,13 +1,9 @@
-using System;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Extensions.Caching.Distributed;
 using SudokuCollective.Core.Enums;
-using SudokuCollective.Core.Interfaces.Models.DomainEntities;
+using SudokuCollective.Core.Interfaces.Cache;
 using SudokuCollective.Core.Interfaces.DataModels;
 using SudokuCollective.Core.Interfaces.Models;
 using SudokuCollective.Core.Interfaces.Repositories;
@@ -15,15 +11,16 @@ using SudokuCollective.Core.Models;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Data.Models;
 
-namespace SudokuCollective.Data.Resiliency
+namespace SudokuCollective.Cache
 {
-    internal static class CacheFactory
+    public class CacheService : ICacheService
     {
-        internal static async Task<IRepositoryResponse> AddWithCacheAsync<T>(
+        public async Task<IRepositoryResponse> AddWithCacheAsync<T>(
             IRepository<T> repo,
             IDistributedCache cache,
             string cacheKey,
             DateTime expiration,
+            ICacheKeys keys,
             T entity) where T : IDomainEntity
         {
             try
@@ -55,13 +52,13 @@ namespace SudokuCollective.Data.Resiliency
                             options);
 
                         cacheKeys = new List<string> {
-                            string.Format(CacheKeys.GetAppCacheKey, user.Apps.ToList()[0].AppId),
-                            string.Format(CacheKeys.GetAppUsersCacheKey, user.Apps.ToList()[0].AppId),
-                            string.Format(CacheKeys.GetNonAppUsersCacheKey, user.Apps.ToList()[0].AppId),
-                            string.Format(CacheKeys.GetAppByLicenseCacheKey, appLicense),
-                            string.Format(CacheKeys.GetAppUsersCacheKey, 1),
-                            string.Format(CacheKeys.GetNonAppUsersCacheKey, 1),
-                            CacheKeys.GetUsersCacheKey
+                            string.Format(keys.GetAppCacheKey, user.Apps.ToList()[0].AppId),
+                            string.Format(keys.GetAppUsersCacheKey, user.Apps.ToList()[0].AppId),
+                            string.Format(keys.GetNonAppUsersCacheKey, user.Apps.ToList()[0].AppId),
+                            string.Format(keys.GetAppByLicenseCacheKey, appLicense),
+                            string.Format(keys.GetAppUsersCacheKey, 1),
+                            string.Format(keys.GetNonAppUsersCacheKey, 1),
+                            keys.GetUsersCacheKey
                         };
                     }
                     else if (response.Object is App app)
@@ -74,8 +71,8 @@ namespace SudokuCollective.Data.Resiliency
 
                         // Remove any app list cache items which may exist
                         cacheKeys = new List<string> {
-                                string.Format(CacheKeys.GetMyAppsCacheKey, app.OwnerId),
-                                CacheKeys.GetAppsCacheKey
+                                string.Format(keys.GetMyAppsCacheKey, app.OwnerId),
+                                keys.GetAppsCacheKey
                             };
                     }
                     else if (response.Object is Difficulty)
@@ -88,7 +85,7 @@ namespace SudokuCollective.Data.Resiliency
 
                         // Remove any difficutly list cache items which may exist
                         cacheKeys = new List<string> {
-                                CacheKeys.GetDifficulties
+                                keys.GetDifficulties
                             };
                     }
                     else
@@ -101,7 +98,7 @@ namespace SudokuCollective.Data.Resiliency
 
                         // Remove any role list cache items which may exist
                         cacheKeys = new List<string> {
-                                CacheKeys.GetRoles
+                                keys.GetRoles
                             };
                     }
 
@@ -119,7 +116,7 @@ namespace SudokuCollective.Data.Resiliency
             }
         }
 
-        internal static async Task<Tuple<IRepositoryResponse, IResult>> GetWithCacheAsync<T>(
+        public async Task<Tuple<IRepositoryResponse, IResult>> GetWithCacheAsync<T>(
             IRepository<T> repo,
             IDistributedCache cache,
             string cacheKey,
@@ -179,7 +176,7 @@ namespace SudokuCollective.Data.Resiliency
             }
         }
 
-        internal static async Task<Tuple<IRepositoryResponse, IResult>> GetAllWithCacheAsync<T>(
+        public async Task<Tuple<IRepositoryResponse, IResult>> GetAllWithCacheAsync<T>(
             IRepository<T> repo,
             IDistributedCache cache,
             string cacheKey,
@@ -239,9 +236,10 @@ namespace SudokuCollective.Data.Resiliency
             }
         }
 
-        internal static async Task<IRepositoryResponse> UpdateWithCacheAsync<T>(
+        public async Task<IRepositoryResponse> UpdateWithCacheAsync<T>(
             IRepository<T> repo,
             IDistributedCache cache,
+            ICacheKeys keys,
             T entity,
             string license = null) where T : IDomainEntity
         {
@@ -257,28 +255,28 @@ namespace SudokuCollective.Data.Resiliency
                     {
                         // Remove any user cache items which may exist
                         cacheKeys = new List<string> {
-                                string.Format(CacheKeys.GetUserCacheKey, user.Id, license),
-                                string.Format(CacheKeys.GetUserByUsernameCacheKey, user.UserName, license),
-                                string.Format(CacheKeys.GetUserByEmailCacheKey, user.Email, license),
-                                string.Format(CacheKeys.GetUsersCacheKey),
+                                string.Format(keys.GetUserCacheKey, user.Id, license),
+                                string.Format(keys.GetUserByUsernameCacheKey, user.UserName, license),
+                                string.Format(keys.GetUserByEmailCacheKey, user.Email, license),
+                                string.Format(keys.GetUsersCacheKey),
                             };
                     }
                     else if (response.Object is App app)
                     {
                         // Remove any app cache items which may exist
                         cacheKeys = new List<string> {
-                                string.Format(CacheKeys.GetAppCacheKey, app.Id),
-                                string.Format(CacheKeys.GetAppByLicenseCacheKey, app.License),
-                                string.Format(CacheKeys.GetMyAppsCacheKey, app.OwnerId),
-                                string.Format(CacheKeys.GetAppsCacheKey),
+                                string.Format(keys.GetAppCacheKey, app.Id),
+                                string.Format(keys.GetAppByLicenseCacheKey, app.License),
+                                string.Format(keys.GetMyAppsCacheKey, app.OwnerId),
+                                string.Format(keys.GetAppsCacheKey),
                             };
                     }
                     else if (response.Object is Difficulty difficulty)
                     {
                         // Remove any difficutly cache items which may exist
                         cacheKeys = new List<string> {
-                                string.Format(CacheKeys.GetDifficulty, difficulty.Id),
-                                CacheKeys.GetDifficulties
+                                string.Format(keys.GetDifficulty, difficulty.Id),
+                                keys.GetDifficulties
                             };
                     }
                     else
@@ -287,8 +285,8 @@ namespace SudokuCollective.Data.Resiliency
 
                         // Remove any role cache items which may exist
                         cacheKeys = new List<string> {
-                                string.Format(CacheKeys.GetRole, role.Id),
-                                CacheKeys.GetRoles
+                                string.Format(keys.GetRole, role.Id),
+                                keys.GetRoles
                             };
                     }
 
@@ -303,9 +301,10 @@ namespace SudokuCollective.Data.Resiliency
             }
         }
 
-        internal static async Task<IRepositoryResponse> DeleteWithCacheAsync<T>(
+        public async Task<IRepositoryResponse> DeleteWithCacheAsync<T>(
             IRepository<T> repo,
             IDistributedCache cache,
+            ICacheKeys keys,
             T entity,
             string license = null) where T : IDomainEntity
         {
@@ -349,11 +348,11 @@ namespace SudokuCollective.Data.Resiliency
                     {
                         // Remove any user cache items which may exist
                         cacheKeys = new List<string> {
-                            string.Format(CacheKeys.GetUserCacheKey, user.Id, license),
-                            string.Format(CacheKeys.GetUserByUsernameCacheKey, user.UserName, license),
-                            string.Format(CacheKeys.GetUserByEmailCacheKey, user.Email, license),
-                            string.Format(CacheKeys.GetMyAppsCacheKey, user.Id),
-                            string.Format(CacheKeys.GetMyRegisteredCacheKey, user.Id)
+                            string.Format(keys.GetUserCacheKey, user.Id, license),
+                            string.Format(keys.GetUserByUsernameCacheKey, user.UserName, license),
+                            string.Format(keys.GetUserByEmailCacheKey, user.Email, license),
+                            string.Format(keys.GetMyAppsCacheKey, user.Id),
+                            string.Format(keys.GetMyRegisteredCacheKey, user.Id)
                         };
 
                         if (user.Apps.Count > 0 && apps != null)
@@ -364,14 +363,14 @@ namespace SudokuCollective.Data.Resiliency
 
                                 if (app != null)
                                 {
-                                    cacheKeys.Add(string.Format(CacheKeys.GetAppCacheKey, userApp.AppId));
-                                    cacheKeys.Add(string.Format(CacheKeys.HasAppCacheKey, userApp.AppId));
-                                    cacheKeys.Add(string.Format(CacheKeys.GetAppLicenseCacheKey, userApp.AppId));
-                                    cacheKeys.Add(string.Format(CacheKeys.GetAppByLicenseCacheKey, app.License));
-                                    cacheKeys.Add(string.Format(CacheKeys.IsAppLicenseValidCacheKey, app.License));
-                                    cacheKeys.Add(string.Format(CacheKeys.GetAppUsersCacheKey, userApp.AppId));
-                                    cacheKeys.Add(string.Format(CacheKeys.GetNonAppUsersCacheKey, userApp.AppId));
-                                    cacheKeys.Add(CacheKeys.GetAppsCacheKey);
+                                    cacheKeys.Add(string.Format(keys.GetAppCacheKey, userApp.AppId));
+                                    cacheKeys.Add(string.Format(keys.HasAppCacheKey, userApp.AppId));
+                                    cacheKeys.Add(string.Format(keys.GetAppLicenseCacheKey, userApp.AppId));
+                                    cacheKeys.Add(string.Format(keys.GetAppByLicenseCacheKey, app.License));
+                                    cacheKeys.Add(string.Format(keys.IsAppLicenseValidCacheKey, app.License));
+                                    cacheKeys.Add(string.Format(keys.GetAppUsersCacheKey, userApp.AppId));
+                                    cacheKeys.Add(string.Format(keys.GetNonAppUsersCacheKey, userApp.AppId));
+                                    cacheKeys.Add(keys.GetAppsCacheKey);
                                 }
                             }
                         }
@@ -380,22 +379,22 @@ namespace SudokuCollective.Data.Resiliency
                     {
                         // Remove any user cache items which may exist
                         cacheKeys = new List<string> {
-                        string.Format(CacheKeys.GetAppCacheKey, app.Id),
-                        string.Format(CacheKeys.HasAppCacheKey, app.Id),
-                        string.Format(CacheKeys.GetAppLicenseCacheKey, app.Id),
-                        string.Format(CacheKeys.GetAppByLicenseCacheKey, app.License),
-                        string.Format(CacheKeys.IsAppLicenseValidCacheKey, app.License),
-                        string.Format(CacheKeys.GetMyAppsCacheKey, app.OwnerId),
-                        string.Format(CacheKeys.HasAppCacheKey, app.Id),
-                        CacheKeys.GetAppsCacheKey
+                        string.Format(keys.GetAppCacheKey, app.Id),
+                        string.Format(keys.HasAppCacheKey, app.Id),
+                        string.Format(keys.GetAppLicenseCacheKey, app.Id),
+                        string.Format(keys.GetAppByLicenseCacheKey, app.License),
+                        string.Format(keys.IsAppLicenseValidCacheKey, app.License),
+                        string.Format(keys.GetMyAppsCacheKey, app.OwnerId),
+                        string.Format(keys.HasAppCacheKey, app.Id),
+                        keys.GetAppsCacheKey
                     };
                     }
                     else if (entity is Difficulty difficulty)
                     {
                         // Remove any difficulty cache items which may exist
                         cacheKeys = new List<string> {
-                            string.Format(CacheKeys.GetDifficulty, difficulty.Id),
-                            CacheKeys.GetDifficulties
+                            string.Format(keys.GetDifficulty, difficulty.Id),
+                            keys.GetDifficulties
                         };
                     }
                     else
@@ -404,8 +403,8 @@ namespace SudokuCollective.Data.Resiliency
 
                         // Remove any role cache items which may exist
                         cacheKeys = new List<string> {
-                            string.Format(CacheKeys.GetRole, role.Id),
-                            CacheKeys.GetRoles
+                            string.Format(keys.GetRole, role.Id),
+                            keys.GetRoles
                         };
                     }
 
@@ -420,7 +419,7 @@ namespace SudokuCollective.Data.Resiliency
             }
         }
 
-        internal static async Task<bool> HasEntityWithCacheAsync<T>(
+        public async Task<bool> HasEntityWithCacheAsync<T>(
             IRepository<T> repo,
             IDistributedCache cache,
             string cacheKey,
@@ -468,7 +467,7 @@ namespace SudokuCollective.Data.Resiliency
             }
         }
 
-        internal static async Task RemoveKeysAsync(
+        public async Task RemoveKeysAsync(
             IDistributedCache cache,
             List<string> keys)
         {
@@ -482,7 +481,7 @@ namespace SudokuCollective.Data.Resiliency
         }
 
         #region App Repository Cache Methods
-        internal static async Task<Tuple<IRepositoryResponse, IResult>> GetAppByLicenseWithCacheAsync(
+        public async Task<Tuple<IRepositoryResponse, IResult>> GetAppByLicenseWithCacheAsync(
             IAppsRepository<App> repo,
             IDistributedCache cache,
             string cacheKey,
@@ -542,7 +541,7 @@ namespace SudokuCollective.Data.Resiliency
             }
         }
 
-        internal static async Task<Tuple<IRepositoryResponse, IResult>> GetAppUsersWithCacheAsync(
+        public async Task<Tuple<IRepositoryResponse, IResult>> GetAppUsersWithCacheAsync(
             IAppsRepository<App> repo,
             IDistributedCache cache,
             string cacheKey,
@@ -603,7 +602,7 @@ namespace SudokuCollective.Data.Resiliency
             }
         }
 
-        internal static async Task<Tuple<IRepositoryResponse, IResult>> GetNonAppUsersWithCacheAsync(
+        public async Task<Tuple<IRepositoryResponse, IResult>> GetNonAppUsersWithCacheAsync(
             IAppsRepository<App> repo,
             IDistributedCache cache,
             string cacheKey,
@@ -664,7 +663,7 @@ namespace SudokuCollective.Data.Resiliency
             }
         }
 
-        internal static async Task<Tuple<IRepositoryResponse, IResult>> GetMyAppsWithCacheAsync(
+        public async Task<Tuple<IRepositoryResponse, IResult>> GetMyAppsWithCacheAsync(
             IAppsRepository<App> repo,
             IDistributedCache cache,
             string cacheKey,
@@ -725,7 +724,7 @@ namespace SudokuCollective.Data.Resiliency
             }
         }
 
-        internal static async Task<Tuple<IRepositoryResponse, IResult>> GetMyRegisteredAppsWithCacheAsync(
+        public async Task<Tuple<IRepositoryResponse, IResult>> GetMyRegisteredAppsWithCacheAsync(
             IAppsRepository<App> repo,
             IDistributedCache cache,
             string cacheKey,
@@ -786,11 +785,12 @@ namespace SudokuCollective.Data.Resiliency
             }
         }
 
-        internal static async Task<Tuple<string, IResult>> GetLicenseWithCacheAsync(
+        public async Task<Tuple<string, IResult>> GetLicenseWithCacheAsync(
             IAppsRepository<App> repo,
             IDistributedCache cache,
             string cacheKey,
             DateTime expiration,
+            ICacheKeys keys,
             int id,
             IResult result = null)
         {
@@ -828,7 +828,7 @@ namespace SudokuCollective.Data.Resiliency
                             .SetAbsoluteExpiration(expiration);
 
                         await cache.SetAsync(
-                            string.Format(CacheKeys.GetAppLicenseCacheKey, id),
+                            string.Format(keys.GetAppLicenseCacheKey, id),
                             encodedItem,
                             options);
                     }
@@ -842,9 +842,10 @@ namespace SudokuCollective.Data.Resiliency
             }
         }
 
-        internal static async Task<IRepositoryResponse> ResetWithCacheAsync(
+        public async Task<IRepositoryResponse> ResetWithCacheAsync(
             IAppsRepository<App> repo,
             IDistributedCache cache,
+            ICacheKeys keys,
             App app)
         {
             try
@@ -857,8 +858,8 @@ namespace SudokuCollective.Data.Resiliency
 
                     // Remove any user cache items which may exist
                     cacheKeys = new List<string> {
-                            string.Format(CacheKeys.GetAppCacheKey, app.Id),
-                            string.Format(CacheKeys.GetAppByLicenseCacheKey, app.License)
+                            string.Format(keys.GetAppCacheKey, app.Id),
+                            string.Format(keys.GetAppByLicenseCacheKey, app.License)
                         };
 
                     await RemoveKeysAsync(cache, cacheKeys);
@@ -872,9 +873,10 @@ namespace SudokuCollective.Data.Resiliency
             }
         }
 
-        internal static async Task<IRepositoryResponse> ActivatetWithCacheAsync(
+        public async Task<IRepositoryResponse> ActivatetWithCacheAsync(
             IAppsRepository<App> repo,
             IDistributedCache cache,
+            ICacheKeys keys,
             int id)
         {
             try
@@ -888,8 +890,8 @@ namespace SudokuCollective.Data.Resiliency
 
                     // Remove any user cache items which may exist
                     cacheKeys = new List<string> {
-                            string.Format(CacheKeys.GetAppCacheKey, app.Id),
-                            string.Format(CacheKeys.GetAppByLicenseCacheKey, app.License)
+                            string.Format(keys.GetAppCacheKey, app.Id),
+                            string.Format(keys.GetAppByLicenseCacheKey, app.License)
                         };
 
                     await RemoveKeysAsync(cache, cacheKeys);
@@ -903,9 +905,10 @@ namespace SudokuCollective.Data.Resiliency
             }
         }
 
-        internal static async Task<IRepositoryResponse> DeactivatetWithCacheAsync(
+        public async Task<IRepositoryResponse> DeactivatetWithCacheAsync(
             IAppsRepository<App> repo,
             IDistributedCache cache,
+            ICacheKeys keys,
             int id)
         {
             try
@@ -919,8 +922,8 @@ namespace SudokuCollective.Data.Resiliency
 
                     // Remove any user cache items which may exist
                     cacheKeys = new List<string> {
-                            string.Format(CacheKeys.GetAppCacheKey, app.Id),
-                            string.Format(CacheKeys.GetAppByLicenseCacheKey, app.License)
+                            string.Format(keys.GetAppCacheKey, app.Id),
+                            string.Format(keys.GetAppByLicenseCacheKey, app.License)
                         };
 
                     await RemoveKeysAsync(cache, cacheKeys);
@@ -934,7 +937,7 @@ namespace SudokuCollective.Data.Resiliency
             }
         }
 
-        internal static async Task<bool> IsAppLicenseValidWithCacheAsync(
+        public async Task<bool> IsAppLicenseValidWithCacheAsync(
             IAppsRepository<App> repo,
             IDistributedCache cache,
             string cacheKey,
@@ -984,11 +987,12 @@ namespace SudokuCollective.Data.Resiliency
         #endregion
 
         #region User Repository Cache Methods
-        internal static async Task<Tuple<IRepositoryResponse, IResult>> GetByUserNameWithCacheAsync(
+        public async Task<Tuple<IRepositoryResponse, IResult>> GetByUserNameWithCacheAsync(
             IUsersRepository<User> repo,
             IDistributedCache cache,
             string cacheKey,
             DateTime expiration,
+            ICacheKeys keys,
             string username,
             string license = null,
             IResult result = null)
@@ -1039,7 +1043,7 @@ namespace SudokuCollective.Data.Resiliency
 
                         // Add user cache key by id
                         await cache.SetAsync(
-                            string.Format(CacheKeys.GetUserCacheKey, response.Object.Id, license),
+                            string.Format(keys.GetUserCacheKey, response.Object.Id, license),
                             encodedItem,
                             options);
                     }
@@ -1053,7 +1057,7 @@ namespace SudokuCollective.Data.Resiliency
             }
         }
 
-        internal static async Task<Tuple<IRepositoryResponse, IResult>> GetByEmailWithCacheAsync(
+        public async Task<Tuple<IRepositoryResponse, IResult>> GetByEmailWithCacheAsync(
             IUsersRepository<User> repo,
             IDistributedCache cache,
             string cacheKey,
@@ -1113,9 +1117,10 @@ namespace SudokuCollective.Data.Resiliency
             }
         }
 
-        internal static async Task<IRepositoryResponse> ConfirmEmailWithCacheAsync(
+        public async Task<IRepositoryResponse> ConfirmEmailWithCacheAsync(
             IUsersRepository<User> repo,
             IDistributedCache cache,
+            ICacheKeys keys,
             EmailConfirmation email,
             string license = null)
         {
@@ -1130,9 +1135,9 @@ namespace SudokuCollective.Data.Resiliency
 
                     // Remove any user cache items which may exist
                     cacheKeys = new List<string> {
-                        string.Format(CacheKeys.GetUserCacheKey, user.Id, license),
-                        string.Format(CacheKeys.GetUserByUsernameCacheKey, user.UserName, license),
-                        string.Format(CacheKeys.GetUserByEmailCacheKey, user.Email, license)
+                        string.Format(keys.GetUserCacheKey, user.Id, license),
+                        string.Format(keys.GetUserByUsernameCacheKey, user.UserName, license),
+                        string.Format(keys.GetUserByEmailCacheKey, user.Email, license)
                     };
 
                     await RemoveKeysAsync(cache, cacheKeys);
@@ -1146,9 +1151,10 @@ namespace SudokuCollective.Data.Resiliency
             }
         }
 
-        internal static async Task<IRepositoryResponse> UpdateEmailWithCacheAsync(
+        public async Task<IRepositoryResponse> UpdateEmailWithCacheAsync(
             IUsersRepository<User> repo,
             IDistributedCache cache,
+            ICacheKeys keys,
             EmailConfirmation email,
             string license = null)
         {
@@ -1163,9 +1169,9 @@ namespace SudokuCollective.Data.Resiliency
 
                     // Remove any user cache items which may exist
                     cacheKeys = new List<string> {
-                        string.Format(CacheKeys.GetUserCacheKey, user.Id, license),
-                        string.Format(CacheKeys.GetUserByUsernameCacheKey, user.UserName, license),
-                        string.Format(CacheKeys.GetUserByEmailCacheKey, user.Email, license)
+                        string.Format(keys.GetUserCacheKey, user.Id, license),
+                        string.Format(keys.GetUserByUsernameCacheKey, user.UserName, license),
+                        string.Format(keys.GetUserByEmailCacheKey, user.Email, license)
                     };
 
                     await RemoveKeysAsync(cache, cacheKeys);
@@ -1179,7 +1185,7 @@ namespace SudokuCollective.Data.Resiliency
             }
         }
 
-        internal static async Task<bool> IsUserRegisteredWithCacheAsync(
+        public async Task<bool> IsUserRegisteredWithCacheAsync(
             IUsersRepository<User> repo,
             IDistributedCache cache,
             string cacheKey,
@@ -1229,7 +1235,7 @@ namespace SudokuCollective.Data.Resiliency
         #endregion
 
         #region Difficulty Repository Cache Methods
-        internal static async Task<bool> HasDifficultyLevelWithCacheAsync(
+        public async Task<bool> HasDifficultyLevelWithCacheAsync(
             IDifficultiesRepository<Difficulty> repo,
             IDistributedCache cache,
             string cacheKey,
@@ -1279,7 +1285,7 @@ namespace SudokuCollective.Data.Resiliency
         #endregion
 
         #region Roles Repository Cache Methods
-        internal static async Task<bool> HasRoleLevelWithCacheAsync(
+        public async Task<bool> HasRoleLevelWithCacheAsync(
             IRolesRepository<Role> repo,
             IDistributedCache cache,
             string cacheKey,

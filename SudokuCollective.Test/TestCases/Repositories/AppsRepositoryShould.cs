@@ -182,8 +182,8 @@ namespace SudokuCollective.Test.TestCases.Repositories
 
             // Act
 
-            // Add 1 to the last ID retrieved to cause a failure
-            var result = await sut.GetNonAppUsers(id + 1);
+            // Add 2 to the last ID retrieved to cause a failure
+            var result = await sut.GetNonAppUsers(id + 2);
 
             // Assert
             Assert.That(result.Success, Is.False);

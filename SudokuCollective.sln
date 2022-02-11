@@ -11,7 +11,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SudokuCollective.Dev", "Sud
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SudokuCollective.Data", "SudokuCollective.Data\SudokuCollective.Data.csproj", "{AEFE514B-FCA2-433E-A005-A4770EEE84D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SudokuCollective.Test", "SudokuCollective.Test\SudokuCollective.Test.csproj", "{A85DB533-ECD5-49D8-90AD-4151CE7A0D21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SudokuCollective.Test", "SudokuCollective.Test\SudokuCollective.Test.csproj", "{A85DB533-ECD5-49D8-90AD-4151CE7A0D21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SudokuCollective.Cache", "SudokuCollective.Cache\SudokuCollective.Cache.csproj", "{4B5EB249-7DE8-49B1-B121-9ABB1B5B6C82}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9A147ABD-B958-4206-B468-51D1DF90D7DB}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +46,10 @@ Global
 		{A85DB533-ECD5-49D8-90AD-4151CE7A0D21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A85DB533-ECD5-49D8-90AD-4151CE7A0D21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A85DB533-ECD5-49D8-90AD-4151CE7A0D21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B5EB249-7DE8-49B1-B121-9ABB1B5B6C82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B5EB249-7DE8-49B1-B121-9ABB1B5B6C82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B5EB249-7DE8-49B1-B121-9ABB1B5B6C82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B5EB249-7DE8-49B1-B121-9ABB1B5B6C82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

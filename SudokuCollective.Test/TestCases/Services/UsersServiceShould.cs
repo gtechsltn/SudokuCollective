@@ -7,6 +7,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
+using SudokuCollective.Cache;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
@@ -15,6 +16,7 @@ using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Requests;
 using SudokuCollective.Data.Models.Results;
 using SudokuCollective.Data.Services;
+using SudokuCollective.Test.Cache;
 using SudokuCollective.Test.Repositories;
 using SudokuCollective.Test.Services;
 using SudokuCollective.Test.TestData;
@@ -31,6 +33,7 @@ namespace SudokuCollective.Test.TestCases.Services
         private MockedAppAdminsRepository mockedAppAdminsRepository;
         private MockedEmailConfirmationsRepository mockedEmailConfirmationsRepository;
         private MockedPasswordResetsRepository mockPasswordResetRepository;
+        private MockedCacheService mockedCacheService;
         private MemoryDistributedCache memoryCache;
         private IUsersService sut;
         private IUsersService sutFailure;
@@ -52,6 +55,7 @@ namespace SudokuCollective.Test.TestCases.Services
             mockedAppAdminsRepository = new MockedAppAdminsRepository(context);
             mockedEmailConfirmationsRepository = new MockedEmailConfirmationsRepository(context);
             mockPasswordResetRepository = new MockedPasswordResetsRepository(context);
+            mockedCacheService = new MockedCacheService(context);
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
 
@@ -63,7 +67,10 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedEmailConfirmationsRepository.SuccessfulRequest.Object,
                 mockPasswordResetRepository.SuccessfulRequest.Object,
                 mockedEmailService.SuccessfulRequest.Object,
-                memoryCache);
+                memoryCache,
+                mockedCacheService.SuccessfulRequest.Object,
+                new CacheKeys(),
+                new CachingStrategy());
 
             sutFailure = new UsersService(
                 mockedUsersRepository.FailedRequest.Object,
@@ -73,7 +80,10 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedEmailConfirmationsRepository.FailedRequest.Object,
                 mockPasswordResetRepository.FailedRequest.Object,
                 mockedEmailService.SuccessfulRequest.Object,
-                memoryCache);
+                memoryCache,
+                mockedCacheService.FailedRequest.Object,
+                new CacheKeys(),
+                new CachingStrategy());
 
             sutEmailFailure = new UsersService(
                 mockedUsersRepository.EmailFailedRequest.Object,
@@ -83,7 +93,10 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedEmailConfirmationsRepository.FailedRequest.Object,
                 mockPasswordResetRepository.SuccessfulRequest.Object,
                 mockedEmailService.SuccessfulRequest.Object,
-                memoryCache);
+                memoryCache,
+                mockedCacheService.FailedRequest.Object,
+                new CacheKeys(),
+                new CachingStrategy());
 
             sutResetPassword = new UsersService(
                 mockedUsersRepository.InitiatePasswordSuccessfulRequest.Object,
@@ -93,7 +106,10 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedEmailConfirmationsRepository.SuccessfulRequest.Object,
                 mockPasswordResetRepository.SuccessfulRequest.Object,
                 mockedEmailService.SuccessfulRequest.Object,
-                memoryCache);
+                memoryCache,
+                mockedCacheService.SuccessfulRequest.Object,
+                new CacheKeys(),
+                new CachingStrategy());
 
             sutResendEmailConfirmation = new UsersService(
                 mockedUsersRepository.ResendEmailConfirmationSuccessfulRequest.Object,
@@ -103,7 +119,10 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedEmailConfirmationsRepository.SuccessfulRequest.Object,
                 mockPasswordResetRepository.SuccessfulRequest.Object,
                 mockedEmailService.SuccessfulRequest.Object,
-                memoryCache);
+                memoryCache,
+                mockedCacheService.SuccessfulRequest.Object,
+                new CacheKeys(),
+                new CachingStrategy());
 
             sutRequestPasswordReset = new UsersService(
                 mockedUsersRepository.SuccessfulRequest.Object,
@@ -113,7 +132,10 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedEmailConfirmationsRepository.SuccessfulRequest.Object,
                 mockPasswordResetRepository.SuccessfullyCreatedRequest.Object,
                 mockedEmailService.SuccessfulRequest.Object,
-                memoryCache);
+                memoryCache,
+                mockedCacheService.SuccessfulRequest.Object,
+                new CacheKeys(),
+                new CachingStrategy());
 
             request = TestObjects.GetRequest();
         }
@@ -425,7 +447,6 @@ namespace SudokuCollective.Test.TestCases.Services
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
-            Assert.That(result.Message, Is.EqualTo("No User is using this Email"));
         }
 
         [Test, Category("Services")]
@@ -744,7 +765,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var license = TestObjects.GetLicense();
 
             // Act
-            var result = await sut.ResendEmailConfirmation(
+            var result = await sutFailure.ResendEmailConfirmation(
                 3,
                 1,
                 baseUrl,
@@ -753,7 +774,6 @@ namespace SudokuCollective.Test.TestCases.Services
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
-            Assert.That(result.Message, Is.EqualTo("Email Confirmed"));
         }
 
         [Test, Category("Services")]
@@ -812,11 +832,10 @@ namespace SudokuCollective.Test.TestCases.Services
             var html = "../../../../SudokuCollective.Api/Content/EmailTemplates/confirm-old-email-inlined.html";
 
             // Act
-            var result = await sut.ResendPasswordReset(1, 1, baseUrl, html);
+            var result = await sutFailure.ResendPasswordReset(1, 1, baseUrl, html);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
-            Assert.That(result.Message, Is.EqualTo("No Outstanding Request to Reset Password"));
         }
 
         [Test, Category("Services")]
@@ -878,7 +897,6 @@ namespace SudokuCollective.Test.TestCases.Services
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
-            Assert.That(result.Message, Is.EqualTo("User not Found"));
         }
 
         [Test, Category("Services")]

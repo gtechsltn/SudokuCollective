@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using SudokuCollective.Core.Enums;
+using SudokuCollective.Core.Interfaces.Cache;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Core.Interfaces.Repositories;
@@ -11,7 +12,6 @@ using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Results;
-using SudokuCollective.Data.Resiliency;
 
 namespace SudokuCollective.Data.Services
 {
@@ -20,15 +20,24 @@ namespace SudokuCollective.Data.Services
         #region Fields
         private readonly IUsersRepository<User> _usersRepository;
         private readonly IDistributedCache _distributedCache;
+        private readonly ICacheService _cacheService;
+        private readonly ICacheKeys _cacheKeys;
+        private readonly ICachingStrategy _cachingStrategy;
         #endregion
 
         #region Constructors
         public UserManagementService(
             IUsersRepository<User> usersRepository,
-            IDistributedCache distributedCache)
+            IDistributedCache distributedCache,
+            ICacheService cacheService,
+            ICacheKeys cacheKeys,
+            ICachingStrategy cachingStrategy)
         {
             _usersRepository = usersRepository;
             _distributedCache = distributedCache;
+            _cacheService = cacheService;
+            _cacheKeys = cacheKeys;
+            _cachingStrategy = cachingStrategy;
         }
         #endregion
 
@@ -74,11 +83,12 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                var cachFactoryResponse = await CacheFactory.GetByUserNameWithCacheAsync(
+                var cachFactoryResponse = await _cacheService.GetByUserNameWithCacheAsync(
                     _usersRepository,
                     _distributedCache,
-                    string.Format(CacheKeys.GetUserByUsernameCacheKey, username, license),
-                    CachingStrategy.Medium,
+                    string.Format(_cacheKeys.GetUserByUsernameCacheKey, username, license),
+                    _cachingStrategy.Medium,
+                    _cacheKeys,
                     username,
                     license);
 
@@ -119,11 +129,11 @@ namespace SudokuCollective.Data.Services
                 var result = new Result();
                 var authenticatedUserNameResult = new AuthenticatedUserNameResult();
 
-                var cachFactoryResponse = await CacheFactory.GetByEmailWithCacheAsync(
+                var cachFactoryResponse = await _cacheService.GetByEmailWithCacheAsync(
                     _usersRepository,
                     _distributedCache,
-                    string.Format(CacheKeys.GetUserByUsernameCacheKey, email, license),
-                    CachingStrategy.Medium,
+                    string.Format(_cacheKeys.GetUserByUsernameCacheKey, email, license),
+                    _cachingStrategy.Medium,
                     email,
                     result);
 

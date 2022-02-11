@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
+using SudokuCollective.Core.Interfaces.Cache;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Core.Interfaces.Repositories;
@@ -10,7 +11,6 @@ using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Requests;
-using SudokuCollective.Data.Resiliency;
 
 namespace SudokuCollective.Data.Services
 {
@@ -19,15 +19,24 @@ namespace SudokuCollective.Data.Services
         #region Fields
         private readonly IRolesRepository<Role> _rolesRepository;
         private readonly IDistributedCache _distributedCache;
+        private readonly ICacheService _cacheService;
+        private readonly ICacheKeys _cacheKeys;
+        private readonly ICachingStrategy _cachingStrategy;
         #endregion
 
         #region Constructor
         public RolesService(
             IRolesRepository<Role> rolesRepository,
-            IDistributedCache distributedCache)
+            IDistributedCache distributedCache,
+            ICacheService cacheService,
+            ICacheKeys cacheKeys,
+            ICachingStrategy cachingStrategy)
         {
             _rolesRepository = rolesRepository;
             _distributedCache = distributedCache;
+            _cacheService = cacheService;
+            _cacheKeys = cacheKeys;
+            _cachingStrategy = cachingStrategy;
         }
         #endregion
         
@@ -56,11 +65,11 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                if (!await CacheFactory.HasRoleLevelWithCacheAsync(
+                if (!await _cacheService.HasRoleLevelWithCacheAsync(
                     _rolesRepository,
                     _distributedCache,
-                    string.Format(CacheKeys.GetRole, createRoleRequest.RoleLevel),
-                    CachingStrategy.Heavy,
+                    string.Format(_cacheKeys.GetRole, createRoleRequest.RoleLevel),
+                    _cachingStrategy.Heavy,
                     createRoleRequest.RoleLevel))
                 {
                     var role = new Role()
@@ -69,11 +78,12 @@ namespace SudokuCollective.Data.Services
                         RoleLevel = createRoleRequest.RoleLevel
                     };
 
-                    var response = await CacheFactory.AddWithCacheAsync(
+                    var response = await _cacheService.AddWithCacheAsync(
                         _rolesRepository,
                         _distributedCache,
-                        CacheKeys.GetRole,
-                        CachingStrategy.Heavy,
+                        _cacheKeys.GetRole,
+                        _cachingStrategy.Heavy,
+                        _cacheKeys,
                         role);
 
                     if (response.Success)
@@ -130,16 +140,16 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                var cacheFactoryResponse = await CacheFactory.GetWithCacheAsync<Role>(
+                var cacheServiceResponse = await _cacheService.GetWithCacheAsync<Role>(
                     _rolesRepository,
                     _distributedCache,
-                    string.Format(CacheKeys.GetRole, id),
-                    CachingStrategy.Heavy,
+                    string.Format(_cacheKeys.GetRole, id),
+                    _cachingStrategy.Heavy,
                     id,
                     result);
 
-                var response = (RepositoryResponse)cacheFactoryResponse.Item1;
-                result = (Result)cacheFactoryResponse.Item2;
+                var response = (RepositoryResponse)cacheServiceResponse.Item1;
+                result = (Result)cacheServiceResponse.Item2;
 
                 if (response.Success)
                 {
@@ -181,15 +191,15 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                var cacheFactoryResponse = await CacheFactory.GetAllWithCacheAsync<Role>(
+                var cacheServiceResponse = await _cacheService.GetAllWithCacheAsync<Role>(
                     _rolesRepository,
                     _distributedCache,
-                    string.Format(CacheKeys.GetRoles),
-                    CachingStrategy.Heavy,
+                    string.Format(_cacheKeys.GetRoles),
+                    _cachingStrategy.Heavy,
                     result);
 
-                var response = (RepositoryResponse)cacheFactoryResponse.Item1;
-                result = (Result)cacheFactoryResponse.Item2;
+                var response = (RepositoryResponse)cacheServiceResponse.Item1;
+                result = (Result)cacheServiceResponse.Item2;
 
                 if (response.Success)
                 {
@@ -255,16 +265,16 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                var cacheFactoryResponse = await CacheFactory.GetWithCacheAsync<Role>(
+                var cacheServiceResponse = await _cacheService.GetWithCacheAsync<Role>(
                     _rolesRepository,
                     _distributedCache,
-                    string.Format(CacheKeys.GetRole, id),
-                    CachingStrategy.Heavy,
+                    string.Format(_cacheKeys.GetRole, id),
+                    _cachingStrategy.Heavy,
                     id,
                     result);
 
-                var response = (RepositoryResponse)cacheFactoryResponse.Item1;
-                result = (Result)cacheFactoryResponse.Item2;
+                var response = (RepositoryResponse)cacheServiceResponse.Item1;
+                result = (Result)cacheServiceResponse.Item2;
 
                 if (response.Success)
                 {
@@ -272,9 +282,10 @@ namespace SudokuCollective.Data.Services
 
                     role.Name = updateRoleRequest.Name;
 
-                    var updateResponse = await CacheFactory.UpdateWithCacheAsync(
+                    var updateResponse = await _cacheService.UpdateWithCacheAsync(
                         _rolesRepository,
                         _distributedCache,
+                        _cacheKeys,
                         role);
 
                     if (updateResponse.Success)
@@ -342,9 +353,10 @@ namespace SudokuCollective.Data.Services
 
                 if (response.Success)
                 {
-                    var deleteResponse = await CacheFactory.DeleteWithCacheAsync(
+                    var deleteResponse = await _cacheService.DeleteWithCacheAsync(
                         _rolesRepository,
                         _distributedCache,
+                        _cacheKeys,
                         (Role)response.Object);
 
                     if (deleteResponse.Success)

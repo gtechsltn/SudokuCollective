@@ -4,6 +4,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
+using SudokuCollective.Cache;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
@@ -11,6 +12,7 @@ using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Requests;
 using SudokuCollective.Data.Services;
+using SudokuCollective.Test.Cache;
 using SudokuCollective.Test.Repositories;
 using SudokuCollective.Test.TestData;
 
@@ -20,6 +22,7 @@ namespace SudokuCollective.Test.TestCases.Services
     {
         private DatabaseContext context;
         private MockedSolutionsRepository mockedSolutionsRepository;
+        private MockedCacheService mockedCacheService;
         private MemoryDistributedCache memoryCache;
         private ISolutionsService sut;
         private ISolutionsService sutFailure;
@@ -30,16 +33,21 @@ namespace SudokuCollective.Test.TestCases.Services
         {
             context = await TestDatabase.GetDatabaseContext();
             mockedSolutionsRepository = new MockedSolutionsRepository(context);
+            mockedCacheService = new MockedCacheService(context);
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
 
             sut = new SolutionsService(
                 mockedSolutionsRepository.SuccessfulRequest.Object,
-                memoryCache);
+                memoryCache,
+                mockedCacheService.SuccessfulRequest.Object,
+                new CacheKeys());
 
             sutFailure = new SolutionsService(
                 mockedSolutionsRepository.FailedRequest.Object,
-                memoryCache);
+                memoryCache,
+                mockedCacheService.FailedRequest.Object,
+                new CacheKeys());
 
             request = TestObjects.GetRequest();
         }

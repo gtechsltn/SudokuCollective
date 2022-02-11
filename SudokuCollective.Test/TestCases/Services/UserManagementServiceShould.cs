@@ -3,11 +3,14 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
+using SudokuCollective.Cache;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Services;
+using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Results;
 using SudokuCollective.Data.Services;
+using SudokuCollective.Test.Cache;
 using SudokuCollective.Test.Repositories;
 using SudokuCollective.Test.TestData;
 
@@ -17,6 +20,7 @@ namespace SudokuCollective.Test.TestCases.Services
     {
         private DatabaseContext context;
         private MockedUsersRepository mockedUsersRepository;
+        private MockedCacheService mockedCacheService;
         private MemoryDistributedCache memoryCache;
         private IUserManagementService sut;
         private IUserManagementService sutFailure;
@@ -29,15 +33,22 @@ namespace SudokuCollective.Test.TestCases.Services
         {
             context = await TestDatabase.GetDatabaseContext();
             mockedUsersRepository = new MockedUsersRepository(context);
+            mockedCacheService = new MockedCacheService(context);
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
 
             sut = new UserManagementService(
                 mockedUsersRepository.SuccessfulRequest.Object,
-                memoryCache);
+                memoryCache,
+                mockedCacheService.SuccessfulRequest.Object,
+                new CacheKeys(),
+                new CachingStrategy());
             sutFailure = new UserManagementService(
                 mockedUsersRepository.FailedRequest.Object,
-                memoryCache);
+                memoryCache,
+                mockedCacheService.FailedRequest.Object,
+                new CacheKeys(),
+                new CachingStrategy());
 
             userName = "TestSuperUser";
             password = "T3stPass0rd?1";

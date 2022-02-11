@@ -5,6 +5,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
+using SudokuCollective.Cache;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Core.Interfaces.Services;
@@ -14,6 +15,7 @@ using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Requests;
 using SudokuCollective.Data.Models.Requests.AppRequests;
 using SudokuCollective.Data.Services;
+using SudokuCollective.Test.Cache;
 using SudokuCollective.Test.Repositories;
 using SudokuCollective.Test.TestData;
 
@@ -26,6 +28,7 @@ namespace SudokuCollective.Test.TestCases.Services
         private MockedUsersRepository mockedUsersRepository;
         private MockedAppAdminsRepository mockedAppAdminsRepository;
         private MockedRolesRepository mockedRolesRepository;
+        private MockedCacheService mockedCacheService;
         private MemoryDistributedCache memoryCache;
         private IAppsService sut;
         private IAppsService sutAppRepoFailure;
@@ -33,7 +36,6 @@ namespace SudokuCollective.Test.TestCases.Services
         private IAppsService sutPromoteUser;
         private DateTime dateCreated;
         private string license;
-        private Request request;
         private Paginator paginator;
         private int userId;
         private int appId;
@@ -47,6 +49,7 @@ namespace SudokuCollective.Test.TestCases.Services
             mockedUsersRepository = new MockedUsersRepository(context);
             mockedAppAdminsRepository = new MockedAppAdminsRepository(context);
             mockedRolesRepository = new MockedRolesRepository(context);
+            mockedCacheService = new MockedCacheService(context);
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
 
@@ -55,32 +58,43 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedUsersRepository.SuccessfulRequest.Object,
                 mockedAppAdminsRepository.SuccessfulRequest.Object,
                 mockedRolesRepository.SuccessfulRequest.Object,
-                memoryCache);
+                memoryCache,
+                mockedCacheService.SuccessfulRequest.Object,
+                new CacheKeys(),
+                new CachingStrategy());
 
             sutAppRepoFailure = new AppsService(
                 mockedAppsRepository.FailedRequest.Object,
                 mockedUsersRepository.SuccessfulRequest.Object,
                 mockedAppAdminsRepository.FailedRequest.Object,
                 mockedRolesRepository.FailedRequest.Object,
-                memoryCache);
+                memoryCache,
+                mockedCacheService.FailedRequest.Object,
+                new CacheKeys(),
+                new CachingStrategy());
 
             sutUserRepoFailure = new AppsService(
                 mockedAppsRepository.SuccessfulRequest.Object,
                 mockedUsersRepository.FailedRequest.Object,
                 mockedAppAdminsRepository.FailedRequest.Object,
                 mockedRolesRepository.SuccessfulRequest.Object,
-                memoryCache);
+                memoryCache,
+                mockedCacheService.FailedRequest.Object,
+                new CacheKeys(),
+                new CachingStrategy());
 
             sutPromoteUser = new AppsService(
                 mockedAppsRepository.SuccessfulRequest.Object,
                 mockedUsersRepository.InitiatePasswordSuccessfulRequest.Object,
                 mockedAppAdminsRepository.PromoteUserRequest.Object,
                 mockedRolesRepository.SuccessfulRequest.Object,
-                memoryCache); ;
+                memoryCache,
+                mockedCacheService.SuccessfulRequest.Object,
+                new CacheKeys(),
+                new CachingStrategy()); ;
 
             dateCreated = DateTime.UtcNow;
             license = TestObjects.GetLicense();
-            request = TestObjects.GetRequest();
             paginator = TestObjects.GetPaginator();
             userId = 1;
             appId = 1;
@@ -290,7 +304,6 @@ namespace SudokuCollective.Test.TestCases.Services
 
             // Act
             var result = await sut.AddAppUser(1, 3);
-            var appUsers = context.Users.Where(u => u.Apps.Any(ua => ua.AppId == 1)).ToList();
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -330,12 +343,10 @@ namespace SudokuCollective.Test.TestCases.Services
 
             // Act
             var result = await sut.Activate(1);
-            var app = context.Apps.FirstOrDefault(a => a.Id == 1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("App Activated"));
-            Assert.That(app.IsActive, Is.True);
         }
 
         [Test, Category("Services")]
@@ -406,25 +417,15 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task PermitSuperUserSystemWideAccess()
         {
             // Arrange
-            var newAppResult = await sut.Create(new LicenseRequest()
-            {
-
-                Name = "Test App 3",
-                OwnerId = 2,
-                LocalUrl = "https://localhost:8081",
-                DevUrl = "https://testapp3-dev.com",
-                ProdUrl = "https://testapp3.com"
-            });
-
-            var license = (sut.GetLicense(((App)newAppResult.DataPacket[0]).Id)).Result.License;
-
+            var app = context.Apps.FirstOrDefault(a => a.Id == 2);
+            var licenseResult =await sut.GetLicense(app.Id);
             var superUser = context.Users.Where(user => user.Id == 1).FirstOrDefault();
 
             // Act
-            var superUserIsInApp = ((App)newAppResult.DataPacket[0]).Users
+            var superUserIsInApp = app.Users
                 .Any(ua => ua.UserId == superUser.Id);
 
-            var result = await sut.IsRequestValidOnThisLicense(appId, license, superUser.Id);
+            var result = await sut.IsRequestValidOnThisLicense(app.Id, licenseResult.License, superUser.Id);
 
             // Assert
             Assert.That(superUserIsInApp, Is.False);

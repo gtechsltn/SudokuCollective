@@ -613,6 +613,15 @@ namespace SudokuCollective.Test.TestData
             };
         }
 
+        public static Result GetResult()
+        {
+            return new Result()
+            {
+                IsSuccess = true,
+                IsFromCache = true,
+            };
+        }
+
         public static ConfirmEmailResult GetConfirmEmailResult()
         {
             return new ConfirmEmailResult()
