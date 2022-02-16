@@ -15,7 +15,7 @@ namespace SudokuCollective.Core.Utilities
                 return null;
             }
 
-            return JsonSerializer.Deserialize<T>(ref reader);
+            return JsonSerializer.Deserialize<T>(ref reader, options);
 
         }
 

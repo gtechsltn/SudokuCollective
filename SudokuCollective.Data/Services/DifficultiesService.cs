@@ -71,7 +71,7 @@ namespace SudokuCollective.Data.Services
                 if (!await _cacheService.HasDifficultyLevelWithCacheAsync(
                     _difficultiesRepository,
                     _distributedCache,
-                    string.Format(_cacheKeys.GetDifficulty, createDifficultyRequest.DifficultyLevel),
+                    string.Format(_cacheKeys.GetDifficultyCacheKey, createDifficultyRequest.DifficultyLevel),
                     _cachingStrategy.Heavy,
                     createDifficultyRequest.DifficultyLevel))
                 {
@@ -86,7 +86,7 @@ namespace SudokuCollective.Data.Services
                     var response = await _cacheService.AddWithCacheAsync<Difficulty>(
                         _difficultiesRepository,
                         _distributedCache,
-                        _cacheKeys.GetDifficulty,
+                        _cacheKeys.GetDifficultyCacheKey,
                         _cachingStrategy.Heavy,
                         _cacheKeys,
                         difficulty);
@@ -148,7 +148,7 @@ namespace SudokuCollective.Data.Services
                 var cacheServiceResponse = await _cacheService.GetWithCacheAsync(
                     _difficultiesRepository,
                     _distributedCache,
-                    string.Format(_cacheKeys.GetDifficulty, id),
+                    string.Format(_cacheKeys.GetDifficultyCacheKey, id),
                     _cachingStrategy.Heavy,
                     id,
                     result);
@@ -197,7 +197,7 @@ namespace SudokuCollective.Data.Services
                 var cacheServiceResponse = await _cacheService.GetAllWithCacheAsync(
                     _difficultiesRepository,
                     _distributedCache,
-                    _cacheKeys.GetDifficulties,
+                    _cacheKeys.GetDifficultiesCacheKey,
                     _cachingStrategy.Heavy,
                     result);
 

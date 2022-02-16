@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SudokuCollective.Core.Interfaces.Cache
+﻿namespace SudokuCollective.Core.Interfaces.Cache
 {
     public interface ICacheKeys
     {
@@ -18,8 +12,8 @@ namespace SudokuCollective.Core.Interfaces.Cache
         string GetAppLicenseCacheKey { get; }
         string HasAppCacheKey { get; }
         string IsAppLicenseValidCacheKey { get; }
-        string GetDifficulty { get; }
-        string GetDifficulties { get; }
+        string GetDifficultyCacheKey { get; }
+        string GetDifficultiesCacheKey { get; }
         string GetUserCacheKey { get; }
         string GetUserByUsernameCacheKey { get; }
         string GetUserByEmailCacheKey { get; }
@@ -27,7 +21,7 @@ namespace SudokuCollective.Core.Interfaces.Cache
         string HasUserCacheKey { get; }
         string IsUserRegisteredCacheKey { get; }
         string GetSolutionsCacheKey { get; }
-        string GetRole { get; }
-        string GetRoles { get; }
+        string GetRoleCacheKey { get; }
+        string GetRolesCacheKey { get; }
     }
 }

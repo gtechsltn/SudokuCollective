@@ -393,8 +393,8 @@ namespace SudokuCollective.Test.TestData
             {
                 databaseContext.Games.AddRange(
 
-                    new Game(1, 1, 1, 1, 1, true, 0, true, 18000000000, dateCreated, DateTime.MinValue, DateTime.MinValue),
-                    new Game(2, 2, 2, 2, 2, true, 0, true, 18000000000, dateCreated, DateTime.MinValue, DateTime.MinValue)
+                    new Game(1, 1, 1, 1, 1, true, 0, true, dateCreated, DateTime.MinValue, DateTime.MinValue),
+                    new Game(2, 2, 2, 2, 2, true, 0, true, dateCreated, DateTime.MinValue, DateTime.MinValue)
                 );
 
                 await databaseContext.SaveChangesAsync();

@@ -15,8 +15,8 @@ namespace SudokuCollective.Cache
         private const string _getAppLicenseCacheKey = ":GetAppLicense:{0}";
         private const string _hasAppCacheKey = ":HasApp:{0}";
         private const string _isAppLicenseValidCacheKey = ":IsAppLicenseValid:{0}";
-        private const string _getDifficulty = ":GetDifficulty:{0}";
-        private const string _getDifficulties = ":GetDifficutlies";
+        private const string _getDifficultyCacheKey = ":GetDifficulty:{0}";
+        private const string _getDifficultiesCacheKey = ":GetDifficutlies";
         private const string _getUserCacheKey = ":GetUser:{0}-{1}";
         private const string _getUserByUsernameCacheKey = ":GetUserByUsername:{0}-{1}";
         private const string _getUserByEmailCacheKey = ":GetUserByEmail:{0}-{1}";
@@ -24,8 +24,8 @@ namespace SudokuCollective.Cache
         private const string _hasUserCacheKey = ":HasUser:{0}";
         private const string _isUserRegisteredCacheKey = ":IsUserRegistered:{0}-{1}";
         private const string _getSolutionsCacheKey = ":GetSolutions";
-        private const string _getRole = ":GetRole:{0}";
-        private const string _getRoles = ":GetRoles";
+        private const string _getRoleCacheKey = ":GetRole:{0}";
+        private const string _getRolesCacheKey = ":GetRoles";
         #endregion
 
         #region Properties
@@ -39,8 +39,8 @@ namespace SudokuCollective.Cache
         public string GetAppLicenseCacheKey { get => _getAppLicenseCacheKey; }
         public string HasAppCacheKey { get => _hasAppCacheKey; }
         public string IsAppLicenseValidCacheKey { get => _isAppLicenseValidCacheKey; }
-        public string GetDifficulty { get => _getDifficulty; }
-        public string GetDifficulties { get => _getDifficulties; }
+        public string GetDifficultyCacheKey { get => _getDifficultyCacheKey; }
+        public string GetDifficultiesCacheKey { get => _getDifficultiesCacheKey; }
         public string GetUserCacheKey { get => _getUserCacheKey; }
         public string GetUserByUsernameCacheKey { get => _getUserByUsernameCacheKey; }
         public string GetUserByEmailCacheKey { get => _getUserByEmailCacheKey; }
@@ -48,8 +48,8 @@ namespace SudokuCollective.Cache
         public string HasUserCacheKey { get => _hasUserCacheKey; }
         public string IsUserRegisteredCacheKey { get => _isUserRegisteredCacheKey; }
         public string GetSolutionsCacheKey { get => _getSolutionsCacheKey; }
-        public string GetRole { get => _getRole; }
-        public string GetRoles { get => _getRoles; }
+        public string GetRoleCacheKey { get => _getRoleCacheKey; }
+        public string GetRolesCacheKey { get => _getRolesCacheKey; }
         #endregion
     }
 }

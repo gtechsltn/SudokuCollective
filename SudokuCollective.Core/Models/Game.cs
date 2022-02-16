@@ -15,9 +15,41 @@ namespace SudokuCollective.Core.Models
         public int Id { get; set; }
         [Required]
         public int UserId { get; set; }
+        [Required]
+        public int SudokuMatrixId { get; set; }
+        [Required]
+        public int SudokuSolutionId { get; set; }
+        [Required]
+        public int AppId { get; set; }
+        [Required]
+        public bool ContinueGame { get; set; }
+        [Required]
+        public int Score { get; set; }
+        [Required]
+        public bool KeepScore { get; set; }
+        [Required]
+        public DateTime DateCreated { get; set; }
+        [Required]
+        public DateTime DateUpdated { get; set; }
+        [Required]
+        public DateTime DateCompleted { get; set; }
+        public TimeSpan TimeToSolve
+        {
+            get
+            {
+                if (DateCompleted == DateTime.MinValue)
+                {
+                    return TimeSpan.Zero;
+                }
+                else
+                {
+                    return DateCompleted - DateCreated;
+                }
+            }
+        }
         [JsonIgnore]
         IUser IGame.User
-        { 
+        {
             get
             {
                 return User;
@@ -29,8 +61,6 @@ namespace SudokuCollective.Core.Models
         }
         [JsonIgnore]
         public User User { get; set; }
-        [Required]
-        public int SudokuMatrixId { get; set; }
         [JsonIgnore]
         ISudokuMatrix IGame.SudokuMatrix
         {
@@ -45,8 +75,6 @@ namespace SudokuCollective.Core.Models
         }
         [Required]
         public virtual SudokuMatrix SudokuMatrix { get; set; }
-        [Required]
-        public int SudokuSolutionId { get; set; }
         [JsonIgnore]
         ISudokuSolution IGame.SudokuSolution
         {
@@ -61,22 +89,6 @@ namespace SudokuCollective.Core.Models
         }
         [Required]
         public virtual SudokuSolution SudokuSolution { get; set; }
-        [Required]
-        public int AppId { get; set; }
-        [Required]
-        public bool ContinueGame { get; set; }
-        [Required]
-        public int Score { get; set; }
-        [Required]
-        public bool KeepScore { get; set; }
-        [Required]
-        public TimeSpan TimeToSolve { get; set; }
-        [Required]
-        public DateTime DateCreated { get; set; }
-        [Required]
-        public DateTime DateUpdated { get; set; }
-        [Required]
-        public DateTime DateCompleted { get; set; }
         #endregion
 
         #region Constructors
@@ -92,7 +104,6 @@ namespace SudokuCollective.Core.Models
             SudokuMatrix = new SudokuMatrix();
             SudokuSolution = new SudokuSolution();
             AppId = 0;
-            TimeToSolve = new TimeSpan();
         }
 
         public Game(
@@ -134,10 +145,11 @@ namespace SudokuCollective.Core.Models
             bool continueGame,
             int score,
             bool keepScore,
-            long timeToSolve,
             DateTime dateCreated,
             DateTime dateUpdated,
-            DateTime dateCompleted)
+            DateTime dateCompleted,
+            SudokuMatrix sudokuMatrix = null,
+            SudokuSolution sudokuSolution = null)
         {
             Id = id;
             UserId = userId;
@@ -147,10 +159,19 @@ namespace SudokuCollective.Core.Models
             ContinueGame = continueGame;
             Score = score;
             KeepScore = keepScore;
-            TimeToSolve = new TimeSpan(timeToSolve);
             DateCreated = dateCreated;
             DateUpdated = dateUpdated;
             DateCompleted = dateCompleted;
+
+            if (sudokuMatrix != null)
+            {
+                SudokuMatrix = sudokuMatrix;
+            }
+
+            if (sudokuSolution != null)
+            {
+                SudokuSolution = sudokuSolution;
+            }
         }
         #endregion
 
@@ -174,11 +195,14 @@ namespace SudokuCollective.Core.Models
                         }
                     }
 
+                    var solvedDate = DateTime.UtcNow;
+
+                    DateUpdated = solvedDate;
+                    DateCompleted = solvedDate;
+
                     if (KeepScore)
                     {
                         var maxTicks = 144000000000;
-
-                        TimeToSolve = DateTime.UtcNow - DateCreated;
 
                         if (TimeToSolve.Ticks < maxTicks)
                         {
@@ -217,11 +241,7 @@ namespace SudokuCollective.Core.Models
                         }
                     }
 
-                    var solvedDate = DateTime.UtcNow;
-
                     ContinueGame = false;
-                    DateUpdated = solvedDate;
-                    DateCompleted = solvedDate;
                     SudokuSolution.SolutionList = SudokuMatrix.ToIntList();
                     SudokuSolution.DateSolved = solvedDate;
                 }

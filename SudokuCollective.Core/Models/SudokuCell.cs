@@ -188,7 +188,7 @@ namespace SudokuCollective.Core.Models
         }
         [JsonIgnore]
         public virtual SudokuMatrix SudokuMatrix { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         ICollection<IAvailableValue> ISudokuCell.AvailableValues
         {
             get
@@ -200,7 +200,7 @@ namespace SudokuCollective.Core.Models
                 AvailableValues = value.ToList().ConvertAll(av => (AvailableValue)av);
             }
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<AvailableValue> AvailableValues { get; set; }
         #endregion
 

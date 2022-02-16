@@ -73,12 +73,12 @@ namespace SudokuCollective.Core.Models
         [JsonConstructor]
         public SudokuSolution(
             int id,
-            List<int> intList,
+            List<int> solutionList,
             DateTime dateCreated, 
             DateTime dateSolved)
         {
             Id = id;
-            SolutionList = intList;
+            SolutionList = solutionList;
             DateCreated = dateCreated;
             DateSolved = dateSolved;
         }

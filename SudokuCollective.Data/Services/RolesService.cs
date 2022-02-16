@@ -68,7 +68,7 @@ namespace SudokuCollective.Data.Services
                 if (!await _cacheService.HasRoleLevelWithCacheAsync(
                     _rolesRepository,
                     _distributedCache,
-                    string.Format(_cacheKeys.GetRole, createRoleRequest.RoleLevel),
+                    string.Format(_cacheKeys.GetRoleCacheKey, createRoleRequest.RoleLevel),
                     _cachingStrategy.Heavy,
                     createRoleRequest.RoleLevel))
                 {
@@ -81,7 +81,7 @@ namespace SudokuCollective.Data.Services
                     var response = await _cacheService.AddWithCacheAsync(
                         _rolesRepository,
                         _distributedCache,
-                        _cacheKeys.GetRole,
+                        _cacheKeys.GetRoleCacheKey,
                         _cachingStrategy.Heavy,
                         _cacheKeys,
                         role);
@@ -143,7 +143,7 @@ namespace SudokuCollective.Data.Services
                 var cacheServiceResponse = await _cacheService.GetWithCacheAsync<Role>(
                     _rolesRepository,
                     _distributedCache,
-                    string.Format(_cacheKeys.GetRole, id),
+                    string.Format(_cacheKeys.GetRoleCacheKey, id),
                     _cachingStrategy.Heavy,
                     id,
                     result);
@@ -194,7 +194,7 @@ namespace SudokuCollective.Data.Services
                 var cacheServiceResponse = await _cacheService.GetAllWithCacheAsync<Role>(
                     _rolesRepository,
                     _distributedCache,
-                    string.Format(_cacheKeys.GetRoles),
+                    string.Format(_cacheKeys.GetRolesCacheKey),
                     _cachingStrategy.Heavy,
                     result);
 
@@ -268,7 +268,7 @@ namespace SudokuCollective.Data.Services
                 var cacheServiceResponse = await _cacheService.GetWithCacheAsync<Role>(
                     _rolesRepository,
                     _distributedCache,
-                    string.Format(_cacheKeys.GetRole, id),
+                    string.Format(_cacheKeys.GetRoleCacheKey, id),
                     _cachingStrategy.Heavy,
                     id,
                     result);

@@ -173,21 +173,24 @@ namespace SudokuCollective.Test.Repositories
                 repo.Reset(It.IsAny<App>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        Success = true,
+                        Object = context.Apps.FirstOrDefault(a => a.Id == 1)
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
                 repo.Activate(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        Success = true,
+                        Object = context.Apps.FirstOrDefault(a => a.Id == 1)
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
                 repo.Deactivate(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        Success = true,
+                        Object = context.Apps.FirstOrDefault(a => a.Id == 1)
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>

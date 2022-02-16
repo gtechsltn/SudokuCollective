@@ -12,14 +12,14 @@ using SudokuCollective.Data.Models;
 namespace SudokuCollective.Api.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220129015225_IntializeDatabase")]
-    partial class IntializeDatabase
+    [Migration("20220215223438_InitializeDatabase")]
+    partial class InitializeDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -207,9 +207,6 @@ namespace SudokuCollective.Api.Migrations
 
                     b.Property<int>("SudokuSolutionId")
                         .HasColumnType("integer");
-
-                    b.Property<long>("TimeToSolve")
-                        .HasColumnType("bigint");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");

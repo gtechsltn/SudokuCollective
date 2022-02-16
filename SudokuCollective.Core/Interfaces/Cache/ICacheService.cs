@@ -138,14 +138,14 @@ namespace SudokuCollective.Core.Interfaces.Cache
             IUsersRepository<User> repo,
             IDistributedCache cache,
             ICacheKeys keys,
-            EmailConfirmation email,
-            string license = null);
+            EmailConfirmation emailConfirmation,
+            string license);
         Task<IRepositoryResponse> UpdateEmailWithCacheAsync(
             IUsersRepository<User> repo,
             IDistributedCache cache,
             ICacheKeys keys,
-            EmailConfirmation email,
-            string license = null);
+            EmailConfirmation emailConfirmation,
+            string license);
         Task<bool> IsUserRegisteredWithCacheAsync(
             IUsersRepository<User> repo,
             IDistributedCache cache,

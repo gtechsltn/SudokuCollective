@@ -85,7 +85,7 @@ namespace SudokuCollective.Cache
 
                         // Remove any difficutly list cache items which may exist
                         cacheKeys = new List<string> {
-                                keys.GetDifficulties
+                                keys.GetDifficultiesCacheKey
                             };
                     }
                     else
@@ -98,7 +98,7 @@ namespace SudokuCollective.Cache
 
                         // Remove any role list cache items which may exist
                         cacheKeys = new List<string> {
-                                keys.GetRoles
+                                keys.GetRolesCacheKey
                             };
                     }
 
@@ -154,7 +154,7 @@ namespace SudokuCollective.Cache
                         var serializedItem = JsonSerializer.Serialize<T>(
                             (T)response.Object, 
                             new JsonSerializerOptions 
-                            { 
+                            {
                                 ReferenceHandler = ReferenceHandler.IgnoreCycles
                             });
                         var encodedItem = Encoding.UTF8.GetBytes(serializedItem);
@@ -275,8 +275,8 @@ namespace SudokuCollective.Cache
                     {
                         // Remove any difficutly cache items which may exist
                         cacheKeys = new List<string> {
-                                string.Format(keys.GetDifficulty, difficulty.Id),
-                                keys.GetDifficulties
+                                string.Format(keys.GetDifficultyCacheKey, difficulty.Id),
+                                keys.GetDifficultiesCacheKey
                             };
                     }
                     else
@@ -285,8 +285,8 @@ namespace SudokuCollective.Cache
 
                         // Remove any role cache items which may exist
                         cacheKeys = new List<string> {
-                                string.Format(keys.GetRole, role.Id),
-                                keys.GetRoles
+                                string.Format(keys.GetRoleCacheKey, role.Id),
+                                keys.GetRolesCacheKey
                             };
                     }
 
@@ -393,8 +393,8 @@ namespace SudokuCollective.Cache
                     {
                         // Remove any difficulty cache items which may exist
                         cacheKeys = new List<string> {
-                            string.Format(keys.GetDifficulty, difficulty.Id),
-                            keys.GetDifficulties
+                            string.Format(keys.GetDifficultyCacheKey, difficulty.Id),
+                            keys.GetDifficultiesCacheKey
                         };
                     }
                     else
@@ -403,8 +403,8 @@ namespace SudokuCollective.Cache
 
                         // Remove any role cache items which may exist
                         cacheKeys = new List<string> {
-                            string.Format(keys.GetRole, role.Id),
-                            keys.GetRoles
+                            string.Format(keys.GetRoleCacheKey, role.Id),
+                            keys.GetRolesCacheKey
                         };
                     }
 
@@ -881,8 +881,18 @@ namespace SudokuCollective.Cache
         {
             try
             {
+                IRepositoryResponse response;
+
                 var app = (App)(await repo.Get(id)).Object;
-                var response = await repo.Activate(app.Id);
+
+                if (app != null)
+                {
+                    response = await repo.Activate(app.Id);
+                }
+                else
+                {
+                    response = new RepositoryResponse();
+                }
 
                 if (response.Success)
                 {
@@ -913,8 +923,18 @@ namespace SudokuCollective.Cache
         {
             try
             {
+                IRepositoryResponse response;
+
                 var app = (App)(await repo.Get(id)).Object;
-                var response = await repo.Deactivate(app.Id);
+
+                if (app != null)
+                {
+                    response = await repo.Deactivate(app.Id);
+                }
+                else
+                {
+                    response = new RepositoryResponse();
+                }
 
                 if (response.Success)
                 {
@@ -1121,12 +1141,12 @@ namespace SudokuCollective.Cache
             IUsersRepository<User> repo,
             IDistributedCache cache,
             ICacheKeys keys,
-            EmailConfirmation email,
-            string license = null)
+            EmailConfirmation emailConfirmation,
+            string license)
         {
             try
             {
-                var response = await repo.ConfirmEmail(email);
+                var response = await repo.ConfirmEmail(emailConfirmation);
 
                 if (response.Success)
                 {
@@ -1155,12 +1175,12 @@ namespace SudokuCollective.Cache
             IUsersRepository<User> repo,
             IDistributedCache cache,
             ICacheKeys keys,
-            EmailConfirmation email,
-            string license = null)
+            EmailConfirmation emailConfirmation,
+            string license)
         {
             try
             {
-                var response = await repo.UpdateEmail(email);
+                var response = await repo.UpdateEmail(emailConfirmation);
 
                 if (response.Success)
                 {

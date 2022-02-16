@@ -71,7 +71,7 @@ namespace SudokuCollective.Core.Models
                 SudokuCells = value.ToList().ConvertAll(cell => (SudokuCell)cell);
             }
         }
-        [Required, SudokuCellsValidated(ErrorMessage = AttributeMessages.InvalidSudokuCells)]
+        [Required, SudokuCellsValidated(ErrorMessage = AttributeMessages.InvalidSudokuCells), JsonConverter(typeof(IDomainEntityListConverter<List<SudokuCell>>))]
         public virtual List<SudokuCell> SudokuCells
         {
             get
@@ -90,7 +90,7 @@ namespace SudokuCollective.Core.Models
                 }
             }
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public Stopwatch Stopwatch
         {
             get
@@ -100,7 +100,7 @@ namespace SudokuCollective.Core.Models
         }
 
         #region SudokuCell List Properties
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> FirstColumn
         { 
             get => SudokuCells
@@ -109,7 +109,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> SecondColumn
         {
             get => SudokuCells
@@ -118,7 +118,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell); 
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> ThirdColumn
         {
             get => SudokuCells
@@ -127,7 +127,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> FourthColumn
         {
             get => SudokuCells
@@ -136,7 +136,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> FifthColumn
         {
             get => SudokuCells
@@ -145,7 +145,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> SixthColumn
         {
             get => SudokuCells
@@ -154,7 +154,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> SeventhColumn
         {
             get => SudokuCells
@@ -163,7 +163,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> EighthColumn
         {
             get => SudokuCells
@@ -172,7 +172,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public List<ISudokuCell> NinthColumn
         {
             get => SudokuCells
@@ -182,6 +182,7 @@ namespace SudokuCollective.Core.Models
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
 
+        [JsonIgnore]
         public List<List<ISudokuCell>> Columns
         {
             get => new()
@@ -280,6 +281,7 @@ namespace SudokuCollective.Core.Models
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
 
+        [JsonIgnore]
         public List<List<ISudokuCell>> Regions
         {
             get => new()
@@ -376,6 +378,7 @@ namespace SudokuCollective.Core.Models
                 .ToList()
                 .ConvertAll(cell => (ISudokuCell)cell);
         }
+        [JsonIgnore]
         public List<List<ISudokuCell>> Rows
         {
             get => new()

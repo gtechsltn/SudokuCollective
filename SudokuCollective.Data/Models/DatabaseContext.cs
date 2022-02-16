@@ -184,8 +184,7 @@ namespace SudokuCollective.Data.Models
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Game>()
-                .Property(g => g.TimeToSolve)
-                .HasConversion(new TimeSpanToTicksConverter());
+                .Ignore(g => g.TimeToSolve);
 
             modelBuilder.Entity<User>()
                 .HasKey(user => user.Id);
@@ -253,7 +252,8 @@ namespace SudokuCollective.Data.Models
                 .Ignore(solution => solution.SixthRow)
                 .Ignore(solution => solution.SeventhRow)
                 .Ignore(solution => solution.EighthRow)
-                .Ignore(solution => solution.NinthRow);
+                .Ignore(solution => solution.NinthRow)
+                .Ignore(solution => solution.Game);
 
             modelBuilder.Entity<App>()
                 .HasKey(app => app.Id);
