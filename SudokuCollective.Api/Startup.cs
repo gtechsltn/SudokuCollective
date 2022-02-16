@@ -63,7 +63,7 @@ namespace SudokuCollective.Api
                                 Id = "Bearer"
                             }
                         },
-                        System.Array.Empty<string>()
+                        Array.Empty<string>()
                     }
                 });
             });
