@@ -10,7 +10,7 @@ namespace SudokuCollective.Data.Models.Results
         public bool IsFromCache { get; set; }
         public string Message { get; set; }
         public string License { get; set; }
-        public List<object> DataPacket { get; set; }
+        public List<object> Payload { get; set; }
 
         public LicenseResult()
         {
@@ -18,7 +18,7 @@ namespace SudokuCollective.Data.Models.Results
             IsFromCache = false;
             Message = string.Empty;
             License = string.Empty;
-            DataPacket = new List<object>();
+            Payload = new List<object>();
         }
 
         public LicenseResult(
@@ -32,7 +32,7 @@ namespace SudokuCollective.Data.Models.Results
             IsFromCache = isFromCache;
             Message = message;
             License = license;
-            DataPacket = dataPacket.ToList();
+            Payload = dataPacket.ToList();
         }
 
         public LicenseResult(
@@ -46,7 +46,7 @@ namespace SudokuCollective.Data.Models.Results
             IsFromCache = isFromCache;
             Message = message;
             License = license;
-            DataPacket = dataPacket;
+            Payload = dataPacket;
         }
     }
 }
