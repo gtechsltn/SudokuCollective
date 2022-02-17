@@ -41,7 +41,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = SolutionsMessages.SolutionFoundMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                         {
                             MockedSolutionsRepository
                                 .SuccessfulRequest
@@ -63,7 +63,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = SolutionsMessages.SolutionsFoundMessage,
-                        DataPacket = MockedSolutionsRepository
+                        Payload = MockedSolutionsRepository
                             .SuccessfulRequest
                             .Object
                             .GetAll()
@@ -78,7 +78,7 @@ namespace SudokuCollective.Test.Services
                     {
                         IsSuccess = true,
                         Message = SolutionsMessages.SudokuSolutionFoundMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                             {
                                 MockedSolutionsRepository
                                     .SuccessfulRequest
@@ -100,7 +100,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = SolutionsMessages.SolutionGeneratedMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                                 {
                                     MockedSolutionsRepository
                                         .SuccessfulRequest

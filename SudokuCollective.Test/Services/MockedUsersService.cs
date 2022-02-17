@@ -43,7 +43,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = UsersMessages.UserCreatedMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                             {
                                 MockedUsersRepository
                                 .SuccessfulRequest
@@ -67,7 +67,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = UsersMessages.UserFoundMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                             {
                                 MockedUsersRepository
                                 .SuccessfulRequest
@@ -92,7 +92,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = UsersMessages.UsersFoundMessage,
-                        DataPacket = MockedUsersRepository
+                        Payload = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
                             .GetAll()
@@ -116,7 +116,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = UsersMessages.UserUpdatedMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                             {
                                 MockedUsersRepository
                                 .SuccessfulRequest
@@ -156,7 +156,7 @@ namespace SudokuCollective.Test.Services
                     {
                         IsSuccess = true,
                         Message = UsersMessages.UserFoundMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                             {
                                 MockedUsersRepository
                                 .SuccessfulRequest
@@ -274,7 +274,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Success,
                     Message = UsersMessages.EmailConfirmedMessage,
-                    DataPacket = new List<object>()
+                    Payload = new List<object>()
                     {
                         TestObjects.GetConfirmEmailResult()
                     }
@@ -291,7 +291,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = UsersMessages.UserFoundMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                         {
                             TestObjects.GetInitiatePasswordResetResult()
                         }
@@ -312,7 +312,7 @@ namespace SudokuCollective.Test.Services
                             .HasOutstandingEmailConfirmation(It.IsAny<int>(), It.IsAny<int>())
                             .Result,
                         Message = UsersMessages.EmailConfirmationEmailResentMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                         {
                             TestObjects.GetUserResult()
                         }
@@ -331,7 +331,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = UsersMessages.EmailConfirmationRequestCancelledMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                             {
                                 TestObjects.GetUserResult()
                             }
@@ -350,7 +350,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = UsersMessages.PasswordResetRequestCancelledMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                             {
                                 TestObjects.GetUserResult()
                             }
@@ -366,7 +366,7 @@ namespace SudokuCollective.Test.Services
                         Message = string.Format("{0} and {1}",
                             UsersMessages.EmailConfirmationRequestCancelledMessage,
                             UsersMessages.PasswordResetRequestCancelledMessage),
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                             {
                                 TestObjects.GetUserResult()
                             }

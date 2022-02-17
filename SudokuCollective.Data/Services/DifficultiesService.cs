@@ -48,7 +48,7 @@ namespace SudokuCollective.Data.Services
 
             CreateDifficultyRequest createDifficultyRequest;
 
-            if (request.DataPacket is CreateDifficultyRequest r)
+            if (request.Payload is CreateDifficultyRequest r)
             {
                 createDifficultyRequest = r;
             }
@@ -95,7 +95,7 @@ namespace SudokuCollective.Data.Services
                     {
                         result.IsSuccess = response.Success;
                         result.Message = DifficultiesMessages.DifficultyCreatedMessage;
-                        result.DataPacket.Add(response.Object);
+                        result.Payload.Add(response.Object);
 
                         return result;
                     }
@@ -160,7 +160,7 @@ namespace SudokuCollective.Data.Services
                 {
                     result.IsSuccess = response.Success;
                     result.Message = DifficultiesMessages.DifficultyFoundMessage;
-                    result.DataPacket.Add(response.Object);
+                    result.Payload.Add(response.Object);
 
                     return result;
                 }
@@ -209,7 +209,7 @@ namespace SudokuCollective.Data.Services
                     result.IsSuccess = response.Success;
                     result.Message = DifficultiesMessages.DifficultiesFoundMessage;
 
-                    result.DataPacket.AddRange(response.Objects);
+                    result.Payload.AddRange(response.Objects);
 
 
                     return result;
@@ -246,7 +246,7 @@ namespace SudokuCollective.Data.Services
 
             UpdateDifficultyRequest updateDifficultyRequest;
 
-            if (request.DataPacket is UpdateDifficultyRequest r)
+            if (request.Payload is UpdateDifficultyRequest r)
             {
                 updateDifficultyRequest = r;
             }
@@ -287,7 +287,7 @@ namespace SudokuCollective.Data.Services
                     {
                         result.IsSuccess = updateDifficultyResponse.Success;
                         result.Message = DifficultiesMessages.DifficultyUpdatedMessage;
-                        result.DataPacket.Add(updateDifficultyResponse.Object);
+                        result.Payload.Add(updateDifficultyResponse.Object);
 
                         return result;
                     }

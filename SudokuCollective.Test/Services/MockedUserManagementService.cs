@@ -34,7 +34,7 @@ namespace SudokuCollective.Test.Services
                     {
                         IsSuccess = true,
                         Message = UsersMessages.UserNameConfirmedMessage,
-                        DataPacket = new List<object> { new AuthenticatedUserNameResult { UserName = "TestSuperUser" } }
+                        Payload = new List<object> { new AuthenticatedUserNameResult { UserName = "TestSuperUser" } }
                     } as IResult));
 
             ServiceFailedRequest.Setup(userManagementService =>

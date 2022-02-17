@@ -219,7 +219,7 @@ namespace SudokuCollective.Data.Services
 
                 result.IsSuccess = true;
                 result.Message = UsersMessages.UserFoundMessage;
-                result.DataPacket.Add(authenticationResult);
+                result.Payload.Add(authenticationResult);
 
                 return result;
             }

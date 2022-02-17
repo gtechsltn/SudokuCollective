@@ -63,7 +63,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Solution Found"));
-            Assert.That((SudokuSolution)result.DataPacket[0], Is.TypeOf<SudokuSolution>());
+            Assert.That((SudokuSolution)result.Payload[0], Is.TypeOf<SudokuSolution>());
         }
 
         [Test, Category("Services")]
@@ -90,7 +90,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Solutions Found"));
-            Assert.That(result.DataPacket.ConvertAll(s => (ISudokuSolution)s), Is.TypeOf<List<ISudokuSolution>>());
+            Assert.That(result.Payload.ConvertAll(s => (ISudokuSolution)s), Is.TypeOf<List<ISudokuSolution>>());
         }
 
         [Test, Category("Services")]
@@ -122,7 +122,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 EighthRow = new List<int> { 9, 0, 4, 0, 0, 7, 2, 0, 8 },
                 NinthRow = new List<int> { 0, 0, 0, 0, 0, 2, 4, 6, 0 }
             };
-            request.DataPacket = solutionRequest;
+            request.Payload = solutionRequest;
 
             // Act
             var result = await sut.Solve(request);
@@ -130,7 +130,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Sudoku Solution Found"));
-            Assert.That((SudokuSolution)result.DataPacket[0], Is.TypeOf<SudokuSolution>());
+            Assert.That((SudokuSolution)result.Payload[0], Is.TypeOf<SudokuSolution>());
         }
 
         [Test, Category("Services")]
@@ -144,7 +144,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Solution Generated"));
-            Assert.That((SudokuSolution)result.DataPacket[0], Is.TypeOf<SudokuSolution>());
+            Assert.That((SudokuSolution)result.Payload[0], Is.TypeOf<SudokuSolution>());
         }
 
         [Test, Category("Services")]

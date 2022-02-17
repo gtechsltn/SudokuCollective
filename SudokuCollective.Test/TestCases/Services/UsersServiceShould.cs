@@ -153,7 +153,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("User Found"));
-            Assert.That((User)result.DataPacket[0], Is.TypeOf<User>());
+            Assert.That((User)result.Payload[0], Is.TypeOf<User>());
         }
 
         [Test, Category("Services")]
@@ -186,7 +186,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Users Found"));
-            Assert.That(result.DataPacket.ConvertAll(u => (IUser)u), Is.TypeOf<List<IUser>>());
+            Assert.That(result.Payload.ConvertAll(u => (IUser)u), Is.TypeOf<List<IUser>>());
         }
 
         [Test, Category("Services")]
@@ -203,7 +203,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Password = "T3stP@ssw0rd"
             };
 
-            request.DataPacket = registerRequest;
+            request.Payload = registerRequest;
 
             var baseUrl = "https://example.com";
 
@@ -215,7 +215,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("User Created"));
-            Assert.That(((UserResult)result.DataPacket[0]).User, Is.TypeOf<User>());
+            Assert.That(((UserResult)result.Payload[0]).User, Is.TypeOf<User>());
         }
 
         [Test, Category("Services")]
@@ -268,7 +268,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Password = "T3stP@ssw0rd"
             };
 
-            request.DataPacket = registerRequest;
+            request.Payload = registerRequest;
 
             var baseUrl = "https://example.com";
 
@@ -295,7 +295,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Password = "T3stP@ssw0rd"
             };
 
-            request.DataPacket = registerRequest;
+            request.Payload = registerRequest;
 
             var baseUrl = "https://example.com";
 
@@ -323,7 +323,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Password = "T3stP@ssw0rd1"
             };
 
-            request.DataPacket = registerRequest;
+            request.Payload = registerRequest;
 
             var baseUrl = "https://example.com";
 
@@ -352,7 +352,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Password = "T3stP@ssw0rd"
             };
 
-            request.DataPacket = registerRequest;
+            request.Payload = registerRequest;
 
             var baseUrl = "https://example.com";
 
@@ -381,7 +381,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Email = "TestUser@example.com"
             };
 
-            request.DataPacket = updateUserRequest;
+            request.Payload = updateUserRequest;
 
             var baseUrl = "https://example.com";
 
@@ -393,7 +393,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("User Updated"));
-            Assert.That(((UserResult)result.DataPacket[0]).User.UserName, Is.EqualTo("TestUserUPDATED"));
+            Assert.That(((UserResult)result.Payload[0]).User.UserName, Is.EqualTo("TestUserUPDATED"));
         }
 
         [Test, Category("Services")]
@@ -406,7 +406,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Email = context.Users.Select(u => u.Email).FirstOrDefault()
             };
 
-            request.DataPacket = requestPasswordReset;
+            request.Payload = requestPasswordReset;
 
             var baseUrl = "https://example.com";
 
@@ -433,7 +433,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Email = "bademai@example.com"
             };
 
-            request.DataPacket = requestPasswordReset;
+            request.Payload = requestPasswordReset;
 
             var baseUrl = "https://example.com";
 
@@ -464,7 +464,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Email = "TestSuperUser@example.com"
             };
 
-            request.DataPacket = updateUserRequest;
+            request.Payload = updateUserRequest;
 
             var baseUrl = "https://example.com";
 
@@ -493,7 +493,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Email = "TestSuperUser@example.com"
             };
 
-            request.DataPacket = updateUserRequest;
+            request.Payload = updateUserRequest;
 
             var baseUrl = "https://example.com";
 
@@ -522,7 +522,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Email = "TestUser@example.com"
             };
 
-            request.DataPacket = updateUserRequest;
+            request.Payload = updateUserRequest;
 
             var baseUrl = "https://example.com";
 
@@ -550,7 +550,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 NickName = "Test Super User"
             };
 
-            request.DataPacket = updateUserRequest;
+            request.Payload = updateUserRequest;
 
             var baseUrl = "https://example.com";
 
@@ -578,7 +578,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 NewPassword = "T3stP@ssw0rd",
             };
 
-            request.DataPacket = passwordResetRequest;
+            request.Payload = passwordResetRequest;
 
             var license = TestObjects.GetLicense();
 
@@ -789,7 +789,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Email Confirmation Request Cancelled"));
-            Assert.That((UserResult)result.DataPacket[0], Is.TypeOf<UserResult>());
+            Assert.That((UserResult)result.Payload[0], Is.TypeOf<UserResult>());
         }
 
         [Test, Category("Services")]
@@ -851,7 +851,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Password Reset Request Cancelled"));
-            Assert.That((UserResult)result.DataPacket[0], Is.TypeOf<UserResult>());
+            Assert.That((UserResult)result.Payload[0], Is.TypeOf<UserResult>());
         }
 
         [Test, Category("Services")]
@@ -882,7 +882,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Email Confirmation Request Cancelled and Password Reset Request Cancelled"));
-            Assert.That((UserResult)result.DataPacket[0], Is.TypeOf<UserResult>());
+            Assert.That((UserResult)result.Payload[0], Is.TypeOf<UserResult>());
         }
 
         [Test, Category("Services")]
@@ -910,7 +910,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("User Found"));
-            Assert.That((User)result.DataPacket[0], Is.TypeOf<User>());
+            Assert.That((User)result.Payload[0], Is.TypeOf<User>());
         }
 
         [Test, Category("Services")]

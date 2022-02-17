@@ -65,7 +65,7 @@ namespace SudokuCollective.Data.Services
 
                     result.IsSuccess = solutionResponse.Success;
                     result.Message = SolutionsMessages.SolutionFoundMessage;
-                    result.DataPacket.Add(solution);
+                    result.Payload.Add(solution);
 
                     return result;
                 }
@@ -136,7 +136,7 @@ namespace SudokuCollective.Data.Services
                     }
                     else
                     {
-                        result.DataPacket.AddRange(response
+                        result.Payload.AddRange(response
                             .Objects
                             .OrderBy(s => ((ISudokuSolution)s).Id)
                             .ToList()
@@ -190,15 +190,15 @@ namespace SudokuCollective.Data.Services
 
                 var intList = new List<int>();
 
-                intList.AddRange(((SolutionRequest)request.DataPacket).FirstRow);
-                intList.AddRange(((SolutionRequest)request.DataPacket).SecondRow);
-                intList.AddRange(((SolutionRequest)request.DataPacket).ThirdRow);
-                intList.AddRange(((SolutionRequest)request.DataPacket).FourthRow);
-                intList.AddRange(((SolutionRequest)request.DataPacket).FifthRow);
-                intList.AddRange(((SolutionRequest)request.DataPacket).SixthRow);
-                intList.AddRange(((SolutionRequest)request.DataPacket).SeventhRow);
-                intList.AddRange(((SolutionRequest)request.DataPacket).EighthRow);
-                intList.AddRange(((SolutionRequest)request.DataPacket).NinthRow);
+                intList.AddRange(((SolutionRequest)request.Payload).FirstRow);
+                intList.AddRange(((SolutionRequest)request.Payload).SecondRow);
+                intList.AddRange(((SolutionRequest)request.Payload).ThirdRow);
+                intList.AddRange(((SolutionRequest)request.Payload).FourthRow);
+                intList.AddRange(((SolutionRequest)request.Payload).FifthRow);
+                intList.AddRange(((SolutionRequest)request.Payload).SixthRow);
+                intList.AddRange(((SolutionRequest)request.Payload).SeventhRow);
+                intList.AddRange(((SolutionRequest)request.Payload).EighthRow);
+                intList.AddRange(((SolutionRequest)request.Payload).NinthRow);
 
                 var sudokuSolver = new SudokuMatrix(intList);
 
@@ -231,7 +231,7 @@ namespace SudokuCollective.Data.Services
                     }
 
                     result.IsSuccess = true;
-                    result.DataPacket.Add(solution);
+                    result.Payload.Add(solution);
                     result.Message = SolutionsMessages.SudokuSolutionFoundMessage;
                 }
                 else
@@ -259,7 +259,7 @@ namespace SudokuCollective.Data.Services
                             {
                                 solutonInDB = possibleSolution;
                                 result.IsSuccess = possibleSolution;
-                                result.DataPacket.Add(solution);
+                                result.Payload.Add(solution);
                                 result.Message = SolutionsMessages.SudokuSolutionFoundMessage;
                                 break;
                             }
@@ -331,7 +331,7 @@ namespace SudokuCollective.Data.Services
 
                     if (matrixNotInDB)
                     {
-                        result.DataPacket.Add(new SudokuSolution(
+                        result.Payload.Add(new SudokuSolution(
                             matrix.ToIntList()));
 
                         continueLoop = false;
@@ -339,7 +339,7 @@ namespace SudokuCollective.Data.Services
 
                 } while (continueLoop);
 
-                var solutionResponse = await _solutionsRepository.Add((SudokuSolution)result.DataPacket[0]);
+                var solutionResponse = await _solutionsRepository.Add((SudokuSolution)result.Payload[0]);
 
                 if (solutionResponse.Success)
                 {

@@ -73,8 +73,8 @@ namespace SudokuCollective.Api.Controllers.V1
                 {
                     var tokenRequest = new TokenRequest
                     {
-                        UserName = ((RegisterRequest)request.DataPacket).UserName,
-                        Password = ((RegisterRequest)request.DataPacket).Password,
+                        UserName = ((RegisterRequest)request.Payload).UserName,
+                        Password = ((RegisterRequest)request.Payload).Password,
                         License = request.License
                     };
 
@@ -83,7 +83,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     if (authenticateResult.IsSuccess)
                     {
                         result.Message = ControllerMessages.StatusCode201(result.Message);
-                        result.DataPacket.Add(authenticateResult.DataPacket);
+                        result.Payload.Add(authenticateResult.Payload);
 
                         return StatusCode((int)HttpStatusCode.Created, result);
                     }

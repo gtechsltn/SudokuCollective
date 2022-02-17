@@ -7,6 +7,6 @@ namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Params
         bool IsSuccess { get; set; }
         bool IsFromCache { get; set; }
         string Message { get; set; }
-        List<object> DataPacket { get; set; }
+        List<object> Payload { get; set; }
     }
 }

@@ -40,7 +40,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = GamesMessages.GameCreatedMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                         {
                             MockedGamesRepository
                                 .SuccessfulRequest
@@ -62,7 +62,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = GamesMessages.GameUpdatedMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                             {
                                 MockedGamesRepository
                                     .SuccessfulRequest
@@ -97,7 +97,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = GamesMessages.GameFoundMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                             {
                                 MockedGamesRepository
                                     .SuccessfulRequest
@@ -119,7 +119,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = GamesMessages.GamesFoundMessage,
-                        DataPacket = MockedGamesRepository
+                        Payload = MockedGamesRepository
                             .SuccessfulRequest
                             .Object
                             .GetAll()
@@ -139,7 +139,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = GamesMessages.GameFoundMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                             {
                                 MockedGamesRepository
                                     .SuccessfulRequest
@@ -161,7 +161,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = GamesMessages.GamesFoundMessage,
-                        DataPacket = MockedGamesRepository
+                        Payload = MockedGamesRepository
                             .SuccessfulRequest
                             .Object
                             .GetMyGames(It.IsAny<int>(), It.IsAny<int>())
@@ -194,7 +194,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = GamesMessages.GameSolvedMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                             {
                                 MockedGamesRepository
                                     .SuccessfulRequest
@@ -211,7 +211,7 @@ namespace SudokuCollective.Test.Services
                     {
                         IsSuccess = true,
                         Message = GamesMessages.GameCreatedMessage,
-                        DataPacket = new List<object>() { TestObjects.GetAnnonymousGame() }
+                        Payload = new List<object>() { TestObjects.GetAnnonymousGame() }
                     } as IResult));
 
             SuccessfulRequest.Setup(Service =>

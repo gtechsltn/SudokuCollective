@@ -49,7 +49,7 @@ namespace SudokuCollective.Data.Services
 
             CreateRoleRequest createRoleRequest;
 
-            if (request.DataPacket is CreateRoleRequest r)
+            if (request.Payload is CreateRoleRequest r)
             {
                 createRoleRequest = r;
             }
@@ -90,7 +90,7 @@ namespace SudokuCollective.Data.Services
                     {
                         result.IsSuccess = response.Success;
                         result.Message = RolesMessages.RoleCreatedMessage;
-                        result.DataPacket.Add((IRole)response.Object);
+                        result.Payload.Add((IRole)response.Object);
 
                         return result;
                     }
@@ -157,7 +157,7 @@ namespace SudokuCollective.Data.Services
 
                     result.IsSuccess = response.Success;
                     result.Message = RolesMessages.RoleFoundMessage;
-                    result.DataPacket.Add(role);
+                    result.Payload.Add(role);
 
                     return result;
                 }
@@ -207,7 +207,7 @@ namespace SudokuCollective.Data.Services
 
                     result.IsSuccess = response.Success;
                     result.Message = RolesMessages.RolesFoundMessage;
-                    result.DataPacket.AddRange(roles);
+                    result.Payload.AddRange(roles);
 
                     return result;
                 }
@@ -251,7 +251,7 @@ namespace SudokuCollective.Data.Services
 
             UpdateRoleRequest updateRoleRequest;
 
-            if (request.DataPacket is UpdateRoleRequest r)
+            if (request.Payload is UpdateRoleRequest r)
             {
                 updateRoleRequest = r;
             }

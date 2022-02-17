@@ -145,7 +145,7 @@ namespace SudokuCollective.Data.Services
                     authenticatedUserNameResult.UserName = ((User)userResponse.Object).UserName;
                     result.IsSuccess = true;
                     result.Message = UsersMessages.UserNameConfirmedMessage;
-                    result.DataPacket.Add(authenticatedUserNameResult);
+                    result.Payload.Add(authenticatedUserNameResult);
 
                     return result;
                 }

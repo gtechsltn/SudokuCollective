@@ -14,7 +14,7 @@ namespace SudokuCollective.Data.Models.Params
         [Required]
         public IPaginator Paginator { get; set; }
         [Required]
-        public object DataPacket { get; set; }
+        public object Payload { get; set; }
 
         public Request()
         {
@@ -22,7 +22,7 @@ namespace SudokuCollective.Data.Models.Params
             RequestorId = 0;
             AppId = 0;
             Paginator = new Paginator();
-            DataPacket = null;
+            Payload = null;
         }
     }
 }

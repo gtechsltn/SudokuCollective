@@ -28,7 +28,7 @@ namespace SudokuCollective.Test.Services
                     {
                         IsSuccess = true,
                         Message = UsersMessages.UserFoundMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                         {
                             new AuthenticationResult()
                             {

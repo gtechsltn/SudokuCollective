@@ -6,6 +6,6 @@
         int RequestorId { get; set; }
         int AppId { get; set; }
         IPaginator Paginator { get; set; }
-        object DataPacket { get; set; }
+        object Payload { get; set; }
     }
 }

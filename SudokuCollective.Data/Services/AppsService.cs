@@ -138,7 +138,7 @@ namespace SudokuCollective.Data.Services
 
                         result.IsSuccess = addAppResponse.Success;
                         result.Message = AppsMessages.AppCreatedMessage;
-                        result.DataPacket.Add((App)addAppResponse.Object);
+                        result.Payload.Add((App)addAppResponse.Object);
 
                         return result;
                     }
@@ -205,7 +205,7 @@ namespace SudokuCollective.Data.Services
 
                     result.IsSuccess = response.Success;
                     result.Message = AppsMessages.AppFoundMessage;
-                    result.DataPacket.Add(app);
+                    result.Payload.Add(app);
 
                     return result;
                 }
@@ -264,7 +264,7 @@ namespace SudokuCollective.Data.Services
 
                     result.IsSuccess = response.Success;
                     result.Message = AppsMessages.AppFoundMessage;
-                    result.DataPacket.Add(app);
+                    result.Payload.Add(app);
 
                     return result;
                 }
@@ -529,7 +529,7 @@ namespace SudokuCollective.Data.Services
 
             AppRequest appRequest;
 
-            if (request.DataPacket is AppRequest r)
+            if (request.Payload is AppRequest r)
             {
                 appRequest = r;
             }
@@ -583,7 +583,7 @@ namespace SudokuCollective.Data.Services
                         {
                             result.IsSuccess = true;
                             result.Message = AppsMessages.AppUpdatedMessage;
-                            result.DataPacket.Add(app);
+                            result.Payload.Add(app);
 
                             return result;
                         }
@@ -659,7 +659,7 @@ namespace SudokuCollective.Data.Services
                             {
                                 result.IsSuccess = resetAppResponse.Success;
                                 result.Message = AppsMessages.AppResetMessage;
-                                result.DataPacket.Add(resetAppResponse.Object);
+                                result.Payload.Add(resetAppResponse.Object);
 
                                 return result;
                             }
@@ -840,7 +840,7 @@ namespace SudokuCollective.Data.Services
                         if (requestor != null && !requestor.IsSuperUser)
                         {
                             // Filter out user emails from the frontend...
-                            foreach (var user in result.DataPacket)
+                            foreach (var user in result.Payload)
                             {
                                 var emailConfirmed = ((IUser)user).IsEmailConfirmed;
                                 ((IUser)user).HideEmail();
@@ -1263,7 +1263,7 @@ namespace SudokuCollective.Data.Services
                         {
                             result.IsSuccess = appAdminResult.Success;
                             result.Message = UsersMessages.UserHasBeenPromotedToAdminMessage;
-                            result.DataPacket.Add(
+                            result.Payload.Add(
                                 (await _usersRepository.Get(userId))
                                     .Object);
 
@@ -1424,7 +1424,7 @@ namespace SudokuCollective.Data.Services
 
                             result.IsSuccess = appAdminResult.Success;
                             result.Message = AppsMessages.AdminPrivilegesDeactivatedMessage;
-                            result.DataPacket.Add(
+                            result.Payload.Add(
                                 (await _usersRepository.Get(user.Id))
                                 .Object);
 

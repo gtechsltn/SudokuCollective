@@ -8,14 +8,14 @@ namespace SudokuCollective.Data.Models.Params
         public bool IsSuccess { get; set; }
         public bool IsFromCache { get; set; }
         public string Message { get; set; }
-        public List<object> DataPacket { get; set; }
+        public List<object> Payload { get; set; }
 
         public Result()
         {
             IsSuccess = false;
             IsFromCache = false;
             Message = string.Empty;
-            DataPacket = new List<object>();
+            Payload = new List<object>();
         }
     }
 }

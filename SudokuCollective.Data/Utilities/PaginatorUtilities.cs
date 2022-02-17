@@ -17,7 +17,7 @@ namespace SudokuCollective.Data.Utilities
         {
             if (paginator.SortBy == SortValue.NULL)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .OrderBy(a => ((IApp)a).Id)
                     .ToList()
@@ -25,14 +25,14 @@ namespace SudokuCollective.Data.Utilities
             }
             else if (paginator.SortBy == SortValue.ID)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .ToList()
                     .ConvertAll(a => (object)a));
 
                 if (!paginator.OrderByDescending)
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderBy(a => ((IApp)a).Id)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -40,7 +40,7 @@ namespace SudokuCollective.Data.Utilities
                 }
                 else
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderByDescending(a => ((IApp)a).Id)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -49,14 +49,14 @@ namespace SudokuCollective.Data.Utilities
             }
             else if (paginator.SortBy == SortValue.USERCOUNT)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .ToList()
                     .ConvertAll(a => (object)a));
 
                 if (!paginator.OrderByDescending)
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderBy(a => ((IApp)a).UserCount)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -64,7 +64,7 @@ namespace SudokuCollective.Data.Utilities
                 }
                 else
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderByDescending(a => ((IApp)a).UserCount)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -73,14 +73,14 @@ namespace SudokuCollective.Data.Utilities
             }
             else if (paginator.SortBy == SortValue.NAME)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .ToList()
                     .ConvertAll(a => (object)a));
 
                 if (!paginator.OrderByDescending)
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderBy(a => ((IApp)a).Name)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -88,7 +88,7 @@ namespace SudokuCollective.Data.Utilities
                 }
                 else
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderByDescending(a => ((IApp)a).Name)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -97,14 +97,14 @@ namespace SudokuCollective.Data.Utilities
             }
             else if (paginator.SortBy == SortValue.DATECREATED)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .ToList()
                     .ConvertAll(a => (object)a));
 
                 if (!paginator.OrderByDescending)
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderBy(a => ((IApp)a).DateCreated)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -112,7 +112,7 @@ namespace SudokuCollective.Data.Utilities
                 }
                 else
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderByDescending(a => ((IApp)a).DateCreated)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -121,14 +121,14 @@ namespace SudokuCollective.Data.Utilities
             }
             else if (paginator.SortBy == SortValue.DATEUPDATED)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .ToList()
                     .ConvertAll(a => (object)a));
 
                 if (!paginator.OrderByDescending)
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderBy(a => ((IApp)a).DateUpdated)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -136,7 +136,7 @@ namespace SudokuCollective.Data.Utilities
                 }
                 else
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderByDescending(a => ((IApp)a).DateUpdated)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -159,7 +159,7 @@ namespace SudokuCollective.Data.Utilities
         {
             if (paginator.SortBy == SortValue.NULL)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .OrderBy(g => ((IGame)g).Id)
                     .ToList()
@@ -167,7 +167,7 @@ namespace SudokuCollective.Data.Utilities
             }
             else if (paginator.SortBy == SortValue.ID)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .OrderBy(g => ((IGame)g).Id)
                     .ToList()
@@ -175,7 +175,7 @@ namespace SudokuCollective.Data.Utilities
 
                 if (!paginator.OrderByDescending)
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderBy(g => ((IGame)g).Id)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -183,7 +183,7 @@ namespace SudokuCollective.Data.Utilities
                 }
                 else
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderByDescending(g => ((IGame)g).Id)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -192,7 +192,7 @@ namespace SudokuCollective.Data.Utilities
             }
             else if (paginator.SortBy == SortValue.SCORE)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .OrderBy(g => ((IGame)g).Id)
                     .ToList()
@@ -200,7 +200,7 @@ namespace SudokuCollective.Data.Utilities
 
                 if (!paginator.OrderByDescending)
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .Where(g => ((IGame)g).Score != 0 && 
                             ((IGame)g).Score != int.MaxValue && 
                             ((IGame)g).Score != 0 &&
@@ -212,7 +212,7 @@ namespace SudokuCollective.Data.Utilities
                 }
                 else
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .Where(g => ((IGame)g).Score != 0 && 
                             ((IGame)g).Score != int.MaxValue && 
                             ((IGame)g).Score != 0 &&
@@ -225,7 +225,7 @@ namespace SudokuCollective.Data.Utilities
             }
             else if (paginator.SortBy == SortValue.DATECREATED)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .OrderBy(g => ((IGame)g).Id)
                     .ToList()
@@ -233,7 +233,7 @@ namespace SudokuCollective.Data.Utilities
 
                 if (!paginator.OrderByDescending)
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderBy(g => ((IGame)g).DateCreated)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -241,7 +241,7 @@ namespace SudokuCollective.Data.Utilities
                 }
                 else
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderByDescending(g => ((IGame)g).DateCreated)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -250,7 +250,7 @@ namespace SudokuCollective.Data.Utilities
             }
             else if (paginator.SortBy == SortValue.DATEUPDATED)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .OrderBy(g => ((IGame)g).Id)
                     .ToList()
@@ -258,7 +258,7 @@ namespace SudokuCollective.Data.Utilities
 
                 if (!paginator.OrderByDescending)
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderBy(g => ((IGame)g).DateUpdated)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -266,7 +266,7 @@ namespace SudokuCollective.Data.Utilities
                 }
                 else
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderByDescending(g => ((IGame)g).DateUpdated)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -289,7 +289,7 @@ namespace SudokuCollective.Data.Utilities
         {
             if (paginator.SortBy == SortValue.NULL)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .OrderBy(s => ((ISudokuSolution)s).Id)
                     .ToList()
@@ -297,14 +297,14 @@ namespace SudokuCollective.Data.Utilities
             }
             else if (paginator.SortBy == SortValue.ID)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .ToList()
                     .ConvertAll(s => (object)s));
 
                 if (!paginator.OrderByDescending)
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderBy(s => ((ISudokuSolution)s).Id)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -312,7 +312,7 @@ namespace SudokuCollective.Data.Utilities
                 }
                 else
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderByDescending(s => ((ISudokuSolution)s).Id)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -321,14 +321,14 @@ namespace SudokuCollective.Data.Utilities
             }
             else if (paginator.SortBy == SortValue.DATECREATED)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .ToList()
                     .ConvertAll(s => (object)s));
 
                 if (!paginator.OrderByDescending)
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderBy(s => ((ISudokuSolution)s).DateCreated)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -336,7 +336,7 @@ namespace SudokuCollective.Data.Utilities
                 }
                 else
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderByDescending(s => ((ISudokuSolution)s).DateCreated)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -345,14 +345,14 @@ namespace SudokuCollective.Data.Utilities
             }
             else if (paginator.SortBy == SortValue.DATEUPDATED)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .ToList()
                     .ConvertAll(s => (object)s));
 
                 if (!paginator.OrderByDescending)
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderBy(s => ((ISudokuSolution)s).DateSolved)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -360,7 +360,7 @@ namespace SudokuCollective.Data.Utilities
                 }
                 else
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderByDescending(s => ((ISudokuSolution)s).DateSolved)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -383,7 +383,7 @@ namespace SudokuCollective.Data.Utilities
         {
             if (paginator.SortBy == SortValue.NULL)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .OrderBy(u => ((IUser)u).Id)
                     .ToList()
@@ -391,14 +391,14 @@ namespace SudokuCollective.Data.Utilities
             }
             else if (paginator.SortBy == SortValue.ID)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .ToList()
                     .ConvertAll(u => (object)u));
 
                 if (!paginator.OrderByDescending)
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderBy(u => ((IUser)u).Id)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -406,7 +406,7 @@ namespace SudokuCollective.Data.Utilities
                 }
                 else
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderByDescending(u => ((IUser)u).Id)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -415,14 +415,14 @@ namespace SudokuCollective.Data.Utilities
             }
             else if (paginator.SortBy == SortValue.USERNAME)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .ToList()
                     .ConvertAll(u => (object)u));
 
                 if (!paginator.OrderByDescending)
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderBy(u => ((IUser)u).UserName)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -430,7 +430,7 @@ namespace SudokuCollective.Data.Utilities
                 }
                 else
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderByDescending(u => ((IUser)u).UserName)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -439,14 +439,14 @@ namespace SudokuCollective.Data.Utilities
             }
             else if (paginator.SortBy == SortValue.FIRSTNAME)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .ToList()
                     .ConvertAll(u => (object)u));
 
                 if (!paginator.OrderByDescending)
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderBy(u => ((IUser)u).FirstName)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -454,7 +454,7 @@ namespace SudokuCollective.Data.Utilities
                 }
                 else
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderByDescending(u => ((IUser)u).FirstName)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -463,14 +463,14 @@ namespace SudokuCollective.Data.Utilities
             }
             else if (paginator.SortBy == SortValue.LASTNAME)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .ToList()
                     .ConvertAll(u => (object)u));
 
                 if (!paginator.OrderByDescending)
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderBy(u => ((IUser)u).LastName)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -478,7 +478,7 @@ namespace SudokuCollective.Data.Utilities
                 }
                 else
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderByDescending(u => ((IUser)u).LastName)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -487,14 +487,14 @@ namespace SudokuCollective.Data.Utilities
             }
             else if (paginator.SortBy == SortValue.FULLNAME)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .ToList()
                     .ConvertAll(u => (object)u));
 
                 if (!paginator.OrderByDescending)
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderBy(u => ((IUser)u).FullName)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -502,7 +502,7 @@ namespace SudokuCollective.Data.Utilities
                 }
                 else
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderByDescending(u => ((IUser)u).FullName)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -511,14 +511,14 @@ namespace SudokuCollective.Data.Utilities
             }
             else if (paginator.SortBy == SortValue.NICKNAME)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .ToList()
                     .ConvertAll(u => (object)u));
 
                 if (!paginator.OrderByDescending)
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderBy(u => ((IUser)u).NickName)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -526,7 +526,7 @@ namespace SudokuCollective.Data.Utilities
                 }
                 else
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderByDescending(u => ((IUser)u).NickName)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -535,14 +535,14 @@ namespace SudokuCollective.Data.Utilities
             }
             else if (paginator.SortBy == SortValue.GAMECOUNT)
             {
-                result.DataPacket.AddRange(response
+                result.Payload.AddRange(response
                     .Objects
                     .ToList()
                     .ConvertAll(u => (object)u));
 
                 if (!paginator.OrderByDescending)
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderBy(u => ((IUser)u).Games.Count)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)
@@ -550,7 +550,7 @@ namespace SudokuCollective.Data.Utilities
                 }
                 else
                 {
-                    result.DataPacket = result.DataPacket
+                    result.Payload = result.Payload
                         .OrderByDescending(u => ((IUser)u).Games.Count)
                         .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
                         .Take(paginator.ItemsPerPage)

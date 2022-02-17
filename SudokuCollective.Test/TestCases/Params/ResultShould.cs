@@ -34,7 +34,7 @@ namespace SudokuCollective.Test.TestCases.Params
             Assert.That(sut.IsSuccess, Is.InstanceOf<bool>());
             Assert.That(sut.IsFromCache, Is.InstanceOf<bool>());
             Assert.That(sut.Message, Is.InstanceOf<string>());
-            Assert.That(sut.DataPacket, Is.InstanceOf<List<object>>());
+            Assert.That(sut.Payload, Is.InstanceOf<List<object>>());
         }
     }
 }

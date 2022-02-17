@@ -137,11 +137,11 @@ namespace SudokuCollective.Test.TestCases.Services
                 email,
                 TestObjects.GetLicense());
             var success = result.IsSuccess;
-            var username = ((AuthenticatedUserNameResult)result.DataPacket[0]).UserName;
+            var username = ((AuthenticatedUserNameResult)result.Payload[0]).UserName;
 
             // Assert
             Assert.That(success, Is.True);
-            Assert.That((AuthenticatedUserNameResult)result.DataPacket[0], Is.InstanceOf<AuthenticatedUserNameResult>());
+            Assert.That((AuthenticatedUserNameResult)result.Payload[0], Is.InstanceOf<AuthenticatedUserNameResult>());
             Assert.That(username, Is.EqualTo("TestSuperUser"));
         }
 

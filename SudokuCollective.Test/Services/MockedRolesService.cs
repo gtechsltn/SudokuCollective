@@ -36,7 +36,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = RolesMessages.RoleFoundMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                         {
                             MockedRolesRepository
                                 .SuccessfulRequest
@@ -58,7 +58,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = RolesMessages.RolesFoundMessage,
-                        DataPacket = MockedRolesRepository
+                        Payload = MockedRolesRepository
                             .SuccessfulRequest
                             .Object
                             .GetAll()
@@ -78,7 +78,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = RolesMessages.RoleCreatedMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                         {
                             MockedRolesRepository
                                 .SuccessfulRequest

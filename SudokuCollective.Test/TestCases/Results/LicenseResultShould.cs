@@ -25,7 +25,7 @@ namespace SudokuCollective.Test.TestCases.Results
             Assert.That(sut.IsFromCache, Is.InstanceOf<bool>());
             Assert.That(sut.Message, Is.InstanceOf<string>());
             Assert.That(sut.License, Is.InstanceOf<string>());
-            Assert.That(sut.DataPacket, Is.InstanceOf<List<object>>());
+            Assert.That(sut.Payload, Is.InstanceOf<List<object>>());
         }
 
         [Test, Category("Results")]

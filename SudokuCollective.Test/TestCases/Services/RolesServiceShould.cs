@@ -64,7 +64,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Role Found"));
-            Assert.That((Role)result.DataPacket[0], Is.TypeOf<Role>());
+            Assert.That((Role)result.Payload[0], Is.TypeOf<Role>());
         }
 
         [Test, Category("Services")]
@@ -91,7 +91,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Roles Found"));
-            Assert.That(result.DataPacket.ConvertAll(r => (IRole)r), Is.TypeOf<List<IRole>>());
+            Assert.That(result.Payload.ConvertAll(r => (IRole)r), Is.TypeOf<List<IRole>>());
         }
 
         [Test, Category("Services")]
@@ -114,7 +114,7 @@ namespace SudokuCollective.Test.TestCases.Services
 
             // Act
             var result = await sut.GetRoles();
-            var nullAndSuperUserRoleLevelsBlocked = result.DataPacket
+            var nullAndSuperUserRoleLevelsBlocked = result.Payload
                 .ConvertAll(r => (Role)r)
                 .Any(role =>
                     role.RoleLevel.Equals(RoleLevel.NULL)
@@ -132,7 +132,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
             request = TestObjects.GetRequest();
             updateRoleRequest = TestObjects.GetUpdateRoleRequest();
-            request.DataPacket = updateRoleRequest;
+            request.Payload = updateRoleRequest;
 
             // Act
             var result = await sut.Update(1, request);
@@ -150,7 +150,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
             request = TestObjects.GetRequest();
             updateRoleRequest = TestObjects.GetInvalidUpdateRoleRequest();
-            request.DataPacket = updateRoleRequest;
+            request.Payload = updateRoleRequest;
 
             // Act
             var result = await sutFailue.Update(1, request);

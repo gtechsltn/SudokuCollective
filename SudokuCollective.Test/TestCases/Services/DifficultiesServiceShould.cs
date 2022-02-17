@@ -65,7 +65,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Difficulty Found"));
-            Assert.That((Difficulty)result.DataPacket[0], Is.TypeOf<Difficulty>());
+            Assert.That((Difficulty)result.Payload[0], Is.TypeOf<Difficulty>());
         }
 
         [Test, Category("Services")]
@@ -79,7 +79,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Difficulties Found"));
-            Assert.That(result.DataPacket.Count, Is.EqualTo(4));
+            Assert.That(result.Payload.Count, Is.EqualTo(4));
         }
 
         [Test, Category("Services")]
@@ -89,7 +89,7 @@ namespace SudokuCollective.Test.TestCases.Services
 
             // Act
             var result = await sut.GetDifficulties();
-            var nullAndTestDifficultyLevelsBlocked = result.DataPacket
+            var nullAndTestDifficultyLevelsBlocked = result.Payload
                 .ConvertAll(d => (Difficulty)d)
                 .Any(difficulty =>
                     difficulty.DifficultyLevel.Equals(DifficultyLevel.NULL)
@@ -110,7 +110,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 License = license,
                 RequestorId = 1,
                 Paginator = paginator,
-                DataPacket = new UpdateDifficultyRequest()
+                Payload = new UpdateDifficultyRequest()
                 {
                     Id = 1,
                     Name = "Medium UPDATED!",
@@ -123,7 +123,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Difficulty Updated"));
-            Assert.That(((Difficulty)result.DataPacket[0]).Name, Is.EqualTo("Medium UPDATED!"));
+            Assert.That(((Difficulty)result.Payload[0]).Name, Is.EqualTo("Medium UPDATED!"));
         }
 
         [Test, Category("Services")]
@@ -148,7 +148,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 License = license,
                 RequestorId = 1,
                 Paginator = new Paginator(),
-                DataPacket = new CreateDifficultyRequest()
+                Payload = new CreateDifficultyRequest()
                 {
                     Name = "new-difficulty",
                     DisplayName = "New Difficulty",
@@ -162,7 +162,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Difficulty Created"));
-            Assert.That((Difficulty)result.DataPacket[0], Is.InstanceOf<Difficulty>());
+            Assert.That((Difficulty)result.Payload[0], Is.InstanceOf<Difficulty>());
         }
     }
 }

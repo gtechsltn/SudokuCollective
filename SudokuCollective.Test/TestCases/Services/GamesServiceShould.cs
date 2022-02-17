@@ -104,7 +104,7 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task CreateGames()
         {
             // Arrange
-            request.DataPacket = createGameRequest;
+            request.Payload = createGameRequest;
 
             // Act
             var result = await sut.Create(request);
@@ -112,7 +112,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Game Created"));
-            Assert.That((Game)result.DataPacket[0], Is.TypeOf<Game>());
+            Assert.That((Game)result.Payload[0], Is.TypeOf<Game>());
         }
 
         [Test, Category("Services")]
@@ -124,7 +124,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 UserId = 5,
                 DifficultyId = 4
             };
-            request.DataPacket = badRequest;
+            request.Payload = badRequest;
 
             // Act
             var result = await sutFailure.Create(request);
@@ -141,12 +141,12 @@ namespace SudokuCollective.Test.TestCases.Services
             var gameId = 1;
             var updatedValue = 6;
             updateGameRequest = TestObjects.GetUpdateGameRequest(updatedValue);
-            request.DataPacket = updateGameRequest;
+            request.Payload = updateGameRequest;
 
             // Act
             var result = await sut.Update(gameId, request);
 
-            var checkValue = ((Game)result.DataPacket[0])
+            var checkValue = ((Game)result.Payload[0])
                 .SudokuMatrix.SudokuCells
                 .OrderBy(cell => cell.Index)
                 .Where(cell => cell.Index == 2)
@@ -156,7 +156,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Game Updated"));
-            Assert.That((Game)result.DataPacket[0], Is.TypeOf<Game>());
+            Assert.That((Game)result.Payload[0], Is.TypeOf<Game>());
             Assert.That(checkValue, Is.EqualTo(updatedValue));
         }
 
@@ -167,7 +167,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var gameId = 1;
             var updatedValue = 6;
             updateGameRequest = TestObjects.GetInvalidUpdateGameRequest(updatedValue);
-            request.DataPacket = updateGameRequest;
+            request.Payload = updateGameRequest;
 
             // Act
             var result = await sutUpdateFailure.Update(gameId, request);
@@ -221,7 +221,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Game Found"));
-            Assert.That((Game)result.DataPacket[0], Is.TypeOf<Game>());
+            Assert.That((Game)result.Payload[0], Is.TypeOf<Game>());
         }
 
         [Test, Category("Services")]
@@ -243,7 +243,7 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task GetGames()
         {
             // Arrange
-            request.DataPacket = gamesRequest;
+            request.Payload = gamesRequest;
 
             // Act
             var result = await sut.GetGames(request);
@@ -251,7 +251,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Games Found"));
-            Assert.That(result.DataPacket.ConvertAll(g => (IGame)g), Is.TypeOf<List<IGame>>());
+            Assert.That(result.Payload.ConvertAll(g => (IGame)g), Is.TypeOf<List<IGame>>());
         }
 
         [Test, Category("Services")]
@@ -259,7 +259,7 @@ namespace SudokuCollective.Test.TestCases.Services
         {
             // Arrange
             var gameId = 1;
-            request.DataPacket = gamesRequest;
+            request.Payload = gamesRequest;
 
             // Act
             var result = await sut.GetMyGame(gameId, request);
@@ -267,14 +267,14 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Game Found"));
-            Assert.That((Game)result.DataPacket[0], Is.TypeOf<Game>());
+            Assert.That((Game)result.Payload[0], Is.TypeOf<Game>());
         }
 
         [Test, Category("Services")]
         public async Task GetUsersGames()
         {
             // Arrange
-            request.DataPacket = gamesRequest;
+            request.Payload = gamesRequest;
 
             // Act
             var result = await sut.GetMyGames(request);
@@ -282,7 +282,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Games Found"));
-            Assert.That(result.DataPacket.ConvertAll(g => (IGame)g), Is.TypeOf<List<IGame>>());
+            Assert.That(result.Payload.ConvertAll(g => (IGame)g), Is.TypeOf<List<IGame>>());
         }
 
         [Test, Category("Services")]
@@ -290,7 +290,7 @@ namespace SudokuCollective.Test.TestCases.Services
         {
             // Arrange
             var gameId = 1;
-            request.DataPacket = gamesRequest;
+            request.Payload = gamesRequest;
 
             // Act
             var result = await sut.DeleteMyGame(gameId, request);
@@ -307,7 +307,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var gameId = 1;
             var updatedValue = 6;
             updateGameRequest = TestObjects.GetUpdateGameRequest(updatedValue);
-            request.DataPacket = updateGameRequest;
+            request.Payload = updateGameRequest;
 
             // Act
             var result = await sut.Check(gameId, request);
@@ -323,7 +323,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Game not Solved"));
-            Assert.That((Game)result.DataPacket[0], Is.TypeOf<Game>());
+            Assert.That((Game)result.Payload[0], Is.TypeOf<Game>());
             Assert.That(checkValue, Is.EqualTo(updatedValue));
         }
 
@@ -333,7 +333,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
             var gameId = 2;
             updateGameRequest = TestObjects.GetSolvedUpdateGameRequest();
-            request.DataPacket = updateGameRequest;
+            request.Payload = updateGameRequest;
 
             // Act
             var result = await sutSolved.Check(gameId, request);
@@ -346,7 +346,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Game Solved"));
-            Assert.That((Game)result.DataPacket[0], Is.TypeOf<Game>());
+            Assert.That((Game)result.Payload[0], Is.TypeOf<Game>());
             Assert.That(game.IsSolved(), Is.True);
         }
 
@@ -356,7 +356,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
             var gameId = 5;
             updateGameRequest = TestObjects.GetGameNotFoundUpdateGameRequest();
-            request.DataPacket = updateGameRequest;
+            request.Payload = updateGameRequest;
 
             // Act
             var result = await sutFailure.Check(gameId, request);
@@ -377,7 +377,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Game Created"));
-            Assert.That(((AnnonymousGameResult)result.DataPacket[0]).SudokuMatrix, Is.TypeOf<List<List<int>>>());
+            Assert.That(((AnnonymousGameResult)result.Payload[0]).SudokuMatrix, Is.TypeOf<List<List<int>>>());
         }
 
         [Test, Category("Services")]

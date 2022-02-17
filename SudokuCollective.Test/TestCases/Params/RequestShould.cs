@@ -43,10 +43,10 @@ namespace SudokuCollective.Test.TestCases.Params
             var obj = new object();
 
             // Act
-            sut.DataPacket = obj;
+            sut.Payload = obj;
             
             // Assert
-            Assert.That(sut.DataPacket, Is.InstanceOf<object>());
+            Assert.That(sut.Payload, Is.InstanceOf<object>());
         }
     }
 }

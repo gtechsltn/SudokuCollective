@@ -111,7 +111,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("App Found"));
-            Assert.That(result.DataPacket[0], Is.TypeOf<App>());
+            Assert.That(result.Payload[0], Is.TypeOf<App>());
         }
 
         [Test, Category("Services")]
@@ -125,7 +125,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.False);
             Assert.That(result.Message, Is.EqualTo("App not Found"));
-            Assert.That(result.DataPacket.Count, Is.EqualTo(0));
+            Assert.That(result.Payload.Count, Is.EqualTo(0));
         }
 
         [Test, Category("Services")]
@@ -139,7 +139,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Apps Found"));
-            Assert.That(result.DataPacket.Count, Is.EqualTo(2));
+            Assert.That(result.Payload.Count, Is.EqualTo(2));
         }
 
         [Test, Category("Services")]
@@ -163,7 +163,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("App Created"));
-            Assert.That(((App)result.DataPacket[0]).IsActive, Is.True);
+            Assert.That(((App)result.Payload[0]).IsActive, Is.True);
         }
 
         [Test, Category("Services")]
@@ -201,8 +201,8 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("App Found"));
-            Assert.That(((App)result.DataPacket[0]).Id, Is.EqualTo(1));
-            Assert.That(result.DataPacket[0], Is.TypeOf<App>());
+            Assert.That(((App)result.Payload[0]).Id, Is.EqualTo(1));
+            Assert.That(result.Payload[0], Is.TypeOf<App>());
         }
 
         [Test, Category("Services")]
@@ -258,7 +258,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Users Found"));
-            Assert.That(result.DataPacket.Count, Is.EqualTo(2));
+            Assert.That(result.Payload.Count, Is.EqualTo(2));
         }
 
         [Test, Category("Services")]
@@ -283,12 +283,12 @@ namespace SudokuCollective.Test.TestCases.Services
                     TimeFrame = TimeFrame.DAYS,
                     AccessDuration = 1
                 };
-            var request = new Request { DataPacket = dataPacket };
+            var request = new Request { Payload = dataPacket };
 
             // Act
             var result = await sut.Update(1, request);
 
-            var name = ((App)result.DataPacket[0]).Name;
+            var name = ((App)result.Payload[0]).Name;
             var apps = context.Apps.ToList();
 
             // Assert
@@ -497,7 +497,7 @@ namespace SudokuCollective.Test.TestCases.Services
             Assert.That(result, Is.InstanceOf<IResult>());
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Admin Privileges Deactivated"));
-            Assert.That(result.DataPacket[0], Is.TypeOf<User>());
+            Assert.That(result.Payload[0], Is.TypeOf<User>());
 
         }
 
@@ -527,7 +527,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Apps Found"));
-            Assert.That(result.DataPacket.Count, Is.EqualTo(2));
+            Assert.That(result.Payload.Count, Is.EqualTo(2));
         }
 
         [Test, Category("Services")]
@@ -554,7 +554,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Apps Found"));
-            Assert.That(result.DataPacket.Count, Is.EqualTo(2));
+            Assert.That(result.Payload.Count, Is.EqualTo(2));
         }
 
         [Test, Category("Services")]

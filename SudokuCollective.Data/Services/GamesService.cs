@@ -55,7 +55,7 @@ namespace SudokuCollective.Data.Services
 
             CreateGameRequest gameRequest;
 
-            if (request.DataPacket is CreateGameRequest r)
+            if (request.Payload is CreateGameRequest r)
             {
                 gameRequest = r;
             }
@@ -99,7 +99,7 @@ namespace SudokuCollective.Data.Services
 
                             result.IsSuccess = gameResponse.Success;
                             result.Message = GamesMessages.GameCreatedMessage;
-                            result.DataPacket.Add(game);
+                            result.Payload.Add(game);
 
                             return result;
                         }
@@ -165,7 +165,7 @@ namespace SudokuCollective.Data.Services
 
                         result.IsSuccess = true;
                         result.Message = GamesMessages.GameFoundMessage;
-                        result.DataPacket.Add(game);
+                        result.Payload.Add(game);
 
                         return result;
                     }
@@ -240,7 +240,7 @@ namespace SudokuCollective.Data.Services
                         }
                         else
                         {
-                            result.DataPacket.AddRange(response.Objects);
+                            result.Payload.AddRange(response.Objects);
                         }
 
                         result.IsSuccess = response.Success;
@@ -296,7 +296,7 @@ namespace SudokuCollective.Data.Services
 
             GamesRequest gameRequest;
 
-            if (request.DataPacket is GamesRequest r)
+            if (request.Payload is GamesRequest r)
             {
                 gameRequest = r;
             }
@@ -323,7 +323,7 @@ namespace SudokuCollective.Data.Services
 
                         result.IsSuccess = true;
                         result.Message = GamesMessages.GameFoundMessage;
-                        result.DataPacket.Add(game);
+                        result.Payload.Add(game);
 
                         return result;
                     }
@@ -367,7 +367,7 @@ namespace SudokuCollective.Data.Services
 
             GamesRequest gamesRequest;
 
-            if (request.DataPacket is GamesRequest r)
+            if (request.Payload is GamesRequest r)
             {
                 gamesRequest = r;
             }
@@ -414,7 +414,7 @@ namespace SudokuCollective.Data.Services
                         }
                         else
                         {
-                            result.DataPacket.AddRange(response.Objects);
+                            result.Payload.AddRange(response.Objects);
                         }
 
                         result.IsSuccess = response.Success;
@@ -460,7 +460,7 @@ namespace SudokuCollective.Data.Services
 
             UpdateGameRequest updateRequest;
 
-            if (request.DataPacket is UpdateGameRequest r)
+            if (request.Payload is UpdateGameRequest r)
             {
                 updateRequest = r;
             }
@@ -497,7 +497,7 @@ namespace SudokuCollective.Data.Services
                         {
                             result.IsSuccess = updateGameResponse.Success;
                             result.Message = GamesMessages.GameUpdatedMessage;
-                            result.DataPacket.Add((Game)updateGameResponse.Object);
+                            result.Payload.Add((Game)updateGameResponse.Object);
 
                             return result;
                         }
@@ -630,7 +630,7 @@ namespace SudokuCollective.Data.Services
 
             GamesRequest deleteRequest;
 
-            if (request.DataPacket is GamesRequest r)
+            if (request.Payload is GamesRequest r)
             {
                 deleteRequest = r;
             }
@@ -706,7 +706,7 @@ namespace SudokuCollective.Data.Services
 
             UpdateGameRequest checkRequest;
 
-            if (request.DataPacket is UpdateGameRequest r)
+            if (request.Payload is UpdateGameRequest r)
             {
                 checkRequest = r;
             }
@@ -749,7 +749,7 @@ namespace SudokuCollective.Data.Services
                     if (updateGameResponse.Success)
                     {
                         result.IsSuccess = updateGameResponse.Success;
-                        result.DataPacket.Add((Game)updateGameResponse.Object);
+                        result.Payload.Add((Game)updateGameResponse.Object);
 
                         return result;
                     }
@@ -814,7 +814,7 @@ namespace SudokuCollective.Data.Services
 
                     result.IsSuccess = true;
                     result.Message = GamesMessages.GameCreatedMessage;
-                    result.DataPacket.Add(gameResult);
+                    result.Payload.Add(gameResult);
                 }
                 else
                 {

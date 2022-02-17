@@ -46,7 +46,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Success,
                     Message = AppsMessages.AppFoundMessage,
-                    DataPacket = new List<object>
+                    Payload = new List<object>
                         {
                             MockedAppsRepository
                                 .SuccessfulRequest
@@ -70,7 +70,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Success,
                     Message = AppsMessages.AppFoundMessage,
-                    DataPacket = new List<object>
+                    Payload = new List<object>
                         {
                             MockedAppsRepository
                                 .SuccessfulRequest
@@ -94,7 +94,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Success,
                     Message = AppsMessages.AppsFoundMessage,
-                    DataPacket = MockedAppsRepository
+                    Payload = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
                         .GetAll()
@@ -116,7 +116,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Success,
                     Message = AppsMessages.AppsFoundMessage,
-                    DataPacket = MockedAppsRepository
+                    Payload = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
                         .GetAll()
@@ -138,7 +138,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Success,
                     Message = AppsMessages.AppsFoundMessage,
-                    DataPacket = MockedAppsRepository
+                    Payload = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
                         .GetAll()
@@ -158,7 +158,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Success,
                     Message = AppsMessages.AppCreatedMessage,
-                    DataPacket = new List<object>
+                    Payload = new List<object>
                         {
                             MockedAppsRepository
                                 .SuccessfulRequest
@@ -194,7 +194,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Success,
                     Message = AppsMessages.AppUpdatedMessage,
-                    DataPacket = new List<object>
+                    Payload = new List<object>
                         {
                             MockedAppsRepository
                                 .SuccessfulRequest
@@ -220,7 +220,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Success,
                     Message = UsersMessages.UsersFoundMessage,
-                    DataPacket = new List<object>()
+                    Payload = new List<object>()
                         { 
                             MockedAppsRepository
                                 .SuccessfulRequest
@@ -321,7 +321,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Success,
                     Message = UsersMessages.UserHasBeenPromotedToAdminMessage,
-                    DataPacket = new List<object>()
+                    Payload = new List<object>()
                         {
                              MockedUsersRepository
                             .SuccessfulRequest
@@ -343,7 +343,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Success,
                     Message = AppsMessages.AdminPrivilegesDeactivatedMessage,
-                    DataPacket = new List<object>()
+                    Payload = new List<object>()
                         {
                             MockedUsersRepository
                                 .SuccessfulRequest
@@ -596,7 +596,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = AppsMessages.AppFoundMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                             {
                                 MockedAppsRepository
                                     .SuccessfulRequest
@@ -620,7 +620,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Success,
                     Message = AppsMessages.AppFoundMessage,
-                    DataPacket = new List<object>()
+                    Payload = new List<object>()
                             {
                                 MockedAppsRepository
                                     .SuccessfulRequest
@@ -644,7 +644,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Success,
                     Message = AppsMessages.AppsFoundMessage,
-                    DataPacket = MockedAppsRepository
+                    Payload = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
                         .GetAll()
@@ -666,7 +666,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Success,
                     Message = AppsMessages.AppsFoundMessage,
-                    DataPacket = MockedAppsRepository
+                    Payload = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
                         .GetAll()
@@ -688,7 +688,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Success,
                     Message = AppsMessages.AppsFoundMessage,
-                    DataPacket = MockedAppsRepository
+                    Payload = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
                         .GetAll()
@@ -708,7 +708,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Success,
                     Message = AppsMessages.AppCreatedMessage,
-                    DataPacket = new List<object>()
+                    Payload = new List<object>()
                         {
                             MockedAppsRepository
                                 .SuccessfulRequest
@@ -744,7 +744,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Success,
                     Message = AppsMessages.AppUpdatedMessage,
-                    DataPacket = new List<object>()
+                    Payload = new List<object>()
                         {
                             MockedAppsRepository
                                 .SuccessfulRequest
@@ -770,7 +770,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = UsersMessages.UsersFoundMessage,
-                        DataPacket = MockedAppsRepository
+                        Payload = MockedAppsRepository
                             .SuccessfulRequest
                             .Object
                             .GetAppUsers(It.IsAny<int>())
@@ -881,7 +881,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = AppsMessages.AdminPrivilegesDeactivatedMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                             {
                                 MockedUsersRepository
                                     .SuccessfulRequest
@@ -904,7 +904,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = AppsMessages.AppFoundMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                             {
                                 MockedAppsRepository
                                     .SuccessfulRequest
@@ -928,7 +928,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = AppsMessages.AppFoundMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                             {
                                 MockedAppsRepository
                                     .SuccessfulRequest
@@ -952,7 +952,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = AppsMessages.AppsFoundMessage,
-                        DataPacket = MockedAppsRepository
+                        Payload = MockedAppsRepository
                             .SuccessfulRequest
                             .Object
                             .GetAll()
@@ -974,7 +974,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = AppsMessages.AppsFoundMessage,
-                        DataPacket = MockedAppsRepository
+                        Payload = MockedAppsRepository
                             .SuccessfulRequest
                             .Object
                             .GetAll()
@@ -996,7 +996,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = AppsMessages.AppsFoundMessage,
-                        DataPacket = MockedAppsRepository
+                        Payload = MockedAppsRepository
                             .SuccessfulRequest
                             .Object
                             .GetAll()
@@ -1016,7 +1016,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = AppsMessages.AppCreatedMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                             {
                                 MockedAppsRepository
                                     .SuccessfulRequest
@@ -1052,7 +1052,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = AppsMessages.AppUpdatedMessage,
-                        DataPacket = new List<object>()
+                        Payload = new List<object>()
                             {
                                 MockedAppsRepository
                                     .SuccessfulRequest
@@ -1078,7 +1078,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Success,
                         Message = UsersMessages.UsersFoundMessage,
-                        DataPacket = MockedAppsRepository
+                        Payload = MockedAppsRepository
                             .SuccessfulRequest
                             .Object
                             .GetAppUsers(It.IsAny<int>())

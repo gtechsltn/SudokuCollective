@@ -83,7 +83,7 @@ namespace SudokuCollective.Data.Services
 
             RegisterRequest registerRequest;
 
-            if (request.DataPacket is RegisterRequest r)
+            if (request.Payload is RegisterRequest r)
             {
                 registerRequest = r;
             }
@@ -319,7 +319,7 @@ namespace SudokuCollective.Data.Services
 
                             result.IsSuccess = userResponse.Success;
                             result.Message = UsersMessages.UserCreatedMessage;
-                            result.DataPacket.Add(userResult);
+                            result.Payload.Add(userResult);
 
                             return result;
                         }
@@ -396,7 +396,7 @@ namespace SudokuCollective.Data.Services
 
                     result.IsSuccess = response.Success;
                     result.Message = UsersMessages.UserFoundMessage;
-                    result.DataPacket.Add(user);
+                    result.Payload.Add(user);
 
                     cacheServiceResponse = await _cacheService.GetAppByLicenseWithCacheAsync(
                         _appsRepository,
@@ -413,7 +413,7 @@ namespace SudokuCollective.Data.Services
                         .ToList();
 
                     if (((User)(result
-                        .DataPacket[0]))
+                        .Payload[0]))
                         .Roles
                         .Any(ur => ur.Role.RoleLevel == RoleLevel.ADMIN))
                     {
@@ -421,15 +421,15 @@ namespace SudokuCollective.Data.Services
                         {
                             if (!appAdmins.Any(aa =>
                                 aa.AppId == app.Id &&
-                                aa.UserId == ((User)(result.DataPacket[0])).Id &&
+                                aa.UserId == ((User)(result.Payload[0])).Id &&
                                 aa.IsActive))
                             {
-                                var adminRole = ((User)(result.DataPacket[0]))
+                                var adminRole = ((User)(result.Payload[0]))
                                     .Roles
                                     .FirstOrDefault(ur =>
                                         ur.Role.RoleLevel == RoleLevel.ADMIN);
 
-                                ((User)(result.DataPacket[0])).Roles.Remove(adminRole);
+                                ((User)(result.Payload[0])).Roles.Remove(adminRole);
                             }
                         }
                         else
@@ -501,7 +501,7 @@ namespace SudokuCollective.Data.Services
 
             UpdateUserRequest updateUserRequest;
 
-            if (request.DataPacket is UpdateUserRequest r)
+            if (request.Payload is UpdateUserRequest r)
             {
                 updateUserRequest = r;
             }
@@ -733,7 +733,7 @@ namespace SudokuCollective.Data.Services
 
                             result.IsSuccess = userResponse.Success;
                             result.Message = UsersMessages.UserUpdatedMessage;
-                            result.DataPacket.Add(userResult);
+                            result.Payload.Add(userResult);
 
                             return result;
                         }
@@ -838,7 +838,7 @@ namespace SudokuCollective.Data.Services
                         .ConvertAll(aa => (AppAdmin)aa)
                         .ToList();
 
-                    foreach (var user in result.DataPacket.ConvertAll(u => (IUser)u))
+                    foreach (var user in result.Payload.ConvertAll(u => (IUser)u))
                     {
                         if (user
                             .Roles
@@ -897,7 +897,7 @@ namespace SudokuCollective.Data.Services
                     if (!requestor.IsSuperUser)
                     {
                         // Filter out user emails from the frontend...
-                        foreach (var user in result.DataPacket.ConvertAll(u => (IUser)u))
+                        foreach (var user in result.Payload.ConvertAll(u => (IUser)u))
                         {
                             var emailConfirmed = user.IsEmailConfirmed;
                             user.HideEmail();
@@ -1043,7 +1043,7 @@ namespace SudokuCollective.Data.Services
                         _cacheKeys,
                         ((PasswordReset)response.Object).AppId)).Item1;
 
-                    result.DataPacket.Add((User)((await _cacheService.GetWithCacheAsync<User>(
+                    result.Payload.Add((User)((await _cacheService.GetWithCacheAsync<User>(
                         _usersRepository,
                         _distributedCache,
                         string.Format(_cacheKeys.GetUserCacheKey, ((PasswordReset)response.Object).UserId, license),
@@ -1172,7 +1172,7 @@ namespace SudokuCollective.Data.Services
                                 var appAdmin = (AppAdmin)(await _appAdminsRepository.Add(new AppAdmin(app.Id, userid))).Object;
                             }
 
-                            result.DataPacket.ConvertAll(r => (Role)r).Add(role.Role);
+                            result.Payload.ConvertAll(r => (Role)r).Add(role.Role);
                         }
 
                         cacheServiceResponse = await _cacheService.GetWithCacheAsync<User>(
@@ -1607,7 +1607,7 @@ namespace SudokuCollective.Data.Services
                                         userResult.User = user;
                                         result.IsSuccess = true;
                                         result.Message = UsersMessages.EmailConfirmationEmailResentMessage;
-                                        result.DataPacket.Add(userResult);
+                                        result.Payload.Add(userResult);
 
                                         return result;
                                     }
@@ -1876,7 +1876,7 @@ namespace SudokuCollective.Data.Services
                             confirmEmailResult.IsUpdate = emailConfirmation.IsUpdate;
                             confirmEmailResult.AppTitle = appTitle;
                             confirmEmailResult.Url = url;
-                            result.DataPacket.Add(confirmEmailResult);
+                            result.Payload.Add(confirmEmailResult);
 
                             return result;
                         }
@@ -2067,7 +2067,7 @@ namespace SudokuCollective.Data.Services
 
                             result.IsSuccess = response.Success;
                             result.Message = UsersMessages.EmailConfirmationRequestCancelledMessage;
-                            result.DataPacket.Add(userResult);
+                            result.Payload.Add(userResult);
 
                             return result;
                         }
@@ -2076,7 +2076,7 @@ namespace SudokuCollective.Data.Services
                             userResult.User = (User)(await _usersRepository.Update(user)).Object;
                             result.IsSuccess = response.Success;
                             result.Message = response.Exception.Message;
-                            result.DataPacket.Add(userResult);
+                            result.Payload.Add(userResult);
 
                             return result;
                         }
@@ -2085,7 +2085,7 @@ namespace SudokuCollective.Data.Services
                             userResult.User = (User)(await _usersRepository.Update(user)).Object;
                             result.IsSuccess = false;
                             result.Message = UsersMessages.EmailConfirmationRequestNotCancelledMessage;
-                            result.DataPacket.Add(userResult);
+                            result.Payload.Add(userResult);
 
                             return result;
                         }
@@ -2095,7 +2095,7 @@ namespace SudokuCollective.Data.Services
                         userResult.User = (User)(await _usersRepository.Get(id)).Object;
                         result.IsSuccess = false;
                         result.Message = UsersMessages.EmailConfirmationRequestNotFoundMessage;
-                        result.DataPacket.Add(userResult);
+                        result.Payload.Add(userResult);
 
                         return result;
                     }
@@ -2245,7 +2245,7 @@ namespace SudokuCollective.Data.Services
                             }
 
                             userResult.User = user;
-                            result.DataPacket.Add(userResult);
+                            result.Payload.Add(userResult);
                             return result;
                         }
                         else
@@ -2331,7 +2331,7 @@ namespace SudokuCollective.Data.Services
                                     result.Message = UsersMessages.UserFoundMessage;
                                     initiatePasswordResetResult.User = user;
                                     initiatePasswordResetResult.App = app;
-                                    result.DataPacket.Add(initiatePasswordResetResult);
+                                    result.Payload.Add(initiatePasswordResetResult);
 
                                     return result;
                                 }
@@ -2603,7 +2603,7 @@ namespace SudokuCollective.Data.Services
 
             RequestPasswordResetRequest requestPasswordResetRequest;
 
-            if (request.DataPacket is RequestPasswordResetRequest r)
+            if (request.Payload is RequestPasswordResetRequest r)
             {
                 requestPasswordResetRequest = r;
             }
@@ -2791,7 +2791,7 @@ namespace SudokuCollective.Data.Services
 
             PasswordResetRequest passwordResetRequest;
 
-            if (request.DataPacket is PasswordResetRequest r)
+            if (request.Payload is PasswordResetRequest r)
             {
                 passwordResetRequest = r;
             }
@@ -2971,7 +2971,7 @@ namespace SudokuCollective.Data.Services
 
                             result.IsSuccess = response.Success;
                             result.Message = UsersMessages.PasswordResetRequestCancelledMessage;
-                            result.DataPacket.Add(userResult);
+                            result.Payload.Add(userResult);
 
                             return result;
                         }
@@ -2980,7 +2980,7 @@ namespace SudokuCollective.Data.Services
                             userResult.User = (User)(await _usersRepository.Update(user)).Object;
                             result.IsSuccess = response.Success;
                             result.Message = response.Exception.Message;
-                            result.DataPacket.Add(userResult);
+                            result.Payload.Add(userResult);
 
                             return result;
                         }
@@ -2989,7 +2989,7 @@ namespace SudokuCollective.Data.Services
                             userResult.User = (User)(await _usersRepository.Update(user)).Object;
                             result.IsSuccess = false;
                             result.Message = UsersMessages.PasswordResetRequestNotCancelledMessage;
-                            result.DataPacket.Add(userResult);
+                            result.Payload.Add(userResult);
 
                             return result;
                         }
@@ -2999,7 +2999,7 @@ namespace SudokuCollective.Data.Services
                         userResult.User = (User)(await _usersRepository.Get(id)).Object;
                         result.IsSuccess = false;
                         result.Message = UsersMessages.PasswordResetRequestNotFoundMessage;
-                            result.DataPacket.Add(userResult);
+                            result.Payload.Add(userResult);
 
                         return result;
                     }
