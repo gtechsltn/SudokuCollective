@@ -10,7 +10,7 @@ using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
-using SudokuCollective.Data.Models.Requests;
+using SudokuCollective.Data.Models.Payloads;
 
 namespace SudokuCollective.Data.Services
 {
@@ -47,11 +47,11 @@ namespace SudokuCollective.Data.Services
 
             var result = new Result();
 
-            CreateRoleRequest createRoleRequest;
+            CreateRolePayload payload;
 
-            if (request.Payload is CreateRoleRequest r)
+            if (request.Payload is CreateRolePayload r)
             {
-                createRoleRequest = r;
+                payload = r;
             }
             else
             {
@@ -61,21 +61,21 @@ namespace SudokuCollective.Data.Services
                 return result;
             }
 
-            if (string.IsNullOrEmpty(createRoleRequest.Name)) throw new ArgumentNullException(nameof(createRoleRequest.Name));
+            if (string.IsNullOrEmpty(payload.Name)) throw new ArgumentNullException(nameof(payload.Name));
 
             try
             {
                 if (!await _cacheService.HasRoleLevelWithCacheAsync(
                     _rolesRepository,
                     _distributedCache,
-                    string.Format(_cacheKeys.GetRoleCacheKey, createRoleRequest.RoleLevel),
+                    string.Format(_cacheKeys.GetRoleCacheKey, payload.RoleLevel),
                     _cachingStrategy.Heavy,
-                    createRoleRequest.RoleLevel))
+                    payload.RoleLevel))
                 {
                     var role = new Role()
                     {
-                        Name = createRoleRequest.Name,
-                        RoleLevel = createRoleRequest.RoleLevel
+                        Name = payload.Name,
+                        RoleLevel = payload.RoleLevel
                     };
 
                     var response = await _cacheService.AddWithCacheAsync(
@@ -249,11 +249,11 @@ namespace SudokuCollective.Data.Services
                 return result;
             }
 
-            UpdateRoleRequest updateRoleRequest;
+            UpdateRolePayload payload;
 
-            if (request.Payload is UpdateRoleRequest r)
+            if (request.Payload is UpdateRolePayload r)
             {
-                updateRoleRequest = r;
+                payload = r;
             }
             else
             {
@@ -280,7 +280,7 @@ namespace SudokuCollective.Data.Services
                 {
                     var role = (Role)response.Object;
 
-                    role.Name = updateRoleRequest.Name;
+                    role.Name = payload.Name;
 
                     var updateResponse = await _cacheService.UpdateWithCacheAsync(
                         _rolesRepository,

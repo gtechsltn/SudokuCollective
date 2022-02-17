@@ -13,7 +13,7 @@ using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
-using SudokuCollective.Data.Models.Requests;
+using SudokuCollective.Data.Models.Payloads;
 using SudokuCollective.Data.Models.Results;
 using SudokuCollective.Data.Services;
 using SudokuCollective.Test.Cache;
@@ -193,7 +193,7 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task CreateUser()
         {
             // Arrange
-            var registerRequest = new RegisterRequest()
+            var payload = new RegisterPayload()
             {
                 UserName = "NewUser",
                 FirstName = "New",
@@ -203,7 +203,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Password = "T3stP@ssw0rd"
             };
 
-            request.Payload = registerRequest;
+            request.Payload = payload;
 
             var baseUrl = "https://example.com";
 
@@ -258,7 +258,7 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task RequireUserNameUnique()
         {
             // Arrange
-            var registerRequest = new RegisterRequest()
+            var payload = new RegisterPayload()
             {
                 UserName = "TestUser",
                 FirstName = "New",
@@ -268,7 +268,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Password = "T3stP@ssw0rd"
             };
 
-            request.Payload = registerRequest;
+            request.Payload = payload;
 
             var baseUrl = "https://example.com";
 
@@ -286,7 +286,7 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task RequireUserName()
         {
             // Arrange
-            var registerRequest = new RegisterRequest()
+            var payload = new RegisterPayload()
             {
                 FirstName = "New",
                 LastName = "User",
@@ -295,7 +295,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Password = "T3stP@ssw0rd"
             };
 
-            request.Payload = registerRequest;
+            request.Payload = payload;
 
             var baseUrl = "https://example.com";
 
@@ -313,7 +313,7 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task RequireUniqueEmail()
         {
             // Arrange
-            var registerRequest = new RegisterRequest()
+            var payload = new RegisterPayload()
             {
                 UserName = "NewUser",
                 FirstName = "New",
@@ -323,7 +323,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Password = "T3stP@ssw0rd1"
             };
 
-            request.Payload = registerRequest;
+            request.Payload = payload;
 
             var baseUrl = "https://example.com";
 
@@ -343,7 +343,7 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task RequireEmail()
         {
             // Arrange
-            var registerRequest = new RegisterRequest()
+            var payload = new RegisterPayload()
             {
                 UserName = "NewUser",
                 FirstName = "New",
@@ -352,7 +352,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Password = "T3stP@ssw0rd"
             };
 
-            request.Payload = registerRequest;
+            request.Payload = payload;
 
             var baseUrl = "https://example.com";
 
@@ -372,7 +372,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
             var userId = 2;
 
-            var updateUserRequest = new UpdateUserRequest()
+            var payload = new UpdateUserPayload()
             {
                 UserName = "TestUserUPDATED",
                 FirstName = "Test",
@@ -381,7 +381,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Email = "TestUser@example.com"
             };
 
-            request.Payload = updateUserRequest;
+            request.Payload = payload;
 
             var baseUrl = "https://example.com";
 
@@ -400,13 +400,13 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task RequestPasswordReset()
         {
             // Arrange
-            var requestPasswordReset = new RequestPasswordResetRequest
+            var payload = new RequestPasswordResetPayload
             {
                 License = context.Apps.Select(a => a.License).FirstOrDefault(),
                 Email = context.Users.Select(u => u.Email).FirstOrDefault()
             };
 
-            request.Payload = requestPasswordReset;
+            request.Payload = payload;
 
             var baseUrl = "https://example.com";
 
@@ -427,13 +427,13 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task ReturnsFalseIfRequestPasswordResetFails()
         {
             // Arrange
-            var requestPasswordReset = new RequestPasswordResetRequest
+            var payload = new RequestPasswordResetPayload
             {
                 License = context.Apps.Select(a => a.License).FirstOrDefault(),
                 Email = "bademai@example.com"
             };
 
-            request.Payload = requestPasswordReset;
+            request.Payload = payload;
 
             var baseUrl = "https://example.com";
 
@@ -455,7 +455,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
             var userId = 1;
 
-            var updateUserRequest = new UpdateUserRequest()
+            var payload = new UpdateUserPayload()
             {
                 UserName = "TestUser",
                 FirstName = "Test Super",
@@ -464,7 +464,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Email = "TestSuperUser@example.com"
             };
 
-            request.Payload = updateUserRequest;
+            request.Payload = payload;
 
             var baseUrl = "https://example.com";
 
@@ -484,7 +484,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
             var userId = 1;
 
-            var updateUserRequest = new UpdateUserRequest()
+            var payload = new UpdateUserPayload()
             {
                 UserName = null,
                 FirstName = "Test Super",
@@ -493,7 +493,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Email = "TestSuperUser@example.com"
             };
 
-            request.Payload = updateUserRequest;
+            request.Payload = payload;
 
             var baseUrl = "https://example.com";
 
@@ -513,7 +513,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
             var userId = 1;
 
-            var updateUserRequest = new UpdateUserRequest()
+            var payload = new UpdateUserPayload()
             {
                 UserName = "TestSuperUserUPDATED",
                 FirstName = "Test Super",
@@ -522,7 +522,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Email = "TestUser@example.com"
             };
 
-            request.Payload = updateUserRequest;
+            request.Payload = payload;
 
             var baseUrl = "https://example.com";
 
@@ -542,7 +542,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
             var userId = 1;
 
-            var updateUserRequest = new UpdateUserRequest()
+            var payload = new UpdateUserPayload()
             {
                 UserName = "TestSuperUserUPDATED",
                 FirstName = "Test Super",
@@ -550,7 +550,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 NickName = "Test Super User"
             };
 
-            request.Payload = updateUserRequest;
+            request.Payload = payload;
 
             var baseUrl = "https://example.com";
 
@@ -572,13 +572,13 @@ namespace SudokuCollective.Test.TestCases.Services
             user.ReceivedRequestToUpdatePassword = true;
             context.SaveChanges();
 
-            var passwordResetRequest = new PasswordResetRequest()
+            var payload = new PasswordResetPayload()
             {
                 UserId = user.Id,
                 NewPassword = "T3stP@ssw0rd",
             };
 
-            request.Payload = passwordResetRequest;
+            request.Payload = payload;
 
             var license = TestObjects.GetLicense();
 
@@ -631,14 +631,14 @@ namespace SudokuCollective.Test.TestCases.Services
                 .Include(u => u.Roles)
                 .FirstOrDefault(u => u.Id == userId);
 
-            var updateUserRoleRequest = new UpdateUserRoleRequest();
-            updateUserRoleRequest.RoleIds.Add(3);
+            var payload = new UpdateUserRolePayload();
+            payload.RoleIds.Add(3);
             var license = TestObjects.GetLicense();
 
             // Act
             var result = await sut.AddUserRoles(
                 userId,
-                updateUserRoleRequest.RoleIds,
+                payload.RoleIds,
                 license);
 
             // Assert
@@ -656,14 +656,14 @@ namespace SudokuCollective.Test.TestCases.Services
                 .Include(u => u.Roles)
                 .FirstOrDefault(u => u.Id == userId);
 
-            var updateUserRoleRequest = new UpdateUserRoleRequest();
-            updateUserRoleRequest.RoleIds.Add(3);
+            var payload = new UpdateUserRolePayload();
+            payload.RoleIds.Add(3);
             var license = TestObjects.GetLicense();
 
             // Act
             var result = await sut.RemoveUserRoles(
                 userId,
-                updateUserRoleRequest.RoleIds,
+                payload.RoleIds,
                 license);
 
             // Assert

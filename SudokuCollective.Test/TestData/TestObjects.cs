@@ -4,7 +4,7 @@ using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
-using SudokuCollective.Data.Models.Requests;
+using SudokuCollective.Data.Models.Payloads;
 using SudokuCollective.Data.Models.Results;
 
 namespace SudokuCollective.Test.TestData
@@ -33,9 +33,9 @@ namespace SudokuCollective.Test.TestData
             };
         }
 
-        public static AnnonymousCheckRequest GetValidAnnonymousCheckRequest()
+        public static AnnonymousCheckPayload GetValidAnnonymousCheckPayload()
         {
-            return new AnnonymousCheckRequest
+            return new AnnonymousCheckPayload
             {
                 FirstRow = new List<int> { 7, 8, 5, 4, 1, 3, 2, 9, 6 },
                 SecondRow = new List<int> { 1, 4, 2, 8, 6, 9, 5, 7, 3 },
@@ -49,9 +49,9 @@ namespace SudokuCollective.Test.TestData
             };
         }
 
-        public static AnnonymousCheckRequest GetInvalidAnnonymousCheckRequest()
+        public static AnnonymousCheckPayload GetInvalidAnnonymousCheckPayload()
         {
-            return new AnnonymousCheckRequest
+            return new AnnonymousCheckPayload
             {
                 FirstRow = new List<int> { 7, 8, 5, 4, 1, 3, 2, 9, 6, 0 },
                 SecondRow = new List<int> { 1, 4, 2, 8, 6, 9, 5, 7, 3 },
@@ -78,9 +78,9 @@ namespace SudokuCollective.Test.TestData
                 new List<int> { 9, 7, 6, 5, 2, 4, 8, 3, 1 }
             };
 
-        public static SolutionRequest GetValidSolutionRequest()
+        public static SolutionPayload GetValidSolutionPayload()
         {
-            return new SolutionRequest
+            return new SolutionPayload
             {
                 FirstRow = new List<int> { 7, 8, 5, 4, 1, 3, 2, 9, 6 },
                 SecondRow = new List<int> { 1, 4, 2, 8, 6, 9, 5, 7, 3 },
@@ -94,9 +94,9 @@ namespace SudokuCollective.Test.TestData
             };
         }
 
-        public static SolutionRequest GetInvalidSolutionRequest()
+        public static SolutionPayload GetInvalidSolutionPayload()
         {
-            return new SolutionRequest
+            return new SolutionPayload
             {
                 FirstRow = new List<int> { 7, 8, 5, 4, 1, 3, 2, 9, 6, 0 },
                 SecondRow = new List<int> { 1, 4, 2, 8, 6, 9, 5, 7, 3 },
@@ -540,62 +540,62 @@ namespace SudokuCollective.Test.TestData
             };
         }
 
-        public static CreateGameRequest GetCreateGameRequest()
+        public static CreateGamePayload GetCreateGamePayload()
         {
-            return new CreateGameRequest()
+            return new CreateGamePayload()
             {
                 UserId = 1,
                 DifficultyId = 4
             };
         }
 
-        public static UpdateGameRequest GetUpdateGameRequest(int updatedValue)
+        public static UpdateGamePayload GetUpdateGamePayload(int updatedValue)
         {
-            return new UpdateGameRequest()
+            return new UpdateGamePayload()
             {
                 GameId = 1,
                 SudokuCells = GetUpdateSudokuCells(updatedValue)
             };
         }
 
-        public static UpdateGameRequest GetInvalidUpdateGameRequest(int updatedValue)
+        public static UpdateGamePayload GetInvalidUpdateGamePayload(int updatedValue)
         {
-            return new UpdateGameRequest()
+            return new UpdateGamePayload()
             {
                 GameId = 1,
                 SudokuCells = GetUpdateInvalidSudokuCells(updatedValue)
             };
         }
 
-        public static UpdateGameRequest GetSolvedUpdateGameRequest()
+        public static UpdateGamePayload GetSolvedUpdateGamePayload()
         {
-            return new UpdateGameRequest()
+            return new UpdateGamePayload()
             {
                 GameId = 1,
                 SudokuCells = GetValidSudokuCells()
             };
         }
 
-        public static UpdateGameRequest GetGameNotFoundUpdateGameRequest()
+        public static UpdateGamePayload GetGameNotFoundUpdateGamePayload()
         {
-            return new UpdateGameRequest()
+            return new UpdateGamePayload()
             {
                 GameId = 5,
                 SudokuCells = GetValidSudokuCells()
             };
         }
 
-        public static GamesRequest GetGamesRequest()
+        public static GamesPayload GetGamesPayload()
         {
-            return new GamesRequest()
+            return new GamesPayload()
             {
                 UserId = 1,
             };
         }
 
-        public static UpdateRoleRequest GetUpdateRoleRequest()
+        public static UpdateRolePayload GetUpdateRolePayload()
         {
-            return new UpdateRoleRequest()
+            return new UpdateRolePayload()
             {
                 Id = 1,
                 Name = "Null UPDATED!",
@@ -603,9 +603,9 @@ namespace SudokuCollective.Test.TestData
             };
         }
 
-        public static UpdateRoleRequest GetInvalidUpdateRoleRequest()
+        public static UpdateRolePayload GetInvalidUpdateRolePayload()
         {
-            return new UpdateRoleRequest()
+            return new UpdateRolePayload()
             {
                 Id = 10,
                 Name = "Null UPDATED!",

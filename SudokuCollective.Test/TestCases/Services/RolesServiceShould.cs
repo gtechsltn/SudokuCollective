@@ -11,7 +11,7 @@ using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
-using SudokuCollective.Data.Models.Requests;
+using SudokuCollective.Data.Models.Payloads;
 using SudokuCollective.Data.Services;
 using SudokuCollective.Test.Cache;
 using SudokuCollective.Test.Repositories;
@@ -28,7 +28,7 @@ namespace SudokuCollective.Test.TestCases.Services
         private RolesService sut;
         private RolesService sutFailue;
         private Request request;
-        private UpdateRoleRequest updateRoleRequest;
+        private UpdateRolePayload updateRolePayload;
 
         [SetUp]
         public async Task Setup()
@@ -131,8 +131,8 @@ namespace SudokuCollective.Test.TestCases.Services
         {
             // Arrange
             request = TestObjects.GetRequest();
-            updateRoleRequest = TestObjects.GetUpdateRoleRequest();
-            request.Payload = updateRoleRequest;
+            updateRolePayload = TestObjects.GetUpdateRolePayload();
+            request.Payload = updateRolePayload;
 
             // Act
             var result = await sut.Update(1, request);
@@ -149,8 +149,8 @@ namespace SudokuCollective.Test.TestCases.Services
         {
             // Arrange
             request = TestObjects.GetRequest();
-            updateRoleRequest = TestObjects.GetInvalidUpdateRoleRequest();
-            request.Payload = updateRoleRequest;
+            updateRolePayload = TestObjects.GetInvalidUpdateRolePayload();
+            request.Payload = updateRolePayload;
 
             // Act
             var result = await sutFailue.Update(1, request);

@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
-using SudokuCollective.Data.Models.Requests.AppRequests;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
+using SudokuCollective.Data.Models.Requests;
 
 namespace SudokuCollective.Test.TestCases.Requests
 {

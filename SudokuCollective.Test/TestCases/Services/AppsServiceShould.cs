@@ -12,8 +12,8 @@ using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
+using SudokuCollective.Data.Models.Payloads;
 using SudokuCollective.Data.Models.Requests;
-using SudokuCollective.Data.Models.Requests.AppRequests;
 using SudokuCollective.Data.Services;
 using SudokuCollective.Test.Cache;
 using SudokuCollective.Test.Repositories;
@@ -266,7 +266,7 @@ namespace SudokuCollective.Test.TestCases.Services
         {
             // Arrange
 
-            var dataPacket = new AppRequest()
+            var payload = new AppPayload()
                 {
                     Name = "Test App 1... UPDATED!",
                     LocalUrl = "https://localhost:4200",
@@ -283,7 +283,7 @@ namespace SudokuCollective.Test.TestCases.Services
                     TimeFrame = TimeFrame.DAYS,
                     AccessDuration = 1
                 };
-            var request = new Request { Payload = dataPacket };
+            var request = new Request { Payload = payload };
 
             // Act
             var result = await sut.Update(1, request);

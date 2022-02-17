@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Moq;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;

@@ -17,7 +17,7 @@ using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
-using SudokuCollective.Data.Models.Requests;
+using SudokuCollective.Data.Models.Payloads;
 using SudokuCollective.Data.Models.Results;
 using SudokuCollective.Data.Utilities;
 
@@ -81,9 +81,9 @@ namespace SudokuCollective.Data.Services
 
             var result = new Result();
 
-            RegisterRequest registerRequest;
+            RegisterPayload registerRequest;
 
-            if (request.Payload is RegisterRequest r)
+            if (request.Payload is RegisterPayload r)
             {
                 registerRequest = r;
             }
@@ -499,11 +499,11 @@ namespace SudokuCollective.Data.Services
             
             var userResult = new UserResult();
 
-            UpdateUserRequest updateUserRequest;
+            UpdateUserPayload payload;
 
-            if (request.Payload is UpdateUserRequest r)
+            if (request.Payload is UpdateUserPayload r)
             {
-                updateUserRequest = r;
+                payload = r;
             }
             else
             {
@@ -524,30 +524,30 @@ namespace SudokuCollective.Data.Services
             // User name accepsts alphanumeric and special characters except double and single quotes
             var regex = new Regex("^[^-]{1}?[^\"\']*$");
 
-            var isUserNameUnique = await _usersRepository.IsUpdatedUserNameUnique(id, updateUserRequest.UserName);
-            var isEmailUnique = await _usersRepository.IsUpdatedEmailUnique(id, updateUserRequest.Email);
+            var isUserNameUnique = await _usersRepository.IsUpdatedUserNameUnique(id, payload.UserName);
+            var isEmailUnique = await _usersRepository.IsUpdatedEmailUnique(id, payload.Email);
 
-            if (string.IsNullOrEmpty(updateUserRequest.UserName)
-                || string.IsNullOrEmpty(updateUserRequest.Email)
+            if (string.IsNullOrEmpty(payload.UserName)
+                || string.IsNullOrEmpty(payload.Email)
                 || !isUserNameUnique
                 || !isEmailUnique
-                || !regex.IsMatch(updateUserRequest.UserName))
+                || !regex.IsMatch(payload.UserName))
             {
-                if (string.IsNullOrEmpty(updateUserRequest.UserName))
+                if (string.IsNullOrEmpty(payload.UserName))
                 {
                     result.IsSuccess = false;
                     result.Message = UsersMessages.UserNameRequiredMessage;
 
                     return result;
                 }
-                else if (string.IsNullOrEmpty(updateUserRequest.Email))
+                else if (string.IsNullOrEmpty(payload.Email))
                 {
                     result.IsSuccess = false;
                     result.Message = UsersMessages.EmailRequiredMessage;
 
                     return result;
                 }
-                else if (!regex.IsMatch(updateUserRequest.UserName))
+                else if (!regex.IsMatch(payload.UserName))
                 {
                     result.IsSuccess = false;
                     result.Message = UsersMessages.UserNameInvalidMessage;
@@ -595,13 +595,13 @@ namespace SudokuCollective.Data.Services
 
                         var app = (App)((RepositoryResponse)cacheServiceResponse.Item1).Object;
 
-                        user.UserName = updateUserRequest.UserName;
-                        user.FirstName = updateUserRequest.FirstName;
-                        user.LastName = updateUserRequest.LastName;
-                        user.NickName = updateUserRequest.NickName;
+                        user.UserName = payload.UserName;
+                        user.FirstName = payload.FirstName;
+                        user.LastName = payload.LastName;
+                        user.NickName = payload.NickName;
                         user.DateUpdated = DateTime.UtcNow;
 
-                        if (!user.Email.ToLower().Equals(updateUserRequest.Email.ToLower()))
+                        if (!user.Email.ToLower().Equals(payload.Email.ToLower()))
                         {
                             if (!user.ReceivedRequestToUpdateEmail)
                             {
@@ -621,7 +621,7 @@ namespace SudokuCollective.Data.Services
                                 }
 
                                 emailConfirmation.OldEmailAddress = user.Email;
-                                emailConfirmation.NewEmailAddress = updateUserRequest.Email;
+                                emailConfirmation.NewEmailAddress = payload.Email;
                             }
                             else
                             {
@@ -629,7 +629,7 @@ namespace SudokuCollective.Data.Services
                                     user.Id,
                                     request.AppId,
                                     user.Email,
-                                    updateUserRequest.Email);
+                                    payload.Email);
                             }
 
                             emailConfirmation = await EnsureEmailConfirmationTokenIsUnique(emailConfirmation);
@@ -2601,11 +2601,11 @@ namespace SudokuCollective.Data.Services
 
             var result = new Result();
 
-            RequestPasswordResetRequest requestPasswordResetRequest;
+            RequestPasswordResetPayload payload;
 
-            if (request.Payload is RequestPasswordResetRequest r)
+            if (request.Payload is RequestPasswordResetPayload r)
             {
-                requestPasswordResetRequest = r;
+                payload = r;
             }
             else
             {
@@ -2640,9 +2640,9 @@ namespace SudokuCollective.Data.Services
                     cacheServiceResponse = await _cacheService.GetByEmailWithCacheAsync(
                         _usersRepository,
                         _distributedCache,
-                        string.Format(_cacheKeys.GetUserByEmailCacheKey, requestPasswordResetRequest.Email, app.License),
+                        string.Format(_cacheKeys.GetUserByEmailCacheKey, payload.Email, app.License),
                         _cachingStrategy.Medium,
-                        requestPasswordResetRequest.Email);
+                        payload.Email);
 
                     var userResponse = (RepositoryResponse)cacheServiceResponse.Item1;
 
@@ -2789,11 +2789,11 @@ namespace SudokuCollective.Data.Services
 
             var result = new Result();
 
-            PasswordResetRequest passwordResetRequest;
+            PasswordResetPayload payload;
 
-            if (request.Payload is PasswordResetRequest r)
+            if (request.Payload is PasswordResetPayload r)
             {
-                passwordResetRequest = r;
+                payload = r;
             }
             else
             {
@@ -2810,9 +2810,9 @@ namespace SudokuCollective.Data.Services
                 var cacheServiceResponse = await _cacheService.GetWithCacheAsync(
                     _usersRepository,
                     _distributedCache,
-                    string.Format(_cacheKeys.GetUserCacheKey, passwordResetRequest.UserId, license),
+                    string.Format(_cacheKeys.GetUserCacheKey, payload.UserId, license),
                     _cachingStrategy.Medium,
-                    passwordResetRequest.UserId);
+                    payload.UserId);
 
                 var userResponse = (RepositoryResponse)cacheServiceResponse.Item1;
                 var user = (User)userResponse.Object;
@@ -2841,7 +2841,7 @@ namespace SudokuCollective.Data.Services
                     if (user.ReceivedRequestToUpdatePassword)
                     {
                         user.Password = BCrypt.Net.BCrypt
-                                .HashPassword(passwordResetRequest.NewPassword, salt);
+                                .HashPassword(payload.NewPassword, salt);
 
                         user.DateUpdated = DateTime.UtcNow;
 

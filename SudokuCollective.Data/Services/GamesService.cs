@@ -11,7 +11,7 @@ using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Params;
-using SudokuCollective.Data.Models.Requests;
+using SudokuCollective.Data.Models.Payloads;
 using SudokuCollective.Data.Models.Results;
 using SudokuCollective.Data.Utilities;
 
@@ -53,11 +53,11 @@ namespace SudokuCollective.Data.Services
 
             var result = new Result();
 
-            CreateGameRequest gameRequest;
+            CreateGamePayload payload;
 
-            if (request.Payload is CreateGameRequest r)
+            if (request.Payload is CreateGamePayload r)
             {
-                gameRequest = r;
+                payload = r;
             }
             else
             {
@@ -69,11 +69,11 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                var userResponse = await _usersRepository.Get(gameRequest.UserId);
+                var userResponse = await _usersRepository.Get(payload.UserId);
 
                 if (userResponse.Success)
                 {
-                    var difficultyResponse = await _difficultiesRepository.Get(gameRequest.DifficultyId);
+                    var difficultyResponse = await _difficultiesRepository.Get(payload.DifficultyId);
 
                     if (difficultyResponse.Success)
                     {
@@ -294,11 +294,11 @@ namespace SudokuCollective.Data.Services
                 return result;
             }
 
-            GamesRequest gameRequest;
+            GamesPayload payload;
 
-            if (request.Payload is GamesRequest r)
+            if (request.Payload is GamesPayload r)
             {
-                gameRequest = r;
+                payload = r;
             }
             else
             {
@@ -313,7 +313,7 @@ namespace SudokuCollective.Data.Services
                 if (await _appsRepository.HasEntity(request.AppId))
                 {
                     var gameResponse = await _gamesRepository.GetMyGame(
-                        gameRequest.UserId, 
+                        payload.UserId, 
                         id,
                         request.AppId);
 
@@ -365,11 +365,11 @@ namespace SudokuCollective.Data.Services
 
             var result = new Result();
 
-            GamesRequest gamesRequest;
+            GamesPayload payload;
 
-            if (request.Payload is GamesRequest r)
+            if (request.Payload is GamesPayload r)
             {
-                gamesRequest = r;
+                payload = r;
             }
             else
             {
@@ -384,7 +384,7 @@ namespace SudokuCollective.Data.Services
                 if (await _appsRepository.HasEntity(request.AppId))
                 {
                     var response = await _gamesRepository.GetMyGames(
-                        gamesRequest.UserId,
+                        payload.UserId,
                         request.AppId);
 
                     if (response.Success)
@@ -458,11 +458,11 @@ namespace SudokuCollective.Data.Services
         {
             var result = new Result();
 
-            UpdateGameRequest updateRequest;
+            UpdateGamePayload payload;
 
-            if (request.Payload is UpdateGameRequest r)
+            if (request.Payload is UpdateGamePayload r)
             {
-                updateRequest = r;
+                payload = r;
             }
             else
             {
@@ -480,7 +480,7 @@ namespace SudokuCollective.Data.Services
 
                     if (gameResponse.Success)
                     {
-                        foreach (var cell in updateRequest.SudokuCells)
+                        foreach (var cell in payload.SudokuCells)
                         {
                             foreach (var savedCell in ((Game)gameResponse.Object).SudokuMatrix.SudokuCells)
                             {
@@ -628,11 +628,11 @@ namespace SudokuCollective.Data.Services
                 return result;
             }
 
-            GamesRequest deleteRequest;
+            GamesPayload payload;
 
-            if (request.Payload is GamesRequest r)
+            if (request.Payload is GamesPayload r)
             {
-                deleteRequest = r;
+                payload = r;
             }
             else
             {
@@ -647,7 +647,7 @@ namespace SudokuCollective.Data.Services
                 if (await _appsRepository.HasEntity(request.AppId))
                 {
                     var response = await _gamesRepository.DeleteMyGame(
-                        deleteRequest.UserId, 
+                        payload.UserId, 
                         id, 
                         request.AppId);
 
@@ -704,11 +704,11 @@ namespace SudokuCollective.Data.Services
                 return result;
             }
 
-            UpdateGameRequest checkRequest;
+            UpdateGamePayload payload;
 
-            if (request.Payload is UpdateGameRequest r)
+            if (request.Payload is UpdateGamePayload r)
             {
-                checkRequest = r;
+                payload = r;
             }
             else
             {
@@ -724,7 +724,7 @@ namespace SudokuCollective.Data.Services
 
                 if (gameResponse.Success)
                 {
-                    foreach (var cell in checkRequest.SudokuCells)
+                    foreach (var cell in payload.SudokuCells)
                     {
                         foreach (var savedCell in ((Game)gameResponse.Object).SudokuMatrix.SudokuCells)
                         {

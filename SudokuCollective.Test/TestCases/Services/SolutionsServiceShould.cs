@@ -10,7 +10,7 @@ using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
-using SudokuCollective.Data.Models.Requests;
+using SudokuCollective.Data.Models.Payloads;
 using SudokuCollective.Data.Services;
 using SudokuCollective.Test.Cache;
 using SudokuCollective.Test.Repositories;
@@ -110,7 +110,7 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task SolveSudokuMatrices()
         {
             // Arrange
-            var solutionRequest = new SolutionRequest()
+            var payload = new SolutionPayload()
             {
                 FirstRow = new List<int> { 0, 2, 0, 5, 0, 0, 8, 7, 6 },
                 SecondRow = new List<int> { 7, 0, 0, 1, 8, 0, 0, 5, 0 },
@@ -122,7 +122,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 EighthRow = new List<int> { 9, 0, 4, 0, 0, 7, 2, 0, 8 },
                 NinthRow = new List<int> { 0, 0, 0, 0, 0, 2, 4, 6, 0 }
             };
-            request.Payload = solutionRequest;
+            request.Payload = payload;
 
             // Act
             var result = await sut.Solve(request);

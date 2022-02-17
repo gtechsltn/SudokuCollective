@@ -1,18 +1,18 @@
 ﻿using NUnit.Framework;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
-using SudokuCollective.Data.Models.Requests;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
+using SudokuCollective.Data.Models.Payloads;
 using System;
 
 namespace SudokuCollective.Test.TestCases.Requests
 {
     public class RegisterRequestShould
     {
-        private IRegisterRequest sut;
+        private IRegisterPayload sut;
 
         [SetUp]
         public void Setup()
         {
-            sut = new RegisterRequest();
+            sut = new RegisterPayload();
         }
 
         [Test, Category("Requests")]
@@ -59,17 +59,17 @@ namespace SudokuCollective.Test.TestCases.Requests
         public void HasADefaultConstructor()
         {
             // Arrange and Act
-            sut = new RegisterRequest();
+            sut = new RegisterPayload();
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<RegisterRequest>());
+            Assert.That(sut, Is.InstanceOf<RegisterPayload>());
         }
 
         [Test, Category("Requests")]
         public void HasAConstructorThatAcceptsParams()
         {
             // Arrange and Act
-            sut = new RegisterRequest(
+            sut = new RegisterPayload(
                 "userName",
                 "firstName", 
                 "lastName", 
@@ -78,7 +78,7 @@ namespace SudokuCollective.Test.TestCases.Requests
                 "t2stP@ssw0rd!");
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<RegisterRequest>());
+            Assert.That(sut, Is.InstanceOf<RegisterPayload>());
         }
     }
 }

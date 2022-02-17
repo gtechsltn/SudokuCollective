@@ -9,7 +9,7 @@ using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
-using SudokuCollective.Data.Models.Requests;
+using SudokuCollective.Data.Models.Payloads;
 
 namespace SudokuCollective.Data.Services
 {
@@ -46,11 +46,11 @@ namespace SudokuCollective.Data.Services
 
             var result = new Result();
 
-            CreateDifficultyRequest createDifficultyRequest;
+            CreateDifficultyPayload payload;
 
-            if (request.Payload is CreateDifficultyRequest r)
+            if (request.Payload is CreateDifficultyPayload r)
             {
-                createDifficultyRequest = r;
+                payload = r;
             }
             else
             {
@@ -60,27 +60,27 @@ namespace SudokuCollective.Data.Services
                 return result;
             }
             
-            if (string.IsNullOrEmpty(createDifficultyRequest.Name)) 
-                throw new ArgumentNullException(nameof(createDifficultyRequest.DifficultyLevel));
+            if (string.IsNullOrEmpty(payload.Name)) 
+                throw new ArgumentNullException(nameof(payload.DifficultyLevel));
 
-            if (string.IsNullOrEmpty(createDifficultyRequest.DisplayName)) 
-                throw new ArgumentNullException(nameof(createDifficultyRequest.DisplayName));
+            if (string.IsNullOrEmpty(payload.DisplayName)) 
+                throw new ArgumentNullException(nameof(payload.DisplayName));
 
             try
             {
                 if (!await _cacheService.HasDifficultyLevelWithCacheAsync(
                     _difficultiesRepository,
                     _distributedCache,
-                    string.Format(_cacheKeys.GetDifficultyCacheKey, createDifficultyRequest.DifficultyLevel),
+                    string.Format(_cacheKeys.GetDifficultyCacheKey, payload.DifficultyLevel),
                     _cachingStrategy.Heavy,
-                    createDifficultyRequest.DifficultyLevel))
+                    payload.DifficultyLevel))
                 {
 
                     var difficulty = new Difficulty()
                     {
-                        Name = createDifficultyRequest.Name,
-                        DisplayName = createDifficultyRequest.DisplayName,
-                        DifficultyLevel = createDifficultyRequest.DifficultyLevel
+                        Name = payload.Name,
+                        DisplayName = payload.DisplayName,
+                        DifficultyLevel = payload.DifficultyLevel
                     };
 
                     var response = await _cacheService.AddWithCacheAsync<Difficulty>(
@@ -244,11 +244,11 @@ namespace SudokuCollective.Data.Services
 
             var result = new Result();
 
-            UpdateDifficultyRequest updateDifficultyRequest;
+            UpdateDifficultyPayload payload;
 
-            if (request.Payload is UpdateDifficultyRequest r)
+            if (request.Payload is UpdateDifficultyPayload r)
             {
-                updateDifficultyRequest = r;
+                payload = r;
             }
             else
             {
@@ -274,8 +274,8 @@ namespace SudokuCollective.Data.Services
                 {
                     var difficulty = (Difficulty)response.Object;
 
-                    difficulty.Name = updateDifficultyRequest.Name;
-                    difficulty.DisplayName = updateDifficultyRequest.DisplayName;
+                    difficulty.Name = payload.Name;
+                    difficulty.DisplayName = payload.DisplayName;
 
                     var updateDifficultyResponse = await _cacheService.UpdateWithCacheAsync(
                         _difficultiesRepository,

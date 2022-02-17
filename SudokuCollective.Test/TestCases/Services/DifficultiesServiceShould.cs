@@ -12,7 +12,7 @@ using SudokuCollective.Data.Services;
 using SudokuCollective.Test.TestData;
 using SudokuCollective.Test.Repositories;
 using SudokuCollective.Data.Models.Params;
-using SudokuCollective.Data.Models.Requests;
+using SudokuCollective.Data.Models.Payloads;
 using SudokuCollective.Test.Cache;
 using SudokuCollective.Cache;
 
@@ -110,7 +110,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 License = license,
                 RequestorId = 1,
                 Paginator = paginator,
-                Payload = new UpdateDifficultyRequest()
+                Payload = new UpdateDifficultyPayload()
                 {
                     Id = 1,
                     Name = "Medium UPDATED!",
@@ -148,7 +148,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 License = license,
                 RequestorId = 1,
                 Paginator = new Paginator(),
-                Payload = new CreateDifficultyRequest()
+                Payload = new CreateDifficultyPayload()
                 {
                     Name = "new-difficulty",
                     DisplayName = "New Difficulty",

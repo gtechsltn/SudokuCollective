@@ -7,13 +7,14 @@ using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Cache;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
-using SudokuCollective.Data.Models.Requests;
+using SudokuCollective.Data.Models.Payloads;
 using SudokuCollective.Data.Models.Results;
 using SudokuCollective.Data.Utilities;
 
@@ -527,11 +528,11 @@ namespace SudokuCollective.Data.Services
 
             var result = new Result();
 
-            AppRequest appRequest;
+            AppPayload payload;
 
-            if (request.Payload is AppRequest r)
+            if (request.Payload is AppPayload r)
             {
-                appRequest = r;
+                payload = r;
             }
             else
             {
@@ -559,18 +560,18 @@ namespace SudokuCollective.Data.Services
                     {
                         var app = (App)getAppResponse.Object;
 
-                        app.Name = appRequest.Name;
-                        app.DevUrl = appRequest.DevUrl;
-                        app.ProdUrl = appRequest.ProdUrl;
-                        app.IsActive = appRequest.IsActive;
-                        app.Environment = appRequest.Environment;
-                        app.PermitSuperUserAccess = appRequest.PermitSuperUserAccess;
-                        app.PermitCollectiveLogins = appRequest.PermitCollectiveLogins;
-                        app.DisableCustomUrls = appRequest.DisableCustomUrls;
-                        app.CustomEmailConfirmationAction = appRequest.CustomEmailConfirmationAction;
-                        app.CustomPasswordResetAction = appRequest.CustomPasswordResetAction;
-                        app.TimeFrame = appRequest.TimeFrame;
-                        app.AccessDuration = appRequest.AccessDuration;
+                        app.Name = payload.Name;
+                        app.DevUrl = payload.DevUrl;
+                        app.ProdUrl = payload.ProdUrl;
+                        app.IsActive = payload.IsActive;
+                        app.Environment = payload.Environment;
+                        app.PermitSuperUserAccess = payload.PermitSuperUserAccess;
+                        app.PermitCollectiveLogins = payload.PermitCollectiveLogins;
+                        app.DisableCustomUrls = payload.DisableCustomUrls;
+                        app.CustomEmailConfirmationAction = payload.CustomEmailConfirmationAction;
+                        app.CustomPasswordResetAction = payload.CustomPasswordResetAction;
+                        app.TimeFrame = payload.TimeFrame;
+                        app.AccessDuration = payload.AccessDuration;
                         app.DateUpdated = DateTime.UtcNow;
 
                         var updateAppResponse = await _cacheService.UpdateWithCacheAsync<App>(

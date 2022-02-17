@@ -11,7 +11,7 @@ using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Authentication;
 using SudokuCollective.Data.Models.Params;
-using SudokuCollective.Data.Models.Requests;
+using SudokuCollective.Data.Models.Payloads;
 
 namespace SudokuCollective.Api.Controllers.V1
 {
@@ -73,8 +73,8 @@ namespace SudokuCollective.Api.Controllers.V1
                 {
                     var tokenRequest = new TokenRequest
                     {
-                        UserName = ((RegisterRequest)request.Payload).UserName,
-                        Password = ((RegisterRequest)request.Payload).Password,
+                        UserName = ((RegisterPayload)request.Payload).UserName,
+                        Password = ((RegisterPayload)request.Payload).Password,
                         License = request.License
                     };
 
