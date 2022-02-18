@@ -7,10 +7,12 @@ using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Cache;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
+using SudokuCollective.Data.Extensions;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
@@ -530,9 +532,9 @@ namespace SudokuCollective.Data.Services
 
             AppPayload payload;
 
-            if (request.Payload is AppPayload r)
+            if (request.Payload.ConvertToPayloadSuccessful(typeof(AppPayload), out IPayload conversionResult))
             {
-                payload = r;
+                payload = (AppPayload)conversionResult;
             }
             else
             {

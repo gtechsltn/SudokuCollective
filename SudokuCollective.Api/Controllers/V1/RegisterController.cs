@@ -5,13 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Authentication;
 using SudokuCollective.Data.Models.Params;
-using SudokuCollective.Data.Models.Payloads;
 
 namespace SudokuCollective.Api.Controllers.V1
 {
@@ -36,7 +34,7 @@ namespace SudokuCollective.Api.Controllers.V1
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult<User>> Post(
-            [FromBody] IRequest request)
+            [FromBody] Request request)
         {
             try
             {
@@ -73,8 +71,8 @@ namespace SudokuCollective.Api.Controllers.V1
                 {
                     var tokenRequest = new TokenRequest
                     {
-                        UserName = ((RegisterPayload)request.Payload).UserName,
-                        Password = ((RegisterPayload)request.Payload).Password,
+                        UserName = request.Payload.GetProperty("userName").ToString(),
+                        Password = request.Payload.GetProperty("password").ToString(),
                         License = request.License
                     };
 

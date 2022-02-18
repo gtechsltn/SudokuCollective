@@ -215,7 +215,6 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("User Created"));
-            Assert.That(((UserResult)result.Payload[0]).User, Is.TypeOf<User>());
         }
 
         [Test, Category("Services")]
@@ -486,7 +485,6 @@ namespace SudokuCollective.Test.TestCases.Services
 
             var payload = new UpdateUserPayload()
             {
-                UserName = null,
                 FirstName = "Test Super",
                 LastName = "User",
                 NickName = "Test Super User",

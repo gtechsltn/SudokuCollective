@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 
 namespace SudokuCollective.Data.Models.Payloads
@@ -16,6 +17,11 @@ namespace SudokuCollective.Data.Models.Payloads
         public GamesPayload(int userId)
         {
             UserId = userId;
+        }
+
+        public static implicit operator JsonElement(GamesPayload v)
+        {
+            return JsonSerializer.SerializeToElement(v, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
         }
     }
 }

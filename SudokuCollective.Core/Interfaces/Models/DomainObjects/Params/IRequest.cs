@@ -1,4 +1,6 @@
-﻿namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Params
+﻿using System.Text.Json;
+
+namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Params
 {
     public interface IRequest
     {
@@ -6,6 +8,6 @@
         int RequestorId { get; set; }
         int AppId { get; set; }
         IPaginator Paginator { get; set; }
-        object Payload { get; set; }
+        JsonElement Payload { get; set; }
     }
 }

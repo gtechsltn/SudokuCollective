@@ -1,3 +1,4 @@
+using System.Text.Json;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 
@@ -28,6 +29,11 @@ namespace SudokuCollective.Data.Models.Payloads
             Id = id;
             Name = name;
             RoleLevel = roleLevel;
+        }
+
+        public static implicit operator JsonElement(UpdateRolePayload v)
+        {
+            return JsonSerializer.SerializeToElement(v, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
         }
     }
 }

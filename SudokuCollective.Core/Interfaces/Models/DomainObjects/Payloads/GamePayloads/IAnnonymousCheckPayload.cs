@@ -2,7 +2,7 @@
 
 namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads
 {
-    public interface IAnnonymousCheckPayload
+    public interface IAnnonymousCheckPayload : IPayload
     {
         List<int> FirstRow { get; set; }
         List<int> SecondRow { get; set; }

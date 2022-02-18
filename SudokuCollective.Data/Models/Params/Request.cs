@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 
 namespace SudokuCollective.Data.Models.Params
@@ -12,9 +13,15 @@ namespace SudokuCollective.Data.Models.Params
         [Required]
         public int AppId { get; set; }
         [Required]
-        public IPaginator Paginator { get; set; }
+        IPaginator IRequest.Paginator
+        {
+            get => Paginator;
+            set => Paginator = (Paginator)value;
+        }
         [Required]
-        public object Payload { get; set; }
+        public Paginator Paginator { get; set; }
+        [Required]
+        public JsonElement Payload { get; set; }
 
         public Request()
         {
@@ -22,7 +29,7 @@ namespace SudokuCollective.Data.Models.Params
             RequestorId = 0;
             AppId = 0;
             Paginator = new Paginator();
-            Payload = null;
+            Payload = new JsonElement();
         }
     }
 }

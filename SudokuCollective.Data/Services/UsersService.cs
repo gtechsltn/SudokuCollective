@@ -10,10 +10,13 @@ using SudokuCollective.Core.Interfaces.Cache;
 using SudokuCollective.Core.Interfaces.DataModels;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Results;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Interfaces.Services;
+using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Models;
+using SudokuCollective.Data.Extensions;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
@@ -83,17 +86,36 @@ namespace SudokuCollective.Data.Services
 
             RegisterPayload registerRequest;
 
-            if (request.Payload is RegisterPayload r)
+            try
             {
-                registerRequest = r;
+                if (!request.Payload.ConvertToPayloadSuccessful(typeof(RegisterPayload), out IPayload conversionResult))
+                {
+                    result.IsSuccess = false;
+                    result.Message = ServicesMesages.InvalidRequestMessage;
+
+                    return result;
+                }
+                else
+                {
+                    registerRequest = (RegisterPayload)conversionResult;
+                }
             }
-            else
+            catch (ArgumentException ex)
             {
                 result.IsSuccess = false;
-                result.Message = ServicesMesages.InvalidRequestMessage;
+
+                if (ex.Message.Equals(AttributeMessages.InvalidUserName))
+                {
+                    result.Message = UsersMessages.UserNameRequiredMessage;
+                }
+                else
+                {
+                    result.Message = UsersMessages.EmailRequiredMessage;
+                }
 
                 return result;
             }
+
 
             var isUserNameUnique = false;
             var isEmailUnique = false;
@@ -319,7 +341,6 @@ namespace SudokuCollective.Data.Services
 
                             result.IsSuccess = userResponse.Success;
                             result.Message = UsersMessages.UserCreatedMessage;
-                            result.Payload.Add(userResult);
 
                             return result;
                         }
@@ -501,14 +522,24 @@ namespace SudokuCollective.Data.Services
 
             UpdateUserPayload payload;
 
-            if (request.Payload is UpdateUserPayload r)
+            try
             {
-                payload = r;
+                if (request.Payload.ConvertToPayloadSuccessful(typeof(UpdateUserPayload), out IPayload conversionResult))
+                {
+                    payload = (UpdateUserPayload)conversionResult;
+                }
+                else
+                {
+                    result.IsSuccess = false;
+                    result.Message = ServicesMesages.InvalidRequestMessage;
+
+                    return result;
+                }
             }
-            else
+            catch (ArgumentException ex)
             {
                 result.IsSuccess = false;
-                result.Message = ServicesMesages.InvalidRequestMessage;
+                result.Message = ex.Message;
 
                 return result;
             }
@@ -2603,9 +2634,9 @@ namespace SudokuCollective.Data.Services
 
             RequestPasswordResetPayload payload;
 
-            if (request.Payload is RequestPasswordResetPayload r)
+            if (request.Payload.ConvertToPayloadSuccessful(typeof(RequestPasswordResetPayload), out IPayload conversionResult))
             {
-                payload = r;
+                payload = (RequestPasswordResetPayload)conversionResult;
             }
             else
             {
@@ -2791,9 +2822,9 @@ namespace SudokuCollective.Data.Services
 
             PasswordResetPayload payload;
 
-            if (request.Payload is PasswordResetPayload r)
+            if (request.Payload.ConvertToPayloadSuccessful(typeof(PasswordResetPayload), out IPayload conversionResult))
             {
-                payload = r;
+                payload = (PasswordResetPayload)conversionResult;
             }
             else
             {

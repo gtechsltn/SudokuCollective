@@ -2,7 +2,7 @@
 
 namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads
 {
-    public interface IUpdateUserRolePayload
+    public interface IUpdateUserRolePayload : IPayload
     {
         List<int> RoleIds { get; set; }
     }

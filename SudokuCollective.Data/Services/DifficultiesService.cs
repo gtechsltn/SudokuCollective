@@ -3,9 +3,11 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using SudokuCollective.Core.Interfaces.Cache;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
+using SudokuCollective.Data.Extensions;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
@@ -48,9 +50,9 @@ namespace SudokuCollective.Data.Services
 
             CreateDifficultyPayload payload;
 
-            if (request.Payload is CreateDifficultyPayload r)
+            if (request.Payload.ConvertToPayloadSuccessful(typeof(CreateDifficultyPayload), out IPayload conversionResult))
             {
-                payload = r;
+                payload = (CreateDifficultyPayload)conversionResult;
             }
             else
             {
@@ -246,9 +248,9 @@ namespace SudokuCollective.Data.Services
 
             UpdateDifficultyPayload payload;
 
-            if (request.Payload is UpdateDifficultyPayload r)
+            if (request.Payload.ConvertToPayloadSuccessful(typeof(UpdateDifficultyPayload), out IPayload conversionResult))
             {
-                payload = r;
+                payload = (UpdateDifficultyPayload)conversionResult;
             }
             else
             {

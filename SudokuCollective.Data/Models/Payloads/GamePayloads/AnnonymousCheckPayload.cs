@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 using SudokuCollective.Core.Messages;
 using SudokuCollective.Data.Validation.Attributes;
@@ -241,6 +242,11 @@ namespace SudokuCollective.Data.Models.Payloads
             SeventhRow = seventhRow;
             EighthRow = eighthRow;
             NinthRow = ninthRow;
+        }
+
+        public static implicit operator JsonElement(AnnonymousCheckPayload v)
+        {
+            return JsonSerializer.SerializeToElement(v, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
         }
     }
 }

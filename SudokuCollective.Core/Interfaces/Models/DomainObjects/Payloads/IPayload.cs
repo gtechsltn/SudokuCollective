@@ -1,7 +1,6 @@
 ﻿namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads
 {
-    public interface IAddSolutionPayload : IPayload
+    public interface IPayload
     {
-        int Limit { get; set; }
     }
 }

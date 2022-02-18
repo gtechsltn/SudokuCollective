@@ -2,7 +2,7 @@
 
 namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads
 {
-    public interface ICreateDifficultyPayload
+    public interface ICreateDifficultyPayload : IPayload
     {
         string Name { get; set; }
         string DisplayName { get; set; }

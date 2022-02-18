@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 
@@ -115,6 +116,11 @@ namespace SudokuCollective.Data.Models.Payloads
             CustomPasswordResetAction = customPasswordResetAction;
             TimeFrame = timeFrame;
             AccessDuration = accessDuration;
+        }
+
+        public static implicit operator JsonElement(AppPayload v)
+        {
+            return JsonSerializer.SerializeToElement(v, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
         }
     }
 }

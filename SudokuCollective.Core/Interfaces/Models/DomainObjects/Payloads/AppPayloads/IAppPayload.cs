@@ -2,7 +2,7 @@
 
 namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads
 {
-    public interface IAppPayload
+    public interface IAppPayload : IPayload
     {
         string Name { get; set; }
         string LocalUrl { get; set; }

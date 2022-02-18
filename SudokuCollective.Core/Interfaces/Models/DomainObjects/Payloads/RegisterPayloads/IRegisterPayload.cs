@@ -1,6 +1,6 @@
 ﻿namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads
 {
-    public interface IRegisterPayload
+    public interface IRegisterPayload : IPayload
     {
         string UserName { get; set; }
         string FirstName { get; set; }

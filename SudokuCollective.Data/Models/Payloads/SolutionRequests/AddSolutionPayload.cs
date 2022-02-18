@@ -1,3 +1,4 @@
+using System.Text.Json;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 
 namespace SudokuCollective.Data.Models.Payloads
@@ -14,6 +15,11 @@ namespace SudokuCollective.Data.Models.Payloads
         public AddSolutionPayload(int limit)
         {
             Limit = limit;
+        }
+
+        public static implicit operator JsonElement(AddSolutionPayload v)
+        {
+            return JsonSerializer.SerializeToElement(v, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
         }
     }
 }

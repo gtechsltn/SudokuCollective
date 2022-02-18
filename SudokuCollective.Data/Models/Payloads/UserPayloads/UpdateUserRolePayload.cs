@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 
 namespace SudokuCollective.Data.Models.Payloads
@@ -23,6 +24,11 @@ namespace SudokuCollective.Data.Models.Payloads
         public UpdateUserRolePayload(List<int> roleIds)
         {
             RoleIds = roleIds;
+        }
+
+        public static implicit operator JsonElement(UpdateUserRolePayload v)
+        {
+            return JsonSerializer.SerializeToElement(v, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
         }
     }
 }

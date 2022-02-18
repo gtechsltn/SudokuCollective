@@ -1,18 +1,44 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Validation.Attributes;
+using SudokuCollective.Data.Messages;
 
 namespace SudokuCollective.Data.Models.Payloads
 {
     public class UpdateUserPayload : IUpdateUserPayload
     {
+        private string _userName = string.Empty;
         private string _email = string.Empty;
+        private readonly UserNameValidatedAttribute _usernameValidatedAttribute = new();
         private readonly EmailValidatedAttribute _emailValidator = new();
 
         [Required]
-        public string UserName { get; set; }
+        public string UserName 
+        {
+            get
+            {
+                return _userName;
+            }
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    return;
+                }
+
+                if (_usernameValidatedAttribute.IsValid(value))
+                {
+                    _userName = value;
+                }
+                else
+                {
+                    throw new ArgumentException(AttributeMessages.InvalidUserName);
+                }
+            }
+        }
         [Required]
         public string FirstName { get; set; }
         [Required]
@@ -28,7 +54,12 @@ namespace SudokuCollective.Data.Models.Payloads
             }
             set
             {
-                if (!string.IsNullOrEmpty(value) && _emailValidator.IsValid(value))
+                if (string.IsNullOrEmpty(value))
+                {
+                    return;
+                }
+
+                if (_emailValidator.IsValid(value))
                 {
                     _email = value;
                 }
@@ -41,7 +72,6 @@ namespace SudokuCollective.Data.Models.Payloads
 
         public UpdateUserPayload()
         {
-            UserName = string.Empty;
             FirstName = string.Empty;
             LastName = string.Empty;
             NickName = string.Empty;
@@ -59,6 +89,11 @@ namespace SudokuCollective.Data.Models.Payloads
             LastName = lastName;
             NickName = nickName;
             Email = email;
+        }
+
+        public static implicit operator JsonElement(UpdateUserPayload v)
+        {
+            return JsonSerializer.SerializeToElement(v, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads
 {
-    public interface IUpdateUserPayload
+    public interface IUpdateUserPayload : IPayload
     {
         string UserName { get; set; }
         string FirstName { get; set; }

@@ -7,9 +7,11 @@ using SudokuCollective.Core.Extensions;
 using SudokuCollective.Core.Interfaces.Cache;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
+using SudokuCollective.Data.Extensions;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
@@ -181,6 +183,20 @@ namespace SudokuCollective.Data.Services
 
             try
             {
+                SolutionPayload payload;
+
+                if (request.Payload.ConvertToPayloadSuccessful(typeof(SolutionPayload), out IPayload conversionResult))
+                {
+                    payload = (SolutionPayload)conversionResult;
+                }
+                else
+                {
+                    result.IsSuccess = false;
+                    result.Message = ServicesMesages.InvalidRequestMessage;
+
+                    return result;
+                }
+
                 var response = await _solutionsRepository.GetAll();
 
                 var solvedSolutions = response
@@ -190,15 +206,15 @@ namespace SudokuCollective.Data.Services
 
                 var intList = new List<int>();
 
-                intList.AddRange(((SolutionPayload)request.Payload).FirstRow);
-                intList.AddRange(((SolutionPayload)request.Payload).SecondRow);
-                intList.AddRange(((SolutionPayload)request.Payload).ThirdRow);
-                intList.AddRange(((SolutionPayload)request.Payload).FourthRow);
-                intList.AddRange(((SolutionPayload)request.Payload).FifthRow);
-                intList.AddRange(((SolutionPayload)request.Payload).SixthRow);
-                intList.AddRange(((SolutionPayload)request.Payload).SeventhRow);
-                intList.AddRange(((SolutionPayload)request.Payload).EighthRow);
-                intList.AddRange(((SolutionPayload)request.Payload).NinthRow);
+                intList.AddRange(payload.FirstRow);
+                intList.AddRange(payload.SecondRow);
+                intList.AddRange(payload.ThirdRow);
+                intList.AddRange(payload.FourthRow);
+                intList.AddRange(payload.FifthRow);
+                intList.AddRange(payload.SixthRow);
+                intList.AddRange(payload.SeventhRow);
+                intList.AddRange(payload.EighthRow);
+                intList.AddRange(payload.NinthRow);
 
                 var sudokuSolver = new SudokuMatrix(intList);
 

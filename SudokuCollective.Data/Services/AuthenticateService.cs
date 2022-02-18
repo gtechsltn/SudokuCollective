@@ -163,9 +163,10 @@ namespace SudokuCollective.Data.Services
 
                 authenticatedUser.UpdateWithUserInfo(user);
 
-                var authenticationResult = new AuthenticationResult();
-
-                authenticationResult.User = authenticatedUser;
+                var authenticationResult = new AuthenticationResult
+                {
+                    User = authenticatedUser
+                };
 
                 var claim = new List<Claim> {
 

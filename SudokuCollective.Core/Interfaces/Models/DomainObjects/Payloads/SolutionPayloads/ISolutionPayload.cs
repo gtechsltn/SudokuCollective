@@ -2,7 +2,7 @@
 
 namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads
 {
-    public interface ISolutionPayload
+    public interface ISolutionPayload : IPayload
     {
         List<int> FirstRow { get; set; }
         List<int> SecondRow { get; set; }

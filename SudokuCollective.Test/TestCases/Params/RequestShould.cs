@@ -1,3 +1,4 @@
+using System.Text.Json;
 using NUnit.Framework;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Data.Models.Params;
@@ -37,16 +38,16 @@ namespace SudokuCollective.Test.TestCases.Params
         }
 
         [Test, Category("Params")]
-        public void AcceptsObectsInTheDataPacket()
+        public void AcceptsJsonElementsInTheDataPacket()
         {
             // Arrange
-            var obj = new object();
+            var json = new JsonElement();
 
             // Act
-            sut.Payload = obj;
+            sut.Payload = json;
             
             // Assert
-            Assert.That(sut.Payload, Is.InstanceOf<object>());
+            Assert.That(sut.Payload, Is.InstanceOf<JsonElement>());
         }
     }
 }

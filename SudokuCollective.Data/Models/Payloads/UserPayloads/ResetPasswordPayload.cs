@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Validation.Attributes;
@@ -58,6 +59,11 @@ namespace SudokuCollective.Data.Models.Payloads
         {
             Token = token;
             NewPassword = newPassword;
+        }
+
+        public static implicit operator JsonElement(ResetPasswordPayload v)
+        {
+            return JsonSerializer.SerializeToElement(v, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
         }
     }
 }

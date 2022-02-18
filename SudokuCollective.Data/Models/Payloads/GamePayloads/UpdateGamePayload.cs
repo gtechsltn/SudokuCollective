@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Models;
@@ -51,6 +52,11 @@ namespace SudokuCollective.Data.Models.Payloads
         {
             GameId = gameId;
             SudokuCells = sudokuCells;
+        }
+
+        public static implicit operator JsonElement(UpdateGamePayload v)
+        {
+            return JsonSerializer.SerializeToElement(v, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
         }
     }
 }

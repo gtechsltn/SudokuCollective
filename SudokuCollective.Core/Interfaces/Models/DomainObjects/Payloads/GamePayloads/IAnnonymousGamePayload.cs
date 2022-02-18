@@ -2,7 +2,7 @@
 
 namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads
 {
-    public interface IAnnonymousGamePayload
+    public interface IAnnonymousGamePayload : IPayload
     {
         DifficultyLevel DifficultyLevel { get; set; }
     }

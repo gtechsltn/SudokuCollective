@@ -6,9 +6,11 @@ using Microsoft.Extensions.Caching.Distributed;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Extensions;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
+using SudokuCollective.Data.Extensions;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Payloads;
@@ -55,9 +57,9 @@ namespace SudokuCollective.Data.Services
 
             CreateGamePayload payload;
 
-            if (request.Payload is CreateGamePayload r)
+            if (request.Payload.ConvertToPayloadSuccessful(typeof(CreateGamePayload), out IPayload conversionResult))
             {
-                payload = r;
+                payload = (CreateGamePayload)conversionResult;
             }
             else
             {
@@ -296,9 +298,9 @@ namespace SudokuCollective.Data.Services
 
             GamesPayload payload;
 
-            if (request.Payload is GamesPayload r)
+            if (request.Payload.ConvertToPayloadSuccessful(typeof(GamesPayload), out IPayload conversionResult))
             {
-                payload = r;
+                payload = (GamesPayload)conversionResult;
             }
             else
             {
@@ -367,9 +369,9 @@ namespace SudokuCollective.Data.Services
 
             GamesPayload payload;
 
-            if (request.Payload is GamesPayload r)
+            if (request.Payload.ConvertToPayloadSuccessful(typeof(GamesPayload), out IPayload conversionResult))
             {
-                payload = r;
+                payload = (GamesPayload)conversionResult;
             }
             else
             {
@@ -460,9 +462,9 @@ namespace SudokuCollective.Data.Services
 
             UpdateGamePayload payload;
 
-            if (request.Payload is UpdateGamePayload r)
+            if (request.Payload.ConvertToPayloadSuccessful(typeof(UpdateGamePayload), out IPayload conversionResult))
             {
-                payload = r;
+                payload = (UpdateGamePayload)conversionResult;
             }
             else
             {
@@ -630,9 +632,9 @@ namespace SudokuCollective.Data.Services
 
             GamesPayload payload;
 
-            if (request.Payload is GamesPayload r)
+            if (request.Payload.ConvertToPayloadSuccessful(typeof(GamesPayload), out IPayload conversionResult))
             {
-                payload = r;
+                payload = (GamesPayload)conversionResult;
             }
             else
             {
@@ -706,9 +708,9 @@ namespace SudokuCollective.Data.Services
 
             UpdateGamePayload payload;
 
-            if (request.Payload is UpdateGamePayload r)
+            if (request.Payload.ConvertToPayloadSuccessful(typeof(UpdateGamePayload), out IPayload conversionResult))
             {
-                payload = r;
+                payload = (UpdateGamePayload)conversionResult;
             }
             else
             {
