@@ -34,8 +34,7 @@ namespace SudokuCollective.Api.Controllers.V1
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<User>> Post(
-            [FromBody] SignupRequest request)
+        public async Task<ActionResult<User>> Post([FromBody] SignupRequest request)
         {
             try
             {
