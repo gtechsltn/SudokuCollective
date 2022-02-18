@@ -100,8 +100,8 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("User Found"));
-            Assert.IsNotNull(((AuthenticationResult)result.Payload[0]).Token);
-            Assert.AreEqual(userName, ((AuthenticationResult)result.Payload[0]).User.UserName);
+            Assert.IsNotNull(result.Payload[0]);
+            Assert.AreEqual(userName, ((AuthenticatedUser)result.Payload[0]).UserName);
         }
 
         [Test, Category("Services")]

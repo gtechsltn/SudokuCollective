@@ -6,12 +6,12 @@ namespace SudokuCollective.Test.TestCases.Payloads
 {
     public class AddSolutionPayloadShould
     {
-        private IAddSolutionPayload sut;
+        private IAddSolutionsPayload sut;
 
         [SetUp]
         public void Setup()
         {
-            sut = new AddSolutionPayload();
+            sut = new AddSolutionsPayload();
         }
 
         [Test, Category("Payloads")]
@@ -27,20 +27,20 @@ namespace SudokuCollective.Test.TestCases.Payloads
         public void HaveADefaultConstructor()
         {
             // Arrange and Act
-            sut = new AddSolutionPayload();
+            sut = new AddSolutionsPayload();
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<AddSolutionPayload>());
+            Assert.That(sut, Is.InstanceOf<AddSolutionsPayload>());
         }
 
         [Test, Category("Payloads")]
         public void HaveAConstructorThatAcceptsIntsForEnums()
         {
             // Arrange and Act
-            sut = new AddSolutionPayload(100);
+            sut = new AddSolutionsPayload(100);
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<AddSolutionPayload>());
+            Assert.That(sut, Is.InstanceOf<AddSolutionsPayload>());
         }
     }
 }

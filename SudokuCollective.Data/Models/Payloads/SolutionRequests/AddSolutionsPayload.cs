@@ -3,21 +3,21 @@ using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 
 namespace SudokuCollective.Data.Models.Payloads
 {
-    public class AddSolutionPayload : IAddSolutionPayload
+    public class AddSolutionsPayload : IAddSolutionsPayload
     {
         public int Limit { get; set; }
 
-        public AddSolutionPayload()
+        public AddSolutionsPayload()
         {
             Limit = 0;
         }
 
-        public AddSolutionPayload(int limit)
+        public AddSolutionsPayload(int limit)
         {
             Limit = limit;
         }
 
-        public static implicit operator JsonElement(AddSolutionPayload v)
+        public static implicit operator JsonElement(AddSolutionsPayload v)
         {
             return JsonSerializer.SerializeToElement(v, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
         }
