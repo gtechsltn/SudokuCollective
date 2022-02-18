@@ -88,7 +88,7 @@ namespace SudokuCollective.Test.TestCases.Services
         public void AuthenticateUsersIfValidated()
         {
             // Arrange
-            var tokenRequest = new TokenRequest()
+            var tokenRequest = new LoginRequest()
             {
                 UserName = userName,
                 Password = password
@@ -108,7 +108,7 @@ namespace SudokuCollective.Test.TestCases.Services
         public void RejectUsersIfNotValidated()
         {
             // Arrange
-            var tokenRequest = new TokenRequest()
+            var tokenRequest = new LoginRequest()
             {
                 UserName = userName,
                 Password = password

@@ -1,6 +1,6 @@
-﻿namespace SudokuCollective.Core.Interfaces.Models.TokenModels
+﻿namespace SudokuCollective.Core.Interfaces.Models.LoginModels
 {
-    public interface ITokenRequest
+    public interface ILoginRequest
     {
         string UserName { get; set; }
         string Password { get; set; }

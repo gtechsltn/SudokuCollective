@@ -14,6 +14,7 @@ using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Payloads;
+using SudokuCollective.Data.Models.Requests;
 using SudokuCollective.Data.Models.Results;
 using SudokuCollective.Data.Services;
 using SudokuCollective.Test.Cache;
@@ -193,17 +194,16 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task CreateUser()
         {
             // Arrange
-            var payload = new RegisterPayload()
+            var request = new SignupRequest()
             {
                 UserName = "NewUser",
                 FirstName = "New",
                 LastName = "User",
                 NickName = "New Guy",
                 Email = "newuser@example.com",
-                Password = "T3stP@ssw0rd"
+                Password = "T3stP@ssw0rd",
+                License = TestObjects.GetLicense()
             };
-
-            request.Payload = payload;
 
             var baseUrl = "https://example.com";
 
@@ -257,17 +257,16 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task RequireUserNameUnique()
         {
             // Arrange
-            var payload = new RegisterPayload()
+            var request = new SignupRequest()
             {
                 UserName = "TestUser",
                 FirstName = "New",
                 LastName = "User",
                 NickName = "New Guy",
                 Email = "newuser@example.com",
-                Password = "T3stP@ssw0rd"
+                Password = "T3stP@ssw0rd",
+                License = TestObjects.GetLicense()
             };
-
-            request.Payload = payload;
 
             var baseUrl = "https://example.com";
 
@@ -285,16 +284,15 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task RequireUserName()
         {
             // Arrange
-            var payload = new RegisterPayload()
+            var request = new SignupRequest()
             {
                 FirstName = "New",
                 LastName = "User",
                 NickName = "New Guy",
                 Email = "newuser@example.com",
-                Password = "T3stP@ssw0rd"
+                Password = "T3stP@ssw0rd",
+                License = TestObjects.GetLicense()
             };
-
-            request.Payload = payload;
 
             var baseUrl = "https://example.com";
 
@@ -312,17 +310,16 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task RequireUniqueEmail()
         {
             // Arrange
-            var payload = new RegisterPayload()
+            var request = new SignupRequest()
             {
                 UserName = "NewUser",
                 FirstName = "New",
                 LastName = "User",
                 NickName = "New Guy",
                 Email = "TestUser@example.com",
-                Password = "T3stP@ssw0rd1"
+                Password = "T3stP@ssw0rd1",
+                License = TestObjects.GetLicense()
             };
-
-            request.Payload = payload;
 
             var baseUrl = "https://example.com";
 
@@ -342,16 +339,15 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task RequireEmail()
         {
             // Arrange
-            var payload = new RegisterPayload()
+            var request = new SignupRequest()
             {
                 UserName = "NewUser",
                 FirstName = "New",
                 LastName = "User",
                 NickName = "New Guy",
-                Password = "T3stP@ssw0rd"
+                Password = "T3stP@ssw0rd",
+                License = TestObjects.GetLicense()
             };
-
-            request.Payload = payload;
 
             var baseUrl = "https://example.com";
 

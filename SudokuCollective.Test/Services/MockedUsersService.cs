@@ -11,6 +11,7 @@ using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Results;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 
 namespace SudokuCollective.Test.Services
 {
@@ -33,7 +34,7 @@ namespace SudokuCollective.Test.Services
             FailedRequest = new Mock<IUsersService>();
 
             SuccessfulRequest.Setup(service =>
-                service.Create(It.IsAny<IRequest>(), It.IsAny<string>(), It.IsAny<string>()))
+                service.Create(It.IsAny<ISignupRequest>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedUsersRepository
@@ -373,7 +374,7 @@ namespace SudokuCollective.Test.Services
                 } as IResult));
 
             FailedRequest.Setup(service =>
-                service.Create(It.IsAny<IRequest>(), It.IsAny<string>(), It.IsAny<string>()))
+                service.Create(It.IsAny<ISignupRequest>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedUsersRepository

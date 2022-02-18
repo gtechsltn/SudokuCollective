@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using SudokuCollective.Core.Interfaces.Models.TokenModels;
+using SudokuCollective.Core.Interfaces.Models.LoginModels;
 using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Data.Models.Authentication
 {
-    public class TokenRequest : ITokenRequest
+    public class LoginRequest : ILoginRequest
     {
         private string _userName = string.Empty;
         private string _password = string.Empty;
@@ -75,9 +75,9 @@ namespace SudokuCollective.Data.Models.Authentication
             }
         }
 
-        public TokenRequest() { }
+        public LoginRequest() { }
 
-        public TokenRequest(string userName, string password, string license)
+        public LoginRequest(string userName, string password, string license)
         {
             UserName = userName;
             Password = password;

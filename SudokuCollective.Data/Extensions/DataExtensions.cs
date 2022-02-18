@@ -223,31 +223,6 @@ namespace SudokuCollective.Data.Extensions
                     throw;
                 }
             }
-            else if (type == typeof(RegisterPayload))
-            {
-                try
-                {
-                    result = new RegisterPayload()
-                    {
-                        UserName = element.GetProperty("userName").ToString(),
-                        FirstName = element.GetProperty("firstName").ToString(),
-                        LastName = element.GetProperty("lastName").ToString(),
-                        NickName = element.GetProperty("nickName").ToString(),
-                        Email = element.GetProperty("email").ToString(),
-                        Password = element.GetProperty("password").ToString()
-                    };
-
-                    return true;
-                }
-                catch (KeyNotFoundException)
-                {
-                    return false;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            }
             else if (type == typeof(CreateRolePayload))
             {
                 try

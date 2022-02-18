@@ -15,12 +15,12 @@ namespace SudokuCollective.Api.Controllers.V1
     [Authorize]
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class AuthenticateController : ControllerBase
+    public class LoginController : ControllerBase
     {
         private readonly IAuthenticateService authService;
         private readonly IUserManagementService userManagementService;
 
-        public AuthenticateController(
+        public LoginController(
             IAuthenticateService authServ,
             IUserManagementService userManagementServ)
         {
@@ -30,7 +30,7 @@ namespace SudokuCollective.Api.Controllers.V1
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] TokenRequest request)
+        public async Task<ActionResult> Post([FromBody] LoginRequest request)
         {
             try
             {

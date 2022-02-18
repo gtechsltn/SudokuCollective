@@ -1,20 +1,22 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Validation.Attributes;
 
-namespace SudokuCollective.Data.Models.Payloads
+namespace SudokuCollective.Data.Models.Requests
 {
-    public class RegisterPayload : IRegisterPayload
+    public class SignupRequest : ISignupRequest
     {
         private string _userName = string.Empty;
         private string _email = string.Empty;
         private string _password = string.Empty;
+        private string _license = string.Empty;
         private readonly UserNameValidatedAttribute _userNameValidator = new();
         private readonly EmailValidatedAttribute _emailValidator = new();
         private readonly PasswordValidatedAttribute _passwordValidator = new();
+        private readonly GuidValidatedAttribute _guidValidator = new();
 
         [Required, UserNameValidated(ErrorMessage = AttributeMessages.InvalidUserName)]
         public string UserName
@@ -78,21 +80,41 @@ namespace SudokuCollective.Data.Models.Payloads
                 }
             }
         }
+        [Required, GuidValidated(ErrorMessage = AttributeMessages.InvalidLicense)]
+        public string License
+        {
+            get
+            {
+                return _license;
+            }
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && _guidValidator.IsValid(value))
+                {
+                    _license = value;
+                }
+                else
+                {
+                    throw new ArgumentException(AttributeMessages.InvalidLicense);
+                }
+            }
+        }
 
-        public RegisterPayload()
+        public SignupRequest()
         {
             FirstName = string.Empty;
             LastName = string.Empty;
             NickName = string.Empty;
         }
 
-        public RegisterPayload(
+        public SignupRequest(
             string userName, 
             string firstName, 
             string lastName, 
             string nickName, 
             string email, 
-            string password)
+            string password,
+            string license)
         {
             UserName = userName;
             FirstName = firstName;
@@ -100,9 +122,10 @@ namespace SudokuCollective.Data.Models.Payloads
             NickName = nickName;
             Email = email;
             Password = password;
+            License = license;
         }
 
-        public static implicit operator JsonElement(RegisterPayload v)
+        public static implicit operator JsonElement(SignupRequest v)
         {
             return JsonSerializer.SerializeToElement(v, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
         }

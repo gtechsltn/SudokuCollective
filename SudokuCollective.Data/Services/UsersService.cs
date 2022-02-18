@@ -11,6 +11,7 @@ using SudokuCollective.Core.Interfaces.DataModels;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Results;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Interfaces.Services;
@@ -72,7 +73,7 @@ namespace SudokuCollective.Data.Services
 
         #region Methods
         public async Task<IResult> Create(
-            IRequest request, 
+            ISignupRequest request, 
             string baseUrl, 
             string emailTemplatePath)
         {
@@ -84,37 +85,37 @@ namespace SudokuCollective.Data.Services
 
             var result = new Result();
 
-            RegisterPayload registerRequest;
+            //SignupRequest registerRequest;
 
-            try
-            {
-                if (!request.Payload.ConvertToPayloadSuccessful(typeof(RegisterPayload), out IPayload conversionResult))
-                {
-                    result.IsSuccess = false;
-                    result.Message = ServicesMesages.InvalidRequestMessage;
+            //try
+            //{
+            //    if (!request.Payload.ConvertToPayloadSuccessful(typeof(SignupRequest), out IPayload conversionResult))
+            //    {
+            //        result.IsSuccess = false;
+            //        result.Message = ServicesMesages.InvalidRequestMessage;
 
-                    return result;
-                }
-                else
-                {
-                    registerRequest = (RegisterPayload)conversionResult;
-                }
-            }
-            catch (ArgumentException ex)
-            {
-                result.IsSuccess = false;
+            //        return result;
+            //    }
+            //    else
+            //    {
+            //        registerRequest = (SignupRequest)conversionResult;
+            //    }
+            //}
+            //catch (ArgumentException ex)
+            //{
+            //    result.IsSuccess = false;
 
-                if (ex.Message.Equals(AttributeMessages.InvalidUserName))
-                {
-                    result.Message = UsersMessages.UserNameRequiredMessage;
-                }
-                else
-                {
-                    result.Message = UsersMessages.EmailRequiredMessage;
-                }
+            //    if (ex.Message.Equals(AttributeMessages.InvalidUserName))
+            //    {
+            //        result.Message = UsersMessages.UserNameRequiredMessage;
+            //    }
+            //    else
+            //    {
+            //        result.Message = UsersMessages.EmailRequiredMessage;
+            //    }
 
-                return result;
-            }
+            //    return result;
+            //}
 
 
             var isUserNameUnique = false;
@@ -123,37 +124,37 @@ namespace SudokuCollective.Data.Services
             // User name accepsts alphanumeric and special characters except double and single quotes
             var regex = new Regex("^[^-]{1}?[^\"\']*$");
 
-            if (!string.IsNullOrEmpty(registerRequest.UserName))
+            if (!string.IsNullOrEmpty(request.UserName))
             {
-                isUserNameUnique = await _usersRepository.IsUserNameUnique(registerRequest.UserName);
+                isUserNameUnique = await _usersRepository.IsUserNameUnique(request.UserName);
             }
 
-            if (!string.IsNullOrEmpty(registerRequest.Email))
+            if (!string.IsNullOrEmpty(request.Email))
             {
-                isEmailUnique = await _usersRepository.IsEmailUnique(registerRequest.Email);
+                isEmailUnique = await _usersRepository.IsEmailUnique(request.Email);
             }
 
-            if (string.IsNullOrEmpty(registerRequest.UserName)
-                || string.IsNullOrEmpty(registerRequest.Email)
+            if (string.IsNullOrEmpty(request.UserName)
+                || string.IsNullOrEmpty(request.Email)
                 || !isUserNameUnique
                 || !isEmailUnique
-                || !regex.IsMatch(registerRequest.UserName))
+                || !regex.IsMatch(request.UserName))
             {
-                if (string.IsNullOrEmpty(registerRequest.UserName))
+                if (string.IsNullOrEmpty(request.UserName))
                 {
                     result.IsSuccess = false;
                     result.Message = UsersMessages.UserNameRequiredMessage;
 
                     return result;
                 }
-                else if (string.IsNullOrEmpty(registerRequest.Email))
+                else if (string.IsNullOrEmpty(request.Email))
                 {
                     result.IsSuccess = false;
                     result.Message = UsersMessages.EmailRequiredMessage;
 
                     return result;
                 }
-                else if (!regex.IsMatch(registerRequest.UserName))
+                else if (!regex.IsMatch(request.UserName))
                 {
                     result.IsSuccess = false;
                     result.Message = UsersMessages.UserNameInvalidMessage;
@@ -205,14 +206,14 @@ namespace SudokuCollective.Data.Services
 
                         var user = new User(
                             0,
-                            registerRequest.UserName,
-                            registerRequest.FirstName,
-                            registerRequest.LastName,
-                            registerRequest.NickName,
-                            registerRequest.Email,
+                            request.UserName,
+                            request.FirstName,
+                            request.LastName,
+                            request.NickName,
+                            request.Email,
                             false,
                             false,
-                            BCrypt.Net.BCrypt.HashPassword(registerRequest.Password, salt),
+                            BCrypt.Net.BCrypt.HashPassword(request.Password, salt),
                             false,
                             true,
                             DateTime.UtcNow,

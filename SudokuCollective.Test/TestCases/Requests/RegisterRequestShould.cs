@@ -1,18 +1,19 @@
-﻿using NUnit.Framework;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
-using SudokuCollective.Data.Models.Payloads;
-using System;
+﻿using System;
+using NUnit.Framework;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
+using SudokuCollective.Data.Models.Requests;
+using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Requests
 {
     public class RegisterRequestShould
     {
-        private IRegisterPayload sut;
+        private ISignupRequest sut;
 
         [SetUp]
         public void Setup()
         {
-            sut = new RegisterPayload();
+            sut = new SignupRequest();
         }
 
         [Test, Category("Requests")]
@@ -59,26 +60,27 @@ namespace SudokuCollective.Test.TestCases.Requests
         public void HasADefaultConstructor()
         {
             // Arrange and Act
-            sut = new RegisterPayload();
+            sut = new SignupRequest();
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<RegisterPayload>());
+            Assert.That(sut, Is.InstanceOf<SignupRequest>());
         }
 
         [Test, Category("Requests")]
         public void HasAConstructorThatAcceptsParams()
         {
             // Arrange and Act
-            sut = new RegisterPayload(
+            sut = new SignupRequest(
                 "userName",
                 "firstName", 
                 "lastName", 
                 string.Empty, 
                 "testemail@example.com", 
-                "t2stP@ssw0rd!");
+                "t2stP@ssw0rd!",
+                TestObjects.GetLicense());
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<RegisterPayload>());
+            Assert.That(sut, Is.InstanceOf<SignupRequest>());
         }
     }
 }

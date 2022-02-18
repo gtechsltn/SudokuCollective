@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using SudokuCollective.Core.Interfaces.Models.TokenModels;
+using SudokuCollective.Core.Interfaces.Models.LoginModels;
 using SudokuCollective.Data.Models.Authentication;
 using SudokuCollective.Test.TestData;
 using System;
@@ -8,12 +8,12 @@ namespace SudokuCollective.Test.TestCases.Authentication
 {
     public class TokenRequestShould
     {
-        private ITokenRequest sut;
+        private ILoginRequest sut;
 
         [SetUp]
         public void Setup()
         {
-            sut = new TokenRequest();
+            sut = new LoginRequest();
         }
 
         [Test, Category("Authentication")]
@@ -31,23 +31,23 @@ namespace SudokuCollective.Test.TestCases.Authentication
         public void HasADefaultConstrutor()
         {
             // Arrange and Act
-            sut = new TokenRequest();
+            sut = new LoginRequest();
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<TokenRequest>());
+            Assert.That(sut, Is.InstanceOf<LoginRequest>());
         }
 
         [Test, Category("Authentication")]
         public void HasAConstructorThatAcceptsParams()
         {
             // Arrange and Act
-            sut = new TokenRequest(
+            sut = new LoginRequest(
                 "username", 
                 "T3stP4ssw0rd$", 
                 TestObjects.GetToken());
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<TokenRequest>());
+            Assert.That(sut, Is.InstanceOf<LoginRequest>());
         }
 
         [Test, Category("Authentication")]
@@ -57,7 +57,7 @@ namespace SudokuCollective.Test.TestCases.Authentication
             
             // Act and Assert
             Assert.Throws<ArgumentException>(
-                () => new TokenRequest(
+                () => new LoginRequest(
                     "usn", 
                     "T3stP4ssw0rd$", 
                     TestObjects.GetToken()));
@@ -70,7 +70,7 @@ namespace SudokuCollective.Test.TestCases.Authentication
 
             // Act and Assert
             Assert.Throws<ArgumentException>(
-                () => new TokenRequest(
+                () => new LoginRequest(
                     "username",
                     "test",
                     TestObjects.GetToken()));
@@ -83,7 +83,7 @@ namespace SudokuCollective.Test.TestCases.Authentication
 
             // Act and Assert
             Assert.Throws<ArgumentException>(
-                () => new TokenRequest(
+                () => new LoginRequest(
                     "username",
                     "test",
                     "license"));

@@ -11,7 +11,7 @@ using Microsoft.Extensions.Options;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Cache;
 using SudokuCollective.Core.Interfaces.DataModels;
-using SudokuCollective.Core.Interfaces.Models.TokenModels;
+using SudokuCollective.Core.Interfaces.Models.LoginModels;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
@@ -61,7 +61,7 @@ namespace SudokuCollective.Data.Services
             _cachingStrategy = cachingStrategy;
         }
         
-        public async Task<IResult> IsAuthenticated(ITokenRequest request)
+        public async Task<IResult> IsAuthenticated(ILoginRequest request)
         {
             try
             {
@@ -220,7 +220,8 @@ namespace SudokuCollective.Data.Services
 
                 result.IsSuccess = true;
                 result.Message = UsersMessages.UserFoundMessage;
-                result.Payload.Add(authenticationResult);
+                result.Payload.Add(authenticationResult.User);
+                result.Payload.Add(authenticationResult.Token);
 
                 return result;
             }

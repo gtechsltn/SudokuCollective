@@ -10,18 +10,19 @@ using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Authentication;
 using SudokuCollective.Data.Models.Params;
+using SudokuCollective.Data.Models.Requests;
 
 namespace SudokuCollective.Api.Controllers.V1
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class RegisterController : ControllerBase
+    public class SignupController : ControllerBase
     {
         private readonly IUsersService usersService;
         private readonly IAuthenticateService authService;
         private readonly IWebHostEnvironment hostEnvironment;
 
-        public RegisterController(
+        public SignupController(
             IUsersService usersServ,
             IAuthenticateService authServ,
             IWebHostEnvironment environment)
@@ -34,7 +35,7 @@ namespace SudokuCollective.Api.Controllers.V1
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult<User>> Post(
-            [FromBody] Request request)
+            [FromBody] SignupRequest request)
         {
             try
             {
@@ -69,10 +70,10 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 if (result.IsSuccess)
                 {
-                    var tokenRequest = new TokenRequest
+                    var tokenRequest = new LoginRequest
                     {
-                        UserName = request.Payload.GetProperty("userName").ToString(),
-                        Password = request.Payload.GetProperty("password").ToString(),
+                        UserName = request.UserName,
+                        Password = request.Password,
                         License = request.License
                     };
 
@@ -81,7 +82,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     if (authenticateResult.IsSuccess)
                     {
                         result.Message = ControllerMessages.StatusCode201(result.Message);
-                        result.Payload.Add(authenticateResult.Payload);
+                        result.Payload = authenticateResult.Payload;
 
                         return StatusCode((int)HttpStatusCode.Created, result);
                     }

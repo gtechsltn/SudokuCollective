@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Results;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 
 namespace SudokuCollective.Core.Interfaces.Services
 {
     public interface IUsersService : IService
     {
         Task<IResult> Create(
-            IRequest request,
+            ISignupRequest request,
             string baseUrl,
             string emailTemplatePath);
         Task<IResult> Get(
