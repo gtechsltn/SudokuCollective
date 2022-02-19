@@ -5,6 +5,7 @@
     <UserSecretsId>2d96969d-7968-423e-a155-48104705c369</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileTag>josephkingca/sudoku-collective.api:1.0</DockerfileTag>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
