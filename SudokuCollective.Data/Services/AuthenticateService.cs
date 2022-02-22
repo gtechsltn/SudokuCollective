@@ -220,8 +220,7 @@ namespace SudokuCollective.Data.Services
 
                 result.IsSuccess = true;
                 result.Message = UsersMessages.UserFoundMessage;
-                result.Payload.Add(authenticationResult.User);
-                result.Payload.Add(authenticationResult.Token);
+                result.Payload.Add(authenticationResult);
 
                 return result;
             }
