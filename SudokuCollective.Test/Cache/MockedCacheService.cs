@@ -5,7 +5,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Moq;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Cache;
-using SudokuCollective.Core.Interfaces.DataModels;
+using SudokuCollective.Core.Interfaces.ServiceModels;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Models;

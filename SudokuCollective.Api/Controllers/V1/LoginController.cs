@@ -13,7 +13,7 @@ using SudokuCollective.Data.Models.Requests;
 namespace SudokuCollective.Api.Controllers.V1
 {
     /// <summary>
-    /// The login controller.
+    /// Login Controller Class
     /// </summary>
     [Authorize]
     [Route("api/v1/[controller]")]
@@ -24,7 +24,7 @@ namespace SudokuCollective.Api.Controllers.V1
         private readonly IUserManagementService userManagementService;
 
         /// <summary>
-        /// Login controller constructor.
+        /// Login Controller Constructor
         /// </summary>
         /// <param name="authServ"></param>
         /// <param name="userManagementServ"></param>
@@ -37,7 +37,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to login to the api.
+        /// A method which issues authorization tokens.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>An authenticated user and a authorization token.</returns>
@@ -45,14 +45,14 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues logging in the user.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The Post method is an annonymous method, it doesn't require an authorization token, that uses a custom request model.
+        /// The Post method does not require an authorization token. The method uses uses a custom request model.
         /// 
         /// The request should be structured as follows:
         /// ```
         ///     {                                 
-        ///       "userName": "string", // user name must be unique, the api will ensure this for you, and the applicable regex pattern is documented in the LoginRequest model
-        ///       "password": "string", // password is required and the applicable regex pattern is documented in the LoginRequest model
-        ///       "license":"string",   // license of your app
+        ///       "userName": "string", // user name must be unique, the api will ensure this for you; the applicable regex pattern as documented in the LoginRequest model
+        ///       "password": "string", // password is required, the applicable regex pattern as documented in the LoginRequest model
+        ///       "license": "string"   // the app license must be valid using the applicable regex pattern as documented in the LoginRequest model
         ///     }     
         /// ```
         /// </remarks>
@@ -120,7 +120,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to confirm user names for given emails.
+        /// A method which confirms user names for given emails.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>The user name associated with the given email.</returns>
@@ -128,13 +128,13 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues obtaining the user name.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The ConfirmUserName method is an annonymous method, it doesn't require an authorization token, that uses a custom request model.
+        /// The ConfirmUserName method does not require an authorization token. The method uses uses a custom request model.
         /// 
         /// The request should be structured as follows:
         /// ```
         ///     {
-        ///       "email": "string",  // password is required and the applicable regex pattern is documented in the ConfirmUserNameRequest model
-        ///       "license":"string", // license of your app
+        ///       "email": "string", // password is required, the applicable regex pattern as documented in the ConfirmUserNameRequest model
+        ///       "license":"string" // the applicable regex pattern as documented in the ConfirmUserNameRequest model
         ///     }     
         /// ```
         /// </remarks>

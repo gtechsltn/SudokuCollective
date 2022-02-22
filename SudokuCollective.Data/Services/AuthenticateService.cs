@@ -10,7 +10,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Cache;
-using SudokuCollective.Core.Interfaces.DataModels;
+using SudokuCollective.Core.Interfaces.ServiceModels;
 using SudokuCollective.Core.Interfaces.Models.LoginModels;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Interfaces.Services;

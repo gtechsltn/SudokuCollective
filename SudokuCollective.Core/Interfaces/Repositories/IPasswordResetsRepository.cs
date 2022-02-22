@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using SudokuCollective.Core.Interfaces.DataModels;
+using SudokuCollective.Core.Interfaces.ServiceModels;
 using SudokuCollective.Core.Interfaces.Models;
 
 namespace SudokuCollective.Core.Interfaces.Repositories

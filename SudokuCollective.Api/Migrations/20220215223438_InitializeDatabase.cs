@@ -6,8 +6,14 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace SudokuCollective.Api.Migrations
 {
+    /// <summary>
+    /// Migration script which initializes the database...
+    /// </summary>
     public partial class InitializeDatabase : Migration
     {
+        /// <summary>
+        /// The migration up method...
+        /// </summary>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -355,6 +361,9 @@ namespace SudokuCollective.Api.Migrations
                 column: "UserId");
         }
 
+        /// <summary>
+        /// The migration down method...
+        /// </summary>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

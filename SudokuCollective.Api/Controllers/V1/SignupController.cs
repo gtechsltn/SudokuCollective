@@ -15,7 +15,7 @@ using SudokuCollective.Data.Models.Requests;
 namespace SudokuCollective.Api.Controllers.V1
 {
     /// <summary>
-    /// The signup controller.
+    /// Signup Controller Class
     /// </summary>
     [Route("api/v1/[controller]")]
     [ApiController]
@@ -26,7 +26,7 @@ namespace SudokuCollective.Api.Controllers.V1
         private readonly IWebHostEnvironment hostEnvironment;
 
         /// <summary>
-        /// Sign up controller constructor.
+        /// Signup Controller Constructor
         /// </summary>
         /// <param name="usersServ"></param>
         /// <param name="authServ"></param>
@@ -42,7 +42,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to create new users.
+        /// A method which creates new users.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A newly created user and a authorization token.</returns>
@@ -50,18 +50,18 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues creating the user.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The Post method is an annonymous method, it doesn't require an authorization token, that uses a custom request model.
+        /// The Post method does not require an authorization token. The method uses uses a custom request model.
         /// 
         /// The request should be structured as follows:
         /// ```
         ///     {                                 
-        ///       "userName": "string",  // user name must be unique, the api will ensure this for you, and the applicable regex pattern is documented in the SignupRequest model
-        ///       "firstName": "string", // first name, required but nothing special to note
-        ///       "lastName": "string",  // last name, required but nothing special to note
+        ///       "userName": "string",  // user name must be unique, the api will ensure this for you; the applicable regex pattern as documented in the SignupRequest model
+        ///       "firstName": "string", // first name, required and cannot be null but nothing additional to note
+        ///       "lastName": "string",  // last name, required and cannot be null but nothing additional to note
         ///       "nickName": "string",  // nick name, the value can be null but it must be included in the request
-        ///       "email": "string",     // email must be unique, the api will ensure this for you, and the applicable regex pattern is documented in the SignupRequest model
-        ///       "password": "string",  // password is required and the applicable regex pattern is documented in the SignupRequest model
-        ///       "license":"string",    // license of your app
+        ///       "email": "string",     // email must be unique, the api will ensure this for you; the applicable regex pattern as documented in the SignupRequest model
+        ///       "password": "string",  // password is required, the applicable regex pattern as documented in the SignupRequest model
+        ///       "license": "string"    // the app license must be valid using the applicable regex pattern as documented in the SignupRequest model
         ///     }     
         /// ```
         /// </remarks>
@@ -145,7 +145,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to resend email confirmations
+        /// A method which resends email confirmations.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A status detailing the result of processing the request.</returns>
@@ -153,29 +153,20 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues resending the email confirmation.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The ResendEmailConfirmation method is an annonymous method, it doesn't require an authorization token, 
-        /// that uses the standard request model, the paginator and payload are not required.
+        /// The ResendEmailConfirmation method does not require an authorization token.  The method uses uses a custom request model.
         /// 
         /// The request should be structured as follows:
         /// ```
-        ///     {                                 
-        ///       "license": "string",            // license of your app
-        ///       "requestorId": 0,               // id for the user this request pertains to     
-        ///       "appId": 0,                     // id of your app                
-        ///       "paginator": {                  
-        ///         "page": 0,                    // not applicable             
-        ///         "itemsPerPage": 0,            // not applicable       
-        ///         "sortBy": 0,                  // not applicable              
-        ///         "orderByDescending": true,    // not applicable
-        ///         "includeCompletedGames": true // not applicable
-        ///       }                               
-        ///       "payload": {}                   // not applicable               
+        ///     {
+        ///       "license": "string", // the app license must be valid using the applicable regex pattern as documented in the ResendEmailConfirmationRequest model
+        ///       "requestorId": 0,    // the id of the individual requesting the email confirmation is resent
+        ///       "appId": 0           // the id of your app
         ///     }     
         /// ```
         /// </remarks>
         [AllowAnonymous]
         [HttpPut("ResendEmailConfirmation")]
-        public async Task<ActionResult> ResendEmailConfirmation([FromBody] Request request)
+        public async Task<ActionResult> ResendEmailConfirmation([FromBody] ResendEmailConfirmationRequest request)
         {
             try
             {

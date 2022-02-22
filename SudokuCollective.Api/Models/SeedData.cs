@@ -10,8 +10,14 @@ using SudokuCollective.Data.Models;
 
 namespace SudokuCollective.Api.Models
 {
+    /// <summary>
+    /// Seed Data Class...
+    /// </summary>
     public class SeedData
     {
+        /// <summary>
+        /// This method is run if the database contains no records.
+        /// </summary>
         public static void EnsurePopulated(IApplicationBuilder app, IConfiguration config)
         {
             using (var servicesScope = app.ApplicationServices.CreateScope())

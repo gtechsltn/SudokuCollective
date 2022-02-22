@@ -1,4 +1,4 @@
-﻿namespace SudokuCollective.Core.Interfaces.DataModels
+﻿namespace SudokuCollective.Core.Interfaces.ServiceModels
 {
     public interface ITokenManagement
     {

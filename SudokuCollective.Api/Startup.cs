@@ -26,12 +26,12 @@ using SudokuCollective.Repos;
 namespace SudokuCollective.Api
 {
     /// <summary>
-    /// Startup class...
+    /// Startup Class
     /// </summary>
     public class Startup
     {
         /// <summary>
-        /// Startup class constructor...
+        /// Startup Class Constructor.
         /// </summary>
         /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)

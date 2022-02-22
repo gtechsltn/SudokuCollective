@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using SudokuCollective.Core.Interfaces.DataModels;
+using SudokuCollective.Core.Interfaces.ServiceModels;
 using SudokuCollective.Core.Interfaces.Models;
 
 namespace SudokuCollective.Data.Models

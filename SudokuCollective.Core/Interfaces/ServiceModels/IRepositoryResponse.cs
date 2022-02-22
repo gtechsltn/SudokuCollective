@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using SudokuCollective.Core.Interfaces.Models;
 
-namespace SudokuCollective.Core.Interfaces.DataModels
+namespace SudokuCollective.Core.Interfaces.ServiceModels
 {
     public interface IRepositoryResponse
     {

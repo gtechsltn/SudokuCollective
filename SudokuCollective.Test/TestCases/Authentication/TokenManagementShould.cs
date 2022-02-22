@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using SudokuCollective.Core.Interfaces.DataModels;
+using SudokuCollective.Core.Interfaces.ServiceModels;
 using SudokuCollective.Data.Models.Authentication;
 
 namespace SudokuCollective.Test.TestCases.Authentication

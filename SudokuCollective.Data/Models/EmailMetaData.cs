@@ -1,4 +1,4 @@
-﻿using SudokuCollective.Core.Interfaces.DataModels;
+﻿using SudokuCollective.Core.Interfaces.ServiceModels;
 
 namespace SudokuCollective.Data.Models
 {
