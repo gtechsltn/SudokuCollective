@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -22,6 +23,7 @@ using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Authentication;
 using SudokuCollective.Data.Services;
 using SudokuCollective.Repos;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace SudokuCollective.Api
 {
@@ -31,7 +33,7 @@ namespace SudokuCollective.Api
     public class Startup
     {
         /// <summary>
-        /// Startup Class Constructor.
+        /// Startup Class Constructor
         /// </summary>
         /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
@@ -40,12 +42,12 @@ namespace SudokuCollective.Api
         }
 
         /// <summary>
-        /// Get startup class configuration...
+        /// Startup Class Configuration
         /// </summary>
         public IConfiguration Configuration { get; }
 
         /// <summary>
-        /// This method gets called by the runtime. Use this method to add services to the container...
+        /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
@@ -81,6 +83,7 @@ namespace SudokuCollective.Api
                         Array.Empty<string>()
                     }
                 });
+                swagger.DocumentFilter<PathLowercaseDocumentFilter>();
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var filePath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -202,6 +205,32 @@ namespace SudokuCollective.Api
                 return expires > DateTime.UtcNow;
             }
             return false;
+        }
+    }
+
+    /// <summary>
+    /// A filter which displays api paths in lower case.
+    /// </summary>
+    public class PathLowercaseDocumentFilter : IDocumentFilter
+    {
+        /// <summary>
+        /// A method which applies the filter.
+        /// </summary>
+        public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+        {
+            var dictionaryPath = swaggerDoc.Paths.ToDictionary(x => ToLowercase(x.Key), x => x.Value);
+            var newPaths = new OpenApiPaths();
+            foreach(var path in dictionaryPath)
+            {
+                newPaths.Add(path.Key, path.Value);
+            }
+            swaggerDoc.Paths = newPaths;
+        }
+        
+        private static string ToLowercase(string key)
+        {
+            var parts = key.Split('/').Select(part => part.Contains("}") ? part : part.ToLowerInvariant());
+            return string.Join('/', parts);
         }
     }
 }
