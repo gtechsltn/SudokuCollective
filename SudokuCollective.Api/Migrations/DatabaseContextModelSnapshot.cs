@@ -45,9 +45,6 @@ namespace SudokuCollective.Api.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("DevUrl")
-                        .HasColumnType("text");
-
                     b.Property<bool>("DisableCustomUrls")
                         .HasColumnType("boolean");
 
@@ -80,6 +77,9 @@ namespace SudokuCollective.Api.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("QaUrl")
+                        .HasColumnType("text");
+
+                    b.Property<string>("StagingUrl")
                         .HasColumnType("text");
 
                     b.Property<int>("TimeFrame")
@@ -214,8 +214,7 @@ namespace SudokuCollective.Api.Migrations
                     b.HasIndex("SudokuMatrixId")
                         .IsUnique();
 
-                    b.HasIndex("SudokuSolutionId")
-                        .IsUnique();
+                    b.HasIndex("SudokuSolutionId");
 
                     b.HasIndex("UserId");
 
@@ -463,8 +462,8 @@ namespace SudokuCollective.Api.Migrations
                         .IsRequired();
 
                     b.HasOne("SudokuCollective.Core.Models.SudokuSolution", "SudokuSolution")
-                        .WithOne("Game")
-                        .HasForeignKey("SudokuCollective.Core.Models.Game", "SudokuSolutionId")
+                        .WithMany()
+                        .HasForeignKey("SudokuSolutionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -561,11 +560,6 @@ namespace SudokuCollective.Api.Migrations
                     b.Navigation("Game");
 
                     b.Navigation("SudokuCells");
-                });
-
-            modelBuilder.Entity("SudokuCollective.Core.Models.SudokuSolution", b =>
-                {
-                    b.Navigation("Game");
                 });
 
             modelBuilder.Entity("SudokuCollective.Core.Models.User", b =>

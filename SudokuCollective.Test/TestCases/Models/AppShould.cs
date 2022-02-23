@@ -49,7 +49,7 @@ namespace SudokuCollective.Test.TestCases.Models
             Assert.That(sut.License, Is.TypeOf<string>());
             Assert.That(sut.OwnerId, Is.TypeOf<int>());
             Assert.That(sut.LocalUrl, Is.TypeOf<string>());
-            Assert.That(sut.DevUrl, Is.TypeOf<string>());
+            Assert.That(sut.StagingUrl, Is.TypeOf<string>());
             Assert.That(sut.QaUrl, Is.TypeOf<string>());
             Assert.That(sut.ProdUrl, Is.TypeOf<string>());
             Assert.That(sut.IsActive, Is.TypeOf<bool>());

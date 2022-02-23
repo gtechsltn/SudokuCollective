@@ -41,7 +41,7 @@ namespace SudokuCollective.Api.Migrations
                     License = table.Column<string>(type: "text", nullable: true),
                     OwnerId = table.Column<int>(type: "integer", nullable: false),
                     LocalUrl = table.Column<string>(type: "text", nullable: true),
-                    DevUrl = table.Column<string>(type: "text", nullable: true),
+                    StagingUrl = table.Column<string>(type: "text", nullable: true),
                     QaUrl = table.Column<string>(type: "text", nullable: true),
                     ProdUrl = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
@@ -310,8 +310,7 @@ namespace SudokuCollective.Api.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Games_SudokuSolutionId",
                 table: "Games",
-                column: "SudokuSolutionId",
-                unique: true);
+                column: "SudokuSolutionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Games_UserId",

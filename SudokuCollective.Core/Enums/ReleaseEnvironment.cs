@@ -4,7 +4,7 @@
     {
         NULL,
         LOCAL,
-        DEV,
+        STAGING,
         QA,
         PROD
     }

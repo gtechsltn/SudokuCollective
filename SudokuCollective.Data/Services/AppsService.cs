@@ -563,7 +563,7 @@ namespace SudokuCollective.Data.Services
                         var app = (App)getAppResponse.Object;
 
                         app.Name = payload.Name;
-                        app.DevUrl = payload.DevUrl;
+                        app.StagingUrl = payload.DevUrl;
                         app.ProdUrl = payload.ProdUrl;
                         app.IsActive = payload.IsActive;
                         app.Environment = payload.Environment;

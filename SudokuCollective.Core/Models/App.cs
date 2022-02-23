@@ -49,7 +49,7 @@ namespace SudokuCollective.Core.Models
         [Required]
         public int OwnerId { get; set; }
         public string LocalUrl { get; set; }
-        public string DevUrl { get; set; }
+        public string StagingUrl { get; set; }
         public string QaUrl { get; set; }
         public string ProdUrl { get; set; }
         [Required]
@@ -76,9 +76,9 @@ namespace SudokuCollective.Core.Models
                     return true;
                 }
                 else if (
-                    Environment == ReleaseEnvironment.DEV
+                    Environment == ReleaseEnvironment.STAGING
                     && !DisableCustomUrls
-                    && !string.IsNullOrEmpty(DevUrl)
+                    && !string.IsNullOrEmpty(StagingUrl)
                     && !string.IsNullOrEmpty(CustomEmailConfirmationAction)
                 )
                 {
@@ -124,9 +124,9 @@ namespace SudokuCollective.Core.Models
                     return true;
                 }
                 else if (
-                    Environment == ReleaseEnvironment.DEV
+                    Environment == ReleaseEnvironment.STAGING
                     && !DisableCustomUrls
-                    && !string.IsNullOrEmpty(DevUrl)
+                    && !string.IsNullOrEmpty(StagingUrl)
                     && !string.IsNullOrEmpty(CustomPasswordResetAction)
                 )
                 {
@@ -263,7 +263,7 @@ namespace SudokuCollective.Core.Models
             OwnerId = 0;
             DateCreated = DateTime.UtcNow;
             LocalUrl = string.Empty;
-            DevUrl = string.Empty;
+            StagingUrl = string.Empty;
             QaUrl = string.Empty;
             ProdUrl = string.Empty;
             IsActive = false;
@@ -278,13 +278,13 @@ namespace SudokuCollective.Core.Models
             AccessDuration = 1;
         }
 
-        public App(string name, string license, int ownerId, string devUrl, string prodUrl) : this()
+        public App(string name, string license, int ownerId, string stagingUrl, string prodUrl) : this()
         {
             Name = name;
             License = license;
             OwnerId = ownerId;
             DateCreated = DateTime.UtcNow;
-            DevUrl = devUrl;
+            StagingUrl = stagingUrl;
             ProdUrl = prodUrl;
         }
 
@@ -295,7 +295,7 @@ namespace SudokuCollective.Core.Models
             string license,
             int ownerId,
             string localUrl,
-            string devUrl,
+            string stagingUrl,
             string qaUrl,
             string prodUrl,
             bool isActive,
@@ -316,7 +316,7 @@ namespace SudokuCollective.Core.Models
             License = license;
             OwnerId = ownerId;
             LocalUrl = localUrl;
-            DevUrl = devUrl;
+            StagingUrl = stagingUrl;
             QaUrl = qaUrl;
             ProdUrl = prodUrl;
             IsActive = isActive;
