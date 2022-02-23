@@ -6,6 +6,7 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileTag>josephkingca/sudoku-collective.api:1.0</DockerfileTag>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
