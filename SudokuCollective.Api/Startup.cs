@@ -135,7 +135,7 @@ namespace SudokuCollective.Api
 
             services.AddStackExchangeRedisCache(options =>
             {
-                options.Configuration = "localhost:6379";
+                options.Configuration = "redis_server:6379";
                 options.InstanceName = "SudokuCollective";
             });
 
