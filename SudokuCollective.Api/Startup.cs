@@ -50,11 +50,12 @@ namespace SudokuCollective.Api
         /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
         /// <param name="services"></param>
-        public void ConfigureServices(IServiceCollection services)
+        /// <param name="env"></param>
+        public void ConfigureServices(IServiceCollection services, IWebHostEnvironment env)
         {
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseNpgsql(
-                    Configuration.GetConnectionString("DatabaseConnection"),
+                    !env.IsStaging() ? Configuration.GetConnectionString("DatabaseConnection") : GetHerokuPostgresConnectionString(),
                     b => b.MigrationsAssembly("SudokuCollective.Api")));
 
             services.AddSwaggerGen(swagger =>
@@ -135,7 +136,7 @@ namespace SudokuCollective.Api
 
             services.AddStackExchangeRedisCache(options =>
             {
-                options.Configuration = "redis_server:6379";
+                options.Configuration = !env.IsStaging() ? "redis_server:6379" : Environment.GetEnvironmentVariable("REDIS_URL");
                 options.InstanceName = "SudokuCollective";
             });
 
@@ -196,6 +197,20 @@ namespace SudokuCollective.Api
             });
 
             SeedData.EnsurePopulated(app, Configuration);
+        }
+
+        private static string GetHerokuPostgresConnectionString()
+        {
+            // Get the connection string from the ENV variables
+            string connectionUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+
+            // parse the connection string
+            var databaseUri = new Uri(connectionUrl);
+
+            string db = databaseUri.LocalPath.TrimStart('/');
+            string[] userInfo = databaseUri.UserInfo.Split(':', StringSplitOptions.RemoveEmptyEntries);
+
+            return $"User ID={userInfo[0]};Password={userInfo[1]};Host={databaseUri.Host};Port={databaseUri.Port};Database={db};Pooling=true;SSL Mode=Require;Trust Server Certificate=True;";
         }
 
         private bool LifetimeValidator(DateTime? notBefore, DateTime? expires, SecurityToken token, TokenValidationParameters @params)
