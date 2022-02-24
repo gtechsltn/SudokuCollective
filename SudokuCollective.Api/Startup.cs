@@ -63,7 +63,7 @@ namespace SudokuCollective.Api
 
             services.AddSwaggerGen(swagger =>
             {
-                swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "SudokuCollective.Api", Version = "v1" });
+                swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "SudokuCollective API", Version = "v1" });
                 swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",
