@@ -265,6 +265,7 @@ __pycache__/
 
 # appsettings.json
 */appsettings.json
+*/appsettings.Docker.json
 */appsettings.Development.json
 */appsettings.Staging.json
 

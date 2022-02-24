@@ -32,14 +32,7 @@ namespace SudokuCollective.Api
     /// </summary>
     public class Startup
     {
-        /// <summary>
-        /// Startup Class Constructor
-        /// </summary>
-        /// <param name="configuration"></param>
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        private IWebHostEnvironment _environment;
 
         /// <summary>
         /// Startup Class Configuration
@@ -47,15 +40,25 @@ namespace SudokuCollective.Api
         public IConfiguration Configuration { get; }
 
         /// <summary>
+        /// Startup Class Constructor
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <param name="environment"></param>
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
+        {
+            Configuration = configuration;
+            _environment = environment;
+        }
+
+        /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="env"></param>
-        public void ConfigureServices(IServiceCollection services, IWebHostEnvironment env)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseNpgsql(
-                    !env.IsStaging() ? Configuration.GetConnectionString("DatabaseConnection") : GetHerokuPostgresConnectionString(),
+                    !_environment.IsStaging() ? Configuration.GetConnectionString("DatabaseConnection") : GetHerokuPostgresConnectionString(),
                     b => b.MigrationsAssembly("SudokuCollective.Api")));
 
             services.AddSwaggerGen(swagger =>
@@ -136,7 +139,7 @@ namespace SudokuCollective.Api
 
             services.AddStackExchangeRedisCache(options =>
             {
-                options.Configuration = !env.IsStaging() ? "redis_server:6379" : Environment.GetEnvironmentVariable("REDIS_URL");
+                options.Configuration = !_environment.IsStaging() ? Configuration.GetConnectionString("CacheConnection") : GetHerokuRedisConnectionString();
                 options.InstanceName = "SudokuCollective";
             });
 
@@ -201,16 +204,28 @@ namespace SudokuCollective.Api
 
         private static string GetHerokuPostgresConnectionString()
         {
-            // Get the connection string from the ENV variables
-            string connectionUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+            // get the connection string from the ENV variables
+            var connectionUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
             // parse the connection string
             var databaseUri = new Uri(connectionUrl);
 
-            string db = databaseUri.LocalPath.TrimStart('/');
+            var db = databaseUri.LocalPath.TrimStart('/');
             string[] userInfo = databaseUri.UserInfo.Split(':', StringSplitOptions.RemoveEmptyEntries);
 
             return $"User ID={userInfo[0]};Password={userInfo[1]};Host={databaseUri.Host};Port={databaseUri.Port};Database={db};Pooling=true;SSL Mode=Require;Trust Server Certificate=True;";
+        }
+
+        private static string GetHerokuRedisConnectionString()
+        {
+            // Get the connection string from the ENV variables
+            var redisUrlString = Environment.GetEnvironmentVariable("REDIS_URL");
+
+            // parse the connection string
+            var redisUri = new Uri(redisUrlString);
+            var userInfo = redisUri.UserInfo.Split(':');
+
+            return $"{redisUri.Host}:{redisUri.Port},password={userInfo[1]}";
         }
 
         private bool LifetimeValidator(DateTime? notBefore, DateTime? expires, SecurityToken token, TokenValidationParameters @params)
@@ -244,7 +259,7 @@ namespace SudokuCollective.Api
         
         private static string ToLowercase(string key)
         {
-            var parts = key.Split('/').Select(part => part.Contains("}") ? part : part.ToLowerInvariant());
+            var parts = key.Split('/').Select(part => part.Contains('}') ? part : part.ToLowerInvariant());
             return string.Join('/', parts);
         }
     }

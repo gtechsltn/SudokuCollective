@@ -88,7 +88,9 @@ namespace SudokuCollective.Api.Controllers.V1
                 {
                     emailtTemplatePath = Path.Combine(hostEnvironment.WebRootPath, "/Content/EmailTemplates/create-email-inlined.html");
 
-                    emailtTemplatePath = string.Format("../SudokuCollective.Api{0}", emailtTemplatePath);
+                    var currentDirectory = string.Format("{0}{1}", Directory.GetCurrentDirectory(), "{0}");
+
+                    emailtTemplatePath = string.Format(currentDirectory, emailtTemplatePath);
                 }
                 else
                 {
@@ -187,7 +189,9 @@ namespace SudokuCollective.Api.Controllers.V1
                 {
                     emailtTemplatePath = Path.Combine(hostEnvironment.WebRootPath, "/Content/EmailTemplates/create-email-inlined.html");
 
-                    emailtTemplatePath = string.Format("../SudokuCollective.Api{0}", emailtTemplatePath);
+                    var currentDirectory = string.Format("{0}{1}", Directory.GetCurrentDirectory(), "{0}");
+
+                    emailtTemplatePath = string.Format(currentDirectory, emailtTemplatePath);
                 }
                 else
                 {
