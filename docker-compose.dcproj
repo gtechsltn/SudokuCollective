@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>b74b40e1-8694-4dde-9015-58b8ecf76a3e</ProjectGuid>
+    <ProjectGuid>cfd3b332-45c3-4bc6-adb8-8d5918b49c70</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>sudokucollective.api</DockerServiceName>
