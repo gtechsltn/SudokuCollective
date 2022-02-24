@@ -177,7 +177,11 @@ namespace SudokuCollective.Api
             }
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SudokuCollective.Api v1"));
+            app.UseSwaggerUI(swaggerUI =>
+            {
+                swaggerUI.DocumentTitle = "SudokuCollective API v1";
+                swaggerUI.SwaggerEndpoint("/swagger/v1/swagger.json", "SudokuCollective.Api v1");
+            });
 
             // Initialize and set the path for the welcome page saved in wwwroot
             DefaultFilesOptions defaultFile = new DefaultFilesOptions();
