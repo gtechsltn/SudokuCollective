@@ -15,6 +15,9 @@ namespace SudokuCollective.Api.Migrations
     [Migration("20220223204404_InitializeDatabase")]
     partial class InitializeDatabase
     {
+        /// <summary>
+        /// Auto generated method which translates objects into database tables
+        /// </summary>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
