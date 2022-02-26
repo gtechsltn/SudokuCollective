@@ -5,5 +5,7 @@
         string Secret { get; set; }
         string Issuer { get; set; }
         string Audience { get; set; }
+        int AccessExpiration { get; set; }
+        int RefreshExpiration { get; set; }
     }
 }

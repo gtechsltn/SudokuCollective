@@ -95,7 +95,16 @@ namespace SudokuCollective.Api
             });
 
             services.Configure<TokenManagement>(Configuration.GetSection("TokenManagement"));
-            var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
+            var token = !_environment.IsStaging() ? 
+                Configuration.GetSection("tokenManagement").Get<TokenManagement>() : 
+                new TokenManagement 
+                { 
+                    Secret = Environment.GetEnvironmentVariable("TOKEN_SECRET"),
+                    Issuer = Environment.GetEnvironmentVariable("TOKEN_ISSUER"),
+                    Audience = Environment.GetEnvironmentVariable("TOKEN_AUDIENCE"),
+                    AccessExpiration = Convert.ToInt32(Environment.GetEnvironmentVariable("TOKEN_ACCESS_EXPIRATION")),
+                    RefreshExpiration = Convert.ToInt32(Environment.GetEnvironmentVariable("TOKEN_REFRESH_EXPIRATION"))
+                };
             var secret = Encoding.ASCII.GetBytes(token.Secret);
 
             services
@@ -131,7 +140,16 @@ namespace SudokuCollective.Api
                 });
 
 
-            var emailMetaData = Configuration.GetSection("emailMetaData").Get<EmailMetaData>();
+            var emailMetaData = _environment.IsStaging() ? 
+                Configuration.GetSection("emailMetaData").Get<EmailMetaData>() :
+                new EmailMetaData
+                {
+                    SmtpServer = Environment.GetEnvironmentVariable("SMTP_SMTP_SERVER"),
+                    Port = Convert.ToInt32(Environment.GetEnvironmentVariable("SMTP_PORT")),
+                    UserName = Environment.GetEnvironmentVariable("SMTP_USERNAME"),
+                    Password = Environment.GetEnvironmentVariable("SMTP_PASSWORD"),
+                    FromEmail = Environment.GetEnvironmentVariable("SMTP_FROM_EMAIL")
+                };
 
             services.AddSingleton(emailMetaData);
             services.AddSingleton<ICacheKeys, CacheKeys>();
@@ -204,7 +222,10 @@ namespace SudokuCollective.Api
                 endpoints.MapControllers();
             });
 
-            SeedData.EnsurePopulated(app, Configuration);
+            SeedData.EnsurePopulated(
+                app, 
+                Configuration,
+                env);
         }
 
         private static string GetHerokuPostgresConnectionString()
