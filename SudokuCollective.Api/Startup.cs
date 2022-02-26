@@ -140,7 +140,7 @@ namespace SudokuCollective.Api
                 });
 
 
-            var emailMetaData = _environment.IsStaging() ? 
+            var emailMetaData = !_environment.IsStaging() ? 
                 Configuration.GetSection("emailMetaData").Get<EmailMetaData>() :
                 new EmailMetaData
                 {
