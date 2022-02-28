@@ -104,6 +104,7 @@ namespace SudokuCollective.Api
                     AccessExpiration = Convert.ToInt32(Environment.GetEnvironmentVariable("TOKEN_ACCESS_EXPIRATION")),
                     RefreshExpiration = Convert.ToInt32(Environment.GetEnvironmentVariable("TOKEN_REFRESH_EXPIRATION"))
                 };
+            var secret = Encoding.ASCII.GetBytes(token.Secret);
 
             services
                 .AddMvc(options => options.EnableEndpointRouting = false);
@@ -119,7 +120,7 @@ namespace SudokuCollective.Api
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(token.Secret)),
+                    IssuerSigningKey = new SymmetricSecurityKey(secret),
                     ValidIssuer = token.Issuer,
                     ValidAudience = token.Audience,
                     ValidateIssuer = true,
