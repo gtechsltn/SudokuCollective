@@ -24,6 +24,7 @@ using SudokuCollective.Data.Models.Authentication;
 using SudokuCollective.Data.Services;
 using SudokuCollective.Repos;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using SudokuCollective.Core.Interfaces.ServiceModels;
 
 namespace SudokuCollective.Api
 {
@@ -94,9 +95,20 @@ namespace SudokuCollective.Api
                 swagger.IncludeXmlComments(filePath);
             });
 
-            services.Configure<TokenManagement>(Configuration.GetSection("TokenManagement"));
-            var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
+            var token = !_environment.IsStaging() ? 
+                Configuration.GetSection("tokenManagement").Get<TokenManagement>() : 
+                new TokenManagement 
+                { 
+                    Secret = Environment.GetEnvironmentVariable("TOKEN_SECRET"),
+                    Issuer = Environment.GetEnvironmentVariable("TOKEN_ISSUER"),
+                    Audience = Environment.GetEnvironmentVariable("TOKEN_AUDIENCE"),
+                    AccessExpiration = Convert.ToInt32(Environment.GetEnvironmentVariable("TOKEN_ACCESS_EXPIRATION")),
+                    RefreshExpiration = Convert.ToInt32(Environment.GetEnvironmentVariable("TOKEN_REFRESH_EXPIRATION"))
+                };
+                
             var secret = Encoding.ASCII.GetBytes(token.Secret);
+
+            services.AddSingleton<ITokenManagement>(token);
 
             services
                 .AddMvc(options => options.EnableEndpointRouting = false);
@@ -112,7 +124,7 @@ namespace SudokuCollective.Api
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(token.Secret)),
+                    IssuerSigningKey = new SymmetricSecurityKey(secret),
                     ValidIssuer = token.Issuer,
                     ValidAudience = token.Audience,
                     ValidateIssuer = true,
@@ -131,9 +143,18 @@ namespace SudokuCollective.Api
                 });
 
 
-            var emailMetaData = Configuration.GetSection("emailMetaData").Get<EmailMetaData>();
+            var emailMetaData = !_environment.IsStaging() ? 
+                Configuration.GetSection("emailMetaData").Get<EmailMetaData>() :
+                new EmailMetaData
+                {
+                    SmtpServer = Environment.GetEnvironmentVariable("SMTP_SMTP_SERVER"),
+                    Port = Convert.ToInt32(Environment.GetEnvironmentVariable("SMTP_PORT")),
+                    UserName = Environment.GetEnvironmentVariable("SMTP_USERNAME"),
+                    Password = Environment.GetEnvironmentVariable("SMTP_PASSWORD"),
+                    FromEmail = Environment.GetEnvironmentVariable("SMTP_FROM_EMAIL")
+                };
 
-            services.AddSingleton(emailMetaData);
+            services.AddSingleton<IEmailMetaData>(emailMetaData);
             services.AddSingleton<ICacheKeys, CacheKeys>();
             services.AddSingleton<ICachingStrategy, CachingStrategy>();
 
@@ -204,7 +225,10 @@ namespace SudokuCollective.Api
                 endpoints.MapControllers();
             });
 
-            SeedData.EnsurePopulated(app, Configuration);
+            SeedData.EnsurePopulated(
+                app, 
+                Configuration,
+                env);
         }
 
         private static string GetHerokuPostgresConnectionString()

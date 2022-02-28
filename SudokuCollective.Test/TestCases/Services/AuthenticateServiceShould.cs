@@ -12,7 +12,6 @@ using SudokuCollective.Data.Models.Authentication;
 using SudokuCollective.Test.Services;
 using SudokuCollective.Data.Models.Results;
 using SudokuCollective.Test.Cache;
-using SudokuCollective.Core.Models;
 using SudokuCollective.Cache;
 
 namespace SudokuCollective.Test.TestCases.Services
@@ -55,10 +54,10 @@ namespace SudokuCollective.Test.TestCases.Services
             {
                 Secret = "3c1ad157-be37-40d2-9cc8-e7527a56aa7b",
                 Issuer = "testProject",
-                Audience = "testEnvironment"
+                Audience = "testEnvironment",
+                AccessExpiration = 24,
+                RefreshExpiration = 24
             };
-
-            IOptions<TokenManagement> options = Options.Create<TokenManagement>(tokenManagement);
 
             sutValid = new AuthenticateService(
                 mockedUsersRepository.SuccessfulRequest.Object,
@@ -66,7 +65,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedAppsRepository.SuccessfulRequest.Object,
                 mockedAppAdminsRepository.SuccessfulRequest.Object,
                 mockedUserManagementService.SuccssfulRequest.Object,
-                options,
+                tokenManagement,
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
@@ -77,7 +76,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedAppsRepository.FailedRequest.Object,
                 mockedAppAdminsRepository.FailedRequest.Object,
                 mockedUserManagementService.ServiceFailedRequest.Object,
-                options,
+                tokenManagement,
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),

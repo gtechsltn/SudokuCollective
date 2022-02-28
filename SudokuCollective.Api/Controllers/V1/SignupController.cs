@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
@@ -84,13 +85,19 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 string emailtTemplatePath;
 
-                if (!string.IsNullOrEmpty(hostEnvironment.WebRootPath))
+                if (hostEnvironment.IsDevelopment() && !string.IsNullOrEmpty(hostEnvironment.WebRootPath))
                 {
                     emailtTemplatePath = Path.Combine(hostEnvironment.WebRootPath, "/Content/EmailTemplates/create-email-inlined.html");
 
                     var currentDirectory = string.Format("{0}{1}", Directory.GetCurrentDirectory(), "{0}");
 
                     emailtTemplatePath = string.Format(currentDirectory, emailtTemplatePath);
+                }
+                else if (hostEnvironment.IsStaging())
+                {
+                    string baseURL = AppDomain.CurrentDomain.BaseDirectory;
+                    
+                    emailtTemplatePath = string.Format(baseURL + "/Content/EmailTemplates/create-email-inlined.html");
                 }
                 else
                 {

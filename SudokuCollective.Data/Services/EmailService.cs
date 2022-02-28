@@ -3,6 +3,7 @@ using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
 using MimeKit.Text;
+using SudokuCollective.Core.Interfaces.ServiceModels;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Data.Models;
 
@@ -12,9 +13,9 @@ namespace SudokuCollective.Data.Services
     {
         private readonly EmailMetaData emailMetaData;
 
-        public EmailService(EmailMetaData metaData)
+        public EmailService(IEmailMetaData metaData)
         {
-            emailMetaData = metaData;
+            emailMetaData = (EmailMetaData)metaData;
         }
         
         public bool Send(string to, string subject, string html)
