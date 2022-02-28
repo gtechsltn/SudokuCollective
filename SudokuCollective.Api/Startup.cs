@@ -94,7 +94,6 @@ namespace SudokuCollective.Api
                 swagger.IncludeXmlComments(filePath);
             });
 
-            services.Configure<TokenManagement>(Configuration.GetSection("TokenManagement"));
             var token = !_environment.IsStaging() ? 
                 Configuration.GetSection("tokenManagement").Get<TokenManagement>() : 
                 new TokenManagement 
@@ -105,7 +104,6 @@ namespace SudokuCollective.Api
                     AccessExpiration = Convert.ToInt32(Environment.GetEnvironmentVariable("TOKEN_ACCESS_EXPIRATION")),
                     RefreshExpiration = Convert.ToInt32(Environment.GetEnvironmentVariable("TOKEN_REFRESH_EXPIRATION"))
                 };
-            var secret = Encoding.ASCII.GetBytes(token.Secret);
 
             services
                 .AddMvc(options => options.EnableEndpointRouting = false);
