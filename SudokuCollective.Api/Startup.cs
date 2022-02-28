@@ -24,6 +24,7 @@ using SudokuCollective.Data.Models.Authentication;
 using SudokuCollective.Data.Services;
 using SudokuCollective.Repos;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using SudokuCollective.Core.Interfaces.ServiceModels;
 
 namespace SudokuCollective.Api
 {
@@ -106,7 +107,7 @@ namespace SudokuCollective.Api
                 };
             var secret = Encoding.ASCII.GetBytes(token.Secret);
 
-            services.AddSingleton(token);
+            services.AddSingleton<ITokenManagement>(token);
 
             services
                 .AddMvc(options => options.EnableEndpointRouting = false);
