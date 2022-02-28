@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Options;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Cache;
 using SudokuCollective.Core.Interfaces.ServiceModels;
@@ -18,7 +17,6 @@ using SudokuCollective.Core.Models;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models;
-using SudokuCollective.Data.Models.Authentication;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Results;
 
@@ -43,7 +41,7 @@ namespace SudokuCollective.Data.Services
             IAppsRepository<App> appsRepository,
             IAppAdminsRepository<AppAdmin> appsAdminRepository,
             IUserManagementService userManagementService,
-            IOptions<TokenManagement> tokenManagement,
+            ITokenManagement tokenManagement,
             IDistributedCache distributedCache,
             ICacheService cacheService,
             ICacheKeys cacheKeys,
@@ -54,7 +52,7 @@ namespace SudokuCollective.Data.Services
             _appsRepository = appsRepository;
             _appAdminsRepository = appsAdminRepository;
             _userManagementService = userManagementService;
-            _tokenManagement = tokenManagement.Value;
+            _tokenManagement = tokenManagement;
             _distributedCache = distributedCache;
             _cacheService = cacheService;
             _cacheKeys = cacheKeys;

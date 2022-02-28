@@ -21,6 +21,7 @@ namespace SudokuCollective.Data.Models.Authentication
         {
             Secret = string.Empty;
             Issuer = string.Empty;
+            Audience = string.Empty;
             AccessExpiration = 0;
             RefreshExpiration = 0;
         }

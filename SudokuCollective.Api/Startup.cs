@@ -105,6 +105,7 @@ namespace SudokuCollective.Api
                     AccessExpiration = Convert.ToInt32(Environment.GetEnvironmentVariable("TOKEN_ACCESS_EXPIRATION")),
                     RefreshExpiration = Convert.ToInt32(Environment.GetEnvironmentVariable("TOKEN_REFRESH_EXPIRATION"))
                 };
+                
             var secret = Encoding.ASCII.GetBytes(token.Secret);
 
             services.AddSingleton<ITokenManagement>(token);
@@ -153,7 +154,7 @@ namespace SudokuCollective.Api
                     FromEmail = Environment.GetEnvironmentVariable("SMTP_FROM_EMAIL")
                 };
 
-            services.AddSingleton(emailMetaData);
+            services.AddSingleton<IEmailMetaData>(emailMetaData);
             services.AddSingleton<ICacheKeys, CacheKeys>();
             services.AddSingleton<ICachingStrategy, CachingStrategy>();
 
