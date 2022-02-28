@@ -106,6 +106,8 @@ namespace SudokuCollective.Api
                 };
             var secret = Encoding.ASCII.GetBytes(token.Secret);
 
+            services.AddSingleton(token);
+
             services
                 .AddMvc(options => options.EnableEndpointRouting = false);
 
