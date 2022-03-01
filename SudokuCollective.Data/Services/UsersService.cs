@@ -321,7 +321,7 @@ namespace SudokuCollective.Data.Services
                             html = html.Replace("{{APP_TITLE}}", appTitle);
                             html = html.Replace("{{URL}}", url);
 
-                            var emailSubject = string.Format("Greetings from {0}: Please Confirm Email", appTitle)
+                            var emailSubject = string.Format("Greetings from {0}: Please Confirm Email", appTitle);
                             
                             _ = _emailService.Send(user.Email, emailSubject, html);
 
