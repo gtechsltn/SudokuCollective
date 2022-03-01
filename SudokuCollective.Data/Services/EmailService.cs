@@ -52,9 +52,9 @@ namespace SudokuCollective.Data.Services
 
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                return false;
             }
         }
     }
