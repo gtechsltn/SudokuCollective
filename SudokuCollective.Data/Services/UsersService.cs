@@ -322,11 +322,16 @@ namespace SudokuCollective.Data.Services
                             html = html.Replace("{{URL}}", url);
 
                             var emailSubject = string.Format("Greetings from {0}: Please Confirm Email", appTitle);
-                            
-                            _ = _emailService.Send(user.Email, emailSubject, html);
 
                             result.IsSuccess = userResponse.Success;
                             result.Message = UsersMessages.UserCreatedMessage;
+
+                            result.Payload.Add(
+                                new EmailConfirmationSentResult() 
+                                {
+                                    EmailConfirmationSent = _emailService
+                                        .Send(user.Email, emailSubject, html)
+                                });
 
                             return result;
                         }

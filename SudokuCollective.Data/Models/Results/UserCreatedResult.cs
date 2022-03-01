@@ -4,23 +4,27 @@ using SudokuCollective.Core.Models;
 
 namespace SudokuCollective.Data.Models.Results
 {
-    public class AuthenticationResult : IAuthenticationResult
+    public class UserCreatedResult : IUserCreatedResult
     {
         public IAuthenticatedUser User { get; set; }
         public string Token { get; set; }
+        public bool EmailConfirmationSent { get; set; }
 
-        public AuthenticationResult()
+        public UserCreatedResult()
         {
             User = new AuthenticatedUser();
             Token = string.Empty;
+            EmailConfirmationSent = false;
         }
 
-        public AuthenticationResult(
+        public UserCreatedResult(
             IAuthenticatedUser user, 
-            string token)
+            string token,
+            bool emailConfirmationSent)
         {
             User = user;
             Token = token;
+            EmailConfirmationSent = emailConfirmationSent;
         }
     }
 }

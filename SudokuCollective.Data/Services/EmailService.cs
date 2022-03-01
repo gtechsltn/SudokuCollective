@@ -40,19 +40,20 @@ namespace SudokuCollective.Data.Services
             try
             {
                 // send email
-                using var smtp = new SmtpClient();
+                using (var smtp = new SmtpClient())
+                {
+                    smtp.Connect(emailMetaData.SmtpServer, emailMetaData.Port, SecureSocketOptions.Auto);
 
-                smtp.Connect(emailMetaData.SmtpServer, emailMetaData.Port, SecureSocketOptions.Auto);
+                    smtp.Authenticate(emailMetaData.UserName, emailMetaData.Password);
 
-                smtp.Authenticate(emailMetaData.UserName, emailMetaData.Password);
+                    smtp.Send(email);
 
-                smtp.Send(email);
+                    smtp.Disconnect(true);
 
-                smtp.Disconnect(true);
-
-                return true;
+                    return true;
+                }
             }
-            catch
+            catch (Exception)
             {
                 return false;
             }
