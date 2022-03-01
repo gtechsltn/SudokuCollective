@@ -321,24 +321,9 @@ namespace SudokuCollective.Data.Services
                             html = html.Replace("{{APP_TITLE}}", appTitle);
                             html = html.Replace("{{URL}}", url);
 
-                            var emailSubject = string.Format("Greetings from {0}: Please Confirm Email", appTitle);
-
-                            IUserResult userResult = new UserResult();
-
-                            userResult.ConfirmationEmailSuccessfullySent = _emailService
-                                .Send(user.Email, emailSubject, html);
-
-                            foreach (var userRole in user.Roles)
-                            {
-                                userRole.Role.Users = new List<UserRole>();
-                            }
-
-                            foreach (var userApp in user.Apps)
-                            {
-                                userApp.App.Users = new List<UserApp>();
-                            }
-
-                            userResult.User = user;
+                            var emailSubject = string.Format("Greetings from {0}: Please Confirm Email", appTitle)
+                            
+                            _ = _emailService.Send(user.Email, emailSubject, html);
 
                             result.IsSuccess = userResponse.Success;
                             result.Message = UsersMessages.UserCreatedMessage;
