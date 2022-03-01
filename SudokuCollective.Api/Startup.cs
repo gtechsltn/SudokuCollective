@@ -142,7 +142,6 @@ namespace SudokuCollective.Api
                     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                 });
 
-
             var emailMetaData = !_environment.IsStaging() ? 
                 Configuration.GetSection("emailMetaData").Get<EmailMetaData>() :
                 new EmailMetaData
