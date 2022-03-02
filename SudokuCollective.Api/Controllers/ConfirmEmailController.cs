@@ -38,8 +38,9 @@ namespace SudokuCollective.Api.Controllers
         /// recommended that you implement a custom email confirmation action to 
         /// handle such requests, this method is simply a placeholder to handle
         /// such requests until you've implemented a custom action.  In order to 
-        /// implement such a request you have to create it within your app and then
-        /// enable it by setting the following app properties:
+        /// implement such a request you have to create it within your app (the 
+        /// details of which are dependent upon your apps particular framework) 
+        /// and then enable it by setting the following app properties:
         ///
         /// ```DisableCustomUrls``` = ```false```
         ///
