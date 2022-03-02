@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Results;
 using SudokuCollective.Core.Models;
@@ -6,8 +7,32 @@ namespace SudokuCollective.Data.Models.Results
 {
     public class InitiatePasswordResetResult : IInitiatePasswordResetResult
     {
-        public IApp App { get; set; }
-        public IUser User { get; set; }
+        [JsonIgnore]
+        IApp IInitiatePasswordResetResult.App
+        {
+            get
+            {
+                return App;
+            }
+            set
+            {
+                App = (App)value;
+            }
+        }
+        public App App { get; set; }
+        [JsonIgnore]
+        IUser IUserResult.User
+        {
+            get
+            {
+                return User;
+            }
+            set
+            {
+                User = (User)value;
+            }
+        }
+        public User User { get; set; }
         public bool? ConfirmationEmailSuccessfullySent { get; set; }
         public string Token { get; set; }
 
@@ -22,6 +47,18 @@ namespace SudokuCollective.Data.Models.Results
         public InitiatePasswordResetResult(
             IApp app, 
             IUser user, 
+            bool? confirmationEmailSuccessfullySent, 
+            string token)
+        {
+            App = (App)app;
+            User = (User)user;
+            ConfirmationEmailSuccessfullySent = confirmationEmailSuccessfullySent;
+            Token = token;
+        }
+
+        public InitiatePasswordResetResult(
+            App app, 
+            User user, 
             bool? confirmationEmailSuccessfullySent, 
             string token)
         {
