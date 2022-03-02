@@ -31,7 +31,7 @@ namespace SudokuCollective.Api.Controllers
         }
 
         /// <summary>
-        /// A method to process requests on the confirm email controller.
+        /// A default method to process confirm email requests.
         /// </summary>
         /// <remarks>
         /// This is a default method to handle email confirmations.  It is strongly
