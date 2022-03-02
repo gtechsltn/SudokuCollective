@@ -1,0 +1,69 @@
+@using SudokuCollective.Api.Models
+@model ConfirmEmail
+
+@{
+    ViewData["Title"] = "Confirm Email";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron">
+    <img src="/images/logo.png" class="center"/>
+    <h1 class="text-center">Welcome to Sudoku Collective</h1>
+    <div class="col-md-12 text-center">
+        <a href="/swagger/index.html"
+           target="_blank"
+           title="Sudoku Collective API Documentation"
+           class="btn btn-primary"
+           role="button">API Documentation</a>
+        <a href="https://github.com/Joseph-Anthony-King/SudokuCollective"
+           target="_blank"
+           title="Sudoku Collective on Github"
+           class="btn btn-primary"
+           role="button">View Code on Github</a>
+        <!--<a href="http://localhost:8080"
+           target="_blank"
+           title="Sudoku Collective Admin Vue"
+           class="btn btn-primary"
+           role="button">Open Admin App</a>-->
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+        @if (Model.IsUpdate && !Model.NewEmailAddressConfirmed)
+        {
+            @if (Model.IsSuccess)
+            {
+                <h2>Email Confirmed</h2>
+                <p>
+                    Thank you for confirming your old email address, please review and confirm your new email address.
+                </p>
+            }
+            else
+            {
+                <h2>Email Confirmation Token Already Redeemed</h2>
+                <p>
+                    Sorry, but this email confirmation token was already redeemed.
+                </p>
+            }
+        }
+        else
+        {
+            @if (Model.IsSuccess)
+            {
+                <h2>Email Confirmed</h2>
+                <p>
+                    Thank you for confirming your email address @Model.UserName.  Please feel free to return to <a href="@Model.Url" target="_blank" title="@Model.AppTitle">@Model.AppTitle</a>, hope you have fun!
+                </p>
+            }
+            else
+            {
+                <h2>Email Confirmation Token Already Processed</h2>
+                <p>
+                    Sorry, but this email confirmation token was already redeemed, refreshed, or cancelled.
+                </p>
+            }
+        }
+    </div>
+    <div class="col-sm-2"></div>
+</div>

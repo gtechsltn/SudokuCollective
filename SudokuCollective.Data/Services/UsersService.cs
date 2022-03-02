@@ -12,10 +12,8 @@ using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Results;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Interfaces.Services;
-using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Extensions;
 using SudokuCollective.Data.Messages;
@@ -84,39 +82,6 @@ namespace SudokuCollective.Data.Services
             if (string.IsNullOrEmpty(emailTemplatePath)) throw new ArgumentNullException(nameof(emailTemplatePath));
 
             var result = new Result();
-
-            //SignupRequest registerRequest;
-
-            //try
-            //{
-            //    if (!request.Payload.ConvertToPayloadSuccessful(typeof(SignupRequest), out IPayload conversionResult))
-            //    {
-            //        result.IsSuccess = false;
-            //        result.Message = ServicesMesages.InvalidRequestMessage;
-
-            //        return result;
-            //    }
-            //    else
-            //    {
-            //        registerRequest = (SignupRequest)conversionResult;
-            //    }
-            //}
-            //catch (ArgumentException ex)
-            //{
-            //    result.IsSuccess = false;
-
-            //    if (ex.Message.Equals(AttributeMessages.InvalidUserName))
-            //    {
-            //        result.Message = UsersMessages.UserNameRequiredMessage;
-            //    }
-            //    else
-            //    {
-            //        result.Message = UsersMessages.EmailRequiredMessage;
-            //    }
-
-            //    return result;
-            //}
-
 
             var isUserNameUnique = false;
             var isEmailUnique = false;
@@ -1805,6 +1770,7 @@ namespace SudokuCollective.Data.Services
                             }
 
                             result.Message = UsersMessages.EmailConfirmedMessage;
+                            result.Payload.Add(confirmEmailResult);
 
                             return result;
                         }

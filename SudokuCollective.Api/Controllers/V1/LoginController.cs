@@ -20,20 +20,20 @@ namespace SudokuCollective.Api.Controllers.V1
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private readonly IAuthenticateService authService;
-        private readonly IUserManagementService userManagementService;
+        private readonly IAuthenticateService _authService;
+        private readonly IUserManagementService _userManagementService;
 
         /// <summary>
         /// Login Controller Constructor
         /// </summary>
-        /// <param name="authServ"></param>
-        /// <param name="userManagementServ"></param>
+        /// <param name="authService"></param>
+        /// <param name="userManagementService"></param>
         public LoginController(
-            IAuthenticateService authServ,
-            IUserManagementService userManagementServ)
+            IAuthenticateService authService,
+            IUserManagementService userManagementService)
         {
-            authService = authServ;
-            userManagementService = userManagementServ;
+            _authService = authService;
+            _userManagementService = userManagementService;
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     return BadRequest(ModelState);
                 }
 
-                var result = await authService.IsAuthenticated(request);
+                var result = await _authService.IsAuthenticated(request);
 
                 if (result.IsSuccess)
                 {
@@ -85,7 +85,7 @@ namespace SudokuCollective.Api.Controllers.V1
                 }
                 else
                 {
-                    var confirmAuthenticationIssueResponse = await userManagementService
+                    var confirmAuthenticationIssueResponse = await _userManagementService
                         .ConfirmAuthenticationIssue(
                             request.UserName,
                             request.Password,
@@ -144,7 +144,7 @@ namespace SudokuCollective.Api.Controllers.V1
         {
             try
             {
-                var result = await userManagementService.ConfirmUserName(
+                var result = await _userManagementService.ConfirmUserName(
                     request.Email,
                     request.License);
 

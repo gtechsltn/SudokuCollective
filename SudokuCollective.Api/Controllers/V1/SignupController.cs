@@ -24,24 +24,24 @@ namespace SudokuCollective.Api.Controllers.V1
     [ApiController]
     public class SignupController : ControllerBase
     {
-        private readonly IUsersService usersService;
-        private readonly IAuthenticateService authService;
-        private readonly IWebHostEnvironment hostEnvironment;
+        private readonly IUsersService _usersService;
+        private readonly IAuthenticateService _authService;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
         /// <summary>
         /// Signup Controller Constructor
         /// </summary>
-        /// <param name="usersServ"></param>
-        /// <param name="authServ"></param>
-        /// <param name="environment"></param>
+        /// <param name="usersService"></param>
+        /// <param name="authService"></param>
+        /// <param name="hostEnvironment"></param>
         public SignupController(
-            IUsersService usersServ,
-            IAuthenticateService authServ,
-            IWebHostEnvironment environment)
+            IUsersService usersService,
+            IAuthenticateService authService,
+            IWebHostEnvironment hostEnvironment)
         {
-            usersService = usersServ;
-            authService = authServ;
-            hostEnvironment = environment;
+            _usersService = usersService;
+            _authService = authService;
+            _hostEnvironment = hostEnvironment;
         }
 
         /// <summary>
@@ -87,15 +87,15 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 string emailtTemplatePath;
 
-                if (hostEnvironment.IsDevelopment() && !string.IsNullOrEmpty(hostEnvironment.WebRootPath))
+                if (_hostEnvironment.IsDevelopment() && !string.IsNullOrEmpty(_hostEnvironment.WebRootPath))
                 {
-                    emailtTemplatePath = Path.Combine(hostEnvironment.WebRootPath, "/Content/EmailTemplates/create-email-inlined.html");
+                    emailtTemplatePath = Path.Combine(_hostEnvironment.WebRootPath, "/Content/EmailTemplates/create-email-inlined.html");
 
                     var currentDirectory = string.Format("{0}{1}", Directory.GetCurrentDirectory(), "{0}");
 
                     emailtTemplatePath = string.Format(currentDirectory, emailtTemplatePath);
                 }
-                else if (hostEnvironment.IsStaging())
+                else if (_hostEnvironment.IsStaging())
                 {
                     string baseURL = AppDomain.CurrentDomain.BaseDirectory;
                     
@@ -106,7 +106,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     emailtTemplatePath = "../../Content/EmailTemplates/create-email-inlined.html";
                 }
 
-                var result = await usersService.Create(
+                var result = await _usersService.Create(
                     request,
                     baseUrl,
                     emailtTemplatePath);
@@ -120,7 +120,7 @@ namespace SudokuCollective.Api.Controllers.V1
                         License = request.License
                     };
 
-                    var authenticateResult = await authService.IsAuthenticated(tokenRequest);
+                    var authenticateResult = await _authService.IsAuthenticated(tokenRequest);
 
                     if (authenticateResult.IsSuccess)
                     {
@@ -201,9 +201,9 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 string emailtTemplatePath;
 
-                if (!string.IsNullOrEmpty(hostEnvironment.WebRootPath))
+                if (!string.IsNullOrEmpty(_hostEnvironment.WebRootPath))
                 {
-                    emailtTemplatePath = Path.Combine(hostEnvironment.WebRootPath, "/Content/EmailTemplates/create-email-inlined.html");
+                    emailtTemplatePath = Path.Combine(_hostEnvironment.WebRootPath, "/Content/EmailTemplates/create-email-inlined.html");
 
                     var currentDirectory = string.Format("{0}{1}", Directory.GetCurrentDirectory(), "{0}");
 
@@ -214,7 +214,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     emailtTemplatePath = "../../Content/EmailTemplates/create-email-inlined.html";
                 }
 
-                var result = await usersService.ResendEmailConfirmation(
+                var result = await _usersService.ResendEmailConfirmation(
                     request.RequestorId,
                     request.AppId,
                     baseUrl,
