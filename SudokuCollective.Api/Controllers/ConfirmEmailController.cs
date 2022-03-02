@@ -33,6 +33,36 @@ namespace SudokuCollective.Api.Controllers
         /// <summary>
         /// A method to process requests on the confirm email controller.
         /// </summary>
+        /// <remarks>
+        /// This is a default method to handle email confirmations.  It is strongly
+        /// recommended that you implement a custom email confirmation action to 
+        /// handle such requests, this method is simply a placeholder to handle
+        /// such requests until you've implemented a custom action.  In order to 
+        /// implement such a request you have to create it within your app and then
+        /// enable it by setting the following app properties:
+        ///
+        /// ```DisableCustomUrls``` = ```false```
+        ///
+        /// ```UseCustomEmailConfirmationAction``` = ```true```
+        ///
+        /// ```CustomEmailConfirmationAction``` = the custom action you've created
+        ///
+        /// So if the url for your app is https://yourapp and the custom action is
+        /// ```confirmEmail``` then your users will be directed to the following:
+        ///
+        /// ```https://yourapp/confirmEmail/{token}```
+        ///
+        /// Please note the url is dependent on the release environment, so if your
+        /// release environment is set to local the requests will be directed to your
+        /// local url and if set to staging the requests will be directed to your
+        /// staging url, etc.
+        ///
+        /// Until such time as the above conditions are met such requests will continue
+        /// to be directed to this default page.
+        ///
+        /// The token will be provided by the api and will be sent to the user in the 
+        /// confirmation email.
+        /// </remarks>
         [AllowAnonymous]
         [HttpGet("{token}")]
         public async Task<IActionResult> Index(string token)
