@@ -62,7 +62,8 @@ namespace SudokuCollective.Api.Controllers
         /// to be directed to this default page.
         ///
         /// The token will be provided by the api and will be sent to the user in the 
-        /// confirmation email.
+        /// confirmation email, along with a link to either this default email
+        /// confirmation action or to your custom email confirmation action.
         /// </remarks>
         [AllowAnonymous]
         [HttpGet("{token}")]
