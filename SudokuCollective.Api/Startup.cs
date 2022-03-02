@@ -95,7 +95,7 @@ namespace SudokuCollective.Api
                 swagger.IncludeXmlComments(filePath);
             });
 
-            var token = !_environment.IsStaging() ? 
+            var tokenManagement = !_environment.IsStaging() ? 
                 Configuration.GetSection("tokenManagement").Get<TokenManagement>() : 
                 new TokenManagement 
                 { 
@@ -106,9 +106,9 @@ namespace SudokuCollective.Api
                     RefreshExpiration = Convert.ToInt32(Environment.GetEnvironmentVariable("TOKEN_REFRESH_EXPIRATION"))
                 };
                 
-            var secret = Encoding.ASCII.GetBytes(token.Secret);
+            var secret = Encoding.ASCII.GetBytes(tokenManagement.Secret);
 
-            services.AddSingleton<ITokenManagement>(token);
+            services.AddSingleton<ITokenManagement>(tokenManagement);
 
             services
                 .AddMvc(options => options.EnableEndpointRouting = false);
@@ -125,8 +125,8 @@ namespace SudokuCollective.Api
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(secret),
-                    ValidIssuer = token.Issuer,
-                    ValidAudience = token.Audience,
+                    ValidIssuer = tokenManagement.Issuer,
+                    ValidAudience = tokenManagement.Audience,
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
