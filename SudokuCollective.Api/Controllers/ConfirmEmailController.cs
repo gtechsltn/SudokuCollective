@@ -31,7 +31,7 @@ namespace SudokuCollective.Api.Controllers
         }
 
         /// <summary>
-        /// An index method to process requests on the confirm email controller.
+        /// A method to process requests on the confirm email controller.
         /// </summary>
         [AllowAnonymous]
         [HttpGet("{token}")]
