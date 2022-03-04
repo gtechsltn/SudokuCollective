@@ -46,12 +46,10 @@ namespace SudokuCollective.Test.Services
                         Message = UsersMessages.UserCreatedMessage,
                         Payload = new List<object>()
                             {
-                                MockedUsersRepository
-                                .SuccessfulRequest
-                                .Object
-                                .Add(It.IsAny<User>())
-                                .Result
-                                .Object
+                                new EmailConfirmationSentResult 
+                                { 
+                                    EmailConfirmationSent = true 
+                                }
                             }
                     } as IResult));
 
