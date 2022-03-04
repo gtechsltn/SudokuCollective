@@ -13,14 +13,14 @@ namespace SudokuCollective.Test.Services
     internal class MockedUserManagementService
     {
         internal Mock<IUserManagementService> SuccssfulRequest { get; set; }
-        internal Mock<IUserManagementService> ServiceFailedRequest { get; set; }
+        internal Mock<IUserManagementService> FailedRequest { get; set; }
         internal Mock<IUserManagementService> UserNameFailedRequest { get; set; }
         internal Mock<IUserManagementService> PasswordFailedRequest { get; set; }
 
         public MockedUserManagementService()
         {
             SuccssfulRequest = new Mock<IUserManagementService>();
-            ServiceFailedRequest = new Mock<IUserManagementService>();
+            FailedRequest = new Mock<IUserManagementService>();
             UserNameFailedRequest = new Mock<IUserManagementService>();
             PasswordFailedRequest = new Mock<IUserManagementService>();
 
@@ -37,11 +37,11 @@ namespace SudokuCollective.Test.Services
                         Payload = new List<object> { new AuthenticatedUserNameResult { UserName = "TestSuperUser" } }
                     } as IResult));
 
-            ServiceFailedRequest.Setup(userManagementService =>
+            FailedRequest.Setup(userManagementService =>
                 userManagementService.IsValidUser(It.IsAny<string>(), It.IsAny<string>()))
                     .Returns(Task.FromResult(false));
 
-            ServiceFailedRequest.Setup(userManagementService =>
+            FailedRequest.Setup(userManagementService =>
                 userManagementService.ConfirmUserName(It.IsAny<string>(), It.IsAny<string>()))
                     .Returns(Task.FromResult(new Result()
                     {

@@ -75,7 +75,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedRolesRepository.FailedRequest.Object,
                 mockedAppsRepository.FailedRequest.Object,
                 mockedAppAdminsRepository.FailedRequest.Object,
-                mockedUserManagementService.ServiceFailedRequest.Object,
+                mockedUserManagementService.FailedRequest.Object,
                 tokenManagement,
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
