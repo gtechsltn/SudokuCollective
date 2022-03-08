@@ -29,7 +29,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Add(It.IsAny<SudokuSolution>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = new SudokuSolution()
                     } as IRepositoryResponse));
 
@@ -37,7 +37,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.SudokuSolutions.FirstOrDefault(s => s.Id == 1)
                     } as IRepositoryResponse));
 
@@ -45,7 +45,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = context.SudokuSolutions.ToList().ConvertAll(s => (IDomainEntity)s)
                     } as IRepositoryResponse));
 
@@ -53,14 +53,14 @@ namespace SudokuCollective.Test.Repositories
                 repo.AddSolutions(It.IsAny<List<ISudokuSolution>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
                 repo.GetSolvedSolutions())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = context.SudokuSolutions
                             .Where(s => s.DateSolved > DateTime.MinValue)
                             .ToList()
@@ -71,35 +71,35 @@ namespace SudokuCollective.Test.Repositories
                 repo.Add(It.IsAny<SudokuSolution>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.AddSolutions(It.IsAny<List<ISudokuSolution>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.GetSolvedSolutions())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
         }
     }

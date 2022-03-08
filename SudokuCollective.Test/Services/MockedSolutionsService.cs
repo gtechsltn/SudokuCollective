@@ -39,7 +39,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Get(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = SolutionsMessages.SolutionFoundMessage,
                         Payload = new List<object>()
                         {
@@ -61,7 +61,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetAll()
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = SolutionsMessages.SolutionsFoundMessage,
                         Payload = MockedSolutionsRepository
                             .SuccessfulRequest
@@ -98,7 +98,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Add(It.IsAny<SudokuSolution>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = SolutionsMessages.SolutionGeneratedMessage,
                         Payload = new List<object>()
                                 {
@@ -120,7 +120,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .AddSolutions(It.IsAny<List<ISudokuSolution>>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = SolutionsMessages.SolutionsAddedMessage
                     } as IResult));
 
@@ -133,7 +133,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Get(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = SolutionsMessages.SolutionNotFoundMessage
                     } as IResult));
 
@@ -146,7 +146,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetAll()
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = SolutionsMessages.SolutionsNotFoundMessage
                     } as IResult));
 
@@ -167,7 +167,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .Add(It.IsAny<SudokuSolution>())
                         .Result
-                        .Success,
+                        .IsSuccess,
                         Message = SolutionsMessages.SolutionNotGeneratedMessage
                     } as IResult));
 
@@ -180,7 +180,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .AddSolutions(It.IsAny<List<ISudokuSolution>>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = SolutionsMessages.SolutionsNotAddedMessage
                     } as IResult));
 

@@ -34,7 +34,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Get(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = DifficultiesMessages.DifficultyFoundMessage,
                         Payload = new List<object>()
                         {
@@ -56,7 +56,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetAll()
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = DifficultiesMessages.DifficultiesFoundMessage,
                         Payload = MockedDifficultiesRepository
                             .SuccessfulRequest
@@ -76,7 +76,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Add(It.IsAny<Difficulty>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = DifficultiesMessages.DifficultyCreatedMessage,
                         Payload = new List<object>()
                             {
@@ -98,7 +98,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Update(It.IsAny<Difficulty>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = DifficultiesMessages.DifficultyUpdatedMessage
                     } as IResult));
 
@@ -111,7 +111,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Delete(It.IsAny<Difficulty>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = DifficultiesMessages.DifficultyDeletedMessage
                     } as IResult));
 
@@ -124,7 +124,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Add(It.IsAny<Difficulty>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = DifficultiesMessages.DifficultyNotFoundMessage
                     } as IResult));
 
@@ -137,7 +137,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetAll()
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = DifficultiesMessages.DifficultiesNotFoundMessage
                     } as IResult));
 
@@ -150,7 +150,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .Add(It.IsAny<Difficulty>())
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = DifficultiesMessages.DifficultyNotCreatedMessage
                 } as IResult));
 
@@ -163,7 +163,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Update(It.IsAny<Difficulty>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = DifficultiesMessages.DifficultyNotUpdatedMessage
                     } as IResult));
 
@@ -176,7 +176,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Delete(It.IsAny<Difficulty>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = DifficultiesMessages.DifficultyNotDeletedMessage
                     } as IResult));
         }

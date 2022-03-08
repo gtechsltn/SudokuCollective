@@ -88,17 +88,17 @@ namespace SudokuCollective.Data.Services
                         _cacheKeys,
                         role);
 
-                    if (response.Success)
+                    if (response.IsSuccess)
                     {
-                        result.IsSuccess = response.Success;
+                        result.IsSuccess = response.IsSuccess;
                         result.Message = RolesMessages.RoleCreatedMessage;
                         result.Payload.Add((IRole)response.Object);
 
                         return result;
                     }
-                    else if (!response.Success && response.Exception != null)
+                    else if (!response.IsSuccess && response.Exception != null)
                     {
-                        result.IsSuccess = response.Success;
+                        result.IsSuccess = response.IsSuccess;
                         result.Message = response.Exception.Message;
 
                         return result;
@@ -153,19 +153,19 @@ namespace SudokuCollective.Data.Services
                 var response = (RepositoryResponse)cacheServiceResponse.Item1;
                 result = (Result)cacheServiceResponse.Item2;
 
-                if (response.Success)
+                if (response.IsSuccess)
                 {
                     var role = (Role)response.Object;
 
-                    result.IsSuccess = response.Success;
+                    result.IsSuccess = response.IsSuccess;
                     result.Message = RolesMessages.RoleFoundMessage;
                     result.Payload.Add(role);
 
                     return result;
                 }
-                else if (!response.Success && response.Exception != null)
+                else if (!response.IsSuccess && response.Exception != null)
                 {
-                    result.IsSuccess = response.Success;
+                    result.IsSuccess = response.IsSuccess;
                     result.Message = response.Exception.Message;
 
                     return result;
@@ -203,19 +203,19 @@ namespace SudokuCollective.Data.Services
                 var response = (RepositoryResponse)cacheServiceResponse.Item1;
                 result = (Result)cacheServiceResponse.Item2;
 
-                if (response.Success)
+                if (response.IsSuccess)
                 {
                     var roles = response.Objects.ConvertAll(r => (IRole)r);
 
-                    result.IsSuccess = response.Success;
+                    result.IsSuccess = response.IsSuccess;
                     result.Message = RolesMessages.RolesFoundMessage;
                     result.Payload.AddRange(roles);
 
                     return result;
                 }
-                else if (!response.Success && response.Exception != null)
+                else if (!response.IsSuccess && response.Exception != null)
                 {
-                    result.IsSuccess = response.Success;
+                    result.IsSuccess = response.IsSuccess;
                     result.Message = response.Exception.Message;
 
                     return result;
@@ -278,7 +278,7 @@ namespace SudokuCollective.Data.Services
                 var response = (RepositoryResponse)cacheServiceResponse.Item1;
                 result = (Result)cacheServiceResponse.Item2;
 
-                if (response.Success)
+                if (response.IsSuccess)
                 {
                     var role = (Role)response.Object;
 
@@ -290,16 +290,16 @@ namespace SudokuCollective.Data.Services
                         _cacheKeys,
                         role);
 
-                    if (updateResponse.Success)
+                    if (updateResponse.IsSuccess)
                     {
-                        result.IsSuccess = updateResponse.Success;
+                        result.IsSuccess = updateResponse.IsSuccess;
                         result.Message = RolesMessages.RoleUpdatedMessage;
 
                         return result;
                     }
-                    else if (!updateResponse.Success && updateResponse.Exception != null)
+                    else if (!updateResponse.IsSuccess && updateResponse.Exception != null)
                     {
-                        result.IsSuccess = updateResponse.Success;
+                        result.IsSuccess = updateResponse.IsSuccess;
                         result.Message = updateResponse.Exception.Message;
 
                         return result;
@@ -313,9 +313,9 @@ namespace SudokuCollective.Data.Services
                     }
 
                 }
-                else if (!response.Success && response.Exception != null)
+                else if (!response.IsSuccess && response.Exception != null)
                 {
-                    result.IsSuccess = response.Success;
+                    result.IsSuccess = response.IsSuccess;
                     result.Message = response.Exception.Message;
 
                     return result;
@@ -353,7 +353,7 @@ namespace SudokuCollective.Data.Services
             {
                 var response = await _rolesRepository.Get(id);
 
-                if (response.Success)
+                if (response.IsSuccess)
                 {
                     var deleteResponse = await _cacheService.DeleteWithCacheAsync(
                         _rolesRepository,
@@ -361,16 +361,16 @@ namespace SudokuCollective.Data.Services
                         _cacheKeys,
                         (Role)response.Object);
 
-                    if (deleteResponse.Success)
+                    if (deleteResponse.IsSuccess)
                     {
-                        result.IsSuccess = deleteResponse.Success;
+                        result.IsSuccess = deleteResponse.IsSuccess;
                         result.Message = RolesMessages.RoleDeletedMessage;
 
                         return result;
                     }
-                    else if (!deleteResponse.Success && deleteResponse.Exception != null)
+                    else if (!deleteResponse.IsSuccess && deleteResponse.Exception != null)
                     {
-                        result.IsSuccess = deleteResponse.Success;
+                        result.IsSuccess = deleteResponse.IsSuccess;
                         result.Message = deleteResponse.Exception.Message;
 
                         return result;
@@ -384,9 +384,9 @@ namespace SudokuCollective.Data.Services
                     }
 
                 }
-                else if (!response.Success && response.Exception != null)
+                else if (!response.IsSuccess && response.Exception != null)
                 {
-                    result.IsSuccess = response.Success;
+                    result.IsSuccess = response.IsSuccess;
                     result.Message = response.Exception.Message;
 
                     return result;

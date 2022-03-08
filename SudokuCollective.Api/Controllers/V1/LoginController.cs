@@ -62,7 +62,6 @@ namespace SudokuCollective.Api.Controllers.V1
         {
             try
             {
-
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
@@ -103,7 +102,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     }
                     else
                     {
-                        return NotFound(ControllerMessages.StatusCode404("Bad Request"));
+                        return NotFound(ControllerMessages.StatusCode404(result.Message));
                     }
                 }
             }

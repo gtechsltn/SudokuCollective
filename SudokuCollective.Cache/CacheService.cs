@@ -27,7 +27,7 @@ namespace SudokuCollective.Cache
             {
                 var response = await repo.Add(entity);
 
-                if (response.Success && response.Object.Id > 0)
+                if (response.IsSuccess && response.Object.Id > 0)
                 {
                     var serializedItem = JsonSerializer.Serialize<T>(
                         (T)response.Object, 
@@ -136,7 +136,7 @@ namespace SudokuCollective.Cache
 
                     response = new RepositoryResponse
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = JsonSerializer.Deserialize<T>(serializedItem)
                     };
 
@@ -149,7 +149,7 @@ namespace SudokuCollective.Cache
                 {
                     response = await repo.Get(id);
 
-                    if (response.Success && response.Object != null)
+                    if (response.IsSuccess && response.Object != null)
                     {
                         var serializedItem = JsonSerializer.Serialize<T>(
                             (T)response.Object, 
@@ -195,7 +195,7 @@ namespace SudokuCollective.Cache
 
                     response = new RepositoryResponse
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = JsonSerializer.Deserialize<List<T>>(serializedItems)
                         .ConvertAll(x => (IDomainEntity)x)
                     };
@@ -209,7 +209,7 @@ namespace SudokuCollective.Cache
                 {
                     response = await repo.GetAll();
 
-                    if (response.Success && response.Objects.Count > 0)
+                    if (response.IsSuccess && response.Objects.Count > 0)
                     {
                         var serializedItems = JsonSerializer.Serialize<List<T>>(
                             response.Objects.ConvertAll(x => (T)x), 
@@ -247,7 +247,7 @@ namespace SudokuCollective.Cache
             {
                 var response = await repo.Update(entity);
 
-                if (response.Success && response.Object.Id > 0)
+                if (response.IsSuccess && response.Object.Id > 0)
                 {
                     List<string> cacheKeys;
 
@@ -323,7 +323,7 @@ namespace SudokuCollective.Cache
                     var userRepo = (IUsersRepository<User>)repo;
                     var appsResponse = await userRepo.GetMyApps(entity.Id);
 
-                    if (appsResponse.Success && appsResponse.Objects.Count > 0)
+                    if (appsResponse.IsSuccess && appsResponse.Objects.Count > 0)
                     {
                         apps = appsResponse
                             .Objects
@@ -340,7 +340,7 @@ namespace SudokuCollective.Cache
 
                 var response = await repo.Delete(entity);
 
-                if (response.Success)
+                if (response.IsSuccess)
                 {
                     List<string> cacheKeys;
 
@@ -501,7 +501,7 @@ namespace SudokuCollective.Cache
 
                     response = new RepositoryResponse
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = JsonSerializer.Deserialize<App>(serializedItem)
                     };
 
@@ -514,7 +514,7 @@ namespace SudokuCollective.Cache
                 {
                     response = await repo.GetByLicense(license);
 
-                    if (response.Success && response.Object != null)
+                    if (response.IsSuccess && response.Object != null)
                     {
                         var serializedItem = JsonSerializer.Serialize<App>(
                             (App)response.Object, 
@@ -561,7 +561,7 @@ namespace SudokuCollective.Cache
 
                     response = new RepositoryResponse
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = JsonSerializer.Deserialize<List<User>>(serializedItems)
                         .ConvertAll(u => (IDomainEntity)u)
                     };
@@ -575,7 +575,7 @@ namespace SudokuCollective.Cache
                 {
                     response = await repo.GetAppUsers(id);
 
-                    if (response.Success && response.Objects.Count > 0)
+                    if (response.IsSuccess && response.Objects.Count > 0)
                     {
                         var serializedItems = JsonSerializer.Serialize<List<User>>(
                             response.Objects.ConvertAll(u => (User)u), 
@@ -622,7 +622,7 @@ namespace SudokuCollective.Cache
 
                     response = new RepositoryResponse
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = JsonSerializer.Deserialize<List<User>>(serializedItems)
                         .ConvertAll(s => (IDomainEntity)s)
                     };
@@ -636,7 +636,7 @@ namespace SudokuCollective.Cache
                 {
                     response = await repo.GetNonAppUsers(id);
 
-                    if (response.Success && response.Objects.Count > 0)
+                    if (response.IsSuccess && response.Objects.Count > 0)
                     {
                         var serializedItems = JsonSerializer.Serialize<List<User>>(
                             response.Objects.ConvertAll(u => (User)u), 
@@ -683,7 +683,7 @@ namespace SudokuCollective.Cache
 
                     response = new RepositoryResponse
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = JsonSerializer.Deserialize<List<App>>(serializedItems)
                         .ConvertAll(a => (IDomainEntity)a)
                     };
@@ -697,7 +697,7 @@ namespace SudokuCollective.Cache
                 {
                     response = await repo.GetMyApps(ownerId);
 
-                    if (response.Success && response.Objects.Count > 0)
+                    if (response.IsSuccess && response.Objects.Count > 0)
                     {
                         var serializedItems = JsonSerializer.Serialize<List<App>>(
                             response.Objects.ConvertAll(a => (App)a), 
@@ -744,7 +744,7 @@ namespace SudokuCollective.Cache
 
                     response = new RepositoryResponse
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = JsonSerializer.Deserialize<List<App>>(serializedItems)
                         .ConvertAll(a => (IDomainEntity)a)
                     };
@@ -758,7 +758,7 @@ namespace SudokuCollective.Cache
                 {
                     response = await repo.GetMyRegisteredApps(userId);
 
-                    if (response.Success && response.Objects.Count > 0)
+                    if (response.IsSuccess && response.Objects.Count > 0)
                     {
                         var serializedItems = JsonSerializer.Serialize<List<App>>(
                             response.Objects.ConvertAll(a => (App)a), 
@@ -852,7 +852,7 @@ namespace SudokuCollective.Cache
             {
                 var response = await repo.Reset(app);
 
-                if (response.Success)
+                if (response.IsSuccess)
                 {
                     List<string> cacheKeys;
 
@@ -894,7 +894,7 @@ namespace SudokuCollective.Cache
                     response = new RepositoryResponse();
                 }
 
-                if (response.Success)
+                if (response.IsSuccess)
                 {
                     List<string> cacheKeys;
 
@@ -936,7 +936,7 @@ namespace SudokuCollective.Cache
                     response = new RepositoryResponse();
                 }
 
-                if (response.Success)
+                if (response.IsSuccess)
                 {
                     List<string> cacheKeys;
 
@@ -1030,7 +1030,7 @@ namespace SudokuCollective.Cache
 
                     response = new RepositoryResponse
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = JsonSerializer.Deserialize<User>(serializedItem)
                     };
 
@@ -1043,7 +1043,7 @@ namespace SudokuCollective.Cache
                 {
                     response = await repo.GetByUserName(username);
 
-                    if (response.Success && response.Object != null)
+                    if (response.IsSuccess && response.Object != null)
                     {
                         var serializedItem = JsonSerializer.Serialize<User>(
                             (User)response.Object, 
@@ -1097,7 +1097,7 @@ namespace SudokuCollective.Cache
 
                     response = new RepositoryResponse
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = JsonSerializer.Deserialize<User>(serializedItem)
                     };
 
@@ -1110,7 +1110,7 @@ namespace SudokuCollective.Cache
                 {
                     response = await repo.GetByEmail(email);
 
-                    if (response.Success && response.Object != null)
+                    if (response.IsSuccess && response.Object != null)
                     {
                         var serializedItem = JsonSerializer.Serialize<User>(
                             (User)response.Object, 
@@ -1148,7 +1148,7 @@ namespace SudokuCollective.Cache
             {
                 var response = await repo.ConfirmEmail(emailConfirmation);
 
-                if (response.Success)
+                if (response.IsSuccess)
                 {
                     var user = (User)response.Object;
                     List<string> cacheKeys;
@@ -1182,7 +1182,7 @@ namespace SudokuCollective.Cache
             {
                 var response = await repo.UpdateEmail(emailConfirmation);
 
-                if (response.Success)
+                if (response.IsSuccess)
                 {
                     var user = (User)response.Object;
                     List<string> cacheKeys;

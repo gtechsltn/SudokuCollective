@@ -31,7 +31,7 @@ namespace SudokuCollective.Repos
             {
                 if (entity.Id != 0)
                 {
-                    result.Success = false;
+                    result.IsSuccess = false;
 
                     return result;
                 }
@@ -39,7 +39,7 @@ namespace SudokuCollective.Repos
                 if (await _context.EmailConfirmations
                         .AnyAsync(pu => pu.Token.ToLower().Equals(entity.Token.ToLower())))
                 {
-                    result.Success = false;
+                    result.IsSuccess = false;
 
                     return result;
                 }
@@ -66,14 +66,14 @@ namespace SudokuCollective.Repos
 
                 await _context.SaveChangesAsync();
 
-                result.Success = true;
+                result.IsSuccess = true;
                 result.Object = entity;
 
                 return result;
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;
@@ -86,7 +86,7 @@ namespace SudokuCollective.Repos
 
             if (string.IsNullOrEmpty(token))
             {
-                result.Success = false;
+                result.IsSuccess = false;
 
                 return result;
             }
@@ -99,11 +99,11 @@ namespace SudokuCollective.Repos
 
                 if (query == null)
                 {
-                    result.Success = false;
+                    result.IsSuccess = false;
                 }
                 else
                 {
-                    result.Success = true;
+                    result.IsSuccess = true;
                     result.Object = query;
                 }
 
@@ -111,7 +111,7 @@ namespace SudokuCollective.Repos
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;
@@ -131,11 +131,11 @@ namespace SudokuCollective.Repos
 
                 if (query.Count == 0)
                 {
-                    result.Success = false;
+                    result.IsSuccess = false;
                 }
                 else
                 {
-                    result.Success = true;
+                    result.IsSuccess = true;
                     result.Objects = query
                         .ConvertAll(ec => (IDomainEntity)ec)
                         .ToList();
@@ -145,7 +145,7 @@ namespace SudokuCollective.Repos
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;
@@ -189,21 +189,21 @@ namespace SudokuCollective.Repos
 
                     await _context.SaveChangesAsync();
 
-                    result.Success = true;
+                    result.IsSuccess = true;
                     result.Object = entity;
 
                     return result;
                 }
                 else
                 {
-                    result.Success = false;
+                    result.IsSuccess = false;
 
                     return result;
                 }
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;
@@ -242,21 +242,21 @@ namespace SudokuCollective.Repos
 
                     await _context.SaveChangesAsync();
 
-                    result.Success = true;
+                    result.IsSuccess = true;
                     result.Object = entity;
 
                     return result;
                 }
                 else
                 {
-                    result.Success = false;
+                    result.IsSuccess = false;
 
                     return result;
                 }
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;
@@ -275,7 +275,7 @@ namespace SudokuCollective.Repos
 
             if (userId == 0 || appid == 0)
             {
-                result.Success = false;
+                result.IsSuccess = false;
 
                 return result;
             }
@@ -290,11 +290,11 @@ namespace SudokuCollective.Repos
 
                 if (query == null)
                 {
-                    result.Success = false;
+                    result.IsSuccess = false;
                 }
                 else
                 {
-                    result.Success = true;
+                    result.IsSuccess = true;
                     result.Object = query;
                 }
 
@@ -302,7 +302,7 @@ namespace SudokuCollective.Repos
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;

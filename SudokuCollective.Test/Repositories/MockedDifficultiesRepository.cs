@@ -30,7 +30,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Add(It.IsAny<Difficulty>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = new Difficulty() { DifficultyLevel = DifficultyLevel.NULL }
                     } as IRepositoryResponse));
 
@@ -38,7 +38,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.Difficulties.FirstOrDefault(d => d.Id == 4)
                     } as IRepositoryResponse));
 
@@ -46,7 +46,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = context.Difficulties
                             .Where(d => 
                                 d.DifficultyLevel != DifficultyLevel.NULL && d.DifficultyLevel != DifficultyLevel.TEST)
@@ -58,7 +58,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Update(It.IsAny<Difficulty>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.Difficulties.FirstOrDefault(d => d.Id == 4)
                     } as IRepositoryResponse));
 
@@ -66,21 +66,21 @@ namespace SudokuCollective.Test.Repositories
                 repo.UpdateRange(It.IsAny<List<Difficulty>>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     { 
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
                 repo.Delete(It.IsAny<Difficulty>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
                 repo.DeleteRange(It.IsAny<List<Difficulty>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
@@ -95,49 +95,49 @@ namespace SudokuCollective.Test.Repositories
                 repo.Add(It.IsAny<Difficulty>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.Update(It.IsAny<Difficulty>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.UpdateRange(It.IsAny<List<Difficulty>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.Delete(It.IsAny<Difficulty>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.DeleteRange(It.IsAny<List<Difficulty>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
@@ -152,7 +152,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Add(It.IsAny<Difficulty>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = new Difficulty() { DifficultyLevel = DifficultyLevel.NULL }
                     } as IRepositoryResponse));
 
@@ -160,7 +160,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.Difficulties.FirstOrDefault(d => d.Id == 4)
                     } as IRepositoryResponse));
 
@@ -168,7 +168,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = context.Difficulties
                             .Where(d =>
                                 d.DifficultyLevel != DifficultyLevel.NULL && d.DifficultyLevel != DifficultyLevel.TEST)
@@ -180,7 +180,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Update(It.IsAny<Difficulty>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.Difficulties.FirstOrDefault(d => d.Id == 4)
                     } as IRepositoryResponse));
 
@@ -188,21 +188,21 @@ namespace SudokuCollective.Test.Repositories
                 repo.UpdateRange(It.IsAny<List<Difficulty>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             CreateDifficultyRequest.Setup(repo =>
                 repo.Delete(It.IsAny<Difficulty>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             CreateDifficultyRequest.Setup(repo =>
                 repo.DeleteRange(It.IsAny<List<Difficulty>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             CreateDifficultyRequest.Setup(repo =>

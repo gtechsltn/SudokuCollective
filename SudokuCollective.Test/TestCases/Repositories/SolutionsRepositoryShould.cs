@@ -34,7 +34,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Add(newSolution);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((SudokuSolution)result.Object, Is.InstanceOf<SudokuSolution>());
         }
 
@@ -48,7 +48,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Add(newSolution);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Repository")]
@@ -60,7 +60,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Get(1);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((SudokuSolution)result.Object, Is.InstanceOf<SudokuSolution>());
         }
 
@@ -73,7 +73,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Get(5);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
             Assert.That(result.Object, Is.Null);
         }
 
@@ -86,7 +86,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.GetAll();
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Objects.ConvertAll(s => (SudokuSolution)s), Is.InstanceOf<List<SudokuSolution>>());
         }
 
@@ -101,7 +101,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.AddSolutions(solutions.ConvertAll(s => (ISudokuSolution)s));
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
         }
 
         [Test, Category("Repository")]
@@ -113,7 +113,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.GetSolvedSolutions();
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Objects.ConvertAll(s => (SudokuSolution)s), Is.InstanceOf<List<SudokuSolution>>());
         }
     }

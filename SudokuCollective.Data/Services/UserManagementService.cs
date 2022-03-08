@@ -52,7 +52,7 @@ namespace SudokuCollective.Data.Services
             {
                 var userResponse = await _usersRepository.GetByUserName(username);
 
-                if (userResponse.Success)
+                if (userResponse.IsSuccess)
                 {
                     if ((IUser)userResponse.Object != null
                         && BCrypt.Net.BCrypt.Verify(password, ((IUser)userResponse.Object).Password))
@@ -94,7 +94,7 @@ namespace SudokuCollective.Data.Services
 
                 var userResponse = (RepositoryResponse)cachFactoryResponse.Item1;
 
-                if (userResponse.Success)
+                if (userResponse.IsSuccess)
                 {
                     if (!BCrypt.Net.BCrypt.Verify(password, ((IUser)userResponse.Object).Password))
                     {
@@ -105,7 +105,7 @@ namespace SudokuCollective.Data.Services
                         return UserAuthenticationErrorType.NULL;
                     }
                 }
-                else if (!userResponse.Success && userResponse.Object == null)
+                else if (!userResponse.IsSuccess && userResponse.Object == null)
                 {
                     return UserAuthenticationErrorType.USERNAMEINVALID;
                 }
@@ -140,7 +140,7 @@ namespace SudokuCollective.Data.Services
                 var userResponse = (RepositoryResponse)cachFactoryResponse.Item1;
                 result = (Result)cachFactoryResponse.Item2;
 
-                if (userResponse.Success)
+                if (userResponse.IsSuccess)
                 {
                     authenticatedUserNameResult.UserName = ((User)userResponse.Object).UserName;
                     result.IsSuccess = true;

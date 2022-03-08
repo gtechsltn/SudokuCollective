@@ -34,7 +34,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Add(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = new Game(
                             context.Users.FirstOrDefault(u => u.Id == 1),
                             new SudokuMatrix(),
@@ -46,7 +46,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.Games.FirstOrDefault(g => g.Id == 1)
                     } as IRepositoryResponse));
 
@@ -54,7 +54,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = context.Games.ToList().ConvertAll(g => (IDomainEntity)g)
                     } as IRepositoryResponse));
 
@@ -62,7 +62,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Update(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.Games.FirstOrDefault(g => g.Id == 1)
                     } as IRepositoryResponse));
 
@@ -70,7 +70,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.UpdateRange(It.IsAny<List<Game>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     { 
-                        Success = true,
+                        IsSuccess = true,
                         Objects = context.Games.ToList().ConvertAll(g => (IDomainEntity)g)
                     } as IRepositoryResponse));
 
@@ -78,14 +78,14 @@ namespace SudokuCollective.Test.Repositories
                 repo.Delete(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
                 repo.DeleteRange(It.IsAny<List<Game>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
@@ -96,7 +96,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetAppGame(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.Games.FirstOrDefault(g => g.Id == 1)
                     } as IRepositoryResponse));
 
@@ -104,7 +104,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetAppGames(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = context.Games.ToList().ConvertAll(g => (IDomainEntity)g)
                     } as IRepositoryResponse));
 
@@ -112,7 +112,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.Games.FirstOrDefault(g => g.Id == 1)
                     } as IRepositoryResponse));
 
@@ -120,7 +120,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetMyGames(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = context.Games.ToList().ConvertAll(g => (IDomainEntity)g)
                     } as IRepositoryResponse));
 
@@ -128,56 +128,56 @@ namespace SudokuCollective.Test.Repositories
                 repo.DeleteMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.Add(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.Update(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.UpdateRange(It.IsAny<List<Game>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.Delete(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.DeleteRange(It.IsAny<List<Game>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
@@ -188,42 +188,42 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetAppGame(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.GetAppGames(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.GetMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.GetMyGames(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.DeleteMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             UpdateFailedRequest.Setup(repo =>
                 repo.Add(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = new Game(
                             context.Users.FirstOrDefault(u => u.Id == 1),
                             new SudokuMatrix(),
@@ -235,7 +235,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Add(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = new Game(
                             context.Users.FirstOrDefault(u => u.Id == 1),
                             new SudokuMatrix(),
@@ -247,7 +247,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.Games.FirstOrDefault(g => g.Id == 2)
                     } as IRepositoryResponse));
 
@@ -255,7 +255,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = context.Games.ToList().ConvertAll(g => (IDomainEntity)g)
                     } as IRepositoryResponse));
 
@@ -263,7 +263,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Update(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.Games.FirstOrDefault(g => g.Id == 1)
                     } as IRepositoryResponse));
 
@@ -271,7 +271,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.UpdateRange(It.IsAny<List<Game>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = context.Games.ToList().ConvertAll(g => (IDomainEntity)g)
                     } as IRepositoryResponse));
 
@@ -279,14 +279,14 @@ namespace SudokuCollective.Test.Repositories
                 repo.Delete(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             SolvedRequest.Setup(repo =>
                 repo.DeleteRange(It.IsAny<List<Game>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             SolvedRequest.Setup(repo =>
@@ -297,7 +297,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetAppGame(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.Games.FirstOrDefault(g => g.Id == 1)
                     } as IRepositoryResponse));
 
@@ -305,7 +305,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetAppGames(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = context.Games.ToList().ConvertAll(g => (IDomainEntity)g)
                     } as IRepositoryResponse));
 
@@ -313,7 +313,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.Games.FirstOrDefault(g => g.Id == 1)
                     } as IRepositoryResponse));
 
@@ -321,7 +321,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetMyGames(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = context.Games.ToList().ConvertAll(g => (IDomainEntity)g)
                     } as IRepositoryResponse));
 
@@ -329,14 +329,14 @@ namespace SudokuCollective.Test.Repositories
                 repo.DeleteMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             UpdateFailedRequest.Setup(repo =>
                 repo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.Games.FirstOrDefault(g => g.Id == 1)
                     } as IRepositoryResponse));
 
@@ -344,7 +344,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = context.Games.ToList().ConvertAll(g => (IDomainEntity)g)
                     } as IRepositoryResponse));
 
@@ -352,14 +352,14 @@ namespace SudokuCollective.Test.Repositories
                 repo.Update(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             UpdateFailedRequest.Setup(repo =>
                 repo.UpdateRange(It.IsAny<List<Game>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = context.Games.ToList().ConvertAll(g => (IDomainEntity)g)
                     } as IRepositoryResponse));
 
@@ -367,14 +367,14 @@ namespace SudokuCollective.Test.Repositories
                 repo.Delete(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             UpdateFailedRequest.Setup(repo =>
                 repo.DeleteRange(It.IsAny<List<Game>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             UpdateFailedRequest.Setup(repo =>
@@ -385,7 +385,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetAppGame(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.Games.FirstOrDefault(g => g.Id == 1)
                     } as IRepositoryResponse));
 
@@ -393,7 +393,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetAppGames(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = context.Games.ToList().ConvertAll(g => (IDomainEntity)g)
                     } as IRepositoryResponse));
 
@@ -401,7 +401,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.Games.FirstOrDefault(g => g.Id == 1)
                     } as IRepositoryResponse));
 
@@ -409,7 +409,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetMyGames(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = context.Games.ToList().ConvertAll(g => (IDomainEntity)g)
                     } as IRepositoryResponse));
 
@@ -417,7 +417,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.DeleteMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
         }
     }

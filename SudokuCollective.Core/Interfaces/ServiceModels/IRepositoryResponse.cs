@@ -6,7 +6,7 @@ namespace SudokuCollective.Core.Interfaces.ServiceModels
 {
     public interface IRepositoryResponse
     {
-        bool Success { get; set; }
+        bool IsSuccess { get; set; }
         Exception Exception { get; set; }
         IDomainEntity Object { get; set; }
         List<IDomainEntity> Objects { get; set; }

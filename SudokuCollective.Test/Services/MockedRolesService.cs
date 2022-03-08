@@ -34,7 +34,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Get(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = RolesMessages.RoleFoundMessage,
                         Payload = new List<object>()
                         {
@@ -56,7 +56,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetAll()
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = RolesMessages.RolesFoundMessage,
                         Payload = MockedRolesRepository
                             .SuccessfulRequest
@@ -76,7 +76,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Add(It.IsAny<Role>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = RolesMessages.RoleCreatedMessage,
                         Payload = new List<object>()
                         {
@@ -98,7 +98,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Update(It.IsAny<Role>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = RolesMessages.RoleUpdatedMessage
                     } as IResult));
 
@@ -111,7 +111,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Delete(It.IsAny<Role>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = RolesMessages.RoleDeletedMessage
                     } as IResult));
 
@@ -124,7 +124,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Get(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = RolesMessages.RoleNotFoundMessage,
                     } as IResult));
 
@@ -137,7 +137,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetAll()
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = RolesMessages.RolesNotFoundMessage
                     } as IResult));
 
@@ -150,7 +150,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Add(It.IsAny<Role>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = RolesMessages.RoleNotCreatedMessage
                     } as IResult));
 
@@ -163,7 +163,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Update(It.IsAny<Role>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = RolesMessages.RoleNotUpdatedMessage
                     } as IResult));
 
@@ -176,7 +176,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Delete(It.IsAny<Role>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = RolesMessages.RoleNotDeletedMessage
                     } as IResult));
         }

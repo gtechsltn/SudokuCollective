@@ -28,7 +28,7 @@ namespace SudokuCollective.Test.Repositories
                 rolesRepo.Add(It.IsAny<Role>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = new Role() { RoleLevel = RoleLevel.NULL }
                     } as IRepositoryResponse));
 
@@ -36,7 +36,7 @@ namespace SudokuCollective.Test.Repositories
                 rolesRepo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.Roles.FirstOrDefault(r => r.Id == 3)
                     } as IRepositoryResponse));
 
@@ -44,7 +44,7 @@ namespace SudokuCollective.Test.Repositories
                 rolesRepo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = context.Roles
                             .Where(r => r.RoleLevel != RoleLevel.NULL && r.RoleLevel != RoleLevel.SUPERUSER)
                             .ToList()
@@ -55,7 +55,7 @@ namespace SudokuCollective.Test.Repositories
                 rolesRepo.Update(It.IsAny<Role>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.Roles.FirstOrDefault(r => r.Id == 3)
                     } as IRepositoryResponse));
 
@@ -63,21 +63,21 @@ namespace SudokuCollective.Test.Repositories
                 rolesRepo.UpdateRange(It.IsAny<List<Role>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(rolesRepo =>
                 rolesRepo.Delete(It.IsAny<Role>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(rolesRepo =>
                 rolesRepo.DeleteRange(It.IsAny<List<Role>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(rolesRepo =>
@@ -96,49 +96,49 @@ namespace SudokuCollective.Test.Repositories
                 rolesRepo.Add(It.IsAny<Role>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(rolesRepo =>
                 rolesRepo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(rolesRepo =>
                 rolesRepo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(rolesRepo =>
                 rolesRepo.Update(It.IsAny<Role>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(rolesRepo =>
                 rolesRepo.UpdateRange(It.IsAny<List<Role>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(rolesRepo =>
                 rolesRepo.Delete(It.IsAny<Role>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(rolesRepo =>
                 rolesRepo.DeleteRange(It.IsAny<List<Role>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(rolesRepo =>

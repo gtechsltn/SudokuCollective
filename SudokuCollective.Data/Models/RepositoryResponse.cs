@@ -7,14 +7,14 @@ namespace SudokuCollective.Data.Models
 {
     public class RepositoryResponse : IRepositoryResponse
     {
-        public bool Success { get; set; }
+        public bool IsSuccess { get; set; }
         public Exception Exception { get; set; }
         public IDomainEntity Object { get; set; }
         public List<IDomainEntity> Objects { get; set; }
 
         public RepositoryResponse()
         {
-            Success = false;
+            IsSuccess = false;
             Exception = null;
             Object = null;
             Objects = new List<IDomainEntity>();

@@ -42,7 +42,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Add(It.IsAny<User>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.UserCreatedMessage,
                         Payload = new List<object>()
                             {
@@ -64,7 +64,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Get(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.UserFoundMessage,
                         Payload = new List<object>()
                             {
@@ -89,7 +89,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetAll()
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.UsersFoundMessage,
                         Payload = MockedUsersRepository
                             .SuccessfulRequest
@@ -113,7 +113,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Update(It.IsAny<User>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.UserUpdatedMessage,
                         Payload = new List<object>()
                             {
@@ -186,7 +186,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Update(It.IsAny<User>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.PasswordResetMessage
                     } as IResult));
 
@@ -199,7 +199,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Delete(It.IsAny<User>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.UserDeletedMessage
                     } as IResult));
 
@@ -215,7 +215,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .AddRoles(It.IsAny<int>(), It.IsAny<List<int>>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.RolesAddedMessage
                     } as IResult));
 
@@ -231,7 +231,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .RemoveRoles(It.IsAny<int>(), It.IsAny<List<int>>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.RolesRemovedMessage
                     } as IResult));
 
@@ -271,7 +271,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .ConfirmEmail(It.IsAny<IEmailConfirmation>())
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = UsersMessages.EmailConfirmedMessage,
                     Payload = new List<object>()
                     {
@@ -288,7 +288,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Create(It.IsAny<PasswordReset>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.UserFoundMessage,
                         Payload = new List<object>()
                         {
@@ -328,7 +328,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Delete(It.IsAny<EmailConfirmation>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.EmailConfirmationRequestCancelledMessage,
                         Payload = new List<object>()
                             {
@@ -347,7 +347,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Delete(It.IsAny<PasswordReset>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.PasswordResetRequestCancelledMessage,
                         Payload = new List<object>()
                             {
@@ -380,7 +380,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Add(It.IsAny<User>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.UserNotCreatedMessage
                     } as IResult));
 
@@ -395,7 +395,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Get(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.UserNotFoundMessage
                     } as IResult));
 
@@ -411,7 +411,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetAll()
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.UsersNotFoundMessage
                     } as IResult));
 
@@ -428,7 +428,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Update(It.IsAny<User>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.UserNotUpdatedMessage
                     } as IResult));
 
@@ -483,7 +483,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Update(It.IsAny<User>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.PasswordNotResetMessage
                     } as IResult));
 
@@ -496,7 +496,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Delete(It.IsAny<User>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.UserNotDeletedMessage
                     } as IResult));
 
@@ -512,7 +512,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .AddRoles(It.IsAny<int>(), It.IsAny<List<int>>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.RolesNotAddedMessage
                     } as IResult));
 
@@ -528,7 +528,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .RemoveRoles(It.IsAny<int>(), It.IsAny<List<int>>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.RolesNotRemovedMessage
                     } as IResult));
 
@@ -568,7 +568,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .ConfirmEmail(It.IsAny<IEmailConfirmation>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.EmailNotConfirmedMessage
                     } as IResult));
 
@@ -581,7 +581,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .Create(It.IsAny<PasswordReset>())
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = UsersMessages.UserNotFoundMessage
                 } as IResult));
 
@@ -613,7 +613,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Delete(It.IsAny<EmailConfirmation>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.EmailConfirmationRequestNotCancelledMessage
                     } as IResult));
 
@@ -628,7 +628,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Delete(It.IsAny<PasswordReset>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.PasswordResetRequestNotCancelledMessage
                     } as IResult));
 

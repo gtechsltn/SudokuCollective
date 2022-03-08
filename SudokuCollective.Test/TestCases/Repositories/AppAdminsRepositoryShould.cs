@@ -36,7 +36,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Add(newAppAdmin);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((AppAdmin)result.Object, Is.InstanceOf<AppAdmin>());
         }
 
@@ -52,7 +52,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Add(newAppAdmin);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Repository")]
@@ -62,7 +62,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Get(1);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((AppAdmin)result.Object, Is.InstanceOf<AppAdmin>());
         }
 
@@ -73,7 +73,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Get(7);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
             Assert.That(result.Object, Is.Null);
         }
 
@@ -84,7 +84,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.GetAll();
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Objects.ConvertAll(aa => (AppAdmin)aa), Is.InstanceOf<List<AppAdmin>>());
         }
 
@@ -100,7 +100,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Update(appAdmin);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Object, Is.InstanceOf<AppAdmin>());
             Assert.That(((AppAdmin)result.Object).IsActive, Is.False);
         }
@@ -112,7 +112,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Update(newAppAdmin);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
             Assert.That(result.Object, Is.Null);
         }
 
@@ -128,7 +128,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Delete(appAdmin);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
         }
 
         [Test, Category("Repository")]
@@ -138,7 +138,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Delete(newAppAdmin);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Repository")]
@@ -237,7 +237,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.GetAdminRecord(appId, userId);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((AppAdmin)result.Object, Is.InstanceOf<AppAdmin>());
         }
 
@@ -261,7 +261,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.GetAdminRecord(appId, userId + 1);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
             Assert.That(result.Object, Is.Null);
         }
     }

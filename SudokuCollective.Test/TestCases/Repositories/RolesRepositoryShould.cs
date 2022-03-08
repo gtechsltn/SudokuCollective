@@ -42,7 +42,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Add(newRole);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((Role)result.Object, Is.InstanceOf<Role>());
         }
 
@@ -55,7 +55,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Add(newRole);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Repository")]
@@ -67,7 +67,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Get(1);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((Role)result.Object, Is.InstanceOf<Role>());
         }
 
@@ -80,7 +80,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Get(5);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
             Assert.That(result.Object, Is.Null);
         }
 
@@ -93,7 +93,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.GetAll();
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Objects.ConvertAll(r => (Role)r), Is.InstanceOf<List<Role>>());
         }
 
@@ -108,7 +108,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Update(role);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Object, Is.InstanceOf<Role>());
             Assert.That(((Role)result.Object).Name, Is.EqualTo(role.Name));
         }
@@ -122,7 +122,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Update(newRole);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
             Assert.That(result.Object, Is.Null);
         }
 
@@ -136,7 +136,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Delete(role);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
         }
 
         [Test, Category("Repository")]
@@ -148,7 +148,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Delete(newRole);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Repository")]

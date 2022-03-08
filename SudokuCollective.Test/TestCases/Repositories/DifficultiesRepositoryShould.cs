@@ -43,7 +43,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Add(newDifficutly);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((Difficulty)result.Object, Is.InstanceOf<Difficulty>());
         }
 
@@ -54,7 +54,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Add(newDifficutly);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Repository")]
@@ -64,7 +64,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Get(1);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((Difficulty)result.Object, Is.InstanceOf<Difficulty>());
         }
 
@@ -75,7 +75,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Get(7);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
             Assert.That(result.Object, Is.Null);
         }
 
@@ -86,7 +86,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.GetAll();
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Objects.ConvertAll(d => (Difficulty)d), Is.InstanceOf<List<Difficulty>>());
         }
 
@@ -101,7 +101,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Update(difficulty);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Object, Is.InstanceOf<Difficulty>());
             Assert.That(((Difficulty)result.Object).Name, Is.EqualTo(difficulty.Name));
         }
@@ -113,7 +113,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Update(newDifficutly);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
             Assert.That(result.Object, Is.Null);
         }
 
@@ -127,7 +127,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Delete(difficulty);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
         }
 
         [Test, Category("Repository")]
@@ -137,7 +137,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Delete(newDifficutly);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Repository")]

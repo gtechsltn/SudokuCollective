@@ -38,7 +38,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Add(It.IsAny<Game>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = GamesMessages.GameCreatedMessage,
                         Payload = new List<object>()
                         {
@@ -60,7 +60,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Update(It.IsAny<Game>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = GamesMessages.GameUpdatedMessage,
                         Payload = new List<object>()
                             {
@@ -82,7 +82,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Delete(It.IsAny<Game>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = GamesMessages.GameDeletedMessage
                     } as IResult));
 
@@ -95,7 +95,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Get(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = GamesMessages.GameFoundMessage,
                         Payload = new List<object>()
                             {
@@ -117,7 +117,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetAll()
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = GamesMessages.GamesFoundMessage,
                         Payload = MockedGamesRepository
                             .SuccessfulRequest
@@ -137,7 +137,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = GamesMessages.GameFoundMessage,
                         Payload = new List<object>()
                             {
@@ -159,7 +159,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetMyGames(It.IsAny<int>(), It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = GamesMessages.GamesFoundMessage,
                         Payload = MockedGamesRepository
                             .SuccessfulRequest
@@ -179,7 +179,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .DeleteMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>())
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = GamesMessages.GameDeletedMessage
                 } as IResult));
 
@@ -192,7 +192,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Update(It.IsAny<Game>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = GamesMessages.GameSolvedMessage,
                         Payload = new List<object>()
                             {
@@ -231,7 +231,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Add(It.IsAny<Game>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = GamesMessages.GameNotCreatedMessage
                     } as IResult));
 
@@ -244,7 +244,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Update(It.IsAny<Game>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = GamesMessages.GameNotUpdatedMessage
                     } as IResult));
 
@@ -257,7 +257,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Delete(It.IsAny<Game>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = GamesMessages.GameNotDeletedMessage
                     } as IResult));
 
@@ -270,7 +270,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetAppGame(It.IsAny<int>(), It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = GamesMessages.GameNotFoundMessage
                     } as IResult));
 
@@ -283,7 +283,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetAppGames(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = GamesMessages.GamesNotFoundMessage
                     } as IResult));
 
@@ -296,7 +296,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = GamesMessages.GameNotFoundMessage
                     } as IResult));
 
@@ -309,7 +309,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = GamesMessages.GamesNotFoundMessage
                     } as IResult));
 
@@ -322,7 +322,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .DeleteMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = GamesMessages.GameNotDeletedMessage
                     } as IResult));
 
@@ -335,7 +335,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Update(It.IsAny<Game>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = GamesMessages.GameNotUpdatedMessage
                     } as IResult));
 

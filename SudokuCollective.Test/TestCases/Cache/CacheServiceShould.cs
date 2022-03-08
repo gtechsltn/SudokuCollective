@@ -62,7 +62,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 app);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((App)result.Object, Is.InstanceOf<App>());
         }
 
@@ -82,7 +82,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 app);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -101,7 +101,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 difficulty);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((Difficulty)result.Object, Is.InstanceOf<Difficulty>());
         }
 
@@ -121,7 +121,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 difficulty);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -140,7 +140,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 Role);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((Role)result.Object, Is.InstanceOf<Role>());
         }
 
@@ -160,7 +160,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 Role);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -179,7 +179,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 user);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((User)result.Object, Is.InstanceOf<User>());
         }
 
@@ -199,7 +199,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 user);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -216,7 +216,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 1);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1).Object, Is.InstanceOf<App>());
         }
 
@@ -241,7 +241,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 new Result());
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1).Object, Is.InstanceOf<App>());
             Assert.That(((Result)result.Item2).IsFromCache, Is.True);
         }
@@ -260,7 +260,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 1);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.False);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -277,7 +277,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 1);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1).Object, Is.InstanceOf<Difficulty>());
         }
 
@@ -302,7 +302,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 new Result());
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1).Object, Is.InstanceOf<Difficulty>());
             Assert.That(((Result)result.Item2).IsFromCache, Is.True);
         }
@@ -321,7 +321,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 1);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.False);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -338,7 +338,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 1);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1).Object, Is.InstanceOf<Role>());
         }
 
@@ -363,7 +363,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 new Result());
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1).Object, Is.InstanceOf<Role>());
             Assert.That(((Result)result.Item2).IsFromCache, Is.True);
         }
@@ -382,7 +382,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 1);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.False);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -399,7 +399,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 1);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1).Object, Is.InstanceOf<User>());
         }
 
@@ -424,7 +424,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 new Result());
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1).Object, Is.InstanceOf<User>());
             Assert.That(((Result)result.Item2).IsFromCache, Is.True);
         }
@@ -443,7 +443,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 1);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.False);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -459,7 +459,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 cachingStrategy.Medium);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1)
                 .Objects
                 .ConvertAll(a => (App)a), Is.InstanceOf<List<App>>());
@@ -484,7 +484,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 new Result());
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1)
                 .Objects
                 .ConvertAll(a => (App)a), Is.InstanceOf<List<App>>());
@@ -504,7 +504,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 cachingStrategy.Medium);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.False);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -520,7 +520,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 cachingStrategy.Heavy);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1)
                 .Objects
                 .ConvertAll(a => (Difficulty)a), Is.InstanceOf<List<Difficulty>>());
@@ -545,7 +545,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 new Result());
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1)
                 .Objects
                 .ConvertAll(a => (Difficulty)a), Is.InstanceOf<List<Difficulty>>());
@@ -565,7 +565,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 cachingStrategy.Heavy);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.False);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -581,7 +581,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 cachingStrategy.Heavy);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1)
                 .Objects
                 .ConvertAll(a => (Role)a), Is.InstanceOf<List<Role>>());
@@ -606,7 +606,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 new Result());
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1)
                 .Objects
                 .ConvertAll(a => (Role)a), Is.InstanceOf<List<Role>>());
@@ -626,7 +626,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 cachingStrategy.Heavy);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.False);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -642,7 +642,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 cachingStrategy.Medium);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1)
                 .Objects
                 .ConvertAll(a => (User)a), Is.InstanceOf<List<User>>());
@@ -667,7 +667,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 new Result());
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1)
                 .Objects
                 .ConvertAll(a => (User)a), Is.InstanceOf<List<User>>());
@@ -688,7 +688,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 new Result());
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.False);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -712,7 +712,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((App)result.Object, Is.InstanceOf<App>());
             Assert.That(((App)result.Object).Name, Is.EqualTo(app.Name));
         }
@@ -738,7 +738,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -762,7 +762,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((Difficulty)result.Object, Is.InstanceOf<Difficulty>());
             Assert.That(((Difficulty)result.Object).DisplayName, Is.EqualTo(difficulty.DisplayName));
         }
@@ -788,7 +788,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -812,7 +812,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((Role)result.Object, Is.InstanceOf<Role>());
             Assert.That(((Role)result.Object).Name, Is.EqualTo(role.Name));
         }
@@ -838,7 +838,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -862,7 +862,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((User)result.Object, Is.InstanceOf<User>());
             Assert.That(((User)result.Object).UserName, Is.EqualTo(user.UserName));
         }
@@ -888,7 +888,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -911,7 +911,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
         }
 
         [Test, Category("Cache")]
@@ -934,7 +934,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -957,7 +957,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
         }
 
         [Test, Category("Cache")]
@@ -980,7 +980,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -1003,7 +1003,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
         }
 
         [Test, Category("Cache")]
@@ -1026,7 +1026,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -1049,7 +1049,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
         }
 
         [Test, Category("Cache")]
@@ -1072,7 +1072,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -1226,7 +1226,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1).Object, Is.InstanceOf<App>());
         }
 
@@ -1251,7 +1251,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 new Result());
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1).Object, Is.InstanceOf<App>());
             Assert.That(((Result)result.Item2).IsFromCache, Is.True);
         }
@@ -1270,7 +1270,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.False);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -1287,7 +1287,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 1);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1).Objects.ConvertAll(u => (User)u), Is.InstanceOf<List<User>>());
         }
 
@@ -1312,7 +1312,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 new Result());
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1).Objects.ConvertAll(u => (User)u), Is.InstanceOf<List<User>>());
             Assert.That(((Result)result.Item2).IsFromCache, Is.True);
         }
@@ -1331,7 +1331,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 1);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.False);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -1348,7 +1348,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 1);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1).Objects.ConvertAll(u => (User)u), Is.InstanceOf<List<User>>());
         }
 
@@ -1373,7 +1373,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 new Result());
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1).Objects.ConvertAll(u => (User)u), Is.InstanceOf<List<User>>());
             Assert.That(((Result)result.Item2).IsFromCache, Is.True);
         }
@@ -1392,7 +1392,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 1);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.False);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -1409,7 +1409,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 1);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1).Objects.ConvertAll(u => (App)u), Is.InstanceOf<List<App>>());
         }
 
@@ -1434,7 +1434,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 new Result());
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1).Objects.ConvertAll(u => (App)u), Is.InstanceOf<List<App>>());
             Assert.That(((Result)result.Item2).IsFromCache, Is.True);
         }
@@ -1453,7 +1453,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 1);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.False);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -1470,7 +1470,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 1);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1).Objects.ConvertAll(u => (App)u), Is.InstanceOf<List<App>>());
         }
 
@@ -1495,7 +1495,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 new Result());
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1).Objects.ConvertAll(u => (App)u), Is.InstanceOf<List<App>>());
             Assert.That(((Result)result.Item2).IsFromCache, Is.True);
         }
@@ -1514,7 +1514,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 1);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.False);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -1595,7 +1595,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 (App)app);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Object, Is.InstanceOf<App>());
         }
 
@@ -1613,7 +1613,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 (App)app);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -1629,7 +1629,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 1);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Object, Is.InstanceOf<App>());
         }
 
@@ -1646,7 +1646,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 1);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -1662,7 +1662,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 1);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Object, Is.InstanceOf<App>());
         }
 
@@ -1679,7 +1679,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 1);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -1733,7 +1733,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1).Object, Is.InstanceOf<User>());
         }
 
@@ -1764,7 +1764,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 new Result());
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1).Object, Is.InstanceOf<User>());
             Assert.That(((Result)result.Item2).IsFromCache, Is.True);
         }
@@ -1786,7 +1786,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.False);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -1804,7 +1804,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 email);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1).Object, Is.InstanceOf<User>());
         }
 
@@ -1831,7 +1831,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 new Result());
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.True);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.True);
             Assert.That(((RepositoryResponse)result.Item1).Object, Is.InstanceOf<User>());
             Assert.That(((Result)result.Item2).IsFromCache, Is.True);
         }
@@ -1851,7 +1851,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 email);
 
             // Assert
-            Assert.That(((RepositoryResponse)result.Item1).Success, Is.False);
+            Assert.That(((RepositoryResponse)result.Item1).IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -1869,7 +1869,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((User)(result.Object), Is.InstanceOf<User>());
         }
 
@@ -1888,7 +1888,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]
@@ -1906,7 +1906,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((User)(result.Object), Is.InstanceOf<User>());
         }
 
@@ -1925,7 +1925,7 @@ namespace SudokuCollective.Test.TestCases.Cache
                 TestObjects.GetLicense());
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Cache")]

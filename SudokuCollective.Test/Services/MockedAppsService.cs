@@ -45,7 +45,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .Get(It.IsAny<int>())
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = AppsMessages.AppFoundMessage,
                     Payload = new List<object>
                         {
@@ -69,7 +69,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .GetByLicense(It.IsAny<string>())
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = AppsMessages.AppFoundMessage,
                     Payload = new List<object>
                         {
@@ -93,7 +93,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .GetAll()
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = AppsMessages.AppsFoundMessage,
                     Payload = MockedAppsRepository
                         .SuccessfulRequest
@@ -115,7 +115,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .GetAll()
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = AppsMessages.AppsFoundMessage,
                     Payload = MockedAppsRepository
                         .SuccessfulRequest
@@ -137,7 +137,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .GetAll()
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = AppsMessages.AppsFoundMessage,
                     Payload = MockedAppsRepository
                         .SuccessfulRequest
@@ -157,7 +157,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .Add(It.IsAny<App>())
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = AppsMessages.AppCreatedMessage,
                     Payload = new List<object>
                         {
@@ -193,7 +193,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .Update(It.IsAny<App>())
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = AppsMessages.AppUpdatedMessage,
                     Payload = new List<object>
                         {
@@ -219,7 +219,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .GetAppUsers(It.IsAny<int>())
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = UsersMessages.UsersFoundMessage,
                     Payload = new List<object>()
                         { 
@@ -255,7 +255,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .AddAppUser(It.IsAny<int>(), It.IsAny<string>())
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = AppsMessages.UserAddedToAppMessage
                 } as IResult));
 
@@ -268,7 +268,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .RemoveAppUser(It.IsAny<int>(), It.IsAny<string>())
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = AppsMessages.UserRemovedFromAppMessage
                 } as IResult));
 
@@ -281,7 +281,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .Activate(It.IsAny<int>())
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = AppsMessages.AppActivatedMessage
                 } as IResult));
 
@@ -294,7 +294,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .Deactivate(It.IsAny<int>())
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = AppsMessages.AppDeactivatedMessage
                 } as IResult));
 
@@ -307,7 +307,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .Delete(It.IsAny<App>())
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = AppsMessages.AppDeletedMessage
                 } as IResult));
 
@@ -320,7 +320,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .Get(It.IsAny<int>())
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = UsersMessages.UserHasBeenPromotedToAdminMessage,
                     Payload = new List<object>()
                         {
@@ -342,7 +342,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .Get(It.IsAny<int>())
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = AppsMessages.AdminPrivilegesDeactivatedMessage,
                     Payload = new List<object>()
                         {
@@ -365,7 +365,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Get(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppNotFoundMessage,
                     } as IResult));
 
@@ -380,7 +380,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetByLicense(It.IsAny<string>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppNotFoundMessage
                     } as IResult));
 
@@ -395,7 +395,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetAll()
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppsNotFoundMessage
                     } as IResult));
 
@@ -410,7 +410,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetAll()
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppsNotFoundMessage
                     } as IResult));
 
@@ -425,7 +425,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetAll()
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppsNotFoundMessage
                     } as IResult));
 
@@ -438,7 +438,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Add(It.IsAny<App>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppNotCreatedMessage
                     } as IResult));
 
@@ -465,7 +465,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Update(It.IsAny<App>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppNotUpdatedMessage
                     } as IResult));
 
@@ -482,7 +482,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetAppUsers(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.UsersNotFoundMessage
                     } as IResult));
 
@@ -503,7 +503,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .AddAppUser(It.IsAny<int>(), It.IsAny<string>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.UserNotAddedToAppMessage
                     } as IResult));
 
@@ -516,7 +516,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .RemoveAppUser(It.IsAny<int>(), It.IsAny<string>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.UserNotRemovedFromAppMessage
                     } as IResult));
 
@@ -529,7 +529,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Activate(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppNotActivatedMessage
                     } as IResult));
 
@@ -542,7 +542,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Deactivate(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppNotDeactivatedMessage
                     } as IResult));
 
@@ -555,7 +555,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Delete(It.IsAny<App>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppNotDeletedMessage
                     } as IResult));
 
@@ -568,7 +568,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Get(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.UserHasNotBeenPromotedToAdminMessage
                     } as IResult));
 
@@ -581,7 +581,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Get(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.DeactivationOfAdminPrivilegesFailedMessage
                     } as IResult));
 
@@ -595,7 +595,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Get(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppFoundMessage,
                         Payload = new List<object>()
                             {
@@ -619,7 +619,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .GetByLicense(It.IsAny<string>())
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = AppsMessages.AppFoundMessage,
                     Payload = new List<object>()
                             {
@@ -643,7 +643,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .GetAll()
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = AppsMessages.AppsFoundMessage,
                     Payload = MockedAppsRepository
                         .SuccessfulRequest
@@ -665,7 +665,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .GetAll()
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = AppsMessages.AppsFoundMessage,
                     Payload = MockedAppsRepository
                         .SuccessfulRequest
@@ -687,7 +687,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .GetAll()
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = AppsMessages.AppsFoundMessage,
                     Payload = MockedAppsRepository
                         .SuccessfulRequest
@@ -707,7 +707,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .Add(It.IsAny<App>())
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = AppsMessages.AppCreatedMessage,
                     Payload = new List<object>()
                         {
@@ -743,7 +743,7 @@ namespace SudokuCollective.Test.Services
                         .Object
                         .Update(It.IsAny<App>())
                         .Result
-                        .Success,
+                        .IsSuccess,
                     Message = AppsMessages.AppUpdatedMessage,
                     Payload = new List<object>()
                         {
@@ -769,7 +769,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetAppUsers(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.UsersFoundMessage,
                         Payload = MockedAppsRepository
                             .SuccessfulRequest
@@ -802,7 +802,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .AddAppUser(It.IsAny<int>(), It.IsAny<string>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.UserAddedToAppMessage
                     } as IResult));
 
@@ -815,7 +815,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .RemoveAppUser(It.IsAny<int>(), It.IsAny<string>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.UserRemovedFromAppMessage
                     } as IResult));
 
@@ -828,7 +828,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Activate(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppActivatedMessage
                     } as IResult));
 
@@ -841,7 +841,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Deactivate(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppDeactivatedMessage
                     } as IResult));
 
@@ -854,7 +854,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Delete(It.IsAny<App>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppDeletedMessage
                     } as IResult));
 
@@ -867,7 +867,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Get(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppNotFoundMessage
                     } as IResult));
 
@@ -880,7 +880,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Get(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AdminPrivilegesDeactivatedMessage,
                         Payload = new List<object>()
                             {
@@ -903,7 +903,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Get(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppFoundMessage,
                         Payload = new List<object>()
                             {
@@ -927,7 +927,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetByLicense(It.IsAny<string>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppFoundMessage,
                         Payload = new List<object>()
                             {
@@ -951,7 +951,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetAll()
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppsFoundMessage,
                         Payload = MockedAppsRepository
                             .SuccessfulRequest
@@ -973,7 +973,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetAll()
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppsFoundMessage,
                         Payload = MockedAppsRepository
                             .SuccessfulRequest
@@ -995,7 +995,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetAll()
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppsFoundMessage,
                         Payload = MockedAppsRepository
                             .SuccessfulRequest
@@ -1015,7 +1015,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Add(It.IsAny<App>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppCreatedMessage,
                         Payload = new List<object>()
                             {
@@ -1051,7 +1051,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Update(It.IsAny<App>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppUpdatedMessage,
                         Payload = new List<object>()
                             {
@@ -1077,7 +1077,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .GetAppUsers(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.UsersFoundMessage,
                         Payload = MockedAppsRepository
                             .SuccessfulRequest
@@ -1110,7 +1110,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .AddAppUser(It.IsAny<int>(), It.IsAny<string>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.UserAddedToAppMessage
                     } as IResult));
 
@@ -1123,7 +1123,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .RemoveAppUser(It.IsAny<int>(), It.IsAny<string>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.UserRemovedFromAppMessage
                     } as IResult));
 
@@ -1136,7 +1136,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Activate(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppActivatedMessage
                     } as IResult));
 
@@ -1149,7 +1149,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Deactivate(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppDeactivatedMessage
                     } as IResult));
 
@@ -1162,7 +1162,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Delete(It.IsAny<App>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.AppDeletedMessage
                     } as IResult));
 
@@ -1175,7 +1175,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Get(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.UserHasNotBeenPromotedToAdminMessage
                     } as IResult));
 
@@ -1188,7 +1188,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Get(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = UsersMessages.UserHasNotBeenPromotedToAdminMessage
                     } as IResult));
 
@@ -1201,7 +1201,7 @@ namespace SudokuCollective.Test.Services
                             .Object
                             .Get(It.IsAny<int>())
                             .Result
-                            .Success,
+                            .IsSuccess,
                         Message = AppsMessages.DeactivationOfAdminPrivilegesFailedMessage
                     } as IResult));
         }

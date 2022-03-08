@@ -30,7 +30,7 @@ namespace SudokuCollective.Repos
 
             if (entity.Id != 0)
             {
-                result.Success = false;
+                result.IsSuccess = false;
 
                 return result;
             }
@@ -170,13 +170,13 @@ namespace SudokuCollective.Repos
                 }
 
                 result.Object = entity;
-                result.Success = true;
+                result.IsSuccess = true;
 
                 return result;
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;
@@ -189,7 +189,7 @@ namespace SudokuCollective.Repos
 
             if (id == 0)
             {
-                result.Success = false;
+                result.IsSuccess = false;
 
                 return result;
             }
@@ -236,19 +236,19 @@ namespace SudokuCollective.Repos
                             .ToListAsync();
                     }
 
-                    result.Success = true;
+                    result.IsSuccess = true;
                     result.Object = query;
                 }
                 else
                 {
-                    result.Success = false;
+                    result.IsSuccess = false;
                 }
 
                 return result;
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;
@@ -261,7 +261,7 @@ namespace SudokuCollective.Repos
 
             if (string.IsNullOrEmpty(license))
             {
-                result.Success = false;
+                result.IsSuccess = false;
 
                 return result;
             }
@@ -309,19 +309,19 @@ namespace SudokuCollective.Repos
                             .ToListAsync();
                     }
 
-                    result.Success = true;
+                    result.IsSuccess = true;
                     result.Object = query;
                 }
                 else
                 {
-                    result.Success = false;
+                    result.IsSuccess = false;
                 }
 
                 return result;
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;
@@ -366,21 +366,21 @@ namespace SudokuCollective.Repos
                         }
                     }
 
-                    result.Success = true;
+                    result.IsSuccess = true;
                     result.Objects = query
                         .ConvertAll(a => (IDomainEntity)a)
                         .ToList();
                 }
                 else
                 {
-                    result.Success = false;
+                    result.IsSuccess = false;
                 }
 
                 return result;
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;
@@ -393,7 +393,7 @@ namespace SudokuCollective.Repos
 
             if (ownerId == 0)
             {
-                result.Success = false;
+                result.IsSuccess = false;
 
                 return result;
             }
@@ -433,21 +433,21 @@ namespace SudokuCollective.Repos
                         }
                     }
 
-                    result.Success = true;
+                    result.IsSuccess = true;
                     result.Objects = query
                         .ConvertAll(a => (IDomainEntity)a)
                         .ToList();
                 }
                 else
                 {
-                    result.Success = false;
+                    result.IsSuccess = false;
                 }
 
                 return result;
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;
@@ -460,7 +460,7 @@ namespace SudokuCollective.Repos
 
             if (userId == 0)
             {
-                result.Success = false;
+                result.IsSuccess = false;
 
                 return result;
             }
@@ -496,21 +496,21 @@ namespace SudokuCollective.Repos
                         }
                     }
 
-                    result.Success = true;
+                    result.IsSuccess = true;
                     result.Objects = query
                         .ConvertAll(a => (IDomainEntity)a)
                         .ToList();
                 }
                 else
                 {
-                    result.Success = false;
+                    result.IsSuccess = false;
                 }
 
                 return result;
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;
@@ -523,7 +523,7 @@ namespace SudokuCollective.Repos
 
             if (id == 0)
             {
-                result.Success = false;
+                result.IsSuccess = false;
 
                 return result;
             }
@@ -585,21 +585,21 @@ namespace SudokuCollective.Repos
                         user.Roles = filteredRoles;
                     }
 
-                    result.Success = true;
+                    result.IsSuccess = true;
                     result.Objects = query
                         .ConvertAll(u => (IDomainEntity)u)
                         .ToList();
                 }
                 else
                 {
-                    result.Success = false;
+                    result.IsSuccess = false;
                 }
 
                 return result;
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;
@@ -612,7 +612,7 @@ namespace SudokuCollective.Repos
 
             if (id == 0 || !await HasEntity(id))
             {
-                result.Success = false;
+                result.IsSuccess = false;
 
                 return result;
             }
@@ -649,21 +649,21 @@ namespace SudokuCollective.Repos
                             .ToListAsync();
                     }
 
-                    result.Success = true;
+                    result.IsSuccess = true;
                     result.Objects = query
                         .ConvertAll(u => (IDomainEntity)u)
                         .ToList();
                 }
                 else
                 {
-                    result.Success = false;
+                    result.IsSuccess = false;
                 }
 
                 return result;
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;
@@ -680,7 +680,7 @@ namespace SudokuCollective.Repos
             {
                 if (entity.Id == 0)
                 {
-                    result.Success = false;
+                    result.IsSuccess = false;
 
                     return result;
                 }
@@ -718,21 +718,21 @@ namespace SudokuCollective.Repos
 
                     await _context.SaveChangesAsync();
 
-                    result.Success = true;
+                    result.IsSuccess = true;
                     result.Object = entity;
 
                     return result;
                 }
                 else
                 {
-                    result.Success = false;
+                    result.IsSuccess = false;
 
                     return result;
                 }
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;
@@ -753,7 +753,7 @@ namespace SudokuCollective.Repos
                 {
                     if (entity.Id == 0)
                     {
-                        result.Success = false;
+                        result.IsSuccess = false;
 
                         return result;
                     }
@@ -764,7 +764,7 @@ namespace SudokuCollective.Repos
                     }
                     else
                     {
-                        result.Success = false;
+                        result.IsSuccess = false;
 
                         return result;
                     }
@@ -792,13 +792,13 @@ namespace SudokuCollective.Repos
 
                 await _context.SaveChangesAsync();
 
-                result.Success = true;
+                result.IsSuccess = true;
 
                 return result;
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;
@@ -859,20 +859,20 @@ namespace SudokuCollective.Repos
 
                     await _context.SaveChangesAsync();
 
-                    result.Success = true;
+                    result.IsSuccess = true;
 
                     return result;
                 }
                 else
                 {
-                    result.Success = false;
+                    result.IsSuccess = false;
 
                     return result;
                 }
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;
@@ -890,7 +890,7 @@ namespace SudokuCollective.Repos
                 {
                     if (entity.Id == 0)
                     {
-                        result.Success = false;
+                        result.IsSuccess = false;
 
                         return result;
                     }
@@ -912,7 +912,7 @@ namespace SudokuCollective.Repos
                     }
                     else
                     {
-                        result.Success = false;
+                        result.IsSuccess = false;
 
                         return result;
                     }
@@ -952,13 +952,13 @@ namespace SudokuCollective.Repos
                     await _context.SaveChangesAsync();
                 }
 
-                result.Success = true;
+                result.IsSuccess = true;
 
                 return result;
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;
@@ -973,7 +973,7 @@ namespace SudokuCollective.Repos
 
             if (entity.Id == 0)
             {
-                result.Success = false;
+                result.IsSuccess = false;
 
                 return result;
             }
@@ -1018,7 +1018,7 @@ namespace SudokuCollective.Repos
                     await _context.SaveChangesAsync();
                 }
 
-                result.Success = true;
+                result.IsSuccess = true;
                 result.Object = await _context
                     .Apps
                     .FirstOrDefaultAsync(a => a.Id == entity.Id);
@@ -1027,7 +1027,7 @@ namespace SudokuCollective.Repos
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;
@@ -1040,7 +1040,7 @@ namespace SudokuCollective.Repos
 
             if (userId == 0 || string.IsNullOrEmpty(license))
             {
-                result.Success = false;
+                result.IsSuccess = false;
 
                 return result;
             }
@@ -1058,7 +1058,7 @@ namespace SudokuCollective.Repos
 
                 if (user == null || app == null)
                 {
-                    result.Success = false;
+                    result.IsSuccess = false;
 
                     return result;
                 }
@@ -1100,13 +1100,13 @@ namespace SudokuCollective.Repos
 
                 await _context.SaveChangesAsync();
 
-                result.Success = true;
+                result.IsSuccess = true;
 
                 return result;
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;
@@ -1119,7 +1119,7 @@ namespace SudokuCollective.Repos
 
             if (userId == 0 || string.IsNullOrEmpty(license))
             {
-                result.Success = false;
+                result.IsSuccess = false;
 
                 return result;
             }
@@ -1140,14 +1140,14 @@ namespace SudokuCollective.Repos
 
                 if (user == null || app == null)
                 {
-                    result.Success = false;
+                    result.IsSuccess = false;
 
                     return result;
                 }
 
                 if (app.OwnerId == user.Id)
                 {
-                    result.Success = false;
+                    result.IsSuccess = false;
 
                     return result;
                 }
@@ -1196,13 +1196,13 @@ namespace SudokuCollective.Repos
 
                 await _context.SaveChangesAsync();
 
-                result.Success = true;
+                result.IsSuccess = true;
 
                 return result;
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;
@@ -1215,7 +1215,7 @@ namespace SudokuCollective.Repos
 
             if (id == 0)
             {
-                result.Success = false;
+                result.IsSuccess = false;
 
                 return result;
             }
@@ -1254,18 +1254,18 @@ namespace SudokuCollective.Repos
                     }
 
                     result.Object = app;
-                    result.Success = true;
+                    result.IsSuccess = true;
                 }
                 else
                 {
-                    result.Success = false;
+                    result.IsSuccess = false;
                 }
 
                 return result;
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;
@@ -1278,7 +1278,7 @@ namespace SudokuCollective.Repos
 
             if (id == 0)
             {
-                result.Success = false;
+                result.IsSuccess = false;
 
                 return result;
             }
@@ -1317,18 +1317,18 @@ namespace SudokuCollective.Repos
                     }
 
                     result.Object = app;
-                    result.Success = true;
+                    result.IsSuccess = true;
                 }
                 else
                 {
-                    result.Success = false;
+                    result.IsSuccess = false;
                 }
 
                 return result;
             }
             catch (Exception exp)
             {
-                result.Success = false;
+                result.IsSuccess = false;
                 result.Exception = exp;
 
                 return result;

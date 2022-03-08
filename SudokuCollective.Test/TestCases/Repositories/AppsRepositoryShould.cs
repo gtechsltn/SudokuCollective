@@ -39,7 +39,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Add(newApp);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((App)result.Object, Is.InstanceOf<App>());
         }
 
@@ -55,7 +55,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Add(newApp);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
             Assert.That(result.Exception, Is.Not.Null);
         }
 
@@ -66,7 +66,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Get(1);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((App)result.Object, Is.InstanceOf<App>());
         }
 
@@ -86,7 +86,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             result = await sut.Get(app.Id + 1);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
             Assert.That(result.Object, Is.Null);
         }
 
@@ -100,7 +100,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.GetByLicense(license);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((App)result.Object, Is.InstanceOf<App>());
         }
 
@@ -114,7 +114,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.GetByLicense(license);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
             Assert.That(result.Object, Is.Null);
         }
 
@@ -127,7 +127,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.GetAll();
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Objects.ConvertAll(a => (App)a), Is.InstanceOf<List<App>>());
         }
 
@@ -141,7 +141,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.GetAppUsers(id);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Objects.ConvertAll(a => (User)a), Is.InstanceOf<List<User>>());
         }
 
@@ -157,7 +157,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.GetAppUsers(id + 1);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Repository")]
@@ -170,7 +170,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.GetNonAppUsers(id);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Objects.ConvertAll(a => (User)a), Is.InstanceOf<List<User>>());
         }
 
@@ -186,7 +186,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.GetNonAppUsers(id + 2);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Repository")]
@@ -200,7 +200,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Update(app);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Object, Is.InstanceOf<App>());
             Assert.That(((App)result.Object).Name, Is.EqualTo(app.Name));
         }
@@ -214,7 +214,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Update(newApp);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
             Assert.That(result.Object, Is.Null);
         }
 
@@ -230,7 +230,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.AddAppUser(user.Id, license);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
         }
 
         [Test, Category("Repository")]
@@ -246,7 +246,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.AddAppUser(id + 1, license);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Repository")]
@@ -269,7 +269,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.RemoveAppUser(user.Id, license);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
         }
 
         [Test, Category("Repository")]
@@ -285,7 +285,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.RemoveAppUser(user.Id, license);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Repository")]
@@ -298,7 +298,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Delete(app);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
         }
 
         [Test, Category("Repository")]
@@ -310,7 +310,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Delete(newApp);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Repository")]
@@ -323,7 +323,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Reset(app);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
         }
 
         [Test, Category("Repository")]
@@ -335,7 +335,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Reset(newApp);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Repository")]
@@ -348,7 +348,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Activate(app.Id);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
         }
 
         [Test, Category("Repository")]
@@ -363,7 +363,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Activate(app.Id + 1);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Repository")]
@@ -376,7 +376,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Deactivate(app.Id);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
         }
 
         [Test, Category("Repository")]
@@ -391,7 +391,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Deactivate(app.Id + 1);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Repository")]
@@ -566,7 +566,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.GetMyApps(user.Id);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Objects.ConvertAll(a => (App)a), Is.InstanceOf<List<App>>());
         }
 
@@ -582,7 +582,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.GetMyApps(user.Id + 1);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Repository")]
@@ -595,7 +595,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.GetMyRegisteredApps(user.Id);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Objects.ConvertAll(a => (App)a), Is.InstanceOf<List<App>>());
             Assert.That(result.Objects.Count, Is.EqualTo(2));
         }
@@ -610,7 +610,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.GetMyRegisteredApps(user.Id);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
     }
 }

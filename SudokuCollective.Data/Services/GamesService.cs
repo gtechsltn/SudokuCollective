@@ -73,11 +73,11 @@ namespace SudokuCollective.Data.Services
             {
                 var userResponse = await _usersRepository.Get(payload.UserId);
 
-                if (userResponse.Success)
+                if (userResponse.IsSuccess)
                 {
                     var difficultyResponse = await _difficultiesRepository.Get(payload.DifficultyId);
 
-                    if (difficultyResponse.Success)
+                    if (difficultyResponse.IsSuccess)
                     {
                         var user = (User)userResponse.Object;
                         var difficulty = (Difficulty)difficultyResponse.Object;
@@ -92,22 +92,22 @@ namespace SudokuCollective.Data.Services
 
                         var gameResponse = await _gamesRepository.Add(game);
 
-                        if (gameResponse.Success)
+                        if (gameResponse.IsSuccess)
                         {
                             game = (Game)gameResponse.Object;
 
                             game.User = null;
                             game.SudokuMatrix.SudokuCells.OrderBy(cell => cell.Index);
 
-                            result.IsSuccess = gameResponse.Success;
+                            result.IsSuccess = gameResponse.IsSuccess;
                             result.Message = GamesMessages.GameCreatedMessage;
                             result.Payload.Add(game);
 
                             return result;
                         }
-                        else if (!gameResponse.Success && gameResponse.Exception != null)
+                        else if (!gameResponse.IsSuccess && gameResponse.Exception != null)
                         {
-                            result.IsSuccess = gameResponse.Success;
+                            result.IsSuccess = gameResponse.IsSuccess;
                             result.Message = gameResponse.Exception.Message;
 
                             return result;
@@ -161,7 +161,7 @@ namespace SudokuCollective.Data.Services
                 {
                     var gameResponse = await _gamesRepository.GetAppGame(id, appId);
 
-                    if (gameResponse.Success)
+                    if (gameResponse.IsSuccess)
                     {
                         var game = (Game)gameResponse.Object;
 
@@ -171,9 +171,9 @@ namespace SudokuCollective.Data.Services
 
                         return result;
                     }
-                    else if (!gameResponse.Success && gameResponse.Exception != null)
+                    else if (!gameResponse.IsSuccess && gameResponse.Exception != null)
                     {
-                        result.IsSuccess = gameResponse.Success;
+                        result.IsSuccess = gameResponse.IsSuccess;
                         result.Message = gameResponse.Exception.Message;
 
                         return result;
@@ -215,7 +215,7 @@ namespace SudokuCollective.Data.Services
                 {
                     var response = await _gamesRepository.GetAppGames(request.AppId);
 
-                    if (response.Success)
+                    if (response.IsSuccess)
                     {
                         if (request.Paginator != null)
                         {
@@ -245,14 +245,14 @@ namespace SudokuCollective.Data.Services
                             result.Payload.AddRange(response.Objects);
                         }
 
-                        result.IsSuccess = response.Success;
+                        result.IsSuccess = response.IsSuccess;
                         result.Message = GamesMessages.GamesFoundMessage;
 
                         return result;
                     }
-                    else if (!response.Success && response.Exception != null)
+                    else if (!response.IsSuccess && response.Exception != null)
                     {
-                        result.IsSuccess = response.Success;
+                        result.IsSuccess = response.IsSuccess;
                         result.Message = response.Exception.Message;
 
                         return result;
@@ -319,7 +319,7 @@ namespace SudokuCollective.Data.Services
                         id,
                         request.AppId);
 
-                    if (gameResponse.Success)
+                    if (gameResponse.IsSuccess)
                     {
                         var game = (Game)gameResponse.Object;
 
@@ -329,9 +329,9 @@ namespace SudokuCollective.Data.Services
 
                         return result;
                     }
-                    else if (!gameResponse.Success && gameResponse.Exception != null)
+                    else if (!gameResponse.IsSuccess && gameResponse.Exception != null)
                     {
-                        result.IsSuccess = gameResponse.Success;
+                        result.IsSuccess = gameResponse.IsSuccess;
                         result.Message = gameResponse.Exception.Message;
 
                         return result;
@@ -389,7 +389,7 @@ namespace SudokuCollective.Data.Services
                         payload.UserId,
                         request.AppId);
 
-                    if (response.Success)
+                    if (response.IsSuccess)
                     {
                         if (request.Paginator != null)
                         {
@@ -419,14 +419,14 @@ namespace SudokuCollective.Data.Services
                             result.Payload.AddRange(response.Objects);
                         }
 
-                        result.IsSuccess = response.Success;
+                        result.IsSuccess = response.IsSuccess;
                         result.Message = GamesMessages.GamesFoundMessage;
 
                         return result;
                     }
-                    else if (!response.Success && response.Exception != null)
+                    else if (!response.IsSuccess && response.Exception != null)
                     {
-                        result.IsSuccess = response.Success;
+                        result.IsSuccess = response.IsSuccess;
                         result.Message = response.Exception.Message;
 
                         return result;
@@ -480,7 +480,7 @@ namespace SudokuCollective.Data.Services
                 {
                     var gameResponse = await _gamesRepository.Get(id);
 
-                    if (gameResponse.Success)
+                    if (gameResponse.IsSuccess)
                     {
                         foreach (var cell in payload.SudokuCells)
                         {
@@ -495,17 +495,17 @@ namespace SudokuCollective.Data.Services
 
                         var updateGameResponse = await _gamesRepository.Update((Game)gameResponse.Object);
 
-                        if (updateGameResponse.Success)
+                        if (updateGameResponse.IsSuccess)
                         {
-                            result.IsSuccess = updateGameResponse.Success;
+                            result.IsSuccess = updateGameResponse.IsSuccess;
                             result.Message = GamesMessages.GameUpdatedMessage;
                             result.Payload.Add((Game)updateGameResponse.Object);
 
                             return result;
                         }
-                        else if (!updateGameResponse.Success && updateGameResponse.Exception != null)
+                        else if (!updateGameResponse.IsSuccess && updateGameResponse.Exception != null)
                         {
-                            result.IsSuccess = updateGameResponse.Success;
+                            result.IsSuccess = updateGameResponse.IsSuccess;
                             result.Message = updateGameResponse.Exception.Message;
 
                             return result;
@@ -518,9 +518,9 @@ namespace SudokuCollective.Data.Services
                             return result;
                         }
                     }
-                    else if (!gameResponse.Success && gameResponse.Exception != null)
+                    else if (!gameResponse.IsSuccess && gameResponse.Exception != null)
                     {
-                        result.IsSuccess = gameResponse.Success;
+                        result.IsSuccess = gameResponse.IsSuccess;
                         result.Message = gameResponse.Exception.Message;
 
                         return result;
@@ -566,20 +566,20 @@ namespace SudokuCollective.Data.Services
             {
                 var gameResponse = await _gamesRepository.Get(id);
 
-                if (gameResponse.Success)
+                if (gameResponse.IsSuccess)
                 {
                     var deleteGameResponse = await _gamesRepository.Delete((Game)gameResponse.Object);
 
-                    if (deleteGameResponse.Success)
+                    if (deleteGameResponse.IsSuccess)
                     {
-                        result.IsSuccess = deleteGameResponse.Success;
+                        result.IsSuccess = deleteGameResponse.IsSuccess;
                         result.Message = GamesMessages.GameDeletedMessage;
 
                         return result;
                     }
-                    else if (!deleteGameResponse.Success && deleteGameResponse.Exception != null)
+                    else if (!deleteGameResponse.IsSuccess && deleteGameResponse.Exception != null)
                     {
-                        result.IsSuccess = deleteGameResponse.Success;
+                        result.IsSuccess = deleteGameResponse.IsSuccess;
                         result.Message = deleteGameResponse.Exception.Message;
 
                         return result;
@@ -592,9 +592,9 @@ namespace SudokuCollective.Data.Services
                         return result;
                     }
                 }
-                else if (!gameResponse.Success && gameResponse.Exception != null)
+                else if (!gameResponse.IsSuccess && gameResponse.Exception != null)
                 {
-                    result.IsSuccess = gameResponse.Success;
+                    result.IsSuccess = gameResponse.IsSuccess;
                     result.Message = gameResponse.Exception.Message;
 
                     return result;
@@ -653,16 +653,16 @@ namespace SudokuCollective.Data.Services
                         id, 
                         request.AppId);
 
-                    if (response.Success)
+                    if (response.IsSuccess)
                     {
                         result.IsSuccess = true;
                         result.Message = GamesMessages.GameDeletedMessage;
 
                         return result;
                     }
-                    else if (!response.Success && response.Exception != null)
+                    else if (!response.IsSuccess && response.Exception != null)
                     {
-                        result.IsSuccess = response.Success;
+                        result.IsSuccess = response.IsSuccess;
                         result.Message = response.Exception.Message;
 
                         return result;
@@ -724,7 +724,7 @@ namespace SudokuCollective.Data.Services
             {
                 var gameResponse = await _gamesRepository.Get(id);
 
-                if (gameResponse.Success)
+                if (gameResponse.IsSuccess)
                 {
                     foreach (var cell in payload.SudokuCells)
                     {
@@ -748,16 +748,16 @@ namespace SudokuCollective.Data.Services
 
                     var updateGameResponse = await _gamesRepository.Update((Game)gameResponse.Object);
 
-                    if (updateGameResponse.Success)
+                    if (updateGameResponse.IsSuccess)
                     {
-                        result.IsSuccess = updateGameResponse.Success;
+                        result.IsSuccess = updateGameResponse.IsSuccess;
                         result.Payload.Add((Game)updateGameResponse.Object);
 
                         return result;
                     }
-                    else if (!updateGameResponse.Success && updateGameResponse.Exception != null)
+                    else if (!updateGameResponse.IsSuccess && updateGameResponse.Exception != null)
                     {
-                        result.IsSuccess = updateGameResponse.Success;
+                        result.IsSuccess = updateGameResponse.IsSuccess;
                         result.Message = updateGameResponse.Exception.Message;
 
                         return result;
@@ -770,9 +770,9 @@ namespace SudokuCollective.Data.Services
                         return result;
                     }
                 }
-                else if (!gameResponse.Success && gameResponse.Exception != null)
+                else if (!gameResponse.IsSuccess && gameResponse.Exception != null)
                 {
-                    result.IsSuccess = gameResponse.Success;
+                    result.IsSuccess = gameResponse.IsSuccess;
                     result.Message = gameResponse.Exception.Message;
 
                     return result;
@@ -865,7 +865,7 @@ namespace SudokuCollective.Data.Services
                     // Add solution to the database
                     var response = await _solutionsRepository.GetAll();
 
-                    if (response.Success)
+                    if (response.IsSuccess)
                     {
                         var solutionInDB = false;
 

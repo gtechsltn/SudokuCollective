@@ -26,7 +26,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Create(It.IsAny<EmailConfirmation>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = new EmailConfirmation()
                     } as IRepositoryResponse));
 
@@ -34,7 +34,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Get(It.IsAny<string>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.EmailConfirmations.FirstOrDefault(ec => ec.Id == 1)
                     } as IRepositoryResponse));
 
@@ -42,7 +42,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = context.EmailConfirmations
                             .ToList()
                             .ConvertAll(d => (IDomainEntity)d)
@@ -52,7 +52,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Update(It.IsAny<EmailConfirmation>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.EmailConfirmations.FirstOrDefault(ec => ec.Id == 1)
                     } as IRepositoryResponse));
 
@@ -60,7 +60,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Delete(It.IsAny<EmailConfirmation>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
@@ -75,7 +75,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.RetrieveEmailConfirmation(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.EmailConfirmations.FirstOrDefault(ec => ec.Id == 1)
                     } as IRepositoryResponse));
 
@@ -83,35 +83,35 @@ namespace SudokuCollective.Test.Repositories
                 repo.Create(It.IsAny<EmailConfirmation>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.Get(It.IsAny<string>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.Update(It.IsAny<EmailConfirmation>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.Delete(It.IsAny<EmailConfirmation>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
@@ -126,7 +126,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.RetrieveEmailConfirmation(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
         }
     }

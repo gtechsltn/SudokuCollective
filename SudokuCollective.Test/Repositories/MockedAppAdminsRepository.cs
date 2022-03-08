@@ -29,7 +29,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Add(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = new AppAdmin() { 
                             Id = 2,
                             AppId = 1,
@@ -41,7 +41,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.AppAdmins.FirstOrDefault(aa => aa.Id == 1)
                     } as IRepositoryResponse));
 
@@ -49,7 +49,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = context.AppAdmins
                             .ToList()
                             .ConvertAll(aa => (IDomainEntity)aa)
@@ -59,7 +59,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Update(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.Difficulties.FirstOrDefault(d => d.Id == 1)
                     } as IRepositoryResponse));
 
@@ -67,21 +67,21 @@ namespace SudokuCollective.Test.Repositories
                 repo.UpdateRange(It.IsAny<List<AppAdmin>>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     { 
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
                 repo.Delete(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
                 repo.DeleteRange(It.IsAny<List<AppAdmin>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
@@ -96,7 +96,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetAdminRecord(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.AppAdmins.FirstOrDefault(aa => aa.Id == 1)
                     } as IRepositoryResponse));
 
@@ -104,49 +104,49 @@ namespace SudokuCollective.Test.Repositories
                 repo.Add(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.Update(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.UpdateRange(It.IsAny<List<AppAdmin>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.Delete(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
                 repo.DeleteRange(It.IsAny<List<AppAdmin>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
@@ -161,14 +161,14 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetAdminRecord(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = false
+                        IsSuccess = false
                     } as IRepositoryResponse));
 
             PromoteUserRequest.Setup(repo =>
                 repo.Add(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = new AppAdmin()
                         {
                             Id = 2,
@@ -182,7 +182,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Get(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.AppAdmins.FirstOrDefault(aa => aa.Id == 1)
                     } as IRepositoryResponse));
 
@@ -190,7 +190,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetAll())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Objects = context.AppAdmins
                             .ToList()
                             .ConvertAll(aa => (IDomainEntity)aa)
@@ -200,7 +200,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.Update(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.Difficulties.FirstOrDefault(d => d.Id == 1)
                     } as IRepositoryResponse));
 
@@ -208,21 +208,21 @@ namespace SudokuCollective.Test.Repositories
                 repo.UpdateRange(It.IsAny<List<AppAdmin>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             PromoteUserRequest.Setup(repo =>
                 repo.Delete(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             PromoteUserRequest.Setup(repo =>
                 repo.DeleteRange(It.IsAny<List<AppAdmin>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true
+                        IsSuccess = true
                     } as IRepositoryResponse));
 
             PromoteUserRequest.Setup(repo =>
@@ -237,7 +237,7 @@ namespace SudokuCollective.Test.Repositories
                 repo.GetAdminRecord(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = context.AppAdmins.FirstOrDefault(aa => aa.Id == 1)
                     } as IRepositoryResponse));
         }

@@ -61,19 +61,19 @@ namespace SudokuCollective.Data.Services
             {
                 var solutionResponse = await _solutionsRepository.Get(id);
 
-                if (solutionResponse.Success)
+                if (solutionResponse.IsSuccess)
                 {
                     var solution = (SudokuSolution)solutionResponse.Object;
 
-                    result.IsSuccess = solutionResponse.Success;
+                    result.IsSuccess = solutionResponse.IsSuccess;
                     result.Message = SolutionsMessages.SolutionFoundMessage;
                     result.Payload.Add(solution);
 
                     return result;
                 }
-                else if (!solutionResponse.Success && solutionResponse.Exception != null)
+                else if (!solutionResponse.IsSuccess && solutionResponse.Exception != null)
                 {
-                    result.IsSuccess = solutionResponse.Success;
+                    result.IsSuccess = solutionResponse.IsSuccess;
                     result.Message = solutionResponse.Exception.Message;
 
                     return result;
@@ -114,7 +114,7 @@ namespace SudokuCollective.Data.Services
                 response = (RepositoryResponse)cacheServiceResponse.Item1;
                 result = (Result)cacheServiceResponse.Item2;
 
-                if (response.Success)
+                if (response.IsSuccess)
                 {
                     if (request.Paginator != null)
                     {
@@ -145,14 +145,14 @@ namespace SudokuCollective.Data.Services
                             .ConvertAll(s => (object)s));
                     }
 
-                    result.IsSuccess = response.Success;
+                    result.IsSuccess = response.IsSuccess;
                     result.Message = SolutionsMessages.SolutionsFoundMessage;
 
                     return result;
                 }
-                else if (!response.Success && response.Exception != null)
+                else if (!response.IsSuccess && response.Exception != null)
                 {
-                    result.IsSuccess = response.Success;
+                    result.IsSuccess = response.IsSuccess;
                     result.Message = response.Exception.Message;
 
                     return result;
@@ -331,7 +331,7 @@ namespace SudokuCollective.Data.Services
 
                     var matrixNotInDB = true;
 
-                    if (response.Success)
+                    if (response.IsSuccess)
                     {
                         foreach (var solution in response
                             .Objects
@@ -357,16 +357,16 @@ namespace SudokuCollective.Data.Services
 
                 var solutionResponse = await _solutionsRepository.Add((SudokuSolution)result.Payload[0]);
 
-                if (solutionResponse.Success)
+                if (solutionResponse.IsSuccess)
                 {
-                    result.IsSuccess = solutionResponse.Success;
+                    result.IsSuccess = solutionResponse.IsSuccess;
                     result.Message = SolutionsMessages.SolutionGeneratedMessage;
 
                     return result;
                 }
                 else
                 {
-                    result.IsSuccess = solutionResponse.Success;
+                    result.IsSuccess = solutionResponse.IsSuccess;
                     result.Message = SolutionsMessages.SolutionNotGeneratedMessage;
 
                     return result;
@@ -464,16 +464,16 @@ namespace SudokuCollective.Data.Services
                 var solutionsResponse = await _solutionsRepository
                     .AddSolutions(newSolutions.ConvertAll(s => (ISudokuSolution)s));
 
-                if (solutionsResponse.Success)
+                if (solutionsResponse.IsSuccess)
                 {
-                    result.IsSuccess = solutionsResponse.Success;
+                    result.IsSuccess = solutionsResponse.IsSuccess;
                     result.Message = SolutionsMessages.SolutionsAddedMessage;
 
                     return result;
                 }
-                else if (!solutionsResponse.Success && solutionsResponse.Exception != null)
+                else if (!solutionsResponse.IsSuccess && solutionsResponse.Exception != null)
                 {
-                    result.IsSuccess = solutionsResponse.Success;
+                    result.IsSuccess = solutionsResponse.IsSuccess;
                     result.Message = solutionsResponse.Exception.Message;
 
                     return result;

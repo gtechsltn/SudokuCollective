@@ -99,7 +99,19 @@ namespace SudokuCollective.Data.Services
                     _cachingStrategy.Medium,
                     request.License);
 
-                var app = (App)((RepositoryResponse)appResponse.Item1).Object;
+                App app;
+
+                if (((RepositoryResponse)appResponse.Item1).IsSuccess)
+                {
+                    app = (App)((RepositoryResponse)appResponse.Item1).Object;
+                }
+                else
+                {
+                    result.IsSuccess = false;
+                    result.Message = AppsMessages.AppNotFoundMessage;
+
+                    return result;
+                }
 
                 if (!app.IsActive)
                 {

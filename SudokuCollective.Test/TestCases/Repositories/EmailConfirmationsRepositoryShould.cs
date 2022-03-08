@@ -33,7 +33,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Create(newEmailConfirmation);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((EmailConfirmation)result.Object, Is.InstanceOf<EmailConfirmation>());
         }
 
@@ -47,7 +47,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Create(newEmailConfirmation);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Repository")]
@@ -60,7 +60,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Get(token);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((EmailConfirmation)result.Object, Is.InstanceOf<EmailConfirmation>());
         }
 
@@ -71,7 +71,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Get(Guid.NewGuid().ToString());
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
             Assert.That(result.Object, Is.Null);
         }
 
@@ -82,7 +82,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.GetAll();
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Objects.ConvertAll(ec => (EmailConfirmation)ec), Is.InstanceOf<List<EmailConfirmation>>());
         }
 
@@ -97,7 +97,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Update(emailConfirmation);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Object, Is.InstanceOf<EmailConfirmation>());
             Assert.That(((EmailConfirmation)result.Object).OldEmailAddress, Is.EqualTo(emailConfirmation.OldEmailAddress));
         }
@@ -109,7 +109,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Update(newEmailConfirmation);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
             Assert.That(result.Object, Is.Null);
         }
 
@@ -123,7 +123,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Delete(emailConfirmation);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
         }
 
         [Test, Category("Repository")]
@@ -133,7 +133,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.Delete(newEmailConfirmation);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
 
         [Test, Category("Repository")]
@@ -169,7 +169,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.RetrieveEmailConfirmation(emailConfirmation.UserId, emailConfirmation.AppId);
 
             // Assert
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.IsSuccess, Is.True);
             Assert.That((EmailConfirmation)result.Object, Is.InstanceOf<EmailConfirmation>());
         }
 
@@ -183,7 +183,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var result = await sut.RetrieveEmailConfirmation(emailConfirmation.UserId + 3, emailConfirmation.AppId);
 
             // Assert
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.IsSuccess, Is.False);
         }
     }
 }

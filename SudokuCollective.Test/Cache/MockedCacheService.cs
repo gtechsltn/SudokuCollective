@@ -57,7 +57,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<App>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
@@ -76,7 +76,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<Difficulty>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedDifficultiesRepository
                         .SuccessfulRequest
                         .Object
@@ -95,7 +95,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<Role>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedRolesRepository
                         .SuccessfulRequest
                         .Object
@@ -114,7 +114,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<User>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedUsersRepository
                         .SuccessfulRequest
                         .Object
@@ -146,7 +146,7 @@ namespace SudokuCollective.Test.Cache
                         return new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Object = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
@@ -179,7 +179,7 @@ namespace SudokuCollective.Test.Cache
                     return new Tuple<IRepositoryResponse, IResult>(
                         new RepositoryResponse
                         {
-                            Success = true,
+                            IsSuccess = true,
                             Object = MockedDifficultiesRepository
                                 .SuccessfulRequest
                                 .Object
@@ -212,7 +212,7 @@ namespace SudokuCollective.Test.Cache
                     return new Tuple<IRepositoryResponse, IResult>(
                         new RepositoryResponse
                         {
-                            Success = true,
+                            IsSuccess = true,
                             Object = MockedRolesRepository
                                 .SuccessfulRequest
                                 .Object
@@ -245,7 +245,7 @@ namespace SudokuCollective.Test.Cache
                         return new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Object = MockedUsersRepository
                                     .SuccessfulRequest
                                     .Object
@@ -271,7 +271,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
@@ -296,7 +296,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Objects = MockedDifficultiesRepository
                                     .SuccessfulRequest
                                     .Object
@@ -321,7 +321,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Objects = MockedRolesRepository
                                     .SuccessfulRequest
                                     .Object
@@ -346,7 +346,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Objects = MockedSolutionsRepository
                                     .SuccessfulRequest
                                     .Object
@@ -371,7 +371,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Objects = MockedUsersRepository
                                     .SuccessfulRequest
                                     .Object
@@ -389,7 +389,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        Success = true,
+                        IsSuccess = true,
                         Object = MockedAppsRepository
                             .SuccessfulRequest
                             .Object
@@ -407,7 +407,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedDifficultiesRepository
                             .SuccessfulRequest
                             .Object
@@ -425,7 +425,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedRolesRepository
                             .SuccessfulRequest
                             .Object
@@ -443,7 +443,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
@@ -461,7 +461,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true
+                    IsSuccess = true
                 } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(cache =>
@@ -473,7 +473,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true
+                    IsSuccess = true
                 } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(cache =>
@@ -485,7 +485,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true
+                    IsSuccess = true
                 } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(cache =>
@@ -497,7 +497,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true
+                    IsSuccess = true
                 } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(cache =>
@@ -541,7 +541,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Object = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
@@ -568,7 +568,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
@@ -595,7 +595,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
@@ -622,7 +622,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
@@ -649,7 +649,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
@@ -685,7 +685,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<App>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
@@ -702,7 +702,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
@@ -719,7 +719,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
@@ -764,7 +764,7 @@ namespace SudokuCollective.Test.Cache
                         return new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Object = MockedUsersRepository
                                     .SuccessfulRequest
                                     .Object
@@ -792,7 +792,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Object = MockedUsersRepository
                                     .SuccessfulRequest
                                     .Object
@@ -811,7 +811,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedUsersRepository
                         .SuccessfulRequest
                         .Object
@@ -829,7 +829,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedUsersRepository
                         .SuccessfulRequest
                         .Object
@@ -875,7 +875,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<App>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = false
+                    IsSuccess = false
                 } as IRepositoryResponse));
 
             FailedRequest.Setup(cache =>
@@ -888,7 +888,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<Difficulty>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = false
+                    IsSuccess = false
                 } as IRepositoryResponse));
 
             FailedRequest.Setup(cache =>
@@ -901,7 +901,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<Role>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = false
+                    IsSuccess = false
                 } as IRepositoryResponse));
 
             FailedRequest.Setup(cache =>
@@ -914,7 +914,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<User>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = false
+                    IsSuccess = false
                 } as IRepositoryResponse));
 
             FailedRequest.Setup(cache =>
@@ -935,7 +935,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = false
+                                IsSuccess = false
                             }, result));
 
             FailedRequest.Setup(cache =>
@@ -956,7 +956,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = false
+                                IsSuccess = false
                             }, result));
 
             FailedRequest.Setup(cache =>
@@ -977,7 +977,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = false
+                                IsSuccess = false
                             }, result));
 
             FailedRequest.Setup(cache =>
@@ -998,7 +998,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = false
+                                IsSuccess = false
                             }, result));
 
             FailedRequest.Setup(cache =>
@@ -1017,7 +1017,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = false
+                                IsSuccess = false
                             }, result));
 
             FailedRequest.Setup(cache =>
@@ -1036,7 +1036,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = false
+                                IsSuccess = false
                             }, result));
 
             FailedRequest.Setup(cache =>
@@ -1055,7 +1055,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = false
+                                IsSuccess = false
                             }, result));
 
             FailedRequest.Setup(cache =>
@@ -1074,7 +1074,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = false
+                                IsSuccess = false
                             }, result));
 
             FailedRequest.Setup(cache =>
@@ -1093,7 +1093,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = false
+                                IsSuccess = false
                             }, result));
 
             FailedRequest.Setup(cache =>
@@ -1105,7 +1105,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = false
+                    IsSuccess = false
                 } as IRepositoryResponse));
 
             FailedRequest.Setup(cache =>
@@ -1117,7 +1117,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = false
+                    IsSuccess = false
                 } as IRepositoryResponse));
 
             FailedRequest.Setup(cache =>
@@ -1129,7 +1129,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = false
+                    IsSuccess = false
                 } as IRepositoryResponse));
 
             FailedRequest.Setup(cache =>
@@ -1141,7 +1141,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = false
+                    IsSuccess = false
                 } as IRepositoryResponse));
 
             FailedRequest.Setup(cache =>
@@ -1153,7 +1153,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = false
+                    IsSuccess = false
                 } as IRepositoryResponse));
 
             FailedRequest.Setup(cache =>
@@ -1165,7 +1165,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = false
+                    IsSuccess = false
                 } as IRepositoryResponse));
 
             FailedRequest.Setup(cache =>
@@ -1177,7 +1177,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = false
+                    IsSuccess = false
                 } as IRepositoryResponse));
 
             FailedRequest.Setup(cache =>
@@ -1189,7 +1189,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = false
+                    IsSuccess = false
                 } as IRepositoryResponse));
 
             FailedRequest.Setup(cache =>
@@ -1233,7 +1233,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = false
+                                IsSuccess = false
                             }, result));
 
             FailedRequest.Setup(cache =>
@@ -1254,7 +1254,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = false
+                                IsSuccess = false
                             }, result));
 
             FailedRequest.Setup(cache =>
@@ -1275,7 +1275,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = false
+                                IsSuccess = false
                             }, result));
 
             FailedRequest.Setup(cache =>
@@ -1296,7 +1296,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = false
+                                IsSuccess = false
                             }, result));
 
             FailedRequest.Setup(cache =>
@@ -1317,7 +1317,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = false
+                                IsSuccess = false
                             }, result));
 
             FailedRequest.Setup(cache =>
@@ -1347,7 +1347,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<App>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = false
+                    IsSuccess = false
                 } as IRepositoryResponse));
 
             FailedRequest.Setup(cache =>
@@ -1358,7 +1358,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = false
+                    IsSuccess = false
                 } as IRepositoryResponse));
 
             FailedRequest.Setup(cache =>
@@ -1369,7 +1369,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = false
+                    IsSuccess = false
                 } as IRepositoryResponse));
 
             FailedRequest.Setup(cache =>
@@ -1408,7 +1408,7 @@ namespace SudokuCollective.Test.Cache
                     return new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = false
+                                IsSuccess = false
                             }, result);
                     });
 
@@ -1430,7 +1430,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = false
+                                IsSuccess = false
                             }, result));
 
 
@@ -1443,7 +1443,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = false
+                    IsSuccess = false
                 } as IRepositoryResponse));
 
             FailedRequest.Setup(cache =>
@@ -1455,7 +1455,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = false
+                    IsSuccess = false
                 } as IRepositoryResponse));
 
             FailedRequest.Setup(cache =>
@@ -1495,7 +1495,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<App>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
@@ -1514,7 +1514,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<Difficulty>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedDifficultiesRepository
                         .SuccessfulRequest
                         .Object
@@ -1533,7 +1533,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<Role>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedRolesRepository
                         .SuccessfulRequest
                         .Object
@@ -1552,7 +1552,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<User>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedUsersRepository
                         .SuccessfulRequest
                         .Object
@@ -1579,7 +1579,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Object = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
@@ -1606,7 +1606,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Object = MockedDifficultiesRepository
                                     .SuccessfulRequest
                                     .Object
@@ -1633,7 +1633,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Object = MockedRolesRepository
                                     .SuccessfulRequest
                                     .Object
@@ -1660,7 +1660,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Object = MockedUsersRepository
                                     .SuccessfulRequest
                                     .Object
@@ -1685,7 +1685,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
@@ -1710,7 +1710,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Objects = MockedDifficultiesRepository
                                     .SuccessfulRequest
                                     .Object
@@ -1735,7 +1735,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Objects = MockedRolesRepository
                                     .SuccessfulRequest
                                     .Object
@@ -1760,7 +1760,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Objects = MockedSolutionsRepository
                                     .SuccessfulRequest
                                     .Object
@@ -1785,7 +1785,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Objects = MockedUsersRepository
                                     .SuccessfulRequest
                                     .Object
@@ -1803,7 +1803,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedAppsRepository
                             .SuccessfulRequest
                             .Object
@@ -1821,7 +1821,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedDifficultiesRepository
                             .SuccessfulRequest
                             .Object
@@ -1839,7 +1839,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedRolesRepository
                             .SuccessfulRequest
                             .Object
@@ -1857,7 +1857,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
@@ -1875,7 +1875,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true
+                    IsSuccess = true
                 } as IRepositoryResponse));
 
             CreateDifficultyRoleSuccessfulRequest.Setup(cache =>
@@ -1887,7 +1887,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true
+                    IsSuccess = true
                 } as IRepositoryResponse));
 
             CreateDifficultyRoleSuccessfulRequest.Setup(cache =>
@@ -1899,7 +1899,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true
+                    IsSuccess = true
                 } as IRepositoryResponse));
 
             CreateDifficultyRoleSuccessfulRequest.Setup(cache =>
@@ -1911,7 +1911,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true
+                    IsSuccess = true
                 } as IRepositoryResponse));
 
             CreateDifficultyRoleSuccessfulRequest.Setup(cache =>
@@ -1955,7 +1955,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Object = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
@@ -1982,7 +1982,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
@@ -2009,7 +2009,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
@@ -2036,7 +2036,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
@@ -2063,7 +2063,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
@@ -2099,7 +2099,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<App>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
@@ -2116,7 +2116,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
@@ -2133,7 +2133,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
@@ -2175,7 +2175,7 @@ namespace SudokuCollective.Test.Cache
                     return new Tuple<IRepositoryResponse, IResult>(
                         new RepositoryResponse
                         {
-                            Success = true,
+                            IsSuccess = true,
                             Object = MockedUsersRepository
                                 .SuccessfulRequest
                                 .Object
@@ -2203,7 +2203,7 @@ namespace SudokuCollective.Test.Cache
                         new Tuple<IRepositoryResponse, IResult>(
                             new RepositoryResponse
                             {
-                                Success = true,
+                                IsSuccess = true,
                                 Object = MockedUsersRepository
                                     .SuccessfulRequest
                                     .Object
@@ -2222,7 +2222,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedUsersRepository
                         .SuccessfulRequest
                         .Object
@@ -2240,7 +2240,7 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new RepositoryResponse()
                 {
-                    Success = true,
+                    IsSuccess = true,
                     Object = MockedUsersRepository
                         .SuccessfulRequest
                         .Object
