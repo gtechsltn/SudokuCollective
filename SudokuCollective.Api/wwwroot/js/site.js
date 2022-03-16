@@ -27,15 +27,7 @@ async function checkAPI(htmlElement) {
 
         const data = await response.json();
 
-        let apiUp = false;
-
         if (data.isSuccess) {
-
-            apiUp = true;
-
-        }
-
-        if (apiUp) {
 
             htmlElement.innerHTML = 'The Sudoku Collective API is up and running!';
 
