@@ -27,7 +27,7 @@ async function checkAPI(htmlElement) {
 
         const data = await response.json();
 
-        let apiUp;
+        let apiUp = false;
 
         if (data.isSuccess) {
 
