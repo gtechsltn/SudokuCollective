@@ -3,60 +3,60 @@
 
 // Write your JavaScript code.
 
-$(document).ready(function () {
+window.addEventListener('load', () => {
 
-    var date = new Date();
-    $("#year").text(date.getFullYear());
+    const date = new Date();
+    
+    document.getElementById('year').innerHTML = date.getFullYear();
 
-    checkAPI();
+    const htmlElement = document.getElementById('apiMessage');
 
-    setInterval(function () {
+    checkAPI(htmlElement);
 
-        checkAPI();
+    setInterval(async () => {
 
-    }, 10000);
-});
+        await checkAPI(htmlElement);
 
-function checkAPI() {
+    }, 10000, htmlElement);
+}, false);
 
-    axios.get("api/helloworld")
-        .then((response) => {
-            console.log("hello world response: ", response);
+async function checkAPI(htmlElement) {
 
-            var apiUp;
+    try {
+        const response = await fetch("api/helloworld");
 
-            if (response.data.isSuccess) {
+        const data = await response.json();
 
-                apiUp = true;
+        let apiUp;
 
+        if (data.isSuccess) {
+
+            apiUp = true;
+
+        }
+
+        if (apiUp) {
+
+            htmlElement.innerHTML = 'The Sudoku Collective API is up and running!';
+
+            if (htmlElement.classList.contains('red')) {
+
+                htmlElement.classList.remove("red");
             }
 
-            if (apiUp) {
+            htmlElement.style.display = 'block';
+        }
 
-                $("#apiMessage")
-                    .text("The Sudoku Collective API is up and running!");
+    } catch (error) {
+        console.log("hello world error: ", error);
+        
+        htmlElement.innerHTML = 'The Sudoku Collective API is down.';
 
-                if ($("#apiMessage").hasClass("red")) {
+        if (!htmlElement.classList.contains('red')) {
 
-                    $("#apiMessage").removeClass("red");
-                }
+            htmlElement.classList.add("red");
+        }
 
-                $("#apiMessage").show();
-
-            }
-        }, (error) => {
-            let e = JSON.parse(JSON.stringify(error));
-            console.log("hello world error: ", e);
-
-            $("#apiMessage")
-                .text("There is an issue with the Sudoku Collective API: "
-                    + e.message);
-
-            if (!$("#apiMessage").hasClass("red")) {
-
-                $("#apiMessage").addClass("red");
-            }
-
-            $("#apiMessage").show();
-        });
+        htmlElement.style.display = 'block';
+    }
 }
