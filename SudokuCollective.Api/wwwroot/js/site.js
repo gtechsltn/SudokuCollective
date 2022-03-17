@@ -27,28 +27,43 @@ async function checkAPI(htmlElement) {
 
         const data = await response.json();
 
+        let message;
+
         if (data.isSuccess) {
 
-            htmlElement.innerHTML = 'The Sudoku Collective API is up and running!';
+            message = 'The Sudoku Collective API is up and running!';
 
-            if (htmlElement.classList.contains('red')) {
+        } else {
 
-                htmlElement.classList.remove("red");
-            }
-
-            htmlElement.style.display = 'block';
+            message = data.message;
         }
 
+        updateIndex(htmlElement, message, data.isSuccess);
+
     } catch (error) {
-        console.log("hello world error: ", error);
         
-        htmlElement.innerHTML = 'The Sudoku Collective API is down.';
+        updateIndex(htmlElement, 'Error contacting Sudoku Collective API: <br/>' + error, false);
+    }
+}
+
+function updateIndex(htmlElement, message, isSuccess) {
+
+    htmlElement.innerHTML = message;
+
+    if (isSuccess) {
+
+        if (htmlElement.classList.contains('red')) {
+    
+            htmlElement.classList.remove("red");
+        }
+
+    } else {
 
         if (!htmlElement.classList.contains('red')) {
 
             htmlElement.classList.add("red");
         }
-
-        htmlElement.style.display = 'block';
     }
+
+    htmlElement.style.display = 'block';
 }
