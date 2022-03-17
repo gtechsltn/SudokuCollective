@@ -3,7 +3,7 @@
 
 // Write your JavaScript code.
 
-window.addEventListener('load', () => {
+window.addEventListener('load', async () => {
 
     const date = new Date();
     
@@ -11,7 +11,7 @@ window.addEventListener('load', () => {
 
     const htmlElement = document.getElementById('apiMessage');
 
-    checkAPI(htmlElement);
+    await checkAPI(htmlElement);
 
     setInterval(async () => {
 
