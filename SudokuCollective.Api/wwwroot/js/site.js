@@ -18,6 +18,7 @@ window.addEventListener('load', async () => {
         await checkAPI(htmlElement);
 
     }, 10000, htmlElement);
+
 }, false);
 
 async function checkAPI(htmlElement) {
