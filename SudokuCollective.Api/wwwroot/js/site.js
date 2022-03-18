@@ -43,28 +43,43 @@ async function checkAPI(htmlElement) {
 
     } catch (error) {
         
-        updateIndex(htmlElement, 'Error contacting Sudoku Collective API: <br/>' + error, false);
+        updateIndex(
+            htmlElement, 
+            'Error connecting to Sudoku Collective API: <br/>' + error, 
+            false);
     }
 }
 
 function updateIndex(htmlElement, message, isSuccess) {
 
-    htmlElement.innerHTML = message;
+    if (htmlElement.innerHTML !== undefined 
+        && htmlElement.classList !== undefined 
+        && typeof(message) === 'string' 
+        && typeof(isSuccess) === 'boolean') {
 
-    if (isSuccess) {
+        htmlElement.innerHTML = message;
 
-        if (htmlElement.classList.contains('red')) {
+        if (isSuccess) {
     
-            htmlElement.classList.remove("red");
+            if (htmlElement.classList.contains('red')) {
+        
+                htmlElement.classList.remove("red");
+            }
+    
+        } else {
+    
+            if (!htmlElement.classList.contains('red')) {
+    
+                htmlElement.classList.add("red");
+            }
         }
 
     } else {
 
-        if (!htmlElement.classList.contains('red')) {
-
-            htmlElement.classList.add("red");
+        if (typeof(message) !== 'string') {
+            message = 'message invalid';
         }
-    }
 
-    htmlElement.style.display = 'block';
+        console.log("Invalid HTMLElement for message: " + message);
+    }
 }
