@@ -24,6 +24,7 @@ window.addEventListener('load', async () => {
 async function checkAPI(htmlElement) {
 
     try {
+        
         const response = await fetch("api/helloworld");
 
         const data = await response.json();
