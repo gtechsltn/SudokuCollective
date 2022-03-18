@@ -129,7 +129,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
 
             // Assert
             Assert.That(result, Is.TypeOf<Task<ActionResult>>());
-            Assert.That(message, Is.EqualTo("Status Code 404: Bad Request"));
+            Assert.That(message, Is.EqualTo("Status Code 404: User not Found"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
