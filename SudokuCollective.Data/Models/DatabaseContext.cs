@@ -214,8 +214,7 @@ namespace SudokuCollective.Data.Models
                 .IsUnique();
 
             modelBuilder.Entity<User>()
-                .Property(user => user.Password)
-                .IsRequired();
+                .Property(user => user.Password);
 
             modelBuilder.Entity<User>()
                 .Property(user => user.IsActive).HasField("_isActive")

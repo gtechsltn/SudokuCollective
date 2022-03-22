@@ -83,7 +83,7 @@ namespace SudokuCollective.Core.Models
         [Required]
         public bool IsEmailConfirmed { get; set; }
         public bool ReceivedRequestToUpdateEmail { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public string Password
         {
             get
