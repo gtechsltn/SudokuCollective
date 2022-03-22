@@ -1,13 +1,13 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Validation.Attributes;
 
-namespace SudokuCollective.Data.Models.Payloads
+namespace SudokuCollective.Data.Models.Requests
 {
-    public class ResetPasswordPayload : IResetPasswordPayload
+    public class ResetPasswordRequest : IResetPasswordPayload
     {
         private string _token = string.Empty;
         private string _newPassword = string.Empty;
@@ -53,15 +53,15 @@ namespace SudokuCollective.Data.Models.Payloads
             }
         }
 
-        public ResetPasswordPayload() {}
+        public ResetPasswordRequest() {}
 
-        public ResetPasswordPayload(string token, string newPassword)
+        public ResetPasswordRequest(string token, string newPassword)
         {
             Token = token;
             NewPassword = newPassword;
         }
 
-        public static implicit operator JsonElement(ResetPasswordPayload v)
+        public static implicit operator JsonElement(ResetPasswordRequest v)
         {
             return JsonSerializer.SerializeToElement(v, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
         }

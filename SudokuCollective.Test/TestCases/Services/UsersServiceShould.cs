@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
@@ -149,7 +150,10 @@ namespace SudokuCollective.Test.TestCases.Services
             var license = TestObjects.GetLicense();
 
             // Act
-            var result = await sut.Get(userId, license);
+            var result = await sut.Get(
+                userId, 
+                request, 
+                license);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -165,7 +169,10 @@ namespace SudokuCollective.Test.TestCases.Services
             var license = TestObjects.GetLicense();
 
             // Act
-            var result = await sutFailure.Get(userId, license);
+            var result = await sutFailure.Get(
+                userId,
+                request,
+                license);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -566,20 +573,15 @@ namespace SudokuCollective.Test.TestCases.Services
             user.ReceivedRequestToUpdatePassword = true;
             context.SaveChanges();
 
-            var payload = new PasswordResetPayload()
+            var updatePasswordRequest = new UpdatePasswordRequest()
             {
                 UserId = user.Id,
                 NewPassword = "T3stP@ssw0rd",
+                License = TestObjects.GetLicense()
             };
 
-            request.Payload = payload;
-
-            var license = TestObjects.GetLicense();
-
             // Act
-            var result = await sut.UpdatePassword(
-                request,
-                license);
+            var result = await sut.UpdatePassword(updatePasswordRequest);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -624,15 +626,17 @@ namespace SudokuCollective.Test.TestCases.Services
             var user = context.Users
                 .Include(u => u.Roles)
                 .FirstOrDefault(u => u.Id == userId);
-
-            var payload = new UpdateUserRolePayload();
-            payload.RoleIds.Add(3);
+            var request = TestObjects.GetRequest();
+            request.Payload = new UpdateUserRolePayload() 
+                {
+                    RoleIds = new List<int> { 3 }
+                };
             var license = TestObjects.GetLicense();
 
             // Act
             var result = await sut.AddUserRoles(
                 userId,
-                payload.RoleIds,
+                request,
                 license);
 
             // Assert
@@ -649,15 +653,17 @@ namespace SudokuCollective.Test.TestCases.Services
             var user = context.Users
                 .Include(u => u.Roles)
                 .FirstOrDefault(u => u.Id == userId);
-
-            var payload = new UpdateUserRolePayload();
-            payload.RoleIds.Add(3);
+            var request = TestObjects.GetRequest();
+            request.Payload = new UpdateUserRolePayload() 
+                {
+                    RoleIds = new List<int> { 3 }
+                };
             var license = TestObjects.GetLicense();
 
             // Act
             var result = await sut.RemoveUserRoles(
                 userId,
-                payload.RoleIds,
+                request,
                 license);
 
             // Assert

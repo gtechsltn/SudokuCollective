@@ -19,6 +19,7 @@ namespace SudokuCollective.Core.Models
         private string _userName = string.Empty;
         private string _email = string.Empty;
         private string _password = string.Empty;
+        private bool _isActive = false;
         private bool _isSuperUser;
         private bool _isAdmin;
         private readonly UserNameValidatedAttribute _userNameValidatedAttribute = new();
@@ -100,7 +101,7 @@ namespace SudokuCollective.Core.Models
         }
         public bool ReceivedRequestToUpdatePassword { get; set; }
         [Required]
-        public bool IsActive { get; set; }
+        public bool IsActive { get => _isActive; }
         [JsonIgnore]
         public bool IsSuperUser
         {
@@ -192,22 +193,6 @@ namespace SudokuCollective.Core.Models
         #endregion
 
         #region Constructors
-        public User(
-            string firstName,
-            string lastName,
-            string password) : this()
-        {
-            var dateUserCreated = DateTime.UtcNow;
-
-            FirstName = firstName;
-            LastName = lastName;
-            Password = password;
-            ReceivedRequestToUpdatePassword = false;
-            DateCreated = dateUserCreated;
-            IsActive = true;
-            IsEmailConfirmed = false;
-        }
-
         public User()
         {
             Games = new List<Game>();
@@ -223,7 +208,22 @@ namespace SudokuCollective.Core.Models
             ReceivedRequestToUpdatePassword = false;
             DateCreated = DateTime.MinValue;
             DateUpdated = DateTime.MinValue;
-            IsActive = false;
+        }
+
+        public User(
+            string firstName,
+            string lastName,
+            string password) : this()
+        {
+            var dateUserCreated = DateTime.UtcNow;
+
+            FirstName = firstName;
+            LastName = lastName;
+            Password = password;
+            ReceivedRequestToUpdatePassword = false;
+            DateCreated = dateUserCreated;
+            IsEmailConfirmed = false;
+            _isActive = true;
         }
 
         [JsonConstructor]
@@ -255,9 +255,9 @@ namespace SudokuCollective.Core.Models
             ReceivedRequestToUpdateEmail = receivedRequestToUpdateEmail;
             Password = password;
             ReceivedRequestToUpdatePassword = receivedRequestToUpdatePassword;
-            IsActive = isActive;
             DateCreated = dateCreated;
             DateUpdated = dateUpdated;
+            _isActive = isActive;
 
             if (games != null)
             {
@@ -291,12 +291,12 @@ namespace SudokuCollective.Core.Models
         #region Methods
         public void ActivateUser()
         {
-            IsActive = true;
+            _isActive = true;
         }
 
         public void DeactiveUser()
         {
-            IsActive = false;
+            _isActive = false;
         }
 
         public void UpdateRoles()

@@ -557,6 +557,54 @@ namespace SudokuCollective.Data.Utilities
                         .ToList();
                 }
             }
+            else if (paginator.SortBy == SortValue.DATECREATED)
+            {
+                result.Payload.AddRange(response
+                    .Objects
+                    .ToList()
+                    .ConvertAll(u => (object)u));
+
+                if (!paginator.OrderByDescending)
+                {
+                    result.Payload = result.Payload
+                        .OrderBy(u => ((IUser)u).DateCreated)
+                        .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
+                        .Take(paginator.ItemsPerPage)
+                        .ToList();
+                }
+                else
+                {
+                    result.Payload = result.Payload
+                        .OrderByDescending(u => ((IUser)u).DateCreated)
+                        .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
+                        .Take(paginator.ItemsPerPage)
+                        .ToList();
+                }
+            }
+            else if (paginator.SortBy == SortValue.DATEUPDATED)
+            {
+                result.Payload.AddRange(response
+                    .Objects
+                    .ToList()
+                    .ConvertAll(u => (object)u));
+
+                if (!paginator.OrderByDescending)
+                {
+                    result.Payload = result.Payload
+                        .OrderBy(u => ((IUser)u).DateUpdated)
+                        .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
+                        .Take(paginator.ItemsPerPage)
+                        .ToList();
+                }
+                else
+                {
+                    result.Payload = result.Payload
+                        .OrderByDescending(u => ((IUser)u).DateUpdated)
+                        .Skip((paginator.Page - 1) * paginator.ItemsPerPage)
+                        .Take(paginator.ItemsPerPage)
+                        .ToList();
+                }
+            }
             else
             {
                 result.IsSuccess = false;

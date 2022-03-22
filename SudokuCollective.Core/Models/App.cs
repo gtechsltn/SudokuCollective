@@ -286,6 +286,7 @@ namespace SudokuCollective.Core.Models
             DateCreated = DateTime.UtcNow;
             StagingUrl = stagingUrl;
             ProdUrl = prodUrl;
+            IsActive = true;
         }
 
         [JsonConstructor]

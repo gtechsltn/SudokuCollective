@@ -200,7 +200,16 @@ namespace SudokuCollective.Api
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
+            app.UseHttpsRedirection();
+
+            app.UseRouting();
+
+            app.UseAuthentication();
+
+            app.UseAuthorization();
+
             app.UseSwagger();
+
             app.UseSwaggerUI(swaggerUI =>
             {
                 var swaggerTitle = "SudokuCollective API v1";
@@ -217,11 +226,7 @@ namespace SudokuCollective.Api
 
             app.UseStaticFiles();
 
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
+            app.UseMvc();
 
             app.UseEndpoints(endpoints =>
             {

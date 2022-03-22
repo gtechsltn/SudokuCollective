@@ -45,7 +45,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method which creates new users.
+        /// A method which creates new users, does not require a login.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A newly created user and a authorization token.</returns>
@@ -53,18 +53,18 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues creating the user.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The Post method does not require an authorization token. The method uses uses a custom request model.
+        /// The Post method does not require a login. The request body parameter uses a custom request model.
         /// 
         /// The request should be structured as follows:
         /// ```
         ///     {                                 
-        ///       "userName": "string",  // user name must be unique, the api will ensure this for you; the applicable regex pattern as documented in the SignupRequest model
-        ///       "firstName": "string", // first name, required and cannot be null but nothing additional to note
-        ///       "lastName": "string",  // last name, required and cannot be null but nothing additional to note
-        ///       "nickName": "string",  // nick name, the value can be null but it must be included in the request
-        ///       "email": "string",     // email must be unique, the api will ensure this for you; the applicable regex pattern as documented in the SignupRequest model
-        ///       "password": "string",  // password is required, the applicable regex pattern as documented in the SignupRequest model
-        ///       "license": "string"    // the app license must be valid using the applicable regex pattern as documented in the SignupRequest model
+        ///       "userName": string,  // user name must be unique, the api will ensure this for you; the applicable regex pattern as documented in the SignupRequest model
+        ///       "firstName": string, // first name, required and cannot be null but nothing additional to note
+        ///       "lastName": string,  // last name, required and cannot be null but nothing additional to note
+        ///       "nickName": string,  // nick name, the value can be null but it must be included in the request
+        ///       "email": string,     // email must be unique, the api will ensure this for you; the applicable regex pattern as documented in the SignupRequest model
+        ///       "password": string,  // password is required, the applicable regex pattern as documented in the SignupRequest model
+        ///       "license": string    // the app license must be valid using the applicable regex pattern as documented in the SignupRequest model
         ///     }     
         /// ```
         /// </remarks>
@@ -163,7 +163,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method which resends email confirmations.
+        /// A method which resends email confirmations, does not require a login.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A status detailing the result of processing the request.</returns>
@@ -171,7 +171,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues resending the email confirmation.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The ResendEmailConfirmation method does not require an authorization token.  The method uses uses a custom request model.
+        /// The ResendEmailConfirmation method does not require a login.  The request body parameter uses a custom request model.
         /// 
         /// The request should be structured as follows:
         /// ```

@@ -15,7 +15,7 @@ namespace SudokuCollective.Data.Models.Payloads
         private readonly UserNameValidatedAttribute _usernameValidatedAttribute = new();
         private readonly EmailValidatedAttribute _emailValidator = new();
 
-        [Required]
+        [Required, UserNameValidated(ErrorMessage = AttributeMessages.InvalidUserName)]
         public string UserName 
         {
             get

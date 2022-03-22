@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -514,7 +513,6 @@ namespace SudokuCollective.Core.Models
         #endregion
 
         #region Constructors
-
         public SudokuMatrix()
         {
             Id = 0;

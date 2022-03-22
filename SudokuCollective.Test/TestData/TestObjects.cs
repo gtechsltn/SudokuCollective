@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
@@ -536,7 +537,8 @@ namespace SudokuCollective.Test.TestData
                 License = GetLicense(),
                 RequestorId = 1,
                 AppId = 1,
-                Paginator = GetPaginator()
+                Paginator = GetPaginator(),
+                Payload = new JsonElement()
             };
         }
 

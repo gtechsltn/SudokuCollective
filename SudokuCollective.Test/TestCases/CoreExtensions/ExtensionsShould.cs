@@ -603,45 +603,6 @@ namespace SudokuCollective.Test.TestCases.Extensions
         }
 
         [Test, Category("Extensions")]
-        public void ConvertJsonElementsToResetPasswordPayload()
-        {
-            // Arrange
-            JsonElement json = new ResetPasswordPayload()
-            {
-                Token = TestObjects.GetToken(),
-                NewPassword = "T3stP@ssw0rd"
-            };
-
-            // Act
-            var result = json.ConvertToPayloadSuccessful(typeof(ResetPasswordPayload), out IPayload convertedPayload);
-            var payload = (ResetPasswordPayload)convertedPayload;
-
-            // Assert
-            Assert.That(result, Is.True);
-            Assert.That(payload, Is.InstanceOf<ResetPasswordPayload>());
-        }
-
-        [Test, Category("Extensions")]
-        public void ReturnFalseIfConvertJsonElementsToResetPasswordPayloadThrowsKeyNotFoundException()
-        {
-            // Arrange
-            JsonElement json = JsonSerializer.SerializeToElement(
-                new
-                {
-                    NewPassword = "T3stP@ssw0rd"
-                },
-                new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
-
-            // Act
-            var result = json.ConvertToPayloadSuccessful(typeof(ResetPasswordPayload), out IPayload convertedPayload);
-            var payload = (ResetPasswordPayload)convertedPayload;
-
-            // Assert
-            Assert.That(result, Is.False);
-            Assert.That(payload, Is.Null);
-        }
-
-        [Test, Category("Extensions")]
         public void ConvertJsonElementsToUpdateUserPayload()
         {
             // Arrange

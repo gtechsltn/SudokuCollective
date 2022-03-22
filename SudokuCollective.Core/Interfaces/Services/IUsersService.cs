@@ -13,6 +13,7 @@ namespace SudokuCollective.Core.Interfaces.Services
             string emailTemplatePath);
         Task<IResult> Get(
             int id,
+            IRequest request,
             string license);
         Task<IResult> GetUsers(
             int requestorId,
@@ -33,16 +34,14 @@ namespace SudokuCollective.Core.Interfaces.Services
             string license);
         Task<IResult> GetUserByPasswordToken(string token);
         Task<ILicenseResult> GetAppLicenseByPasswordToken(string token);
-        Task<IResult> UpdatePassword(
-            IRequest request,
-            string license);
+        Task<IResult> UpdatePassword(IUpdatePasswordRequest request);
         Task<IResult> AddUserRoles(
             int userid,
-            List<int> roleIds,
+            IRequest request,
             string license);
         Task<IResult> RemoveUserRoles(
             int userid,
-            List<int> roleIds,
+            IRequest request,
             string license);
         Task<IResult> Activate(int id);
         Task<IResult> Deactivate(int id);

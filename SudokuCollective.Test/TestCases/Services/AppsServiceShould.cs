@@ -401,7 +401,6 @@ namespace SudokuCollective.Test.TestCases.Services
                 NickName = "Johnny Boy",
                 Email = "testuser3@example.com",
                 Password = "password1",
-                IsActive = true,
                 DateCreated = dateCreated,
                 DateUpdated = dateCreated
             };

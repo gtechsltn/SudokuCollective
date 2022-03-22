@@ -340,7 +340,10 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> Get(int id, string license)
+        public async Task<IResult> Get(
+            int id,
+            IRequest request,
+            string license)
         {
             if (string.IsNullOrEmpty(license)) throw new ArgumentNullException(nameof(license));
 
@@ -432,6 +435,20 @@ namespace SudokuCollective.Data.Services
                                 }
                             }
                         }
+                    }
+
+                    var getRequestorResponse = await _cacheService.GetWithCacheAsync<User>(
+                        _usersRepository,
+                        _distributedCache,
+                        string.Format(_cacheKeys.GetUserCacheKey, request.RequestorId, license),
+                        _cachingStrategy.Medium,
+                        request.RequestorId);
+
+                    var requestorResponse = (RepositoryResponse)getRequestorResponse.Item1;
+
+                    if (!((User)requestorResponse.Object).IsSuperUser && request.RequestorId != id)
+                    {
+                        ((User)result.Payload[0]).HideEmail();
                     }
 
                     return result;
@@ -717,6 +734,20 @@ namespace SudokuCollective.Data.Services
                         if (updateUserResponse.IsSuccess)
                         {
                             userResult.User = (User)updateUserResponse.Object;
+
+                            var getRequestorResponse = await _cacheService.GetWithCacheAsync<User>(
+                                _usersRepository,
+                                _distributedCache,
+                                string.Format(_cacheKeys.GetUserCacheKey, request.RequestorId, request.License),
+                                _cachingStrategy.Medium,
+                                request.RequestorId);
+
+                            var requestorResponse = (RepositoryResponse)getRequestorResponse.Item1;
+
+                            if (!((User)requestorResponse.Object).IsSuperUser && request.RequestorId != id)
+                            {
+                                userResult.User.HideEmail();
+                            }
 
                             result.IsSuccess = userResponse.IsSuccess;
                             result.Message = UsersMessages.UserUpdatedMessage;
@@ -1108,15 +1139,39 @@ namespace SudokuCollective.Data.Services
         }
 
         public async Task<IResult> AddUserRoles(
-            int userid, 
-            List<int> roleIds, 
+            int userid,
+            IRequest request, 
             string license)
         {
-            if (roleIds == null) throw new ArgumentNullException(nameof(roleIds));
+            if (request == null) throw new ArgumentNullException(nameof(request));
 
             if (string.IsNullOrEmpty(license)) throw new ArgumentNullException(nameof(license));
 
             var result = new Result();
+
+            UpdateUserRolePayload payload;
+
+            try
+            {
+                if (request.Payload.ConvertToPayloadSuccessful(typeof(UpdateUserRolePayload), out IPayload conversionResult))
+                {
+                    payload = (UpdateUserRolePayload)conversionResult;
+                }
+                else
+                {
+                    result.IsSuccess = false;
+                    result.Message = ServicesMesages.InvalidRequestMessage;
+
+                    return result;
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                result.IsSuccess = false;
+                result.Message = ex.Message;
+
+                return result;
+            }
 
             if (userid == 0)
             {
@@ -1128,9 +1183,9 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                if (await _rolesRepository.IsListValid(roleIds))
+                if (await _rolesRepository.IsListValid(payload.RoleIds))
                 {
-                    var response = await _usersRepository.AddRoles(userid, roleIds);
+                    var response = await _usersRepository.AddRoles(userid, payload.RoleIds);
 
                     var cacheServiceResponse = new Tuple<IRepositoryResponse, IResult>(
                         new RepositoryResponse(), 
@@ -1170,6 +1225,20 @@ namespace SudokuCollective.Data.Services
                             userid);
 
                         var user = (User)((RepositoryResponse)cacheServiceResponse.Item1).Object;
+                        
+                        var getRequestorResponse = await _cacheService.GetWithCacheAsync<User>(
+                            _usersRepository,
+                            _distributedCache,
+                            string.Format(_cacheKeys.GetUserCacheKey, request.RequestorId, request.License),
+                            _cachingStrategy.Medium,
+                            request.RequestorId);
+                                
+                        var requestorResponse = (RepositoryResponse)getRequestorResponse.Item1;
+
+                        if (!((User)requestorResponse.Object).IsSuperUser && request.RequestorId != user.Id)
+                        {
+                            user.HideEmail();
+                        }
 
                         // Remove any user cache items which may exist
                         var removeKeys = new List<string> {
@@ -1182,6 +1251,7 @@ namespace SudokuCollective.Data.Services
 
                         result.IsSuccess = response.IsSuccess;
                         result.Message = UsersMessages.RolesAddedMessage;
+                        result.Payload.Add(user);
 
                         return result;
                     }
@@ -1218,15 +1288,39 @@ namespace SudokuCollective.Data.Services
         }
 
         public async Task<IResult> RemoveUserRoles(
-            int userid, 
-            List<int> roleIds, 
+            int userid,
+            IRequest request, 
             string license)
         {
-            if (roleIds == null) throw new ArgumentNullException(nameof(roleIds));
+            if (request == null) throw new ArgumentNullException(nameof(request));
 
             if (string.IsNullOrEmpty(license)) throw new ArgumentNullException(nameof(license));
 
             var result = new Result();
+
+            UpdateUserRolePayload payload;
+
+            try
+            {
+                if (request.Payload.ConvertToPayloadSuccessful(typeof(UpdateUserRolePayload), out IPayload conversionResult))
+                {
+                    payload = (UpdateUserRolePayload)conversionResult;
+                }
+                else
+                {
+                    result.IsSuccess = false;
+                    result.Message = ServicesMesages.InvalidRequestMessage;
+
+                    return result;
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                result.IsSuccess = false;
+                result.Message = ex.Message;
+
+                return result;
+            }
 
             if (userid == 0)
             {
@@ -1238,9 +1332,9 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                if (await _rolesRepository.IsListValid(roleIds))
+                if (await _rolesRepository.IsListValid(payload.RoleIds))
                 {
-                    var response = await _usersRepository.RemoveRoles(userid, roleIds);
+                    var response = await _usersRepository.RemoveRoles(userid, payload.RoleIds);
 
                     var cacheServiceResponse = new Tuple<IRepositoryResponse, IResult>(
                         new RepositoryResponse(),
@@ -1373,6 +1467,7 @@ namespace SudokuCollective.Data.Services
 
                     result.IsSuccess = true;
                     result.Message = UsersMessages.UserActivatedMessage;
+                    result.Payload.Add(user);
 
                     return result;
                 }
@@ -2771,25 +2866,11 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> UpdatePassword(IRequest request, string license)
+        public async Task<IResult> UpdatePassword(IUpdatePasswordRequest request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
 
             var result = new Result();
-
-            PasswordResetPayload payload;
-
-            if (request.Payload.ConvertToPayloadSuccessful(typeof(PasswordResetPayload), out IPayload conversionResult))
-            {
-                payload = (PasswordResetPayload)conversionResult;
-            }
-            else
-            {
-                result.IsSuccess = false;
-                result.Message = ServicesMesages.InvalidRequestMessage;
-
-                return result;
-            }
 
             var salt = BCrypt.Net.BCrypt.GenerateSalt();
 
@@ -2798,9 +2879,9 @@ namespace SudokuCollective.Data.Services
                 var cacheServiceResponse = await _cacheService.GetWithCacheAsync(
                     _usersRepository,
                     _distributedCache,
-                    string.Format(_cacheKeys.GetUserCacheKey, payload.UserId, license),
+                    string.Format(_cacheKeys.GetUserCacheKey, request.UserId, request.License),
                     _cachingStrategy.Medium,
-                    payload.UserId);
+                    request.UserId);
 
                 var userResponse = (RepositoryResponse)cacheServiceResponse.Item1;
                 var user = (User)userResponse.Object;
@@ -2808,9 +2889,9 @@ namespace SudokuCollective.Data.Services
                 cacheServiceResponse = await _cacheService.GetAppByLicenseWithCacheAsync(
                     _appsRepository,
                     _distributedCache,
-                    string.Format(_cacheKeys.GetAppByLicenseCacheKey, license),
+                    string.Format(_cacheKeys.GetAppByLicenseCacheKey, request.License),
                     _cachingStrategy.Medium,
-                    license);
+                    request.License);
 
                 var appResponse = (RepositoryResponse)cacheServiceResponse.Item1;
                 var app = (App)appResponse.Object;
@@ -2829,7 +2910,7 @@ namespace SudokuCollective.Data.Services
                     if (user.ReceivedRequestToUpdatePassword)
                     {
                         user.Password = BCrypt.Net.BCrypt
-                                .HashPassword(payload.NewPassword, salt);
+                                .HashPassword(request.NewPassword, salt);
 
                         user.DateUpdated = DateTime.UtcNow;
 
@@ -2856,6 +2937,7 @@ namespace SudokuCollective.Data.Services
 
                             result.IsSuccess = userResponse.IsSuccess;
                             result.Message = UsersMessages.PasswordResetMessage;
+                            result.Payload.Add(user);
 
                             return result;
                         }

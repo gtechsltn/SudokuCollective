@@ -37,7 +37,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method which issues authorization tokens.
+        /// A method which issues authorization tokens, does not require a login.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>An authenticated user and a authorization token.</returns>
@@ -45,14 +45,14 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues logging in the user.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The Post method does not require an authorization token. The method uses uses a custom request model.
+        /// The Post method does not require a login. The request body parameter uses a custom request model.
         /// 
         /// The request should be structured as follows:
         /// ```
         ///     {                                 
-        ///       "userName": "string", // user name must be unique, the api will ensure this for you; the applicable regex pattern as documented in the LoginRequest model
-        ///       "password": "string", // password is required, the applicable regex pattern as documented in the LoginRequest model
-        ///       "license": "string"   // the app license must be valid using the applicable regex pattern as documented in the LoginRequest model
+        ///       "userName": string, // user name must be unique, the api will ensure this for you; the applicable regex pattern as documented in the LoginRequest model
+        ///       "password": string, // password is required, the applicable regex pattern as documented in the LoginRequest model
+        ///       "license": string   // the app license must be valid using the applicable regex pattern as documented in the LoginRequest model
         ///     }     
         /// ```
         /// </remarks>
@@ -119,7 +119,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method which confirms user names for given emails.
+        /// A method which confirms user names for given emails, does not require a login.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>The user name associated with the given email.</returns>
@@ -127,13 +127,13 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues obtaining the user name.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The ConfirmUserName method does not require an authorization token. The method uses uses a custom request model.
+        /// The ConfirmUserName method does not require a login. The request body parameter uses a custom request model.
         /// 
         /// The request should be structured as follows:
         /// ```
         ///     {
-        ///       "email": "string", // password is required, the applicable regex pattern as documented in the ConfirmUserNameRequest model
-        ///       "license":"string" // the applicable regex pattern as documented in the ConfirmUserNameRequest model
+        ///       "email": string,  // password is required, the applicable regex pattern is documented in the ConfirmUserNameRequest model
+        ///       "license": string // the applicable regex pattern as documented in the ConfirmUserNameRequest model
         ///     }     
         /// ```
         /// </remarks>

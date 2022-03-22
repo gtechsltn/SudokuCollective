@@ -56,6 +56,7 @@ namespace SudokuCollective.Test.Services
             SuccessfulRequest.Setup(service =>
                 service.Get(
                     It.IsAny<int>(),
+                    It.IsAny<Request>(),
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                     {
@@ -177,8 +178,7 @@ namespace SudokuCollective.Test.Services
 
             SuccessfulRequest.Setup(service =>
                 service.UpdatePassword(
-                    It.IsAny<IRequest>(),
-                    It.IsAny<string>()))
+                    It.IsAny<IUpdatePasswordRequest>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedUsersRepository
@@ -206,7 +206,7 @@ namespace SudokuCollective.Test.Services
             SuccessfulRequest.Setup(service =>
                 service.AddUserRoles(
                     It.IsAny<int>(),
-                    It.IsAny<List<int>>(),
+                    It.IsAny<IRequest>(),
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                     {
@@ -222,7 +222,7 @@ namespace SudokuCollective.Test.Services
             SuccessfulRequest.Setup(service =>
                 service.RemoveUserRoles(
                     It.IsAny<int>(),
-                    It.IsAny<List<int>>(),
+                    It.IsAny<IRequest>(),
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                     {
@@ -387,6 +387,7 @@ namespace SudokuCollective.Test.Services
             FailedRequest.Setup(service =>
                 service.Get(
                     It.IsAny<int>(),
+                    It.IsAny<Request>(),
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                     {
@@ -474,8 +475,7 @@ namespace SudokuCollective.Test.Services
 
             FailedRequest.Setup(service =>
                 service.UpdatePassword(
-                    It.IsAny<IRequest>(),
-                    It.IsAny<string>()))
+                    It.IsAny<IUpdatePasswordRequest>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedUsersRepository
@@ -503,7 +503,7 @@ namespace SudokuCollective.Test.Services
             FailedRequest.Setup(service =>
                 service.AddUserRoles(
                     It.IsAny<int>(),
-                    It.IsAny<List<int>>(),
+                    It.IsAny<IRequest>(),
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                     {
@@ -519,7 +519,7 @@ namespace SudokuCollective.Test.Services
             FailedRequest.Setup(service =>
                 service.RemoveUserRoles(
                     It.IsAny<int>(),
-                    It.IsAny<List<int>>(),
+                    It.IsAny<IRequest>(),
                     It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                     {

@@ -14,7 +14,7 @@ namespace SudokuCollective.Api.Controllers
     public class HelloWorldController : ControllerBase
     {
         /// <summary>
-        /// An example method of how to connect to an API for new developers.
+        /// An example method of how to connect to an API for new developers, does not require a login.
         /// </summary>
         /// <returns>A simple message outlining the response model, if a param was included it is echoed in the response.</returns>
         /// <response code="200">A simple message outlining the response model, if a param was included it is echoed in the response.</response>

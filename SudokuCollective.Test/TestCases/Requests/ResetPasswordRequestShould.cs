@@ -1,22 +1,21 @@
 ﻿using System;
 using NUnit.Framework;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
-using SudokuCollective.Data.Models.Payloads;
+using SudokuCollective.Data.Models.Requests;
 using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Payloads
 {
-    public class ResetPasswordPayloadShould
+    public class ResetPasswordRequestShould
     {
-        private IResetPasswordPayload sut;
+        private ResetPasswordRequest sut;
 
         [SetUp]
         public void Setup()
         {
-            sut = new ResetPasswordPayload();
+            sut = new ResetPasswordRequest();
         }
 
-        [Test, Category("Payloads")]
+        [Test, Category("Requests")]
         public void HasRequiredProperties()
         {
             // Arrange and Act
@@ -26,36 +25,36 @@ namespace SudokuCollective.Test.TestCases.Payloads
             Assert.That(sut.NewPassword, Is.InstanceOf<string>());
         }
 
-        [Test, Category("Payloads")]
+        [Test, Category("Requests")]
         public void HasADefaultConstructor()
         {
             // Arrange and Act
-            sut = new ResetPasswordPayload();
+            sut = new ResetPasswordRequest();
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<ResetPasswordPayload>());
+            Assert.That(sut, Is.InstanceOf<ResetPasswordRequest>());
         }
 
-        [Test, Category("Payloads")]
+        [Test, Category("Requests")]
         public void HasAConstructorThatAcceptsParams()
         {
             // Arrange and Act
-            sut = new ResetPasswordPayload(TestObjects.GetToken(), "T3stPass0rd?1");
+            sut = new ResetPasswordRequest(TestObjects.GetToken(), "T3stPass0rd?1");
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<ResetPasswordPayload>());
+            Assert.That(sut, Is.InstanceOf<ResetPasswordRequest>());
         }
 
-        [Test, Category("Payloads")]
+        [Test, Category("Requests")]
         public void ThrowExceptionForInvalidLicenses()
         {
             // Arrange
 
             // Act and Assert
-            Assert.Throws<ArgumentException>(() => sut.Token = "InvalidLicense");
+            Assert.Throws<ArgumentException>(() => sut.Token = "InvalidToken");
         }
 
-        [Test, Category("Payloads")]
+        [Test, Category("Requests")]
         public void ThrowExceptionForInvalidEmails()
         {
             // Arrange

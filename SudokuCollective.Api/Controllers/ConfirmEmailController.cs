@@ -31,16 +31,14 @@ namespace SudokuCollective.Api.Controllers
         }
 
         /// <summary>
-        /// A default method to process confirm email requests.
+        /// A default method to process confirm email requests, does not require a login.
         /// </summary>
         /// <remarks>
-        /// This is a default method to handle email confirmations.  It is strongly
-        /// recommended that you implement a custom email confirmation action to 
-        /// handle such requests, this method is simply a placeholder to handle
-        /// such requests until you've implemented a custom action.  In order to 
-        /// implement such a request you have to create it within your app (the 
-        /// details of which are dependent upon your apps particular framework) 
-        /// and then enable it by setting the following app properties:
+        /// This is a default method to handle email confirmations.  It is strongly recommended that you implement a 
+        /// custom email confirmation action to handle such requests, this method is simply a placeholder to handle
+        /// such requests until you've implemented a custom action.  In order to implement such a request you have to 
+        /// create it within your app (the details of which are dependent upon your apps particular framework) and 
+        /// then enable it by setting the following app properties:
         ///
         /// ```DisableCustomUrls``` = ```false```
         ///
@@ -48,22 +46,21 @@ namespace SudokuCollective.Api.Controllers
         ///
         /// ```CustomEmailConfirmationAction``` = the custom action you've created
         ///
-        /// So if the url for your app is https://yourapp and the custom action is
-        /// ```confirmEmail``` then your users will be directed to the following:
+        /// So if the url for your app is https://yourapp and the custom action is ```confirmEmail``` then your users 
+        /// will be directed to the following:
         ///
         /// ```https://yourapp/confirmEmail/{token}```
         ///
-        /// Please note the url is dependent on the release environment, so if your
-        /// release environment is set to local the requests will be directed to your
-        /// local url and if set to staging the requests will be directed to your
+        /// Please note the url is dependent on the release environment, so if your release environment is set to local 
+        /// the requests will be directed to your local url and if set to staging the requests will be directed to your
         /// staging url, etc.
         ///
-        /// Until such time as the above conditions are met such requests will continue
-        /// to be directed to this default page.
+        /// Until such time as the above conditions are met such requests will continue to be directed to this default page.
         ///
-        /// The token will be provided by the api and will be sent to the user in the 
-        /// confirmation email, along with a link to either this default email
-        /// confirmation action or to your custom email confirmation action.
+        /// The token will be provided by the api and will be sent to the user in the confirmation email, along with a 
+        /// link to either this default email confirmation action or to your custom email confirmation action. Once your
+        /// custom email action is implemented it will submit the token and new password to the ResetPassword endpoint 
+        /// in the user controller.
         /// </remarks>
         [AllowAnonymous]
         [HttpGet("{token}")]

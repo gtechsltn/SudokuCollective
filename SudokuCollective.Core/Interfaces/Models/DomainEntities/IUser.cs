@@ -15,7 +15,7 @@ namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
         bool ReceivedRequestToUpdateEmail { get; set; }
         string Password { get; set; }
         bool ReceivedRequestToUpdatePassword { get; set; }
-        bool IsActive { get; set; }
+        bool IsActive { get; }
         bool IsSuperUser { get; }
         bool IsAdmin { get; }
         DateTime DateCreated { get; set; }

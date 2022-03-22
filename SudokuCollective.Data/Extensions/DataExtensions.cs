@@ -502,27 +502,6 @@ namespace SudokuCollective.Data.Extensions
                     throw;
                 }
             }
-            else if (type == typeof(ResetPasswordPayload))
-            {
-                try
-                {
-                    result = new ResetPasswordPayload()
-                    {
-                        Token = element.GetProperty("token").ToString(),
-                        NewPassword = element.GetProperty("newPassword").ToString()
-                    };
-
-                    return true;
-                }
-                catch (KeyNotFoundException)
-                {
-                    return false;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            }
             else if (type == typeof(UpdateUserPayload))
             {
                 try
