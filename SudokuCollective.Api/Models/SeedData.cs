@@ -167,7 +167,7 @@ namespace SudokuCollective.Api.Models
                             false,
                             !env.IsStaging() ? 
                                 BCrypt.Net.BCrypt.HashPassword(config.GetValue<string>("DefaultUserAccounts:AdminUser:Password", salt)) : 
-                                BCrypt.Net.BCrypt.HashPassword(config.GetValue<string>(Environment.GetEnvironmentVariable("ADMIN_USER_PASSWORD"), salt)),
+                                BCrypt.Net.BCrypt.HashPassword(config.GetValue<string>("ADMIN_USER_PASSWORD", salt)),
                             false,
                             true,
                             createdDate,
