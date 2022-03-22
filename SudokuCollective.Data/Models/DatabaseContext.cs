@@ -218,6 +218,10 @@ namespace SudokuCollective.Data.Models
                 .IsRequired();
 
             modelBuilder.Entity<User>()
+                .Property(user => user.IsActive).HasField("_isActive")
+                .IsRequired();
+
+            modelBuilder.Entity<User>()
                 .Ignore(user => user.IsAdmin)
                 .Ignore(user => user.IsSuperUser);
 
