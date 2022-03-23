@@ -402,13 +402,11 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task RequestPasswordReset()
         {
             // Arrange
-            var payload = new RequestPasswordResetPayload
+            var requestReset = new RequestPasswordResetRequest
             {
                 License = context.Apps.Select(a => a.License).FirstOrDefault(),
-                Email = context.Users.Select(u => u.Email).FirstOrDefault()
+                Email = "bademai@example.com"
             };
-
-            request.Payload = payload;
 
             var baseUrl = "https://example.com";
 
@@ -416,7 +414,7 @@ namespace SudokuCollective.Test.TestCases.Services
 
             // Act
             var result = await sutRequestPasswordReset.RequestPasswordReset(
-                request,
+                requestReset,
                 baseUrl,
                 html);
 
@@ -429,13 +427,11 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task ReturnsFalseIfRequestPasswordResetFails()
         {
             // Arrange
-            var payload = new RequestPasswordResetPayload
+            var requestReset = new RequestPasswordResetRequest
             {
                 License = context.Apps.Select(a => a.License).FirstOrDefault(),
                 Email = "bademai@example.com"
             };
-
-            request.Payload = payload;
 
             var baseUrl = "https://example.com";
 
@@ -443,7 +439,7 @@ namespace SudokuCollective.Test.TestCases.Services
 
             // Act
             var result = await sutFailure.RequestPasswordReset(
-                request,
+                requestReset,
                 baseUrl,
                 html);
 

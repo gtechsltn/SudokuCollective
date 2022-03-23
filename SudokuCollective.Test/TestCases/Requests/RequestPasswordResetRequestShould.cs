@@ -6,14 +6,14 @@ using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Requests
 {
-    public class ResendEmailConfirmationRequestShould
+    public class RequestPasswordResetRequestShould
     {
-        private IResendEmailConfirmationRequest sut;
+        private IRequestPasswordResetRequest sut;
 
         [SetUp]
         public void Setup()
         {
-            sut = new ResendEmailConfirmationRequest();
+            sut = new RequestPasswordResetRequest();
         }
 
         [Test, Category("Requests")]
@@ -23,8 +23,7 @@ namespace SudokuCollective.Test.TestCases.Requests
 
             // Assert
             Assert.That(sut.License, Is.InstanceOf<string>());
-            Assert.That(sut.RequestorId, Is.InstanceOf<int>());
-            Assert.That(sut.AppId, Is.InstanceOf<int>());
+            Assert.That(sut.Email, Is.InstanceOf<string>());
         }
 
         [Test, Category("Requests")]
@@ -37,23 +36,32 @@ namespace SudokuCollective.Test.TestCases.Requests
         }
 
         [Test, Category("Requests")]
+        public void ThrowsAnExceptionIfEmailIsInvalid()
+        {
+            // Arrange
+
+            // Assert and Assert
+            Assert.Throws<ArgumentException>(() => sut.Email = "invalidEmail");
+        }
+
+        [Test, Category("Requests")]
         public void HasADefaultConstructor()
         {
             // Arrange and Act
-            sut = new ResendEmailConfirmationRequest();
+            sut = new RequestPasswordResetRequest();
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<ResendEmailConfirmationRequest>());
+            Assert.That(sut, Is.InstanceOf<RequestPasswordResetRequest>());
         }
 
         [Test, Category("Requests")]
         public void HasAConstructorThatAcceptsParams()
         {
             // Arrange and Act
-            sut = new ResendEmailConfirmationRequest(TestObjects.GetLicense(), 0, 0);
+            sut = new RequestPasswordResetRequest(TestObjects.GetLicense(), "email@example.com");
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<ResendEmailConfirmationRequest>());
+            Assert.That(sut, Is.InstanceOf<RequestPasswordResetRequest>());
         }
     }
 }

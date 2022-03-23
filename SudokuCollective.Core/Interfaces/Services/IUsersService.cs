@@ -26,7 +26,7 @@ namespace SudokuCollective.Core.Interfaces.Services
             string emailTemplatePath);
         Task<IResult> Delete(int id, string license);
         Task<IResult> RequestPasswordReset(
-            IRequest request,
+            IRequestPasswordResetRequest request,
             string baseUrl,
             string emailTemplatePath);
         Task<IResult> InitiatePasswordReset(

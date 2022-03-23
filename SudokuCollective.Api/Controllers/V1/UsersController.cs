@@ -720,6 +720,81 @@ namespace SudokuCollective.Api.Controllers.V1
             }
         }
 
+        /// <summary>
+        /// A method to request that a password reset email; does not require a login.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>A boolean indicating if the password reset email was sent.</returns>
+        /// <response code="200">A boolean indicating if the password reset email was sent.</response>
+        /// <response code="404">A message detailing any issues sending the password reset email.</response>
+        /// <response code="500">A description of any errors processing the request.</response>
+        /// <remarks>
+        /// The RequestPasswordReset method does not require a login. It sends password reset emails. The request body parameter uses a custom request model.
+        /// 
+        /// The request should be structured as follows:
+        /// ```
+        ///     {                                 
+        ///       "license": string, // the app license must be valid using the applicable regex pattern as documented in the RequestPasswordResetRequest model
+        ///       "email": string    // email is required, the applicable regex pattern is documented in the RequestPasswordResetRequest model
+        ///     }     
+        /// ```
+        /// </remarks>
+        [AllowAnonymous]
+        [HttpPost("RequestPasswordReset")]
+        public async Task<IActionResult> RequestPasswordReset([FromBody] RequestPasswordResetRequest request)
+        {
+            try
+            {
+                string baseUrl;
+
+                if (Request != null)
+                {
+                    baseUrl = Request.Host.ToString();
+                }
+                else
+                {
+                    baseUrl = "https://SudokuCollective.com";
+                }
+
+                string emailtTemplatePath;
+
+                if (!string.IsNullOrEmpty(_hostEnvironment.WebRootPath))
+                {
+                    emailtTemplatePath = Path.Combine(_hostEnvironment.WebRootPath, "/Content/EmailTemplates/password-reset-requested-inlined.html");
+
+                    emailtTemplatePath = string.Format("../SudokuCollective.Api{0}", emailtTemplatePath);
+                }
+                else
+                {
+                    emailtTemplatePath = "../../Content/EmailTemplates/confirm-old-email-inlined.html";
+                }
+
+                var result = await _usersService.RequestPasswordReset(request, baseUrl, emailtTemplatePath);
+
+                if (result.IsSuccess)
+                {
+                    result.Message = ControllerMessages.StatusCode200(result.Message);
+
+                    return Ok(result);
+                }
+                else
+                {
+                    result.Message = ControllerMessages.StatusCode404(result.Message);
+
+                    return NotFound(result);
+                }
+            }
+            catch (Exception e)
+            {
+                var result = new Result
+                {
+                    IsSuccess = false,
+                    Message = ControllerMessages.StatusCode500(e.Message)
+                };
+
+                return StatusCode((int)HttpStatusCode.InternalServerError, result);
+            }
+        }
 
         /// <summary>
         /// A method to request that a password reset email be resent; does not require a login.

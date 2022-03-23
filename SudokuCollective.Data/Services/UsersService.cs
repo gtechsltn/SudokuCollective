@@ -2672,7 +2672,7 @@ namespace SudokuCollective.Data.Services
         }
 
         public async Task<IResult> RequestPasswordReset(
-            IRequest request, 
+            IRequestPasswordResetRequest request, 
             string baseUrl, 
             string emailTemplatePath)
         {
@@ -2683,20 +2683,6 @@ namespace SudokuCollective.Data.Services
             if (string.IsNullOrEmpty(emailTemplatePath)) throw new ArgumentNullException(nameof(emailTemplatePath));
 
             var result = new Result();
-
-            RequestPasswordResetPayload payload;
-
-            if (request.Payload.ConvertToPayloadSuccessful(typeof(RequestPasswordResetPayload), out IPayload conversionResult))
-            {
-                payload = (RequestPasswordResetPayload)conversionResult;
-            }
-            else
-            {
-                result.IsSuccess = false;
-                result.Message = ServicesMesages.InvalidRequestMessage;
-
-                return result;
-            }
 
             try
             {
@@ -2723,9 +2709,9 @@ namespace SudokuCollective.Data.Services
                     cacheServiceResponse = await _cacheService.GetByEmailWithCacheAsync(
                         _usersRepository,
                         _distributedCache,
-                        string.Format(_cacheKeys.GetUserByEmailCacheKey, payload.Email, app.License),
+                        string.Format(_cacheKeys.GetUserByEmailCacheKey, request.Email, app.License),
                         _cachingStrategy.Medium,
-                        payload.Email);
+                        request.Email);
 
                     var userResponse = (RepositoryResponse)cacheServiceResponse.Item1;
 
