@@ -374,17 +374,7 @@ namespace SudokuCollective.Data.Services
                 {
                     var user = (User)response.Object;
 
-                    user.NullifyProperties();
-
-                    foreach (var userApp in user.Apps)
-                    {
-                        userApp.NullifyId();
-                    }
-
-                    foreach (var userRole in user.Roles) 
-                    {
-                        userRole.NullifyId();
-                    }
+                    user.NullifyPassword();
 
                     result.IsSuccess = response.IsSuccess;
                     result.Message = UsersMessages.UserFoundMessage;
@@ -761,7 +751,7 @@ namespace SudokuCollective.Data.Services
                                 userResult.User.HideEmail();
                             }
                             
-                            userResult.User.NullifyProperties();
+                            userResult.User.NullifyPassword();
 
                             result.IsSuccess = userResponse.IsSuccess;
                             result.Message = UsersMessages.UserUpdatedMessage;
@@ -1263,7 +1253,7 @@ namespace SudokuCollective.Data.Services
 
                         await _cacheService.RemoveKeysAsync(_distributedCache, removeKeys);
 
-                        user.NullifyProperties();
+                        user.NullifyPassword();
 
                         result.IsSuccess = response.IsSuccess;
                         result.Message = UsersMessages.RolesAddedMessage;
@@ -1481,7 +1471,7 @@ namespace SudokuCollective.Data.Services
 
                     await _cacheService.RemoveKeysAsync(_distributedCache, removeKeys);
 
-                    user.NullifyProperties();
+                    user.NullifyPassword();
 
                     result.IsSuccess = true;
                     result.Message = UsersMessages.UserActivatedMessage;
@@ -1702,7 +1692,7 @@ namespace SudokuCollective.Data.Services
                                     userResult.ConfirmationEmailSuccessfullySent = _emailService
                                         .Send(user.Email, emailSubject, html);
 
-                                    user.NullifyProperties();
+                                    user.NullifyPassword();
 
                                     if ((bool)userResult.ConfirmationEmailSuccessfullySent)
                                     {
@@ -2168,7 +2158,7 @@ namespace SudokuCollective.Data.Services
                                 user,
                                 license)).Object;
 
-                            userResult.User.NullifyProperties();
+                            userResult.User.NullifyPassword();
 
                             result.IsSuccess = response.IsSuccess;
                             result.Message = UsersMessages.EmailConfirmationRequestCancelledMessage;
@@ -2428,7 +2418,7 @@ namespace SudokuCollective.Data.Services
                         {
                             var app = (App)appResponse.Object;
 
-                            user.NullifyProperties();
+                            user.NullifyPassword();
 
                             if (user.Apps.Any(ua => ua.AppId == app.Id))
                             {
@@ -2945,7 +2935,7 @@ namespace SudokuCollective.Data.Services
 
                             user = (User)updateUserResponse.Object;
 
-                            user.NullifyProperties();
+                            user.NullifyPassword();
 
                             result.IsSuccess = userResponse.IsSuccess;
                             result.Message = UsersMessages.PasswordResetMessage;
@@ -3051,7 +3041,7 @@ namespace SudokuCollective.Data.Services
                                 user,
                                 license)).Object;
                             
-                            userResult.User.NullifyProperties();
+                            userResult.User.NullifyPassword();
 
                             result.IsSuccess = response.IsSuccess;
                             result.Message = UsersMessages.PasswordResetRequestCancelledMessage;

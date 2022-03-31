@@ -328,21 +328,6 @@ namespace SudokuCollective.Core.Models
         {
             _password = null;
         }
-        
-        public void NullifyProperties()
-        {
-            NullifyPassword();
-
-            foreach (var userApp in Apps)
-            {
-                userApp.NullifyId();
-            }
-
-            foreach (var userRole in Roles)
-            {
-                userRole.NullifyId();
-            }
-        }
 
         public override string ToString() => string.Format(base.ToString() + ".Id:{0}.UserName:{1}", Id, UserName);
 

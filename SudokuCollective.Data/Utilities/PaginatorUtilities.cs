@@ -382,11 +382,6 @@ namespace SudokuCollective.Data.Utilities
             IRepositoryResponse response, 
             Result result)
         {
-            foreach (var user in response.Objects.ConvertAll(u => (User)u))
-            {
-                user.NullifyProperties();
-            }
-
             if (paginator.SortBy == SortValue.NULL)
             {
                 result.Payload.AddRange(response
