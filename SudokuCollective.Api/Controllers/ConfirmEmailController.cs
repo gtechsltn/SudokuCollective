@@ -83,7 +83,9 @@ namespace SudokuCollective.Api.Controllers
             {
                 emailtTemplatePath = Path.Combine(_hostEnvironment.WebRootPath, "/Content/EmailTemplates/confirm-new-email-inlined.html");
 
-                emailtTemplatePath = string.Format("../SudokuCollective.Api{0}", emailtTemplatePath);
+                var currentDirectory = string.Format("{0}{1}", Directory.GetCurrentDirectory(), "{0}");
+
+                emailtTemplatePath = string.Format(currentDirectory, emailtTemplatePath);
             }
             else
             {

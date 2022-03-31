@@ -62,7 +62,7 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": []           // an array holding additional request parameters, not applicable here
+        ///       "payload": {}           // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         /// </remarks>
@@ -140,13 +140,13 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": [
+        ///       "payload": {
         ///         "userName": string,  // username is required; uses the same regex pattern as documented in the LoginRequest model
         ///         "firstName": string, // firstname is required
         ///         "lastName": string,  // lastname is required
         ///         "nickName": string,  // nickname is not required
         ///         "email": string      // email is required; uses the same regex pattern as documented in the SignupRequest model
-        ///       ]
+        ///       }
         ///     }     
         /// ```
         /// </remarks>
@@ -180,7 +180,9 @@ namespace SudokuCollective.Api.Controllers.V1
                     {
                         emailtTemplatePath = Path.Combine(_hostEnvironment.WebRootPath, "/Content/EmailTemplates/confirm-old-email-inlined.html");
 
-                        emailtTemplatePath = string.Format("../SudokuCollective.Api{0}", emailtTemplatePath);
+                        var currentDirectory = string.Format("{0}{1}", Directory.GetCurrentDirectory(), "{0}");
+
+                        emailtTemplatePath = string.Format(currentDirectory, emailtTemplatePath);
                     }
                     else
                     {
@@ -250,7 +252,7 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": []           // an array holding additional request parameters, not applicable here
+        ///       "payload": {}           // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         /// </remarks>
@@ -330,7 +332,7 @@ namespace SudokuCollective.Api.Controllers.V1
         ///         "OrderByDescending": boolean     // a boolean to indicate is the order is ascending or descending
         ///         "includeCompletedGames": boolean // a boolean which only applies to game lists
         ///       ],
-        ///       "payload": []           // an array holding additional request parameters, not applicable here
+        ///       "payload": {}           // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         ///
@@ -428,9 +430,9 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": [
+        ///       "payload": {
         ///         "roleIds": Array[integer],  // an array of integers for the roles you wish to add
-        ///       ]
+        ///       }
         ///     }     
         /// ```
         /// </remarks>
@@ -508,9 +510,9 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": [
+        ///       "payload": {
         ///         "roleIds": Array[integer],  // an array of integers for the roles you wish to remove
-        ///       ]
+        ///       }
         ///     }     
         /// ```
         /// </remarks>
@@ -965,7 +967,7 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": []           // an array holding additional request parameters, not applicable here
+        ///       "payload": {}           // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         /// </remarks>
@@ -1036,7 +1038,7 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": []           // an array holding additional request parameters, not applicable here
+        ///       "payload": {}           // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         /// </remarks>
@@ -1107,7 +1109,7 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": []           // an array holding additional request parameters, not applicable here
+        ///       "payload": {}           // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         /// </remarks>
