@@ -42,9 +42,9 @@ namespace SudokuCollective.Test.TestCases.Authentication
         {
             // Arrange and Act
             sut = new LoginRequest(
+                TestObjects.GetToken(),
                 "username", 
-                "T3stP4ssw0rd$", 
-                TestObjects.GetToken());
+                "T3stP4ssw0rd$");
 
             // Assert
             Assert.That(sut, Is.InstanceOf<LoginRequest>());
@@ -57,10 +57,10 @@ namespace SudokuCollective.Test.TestCases.Authentication
             
             // Act and Assert
             Assert.Throws<ArgumentException>(
-                () => new LoginRequest(
+                () => new LoginRequest( 
+                    TestObjects.GetToken(),
                     "usn", 
-                    "T3stP4ssw0rd$", 
-                    TestObjects.GetToken()));
+                    "T3stP4ssw0rd$"));
         }
 
         [Test, Category("Authentication")]
@@ -71,9 +71,9 @@ namespace SudokuCollective.Test.TestCases.Authentication
             // Act and Assert
             Assert.Throws<ArgumentException>(
                 () => new LoginRequest(
+                    TestObjects.GetToken(),
                     "username",
-                    "test",
-                    TestObjects.GetToken()));
+                    "test"));
         }
 
         [Test, Category("Authentication")]
@@ -84,9 +84,9 @@ namespace SudokuCollective.Test.TestCases.Authentication
             // Act and Assert
             Assert.Throws<ArgumentException>(
                 () => new LoginRequest(
+                    "license",
                     "username",
-                    "test",
-                    "license"));
+                    "test"));
         }
     }
 }

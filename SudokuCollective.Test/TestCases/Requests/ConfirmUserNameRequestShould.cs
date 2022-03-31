@@ -58,7 +58,7 @@ namespace SudokuCollective.Test.TestCases.Requests
         public void HasAConstructorThatAcceptsParams()
         {
             // Arrange and Act
-            sut = new ConfirmUserNameRequest("testEmail@example.com", TestObjects.GetLicense());
+            sut = new ConfirmUserNameRequest(TestObjects.GetLicense(), "testEmail@example.com");
 
             // Assert
             Assert.That(sut, Is.InstanceOf<ConfirmUserNameRequest>());

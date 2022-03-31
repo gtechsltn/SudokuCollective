@@ -5,14 +5,14 @@ using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Requests
 {
-    public class UpdatePasswordRequestShould
+    public class SignupRequestShould
     {
-        private UpdatePasswordRequest sut;
+        private SignupRequest sut;
 
         [SetUp]
         public void Setup()
         {
-            sut = new UpdatePasswordRequest();
+            sut = new SignupRequest();
         }
 
         [Test, Category("Requests")]
@@ -21,29 +21,40 @@ namespace SudokuCollective.Test.TestCases.Requests
             // Arrange and Act
 
             // Assert
-            Assert.That(sut.UserId, Is.InstanceOf<int>());
-            Assert.That(sut.NewPassword, Is.InstanceOf<string>());
             Assert.That(sut.License, Is.InstanceOf<string>());
+            Assert.That(sut.UserName, Is.InstanceOf<string>());
+            Assert.That(sut.FirstName, Is.InstanceOf<string>());
+            Assert.That(sut.LastName, Is.InstanceOf<string>());
+            Assert.That(sut.NickName, Is.InstanceOf<string>());
+            Assert.That(sut.Email, Is.InstanceOf<string>());
+            Assert.That(sut.Password, Is.InstanceOf<string>());
         }
 
         [Test, Category("Requests")]
         public void HasADefaultConstructor()
         {
             // Arrange and Act
-            sut = new UpdatePasswordRequest();
+            sut = new SignupRequest();
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<UpdatePasswordRequest>());
+            Assert.That(sut, Is.InstanceOf<SignupRequest>());
         }
 
         [Test, Category("Requests")]
         public void HasAConstructorThatAcceptsParams()
         {
             // Arrange and Act
-            sut = new UpdatePasswordRequest(TestObjects.GetLicense(), 1, "T3stPass0rd?1");
+            sut = new SignupRequest(
+                TestObjects.GetLicense(),
+                "UserName",
+                "FirstName",
+                "LastName",
+                "Nickname",
+                "email@example.com",
+                "T3stPass0rd?1");
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<UpdatePasswordRequest>());
+            Assert.That(sut, Is.InstanceOf<SignupRequest>());
         }
 
         [Test, Category("Requests")]
@@ -56,12 +67,12 @@ namespace SudokuCollective.Test.TestCases.Requests
         }
 
         [Test, Category("Requests")]
-        public void ThrowExceptionForInvalidPasswords()
+        public void ThrowExceptionForInvalidEmails()
         {
             // Arrange
 
             // Act and Assert
-            Assert.Throws<ArgumentException>(() => sut.NewPassword = "invalidpassword");
+            Assert.Throws<ArgumentException>(() => sut.Email = "invalidpassword");
         }
     }
 }

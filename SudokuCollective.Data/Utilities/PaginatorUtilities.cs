@@ -5,6 +5,7 @@ using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Params;
+using SudokuCollective.Core.Models;
 
 namespace SudokuCollective.Data.Utilities
 {
@@ -381,6 +382,11 @@ namespace SudokuCollective.Data.Utilities
             IRepositoryResponse response, 
             Result result)
         {
+            foreach (var user in response.Objects.ConvertAll(u => (User)u))
+            {
+                user.NullifyProperties();
+            }
+
             if (paginator.SortBy == SortValue.NULL)
             {
                 result.Payload.AddRange(response

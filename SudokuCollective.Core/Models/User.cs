@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Enums;
@@ -54,7 +53,6 @@ namespace SudokuCollective.Core.Models
         [Required]
         public string LastName { get; set; }
         public string NickName { get; set; }
-        [JsonIgnore]
         public string FullName
         {
             get => string.Format("{0} {1}", FirstName, LastName);
@@ -83,7 +81,7 @@ namespace SudokuCollective.Core.Models
         [Required]
         public bool IsEmailConfirmed { get; set; }
         public bool ReceivedRequestToUpdateEmail { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Password
         {
             get
@@ -326,6 +324,26 @@ namespace SudokuCollective.Core.Models
             _email = null;
         }
 
+        public void NullifyPassword()
+        {
+            _password = null;
+        }
+        
+        public void NullifyProperties()
+        {
+            NullifyPassword();
+
+            foreach (var userApp in Apps)
+            {
+                userApp.NullifyId();
+            }
+
+            foreach (var userRole in Roles)
+            {
+                userRole.NullifyId();
+            }
+        }
+
         public override string ToString() => string.Format(base.ToString() + ".Id:{0}.UserName:{1}", Id, UserName);
 
         public string ToJson() => JsonSerializer.Serialize(
@@ -334,6 +352,7 @@ namespace SudokuCollective.Core.Models
             {
                 ReferenceHandler = ReferenceHandler.IgnoreCycles
             });
+
         #endregion
     }
 }

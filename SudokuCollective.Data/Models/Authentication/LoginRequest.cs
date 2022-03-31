@@ -8,12 +8,32 @@ namespace SudokuCollective.Data.Models.Authentication
 {
     public class LoginRequest : ILoginRequest
     {
+        private string _license = string.Empty;
         private string _userName = string.Empty;
         private string _password = string.Empty;
-        private string _license = string.Empty;
+        private readonly GuidValidatedAttribute _guidValidator = new();
         private readonly UserNameValidatedAttribute _userNameValidatedAttribute = new();
         private readonly PasswordValidatedAttribute _passwordValidator = new();
-        private readonly GuidValidatedAttribute _guidValidator = new();
+
+        [Required, GuidValidated(ErrorMessage = AttributeMessages.InvalidLicense)]
+        public string License
+        {
+            get
+            {
+                return _license;
+            }
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && _guidValidator.IsValid(value))
+                {
+                    _license = value;
+                }
+                else
+                {
+                    throw new ArgumentException(AttributeMessages.InvalidLicense);
+                }
+            }
+        }
 
         [Required, UserNameValidated(ErrorMessage = AttributeMessages.InvalidUserName)]
         public string UserName
@@ -55,33 +75,13 @@ namespace SudokuCollective.Data.Models.Authentication
             }
         }
 
-        [Required, GuidValidated(ErrorMessage = AttributeMessages.InvalidLicense)]
-        public string License
-        {
-            get
-            {
-                return _license;
-            }
-            set
-            {
-                if (!string.IsNullOrEmpty(value) && _guidValidator.IsValid(value))
-                {
-                    _license = value;
-                }
-                else
-                {
-                    throw new ArgumentException(AttributeMessages.InvalidLicense);
-                }
-            }
-        }
-
         public LoginRequest() { }
 
-        public LoginRequest(string userName, string password, string license)
+        public LoginRequest(string license, string userName, string password)
         {
+            License = license;
             UserName = userName;
             Password = password;
-            License = license;
         }
     }
 }

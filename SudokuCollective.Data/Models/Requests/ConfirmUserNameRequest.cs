@@ -8,30 +8,11 @@ namespace SudokuCollective.Data.Models.Requests
 {
     public class ConfirmUserNameRequest : IConfirmUserNameRequest
     {
-        private string _email = string.Empty;
         private string _license = string.Empty;
-        private readonly EmailValidatedAttribute _emailRegexAttribute = new();
+        private string _email = string.Empty;
         private readonly GuidValidatedAttribute _guidRegexAttribute = new();
+        private readonly EmailValidatedAttribute _emailRegexAttribute = new();
 
-        [Required, EmailValidated(ErrorMessage = AttributeMessages.InvalidEmail)]
-        public string Email
-        {
-            get
-            {
-                return _email;
-            }
-            set
-            {
-                if (!string.IsNullOrEmpty(value) && _emailRegexAttribute.IsValid(value))
-                {
-                    _email = value;
-                }
-                else
-                {
-                    throw new ArgumentException(AttributeMessages.InvalidEmail);
-                }
-            }
-        }
         [Required, GuidValidated(ErrorMessage = AttributeMessages.InvalidLicense)]
         public string License
         {
@@ -51,13 +32,32 @@ namespace SudokuCollective.Data.Models.Requests
                 }
             }
         }
+        [Required, EmailValidated(ErrorMessage = AttributeMessages.InvalidEmail)]
+        public string Email
+        {
+            get
+            {
+                return _email;
+            }
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && _emailRegexAttribute.IsValid(value))
+                {
+                    _email = value;
+                }
+                else
+                {
+                    throw new ArgumentException(AttributeMessages.InvalidEmail);
+                }
+            }
+        }
 
         public ConfirmUserNameRequest() { }
 
-        public ConfirmUserNameRequest(string email, string license)
+        public ConfirmUserNameRequest(string license, string email)
         {
-            Email = email;
             License = license;
+            Email = email;
         }
     }
 }

@@ -2,7 +2,7 @@
 {
     public interface IConfirmUserNameRequest
     {
-        string Email { get; set; }
         string License { get; set; }
+        string Email { get; set; }
     }
 }

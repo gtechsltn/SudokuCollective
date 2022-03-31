@@ -71,13 +71,13 @@ namespace SudokuCollective.Test.TestCases.Requests
         {
             // Arrange and Act
             sut = new SignupRequest(
+                TestObjects.GetLicense(),
                 "userName",
                 "firstName", 
                 "lastName", 
                 string.Empty, 
                 "testemail@example.com", 
-                "t2stP@ssw0rd!",
-                TestObjects.GetLicense());
+                "t2stP@ssw0rd!");
 
             // Assert
             Assert.That(sut, Is.InstanceOf<SignupRequest>());

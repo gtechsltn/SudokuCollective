@@ -9,11 +9,31 @@ namespace SudokuCollective.Data.Models.Requests
 {
     public class UpdatePasswordRequest : IUpdatePasswordRequest
     {
-        private string _newPassword = string.Empty;
         private string _license = string.Empty;
-        private readonly PasswordValidatedAttribute _passwordValidator = new();
+        private string _newPassword = string.Empty;
         private readonly GuidValidatedAttribute _guidValidator = new();
+        private readonly PasswordValidatedAttribute _passwordValidator = new();
 
+
+        [Required, GuidValidated(ErrorMessage = AttributeMessages.InvalidLicense)]
+        public string License
+        {
+            get
+            {
+                return _license;
+            }
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && _guidValidator.IsValid(value))
+                {
+                    _license = value;
+                }
+                else
+                {
+                    throw new ArgumentException(AttributeMessages.InvalidLicense);
+                }
+            }
+        }
         [Required]
         public int UserId { get; set; }
         [Required, PasswordValidated(ErrorMessage = AttributeMessages.InvalidPassword)]
@@ -36,36 +56,16 @@ namespace SudokuCollective.Data.Models.Requests
             }
         }
 
-        [Required, GuidValidated(ErrorMessage = AttributeMessages.InvalidLicense)]
-        public string License
-        {
-            get
-            {
-                return _license;
-            }
-            set
-            {
-                if (!string.IsNullOrEmpty(value) && _guidValidator.IsValid(value))
-                {
-                    _license = value;
-                }
-                else
-                {
-                    throw new ArgumentException(AttributeMessages.InvalidLicense);
-                }
-            }
-        }
-
         public UpdatePasswordRequest() {}
 
         public UpdatePasswordRequest(
+            string license,
             int userId, 
-            string newPassword,
-            string license)
+            string newPassword)
         {
+            License = license;
             UserId = userId;
             NewPassword = newPassword;
-            License = license;
         }
 
         public static implicit operator JsonElement(UpdatePasswordRequest v)

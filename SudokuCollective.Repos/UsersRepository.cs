@@ -971,7 +971,7 @@ namespace SudokuCollective.Repos
 
                             result.Objects.Add(userRole);
 
-                            newUserRoleIds.Add(userRole.Id);
+                            newUserRoleIds.Add((int)userRole.Id);
                         }
                         else
                         {
@@ -987,7 +987,7 @@ namespace SudokuCollective.Repos
 
                         if (dbEntry is UserRole ur)
                         {
-                            if (newUserRoleIds.Contains(ur.Id))
+                            if (newUserRoleIds.Contains((int)ur.Id))
                             {
                                 entry.State = EntityState.Added;
                             }

@@ -9,15 +9,34 @@ namespace SudokuCollective.Data.Models.Requests
 {
     public class SignupRequest : ISignupRequest
     {
+        private string _license = string.Empty;
         private string _userName = string.Empty;
         private string _email = string.Empty;
         private string _password = string.Empty;
-        private string _license = string.Empty;
+        private readonly GuidValidatedAttribute _guidValidator = new();
         private readonly UserNameValidatedAttribute _userNameValidator = new();
         private readonly EmailValidatedAttribute _emailValidator = new();
         private readonly PasswordValidatedAttribute _passwordValidator = new();
-        private readonly GuidValidatedAttribute _guidValidator = new();
 
+        [Required, GuidValidated(ErrorMessage = AttributeMessages.InvalidLicense)]
+        public string License
+        {
+            get
+            {
+                return _license;
+            }
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && _guidValidator.IsValid(value))
+                {
+                    _license = value;
+                }
+                else
+                {
+                    throw new ArgumentException(AttributeMessages.InvalidLicense);
+                }
+            }
+        }
         [Required, UserNameValidated(ErrorMessage = AttributeMessages.InvalidUserName)]
         public string UserName
         {
@@ -80,25 +99,6 @@ namespace SudokuCollective.Data.Models.Requests
                 }
             }
         }
-        [Required, GuidValidated(ErrorMessage = AttributeMessages.InvalidLicense)]
-        public string License
-        {
-            get
-            {
-                return _license;
-            }
-            set
-            {
-                if (!string.IsNullOrEmpty(value) && _guidValidator.IsValid(value))
-                {
-                    _license = value;
-                }
-                else
-                {
-                    throw new ArgumentException(AttributeMessages.InvalidLicense);
-                }
-            }
-        }
 
         public SignupRequest()
         {
@@ -108,21 +108,21 @@ namespace SudokuCollective.Data.Models.Requests
         }
 
         public SignupRequest(
+            string license,
             string userName, 
             string firstName, 
             string lastName, 
             string nickName, 
             string email, 
-            string password,
-            string license)
+            string password)
         {
+            License = license;
             UserName = userName;
             FirstName = firstName;
             LastName = lastName;
             NickName = nickName;
             Email = email;
             Password = password;
-            License = license;
         }
 
         public static implicit operator JsonElement(SignupRequest v)

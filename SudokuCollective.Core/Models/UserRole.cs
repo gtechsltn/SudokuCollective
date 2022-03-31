@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using SudokuCollective.Core.Interfaces.Models;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 
 namespace SudokuCollective.Core.Models
@@ -8,8 +9,20 @@ namespace SudokuCollective.Core.Models
     public class UserRole : IUserRole
     {
         #region Properties
-        [Required]
-        public int Id { get; set; }
+        [JsonIgnore]
+        int IDomainEntity.Id
+        {
+            get
+            {
+                return (int)Id;
+            }
+            set
+            {
+                Id = (int)value;
+            }
+        }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public int? Id { get; set;}
         [Required]
         public int UserId { get; set; }
         [JsonIgnore]
@@ -63,7 +76,7 @@ namespace SudokuCollective.Core.Models
 
         [JsonConstructor]
         public UserRole(
-            int id,
+            int? id,
             int userId,
             int roleId)
         {
@@ -74,6 +87,11 @@ namespace SudokuCollective.Core.Models
         #endregion
 
         #region Methods
+        public void NullifyId()
+        {
+            Id = null;
+        }
+
         public override string ToString() => string.Format(base.ToString() + ".Id:{0}.RoleId:{1}.UserId:{2}", Id, RoleId, UserId);
 
         public string ToJson() => JsonSerializer.Serialize(

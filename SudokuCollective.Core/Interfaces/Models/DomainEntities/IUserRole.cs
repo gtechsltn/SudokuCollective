@@ -6,5 +6,6 @@
         IUser User { get; set; }
         int RoleId { get; set; }
         IRole Role { get; set; }
+        void NullifyId();
     }
 }

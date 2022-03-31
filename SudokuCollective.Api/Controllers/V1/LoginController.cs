@@ -49,10 +49,10 @@ namespace SudokuCollective.Api.Controllers.V1
         /// 
         /// The request should be structured as follows:
         /// ```
-        ///     {                                 
+        ///     {
+        ///       "license": string   // the app license must be valid using the applicable regex pattern as documented in the LoginRequest model
         ///       "userName": string, // user name must be unique, the api will ensure this for you; the applicable regex pattern as documented in the LoginRequest model
         ///       "password": string, // password is required, the applicable regex pattern as documented in the LoginRequest model
-        ///       "license": string   // the app license must be valid using the applicable regex pattern as documented in the LoginRequest model
         ///     }     
         /// ```
         /// </remarks>
@@ -132,8 +132,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// The request should be structured as follows:
         /// ```
         ///     {
-        ///       "email": string,  // email is required, the applicable regex pattern is documented in the ConfirmUserNameRequest model
         ///       "license": string // the applicable regex pattern as documented in the ConfirmUserNameRequest model
+        ///       "email": string,  // email is required, the applicable regex pattern is documented in the ConfirmUserNameRequest model
         ///     }     
         /// ```
         /// </remarks>

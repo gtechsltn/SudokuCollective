@@ -6,6 +6,9 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace SudokuCollective.Api.Migrations
 {
+    /// <summary>
+    /// Auto generated class
+    /// </summary>
     public partial class InitializeDatabase : Migration
     {
         /// <summary>

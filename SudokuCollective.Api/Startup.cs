@@ -138,7 +138,7 @@ namespace SudokuCollective.Api
                 .AddJsonOptions(x =>
                 {
                     x.JsonSerializerOptions.IncludeFields = false;
-                    x.JsonSerializerOptions.IgnoreReadOnlyProperties = true;
+                    x.JsonSerializerOptions.IgnoreReadOnlyProperties = false;
                     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                 });
 

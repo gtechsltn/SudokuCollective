@@ -234,8 +234,18 @@ namespace SudokuCollective.Test.TestCases.Models
             // Arrange and Act
             sut.HideEmail();
 
-            // Act and Assert
+            // Assert
             Assert.That(sut.Email, Is.Null);
+        }
+
+        [Test, Category("Models")]
+        public void CanNullifyPassword()
+        {
+            // Arrange and Act
+            sut.NullifyPassword();
+
+            // Assert
+            Assert.That(sut.Password, Is.Null);
         }
 
         [Test, Category("Models")]

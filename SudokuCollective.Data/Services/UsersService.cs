@@ -374,6 +374,18 @@ namespace SudokuCollective.Data.Services
                 {
                     var user = (User)response.Object;
 
+                    user.NullifyProperties();
+
+                    foreach (var userApp in user.Apps)
+                    {
+                        userApp.NullifyId();
+                    }
+
+                    foreach (var userRole in user.Roles) 
+                    {
+                        userRole.NullifyId();
+                    }
+
                     result.IsSuccess = response.IsSuccess;
                     result.Message = UsersMessages.UserFoundMessage;
                     result.Payload.Add(user);
@@ -748,6 +760,8 @@ namespace SudokuCollective.Data.Services
                             {
                                 userResult.User.HideEmail();
                             }
+                            
+                            userResult.User.NullifyProperties();
 
                             result.IsSuccess = userResponse.IsSuccess;
                             result.Message = UsersMessages.UserUpdatedMessage;
@@ -1249,6 +1263,8 @@ namespace SudokuCollective.Data.Services
 
                         await _cacheService.RemoveKeysAsync(_distributedCache, removeKeys);
 
+                        user.NullifyProperties();
+
                         result.IsSuccess = response.IsSuccess;
                         result.Message = UsersMessages.RolesAddedMessage;
                         result.Payload.Add(user);
@@ -1464,6 +1480,8 @@ namespace SudokuCollective.Data.Services
                             };
 
                     await _cacheService.RemoveKeysAsync(_distributedCache, removeKeys);
+
+                    user.NullifyProperties();
 
                     result.IsSuccess = true;
                     result.Message = UsersMessages.UserActivatedMessage;
@@ -1683,6 +1701,8 @@ namespace SudokuCollective.Data.Services
 
                                     userResult.ConfirmationEmailSuccessfullySent = _emailService
                                         .Send(user.Email, emailSubject, html);
+
+                                    user.NullifyProperties();
 
                                     if ((bool)userResult.ConfirmationEmailSuccessfullySent)
                                     {
@@ -2148,6 +2168,8 @@ namespace SudokuCollective.Data.Services
                                 user,
                                 license)).Object;
 
+                            userResult.User.NullifyProperties();
+
                             result.IsSuccess = response.IsSuccess;
                             result.Message = UsersMessages.EmailConfirmationRequestCancelledMessage;
                             result.Payload.Add(userResult);
@@ -2405,6 +2427,8 @@ namespace SudokuCollective.Data.Services
                         if (appResponse.IsSuccess)
                         {
                             var app = (App)appResponse.Object;
+
+                            user.NullifyProperties();
 
                             if (user.Apps.Any(ua => ua.AppId == app.Id))
                             {
@@ -2921,6 +2945,8 @@ namespace SudokuCollective.Data.Services
 
                             user = (User)updateUserResponse.Object;
 
+                            user.NullifyProperties();
+
                             result.IsSuccess = userResponse.IsSuccess;
                             result.Message = UsersMessages.PasswordResetMessage;
                             result.Payload.Add(user);
@@ -3024,6 +3050,8 @@ namespace SudokuCollective.Data.Services
                                 _cacheKeys,
                                 user,
                                 license)).Object;
+                            
+                            userResult.User.NullifyProperties();
 
                             result.IsSuccess = response.IsSuccess;
                             result.Message = UsersMessages.PasswordResetRequestCancelledMessage;

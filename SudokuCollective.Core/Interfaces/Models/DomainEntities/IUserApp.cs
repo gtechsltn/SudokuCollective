@@ -6,5 +6,6 @@
         IUser User { get; set; }
         int AppId { get; set; }
         IApp App { get; set; }
+        void NullifyId();
     }
 }
