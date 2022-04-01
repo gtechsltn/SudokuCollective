@@ -137,6 +137,7 @@ namespace SudokuCollective.Api
             services.AddControllers()
                 .AddJsonOptions(x =>
                 {
+                    x.JsonSerializerOptions.AllowTrailingCommas = true;
                     x.JsonSerializerOptions.IncludeFields = false;
                     x.JsonSerializerOptions.IgnoreReadOnlyProperties = false;
                     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
