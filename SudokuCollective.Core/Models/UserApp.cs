@@ -8,9 +8,9 @@ namespace SudokuCollective.Core.Models
     public class UserApp : IUserApp
     {
         #region Properties
-        [Required]
+        [Required, JsonPropertyName("id")]
         public int Id { get; set;}
-        [Required]
+        [Required, JsonPropertyName("userId")]
         public int UserId { get; set; }
         [JsonIgnore]
         IUser IUserApp.User
@@ -26,7 +26,7 @@ namespace SudokuCollective.Core.Models
         }
         [JsonIgnore]
         public virtual User User { get; set; }
-        [Required]
+        [Required, JsonPropertyName("appId")]
         public int AppId { get; set; }
         [JsonIgnore]
         IApp IUserApp.App

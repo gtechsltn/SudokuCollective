@@ -26,7 +26,7 @@ namespace SudokuCollective.Core.Models
         #endregion
 
         #region Properties
-        [Required]
+        [Required, JsonPropertyName("id")]
         public int Id { get; set; }
         [JsonIgnore]
         IGame ISudokuMatrix.Game
@@ -42,7 +42,7 @@ namespace SudokuCollective.Core.Models
         }
         [JsonIgnore]
         public Game Game { get; set; }
-        [Required]
+        [Required, JsonPropertyName("difficultyId")]
         public int DifficultyId { get; set; }
         [JsonIgnore]
         IDifficulty ISudokuMatrix.Difficulty
@@ -56,7 +56,7 @@ namespace SudokuCollective.Core.Models
                 Difficulty = (Difficulty)value;
             }
         }
-        [Required]
+        [Required, JsonPropertyName("difficulty")]
         public Difficulty Difficulty { get; set; }
         [JsonIgnore]
         ICollection<ISudokuCell> ISudokuMatrix.SudokuCells
@@ -70,7 +70,7 @@ namespace SudokuCollective.Core.Models
                 SudokuCells = value.ToList().ConvertAll(cell => (SudokuCell)cell);
             }
         }
-        [Required, SudokuCellsValidated(ErrorMessage = AttributeMessages.InvalidSudokuCells), JsonConverter(typeof(IDomainEntityListConverter<List<SudokuCell>>))]
+        [Required, JsonPropertyName("sudokuCells"), SudokuCellsValidated(ErrorMessage = AttributeMessages.InvalidSudokuCells), JsonConverter(typeof(IDomainEntityListConverter<List<SudokuCell>>))]
         public virtual List<SudokuCell> SudokuCells
         {
             get

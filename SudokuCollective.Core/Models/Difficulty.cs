@@ -11,13 +11,13 @@ namespace SudokuCollective.Core.Models
     public class Difficulty : IDifficulty
     {
         #region Properties
-        [Required]
+        [Required, JsonPropertyName("id")]
         public int Id { get; set; }
-        [Required]
+        [Required, JsonPropertyName("name")]
         public string Name { get; set; }
-        [Required]
+        [Required, JsonPropertyName("displayName")]
         public string DisplayName { get; set; }
-        [Required]
+        [Required, JsonPropertyName("difficultyLevel")]
         public DifficultyLevel DifficultyLevel { get; set; }
         [JsonIgnore]
         ICollection<ISudokuMatrix> IDifficulty.Matrices

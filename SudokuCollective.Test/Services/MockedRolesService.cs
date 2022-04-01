@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Moq;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Core.Models;
@@ -7,7 +8,6 @@ using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Test.Repositories;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
-using System.Collections.Generic;
 
 namespace SudokuCollective.Test.Services
 {

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Core.Interfaces.Models;
 using SudokuCollective.Core.Enums;
-using System.Linq;
 using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Models

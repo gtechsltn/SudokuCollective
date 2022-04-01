@@ -11,28 +11,29 @@ namespace SudokuCollective.Core.Models
     public class Game : IGame
     {
         #region Properties
-        [Required]
+        [Required, JsonPropertyName("id")]
         public int Id { get; set; }
-        [Required]
+        [Required, JsonPropertyName("userId")]
         public int UserId { get; set; }
-        [Required]
+        [Required, JsonPropertyName("sudokuMatrixId")]
         public int SudokuMatrixId { get; set; }
-        [Required]
+        [Required, JsonPropertyName("sudokuSolutionId")]
         public int SudokuSolutionId { get; set; }
-        [Required]
+        [Required, JsonPropertyName("appId")]
         public int AppId { get; set; }
-        [Required]
+        [Required, JsonPropertyName("continueGame")]
         public bool ContinueGame { get; set; }
-        [Required]
+        [Required, JsonPropertyName("score")]
         public int Score { get; set; }
-        [Required]
+        [Required, JsonPropertyName("keepScore")]
         public bool KeepScore { get; set; }
-        [Required]
+        [Required, JsonPropertyName("dateCreated")]
         public DateTime DateCreated { get; set; }
-        [Required]
+        [Required, JsonPropertyName("dateUpdated")]
         public DateTime DateUpdated { get; set; }
-        [Required]
+        [Required, JsonPropertyName("dateCompleted")]
         public DateTime DateCompleted { get; set; }
+        [JsonIgnore]
         public TimeSpan TimeToSolve
         {
             get
@@ -73,7 +74,7 @@ namespace SudokuCollective.Core.Models
                 SudokuMatrix = (SudokuMatrix)value;
             }
         }
-        [Required]
+        [Required, JsonPropertyName("sudokuMatrix")]
         public virtual SudokuMatrix SudokuMatrix { get; set; }
         [JsonIgnore]
         ISudokuSolution IGame.SudokuSolution
@@ -87,7 +88,7 @@ namespace SudokuCollective.Core.Models
                 SudokuSolution = (SudokuSolution)value;
             }
         }
-        [Required]
+        [Required, JsonPropertyName("sudokuSolution")]
         public virtual SudokuSolution SudokuSolution { get; set; }
         #endregion
 

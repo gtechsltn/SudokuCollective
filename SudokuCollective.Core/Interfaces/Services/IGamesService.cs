@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Results;
 
 namespace SudokuCollective.Core.Interfaces.Services
 {

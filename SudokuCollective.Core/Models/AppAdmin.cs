@@ -8,13 +8,13 @@ namespace SudokuCollective.Core.Models
     public class AppAdmin : IAppAdmin
     {
         #region Properties
-        [Required]
+        [Required, JsonPropertyName("id")]
         public int Id { get; set; }
-        [Required]
+        [Required, JsonPropertyName("appId")]
         public int AppId { get; set; }
-        [Required]
+        [Required, JsonPropertyName("userId")]
         public int UserId { get; set; }
-        [Required]
+        [Required, JsonPropertyName("isActive")]
         public bool IsActive { get; set; }
         #endregion
 

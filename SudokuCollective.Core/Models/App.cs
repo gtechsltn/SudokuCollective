@@ -23,9 +23,9 @@ namespace SudokuCollective.Core.Models
         #endregion
 
         #region Properties
-        [Required]
+        [Required, JsonPropertyName("id")]
         public int Id { get; set; }
-        [Required]
+        [Required, JsonPropertyName("name")]
         public string Name { get; set; }
         [IgnoreDataMember, GuidValidated(ErrorMessage = AttributeMessages.InvalidLicense)]
         public string License
@@ -46,22 +46,25 @@ namespace SudokuCollective.Core.Models
                 }
             }
         }
-        [Required]
+        [Required, JsonPropertyName("ownerId")]
         public int OwnerId { get; set; }
+        [JsonPropertyName("localUrl")]
         public string LocalUrl { get; set; }
+        [JsonPropertyName("stagingUrl")]
         public string StagingUrl { get; set; }
+        [JsonPropertyName("qaUrl")]
         public string QaUrl { get; set; }
+        [JsonPropertyName("prodUrl")]
         public string ProdUrl { get; set; }
-        [Required]
+        [Required, JsonPropertyName("IsActive")]
         public bool IsActive { get; set; }
-        [Required]
+        [Required, JsonPropertyName("environment")]
         public ReleaseEnvironment Environment { get; set; }
-        [Required]
+        [Required, JsonPropertyName("permitSuperUserAccess")]
         public bool PermitSuperUserAccess { get; set; }
-        [Required]
+        [Required, JsonPropertyName("permitCollectiveLogins")]
         public bool PermitCollectiveLogins { get; set; }
-
-        [IgnoreDataMember]
+        [JsonIgnore]
         public bool UseCustomEmailConfirmationAction
         {
             get
@@ -108,8 +111,7 @@ namespace SudokuCollective.Core.Models
                 }
             }
         }
-
-        [IgnoreDataMember]
+        [JsonIgnore]
         public bool UseCustomPasswordResetAction
         {
             get
@@ -156,11 +158,13 @@ namespace SudokuCollective.Core.Models
                 }
             }
         }
-
+        [JsonPropertyName("disableCustomUrls")]
         public bool DisableCustomUrls { get; set; }
+        [JsonPropertyName("customEmailConfirmationAction")]
         public string CustomEmailConfirmationAction { get; set; }
+        [JsonPropertyName("customPasswordResetAction")]
         public string CustomPasswordResetAction { get; set; }
-        [Required]
+        [Required, JsonPropertyName("userCount")]
         public int UserCount
         {
             get
@@ -175,6 +179,7 @@ namespace SudokuCollective.Core.Models
                 }
             }
         }
+        [JsonPropertyName("timeFrame")]
         public TimeFrame TimeFrame
         {
             get { return _timeFrame; }
@@ -197,6 +202,7 @@ namespace SudokuCollective.Core.Models
                 else { }
             }
         }
+        [JsonPropertyName("accessDuration")]
         public int AccessDuration
         {
             get { return _accessDuration; }
@@ -239,19 +245,17 @@ namespace SudokuCollective.Core.Models
                 }
             }
         }
-        [Required]
+        [Required, JsonPropertyName("dateCreated")]
         public DateTime DateCreated { get; set; }
-        [Required]
+        [Required, JsonPropertyName("dateUpdated")]
         public DateTime DateUpdated { get; set; }
-
         [JsonIgnore]
         ICollection<IUserApp> IApp.Users
         {
             get { return Users.ConvertAll(u => (IUserApp)u); }
             set { Users = value.ToList().ConvertAll(u => (UserApp)u); }
         }
-
-        [Required, JsonConverter(typeof(IDomainEntityListConverter<List<UserApp>>))]
+        [Required, JsonPropertyName("users"), JsonConverter(typeof(IDomainEntityListConverter<List<UserApp>>))]
         public virtual List<UserApp> Users { get; set; }
         #endregion
 

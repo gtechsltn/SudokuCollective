@@ -26,9 +26,9 @@ namespace SudokuCollective.Core.Models
         #endregion
 
         #region Properties
-        [Required]
+        [Required, JsonPropertyName("id")]
         public int Id { get; set; }
-        [Required, UserNameValidated(ErrorMessage = AttributeMessages.InvalidUserName)]
+        [Required, JsonPropertyName("userName"), UserNameValidated(ErrorMessage = AttributeMessages.InvalidUserName)]
         public string UserName
         {
             get
@@ -48,16 +48,18 @@ namespace SudokuCollective.Core.Models
                 }
             }
         }
-        [Required]
+        [Required, JsonPropertyName("firstName")]
         public string FirstName { get; set; }
-        [Required]
+        [Required, JsonPropertyName("lastName")]
         public string LastName { get; set; }
+        [JsonPropertyName("nickName")]
         public string NickName { get; set; }
+        [JsonPropertyName("fullName")]
         public string FullName
         {
             get => string.Format("{0} {1}", FirstName, LastName);
         }
-        [Required, EmailValidated(ErrorMessage = AttributeMessages.InvalidEmail)]
+        [Required, JsonPropertyName("email"), EmailValidated(ErrorMessage = AttributeMessages.InvalidEmail)]
         public string Email
         {
             get
@@ -78,10 +80,11 @@ namespace SudokuCollective.Core.Models
                 }
             }
         }
-        [Required]
+        [Required, JsonPropertyName("isEmailConfirmed")]
         public bool IsEmailConfirmed { get; set; }
+        [JsonPropertyName("receivedRequestToUpdateEmail")]
         public bool ReceivedRequestToUpdateEmail { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonPropertyName("password"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Password
         {
             get
@@ -97,8 +100,9 @@ namespace SudokuCollective.Core.Models
                 }
             }
         }
+        [JsonPropertyName("receivedRequestToUpdatePassword")]
         public bool ReceivedRequestToUpdatePassword { get; set; }
-        [Required]
+        [Required, JsonPropertyName("isActive")]
         public bool IsActive { get => _isActive; }
         [JsonIgnore]
         public bool IsSuperUser
@@ -142,9 +146,9 @@ namespace SudokuCollective.Core.Models
                 return _isAdmin;
             }
         }
-        [Required]
+        [Required, JsonPropertyName("dateCreated")]
         public DateTime DateCreated { get; set; }
-        [Required]
+        [Required, JsonPropertyName("dateUpdated")]
         public DateTime DateUpdated { get; set; }
         [JsonIgnore]
         ICollection<IGame> IUser.Games
@@ -158,7 +162,7 @@ namespace SudokuCollective.Core.Models
                 Games = value.ToList().ConvertAll(g => (Game)g);
             }
         }
-        [Required, JsonConverter(typeof(IDomainEntityListConverter<List<Game>>))]
+        [Required, JsonPropertyName("games"), JsonConverter(typeof(IDomainEntityListConverter<List<Game>>))]
         public virtual List<Game> Games { get; set; }
         [JsonIgnore]
         ICollection<IUserRole> IUser.Roles
@@ -172,7 +176,7 @@ namespace SudokuCollective.Core.Models
                 Roles = value.ToList().ConvertAll(ur => (UserRole)ur);
             }
         }
-        [Required, JsonConverter(typeof(IDomainEntityListConverter<List<UserRole>>))]
+        [Required, JsonPropertyName("roles"), JsonConverter(typeof(IDomainEntityListConverter<List<UserRole>>))]
         public virtual List<UserRole> Roles { get; set; }
         [JsonIgnore]
         ICollection<IUserApp> IUser.Apps
@@ -186,7 +190,7 @@ namespace SudokuCollective.Core.Models
                 Apps = value.ToList().ConvertAll(a => (UserApp)a);
             }
         }
-        [Required, JsonConverter(typeof(IDomainEntityListConverter<List<UserApp>>))]
+        [Required, JsonPropertyName("apps"), JsonConverter(typeof(IDomainEntityListConverter<List<UserApp>>))]
         public virtual List<UserApp> Apps { get; set; }
         #endregion
 

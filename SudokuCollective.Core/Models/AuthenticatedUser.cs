@@ -9,35 +9,35 @@ namespace SudokuCollective.Core.Models
     public class AuthenticatedUser : IAuthenticatedUser
     {
         #region Properties
-        [Required]
+        [Required, JsonPropertyName("id")]
         public int Id { get; set; }
-        [Required]
+        [Required, JsonPropertyName("userName")]
         public string UserName { get; set; }
-        [Required]
+        [Required, JsonPropertyName("firstName")]
         public string FirstName { get; set; }
-        [Required]
+        [Required, JsonPropertyName("lastName")]
         public string LastName { get; set; }
-        [Required]
+        [Required, JsonPropertyName("nickName")]
         public string NickName { get; set; }
-        [Required]
+        [Required, JsonPropertyName("fullName")]
         public string FullName { get; set; }
-        [Required]
+        [Required, JsonPropertyName("email")]
         public string Email { get; set; }
-        [Required]
+        [Required, JsonPropertyName("isEmailConfirmed")]
         public bool IsEmailConfirmed { get; set; }
-        [Required]
+        [Required, JsonPropertyName("receivedRequestToUpdateEmail")]
         public bool ReceivedRequestToUpdateEmail { get; set; }
-        [Required]
+        [Required, JsonPropertyName("receivedRequestToUpdatePassword")]
         public bool ReceivedRequestToUpdatePassword { get; set; }
-        [Required]
+        [Required, JsonPropertyName("isActive")]
         public bool IsActive { get; set; }
-        [Required]
+        [Required, JsonPropertyName("isSuperUser")]
         public bool IsSuperUser { get; set; }
-        [Required]
+        [Required, JsonPropertyName("isAdmin")]
         public bool IsAdmin { get; set; }
-        [Required]
+        [Required, JsonPropertyName("dateCreated")]
         public DateTime DateCreated { get; set; }
-        [Required]
+        [Required, JsonPropertyName("dateUpdated")]
         public DateTime DateUpdated { get; set; }
         #endregion
 

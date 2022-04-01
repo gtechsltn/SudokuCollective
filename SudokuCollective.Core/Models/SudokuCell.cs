@@ -22,9 +22,9 @@ namespace SudokuCollective.Core.Models
         #endregion
 
         #region Properties
-        [Required]
+        [Required, JsonPropertyName("id")]
         public int Id { get; set; }
-        [Required, Range(1, 81, ErrorMessage = AttributeMessages.InvalidIndex)]
+        [Required, JsonPropertyName("index"), Range(1, 81, ErrorMessage = AttributeMessages.InvalidIndex)]
         public int Index
         {
             get
@@ -43,7 +43,7 @@ namespace SudokuCollective.Core.Models
                 }
             }
         }
-        [Required, Range(1, 9, ErrorMessage = AttributeMessages.InvalidColumn)]
+        [Required, JsonPropertyName("column"), Range(1, 9, ErrorMessage = AttributeMessages.InvalidColumn)]
         public int Column
         {
             get
@@ -62,7 +62,7 @@ namespace SudokuCollective.Core.Models
                 }
             }
         }
-        [Required, Range(1, 9, ErrorMessage = AttributeMessages.InvalidRegion)]
+        [Required, JsonPropertyName("region"), Range(1, 9, ErrorMessage = AttributeMessages.InvalidRegion)]
         public int Region
         {
             get
@@ -81,7 +81,7 @@ namespace SudokuCollective.Core.Models
                 }
             }
         }
-        [Required, Range(1, 9, ErrorMessage = AttributeMessages.InvalidRow)]
+        [Required, JsonPropertyName("row"), Range(1, 9, ErrorMessage = AttributeMessages.InvalidRow)]
         public int Row
         {
             get
@@ -100,7 +100,7 @@ namespace SudokuCollective.Core.Models
                 }
             }
         }
-        [Required, Range(1, 9, ErrorMessage = AttributeMessages.InvalidValue)]
+        [Required, JsonPropertyName("value"), Range(1, 9, ErrorMessage = AttributeMessages.InvalidValue)]
         public int Value
         {
             get => _value;
@@ -145,7 +145,7 @@ namespace SudokuCollective.Core.Models
                 _value = value;
             }
         }
-        [Required, Range(0, 9, ErrorMessage = AttributeMessages.InvalidDisplayedValue)]
+        [Required, JsonPropertyName("displayedValue"), Range(0, 9, ErrorMessage = AttributeMessages.InvalidDisplayedValue)]
         public int DisplayedValue
         {
             get
@@ -171,7 +171,9 @@ namespace SudokuCollective.Core.Models
                 }
             }
         }
+        [Required, JsonPropertyName("hidden")]
         public bool Hidden { get; set; }
+        [Required, JsonPropertyName("sudokuMatrixId")]
         public int SudokuMatrixId { get; set; }
         [JsonIgnore]
         ISudokuMatrix ISudokuCell.SudokuMatrix

@@ -12,22 +12,31 @@ namespace SudokuCollective.Core.Models
     public class SudokuSolution : ISudokuSolution
     {
         #region Properites
-        [Required]
+        [Required, JsonPropertyName("id")]
         public int Id { get; set; }
-        [Required]
+        [Required, JsonPropertyName("solutionList")]
         public virtual List<int> SolutionList { get; set; }
-        [Required]
+        [Required, JsonPropertyName("dateCreated")]
         public DateTime DateCreated { get; set; }
-        [Required]
+        [Required, JsonPropertyName("dateSolved")]
         public DateTime DateSolved { get; set; }
+        [JsonIgnore]
         public List<int> FirstRow { get => GetValues(0, 9); }
+        [JsonIgnore]
         public List<int> SecondRow { get => GetValues(9, 9); }
+        [JsonIgnore]
         public List<int> ThirdRow { get => GetValues(18, 9); }
+        [JsonIgnore]
         public List<int> FourthRow { get => GetValues(27, 9); }
+        [JsonIgnore]
         public List<int> FifthRow { get => GetValues(36, 9); }
+        [JsonIgnore]
         public List<int> SixthRow { get => GetValues(45, 9); }
+        [JsonIgnore]
         public List<int> SeventhRow { get => GetValues(54, 9); }
+        [JsonIgnore]
         public List<int> EighthRow { get => GetValues(63, 9); }
+        [JsonIgnore]
         public List<int> NinthRow { get => GetValues(72, 9); }
         [JsonIgnore]
         IGame ISudokuSolution.Game

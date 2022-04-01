@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
@@ -10,10 +14,6 @@ using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Test.Repositories;
 using SudokuCollective.Test.TestData;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SudokuCollective.Test.TestCases.Cache
 {

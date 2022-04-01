@@ -15,13 +15,13 @@ namespace SudokuCollective.Core.Models
         #endregion
 
         #region Properties
-        [Required]
+        [Required, JsonPropertyName("id")]
         public int Id { get; set; }
-        [Required]
+        [Required, JsonPropertyName("userId")]
         public int UserId { get; set; }
-        [Required]
+        [Required, JsonPropertyName("appId")]
         public int AppId { get; set; }
-        [Required, GuidValidated(ErrorMessage = AttributeMessages.InvalidToken)]
+        [Required, JsonPropertyName("token"), GuidValidated(ErrorMessage = AttributeMessages.InvalidToken)]
         public string Token
         {
             get
@@ -42,7 +42,7 @@ namespace SudokuCollective.Core.Models
                 }
             }
         }
-        [Required]
+        [Required, JsonPropertyName("dateCreated")]
         public DateTime DateCreated { get; set; }
         #endregion
 

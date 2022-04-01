@@ -8,9 +8,9 @@ namespace SudokuCollective.Core.Models
     public class UserRole : IUserRole
     {
         #region Properties
-        [Required]
+        [Required, JsonPropertyName("id")]
         public int Id { get; set;}
-        [Required]
+        [Required, JsonPropertyName("userId")]
         public int UserId { get; set; }
         [JsonIgnore]
         IUser IUserRole.User
@@ -26,7 +26,7 @@ namespace SudokuCollective.Core.Models
         }
         [JsonIgnore]
         public virtual User User { get; set; }
-        [Required]
+        [Required, JsonPropertyName("roleId")]
         public int RoleId { get; set; }
         [JsonIgnore]
         IRole IUserRole.Role
@@ -40,7 +40,7 @@ namespace SudokuCollective.Core.Models
                 Role = (Role)value;
             }
         }
-        [Required]
+        [Required, JsonPropertyName("role")]
         public virtual Role Role { get; set; }
         #endregion
 

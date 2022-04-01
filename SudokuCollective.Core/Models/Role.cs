@@ -11,11 +11,11 @@ namespace SudokuCollective.Core.Models
     public class Role : IRole
     {
         #region Properties
-        [Required]
+        [Required, JsonPropertyName("id")]
         public int Id { get; set; }
-        [Required]
+        [Required, JsonPropertyName("name")]
         public string Name { get; set; }
-        [Required]
+        [Required, JsonPropertyName("roleLevel")]
         public RoleLevel RoleLevel { get; set; }
         [JsonIgnore]
         ICollection<IUserRole> IRole.Users
