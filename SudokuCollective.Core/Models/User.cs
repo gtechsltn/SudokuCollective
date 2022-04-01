@@ -59,7 +59,10 @@ namespace SudokuCollective.Core.Models
         {
             get => string.Format("{0} {1}", FirstName, LastName);
         }
-        [Required, JsonPropertyName("email"), EmailValidated(ErrorMessage = AttributeMessages.InvalidEmail)]
+        [Required]
+        [JsonPropertyName("email")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [EmailValidated(ErrorMessage = AttributeMessages.InvalidEmail)]
         public string Email
         {
             get

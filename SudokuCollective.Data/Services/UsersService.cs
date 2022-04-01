@@ -2062,6 +2062,7 @@ namespace SudokuCollective.Data.Services
                             }
 
                             result.Message = UsersMessages.EmailConfirmedMessage;
+                            result.Payload.Add(confirmEmailResult);
 
                             return result;
                         }
