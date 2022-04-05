@@ -25,7 +25,7 @@ namespace SudokuCollective.Test.TestCases.Services
             sut = new EmailService(emailMetaData);
             sutFailure = new EmailService(incorrectEmailMetaData);
 
-            toEmail = "SudokuCollective@gmail.com";
+            toEmail = "sudokucollective@gmail.com";
             subject = "testing123...";
             html = "<h1>Hello World!</h1>";
         }
