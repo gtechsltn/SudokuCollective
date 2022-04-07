@@ -1,6 +1,6 @@
 # Sudoku Collective
 
-Sudoku Collective is a project that serves as a ready made Web API that you can use to learn client side technologies.  The API is documented so you can create your own client app which can fully integrate with the API.  My particular implementation will be a Vue 3 app.
+Sudoku Collective is an open source Web API that you can use to learn client side technologies such as React or Vue.js. With this API you will create an app that allows users to play sudoku puzzles and compare their performance against other players. The benefit of using this tool is that once you create your first app and obtain an understanding of how the API works you will be in a better position to compare and understand various frontend technologies like React and Vue.js. The API is fully documented so you can create your own client app which can fully integrate the API. Thank you for checking out this tool and if you decide to proceed I sincerely hope you have fun.
 
 ## Requirements
 
