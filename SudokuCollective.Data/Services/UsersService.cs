@@ -653,7 +653,6 @@ namespace SudokuCollective.Data.Services
                                     .Update(emailConfirmation);
                             }
 
-
                             string EmailConfirmationAction;
 
                             if (app.UseCustomEmailConfirmationAction)
@@ -2014,7 +2013,6 @@ namespace SudokuCollective.Data.Services
                                 .Where(ua => ua.AppId == emailConfirmation.AppId)
                                 .Select(ua => ua.App.Name)
                                 .FirstOrDefault();
-
 
                             if (user
                                 .Apps

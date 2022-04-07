@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Extensions.Logging;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
@@ -12,10 +13,14 @@ namespace SudokuCollective.Data.Services
     public class EmailService : IEmailService
     {
         private readonly EmailMetaData emailMetaData;
+        private readonly ILogger<EmailService> _logger;
 
-        public EmailService(IEmailMetaData metaData)
+        public EmailService(
+            IEmailMetaData metaData, 
+            ILogger<EmailService> logger)
         {
             emailMetaData = (EmailMetaData)metaData;
+            _logger = logger;
         }
         
         public bool Send(string to, string subject, string html)
@@ -46,7 +51,9 @@ namespace SudokuCollective.Data.Services
 
                     smtp.Authenticate(emailMetaData.UserName, emailMetaData.Password);
 
-                    smtp.Send(email);
+                    var smtpResponse = smtp.Send(email);
+
+                    _logger.LogInformation(string.Format("smptResponse: {0}", smtpResponse));
 
                     smtp.Disconnect(true);
 
