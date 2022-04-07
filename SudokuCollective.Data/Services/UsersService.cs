@@ -1810,8 +1810,7 @@ namespace SudokuCollective.Data.Services
 
                         if (response.IsSuccess)
                         {
-                            //var removeEmailConfirmationResponse = await _emailConfirmationsRepository
-                            //    .Delete(emailConfirmation);
+                            _ = await _emailConfirmationsRepository.Delete(emailConfirmation);
 
                             var user = (User)response.Object;
 
@@ -1998,7 +1997,7 @@ namespace SudokuCollective.Data.Services
 
                         if (response.IsSuccess)
                         {
-                            //var removeEmailConfirmationResponse = await _emailConfirmationsRepository.Delete(emailConfirmation);
+                            _ = await _emailConfirmationsRepository.Delete(emailConfirmation);
 
                             var user = (User)response.Object;
 
