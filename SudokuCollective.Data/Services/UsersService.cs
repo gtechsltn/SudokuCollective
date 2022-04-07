@@ -1810,8 +1810,6 @@ namespace SudokuCollective.Data.Services
 
                         if (response.IsSuccess)
                         {
-                            _ = await _emailConfirmationsRepository.Delete(emailConfirmation);
-
                             var user = (User)response.Object;
 
                             result.IsSuccess = response.IsSuccess;
@@ -1871,6 +1869,8 @@ namespace SudokuCollective.Data.Services
                                     .Select(ua => ua.App.ProdUrl)
                                     .FirstOrDefault();
                             }
+                            
+                            _ = await _emailConfirmationsRepository.Delete(emailConfirmation);
 
                             result.Message = UsersMessages.EmailConfirmedMessage;
                             result.Payload.Add(confirmEmailResult);
@@ -1997,8 +1997,6 @@ namespace SudokuCollective.Data.Services
 
                         if (response.IsSuccess)
                         {
-                            _ = await _emailConfirmationsRepository.Delete(emailConfirmation);
-
                             var user = (User)response.Object;
 
                             result.IsSuccess = response.IsSuccess;
@@ -2057,6 +2055,8 @@ namespace SudokuCollective.Data.Services
                                     .Select(ua => ua.App.ProdUrl)
                                     .FirstOrDefault();
                             }
+
+                            _ = await _emailConfirmationsRepository.Delete(emailConfirmation);
 
                             result.Message = UsersMessages.EmailConfirmedMessage;
                             result.Payload.Add(confirmEmailResult);
