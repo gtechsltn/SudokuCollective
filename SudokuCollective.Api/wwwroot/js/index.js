@@ -1,5 +1,28 @@
 ﻿window.addEventListener('load', async () => {
 
+    try {
+
+        let missionStatement;
+
+        missionStatement = localStorage.getItem('missionStatement');
+
+        if (!missionStatement) {
+
+            const response = await fetch("api/index");
+
+            missionStatement = (await response.json()).description;
+    
+            localStorage.setItem('missionStatement', missionStatement);
+        }
+
+        document.getElementById('missionStatement').innerHTML = missionStatement;
+
+        document.getElementById('missionStatement').classList.remove('hide');
+
+    } catch (error) {
+        console.log(error);
+    }
+
     const date = new Date();
     
     document.getElementById('year').innerHTML = date.getFullYear();
