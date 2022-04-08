@@ -2,24 +2,31 @@
 
     try {
 
-        let missionStatement;
+        let sudokuCollectiveIndexInfo;
 
-        missionStatement = localStorage.getItem('missionStatement');
+        sudokuCollectiveIndexInfo = JSON.parse(localStorage.getItem('sudokuCollectiveIndexInfo'));
 
-        if (!missionStatement) {
+        if (!sudokuCollectiveIndexInfo || new Date(sudokuCollectiveIndexInfo.expirationDate) > new Date()) {
 
             const response = await fetch("api/index");
-
-            missionStatement = (await response.json()).missionStatement;
-    
-            localStorage.setItem('missionStatement', missionStatement);
+        
+            const missionStatement = (await response.json()).missionStatement;
+            
+            var expirationDate = new Date();
+            
+            expirationDate.setDate(expirationDate.getDate() + 1);
+        
+            sudokuCollectiveIndexInfo = { missionStatement, expirationDate }
+        
+            localStorage.setItem('sudokuCollectiveIndexInfo', JSON.stringify(sudokuCollectiveIndexInfo));
         }
 
-        document.getElementById('missionStatement').innerHTML = missionStatement;
+        document.getElementById('missionStatement').innerHTML = sudokuCollectiveIndexInfo.missionStatement;
 
         document.getElementById('missionRow').classList.remove('hide');
 
     } catch (error) {
+        
         console.log(error);
     }
 
