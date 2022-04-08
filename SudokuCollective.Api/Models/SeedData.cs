@@ -268,23 +268,23 @@ namespace SudokuCollective.Api.Models
                             0,
                             !env.IsStaging() ? 
                                 config.GetValue<string>("DefaultSandboxApp:Name") : 
-                                Environment.GetEnvironmentVariable("POSTMAN_APP_NAME"),
+                                Environment.GetEnvironmentVariable("SANDBOX_APP_NAME"),
                             !env.IsStaging() ? 
                                 config.GetValue<string>("DefaultSandboxApp:License") : 
-                                Environment.GetEnvironmentVariable("POSTMAN_APP_LICENSE"),
+                                Environment.GetEnvironmentVariable("SANDBOX_APP_LICENSE"),
                             1,
                             !env.IsStaging() ? 
                                 config.GetValue<string>("DefaultSandboxApp:LocalUrl") : 
-                                Environment.GetEnvironmentVariable("POSTMAN_APP_LOCAL_URL"),
+                                Environment.GetEnvironmentVariable("SANDBOX_APP_LOCAL_URL"),
                             !env.IsStaging() ? 
                                 config.GetValue<string>("DefaultSandboxApp:StagingUrl") : 
-                                Environment.GetEnvironmentVariable("POSTMAN_APP_STAGING_URL"),
+                                Environment.GetEnvironmentVariable("SANDBOX_APP_STAGING_URL"),
                             !env.IsStaging() ? 
                                 config.GetValue<string>("DefaultSandboxApp:QaUrl") : 
-                                Environment.GetEnvironmentVariable("POSTMAN_APP_QA_URL"),
+                                Environment.GetEnvironmentVariable("SANDBOX_APP_QA_URL"),
                             !env.IsStaging() ? 
                                 config.GetValue<string>("DefaultSandboxApp:ProdUrl") : 
-                                Environment.GetEnvironmentVariable("POSTMAN_APP_PROD_URL"),
+                                Environment.GetEnvironmentVariable("SANDBOX_APP_PROD_URL"),
                             true,
                             true,
                             true,

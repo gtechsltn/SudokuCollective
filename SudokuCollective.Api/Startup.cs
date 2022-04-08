@@ -62,9 +62,13 @@ namespace SudokuCollective.Api
                     !_environment.IsStaging() ? Configuration.GetConnectionString("DatabaseConnection") : GetHerokuPostgresConnectionString(),
                     b => b.MigrationsAssembly("SudokuCollective.Api")));
 
-            var SwaggerDescription = !_environment.IsStaging() ? 
+            var swaggerDescription = !_environment.IsStaging() ? 
                 Configuration.GetSection("SwaggerDocs:Description").Value : 
                 Environment.GetEnvironmentVariable("SWAGGERDOC_DESCRIPTION");
+
+            var sandboxLicense = !_environment.IsStaging() ?
+                Configuration.GetSection("DefaultSandboxApp:License").Value :
+                Environment.GetEnvironmentVariable("SANDBOX_APP_LICENSE");
 
             services.AddSwaggerGen(swagger =>
             {
@@ -74,7 +78,9 @@ namespace SudokuCollective.Api
                     {
                         Version = "v1",
                         Title = "SudokuCollective API",
-                        Description = string.Format("{0} \r\n\r\n For testing purposes please use the Sudoku Collective Sandbox App if you haven't created your own app: \r\n\r\n Id: 3 \r\n\r\n  license: d1583914-480e-4dc8-9642-8c6bba7062ee", SwaggerDescription)
+                        Description = string.Format("{0} \r\n\r\n For testing purposes please use the Sudoku Collective Sandbox App if you haven't created your own app: \r\n\r\n Id: 3 \r\n\r\n  license: {1}", 
+                            swaggerDescription, 
+                            sandboxLicense)
                     });
                 swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
