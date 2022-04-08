@@ -42,6 +42,8 @@
 
     document.getElementById('container').classList.remove('hide');
 
+    document.getElementById('footer').classList.remove('hide');
+
     setInterval(async () => {
 
         await checkAPI(htmlElement);
