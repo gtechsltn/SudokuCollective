@@ -6,7 +6,7 @@
 
         sudokuCollectiveIndexInfo = JSON.parse(localStorage.getItem('sudokuCollectiveIndexInfo'));
 
-        if (!sudokuCollectiveIndexInfo || new Date(sudokuCollectiveIndexInfo.expirationDate) > new Date()) {
+        if (!sudokuCollectiveIndexInfo || new Date(sudokuCollectiveIndexInfo.expirationDate) < new Date()) {
 
             const response = await fetch("api/index");
         
