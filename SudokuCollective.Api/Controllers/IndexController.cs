@@ -35,7 +35,7 @@ namespace SudokuCollective.Api.Controllers
         public IActionResult Get()
         {
             var description = !_environment.IsStaging() ? 
-                _configuration.GetSection("SwaggerDocs:MissionStatement").Value : 
+                _configuration.GetSection("MissionStatement").Value : 
                 Environment.GetEnvironmentVariable("SWAGGERDOC_MISSIONSTATEMENT");
 
             return Ok(new { description = description});

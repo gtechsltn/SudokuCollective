@@ -63,8 +63,8 @@ namespace SudokuCollective.Api
                     b => b.MigrationsAssembly("SudokuCollective.Api")));
 
             var swaggerDescription = !_environment.IsStaging() ? 
-                Configuration.GetSection("SwaggerDocs:MissionStatement").Value : 
-                Environment.GetEnvironmentVariable("SWAGGERDOC_DESCRIPTION");
+                Configuration.GetSection("MissionStatement").Value : 
+                Environment.GetEnvironmentVariable("MISSIONSTATEMENT");
 
             var sandboxLicense = !_environment.IsStaging() ?
                 Configuration.GetSection("DefaultSandboxApp:License").Value :
