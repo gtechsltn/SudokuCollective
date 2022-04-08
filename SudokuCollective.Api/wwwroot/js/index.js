@@ -1,12 +1,14 @@
 ﻿window.addEventListener('load', async () => {
 
+    const date = new Date();
+
     try {
 
         let sudokuCollectiveIndexInfo;
 
         sudokuCollectiveIndexInfo = JSON.parse(localStorage.getItem('sudokuCollectiveIndexInfo'));
 
-        if (!sudokuCollectiveIndexInfo || new Date(sudokuCollectiveIndexInfo.expirationDate) < new Date()) {
+        if (!sudokuCollectiveIndexInfo || new Date(sudokuCollectiveIndexInfo.expirationDate) < date) {
 
             const response = await fetch("api/index");
         
@@ -29,8 +31,6 @@
         
         console.log(error);
     }
-
-    const date = new Date();
     
     document.getElementById('year').innerHTML = date.getFullYear();
 
