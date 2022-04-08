@@ -38,6 +38,10 @@
 
     await checkAPI(htmlElement);
 
+    document.getElementById('spinner').classList.add('hide');
+
+    document.getElementById('container').classList.remove('hide');
+
     setInterval(async () => {
 
         await checkAPI(htmlElement);
