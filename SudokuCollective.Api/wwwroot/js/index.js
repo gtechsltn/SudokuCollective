@@ -93,16 +93,18 @@ function updateIndex(htmlElement, message, isSuccess) {
 
         if (isSuccess) {
     
-            if (htmlElement.classList.contains('red')) {
-        
-                htmlElement.classList.remove("red");
+            if (htmlElement.classList.contains('text-yellow')) {
+
+                htmlElement.classList.add("text-white");
+                htmlElement.classList.remove("text-yellow");
             }
     
         } else {
     
-            if (!htmlElement.classList.contains('red')) {
-    
-                htmlElement.classList.add("red");
+            if (!htmlElement.classList.contains('text-yellow')) {
+
+                htmlElement.classList.remove("text-white");
+                htmlElement.classList.add("text-yellow");
             }
         }
 
