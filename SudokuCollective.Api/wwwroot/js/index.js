@@ -17,7 +17,7 @@
 
         document.getElementById('missionStatement').innerHTML = missionStatement;
 
-        document.getElementById('missionStatement').classList.remove('hide');
+        document.getElementById('missionRow').classList.remove('hide');
 
     } catch (error) {
         console.log(error);
