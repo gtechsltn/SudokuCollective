@@ -846,7 +846,7 @@ namespace SudokuCollective.Data.Services
                             foreach (var user in result.Payload)
                             {
                                 var emailConfirmed = ((IUser)user).IsEmailConfirmed;
-                                ((IUser)user).HideEmail();
+                                ((IUser)user).NullifyEmail();
                                 ((IUser)user).IsEmailConfirmed = emailConfirmed;
                             }
                         }

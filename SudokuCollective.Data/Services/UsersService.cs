@@ -450,7 +450,7 @@ namespace SudokuCollective.Data.Services
 
                     if (!((User)requestorResponse.Object).IsSuperUser && request.RequestorId != id)
                     {
-                        ((User)result.Payload[0]).HideEmail();
+                        ((User)result.Payload[0]).NullifyEmail();
                     }
 
                     return result;
@@ -747,7 +747,7 @@ namespace SudokuCollective.Data.Services
 
                             if (!((User)requestorResponse.Object).IsSuperUser && request.RequestorId != id)
                             {
-                                userResult.User.HideEmail();
+                                userResult.User.NullifyEmail();
                             }
                             
                             userResult.User.NullifyPassword();
@@ -921,9 +921,15 @@ namespace SudokuCollective.Data.Services
                         foreach (var user in result.Payload.ConvertAll(u => (IUser)u))
                         {
                             var emailConfirmed = user.IsEmailConfirmed;
-                            user.HideEmail();
+                            user.NullifyEmail();
                             user.IsEmailConfirmed = emailConfirmed;
                         }
+                    }
+                    
+                    // Nullify all passwords
+                    foreach (var user in result.Payload.ConvertAll(u => (IUser)u))
+                    {
+                        user.NullifyPassword();
                     }
 
                     result.IsSuccess = response.IsSuccess;
@@ -1240,7 +1246,7 @@ namespace SudokuCollective.Data.Services
 
                         if (!((User)requestorResponse.Object).IsSuperUser && request.RequestorId != user.Id)
                         {
-                            user.HideEmail();
+                            user.NullifyEmail();
                         }
 
                         // Remove any user cache items which may exist

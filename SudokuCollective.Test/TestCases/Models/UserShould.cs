@@ -229,10 +229,10 @@ namespace SudokuCollective.Test.TestCases.Models
         }
 
         [Test, Category("Models")]
-        public void CanHideEmail()
+        public void CanNullifyEmail()
         {
             // Arrange and Act
-            sut.HideEmail();
+            sut.NullifyEmail();
 
             // Assert
             Assert.That(sut.Email, Is.Null);

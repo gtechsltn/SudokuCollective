@@ -26,7 +26,7 @@ namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
         void ActivateUser();
         void DeactiveUser();
         void UpdateRoles();
-        void HideEmail();
+        void NullifyEmail();
         void NullifyPassword();
     }
 }

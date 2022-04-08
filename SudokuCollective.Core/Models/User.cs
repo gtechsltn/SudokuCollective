@@ -326,7 +326,7 @@ namespace SudokuCollective.Core.Models
             }
         }
 
-        public void HideEmail()
+        public void NullifyEmail()
         {
             _email = null;
         }
