@@ -10,7 +10,7 @@
 
             const response = await fetch("api/index");
 
-            missionStatement = (await response.json()).description;
+            missionStatement = (await response.json()).missionStatement;
     
             localStorage.setItem('missionStatement', missionStatement);
         }

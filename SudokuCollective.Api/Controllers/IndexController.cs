@@ -34,11 +34,11 @@ namespace SudokuCollective.Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var description = !_environment.IsStaging() ? 
+            var missionStatement = !_environment.IsStaging() ? 
                 _configuration.GetSection("MissionStatement").Value : 
                 Environment.GetEnvironmentVariable("MISSIONSTATEMENT");
 
-            return Ok(new { description = description});
+            return Ok(new { missionStatement = missionStatement});
         }
     }
 }
