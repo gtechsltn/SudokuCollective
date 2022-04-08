@@ -78,7 +78,7 @@ namespace SudokuCollective.Api
                     {
                         Version = "v1",
                         Title = "SudokuCollective API",
-                        Description = string.Format("{0} \r\n\r\n For testing purposes please use the Sudoku Collective Sandbox App if you haven't created your own app: \r\n\r\n Id: 3 \r\n\r\n  license: {1}", 
+                        Description = string.Format("{0} \r\n\r\n For testing purposes please use the Sudoku Collective Sandbox App if you haven't created your own app: \r\n\r\n Id: 3 \r\n\r\n  License: {1}", 
                             swaggerDescription, 
                             sandboxLicense)
                     });
