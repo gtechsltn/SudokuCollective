@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using SudokuCollective.Core.Interfaces.Models;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
@@ -55,6 +56,7 @@ namespace SudokuCollective.Test.TestCases.Models
             Assert.That(sut.IsAdmin, Is.TypeOf<bool>());
             Assert.That(sut.DateCreated, Is.TypeOf<DateTime>());
             Assert.That(sut.DateUpdated, Is.TypeOf<DateTime>());
+            Assert.That(sut.Games, Is.TypeOf<ICollection<Game>>());
         }
 
         [Test, Category("Models")]
