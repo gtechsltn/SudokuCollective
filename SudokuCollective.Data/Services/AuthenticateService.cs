@@ -169,6 +169,8 @@ namespace SudokuCollective.Data.Services
                     }
                 }
 
+                user.Games = user.Games.Where(g => g.Id == app.Id).ToList();
+
                 var authenticatedUser = new AuthenticatedUser();
 
                 authenticatedUser.UpdateWithUserInfo(user);

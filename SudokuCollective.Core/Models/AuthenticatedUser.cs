@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
+using SudokuCollective.Core.Utilities;
 
 namespace SudokuCollective.Core.Models
 {
@@ -39,6 +42,20 @@ namespace SudokuCollective.Core.Models
         public DateTime DateCreated { get; set; }
         [Required, JsonPropertyName("dateUpdated")]
         public DateTime DateUpdated { get; set; }
+        [JsonIgnore]
+        ICollection<IGame> IAuthenticatedUser.Games
+        {
+            get
+            {
+                return Games.ConvertAll(g => (IGame)g);
+            }
+            set
+            {
+                Games = value.ToList().ConvertAll(g => (Game)g);
+            }
+        }
+        [Required, JsonPropertyName("games"), JsonConverter(typeof(IDomainEntityListConverter<List<Game>>))]
+        public virtual List<Game> Games { get; set; }
         #endregion
 
         #region Constructors
@@ -83,6 +100,7 @@ namespace SudokuCollective.Core.Models
             IsAdmin = user.IsAdmin;
             DateCreated = user.DateCreated;
             DateUpdated = user.DateUpdated;
+            Games = ((User)user).Games;
         }
 
         public override string ToString() => string.Format(base.ToString() + ".Id:{0}.UserName:{1}", Id, UserName);
