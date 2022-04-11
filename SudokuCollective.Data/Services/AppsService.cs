@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Distributed;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Cache;
@@ -33,6 +37,7 @@ namespace SudokuCollective.Data.Services
         private readonly ICacheService _cacheService;
         private readonly ICacheKeys _cacheKeys;
         private readonly ICachingStrategy _cachingStrategy;
+        private readonly ILogger<IAppsService> _logger;
         #endregion
 
         #region Constructor
@@ -44,7 +49,8 @@ namespace SudokuCollective.Data.Services
             IDistributedCache distributedCache,
             ICacheService cacheService,
             ICacheKeys cacheKeys,
-            ICachingStrategy cachingStrategy)
+            ICachingStrategy cachingStrategy,
+            ILogger<IAppsService> logger)
         {
             _appsRepository = appRepository;
             _usersRepository = userRepository;
@@ -54,6 +60,7 @@ namespace SudokuCollective.Data.Services
             _cacheService = cacheService;
             _cacheKeys = cacheKeys;
             _cachingStrategy = cachingStrategy;
+            _logger = logger;
         }
         #endregion
 
@@ -1643,67 +1650,135 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<bool> IsOwnerOfThisLicense(int id, string license, int userId)
+        public async Task<bool> IsOwnerOfThisLicense(
+            IHttpContextAccessor httpContextAccessor, 
+            string license,
+            int appId,
+            int userId,
+            int requestorId)
         {
+            if (httpContextAccessor == null) throw new ArgumentNullException(nameof(httpContextAccessor));
+
             if (string.IsNullOrEmpty(license)) throw new ArgumentNullException(nameof(license));
 
-            if (id == 0 || userId == 0)
+            if (appId == 0 || userId == 0 || requestorId == 0)
             {
                 return false;
             }
 
-            try
+            var requestValid = await IsRequestValidOnThisLicense(
+                httpContextAccessor, 
+                license, 
+                appId, 
+                userId);
+
+            if (requestValid)
             {
-                var cacheServiceResponse = await _cacheService.GetWithCacheAsync(
-                    _usersRepository,
-                    _distributedCache,
-                    string.Format(_cacheKeys.GetUserCacheKey, userId, license),
-                    _cachingStrategy.Medium,
-                    userId);
-
-                var userResponse = (RepositoryResponse)cacheServiceResponse.Item1;
-
-                var validLicense = await _cacheService.IsAppLicenseValidWithCacheAsync(
-                    _appsRepository,
-                    _distributedCache,
-                    string.Format(_cacheKeys.IsAppLicenseValidCacheKey, license),
-                    _cachingStrategy.Heavy,
-                    license);
-
-                if (userResponse.IsSuccess && validLicense)
+                try
                 {
-                    var requestorOwnerOfThisApp = await _appsRepository.IsUserOwnerOfApp(id, license, userId);
+                    var cacheServiceResponse = await _cacheService.GetWithCacheAsync(
+                        _usersRepository,
+                        _distributedCache,
+                        string.Format(_cacheKeys.GetUserCacheKey, userId, license),
+                        _cachingStrategy.Medium,
+                        userId);
 
-                    if (requestorOwnerOfThisApp && validLicense)
+                    var userResponse = (RepositoryResponse)cacheServiceResponse.Item1;
+
+                    var validLicense = await _cacheService.IsAppLicenseValidWithCacheAsync(
+                        _appsRepository,
+                        _distributedCache,
+                        string.Format(_cacheKeys.IsAppLicenseValidCacheKey, license),
+                        _cachingStrategy.Heavy,
+                        license);
+
+                    if (userResponse.IsSuccess && validLicense)
                     {
-                        return true;
-                    }
-                    else if (((User)userResponse.Object).IsSuperUser && validLicense)
-                    {
-                        return true;
+                        var requestorOwnerOfThisApp = await _appsRepository.IsUserOwnerOfApp(
+                            requestorId, 
+                            license, 
+                            userId);
+
+                        if (requestorOwnerOfThisApp && validLicense)
+                        {
+                            return true;
+                        }
+                        else if (((User)userResponse.Object).IsSuperUser && validLicense)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            _logger.LogInformation("User is not the owner of this app");
+
+                            return false;
+                        }
                     }
                     else
                     {
+                        _logger.LogInformation(UsersMessages.UserNotFoundMessage);
+
                         return false;
                     }
                 }
-                else
+                catch (Exception e)
                 {
-                    return false;
+                    _logger.LogError(e.Message);
+
+                    throw;
                 }
             }
-            catch
+            else
             {
-                throw;
+                return false;
             }
         }
 
-        public async Task<bool> IsRequestValidOnThisLicense(int id, string license, int userId)
+        public async Task<bool> IsRequestValidOnThisLicense(
+            IHttpContextAccessor httpContextAccessor, 
+            string license, 
+            int appId, 
+            int userId)
         {
+            if (httpContextAccessor == null) throw new ArgumentNullException(nameof(httpContextAccessor));
+
             if (string.IsNullOrEmpty(license)) throw new ArgumentNullException(nameof(license));
 
-            if (id == 0 || userId == 0)
+            if (appId == 0 || userId == 0)
             {
+                _logger.LogInformation(string.Format("App id {0} or User id {1} is zero", appId, userId));
+                return false;
+            }
+
+            int tokenUserId, tokenAppId;
+
+            if (httpContextAccessor != null)
+            {
+                var jwtToken = (httpContextAccessor.HttpContext.Request.Headers["Authorization"]).ToString().Substring(7);
+
+                var handler = new JwtSecurityTokenHandler();
+                var jsonToken = handler.ReadToken(jwtToken);
+                var tokenS = jsonToken as JwtSecurityToken;
+
+                tokenUserId = Convert.ToInt32(tokenS.Claims.Skip(1).First(claim => claim.Type == ClaimTypes.Name).Value);
+                tokenAppId = Convert.ToInt32(tokenS.Claims.Skip(2).First(claim => claim.Type == ClaimTypes.Name).Value);
+
+                if (userId != tokenUserId || appId != tokenAppId)
+                {
+                    _logger.LogInformation(string.Format("The user or app is not valid for this JWT Token: \n\tApp License: {0}\n\tToken User ID: {1}\n\tRequest User ID: {2}\n\tToken App Id: {3}\n\tRequest App Id: {4}", 
+                        license, 
+                        tokenUserId, 
+                        userId, 
+                        tokenAppId, 
+                        appId));
+
+                    return false;
+                }
+            }
+            else
+            {
+                _logger.LogInformation("HttpContextAccessor is null");
+
                 return false;
             }
 
@@ -1721,9 +1796,9 @@ namespace SudokuCollective.Data.Services
                 cacheServiceResponse = await _cacheService.GetWithCacheAsync(
                     _appsRepository,
                     _distributedCache,
-                    string.Format(_cacheKeys.GetAppCacheKey, id),
+                    string.Format(_cacheKeys.GetAppCacheKey, appId),
                     _cachingStrategy.Medium,
-                    id);
+                    appId);
 
                 var appResponse = (RepositoryResponse)cacheServiceResponse.Item1;
 
@@ -1741,7 +1816,7 @@ namespace SudokuCollective.Data.Services
                     if (!((App)appResponse.Object).PermitCollectiveLogins)
                     {
                         userPermittedAccess = await _appsRepository
-                            .IsUserRegisteredToApp(id, license, userId);
+                            .IsUserRegisteredToApp(appId, license, userId);
                     }
                     else
                     {
@@ -1756,6 +1831,8 @@ namespace SudokuCollective.Data.Services
                         }
                         else
                         {
+                            _logger.LogInformation(string.Format("{0} is not active", ((App)appResponse.Object).Name));
+
                             return false;
                         }
                     }
@@ -1765,16 +1842,26 @@ namespace SudokuCollective.Data.Services
                     }
                     else
                     {
+                        _logger.LogInformation(string.Format("The requestor is not a super user or license is invalid:\n\tuser name: {0}\n\tlicense: {1}", 
+                            ((User)userResponse.Object).UserName, 
+                            license));
+
                         return false;
                     }
                 }
                 else
                 {
+                    _logger.LogInformation(string.Format("{0} or {1}", 
+                        UsersMessages.UserNotFoundMessage, 
+                        AppsMessages.AppsNotFoundMessage));
+                        
                     return false;
                 }
             }
-            catch
+            catch (Exception e)
             {
+                _logger.LogError(string.Format("Following error thrown: {0}", e.Message));
+
                 throw;
             }
         }

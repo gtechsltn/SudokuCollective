@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Moq;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
@@ -56,7 +57,7 @@ namespace SudokuCollective.Test.Services
                                 .Result
                                 .Object
                         }
-                } as IResult));
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(service =>
                 service.GetByLicense(
@@ -80,7 +81,7 @@ namespace SudokuCollective.Test.Services
                                 .Result
                                 .Object
                         }
-                } as IResult));
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(service =>
                 service.GetApps(
@@ -102,7 +103,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Objects
                         .ConvertAll(a => (object)a)
-                } as IResult));
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(service =>
                 service.GetMyApps(
@@ -124,7 +125,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Objects
                         .ConvertAll(a => (object)a)
-                } as IResult));
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(service =>
                 service.GetRegisteredApps(
@@ -146,7 +147,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Objects
                         .ConvertAll(a => (object)a)
-                } as IResult));
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(appsService =>
                 appsService.Create(It.IsAny<ILicenseRequest>()))
@@ -168,19 +169,22 @@ namespace SudokuCollective.Test.Services
                                 .Result
                                 .Object
                         }
-                } as IResult));
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(service =>
                 service.IsRequestValidOnThisLicense(
-                    It.IsAny<int>(),
+                    It.IsAny<IHttpContextAccessor>(),
                     It.IsAny<string>(),
+                    It.IsAny<int>(),
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(true));
 
             SuccessfulRequest.Setup(service =>
                 service.IsOwnerOfThisLicense(
-                    It.IsAny<int>(),
+                    It.IsAny<IHttpContextAccessor>(),
                     It.IsAny<string>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(true));
 
@@ -204,7 +208,7 @@ namespace SudokuCollective.Test.Services
                                 .Result
                                 .Object
                         }
-                } as IResult));
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(service =>
                 service.GetAppUsers(
@@ -231,7 +235,7 @@ namespace SudokuCollective.Test.Services
                                 .Objects
                                 .ConvertAll(u => (object)u)
                         }
-                } as IResult));
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(service =>
                 service.GetLicense(It.IsAny<int>()))
@@ -257,7 +261,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .IsSuccess,
                     Message = AppsMessages.UserAddedToAppMessage
-                } as IResult));
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(service =>
                 service.RemoveAppUser(It.IsAny<int>(), It.IsAny<int>()))
@@ -270,7 +274,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .IsSuccess,
                     Message = AppsMessages.UserRemovedFromAppMessage
-                } as IResult));
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(service =>
                 service.Activate(It.IsAny<int>()))
@@ -283,7 +287,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .IsSuccess,
                     Message = AppsMessages.AppActivatedMessage
-                } as IResult));
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(service =>
                 service.Deactivate(It.IsAny<int>()))
@@ -296,7 +300,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .IsSuccess,
                     Message = AppsMessages.AppDeactivatedMessage
-                } as IResult));
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(service =>
                 service.DeleteOrReset(It.IsAny<int>(), It.IsAny<bool>()))
@@ -309,7 +313,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .IsSuccess,
                     Message = AppsMessages.AppDeletedMessage
-                } as IResult));
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(appsService =>
                 appsService.ActivateAdminPrivileges(It.IsAny<int>(), It.IsAny<int>()))
@@ -331,7 +335,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Object
                         }
-                } as IResult));
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(appsService =>
                 appsService.DeactivateAdminPrivileges(It.IsAny<int>(), It.IsAny<int>()))
@@ -353,7 +357,7 @@ namespace SudokuCollective.Test.Services
                                 .Result
                                 .Object
                         }
-                } as IResult));
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             FailedRequest.Setup(service =>
                 service.Get(
@@ -367,7 +371,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.AppNotFoundMessage,
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             FailedRequest.Setup(service =>
                 service.GetByLicense(
@@ -382,7 +386,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.AppNotFoundMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             FailedRequest.Setup(service =>
                 service.GetApps(
@@ -397,7 +401,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.AppsNotFoundMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             FailedRequest.Setup(service =>
                 service.GetMyApps(
@@ -412,7 +416,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.AppsNotFoundMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             FailedRequest.Setup(service =>
                 service.GetRegisteredApps(
@@ -427,7 +431,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.AppsNotFoundMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             FailedRequest.Setup(appsService =>
                 appsService.Create(It.IsAny<ILicenseRequest>()))
@@ -440,19 +444,22 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.AppNotCreatedMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             FailedRequest.Setup(service =>
                 service.IsRequestValidOnThisLicense(
-                    It.IsAny<int>(),
+                    It.IsAny<IHttpContextAccessor>(),
                     It.IsAny<string>(),
+                    It.IsAny<int>(),
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(true));
 
             FailedRequest.Setup(service =>
                 service.IsOwnerOfThisLicense(
-                    It.IsAny<int>(),
+                    It.IsAny<IHttpContextAccessor>(),
                     It.IsAny<string>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(false));
 
@@ -467,7 +474,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.AppNotUpdatedMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             FailedRequest.Setup(service =>
                 service.GetAppUsers(
@@ -484,7 +491,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.UsersNotFoundMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             FailedRequest.Setup(service =>
                 service.GetLicense(It.IsAny<int>()))
@@ -505,7 +512,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.UserNotAddedToAppMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             FailedRequest.Setup(service =>
                 service.RemoveAppUser(It.IsAny<int>(), It.IsAny<int>()))
@@ -518,7 +525,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.UserNotRemovedFromAppMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             FailedRequest.Setup(service =>
                 service.Activate(It.IsAny<int>()))
@@ -531,7 +538,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.AppNotActivatedMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             FailedRequest.Setup(service =>
                 service.Deactivate(It.IsAny<int>()))
@@ -544,7 +551,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.AppNotDeactivatedMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             FailedRequest.Setup(service =>
                 service.DeleteOrReset(It.IsAny<int>(), It.IsAny<bool>()))
@@ -557,7 +564,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.AppNotDeletedMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             FailedRequest.Setup(appsService =>
                 appsService.ActivateAdminPrivileges(It.IsAny<int>(), It.IsAny<int>()))
@@ -570,7 +577,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.UserHasNotBeenPromotedToAdminMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             FailedRequest.Setup(appsService =>
                 appsService.DeactivateAdminPrivileges(It.IsAny<int>(), It.IsAny<int>()))
@@ -583,7 +590,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.DeactivationOfAdminPrivilegesFailedMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(service =>
                 service.Get(
@@ -606,7 +613,7 @@ namespace SudokuCollective.Test.Services
                                     .Result
                                     .Object
                             }
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(service =>
                 service.GetByLicense(
@@ -630,7 +637,7 @@ namespace SudokuCollective.Test.Services
                                     .Result
                                     .Object
                             }
-                } as IResult));
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(service =>
                 service.GetApps(
@@ -652,7 +659,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Objects
                         .ConvertAll(a => (object)a)
-                } as IResult));
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(service =>
                 service.GetMyApps(
@@ -674,7 +681,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Objects
                         .ConvertAll(a => (object)a)
-                } as IResult));
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(service =>
                 service.GetRegisteredApps(
@@ -696,7 +703,7 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .Objects
                         .ConvertAll(a => (object)a)
-                } as IResult));
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(appsService =>
                 appsService.Create(It.IsAny<ILicenseRequest>()))
@@ -718,19 +725,22 @@ namespace SudokuCollective.Test.Services
                                 .Result
                                 .Object
                         }
-                } as IResult));
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(service =>
                 service.IsRequestValidOnThisLicense(
-                    It.IsAny<int>(),
+                    It.IsAny<IHttpContextAccessor>(),
                     It.IsAny<string>(),
+                    It.IsAny<int>(),
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(false));
 
             InvalidRequest.Setup(service =>
                 service.IsOwnerOfThisLicense(
-                    It.IsAny<int>(),
+                    It.IsAny<IHttpContextAccessor>(),
                     It.IsAny<string>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(true));
 
@@ -754,7 +764,7 @@ namespace SudokuCollective.Test.Services
                                 .Result
                                 .Object
                         }
-                } as IResult));
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(service =>
                 service.GetAppUsers(
@@ -778,7 +788,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Objects
                             .ConvertAll(u => (object)u)
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(service =>
                 service.GetLicense(It.IsAny<int>()))
@@ -804,7 +814,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.UserAddedToAppMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(service =>
                 service.RemoveAppUser(It.IsAny<int>(), It.IsAny<int>()))
@@ -817,7 +827,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.UserRemovedFromAppMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(service =>
                 service.Activate(It.IsAny<int>()))
@@ -830,7 +840,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.AppActivatedMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(service =>
                 service.Deactivate(It.IsAny<int>()))
@@ -843,7 +853,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.AppDeactivatedMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(service =>
                 service.DeleteOrReset(It.IsAny<int>(), It.IsAny<bool>()))
@@ -856,7 +866,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.AppDeletedMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(appsService =>
                 appsService.ActivateAdminPrivileges(It.IsAny<int>(), It.IsAny<int>()))
@@ -869,7 +879,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.AppNotFoundMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(appsService =>
                 appsService.DeactivateAdminPrivileges(It.IsAny<int>(), It.IsAny<int>()))
@@ -891,7 +901,7 @@ namespace SudokuCollective.Test.Services
                                     .Result
                                     .Object
                             }
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(service =>
                 service.Get(
@@ -914,7 +924,7 @@ namespace SudokuCollective.Test.Services
                                     .Result
                                     .Object
                             }
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(service =>
                 service.GetByLicense(
@@ -938,7 +948,7 @@ namespace SudokuCollective.Test.Services
                                     .Result
                                     .Object
                             }
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(service =>
                 service.GetApps(
@@ -960,7 +970,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Objects
                             .ConvertAll(a => (object)a)
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(service =>
                 service.GetMyApps(
@@ -982,7 +992,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Objects
                             .ConvertAll(a => (object)a)
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(service =>
                 service.GetRegisteredApps(
@@ -1004,7 +1014,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Objects
                             .ConvertAll(a => (object)a)
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(appsService =>
                 appsService.Create(It.IsAny<ILicenseRequest>()))
@@ -1026,19 +1036,22 @@ namespace SudokuCollective.Test.Services
                                     .Result
                                     .Object
                             }
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(service =>
                 service.IsRequestValidOnThisLicense(
-                    It.IsAny<int>(),
+                    It.IsAny<IHttpContextAccessor>(),
                     It.IsAny<string>(),
+                    It.IsAny<int>(),
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(true));
 
             PromoteUserFailsRequest.Setup(service =>
                 service.IsOwnerOfThisLicense(
-                    It.IsAny<int>(),
+                    It.IsAny<IHttpContextAccessor>(),
                     It.IsAny<string>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(true));
 
@@ -1062,7 +1075,7 @@ namespace SudokuCollective.Test.Services
                                     .Result
                                     .Object
                             }
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(service =>
                 service.GetAppUsers(
@@ -1086,7 +1099,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Objects
                             .ConvertAll(u => (object)u)
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(service =>
                 service.GetLicense(It.IsAny<int>()))
@@ -1112,7 +1125,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.UserAddedToAppMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(service =>
                 service.RemoveAppUser(It.IsAny<int>(), It.IsAny<int>()))
@@ -1125,7 +1138,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.UserRemovedFromAppMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(service =>
                 service.Activate(It.IsAny<int>()))
@@ -1138,7 +1151,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.AppActivatedMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(service =>
                 service.Deactivate(It.IsAny<int>()))
@@ -1151,7 +1164,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.AppDeactivatedMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(service =>
                 service.DeleteOrReset(It.IsAny<int>(), It.IsAny<bool>()))
@@ -1164,7 +1177,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.AppDeletedMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(appsService =>
                 appsService.ActivateAdminPrivileges(It.IsAny<int>(), It.IsAny<int>()))
@@ -1177,7 +1190,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.UserHasNotBeenPromotedToAdminMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(appsService =>
                 appsService.ActivateAdminPrivileges(It.IsAny<int>(), It.IsAny<int>()))
@@ -1190,7 +1203,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.UserHasNotBeenPromotedToAdminMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(appsService =>
                 appsService.DeactivateAdminPrivileges(It.IsAny<int>(), It.IsAny<int>()))
@@ -1203,7 +1216,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = AppsMessages.DeactivationOfAdminPrivilegesFailedMessage
-                    } as IResult));
+                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
         }
     }
 }

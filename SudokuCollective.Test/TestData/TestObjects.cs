@@ -1,6 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Text.Json;
+using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
+using Moq;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
@@ -658,6 +664,74 @@ namespace SudokuCollective.Test.TestData
                 ConfirmationEmailSuccessfullySent = true,
                 Token = GetToken()
             };
+        }
+
+        public static Mock<IHttpContextAccessor> GetHttpContextAccessor(User user, App app)
+        {
+            var result = new Mock<IHttpContextAccessor>();
+
+            var claim = new List<Claim> {
+
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Name, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, app.Id.ToString()),
+            };
+            
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("865542af-e02f-446d-ad34-b121554f37be"));
+            
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var expirationLimit = DateTime.UtcNow.AddDays(1);
+
+            var jwtToken = new JwtSecurityToken(
+                    "test",
+                    "test",
+                    claim.ToArray(),
+                    notBefore: DateTime.UtcNow,
+                    expires: expirationLimit,
+                    signingCredentials: credentials
+                );
+
+            result.Setup(
+                mock => mock.HttpContext.Request.Headers["Authorization"])
+                .Returns(string.Format("bearer {0}", new JwtSecurityTokenHandler().WriteToken(jwtToken)));
+
+            return result;
+        }
+
+        public static Mock<IHttpContextAccessor> GetInvalidHttpContextAccessor(User user)
+        {
+            var result = new Mock<IHttpContextAccessor>();
+
+            var appId = 1;
+
+            var claim = new List<Claim> {
+
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Name, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, appId.ToString()),
+            };
+            
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("865542af-e02f-446d-ad34-b121554f37be"));
+            
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var expirationLimit = DateTime.UtcNow.AddDays(1);
+
+            var jwtInvalidToken = new JwtSecurityToken(
+                    "test",
+                    "test",
+                    claim.ToArray(),
+                    notBefore: DateTime.UtcNow,
+                    expires: expirationLimit,
+                    signingCredentials: credentials
+                );
+
+            result.Setup(
+                mock => mock.HttpContext.Request.Headers["Authorization"])
+                .Returns(string.Format("bearer {0}", new JwtSecurityTokenHandler().WriteToken(jwtInvalidToken)));
+
+            return result;
         }
     }
 }

@@ -5,7 +5,9 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
@@ -25,6 +27,8 @@ namespace SudokuCollective.Api.Controllers.V1
         private readonly IUsersService _usersService;
         private readonly IAppsService _appsService;
         private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ILogger<UsersController> _logger;
 
         /// <summary>
         /// User Controller Constructor
@@ -32,14 +36,20 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="usersService"></param>
         /// <param name="appsService"></param>
         /// <param name="hostEnvironment"></param>
+        /// <param name="httpContextAccessor"></param>
+        /// <param name="logger"></param>
         public UsersController(
             IUsersService usersService,
             IAppsService appsService,
-            IWebHostEnvironment hostEnvironment)
+            IWebHostEnvironment hostEnvironment,
+            IHttpContextAccessor httpContextAccessor, 
+            ILogger<UsersController> logger)
         {
             _usersService = usersService;
             _appsService = appsService;
             _hostEnvironment = hostEnvironment;
+            _httpContextAccessor = httpContextAccessor;
+            _logger = logger;
         }
 
         /// <summary>
@@ -75,8 +85,9 @@ namespace SudokuCollective.Api.Controllers.V1
             try
             {
                 if (await _appsService.IsRequestValidOnThisLicense(
-                    request.AppId,
+                    _httpContextAccessor,
                     request.License,
+                    request.AppId,
                     request.RequestorId))
                 {
                     var result = await _usersService.Get(
@@ -102,7 +113,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     var result = new Result
                     {
                         IsSuccess = false,
-                        Message = ControllerMessages.InvalidLicenseRequestMessage
+                        Message = ControllerMessages.InvalidTokenRequestMessage
                     };
 
                     return BadRequest(result);
@@ -115,6 +126,8 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
+                
+                _logger.LogError(result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -159,8 +172,9 @@ namespace SudokuCollective.Api.Controllers.V1
             try
             {
                 if (await _appsService.IsRequestValidOnThisLicense(
-                    request.AppId,
+                    _httpContextAccessor,
                     request.License,
+                    request.AppId,
                     request.RequestorId))
                 {
                     string baseUrl;
@@ -214,7 +228,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     var result = new Result
                     {
                         IsSuccess = false,
-                        Message = ControllerMessages.InvalidLicenseRequestMessage
+                        Message = ControllerMessages.InvalidTokenRequestMessage
                     };
 
                     return BadRequest(result);
@@ -227,6 +241,8 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
+                
+                _logger.LogError(result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -265,8 +281,9 @@ namespace SudokuCollective.Api.Controllers.V1
             try
             {
                 if (await _appsService.IsRequestValidOnThisLicense(
-                    request.AppId,
+                    _httpContextAccessor,
                     request.License,
+                    request.AppId,
                     request.RequestorId))
                 {
                     var result = await _usersService.Delete(id, request.License);
@@ -289,7 +306,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     var result = new Result
                     {
                         IsSuccess = false,
-                        Message = ControllerMessages.InvalidLicenseRequestMessage
+                        Message = ControllerMessages.InvalidTokenRequestMessage
                     };
 
                     return BadRequest(result);
@@ -302,6 +319,8 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
+                
+                _logger.LogError(result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -325,13 +344,13 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request model
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
-        ///       "paginator": [
+        ///       "paginator": {
         ///         "page": integer,                 // this param works in conjection with itemsPerPage starting with page 1
         ///         "itemsPerPage": integer          // in conjunction with page if you want items 11 through 21 page would be 2 and this would be 10
         ///         "sortBy": sortValue              // an enumeration indicating the field for sorting, documented below; you return the integer
         ///         "OrderByDescending": boolean     // a boolean to indicate is the order is ascending or descending
         ///         "includeCompletedGames": boolean // a boolean which only applies to game lists
-        ///       ],
+        ///       },
         ///       "payload": {}           // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
@@ -365,8 +384,9 @@ namespace SudokuCollective.Api.Controllers.V1
             try
             {
                 if (await _appsService.IsRequestValidOnThisLicense(
-                    request.AppId,
+                    _httpContextAccessor,
                     request.License,
+                    request.AppId,
                     request.RequestorId))
                 {
                     var result = await _usersService.GetUsers(
@@ -392,7 +412,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     var result = new Result
                     {
                         IsSuccess = false,
-                        Message = ControllerMessages.InvalidLicenseRequestMessage
+                        Message = ControllerMessages.InvalidTokenRequestMessage
                     };
 
                     return BadRequest(result);
@@ -405,6 +425,8 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
+                
+                _logger.LogError(result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -445,8 +467,9 @@ namespace SudokuCollective.Api.Controllers.V1
             try
             {
                 if (await _appsService.IsRequestValidOnThisLicense(
-                    request.AppId,
+                    _httpContextAccessor,
                     request.License,
+                    request.AppId,
                     request.RequestorId))
                 {
                     var result = await _usersService.AddUserRoles(
@@ -472,7 +495,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     var result = new Result
                     {
                         IsSuccess = false,
-                        Message = ControllerMessages.InvalidLicenseRequestMessage
+                        Message = ControllerMessages.InvalidTokenRequestMessage
                     };
 
                     return BadRequest(result);
@@ -485,6 +508,8 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
+                
+                _logger.LogError(result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -525,8 +550,9 @@ namespace SudokuCollective.Api.Controllers.V1
             try
             {
                 if (await _appsService.IsRequestValidOnThisLicense(
-                    request.AppId,
+                    _httpContextAccessor,
                     request.License,
+                    request.AppId,
                     request.RequestorId))
                 {
                     var result = await _usersService.RemoveUserRoles(
@@ -552,7 +578,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     var result = new Result
                     {
                         IsSuccess = false,
-                        Message = ControllerMessages.InvalidLicenseRequestMessage
+                        Message = ControllerMessages.InvalidTokenRequestMessage
                     };
 
                     return BadRequest(result);
@@ -565,6 +591,8 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
+                
+                _logger.LogError(result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -609,6 +637,8 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
+                
+                _logger.LogError(result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -653,6 +683,8 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
+                
+                _logger.LogError(result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -717,6 +749,8 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
+                
+                _logger.LogError(result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -793,6 +827,8 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
+                
+                _logger.LogError(result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -874,6 +910,8 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
+                
+                _logger.LogError(result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -944,6 +982,8 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
+                
+                _logger.LogError(result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -978,8 +1018,9 @@ namespace SudokuCollective.Api.Controllers.V1
             try
             {
                 if (await _appsService.IsRequestValidOnThisLicense(
-                    request.AppId,
+                    _httpContextAccessor,
                     request.License,
+                    request.AppId,
                     request.RequestorId))
                 {
                     var result = await _usersService.CancelEmailConfirmationRequest(request.RequestorId, request.AppId);
@@ -1002,7 +1043,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     var result = new Result
                     {
                         IsSuccess = false,
-                        Message = ControllerMessages.InvalidLicenseRequestMessage
+                        Message = ControllerMessages.InvalidTokenRequestMessage
                     };
 
                     return BadRequest(result);
@@ -1015,6 +1056,8 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
+                
+                _logger.LogError(result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -1049,8 +1092,9 @@ namespace SudokuCollective.Api.Controllers.V1
             try
             {
                 if (await _appsService.IsRequestValidOnThisLicense(
-                    request.AppId,
+                    _httpContextAccessor,
                     request.License,
+                    request.AppId,
                     request.RequestorId))
                 {
                     var result = await _usersService.CancelPasswordResetRequest(request.RequestorId, request.AppId);
@@ -1073,7 +1117,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     var result = new Result
                     {
                         IsSuccess = false,
-                        Message = ControllerMessages.InvalidLicenseRequestMessage
+                        Message = ControllerMessages.InvalidTokenRequestMessage
                     };
 
                     return BadRequest(result);
@@ -1086,6 +1130,8 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
+                
+                _logger.LogError(result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -1120,8 +1166,9 @@ namespace SudokuCollective.Api.Controllers.V1
             try
             {
                 if (await _appsService.IsRequestValidOnThisLicense(
-                    request.AppId,
+                    _httpContextAccessor,
                     request.License,
+                    request.AppId,
                     request.RequestorId))
                 {
                     var result = await _usersService.CancelAllEmailRequests(request.RequestorId, request.AppId);
@@ -1144,7 +1191,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     var result = new Result
                     {
                         IsSuccess = false,
-                        Message = ControllerMessages.InvalidLicenseRequestMessage
+                        Message = ControllerMessages.InvalidTokenRequestMessage
                     };
 
                     return BadRequest(result);
@@ -1157,6 +1204,8 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
+                
+                _logger.LogError(result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }

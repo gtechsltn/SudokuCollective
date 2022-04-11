@@ -182,7 +182,9 @@ namespace SudokuCollective.Data.Services
 
                 var claim = new List<Claim> {
 
-                    new Claim(ClaimTypes.Name, request.UserName)
+                    new Claim(ClaimTypes.Name, request.UserName),
+                    new Claim(ClaimTypes.Name, user.Id.ToString()),
+                    new Claim(ClaimTypes.Name, app.Id.ToString()),
                 };
 
                 foreach (var role in user.Roles)

@@ -1,13 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Moq;
 using NUnit.Framework;
 using SudokuCollective.Cache;
 using SudokuCollective.Core.Enums;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
@@ -30,6 +37,8 @@ namespace SudokuCollective.Test.TestCases.Services
         private MockedRolesRepository mockedRolesRepository;
         private MockedCacheService mockedCacheService;
         private MemoryDistributedCache memoryCache;
+        private Mock<ILogger<IAppsService>> mockLogger;
+        private Mock<IHttpContextAccessor> mockHttpContextAccessor;
         private IAppsService sut;
         private IAppsService sutAppRepoFailure;
         private IAppsService sutUserRepoFailure;
@@ -39,6 +48,8 @@ namespace SudokuCollective.Test.TestCases.Services
         private Paginator paginator;
         private int userId;
         private int appId;
+        private User user;
+        private App app;
 
         [SetUp]
         public async Task Setup()
@@ -52,6 +63,7 @@ namespace SudokuCollective.Test.TestCases.Services
             mockedCacheService = new MockedCacheService(context);
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
+            mockLogger = new Mock<ILogger<IAppsService>>();
 
             sut = new AppsService(
                 mockedAppsRepository.SuccessfulRequest.Object,
@@ -61,7 +73,8 @@ namespace SudokuCollective.Test.TestCases.Services
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
-                new CachingStrategy());
+                new CachingStrategy(),
+                mockLogger.Object);
 
             sutAppRepoFailure = new AppsService(
                 mockedAppsRepository.FailedRequest.Object,
@@ -71,7 +84,8 @@ namespace SudokuCollective.Test.TestCases.Services
                 memoryCache,
                 mockedCacheService.FailedRequest.Object,
                 new CacheKeys(),
-                new CachingStrategy());
+                new CachingStrategy(),
+                mockLogger.Object);
 
             sutUserRepoFailure = new AppsService(
                 mockedAppsRepository.SuccessfulRequest.Object,
@@ -81,7 +95,8 @@ namespace SudokuCollective.Test.TestCases.Services
                 memoryCache,
                 mockedCacheService.FailedRequest.Object,
                 new CacheKeys(),
-                new CachingStrategy());
+                new CachingStrategy(),
+                mockLogger.Object);
 
             sutPromoteUser = new AppsService(
                 mockedAppsRepository.SuccessfulRequest.Object,
@@ -91,13 +106,18 @@ namespace SudokuCollective.Test.TestCases.Services
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
-                new CachingStrategy()); ;
+                new CachingStrategy(),
+                mockLogger.Object); ;
 
             dateCreated = DateTime.UtcNow;
             license = TestObjects.GetLicense();
             paginator = TestObjects.GetPaginator();
             userId = 1;
             appId = 1;
+            user = context.Users.FirstOrDefault(u => u.Id == userId);
+            app = context.Apps.FirstOrDefault(a => a.Id == appId);
+
+            mockHttpContextAccessor = TestObjects.GetHttpContextAccessor(user, app);
         }
 
         [Test, Category("Services")]
@@ -369,7 +389,11 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.IsRequestValidOnThisLicense(appId, license, userId);
+            var result = await sut.IsRequestValidOnThisLicense(
+                mockHttpContextAccessor.Object, 
+                license, 
+                appId, 
+                userId);
 
             // Assert
             Assert.That(result, Is.True);
@@ -382,7 +406,11 @@ namespace SudokuCollective.Test.TestCases.Services
             var invalidLicense = "5CDBFC8F-F304-4703-831B-750A7B7F8531";
 
             // Act
-            var result = await sutAppRepoFailure.IsRequestValidOnThisLicense(appId, invalidLicense, userId);
+            var result = await sutAppRepoFailure.IsRequestValidOnThisLicense(
+                mockHttpContextAccessor.Object, 
+                invalidLicense, 
+                appId, 
+                userId);
 
             // Assert
             Assert.That(result, Is.False);
@@ -392,6 +420,10 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task DenyRequestWhereUserIsNotRegisteredToApp()
         {
             // Arrange
+            var invalidLicense = "5CDBFC8F-F304-4703-831B-750A7B7F8531";
+
+            appId = 1;
+
             var user = new User()
             {
                 Id = 4,
@@ -405,8 +437,14 @@ namespace SudokuCollective.Test.TestCases.Services
                 DateUpdated = dateCreated
             };
 
+            var invalidMockHttpContextAccessor = TestObjects.GetInvalidHttpContextAccessor(user);
+
             // Act
-            var result = await sutUserRepoFailure.IsRequestValidOnThisLicense(appId, license, user.Id);
+            var result = await sutUserRepoFailure.IsRequestValidOnThisLicense(
+                invalidMockHttpContextAccessor.Object, 
+                invalidLicense, 
+                appId, 
+                user.Id);
 
             // Assert
             Assert.That(result, Is.False);
@@ -424,7 +462,39 @@ namespace SudokuCollective.Test.TestCases.Services
             var superUserIsInApp = app.Users
                 .Any(ua => ua.UserId == superUser.Id);
 
-            var result = await sut.IsRequestValidOnThisLicense(app.Id, licenseResult.License, superUser.Id);
+            var mockSuperUserHttpContextAccessor = new Mock<IHttpContextAccessor>();
+
+            var claim = new List<Claim> {
+
+                new Claim(ClaimTypes.Name, "TestSuperUser"),
+                new Claim(ClaimTypes.Name, superUser.Id.ToString()),
+                new Claim(ClaimTypes.Name, app.Id.ToString()),
+            };
+            
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("865542af-e02f-446d-ad34-b121554f37be"));
+            
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var expirationLimit = DateTime.UtcNow.AddDays(1);
+
+            var jwtInvalidToken = new JwtSecurityToken(
+                    "test",
+                    "test",
+                    claim.ToArray(),
+                    notBefore: DateTime.UtcNow,
+                    expires: expirationLimit,
+                    signingCredentials: credentials
+                );
+
+            mockSuperUserHttpContextAccessor.Setup(
+                mock => mock.HttpContext.Request.Headers["Authorization"])
+                .Returns(string.Format("bearer {0}", new JwtSecurityTokenHandler().WriteToken(jwtInvalidToken)));
+
+            var result = await sut.IsRequestValidOnThisLicense(
+                mockSuperUserHttpContextAccessor.Object, 
+                licenseResult.License, 
+                app.Id, 
+                superUser.Id);
 
             // Assert
             Assert.That(superUserIsInApp, Is.False);
@@ -438,7 +508,12 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.IsOwnerOfThisLicense(appId, license, userId);
+            var result = await sut.IsOwnerOfThisLicense(
+                mockHttpContextAccessor.Object, 
+                license, 
+                appId, 
+                userId,
+                userId);
 
             // Assert
             Assert.That(result, Is.True);
@@ -451,7 +526,12 @@ namespace SudokuCollective.Test.TestCases.Services
             var invalidLicense = "5CDBFC8F-F304-4703-831B-750A7B7F8531";
 
             // Act
-            var result = await sutUserRepoFailure.IsOwnerOfThisLicense(appId, invalidLicense, userId);
+            var result = await sutUserRepoFailure.IsOwnerOfThisLicense(
+                mockHttpContextAccessor.Object, 
+                invalidLicense, 
+                appId, 
+                userId,
+                userId);
 
             // Assert
             Assert.That(result, Is.False);
@@ -493,7 +573,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 .DeactivateAdminPrivileges(1, 3);
 
             // Assert
-            Assert.That(result, Is.InstanceOf<IResult>());
+            Assert.That(result, Is.InstanceOf<Core.Interfaces.Models.DomainObjects.Params.IResult>());
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Admin Privileges Deactivated"));
             Assert.That(result.Payload[0], Is.TypeOf<User>());
@@ -510,7 +590,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 .DeactivateAdminPrivileges(1, 3);
 
             // Assert
-            Assert.That(result, Is.InstanceOf<IResult>());
+            Assert.That(result, Is.InstanceOf<Core.Interfaces.Models.DomainObjects.Params.IResult>());
             Assert.That(result.IsSuccess, Is.False);
             Assert.That(result.Message, Is.EqualTo("App not Found"));
         }

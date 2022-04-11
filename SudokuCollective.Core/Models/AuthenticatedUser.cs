@@ -78,6 +78,7 @@ namespace SudokuCollective.Core.Models
             IsAdmin = false;
             DateCreated = createdDate;
             DateUpdated = createdDate;
+            Games = new List<Game>();
         }
         #endregion
 

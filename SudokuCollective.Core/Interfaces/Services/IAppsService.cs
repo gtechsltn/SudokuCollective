@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 
@@ -22,7 +23,7 @@ namespace SudokuCollective.Core.Interfaces.Services
         Task<IResult> Deactivate(int id);
         Task<IResult> ActivateAdminPrivileges(int appId, int userId);
         Task<IResult> DeactivateAdminPrivileges(int appId, int userId);
-        Task<bool> IsRequestValidOnThisLicense(int id, string license, int userId);
-        Task<bool> IsOwnerOfThisLicense(int id, string license, int userId);
+        Task<bool> IsOwnerOfThisLicense(IHttpContextAccessor httpContextAccessor, string license, int appId, int userId, int requestorId);
+        Task<bool> IsRequestValidOnThisLicense(IHttpContextAccessor httpContextAccessor, string license, int appId, int userId);
     }
 }

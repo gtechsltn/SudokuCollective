@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using SudokuCollective.Api.Controllers.V1;
@@ -31,6 +33,8 @@ namespace SudokuCollective.Test.TestCases.Controllers
         private UpdateUserRolePayload updateUserRolePayload;
         private ResendRequestPasswordRequest resendRequestPasswordRequest;
         private Mock<IWebHostEnvironment> mockWebHostEnvironment;
+        private Mock<IHttpContextAccessor> mockHttpContextAccessor;
+        private Mock<ILogger<UsersController>> mockLogger;
 
         [SetUp]
         public async Task Setup()
@@ -39,6 +43,8 @@ namespace SudokuCollective.Test.TestCases.Controllers
             mockUsersService = new MockedUsersService(context);
             mockAppsService = new MockedAppsService(context);
             mockWebHostEnvironment = new Mock<IWebHostEnvironment>();
+            mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
+            mockLogger = new Mock<ILogger<UsersController>>();
 
             request = TestObjects.GetRequest();
 
@@ -77,17 +83,23 @@ namespace SudokuCollective.Test.TestCases.Controllers
             sutSuccess = new UsersController(
                 mockUsersService.SuccessfulRequest.Object,
                 mockAppsService.SuccessfulRequest.Object,
-                mockWebHostEnvironment.Object);
+                mockWebHostEnvironment.Object,
+                mockHttpContextAccessor.Object,
+                mockLogger.Object);
 
             sutFailure = new UsersController(
                 mockUsersService.FailedRequest.Object,
                 mockAppsService.SuccessfulRequest.Object,
-                mockWebHostEnvironment.Object);
+                mockWebHostEnvironment.Object,
+                mockHttpContextAccessor.Object,
+                mockLogger.Object);
 
             sutFailureResetPassword = new UsersController(
                 mockUsersService.FailedResetPasswordRequest.Object,
                 mockAppsService.SuccessfulRequest.Object,
-                mockWebHostEnvironment.Object);
+                mockWebHostEnvironment.Object,
+                mockHttpContextAccessor.Object,
+                mockLogger.Object);
         }
 
         [Test]

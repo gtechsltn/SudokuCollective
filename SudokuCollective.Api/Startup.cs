@@ -200,6 +200,8 @@ namespace SudokuCollective.Api
             services.AddScoped<ISolutionsService, SolutionsService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<ICacheService, CacheService>();
+
+            services.AddHttpContextAccessor();
         }
 
         /// <summary>
