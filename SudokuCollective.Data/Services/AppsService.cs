@@ -1802,6 +1802,14 @@ namespace SudokuCollective.Data.Services
 
                 var appResponse = (RepositoryResponse)cacheServiceResponse.Item1;
 
+                if (!license.Equals(((App)appResponse.Object).License))
+                {
+                    _logger.LogInformation(string.Format("The license is not valid on this request:\n\tlicense: {0}",
+                        license));
+
+                    return false;
+                }
+
                 var validLicense = await _cacheService.IsAppLicenseValidWithCacheAsync(
                     _appsRepository,
                     _distributedCache,
