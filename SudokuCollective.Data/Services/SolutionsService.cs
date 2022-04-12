@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
 using SudokuCollective.Core.Extensions;
 using SudokuCollective.Core.Interfaces.Cache;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
@@ -27,6 +28,7 @@ namespace SudokuCollective.Data.Services
         private readonly IDistributedCache _distributedCache;
         private readonly ICacheService _cacheService;
         private readonly ICacheKeys _cacheKeys;
+        private readonly ILogger<SolutionsService> _logger;
         #endregion
 
         #region Constructor
@@ -34,12 +36,14 @@ namespace SudokuCollective.Data.Services
             ISolutionsRepository<SudokuSolution> solutionsRepository,
             IDistributedCache distributedCache,
             ICacheService cacheService,
-            ICacheKeys cacheKeys)
+            ICacheKeys cacheKeys,
+            ILogger<SolutionsService> logger)
         {
             _solutionsRepository = solutionsRepository;
             _distributedCache = distributedCache;
             _cacheService = cacheService;
             _cacheKeys = cacheKeys;
+            _logger = logger;
         }
         #endregion
 
@@ -86,10 +90,14 @@ namespace SudokuCollective.Data.Services
                     return result;
                 }
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Message = exp.Message;
+                result.Message = e.Message;
+
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
 
                 return result;
             }
@@ -165,10 +173,14 @@ namespace SudokuCollective.Data.Services
                     return result;
                 }
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Message = exp.Message;
+                result.Message = e.Message;
+
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
 
                 return result;
             }
@@ -296,10 +308,14 @@ namespace SudokuCollective.Data.Services
 
                 return result;
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Message = exp.Message;
+                result.Message = e.Message;
+
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
 
                 return result;
             }
@@ -411,10 +427,14 @@ namespace SudokuCollective.Data.Services
                     solutionsInDB.Add(solution.SolutionList);
                 }
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Message = exp.Message;
+                result.Message = e.Message;
+
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
 
                 return result;
             }
@@ -487,10 +507,14 @@ namespace SudokuCollective.Data.Services
                 }
 
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Message = exp.Message;
+                result.Message = e.Message;
+
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
 
                 return result;
             }

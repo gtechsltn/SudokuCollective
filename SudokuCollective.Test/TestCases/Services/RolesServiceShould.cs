@@ -3,7 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Moq;
 using NUnit.Framework;
 using SudokuCollective.Cache;
 using SudokuCollective.Core.Enums;
@@ -25,6 +27,7 @@ namespace SudokuCollective.Test.TestCases.Services
         private MockedRolesRepository mockedkRolesRepository;
         private MockedCacheService mockedCacheService;
         private MemoryDistributedCache memoryCache;
+        private Mock<ILogger<RolesService>> mockedLogger;
         private RolesService sut;
         private RolesService sutFailue;
         private Request request;
@@ -38,19 +41,22 @@ namespace SudokuCollective.Test.TestCases.Services
             mockedCacheService = new MockedCacheService(context);
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
+            mockedLogger = new Mock<ILogger<RolesService>>();
 
             sut = new RolesService(
                 mockedkRolesRepository.SuccessfulRequest.Object,
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
-                new CachingStrategy());
+                new CachingStrategy(),
+                mockedLogger.Object);
             sutFailue = new RolesService(
                 mockedkRolesRepository.FailedRequest.Object,
                 memoryCache,
                 mockedCacheService.FailedRequest.Object,
                 new CacheKeys(),
-                new CachingStrategy());
+                new CachingStrategy(),
+                mockedLogger.Object);
         }
 
         [Test, Category("Services")]

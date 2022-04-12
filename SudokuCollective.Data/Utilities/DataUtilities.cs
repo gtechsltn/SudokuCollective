@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SudokuCollective.Core.Interfaces.Models;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
@@ -45,6 +46,16 @@ namespace SudokuCollective.Data.Utilities
             {
                 return paginator.ItemsPerPage * paginator.Page <= entities.Count;
             }
+        }
+
+        public static EventId GetServiceLogEventId()
+        {
+            return new EventId(200, "Service Event");
+        }
+
+        public static EventId GetServiceErrorEventId()
+        {
+            return new EventId(201, "Service Event");
         }
     }
 }

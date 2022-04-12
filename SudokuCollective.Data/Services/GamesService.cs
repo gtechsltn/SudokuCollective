@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Extensions;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
@@ -28,6 +29,7 @@ namespace SudokuCollective.Data.Services
         private readonly IDifficultiesRepository<Difficulty> _difficultiesRepository;
         private readonly ISolutionsRepository<SudokuSolution> _solutionsRepository;
         private readonly IDistributedCache _distributedCache;
+        private readonly ILogger<GamesService> _logger;
         #endregion
 
         #region Constructor
@@ -37,7 +39,8 @@ namespace SudokuCollective.Data.Services
             IUsersRepository<User> usersRepository, 
             IDifficultiesRepository<Difficulty> difficultiesRepository,
             ISolutionsRepository<SudokuSolution> solutionsRepository,
-            IDistributedCache distributedCache)
+            IDistributedCache distributedCache,
+            ILogger<GamesService> logger)
         {
             _gamesRepository = gamesRepsitory;
             _appsRepository = appsRepository;
@@ -45,6 +48,7 @@ namespace SudokuCollective.Data.Services
             _difficultiesRepository = difficultiesRepository;
             _solutionsRepository = solutionsRepository;
             _distributedCache = distributedCache;
+            _logger = logger;
         }
         #endregion
 
@@ -136,10 +140,14 @@ namespace SudokuCollective.Data.Services
                     return result;
                 }
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Message = exp.Message;
+                result.Message = e.Message;
+                
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
 
                 return result;
             }
@@ -194,10 +202,14 @@ namespace SudokuCollective.Data.Services
                     return result;
                 }
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = true;
-                result.Message = exp.Message;
+                result.Message = e.Message;
+                
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
 
                 return result;
             }
@@ -273,10 +285,14 @@ namespace SudokuCollective.Data.Services
                     return result;
                 }
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Message = exp.Message;
+                result.Message = e.Message;
+                
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
 
                 return result;
             }
@@ -352,10 +368,14 @@ namespace SudokuCollective.Data.Services
                     return result;
                 }
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = true;
-                result.Message = exp.Message;
+                result.Message = e.Message;
+                
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
 
                 return result;
             }
@@ -447,10 +467,14 @@ namespace SudokuCollective.Data.Services
                     return result;
                 }
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Message = exp.Message;
+                result.Message = e.Message;
+                
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
 
                 return result;
             }
@@ -541,10 +565,14 @@ namespace SudokuCollective.Data.Services
                     return result;
                 }
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Message = exp.Message;
+                result.Message = e.Message;
+                
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
 
                 return result;
             }
@@ -607,10 +635,14 @@ namespace SudokuCollective.Data.Services
                     return result;
                 }
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Message = exp.Message;
+                result.Message = e.Message;
+                
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
 
                 return result;
             }
@@ -683,10 +715,14 @@ namespace SudokuCollective.Data.Services
                     return result;
                 }
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
-                result.IsSuccess = true;
-                result.Message = exp.Message;
+                result.IsSuccess = false;
+                result.Message = e.Message;
+                
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
 
                 return result;
             }
@@ -785,10 +821,14 @@ namespace SudokuCollective.Data.Services
                     return result;
                 }
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Message = exp.Message;
+                result.Message = e.Message;
+                
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
 
                 return result;
             }
@@ -830,6 +870,10 @@ namespace SudokuCollective.Data.Services
             {
                 result.IsSuccess = false;
                 result.Message = exp.Message;
+                
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
 
                 return result;
             }
@@ -895,8 +939,12 @@ namespace SudokuCollective.Data.Services
 
                 return result;
             }
-            catch
+            catch (Exception e)
             {
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, e.Message));
+
                 throw;
             }
         }

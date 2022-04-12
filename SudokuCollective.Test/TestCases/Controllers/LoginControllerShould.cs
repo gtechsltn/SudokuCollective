@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Moq;
 using NUnit.Framework;
 using SudokuCollective.Api.Controllers.V1;
 using SudokuCollective.Test.TestData;
@@ -23,6 +25,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
         private MockedUserManagementService mockedUserManagementInvalidUserNameService;
         private MockedUserManagementService mockedUserManagementInvalidPasswordService;
         private LoginRequest loginRequest;
+        private Mock<ILogger<LoginController>> mockedLogger;
         private string userName;
         private string password;
         private string email;
@@ -38,6 +41,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             mockedUserManagementService = new MockedUserManagementService();
             mockedUserManagementInvalidUserNameService = new MockedUserManagementService();
             mockedUserManagementInvalidPasswordService = new MockedUserManagementService();
+            mockedLogger = new Mock<ILogger<LoginController>>();
 
             loginRequest = new LoginRequest()
             {
@@ -48,19 +52,24 @@ namespace SudokuCollective.Test.TestCases.Controllers
 
             sut = new LoginController(
                 mockedAuthenticateService.SuccessfulRequest.Object,
-                mockedUserManagementService.SuccssfulRequest.Object);
+                mockedUserManagementService.SuccssfulRequest.Object,
+                mockedLogger.Object);
             sutInvalid = new LoginController(
                 mockedAuthenticateService.FailedRequest.Object,
-                mockedUserManagementService.FailedRequest.Object);
+                mockedUserManagementService.FailedRequest.Object,
+                mockedLogger.Object);
             sutInvalidUserName = new LoginController(
                 mockedAuthenticateService.FailedRequest.Object,
-                mockedUserManagementInvalidUserNameService.UserNameFailedRequest.Object);
+                mockedUserManagementInvalidUserNameService.UserNameFailedRequest.Object,
+                mockedLogger.Object);
             sutInvalidPassword = new LoginController(
                 mockedAuthenticateService.FailedRequest.Object,
-                mockedUserManagementInvalidPasswordService.PasswordFailedRequest.Object);
+                mockedUserManagementInvalidPasswordService.PasswordFailedRequest.Object,
+                mockedLogger.Object);
             sutUserNameNotFound = new LoginController(
                 mockedAuthenticateService.FailedRequest.Object,
-                mockedUserManagementService.FailedRequest.Object);
+                mockedUserManagementService.FailedRequest.Object,
+                mockedLogger.Object);
         }
 
         [Test]

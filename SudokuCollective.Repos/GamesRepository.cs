@@ -1,9 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SudokuCollective.Core.Interfaces.ServiceModels;
 using SudokuCollective.Core.Interfaces.Models;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
+using SudokuCollective.Data.Messages;
+using SudokuCollective.Repos.Utilities;
 
 namespace SudokuCollective.Repos
 {
@@ -11,12 +14,16 @@ namespace SudokuCollective.Repos
     {
         #region Fields
         private readonly DatabaseContext _context;
+        private readonly ILogger<GamesRepository<Game>> _logger;
         #endregion
 
         #region Constructor
-        public GamesRepository(DatabaseContext context)
+        public GamesRepository(
+            DatabaseContext context,
+            ILogger<GamesRepository<Game>> logger)
         {
             _context = context;
+            _logger = logger;
         }
         #endregion
 
@@ -63,10 +70,15 @@ namespace SudokuCollective.Repos
 
                 return result;
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Exception = exp;
+                result.Exception = e;
+
+                _logger.LogError(
+                    ReposUtilities.GetRepoErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, e.Message)
+                );
 
                 return result;
             }
@@ -114,10 +126,15 @@ namespace SudokuCollective.Repos
 
                 return result;
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Exception = exp;
+                result.Exception = e;
+
+                _logger.LogError(
+                    ReposUtilities.GetRepoErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, e.Message)
+                );
 
                 return result;
             }
@@ -162,10 +179,15 @@ namespace SudokuCollective.Repos
 
                 return result;
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Exception = exp;
+                result.Exception = e;
+
+                _logger.LogError(
+                    ReposUtilities.GetRepoErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, e.Message)
+                );
 
                 return result;
             }
@@ -214,10 +236,15 @@ namespace SudokuCollective.Repos
 
                 return result;
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Exception = exp;
+                result.Exception = e;
+
+                _logger.LogError(
+                    ReposUtilities.GetRepoErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, e.Message)
+                );
 
                 return result;
             }
@@ -270,10 +297,15 @@ namespace SudokuCollective.Repos
 
                 return result;
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Exception = exp;
+                result.Exception = e;
+
+                _logger.LogError(
+                    ReposUtilities.GetRepoErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, e.Message)
+                );
 
                 return result;
             }
@@ -326,10 +358,15 @@ namespace SudokuCollective.Repos
 
                 return result;
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Exception = exp;
+                result.Exception = e;
+
+                _logger.LogError(
+                    ReposUtilities.GetRepoErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, e.Message)
+                );
 
                 return result;
             }
@@ -391,10 +428,15 @@ namespace SudokuCollective.Repos
                     return result;
                 }
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Exception = exp;
+                result.Exception = e;
+
+                _logger.LogError(
+                    ReposUtilities.GetRepoErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, e.Message)
+                );
 
                 return result;
             }
@@ -460,10 +502,15 @@ namespace SudokuCollective.Repos
                     return result;
                 }
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Exception = exp;
+                result.Exception = e;
+
+                _logger.LogError(
+                    ReposUtilities.GetRepoErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, e.Message)
+                );
 
                 return result;
             }
@@ -524,10 +571,15 @@ namespace SudokuCollective.Repos
 
                 return result;
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Exception = exp;
+                result.Exception = e;
+
+                _logger.LogError(
+                    ReposUtilities.GetRepoErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, e.Message)
+                );
 
                 return result;
             }
@@ -583,10 +635,15 @@ namespace SudokuCollective.Repos
                     return result;
                 }
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Exception = exp;
+                result.Exception = e;
+
+                _logger.LogError(
+                    ReposUtilities.GetRepoErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, e.Message)
+                );
 
                 return result;
             }
@@ -643,10 +700,15 @@ namespace SudokuCollective.Repos
 
                 return result;
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Exception = exp;
+                result.Exception = e;
+
+                _logger.LogError(
+                    ReposUtilities.GetRepoErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, e.Message)
+                );
 
                 return result;
             }
@@ -715,10 +777,15 @@ namespace SudokuCollective.Repos
                     return result;
                 }
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Exception = exp;
+                result.Exception = e;
+
+                _logger.LogError(
+                    ReposUtilities.GetRepoErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, e.Message)
+                );
 
                 return result;
             }

@@ -37,7 +37,7 @@ namespace SudokuCollective.Test.TestCases.Services
         private MockedRolesRepository mockedRolesRepository;
         private MockedCacheService mockedCacheService;
         private MemoryDistributedCache memoryCache;
-        private Mock<ILogger<IAppsService>> mockLogger;
+        private Mock<ILogger<AppsService>> mockedLogger;
         private Mock<IHttpContextAccessor> mockHttpContextAccessor;
         private IAppsService sut;
         private IAppsService sutAppRepoFailure;
@@ -63,7 +63,7 @@ namespace SudokuCollective.Test.TestCases.Services
             mockedCacheService = new MockedCacheService(context);
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
-            mockLogger = new Mock<ILogger<IAppsService>>();
+            mockedLogger = new Mock<ILogger<AppsService>>();
 
             sut = new AppsService(
                 mockedAppsRepository.SuccessfulRequest.Object,
@@ -74,7 +74,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
                 new CachingStrategy(),
-                mockLogger.Object);
+                mockedLogger.Object);
 
             sutAppRepoFailure = new AppsService(
                 mockedAppsRepository.FailedRequest.Object,
@@ -85,7 +85,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedCacheService.FailedRequest.Object,
                 new CacheKeys(),
                 new CachingStrategy(),
-                mockLogger.Object);
+                mockedLogger.Object);
 
             sutUserRepoFailure = new AppsService(
                 mockedAppsRepository.SuccessfulRequest.Object,
@@ -96,7 +96,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedCacheService.FailedRequest.Object,
                 new CacheKeys(),
                 new CachingStrategy(),
-                mockLogger.Object);
+                mockedLogger.Object);
 
             sutPromoteUser = new AppsService(
                 mockedAppsRepository.SuccessfulRequest.Object,
@@ -107,7 +107,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
                 new CachingStrategy(),
-                mockLogger.Object); ;
+                mockedLogger.Object); ;
 
             dateCreated = DateTime.UtcNow;
             license = TestObjects.GetLicense();
@@ -389,7 +389,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.IsRequestValidOnThisLicense(
+            var result = await sut.IsRequestValidOnThisToken(
                 mockHttpContextAccessor.Object, 
                 license, 
                 appId, 
@@ -400,13 +400,13 @@ namespace SudokuCollective.Test.TestCases.Services
         }
 
         [Test, Category("Services")]
-        public async Task DenyInvalidLicenseRequests()
+        public async Task DenyInvalidRequests()
         {
             // Arrange
             var invalidLicense = "5CDBFC8F-F304-4703-831B-750A7B7F8531";
 
             // Act
-            var result = await sutAppRepoFailure.IsRequestValidOnThisLicense(
+            var result = await sutAppRepoFailure.IsRequestValidOnThisToken(
                 mockHttpContextAccessor.Object, 
                 invalidLicense, 
                 appId, 
@@ -440,7 +440,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var invalidMockHttpContextAccessor = TestObjects.GetInvalidHttpContextAccessor(user);
 
             // Act
-            var result = await sutUserRepoFailure.IsRequestValidOnThisLicense(
+            var result = await sutUserRepoFailure.IsRequestValidOnThisToken(
                 invalidMockHttpContextAccessor.Object, 
                 invalidLicense, 
                 appId, 
@@ -490,7 +490,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mock => mock.HttpContext.Request.Headers["Authorization"])
                 .Returns(string.Format("bearer {0}", new JwtSecurityTokenHandler().WriteToken(jwtInvalidToken)));
 
-            var result = await sut.IsRequestValidOnThisLicense(
+            var result = await sut.IsRequestValidOnThisToken(
                 mockSuperUserHttpContextAccessor.Object, 
                 licenseResult.License, 
                 app.Id, 

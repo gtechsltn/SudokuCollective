@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Moq;
 using NUnit.Framework;
 using SudokuCollective.Core.Interfaces.ServiceModels;
 using SudokuCollective.Core.Interfaces.Repositories;
@@ -15,6 +17,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
     public class AppsRepositoryShould
     {
         private DatabaseContext context;
+        private Mock<ILogger<AppsRepository<App>>> mockedLogger;
         private IAppsRepository<App> sut;
         private App newApp;
 
@@ -22,7 +25,9 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task Setup()
         {
             context = await TestDatabase.GetDatabaseContext();
-            sut = new AppsRepository<App>(context);
+            mockedLogger = new Mock<ILogger<AppsRepository<App>>>();
+
+            sut = new AppsRepository<App>(context, mockedLogger.Object);
 
             newApp = new App(
                 "Test App 3",

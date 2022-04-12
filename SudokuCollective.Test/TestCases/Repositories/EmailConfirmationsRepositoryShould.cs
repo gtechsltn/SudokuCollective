@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Moq;
 using NUnit.Framework;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Models;
@@ -14,6 +16,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
     public class EmailConfirmationsRepositoryShould
     {
         private DatabaseContext context;
+        private Mock<ILogger<EmailConfirmationsRepository<EmailConfirmation>>> mockedLogger;
         private IEmailConfirmationsRepository<EmailConfirmation> sut;
         private EmailConfirmation newEmailConfirmation;
 
@@ -21,7 +24,9 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task Setup()
         {
             context = await TestDatabase.GetDatabaseContext();
-            sut = new EmailConfirmationsRepository<EmailConfirmation>(context);
+            mockedLogger = new Mock<ILogger<EmailConfirmationsRepository<EmailConfirmation>>>();
+
+            sut = new EmailConfirmationsRepository<EmailConfirmation>(context, mockedLogger.Object);
 
             newEmailConfirmation = new EmailConfirmation(2, 1);
         }

@@ -2,7 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Moq;
 using NUnit.Framework;
 using SudokuCollective.Cache;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
@@ -24,6 +26,7 @@ namespace SudokuCollective.Test.TestCases.Services
         private MockedSolutionsRepository mockedSolutionsRepository;
         private MockedCacheService mockedCacheService;
         private MemoryDistributedCache memoryCache;
+        private Mock<ILogger<SolutionsService>> mockedLogger;
         private ISolutionsService sut;
         private ISolutionsService sutFailure;
         private Request request;
@@ -36,18 +39,21 @@ namespace SudokuCollective.Test.TestCases.Services
             mockedCacheService = new MockedCacheService(context);
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
+            mockedLogger = new Mock<ILogger<SolutionsService>>();
 
             sut = new SolutionsService(
                 mockedSolutionsRepository.SuccessfulRequest.Object,
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
-                new CacheKeys());
+                new CacheKeys(),
+                mockedLogger.Object);
 
             sutFailure = new SolutionsService(
                 mockedSolutionsRepository.FailedRequest.Object,
                 memoryCache,
                 mockedCacheService.FailedRequest.Object,
-                new CacheKeys());
+                new CacheKeys(),
+                mockedLogger.Object);
 
             request = TestObjects.GetRequest();
         }

@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Moq;
 using NUnit.Framework;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
@@ -30,6 +32,8 @@ namespace SudokuCollective.Test.TestCases.Services
         private MockedDifficultiesRepository mockedDifficultiesRepositoryFailed;
         private MockedSolutionsRepository mockedSolutionsRepository;
         private MemoryDistributedCache memoryCache;
+        private Mock<ILogger<GamesService>> mockedLogger;
+
         private IGamesService sut;
         private IGamesService sutFailure;
         private IGamesService sutSolved;
@@ -53,6 +57,7 @@ namespace SudokuCollective.Test.TestCases.Services
             mockedSolutionsRepository = new MockedSolutionsRepository(context);
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
+            mockedLogger = new Mock<ILogger<GamesService>>();
 
             sut = new GamesService(
                 mockedGamesRepository.SuccessfulRequest.Object,
@@ -60,7 +65,8 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedUsersRepository.SuccessfulRequest.Object,
                 mockedDifficultiesRepositorySuccessful.SuccessfulRequest.Object,
                 mockedSolutionsRepository.SuccessfulRequest.Object,
-                memoryCache);
+                memoryCache,
+                mockedLogger.Object);
 
             sutFailure = new GamesService(
                 mockedGamesRepository.FailedRequest.Object,
@@ -68,7 +74,8 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedUsersRepository.SuccessfulRequest.Object,
                 mockedDifficultiesRepositorySuccessful.SuccessfulRequest.Object,
                 mockedSolutionsRepository.SuccessfulRequest.Object,
-                memoryCache);
+                memoryCache,
+                mockedLogger.Object);
 
             sutSolved = new GamesService(
                 mockedGamesRepository.SolvedRequest.Object,
@@ -76,7 +83,8 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedUsersRepository.SuccessfulRequest.Object,
                 mockedDifficultiesRepositorySuccessful.SuccessfulRequest.Object,
                 mockedSolutionsRepository.SuccessfulRequest.Object,
-                memoryCache);
+                memoryCache,
+                mockedLogger.Object);
 
             sutAnonFailure = new GamesService(
                 mockedGamesRepository.SuccessfulRequest.Object,
@@ -84,7 +92,8 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedUsersRepository.SuccessfulRequest.Object,
                 mockedDifficultiesRepositoryFailed.FailedRequest.Object,
                 mockedSolutionsRepository.SuccessfulRequest.Object,
-                memoryCache);
+                memoryCache,
+                mockedLogger.Object);
 
             sutUpdateFailure = new GamesService(
                 mockedGamesRepository.UpdateFailedRequest.Object,
@@ -92,7 +101,8 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedUsersRepository.SuccessfulRequest.Object,
                 mockedDifficultiesRepositorySuccessful.SuccessfulRequest.Object,
                 mockedSolutionsRepository.SuccessfulRequest.Object,
-                memoryCache);
+                memoryCache,
+                mockedLogger.Object);
 
             request = TestObjects.GetRequest();
             createGamePayload = TestObjects.GetCreateGamePayload();

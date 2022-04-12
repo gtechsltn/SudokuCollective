@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Moq;
 using NUnit.Framework;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Repositories;
@@ -13,6 +15,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
     public class SolutionsRepositoryShould
     {
         private DatabaseContext context;
+        private Mock<ILogger<SolutionsRepository<SudokuSolution>>> mockedLogger;
         private ISolutionsRepository<SudokuSolution> sut;
         private SudokuSolution newSolution;
 
@@ -20,7 +23,9 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task Setup()
         {
             context = await TestDatabase.GetDatabaseContext();
-            sut = new SolutionsRepository<SudokuSolution>(context);
+            mockedLogger = new Mock<ILogger<SolutionsRepository<SudokuSolution>>>();
+
+            sut = new SolutionsRepository<SudokuSolution>(context, mockedLogger.Object);
 
             newSolution = new SudokuSolution();
         }

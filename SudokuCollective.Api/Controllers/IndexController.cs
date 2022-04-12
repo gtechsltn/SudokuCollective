@@ -38,7 +38,7 @@ namespace SudokuCollective.Api.Controllers
                 _configuration.GetSection("MissionStatement").Value : 
                 Environment.GetEnvironmentVariable("MISSIONSTATEMENT");
 
-            return Ok(new { missionStatement = missionStatement});
+            return Ok(new { missionStatement = missionStatement });
         }
     }
 }

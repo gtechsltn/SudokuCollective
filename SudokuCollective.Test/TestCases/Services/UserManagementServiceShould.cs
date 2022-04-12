@@ -1,12 +1,13 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Moq;
 using NUnit.Framework;
 using SudokuCollective.Cache;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Services;
-using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Results;
 using SudokuCollective.Data.Services;
@@ -22,6 +23,7 @@ namespace SudokuCollective.Test.TestCases.Services
         private MockedUsersRepository mockedUsersRepository;
         private MockedCacheService mockedCacheService;
         private MemoryDistributedCache memoryCache;
+        private Mock<ILogger<UserManagementService>> mockedLogger;
         private IUserManagementService sut;
         private IUserManagementService sutFailure;
         private string userName;
@@ -36,19 +38,22 @@ namespace SudokuCollective.Test.TestCases.Services
             mockedCacheService = new MockedCacheService(context);
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
+            mockedLogger = new Mock<ILogger<UserManagementService>>();
 
             sut = new UserManagementService(
                 mockedUsersRepository.SuccessfulRequest.Object,
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
-                new CachingStrategy());
+                new CachingStrategy(),
+                mockedLogger.Object);
             sutFailure = new UserManagementService(
                 mockedUsersRepository.FailedRequest.Object,
                 memoryCache,
                 mockedCacheService.FailedRequest.Object,
                 new CacheKeys(),
-                new CachingStrategy());
+                new CachingStrategy(),
+                mockedLogger.Object);
 
             userName = "TestSuperUser";
             password = "T3stPass0rd?1";

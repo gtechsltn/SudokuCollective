@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Cache;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
@@ -12,6 +13,7 @@ using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Results;
+using SudokuCollective.Data.Utilities;
 
 namespace SudokuCollective.Data.Services
 {
@@ -23,6 +25,7 @@ namespace SudokuCollective.Data.Services
         private readonly ICacheService _cacheService;
         private readonly ICacheKeys _cacheKeys;
         private readonly ICachingStrategy _cachingStrategy;
+        private readonly ILogger<UserManagementService> _logger;
         #endregion
 
         #region Constructors
@@ -31,13 +34,15 @@ namespace SudokuCollective.Data.Services
             IDistributedCache distributedCache,
             ICacheService cacheService,
             ICacheKeys cacheKeys,
-            ICachingStrategy cachingStrategy)
+            ICachingStrategy cachingStrategy,
+            ILogger<UserManagementService> logger)
         {
             _usersRepository = usersRepository;
             _distributedCache = distributedCache;
             _cacheService = cacheService;
             _cacheKeys = cacheKeys;
             _cachingStrategy = cachingStrategy;
+            _logger = logger;
         }
         #endregion
 
@@ -69,8 +74,12 @@ namespace SudokuCollective.Data.Services
                     return false;
                 }
             }
-            catch
+            catch (Exception e)
             {
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, e.Message));
+
                 throw;
             }
         }
@@ -114,8 +123,10 @@ namespace SudokuCollective.Data.Services
                     return UserAuthenticationErrorType.NULL;
                 }
             }
-            catch
+            catch (Exception e)
             {
+                _logger.LogError(string.Format(LoggerMessages.ErrorThrownMessage, e.Message));
+
                 throw;
             }
         }
@@ -157,8 +168,12 @@ namespace SudokuCollective.Data.Services
                     return result;
                 }
             }
-            catch
+            catch (Exception e)
             {
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, e.Message));
+                
                 throw;
             }
         }

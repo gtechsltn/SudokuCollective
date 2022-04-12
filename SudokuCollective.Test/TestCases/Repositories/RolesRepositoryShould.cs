@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Moq;
 using NUnit.Framework;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Repositories;
@@ -14,6 +16,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
     public class RolesRepositoryShould
     {
         private DatabaseContext context;
+        private Mock<ILogger<RolesRepository<Role>>> mockedLogger;
         private IRolesRepository<Role> sut;
         private Role newRole;
 
@@ -21,7 +24,9 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task Setup()
         {
             context = await TestDatabase.GetDatabaseContext();
-            sut = new RolesRepository<Role>(context);
+            mockedLogger = new Mock<ILogger<RolesRepository<Role>>>();
+
+            sut = new RolesRepository<Role>(context, mockedLogger.Object);
 
             newRole = new Role()
             {

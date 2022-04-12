@@ -6,7 +6,9 @@ using MimeKit;
 using MimeKit.Text;
 using SudokuCollective.Core.Interfaces.ServiceModels;
 using SudokuCollective.Core.Interfaces.Services;
+using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models;
+using SudokuCollective.Data.Utilities;
 
 namespace SudokuCollective.Data.Services
 {
@@ -53,15 +55,21 @@ namespace SudokuCollective.Data.Services
 
                     var smtpResponse = smtp.Send(email);
 
-                    _logger.LogInformation(string.Format("smptResponse: {0}", smtpResponse));
+                    _logger.LogInformation(
+                        DataUtilities.GetServiceLogEventId(),
+                        string.Format("smptResponse: {0}", smtpResponse));
 
                     smtp.Disconnect(true);
 
                     return true;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, e.Message));
+                
                 return false;
             }
         }

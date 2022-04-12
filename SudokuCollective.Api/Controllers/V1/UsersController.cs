@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SudokuCollective.Api.Utilities;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
@@ -84,7 +85,7 @@ namespace SudokuCollective.Api.Controllers.V1
         {
             try
             {
-                if (await _appsService.IsRequestValidOnThisLicense(
+                if (await _appsService.IsRequestValidOnThisToken(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
@@ -127,7 +128,9 @@ namespace SudokuCollective.Api.Controllers.V1
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
                 
-                _logger.LogError(result.Message);
+                _logger.LogError(
+                    ApiUtilities.GetControllerErrorEventId(), 
+                    result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -171,7 +174,7 @@ namespace SudokuCollective.Api.Controllers.V1
         {
             try
             {
-                if (await _appsService.IsRequestValidOnThisLicense(
+                if (await _appsService.IsRequestValidOnThisToken(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
@@ -242,7 +245,9 @@ namespace SudokuCollective.Api.Controllers.V1
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
                 
-                _logger.LogError(result.Message);
+                _logger.LogError(
+                    ApiUtilities.GetControllerErrorEventId(), 
+                    result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -280,7 +285,7 @@ namespace SudokuCollective.Api.Controllers.V1
         {
             try
             {
-                if (await _appsService.IsRequestValidOnThisLicense(
+                if (await _appsService.IsRequestValidOnThisToken(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
@@ -320,7 +325,9 @@ namespace SudokuCollective.Api.Controllers.V1
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
                 
-                _logger.LogError(result.Message);
+                _logger.LogError(
+                    ApiUtilities.GetControllerErrorEventId(), 
+                    result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -383,7 +390,7 @@ namespace SudokuCollective.Api.Controllers.V1
         {
             try
             {
-                if (await _appsService.IsRequestValidOnThisLicense(
+                if (await _appsService.IsRequestValidOnThisToken(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
@@ -426,7 +433,9 @@ namespace SudokuCollective.Api.Controllers.V1
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
                 
-                _logger.LogError(result.Message);
+                _logger.LogError(
+                    ApiUtilities.GetControllerErrorEventId(), 
+                    result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -466,7 +475,7 @@ namespace SudokuCollective.Api.Controllers.V1
         {
             try
             {
-                if (await _appsService.IsRequestValidOnThisLicense(
+                if (await _appsService.IsRequestValidOnThisToken(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
@@ -509,7 +518,9 @@ namespace SudokuCollective.Api.Controllers.V1
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
                 
-                _logger.LogError(result.Message);
+                _logger.LogError(
+                    ApiUtilities.GetControllerErrorEventId(), 
+                    result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -549,7 +560,7 @@ namespace SudokuCollective.Api.Controllers.V1
         {
             try
             {
-                if (await _appsService.IsRequestValidOnThisLicense(
+                if (await _appsService.IsRequestValidOnThisToken(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
@@ -592,7 +603,9 @@ namespace SudokuCollective.Api.Controllers.V1
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
                 
-                _logger.LogError(result.Message);
+                _logger.LogError(
+                    ApiUtilities.GetControllerErrorEventId(), 
+                    result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -638,7 +651,9 @@ namespace SudokuCollective.Api.Controllers.V1
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
                 
-                _logger.LogError(result.Message);
+                _logger.LogError(
+                    ApiUtilities.GetControllerErrorEventId(), 
+                    result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -684,7 +699,9 @@ namespace SudokuCollective.Api.Controllers.V1
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
                 
-                _logger.LogError(result.Message);
+                _logger.LogError(
+                    ApiUtilities.GetControllerErrorEventId(), 
+                    result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -750,7 +767,9 @@ namespace SudokuCollective.Api.Controllers.V1
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
                 
-                _logger.LogError(result.Message);
+                _logger.LogError(
+                    ApiUtilities.GetControllerErrorEventId(), 
+                    result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -828,7 +847,9 @@ namespace SudokuCollective.Api.Controllers.V1
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
                 
-                _logger.LogError(result.Message);
+                _logger.LogError(
+                    ApiUtilities.GetControllerErrorEventId(), 
+                    result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -911,7 +932,9 @@ namespace SudokuCollective.Api.Controllers.V1
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
                 
-                _logger.LogError(result.Message);
+                _logger.LogError(
+                    ApiUtilities.GetControllerErrorEventId(), 
+                    result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -983,7 +1006,9 @@ namespace SudokuCollective.Api.Controllers.V1
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
                 
-                _logger.LogError(result.Message);
+                _logger.LogError(
+                    ApiUtilities.GetControllerErrorEventId(), 
+                    result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -1017,7 +1042,7 @@ namespace SudokuCollective.Api.Controllers.V1
         {
             try
             {
-                if (await _appsService.IsRequestValidOnThisLicense(
+                if (await _appsService.IsRequestValidOnThisToken(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
@@ -1057,7 +1082,9 @@ namespace SudokuCollective.Api.Controllers.V1
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
                 
-                _logger.LogError(result.Message);
+                _logger.LogError(
+                    ApiUtilities.GetControllerErrorEventId(), 
+                    result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -1091,7 +1118,7 @@ namespace SudokuCollective.Api.Controllers.V1
         {
             try
             {
-                if (await _appsService.IsRequestValidOnThisLicense(
+                if (await _appsService.IsRequestValidOnThisToken(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
@@ -1131,7 +1158,9 @@ namespace SudokuCollective.Api.Controllers.V1
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
                 
-                _logger.LogError(result.Message);
+                _logger.LogError(
+                    ApiUtilities.GetControllerErrorEventId(), 
+                    result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -1165,7 +1194,7 @@ namespace SudokuCollective.Api.Controllers.V1
         {
             try
             {
-                if (await _appsService.IsRequestValidOnThisLicense(
+                if (await _appsService.IsRequestValidOnThisToken(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
@@ -1205,7 +1234,9 @@ namespace SudokuCollective.Api.Controllers.V1
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
                 
-                _logger.LogError(result.Message);
+                _logger.LogError(
+                    ApiUtilities.GetControllerErrorEventId(), 
+                    result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }

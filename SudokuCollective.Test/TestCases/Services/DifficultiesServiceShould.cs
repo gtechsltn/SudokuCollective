@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
+using Moq;
 using NUnit.Framework;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Services;
@@ -24,6 +26,7 @@ namespace SudokuCollective.Test.TestCases.Services
         private MockedDifficultiesRepository mockedDifficultiesRepository;
         private MockedCacheService mockedCacheService;
         private MemoryDistributedCache memoryCache;
+        private Mock<ILogger<DifficultiesService>> mockedLogger;
         private IDifficultiesService sut;
         private IDifficultiesService sutCreateDifficulty;
         private string license;
@@ -37,19 +40,22 @@ namespace SudokuCollective.Test.TestCases.Services
             mockedCacheService = new MockedCacheService(context);
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
+            mockedLogger = new Mock<ILogger<DifficultiesService>>();
 
             sut = new DifficultiesService(
                 mockedDifficultiesRepository.SuccessfulRequest.Object,
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
-                new CachingStrategy());
+                new CachingStrategy(),
+                mockedLogger.Object);
             sutCreateDifficulty = new DifficultiesService(
                 mockedDifficultiesRepository.CreateDifficultyRequest.Object,
                 memoryCache,
                 mockedCacheService.CreateDifficultyRoleSuccessfulRequest.Object,
                 new CacheKeys(),
-                new CachingStrategy());
+                new CachingStrategy(),
+                mockedLogger.Object);
             license = TestObjects.GetLicense();
             paginator = TestObjects.GetPaginator();
         }

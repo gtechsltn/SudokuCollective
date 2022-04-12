@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Cache;
 using SudokuCollective.Core.Interfaces.ServiceModels;
@@ -19,6 +20,7 @@ using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Results;
+using SudokuCollective.Data.Utilities;
 
 namespace SudokuCollective.Data.Services
 {
@@ -34,6 +36,7 @@ namespace SudokuCollective.Data.Services
         private readonly ICacheService _cacheService;
         private readonly ICacheKeys _cacheKeys;
         private readonly ICachingStrategy _cachingStrategy;
+        private readonly ILogger<AuthenticateService> _logger;
 
         public AuthenticateService(
             IUsersRepository<User> usersRepository,
@@ -45,7 +48,8 @@ namespace SudokuCollective.Data.Services
             IDistributedCache distributedCache,
             ICacheService cacheService,
             ICacheKeys cacheKeys,
-            ICachingStrategy cachingStrategy)
+            ICachingStrategy cachingStrategy,
+            ILogger<AuthenticateService> logger)
         {
             _usersRepository = usersRepository;
             _rolesRepository = rolesRepository;
@@ -57,6 +61,7 @@ namespace SudokuCollective.Data.Services
             _cacheService = cacheService;
             _cacheKeys = cacheKeys;
             _cachingStrategy = cachingStrategy;
+            _logger = logger;
         }
         
         public async Task<IResult> IsAuthenticated(ILoginRequest request)
@@ -238,8 +243,12 @@ namespace SudokuCollective.Data.Services
 
                 return result;
             }
-            catch
+            catch (Exception e)
             {
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, e.Message));
+
                 throw;
             }
         }

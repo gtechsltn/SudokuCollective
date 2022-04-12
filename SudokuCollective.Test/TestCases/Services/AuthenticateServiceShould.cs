@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using NUnit.Framework;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Moq;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Services;
@@ -27,6 +29,7 @@ namespace SudokuCollective.Test.TestCases.Services
         private MockedCacheService mockedCacheService;
         private TokenManagement tokenManagement;
         private MemoryDistributedCache memoryCache;
+        private Mock<ILogger<AuthenticateService>> mockedLogger;
         private IAuthenticateService sutValid;
         private IAuthenticateService sutInvalid;
         private string userName;
@@ -49,6 +52,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Options.Create(new MemoryDistributedCacheOptions()));
 
             mockedUserManagementService = new MockedUserManagementService();
+            mockedLogger = new Mock<ILogger<AuthenticateService>>();
 
             tokenManagement = new TokenManagement()
             {
@@ -69,7 +73,8 @@ namespace SudokuCollective.Test.TestCases.Services
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
-                new CachingStrategy());
+                new CachingStrategy(),
+                mockedLogger.Object);
             sutInvalid = new AuthenticateService(
                 mockedUsersRepository.FailedRequest.Object,
                 mockedRolesRepository.FailedRequest.Object,
@@ -80,7 +85,8 @@ namespace SudokuCollective.Test.TestCases.Services
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
-                new CachingStrategy());
+                new CachingStrategy(),
+                mockedLogger.Object);
         }
 
         [Test, Category("Services")]

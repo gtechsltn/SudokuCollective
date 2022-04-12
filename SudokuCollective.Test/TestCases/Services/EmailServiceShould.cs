@@ -14,7 +14,7 @@ namespace SudokuCollective.Test.TestCases.Services
         private EmailMetaData incorrectEmailMetaData;
         private IEmailService sut;
         private IEmailService sutFailure;
-        private Mock<ILogger<EmailService>> mockLogger;
+        private Mock<ILogger<EmailService>> mockedLogger;
         private string toEmail;
         private string subject;
         private string html;
@@ -24,15 +24,15 @@ namespace SudokuCollective.Test.TestCases.Services
         {
             emailMetaData = TestObjects.GetEmailMetaData();
             incorrectEmailMetaData = TestObjects.GetIncorrectEmailMetaData();
-            mockLogger = new Mock<ILogger<EmailService>>();
+            mockedLogger = new Mock<ILogger<EmailService>>();
 
             sut = new EmailService(
                 emailMetaData, 
-                mockLogger.Object);
+                mockedLogger.Object);
                 
             sutFailure = new EmailService(
                 incorrectEmailMetaData, 
-                mockLogger.Object);
+                mockedLogger.Object);
 
             toEmail = "sudokucollective@gmail.com";
             subject = "testing123...";

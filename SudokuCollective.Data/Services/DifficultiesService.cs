@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
 using SudokuCollective.Core.Interfaces.Cache;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
@@ -12,6 +13,7 @@ using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Payloads;
+using SudokuCollective.Data.Utilities;
 
 namespace SudokuCollective.Data.Services
 {
@@ -23,6 +25,7 @@ namespace SudokuCollective.Data.Services
         private readonly ICacheService _cacheService;
         private readonly ICacheKeys _cacheKeys;
         private readonly ICachingStrategy _cachingStrategy;
+        private readonly ILogger<DifficultiesService> _logger;
         #endregion
 
         #region Constructor
@@ -31,13 +34,15 @@ namespace SudokuCollective.Data.Services
             IDistributedCache distributedCache,
             ICacheService cacheService,
             ICacheKeys cacheKeys,
-            ICachingStrategy cachingStrategy)
+            ICachingStrategy cachingStrategy,
+            ILogger<DifficultiesService> logger)
         {
             _difficultiesRepository = difficultiesRepository;
             _distributedCache = distributedCache;
             _cacheService = cacheService;
             _cacheKeys = cacheKeys;
             _cachingStrategy = cachingStrategy;
+            _logger = logger;
         }
         #endregion
         
@@ -124,10 +129,14 @@ namespace SudokuCollective.Data.Services
                     return result;
                 }
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Message = exp.Message;
+                result.Message = e.Message;
+
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
 
                 return result;
             }
@@ -181,10 +190,14 @@ namespace SudokuCollective.Data.Services
                     return result;
                 }
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Message = exp.Message;
+                result.Message = e.Message;
+
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
 
                 return result;
             }
@@ -231,10 +244,14 @@ namespace SudokuCollective.Data.Services
                     return result;
                 }
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Message = exp.Message;
+                result.Message = e.Message;
+
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
 
                 return result;
             }
@@ -324,10 +341,14 @@ namespace SudokuCollective.Data.Services
                     return result;
                 }
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Message = exp.Message;
+                result.Message = e.Message;
+
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
 
                 return result;
             }
@@ -395,10 +416,14 @@ namespace SudokuCollective.Data.Services
                     return result;
                 }
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 result.IsSuccess = false;
-                result.Message = exp.Message;
+                result.Message = e.Message;
+
+                _logger.LogError(
+                    DataUtilities.GetServiceErrorEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
 
                 return result;
             }

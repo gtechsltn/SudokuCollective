@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Moq;
 using NUnit.Framework;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Models;
@@ -14,6 +16,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
     public class PasswordResetsRepositoryShould
     {
         private DatabaseContext context;
+        private Mock<ILogger<PasswordResetsRepository<PasswordReset>>> mockedLogger;
         private IPasswordResetsRepository<PasswordReset> sut;
         private PasswordReset newPasswordReset;
 
@@ -21,7 +24,9 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task Setup()
         {
             context = await TestDatabase.GetDatabaseContext();
-            sut = new PasswordResetsRepository<PasswordReset>(context);
+            mockedLogger = new Mock<ILogger<PasswordResetsRepository<PasswordReset>>>();
+
+            sut = new PasswordResetsRepository<PasswordReset>(context, mockedLogger.Object);
 
             newPasswordReset = new PasswordReset(2, 1);
         }

@@ -3,6 +3,8 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using SudokuCollective.Api.Utilities;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Data.Messages;
@@ -22,18 +24,22 @@ namespace SudokuCollective.Api.Controllers.V1
     {
         private readonly IAuthenticateService _authService;
         private readonly IUserManagementService _userManagementService;
+        private readonly ILogger<LoginController> _logger;
 
         /// <summary>
         /// Login Controller Constructor
         /// </summary>
         /// <param name="authService"></param>
         /// <param name="userManagementService"></param>
+        /// <param name="logger"></param>
         public LoginController(
             IAuthenticateService authService,
-            IUserManagementService userManagementService)
+            IUserManagementService userManagementService,
+            ILogger<LoginController> logger)
         {
             _authService = authService;
             _userManagementService = userManagementService;
+            _logger = logger;
         }
 
         /// <summary>
@@ -114,6 +120,10 @@ namespace SudokuCollective.Api.Controllers.V1
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
 
+                _logger.LogError(
+                    ApiUtilities.GetControllerErrorEventId(), 
+                    result.Message);
+
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
         }
@@ -166,6 +176,10 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
+
+                _logger.LogError(
+                    ApiUtilities.GetControllerErrorEventId(), 
+                    result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }

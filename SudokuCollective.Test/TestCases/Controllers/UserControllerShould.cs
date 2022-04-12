@@ -34,7 +34,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
         private ResendRequestPasswordRequest resendRequestPasswordRequest;
         private Mock<IWebHostEnvironment> mockWebHostEnvironment;
         private Mock<IHttpContextAccessor> mockHttpContextAccessor;
-        private Mock<ILogger<UsersController>> mockLogger;
+        private Mock<ILogger<UsersController>> mockedLogger;
 
         [SetUp]
         public async Task Setup()
@@ -44,7 +44,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             mockAppsService = new MockedAppsService(context);
             mockWebHostEnvironment = new Mock<IWebHostEnvironment>();
             mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
-            mockLogger = new Mock<ILogger<UsersController>>();
+            mockedLogger = new Mock<ILogger<UsersController>>();
 
             request = TestObjects.GetRequest();
 
@@ -85,21 +85,21 @@ namespace SudokuCollective.Test.TestCases.Controllers
                 mockAppsService.SuccessfulRequest.Object,
                 mockWebHostEnvironment.Object,
                 mockHttpContextAccessor.Object,
-                mockLogger.Object);
+                mockedLogger.Object);
 
             sutFailure = new UsersController(
                 mockUsersService.FailedRequest.Object,
                 mockAppsService.SuccessfulRequest.Object,
                 mockWebHostEnvironment.Object,
                 mockHttpContextAccessor.Object,
-                mockLogger.Object);
+                mockedLogger.Object);
 
             sutFailureResetPassword = new UsersController(
                 mockUsersService.FailedResetPasswordRequest.Object,
                 mockAppsService.SuccessfulRequest.Object,
                 mockWebHostEnvironment.Object,
                 mockHttpContextAccessor.Object,
-                mockLogger.Object);
+                mockedLogger.Object);
         }
 
         [Test]

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using SudokuCollective.Api.Utilities;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
@@ -27,6 +29,7 @@ namespace SudokuCollective.Api.Controllers.V1
         private readonly IUsersService _usersService;
         private readonly IAuthenticateService _authService;
         private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly ILogger<SignupController> _logger;
 
         /// <summary>
         /// Signup Controller Constructor
@@ -34,14 +37,17 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="usersService"></param>
         /// <param name="authService"></param>
         /// <param name="hostEnvironment"></param>
+        /// <param name="logger"></param>
         public SignupController(
             IUsersService usersService,
             IAuthenticateService authService,
-            IWebHostEnvironment hostEnvironment)
+            IWebHostEnvironment hostEnvironment,
+            ILogger<SignupController> logger)
         {
             _usersService = usersService;
             _authService = authService;
             _hostEnvironment = hostEnvironment;
+            _logger = logger;
         }
 
         /// <summary>
@@ -158,6 +164,10 @@ namespace SudokuCollective.Api.Controllers.V1
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
 
+                _logger.LogError(
+                    ApiUtilities.GetControllerErrorEventId(), 
+                    result.Message);
+
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
         }
@@ -241,6 +251,10 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
+
+                _logger.LogError(
+                    ApiUtilities.GetControllerErrorEventId(), 
+                    result.Message);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }

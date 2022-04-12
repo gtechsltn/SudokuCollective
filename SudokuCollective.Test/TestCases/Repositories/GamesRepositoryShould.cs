@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Moq;
 using NUnit.Framework;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Repositories;
@@ -16,6 +18,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
     public class GamesRepositoryShould
     {
         private DatabaseContext context;
+        private Mock<ILogger<GamesRepository<Game>>> mockedLogger;
         private IGamesRepository<Game> sut;
         private Game newGame;
         private User user;
@@ -26,7 +29,9 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task Setup()
         {
             context = await TestDatabase.GetDatabaseContext();
-            sut = new GamesRepository<Game>(context);
+            mockedLogger = new Mock<ILogger<GamesRepository<Game>>>();
+            
+            sut = new GamesRepository<Game>(context, mockedLogger.Object);
 
             user = context
                 .Users

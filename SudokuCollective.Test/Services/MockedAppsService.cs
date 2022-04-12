@@ -172,7 +172,7 @@ namespace SudokuCollective.Test.Services
                 } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.IsRequestValidOnThisLicense(
+                service.IsRequestValidOnThisToken(
                     It.IsAny<IHttpContextAccessor>(),
                     It.IsAny<string>(),
                     It.IsAny<int>(),
@@ -447,7 +447,7 @@ namespace SudokuCollective.Test.Services
                     } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             FailedRequest.Setup(service =>
-                service.IsRequestValidOnThisLicense(
+                service.IsRequestValidOnThisToken(
                     It.IsAny<IHttpContextAccessor>(),
                     It.IsAny<string>(),
                     It.IsAny<int>(),
@@ -728,7 +728,7 @@ namespace SudokuCollective.Test.Services
                 } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(service =>
-                service.IsRequestValidOnThisLicense(
+                service.IsRequestValidOnThisToken(
                     It.IsAny<IHttpContextAccessor>(),
                     It.IsAny<string>(),
                     It.IsAny<int>(),
@@ -1039,7 +1039,7 @@ namespace SudokuCollective.Test.Services
                     } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(service =>
-                service.IsRequestValidOnThisLicense(
+                service.IsRequestValidOnThisToken(
                     It.IsAny<IHttpContextAccessor>(),
                     It.IsAny<string>(),
                     It.IsAny<int>(),

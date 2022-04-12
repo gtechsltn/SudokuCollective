@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Moq;
 using NUnit.Framework;
 using SudokuCollective.Cache;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
@@ -36,6 +38,7 @@ namespace SudokuCollective.Test.TestCases.Services
         private MockedPasswordResetsRepository mockPasswordResetRepository;
         private MockedCacheService mockedCacheService;
         private MemoryDistributedCache memoryCache;
+        private Mock<ILogger<UsersService>> mockedLogger;
         private IUsersService sut;
         private IUsersService sutFailure;
         private IUsersService sutEmailFailure;
@@ -59,6 +62,7 @@ namespace SudokuCollective.Test.TestCases.Services
             mockedCacheService = new MockedCacheService(context);
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
+            mockedLogger = new Mock<ILogger<UsersService>>();
 
             sut = new UsersService(
                 mockedUsersRepository.SuccessfulRequest.Object,
@@ -71,7 +75,8 @@ namespace SudokuCollective.Test.TestCases.Services
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
-                new CachingStrategy());
+                new CachingStrategy(),
+                mockedLogger.Object);
 
             sutFailure = new UsersService(
                 mockedUsersRepository.FailedRequest.Object,
@@ -84,7 +89,8 @@ namespace SudokuCollective.Test.TestCases.Services
                 memoryCache,
                 mockedCacheService.FailedRequest.Object,
                 new CacheKeys(),
-                new CachingStrategy());
+                new CachingStrategy(),
+                mockedLogger.Object);
 
             sutEmailFailure = new UsersService(
                 mockedUsersRepository.EmailFailedRequest.Object,
@@ -97,7 +103,8 @@ namespace SudokuCollective.Test.TestCases.Services
                 memoryCache,
                 mockedCacheService.FailedRequest.Object,
                 new CacheKeys(),
-                new CachingStrategy());
+                new CachingStrategy(),
+                mockedLogger.Object);
 
             sutResetPassword = new UsersService(
                 mockedUsersRepository.InitiatePasswordSuccessfulRequest.Object,
@@ -110,7 +117,8 @@ namespace SudokuCollective.Test.TestCases.Services
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
-                new CachingStrategy());
+                new CachingStrategy(),
+                mockedLogger.Object);
 
             sutResendEmailConfirmation = new UsersService(
                 mockedUsersRepository.ResendEmailConfirmationSuccessfulRequest.Object,
@@ -123,7 +131,8 @@ namespace SudokuCollective.Test.TestCases.Services
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
-                new CachingStrategy());
+                new CachingStrategy(),
+                mockedLogger.Object);
 
             sutRequestPasswordReset = new UsersService(
                 mockedUsersRepository.SuccessfulRequest.Object,
@@ -136,7 +145,8 @@ namespace SudokuCollective.Test.TestCases.Services
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
-                new CachingStrategy());
+                new CachingStrategy(),
+                mockedLogger.Object);
 
             request = TestObjects.GetRequest();
         }
