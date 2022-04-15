@@ -9,6 +9,7 @@ using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Repos;
+using SudokuCollective.Test.Services;
 using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Repositories
@@ -16,6 +17,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
     public class PasswordResetsRepositoryShould
     {
         private DatabaseContext context;
+        private MockedRequestService mockedRequestService;
         private Mock<ILogger<PasswordResetsRepository<PasswordReset>>> mockedLogger;
         private IPasswordResetsRepository<PasswordReset> sut;
         private PasswordReset newPasswordReset;
@@ -24,9 +26,13 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task Setup()
         {
             context = await TestDatabase.GetDatabaseContext();
+            mockedRequestService = new MockedRequestService();
             mockedLogger = new Mock<ILogger<PasswordResetsRepository<PasswordReset>>>();
 
-            sut = new PasswordResetsRepository<PasswordReset>(context, mockedLogger.Object);
+            sut = new PasswordResetsRepository<PasswordReset>(
+                context,
+                mockedRequestService.SuccessfulRequest.Object,
+                mockedLogger.Object);
 
             newPasswordReset = new PasswordReset(2, 1);
         }

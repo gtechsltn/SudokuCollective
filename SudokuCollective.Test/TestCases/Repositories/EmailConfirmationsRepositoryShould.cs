@@ -9,6 +9,7 @@ using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Repos;
+using SudokuCollective.Test.Services;
 using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Repositories
@@ -16,6 +17,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
     public class EmailConfirmationsRepositoryShould
     {
         private DatabaseContext context;
+        private MockedRequestService mockedRequestService;
         private Mock<ILogger<EmailConfirmationsRepository<EmailConfirmation>>> mockedLogger;
         private IEmailConfirmationsRepository<EmailConfirmation> sut;
         private EmailConfirmation newEmailConfirmation;
@@ -24,9 +26,13 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task Setup()
         {
             context = await TestDatabase.GetDatabaseContext();
+            mockedRequestService = new MockedRequestService();
             mockedLogger = new Mock<ILogger<EmailConfirmationsRepository<EmailConfirmation>>>();
 
-            sut = new EmailConfirmationsRepository<EmailConfirmation>(context, mockedLogger.Object);
+            sut = new EmailConfirmationsRepository<EmailConfirmation>(
+                context,
+                mockedRequestService.SuccessfulRequest.Object,
+                mockedLogger.Object);
 
             newEmailConfirmation = new EmailConfirmation(2, 1);
         }

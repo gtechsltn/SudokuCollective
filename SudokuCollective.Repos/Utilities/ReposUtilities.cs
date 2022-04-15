@@ -1,17 +1,38 @@
 using Microsoft.Extensions.Logging;
+using SudokuCollective.Core.Interfaces.ServiceModels;
+using SudokuCollective.Core.Interfaces.Services;
+using SudokuCollective.Data.Messages;
+using SudokuCollective.Logs;
+using SudokuCollective.Logs.Utilities;
 
 namespace SudokuCollective.Repos.Utilities
 {
     public static class ReposUtilities
     {
-        public static EventId GetRepoLogEventId()
-        {
-            return new EventId(300, "Repository Event");
-        }
 
-        public static EventId GetRepoErrorEventId()
+        public static IRepositoryResponse ProcessException<T>(
+            IRequestService requestService, 
+            ILogger<T> logger, 
+            IRepositoryResponse result, 
+            Exception e,
+            string message = null)
         {
-            return new EventId(301, "Repository Event Error");
+            if (string.IsNullOrEmpty(message))
+            {
+                message = string.Format(LoggerMessages.ErrorThrownMessage, e.Message);
+            }
+
+            result.IsSuccess = false;
+            result.Exception = e;
+
+            SudokuCollectiveLogger.LogError<T>(
+                logger,
+                LogsUtilities.GetRepoErrorEventId(), 
+                message,
+                e,
+                (SudokuCollective.Logs.Models.Request)requestService.Get());
+
+            return result;
         }
     }
 }

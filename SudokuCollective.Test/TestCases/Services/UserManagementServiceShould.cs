@@ -13,6 +13,7 @@ using SudokuCollective.Data.Models.Results;
 using SudokuCollective.Data.Services;
 using SudokuCollective.Test.Cache;
 using SudokuCollective.Test.Repositories;
+using SudokuCollective.Test.Services;
 using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Services
@@ -21,6 +22,7 @@ namespace SudokuCollective.Test.TestCases.Services
     {
         private DatabaseContext context;
         private MockedUsersRepository mockedUsersRepository;
+        private MockedRequestService mockedRequestService;
         private MockedCacheService mockedCacheService;
         private MemoryDistributedCache memoryCache;
         private Mock<ILogger<UserManagementService>> mockedLogger;
@@ -35,6 +37,7 @@ namespace SudokuCollective.Test.TestCases.Services
         {
             context = await TestDatabase.GetDatabaseContext();
             mockedUsersRepository = new MockedUsersRepository(context);
+            mockedRequestService = new MockedRequestService();
             mockedCacheService = new MockedCacheService(context);
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
@@ -42,6 +45,7 @@ namespace SudokuCollective.Test.TestCases.Services
 
             sut = new UserManagementService(
                 mockedUsersRepository.SuccessfulRequest.Object,
+                mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
@@ -49,6 +53,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedLogger.Object);
             sutFailure = new UserManagementService(
                 mockedUsersRepository.FailedRequest.Object,
+                mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
                 mockedCacheService.FailedRequest.Object,
                 new CacheKeys(),

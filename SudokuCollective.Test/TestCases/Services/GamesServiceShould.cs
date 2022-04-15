@@ -18,6 +18,7 @@ using SudokuCollective.Data.Models.Payloads;
 using SudokuCollective.Data.Models.Results;
 using SudokuCollective.Data.Services;
 using SudokuCollective.Test.Repositories;
+using SudokuCollective.Test.Services;
 using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Services
@@ -31,6 +32,7 @@ namespace SudokuCollective.Test.TestCases.Services
         private MockedDifficultiesRepository mockedDifficultiesRepositorySuccessful;
         private MockedDifficultiesRepository mockedDifficultiesRepositoryFailed;
         private MockedSolutionsRepository mockedSolutionsRepository;
+        private MockedRequestService mockedRequestService;
         private MemoryDistributedCache memoryCache;
         private Mock<ILogger<GamesService>> mockedLogger;
 
@@ -55,6 +57,7 @@ namespace SudokuCollective.Test.TestCases.Services
             mockedDifficultiesRepositorySuccessful = new MockedDifficultiesRepository(context);
             mockedDifficultiesRepositoryFailed = new MockedDifficultiesRepository(context);
             mockedSolutionsRepository = new MockedSolutionsRepository(context);
+            mockedRequestService = new MockedRequestService();
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
             mockedLogger = new Mock<ILogger<GamesService>>();
@@ -65,6 +68,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedUsersRepository.SuccessfulRequest.Object,
                 mockedDifficultiesRepositorySuccessful.SuccessfulRequest.Object,
                 mockedSolutionsRepository.SuccessfulRequest.Object,
+                mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
                 mockedLogger.Object);
 
@@ -74,6 +78,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedUsersRepository.SuccessfulRequest.Object,
                 mockedDifficultiesRepositorySuccessful.SuccessfulRequest.Object,
                 mockedSolutionsRepository.SuccessfulRequest.Object,
+                mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
                 mockedLogger.Object);
 
@@ -83,6 +88,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedUsersRepository.SuccessfulRequest.Object,
                 mockedDifficultiesRepositorySuccessful.SuccessfulRequest.Object,
                 mockedSolutionsRepository.SuccessfulRequest.Object,
+                mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
                 mockedLogger.Object);
 
@@ -92,6 +98,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedUsersRepository.SuccessfulRequest.Object,
                 mockedDifficultiesRepositoryFailed.FailedRequest.Object,
                 mockedSolutionsRepository.SuccessfulRequest.Object,
+                mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
                 mockedLogger.Object);
 
@@ -101,6 +108,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedUsersRepository.SuccessfulRequest.Object,
                 mockedDifficultiesRepositorySuccessful.SuccessfulRequest.Object,
                 mockedSolutionsRepository.SuccessfulRequest.Object,
+                mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
                 mockedLogger.Object);
 

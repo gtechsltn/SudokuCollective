@@ -7,21 +7,24 @@ using MimeKit.Text;
 using SudokuCollective.Core.Interfaces.ServiceModels;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Data.Messages;
-using SudokuCollective.Data.Models;
-using SudokuCollective.Data.Utilities;
+using SudokuCollective.Logs;
+using SudokuCollective.Logs.Utilities;
 
 namespace SudokuCollective.Data.Services
 {
     public class EmailService : IEmailService
     {
-        private readonly EmailMetaData emailMetaData;
+        private readonly IEmailMetaData _emailMetaData;
+        private readonly IRequestService _requestService;
         private readonly ILogger<EmailService> _logger;
 
         public EmailService(
-            IEmailMetaData metaData, 
+            IEmailMetaData emailMetaData, 
+            IRequestService requestService,
             ILogger<EmailService> logger)
         {
-            emailMetaData = (EmailMetaData)metaData;
+            _emailMetaData = emailMetaData;
+            _requestService= requestService;
             _logger = logger;
         }
         
@@ -36,7 +39,7 @@ namespace SudokuCollective.Data.Services
             // create message
             var email = new MimeMessage();
 
-            email.From.Add(MailboxAddress.Parse(emailMetaData.FromEmail));
+            email.From.Add(MailboxAddress.Parse(_emailMetaData.FromEmail));
 
             email.To.Add(MailboxAddress.Parse(to));
 
@@ -49,15 +52,17 @@ namespace SudokuCollective.Data.Services
                 // send email
                 using (var smtp = new SmtpClient())
                 {
-                    smtp.Connect(emailMetaData.SmtpServer, emailMetaData.Port, SecureSocketOptions.Auto);
+                    smtp.Connect(_emailMetaData.SmtpServer, _emailMetaData.Port, SecureSocketOptions.Auto);
 
-                    smtp.Authenticate(emailMetaData.UserName, emailMetaData.Password);
+                    smtp.Authenticate(_emailMetaData.UserName, _emailMetaData.Password);
 
                     var smtpResponse = smtp.Send(email);
 
-                    _logger.LogInformation(
-                        DataUtilities.GetServiceLogEventId(),
-                        string.Format("smptResponse: {0}", smtpResponse));
+                    SudokuCollectiveLogger.LogInformation<EmailService>(
+                        _logger,
+                        LogsUtilities.GetSMTPEventId(),
+                        string.Format("smptResponse: {0}", smtpResponse),
+                        (SudokuCollective.Logs.Models.Request)_requestService.Get());
 
                     smtp.Disconnect(true);
 
@@ -66,9 +71,12 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, e.Message));
+                SudokuCollectiveLogger.LogError<EmailService>(
+                    _logger,
+                    LogsUtilities.GetSMTPEventId(),
+                    string.Format(LoggerMessages.ErrorThrownMessage, e.Message),
+                    e,
+                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
                 
                 return false;
             }

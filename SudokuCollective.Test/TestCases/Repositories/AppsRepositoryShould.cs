@@ -10,6 +10,7 @@ using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Repos;
+using SudokuCollective.Test.Services;
 using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Repositories
@@ -17,6 +18,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
     public class AppsRepositoryShould
     {
         private DatabaseContext context;
+        private MockedRequestService mockedRequestService;
         private Mock<ILogger<AppsRepository<App>>> mockedLogger;
         private IAppsRepository<App> sut;
         private App newApp;
@@ -25,9 +27,13 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task Setup()
         {
             context = await TestDatabase.GetDatabaseContext();
+            mockedRequestService = new MockedRequestService();
             mockedLogger = new Mock<ILogger<AppsRepository<App>>>();
 
-            sut = new AppsRepository<App>(context, mockedLogger.Object);
+            sut = new AppsRepository<App>(
+                context,
+                mockedRequestService.SuccessfulRequest.Object,
+                mockedLogger.Object);
 
             newApp = new App(
                 "Test App 3",

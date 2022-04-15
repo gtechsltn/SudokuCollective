@@ -4,6 +4,7 @@ using NUnit.Framework;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Services;
+using SudokuCollective.Test.Services;
 using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Services
@@ -12,6 +13,7 @@ namespace SudokuCollective.Test.TestCases.Services
     {
         private EmailMetaData emailMetaData;
         private EmailMetaData incorrectEmailMetaData;
+        private MockedRequestService mockedRequestService;
         private IEmailService sut;
         private IEmailService sutFailure;
         private Mock<ILogger<EmailService>> mockedLogger;
@@ -24,14 +26,17 @@ namespace SudokuCollective.Test.TestCases.Services
         {
             emailMetaData = TestObjects.GetEmailMetaData();
             incorrectEmailMetaData = TestObjects.GetIncorrectEmailMetaData();
+            mockedRequestService = new MockedRequestService();
             mockedLogger = new Mock<ILogger<EmailService>>();
 
             sut = new EmailService(
                 emailMetaData, 
+                mockedRequestService.SuccessfulRequest.Object,
                 mockedLogger.Object);
                 
             sutFailure = new EmailService(
                 incorrectEmailMetaData, 
+                mockedRequestService.SuccessfulRequest.Object,
                 mockedLogger.Object);
 
             toEmail = "sudokucollective@gmail.com";

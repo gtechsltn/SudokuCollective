@@ -26,6 +26,7 @@ namespace SudokuCollective.Test.TestCases.Services
         private MockedUserManagementService mockedUserManagementService;
         private MockedAppsRepository mockedAppsRepository;
         private MockedAppAdminsRepository mockedAppAdminsRepository;
+        private MockedRequestService mockedRequestService;
         private MockedCacheService mockedCacheService;
         private TokenManagement tokenManagement;
         private MemoryDistributedCache memoryCache;
@@ -47,6 +48,7 @@ namespace SudokuCollective.Test.TestCases.Services
             mockedRolesRepository = new MockedRolesRepository(context);
             mockedAppsRepository = new MockedAppsRepository(context);
             mockedAppAdminsRepository = new MockedAppAdminsRepository(context);
+            mockedRequestService = new MockedRequestService();
             mockedCacheService = new MockedCacheService(context);
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
@@ -69,6 +71,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedAppsRepository.SuccessfulRequest.Object,
                 mockedAppAdminsRepository.SuccessfulRequest.Object,
                 mockedUserManagementService.SuccssfulRequest.Object,
+                mockedRequestService.SuccessfulRequest.Object,
                 tokenManagement,
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
@@ -81,6 +84,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedAppsRepository.FailedRequest.Object,
                 mockedAppAdminsRepository.FailedRequest.Object,
                 mockedUserManagementService.FailedRequest.Object,
+                mockedRequestService.SuccessfulRequest.Object,
                 tokenManagement,
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,

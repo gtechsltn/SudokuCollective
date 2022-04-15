@@ -8,12 +8,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SudokuCollective.Api.Utilities;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Requests;
+using SudokuCollective.Logs;
+using SudokuCollective.Logs.Utilities;
 
 namespace SudokuCollective.Api.Controllers.V1
 {
@@ -27,6 +28,8 @@ namespace SudokuCollective.Api.Controllers.V1
     {
         private readonly IUsersService _usersService;
         private readonly IAppsService _appsService;
+
+        private readonly IRequestService _requestService;
         private readonly IWebHostEnvironment _hostEnvironment;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<UsersController> _logger;
@@ -36,18 +39,21 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </summary>
         /// <param name="usersService"></param>
         /// <param name="appsService"></param>
+        /// <param name="requestService"></param>
         /// <param name="hostEnvironment"></param>
         /// <param name="httpContextAccessor"></param>
         /// <param name="logger"></param>
         public UsersController(
             IUsersService usersService,
             IAppsService appsService,
+            IRequestService requestService,
             IWebHostEnvironment hostEnvironment,
             IHttpContextAccessor httpContextAccessor, 
             ILogger<UsersController> logger)
         {
             _usersService = usersService;
             _appsService = appsService;
+            _requestService = requestService;
             _hostEnvironment = hostEnvironment;
             _httpContextAccessor = httpContextAccessor;
             _logger = logger;
@@ -83,6 +89,8 @@ namespace SudokuCollective.Api.Controllers.V1
             int id,
             [FromBody] Request request)
         {
+            _requestService.Update(request);
+
             try
             {
                 if (await _appsService.IsRequestValidOnThisToken(
@@ -127,10 +135,13 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
-                
-                _logger.LogError(
-                    ApiUtilities.GetControllerErrorEventId(), 
-                    result.Message);
+
+                SudokuCollectiveLogger.LogError<UsersController>(
+                    _logger,
+                    LogsUtilities.GetControllerErrorEventId(), 
+                    result.Message,
+                    e,
+                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -172,6 +183,8 @@ namespace SudokuCollective.Api.Controllers.V1
             int id, 
             [FromBody] Request request)
         {
+            _requestService.Update(request);
+
             try
             {
                 if (await _appsService.IsRequestValidOnThisToken(
@@ -244,10 +257,13 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
-                
-                _logger.LogError(
-                    ApiUtilities.GetControllerErrorEventId(), 
-                    result.Message);
+
+                SudokuCollectiveLogger.LogError<UsersController>(
+                    _logger,
+                    LogsUtilities.GetControllerErrorEventId(), 
+                    result.Message,
+                    e,
+                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -283,6 +299,7 @@ namespace SudokuCollective.Api.Controllers.V1
             int id, 
             [FromBody] Request request)
         {
+            _requestService.Update(request);
             try
             {
                 if (await _appsService.IsRequestValidOnThisToken(
@@ -324,10 +341,13 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
-                
-                _logger.LogError(
-                    ApiUtilities.GetControllerErrorEventId(), 
-                    result.Message);
+
+                SudokuCollectiveLogger.LogError<UsersController>(
+                    _logger,
+                    LogsUtilities.GetControllerErrorEventId(), 
+                    result.Message,
+                    e,
+                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -388,6 +408,8 @@ namespace SudokuCollective.Api.Controllers.V1
         public async Task<ActionResult<IEnumerable<User>>> GetUsers(
             [FromBody] Request request)
         {
+            _requestService.Update(request);
+
             try
             {
                 if (await _appsService.IsRequestValidOnThisToken(
@@ -432,10 +454,13 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
-                
-                _logger.LogError(
-                    ApiUtilities.GetControllerErrorEventId(), 
-                    result.Message);
+
+                SudokuCollectiveLogger.LogError<UsersController>(
+                    _logger,
+                    LogsUtilities.GetControllerErrorEventId(), 
+                    result.Message,
+                    e,
+                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -473,6 +498,8 @@ namespace SudokuCollective.Api.Controllers.V1
             int id,
             [FromBody] Request request)
         {
+            _requestService.Update(request);
+
             try
             {
                 if (await _appsService.IsRequestValidOnThisToken(
@@ -517,10 +544,13 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
-                
-                _logger.LogError(
-                    ApiUtilities.GetControllerErrorEventId(), 
-                    result.Message);
+
+                SudokuCollectiveLogger.LogError<UsersController>(
+                    _logger,
+                    LogsUtilities.GetControllerErrorEventId(), 
+                    result.Message,
+                    e,
+                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -558,6 +588,8 @@ namespace SudokuCollective.Api.Controllers.V1
             int id,
             [FromBody] Request request)
         {
+            _requestService.Update(request);
+
             try
             {
                 if (await _appsService.IsRequestValidOnThisToken(
@@ -602,10 +634,13 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
-                
-                _logger.LogError(
-                    ApiUtilities.GetControllerErrorEventId(), 
-                    result.Message);
+
+                SudokuCollectiveLogger.LogError<UsersController>(
+                    _logger,
+                    LogsUtilities.GetControllerErrorEventId(), 
+                    result.Message,
+                    e,
+                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -650,10 +685,12 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
-                
-                _logger.LogError(
-                    ApiUtilities.GetControllerErrorEventId(), 
-                    result.Message);
+
+                SudokuCollectiveLogger.LogError<UsersController>(
+                    _logger,
+                    LogsUtilities.GetControllerErrorEventId(), 
+                    result.Message,
+                    e);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -698,10 +735,12 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
-                
-                _logger.LogError(
-                    ApiUtilities.GetControllerErrorEventId(), 
-                    result.Message);
+
+                SudokuCollectiveLogger.LogError<UsersController>(
+                    _logger,
+                    LogsUtilities.GetControllerErrorEventId(), 
+                    result.Message,
+                    e);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -766,10 +805,12 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
-                
-                _logger.LogError(
-                    ApiUtilities.GetControllerErrorEventId(), 
-                    result.Message);
+
+                SudokuCollectiveLogger.LogError<UsersController>(
+                    _logger,
+                    LogsUtilities.GetControllerErrorEventId(), 
+                    result.Message,
+                    e);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -846,10 +887,12 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
-                
-                _logger.LogError(
-                    ApiUtilities.GetControllerErrorEventId(), 
-                    result.Message);
+
+                SudokuCollectiveLogger.LogError<UsersController>(
+                    _logger,
+                    LogsUtilities.GetControllerErrorEventId(), 
+                    result.Message,
+                    e);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -931,10 +974,12 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
-                
-                _logger.LogError(
-                    ApiUtilities.GetControllerErrorEventId(), 
-                    result.Message);
+
+                SudokuCollectiveLogger.LogError<UsersController>(
+                    _logger,
+                    LogsUtilities.GetControllerErrorEventId(), 
+                    result.Message,
+                    e);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -1005,10 +1050,12 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
-                
-                _logger.LogError(
-                    ApiUtilities.GetControllerErrorEventId(), 
-                    result.Message);
+
+                SudokuCollectiveLogger.LogError<UsersController>(
+                    _logger,
+                    LogsUtilities.GetControllerErrorEventId(), 
+                    result.Message,
+                    e);
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -1040,6 +1087,8 @@ namespace SudokuCollective.Api.Controllers.V1
         [HttpPut, Route("cancelEmailConfirmation")]
         public async Task<IActionResult> CancelEmailConfirmation([FromBody] Request request)
         {
+            _requestService.Update(request);
+
             try
             {
                 if (await _appsService.IsRequestValidOnThisToken(
@@ -1081,10 +1130,13 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
-                
-                _logger.LogError(
-                    ApiUtilities.GetControllerErrorEventId(), 
-                    result.Message);
+
+                SudokuCollectiveLogger.LogError<UsersController>(
+                    _logger,
+                    LogsUtilities.GetControllerErrorEventId(), 
+                    result.Message,
+                    e,
+                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -1116,6 +1168,8 @@ namespace SudokuCollective.Api.Controllers.V1
         [HttpPut, Route("cancelPasswordReset")]
         public async Task<IActionResult> CancelPasswordReset([FromBody] Request request)
         {
+            _requestService.Update(request);
+
             try
             {
                 if (await _appsService.IsRequestValidOnThisToken(
@@ -1157,10 +1211,13 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
-                
-                _logger.LogError(
-                    ApiUtilities.GetControllerErrorEventId(), 
-                    result.Message);
+
+                SudokuCollectiveLogger.LogError<UsersController>(
+                    _logger,
+                    LogsUtilities.GetControllerErrorEventId(), 
+                    result.Message,
+                    e,
+                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
@@ -1192,6 +1249,8 @@ namespace SudokuCollective.Api.Controllers.V1
         [HttpPut, Route("cancelAllEmailRequests")]
         public async Task<IActionResult> CancelAllEmailRequests([FromBody] Request request)
         {
+            _requestService.Update(request);
+
             try
             {
                 if (await _appsService.IsRequestValidOnThisToken(
@@ -1233,10 +1292,13 @@ namespace SudokuCollective.Api.Controllers.V1
                     IsSuccess = false,
                     Message = ControllerMessages.StatusCode500(e.Message)
                 };
-                
-                _logger.LogError(
-                    ApiUtilities.GetControllerErrorEventId(), 
-                    result.Message);
+
+                SudokuCollectiveLogger.LogError<UsersController>(
+                    _logger,
+                    LogsUtilities.GetControllerErrorEventId(), 
+                    result.Message,
+                    e,
+                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
 
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }

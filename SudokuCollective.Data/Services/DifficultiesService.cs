@@ -21,6 +21,7 @@ namespace SudokuCollective.Data.Services
     {
         #region Fields
         private readonly IDifficultiesRepository<Difficulty> _difficultiesRepository;
+        private readonly IRequestService _requestService;
         private readonly IDistributedCache _distributedCache;
         private readonly ICacheService _cacheService;
         private readonly ICacheKeys _cacheKeys;
@@ -31,6 +32,7 @@ namespace SudokuCollective.Data.Services
         #region Constructor
         public DifficultiesService(
             IDifficultiesRepository<Difficulty> difficultiesRepository,
+            IRequestService requestService,
             IDistributedCache distributedCache,
             ICacheService cacheService,
             ICacheKeys cacheKeys,
@@ -38,6 +40,7 @@ namespace SudokuCollective.Data.Services
             ILogger<DifficultiesService> logger)
         {
             _difficultiesRepository = difficultiesRepository;
+            _requestService = requestService;
             _distributedCache = distributedCache;
             _cacheService = cacheService;
             _cacheKeys = cacheKeys;
@@ -131,14 +134,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<DifficultiesService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
@@ -192,14 +192,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<DifficultiesService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
@@ -246,14 +243,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<DifficultiesService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
@@ -343,14 +337,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<DifficultiesService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
@@ -418,14 +409,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<DifficultiesService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
         #endregion

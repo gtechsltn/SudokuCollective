@@ -13,12 +13,12 @@ namespace SudokuCollective.Test.Services
             SuccessfulRequest = new Mock<IEmailService>();
             FailedRequest = new Mock<IEmailService>();
 
-            SuccessfulRequest.Setup(emailService =>
-                emailService.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            SuccessfulRequest.Setup(service =>
+                service.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(true);
 
-            FailedRequest.Setup(emailService =>
-                emailService.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            FailedRequest.Setup(service =>
+                service.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(false);
         }
     }

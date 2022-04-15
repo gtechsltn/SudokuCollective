@@ -25,6 +25,7 @@ using SudokuCollective.Data.Services;
 using SudokuCollective.Repos;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using SudokuCollective.Core.Interfaces.ServiceModels;
+using Microsoft.AspNetCore.Http;
 
 namespace SudokuCollective.Api
 {
@@ -200,6 +201,7 @@ namespace SudokuCollective.Api
             services.AddScoped<ISolutionsService, SolutionsService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<ICacheService, CacheService>();
+            services.AddScoped<IRequestService, RequestService>();
 
             services.AddHttpContextAccessor();
         }
@@ -251,6 +253,12 @@ namespace SudokuCollective.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.Use(async (context, next) => {
+                context.Request.EnableBuffering();
+
+                await next();
             });
 
             SeedData.EnsurePopulated(

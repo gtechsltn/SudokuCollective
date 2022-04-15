@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -6,8 +7,12 @@ using Microsoft.Extensions.Logging;
 using SudokuCollective.Core.Interfaces.Models;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
+using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
+using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models;
+using SudokuCollective.Logs;
+using SudokuCollective.Logs.Utilities;
 
 namespace SudokuCollective.Data.Utilities
 {
@@ -48,14 +53,29 @@ namespace SudokuCollective.Data.Utilities
             }
         }
 
-        public static EventId GetServiceLogEventId()
+        public static IResult ProcessException<T>(
+            IRequestService requestService, 
+            ILogger<T> logger, 
+            IResult result, 
+            Exception e,
+            string message = null)
         {
-            return new EventId(200, "Service Event");
-        }
+            if (string.IsNullOrEmpty(message))
+            {
+                message = string.Format(LoggerMessages.ErrorThrownMessage, result.Message);
+            }
 
-        public static EventId GetServiceErrorEventId()
-        {
-            return new EventId(201, "Service Event");
+            result.IsSuccess = false;
+            result.Message = e.Message;
+
+            SudokuCollectiveLogger.LogError<T>(
+                logger,
+                LogsUtilities.GetServiceErrorEventId(), 
+                message,
+                e,
+                (SudokuCollective.Logs.Models.Request)requestService.Get());
+
+            return result;
         }
     }
 }

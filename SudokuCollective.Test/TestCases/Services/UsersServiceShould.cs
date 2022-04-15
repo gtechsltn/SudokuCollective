@@ -36,6 +36,7 @@ namespace SudokuCollective.Test.TestCases.Services
         private MockedAppAdminsRepository mockedAppAdminsRepository;
         private MockedEmailConfirmationsRepository mockedEmailConfirmationsRepository;
         private MockedPasswordResetsRepository mockPasswordResetRepository;
+        private MockedRequestService mockedRequestService;
         private MockedCacheService mockedCacheService;
         private MemoryDistributedCache memoryCache;
         private Mock<ILogger<UsersService>> mockedLogger;
@@ -59,6 +60,7 @@ namespace SudokuCollective.Test.TestCases.Services
             mockedAppAdminsRepository = new MockedAppAdminsRepository(context);
             mockedEmailConfirmationsRepository = new MockedEmailConfirmationsRepository(context);
             mockPasswordResetRepository = new MockedPasswordResetsRepository(context);
+            mockedRequestService = new MockedRequestService();
             mockedCacheService = new MockedCacheService(context);
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
@@ -72,6 +74,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedEmailConfirmationsRepository.SuccessfulRequest.Object,
                 mockPasswordResetRepository.SuccessfulRequest.Object,
                 mockedEmailService.SuccessfulRequest.Object,
+                mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
@@ -86,6 +89,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedEmailConfirmationsRepository.FailedRequest.Object,
                 mockPasswordResetRepository.FailedRequest.Object,
                 mockedEmailService.SuccessfulRequest.Object,
+                mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
                 mockedCacheService.FailedRequest.Object,
                 new CacheKeys(),
@@ -100,6 +104,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedEmailConfirmationsRepository.FailedRequest.Object,
                 mockPasswordResetRepository.SuccessfulRequest.Object,
                 mockedEmailService.SuccessfulRequest.Object,
+                mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
                 mockedCacheService.FailedRequest.Object,
                 new CacheKeys(),
@@ -114,6 +119,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedEmailConfirmationsRepository.SuccessfulRequest.Object,
                 mockPasswordResetRepository.SuccessfulRequest.Object,
                 mockedEmailService.SuccessfulRequest.Object,
+                mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
@@ -128,6 +134,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedEmailConfirmationsRepository.SuccessfulRequest.Object,
                 mockPasswordResetRepository.SuccessfulRequest.Object,
                 mockedEmailService.SuccessfulRequest.Object,
+                mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
@@ -142,6 +149,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedEmailConfirmationsRepository.SuccessfulRequest.Object,
                 mockPasswordResetRepository.SuccessfullyCreatedRequest.Object,
                 mockedEmailService.SuccessfulRequest.Object,
+                mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),

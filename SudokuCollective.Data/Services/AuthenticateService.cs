@@ -20,7 +20,8 @@ using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Results;
-using SudokuCollective.Data.Utilities;
+using SudokuCollective.Logs;
+using SudokuCollective.Logs.Utilities;
 
 namespace SudokuCollective.Data.Services
 {
@@ -31,6 +32,7 @@ namespace SudokuCollective.Data.Services
         private readonly IAppsRepository<App> _appsRepository;
         private readonly IAppAdminsRepository<AppAdmin> _appAdminsRepository;
         private readonly IUserManagementService _userManagementService;
+        private readonly IRequestService _requestService;
         private readonly ITokenManagement _tokenManagement;
         private readonly IDistributedCache _distributedCache;
         private readonly ICacheService _cacheService;
@@ -44,6 +46,7 @@ namespace SudokuCollective.Data.Services
             IAppsRepository<App> appsRepository,
             IAppAdminsRepository<AppAdmin> appsAdminRepository,
             IUserManagementService userManagementService,
+            IRequestService requestService,
             ITokenManagement tokenManagement,
             IDistributedCache distributedCache,
             ICacheService cacheService,
@@ -56,6 +59,7 @@ namespace SudokuCollective.Data.Services
             _appsRepository = appsRepository;
             _appAdminsRepository = appsAdminRepository;
             _userManagementService = userManagementService;
+            _requestService = requestService;
             _tokenManagement = tokenManagement;
             _distributedCache = distributedCache;
             _cacheService = cacheService;
@@ -245,9 +249,12 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, e.Message));
+                SudokuCollectiveLogger.LogError<AuthenticateService>(
+                    _logger,
+                    LogsUtilities.GetServiceErrorEventId(), 
+                    e.Message,
+                    e,
+                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
 
                 throw;
             }

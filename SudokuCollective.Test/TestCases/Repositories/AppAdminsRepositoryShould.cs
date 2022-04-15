@@ -8,6 +8,7 @@ using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Repos;
+using SudokuCollective.Test.Services;
 using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Repositories
@@ -15,6 +16,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
     public class AppAdminsRepositoryShould
     {
         private DatabaseContext context;
+        private MockedRequestService mockedRequestService;
         private Mock<ILogger<AppAdminsRepository<AppAdmin>>> mockedLogger;
         private IAppAdminsRepository<AppAdmin> sut;
         private AppAdmin newAppAdmin;
@@ -23,9 +25,13 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task Setup()
         {
             context = await TestDatabase.GetDatabaseContext();
+            mockedRequestService = new MockedRequestService();
             mockedLogger = new Mock<ILogger<AppAdminsRepository<AppAdmin>>>();
 
-            sut = new AppAdminsRepository<AppAdmin>(context, mockedLogger.Object);
+            sut = new AppAdminsRepository<AppAdmin>(
+                context,
+                mockedRequestService.SuccessfulRequest.Object,
+                mockedLogger.Object);
 
             newAppAdmin = new AppAdmin()
             {

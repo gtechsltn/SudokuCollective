@@ -23,6 +23,8 @@ using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Payloads;
 using SudokuCollective.Data.Models.Results;
 using SudokuCollective.Data.Utilities;
+using SudokuCollective.Logs;
+using SudokuCollective.Logs.Utilities;
 
 namespace SudokuCollective.Data.Services
 {
@@ -33,10 +35,12 @@ namespace SudokuCollective.Data.Services
         private readonly IUsersRepository<User> _usersRepository;
         private readonly IAppAdminsRepository<AppAdmin> _appAdminsRepository;
         private readonly IRolesRepository<Role> _rolesRepository;
+        private readonly IRequestService _requestService;
         private readonly IDistributedCache _distributedCache;
         private readonly ICacheService _cacheService;
         private readonly ICacheKeys _cacheKeys;
         private readonly ICachingStrategy _cachingStrategy;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<AppsService> _logger;
         #endregion
 
@@ -46,20 +50,24 @@ namespace SudokuCollective.Data.Services
             IUsersRepository<User> userRepository,
             IAppAdminsRepository<AppAdmin> appAdminsRepository,
             IRolesRepository<Role> rolesRepository,
+            IRequestService requestService,
             IDistributedCache distributedCache,
             ICacheService cacheService,
             ICacheKeys cacheKeys,
             ICachingStrategy cachingStrategy,
+            IHttpContextAccessor httpContextAccessor, 
             ILogger<AppsService> logger)
         {
             _appsRepository = appRepository;
             _usersRepository = userRepository;
             _appAdminsRepository = appAdminsRepository;
             _rolesRepository = rolesRepository;
+            _requestService = requestService;
             _distributedCache = distributedCache;
             _cacheService = cacheService;
             _cacheKeys = cacheKeys;
             _cachingStrategy = cachingStrategy;
+            _httpContextAccessor = httpContextAccessor;
             _logger = logger;
         }
         #endregion
@@ -177,14 +185,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<AppsService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
@@ -240,14 +245,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<AppsService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
@@ -303,14 +305,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<AppsService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
@@ -384,14 +383,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<AppsService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
@@ -464,14 +460,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<AppsService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
@@ -544,14 +537,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<AppsService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
@@ -654,14 +644,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<AppsService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
@@ -797,14 +784,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<AppsService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
@@ -920,14 +904,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<AppsService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
@@ -1041,14 +1022,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<AppsService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
@@ -1166,14 +1144,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<AppsService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
@@ -1372,14 +1347,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<AppsService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
@@ -1537,14 +1509,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<AppsService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
@@ -1592,14 +1561,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<AppsService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
@@ -1647,14 +1613,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<AppsService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
@@ -1708,9 +1671,12 @@ namespace SudokuCollective.Data.Services
                 result.IsSuccess = false;
                 result.Message = e.Message;
 
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
+                SudokuCollectiveLogger.LogError<AppsService>(
+                    _logger,
+                    LogsUtilities.GetServiceErrorEventId(), 
+                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message),
+                    e,
+                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
 
                 return result;
             }
@@ -1775,27 +1741,34 @@ namespace SudokuCollective.Data.Services
                         }
                         else
                         {
-                            _logger.LogInformation(
-                                DataUtilities.GetServiceLogEventId(),
-                                "User is not the owner of this app");
+                            SudokuCollectiveLogger.LogWarning<AppsService>(
+                                _logger,
+                                LogsUtilities.GetServiceLogEventId(),
+                                AppsMessages.UserIsNotTheAppOwnerMessage,
+                                (SudokuCollective.Logs.Models.Request)_requestService.Get());
 
                             return false;
                         }
                     }
                     else
                     {
-                        _logger.LogInformation(
-                            DataUtilities.GetServiceLogEventId(),
-                            UsersMessages.UserNotFoundMessage);
+                        SudokuCollectiveLogger.LogWarning<AppsService>(
+                            _logger,
+                            LogsUtilities.GetServiceLogEventId(),
+                            UsersMessages.UserNotFoundMessage,
+                            (SudokuCollective.Logs.Models.Request)_requestService.Get());
 
                         return false;
                     }
                 }
                 catch (Exception e)
                 {
-                    _logger.LogError(
-                        DataUtilities.GetServiceErrorEventId(),
-                        string.Format(LoggerMessages.ErrorThrownMessage, e.Message));
+                    SudokuCollectiveLogger.LogError<AppsService>(
+                        _logger,
+                        LogsUtilities.GetServiceErrorEventId(), 
+                        string.Format(LoggerMessages.ErrorThrownMessage, e.Message),
+                        e,
+                        (SudokuCollective.Logs.Models.Request)_requestService.Get());
 
                     throw;
                 }
@@ -1836,21 +1809,22 @@ namespace SudokuCollective.Data.Services
 
                 if (userId != tokenUserId || appId != tokenAppId)
                 {
-                    _logger.LogInformation(string.Format("The user or app is not valid for this JWT Token: \n\tApp License: {0}\n\tToken User ID: {1}\n\tRequest User ID: {2}\n\tToken App Id: {3}\n\tRequest App Id: {4}", 
-                        license, 
-                        tokenUserId, 
-                        userId, 
-                        tokenAppId, 
-                        appId));
+                    SudokuCollectiveLogger.LogWarning<AppsService>(
+                        _logger,
+                        LogsUtilities.GetServiceLogEventId(),
+                        LoggerMessages.TheUserOrAppIsNotValidForThisJWTToken,
+                        (SudokuCollective.Logs.Models.Request)_requestService.Get());
 
                     return false;
                 }
             }
             else
             {
-                _logger.LogInformation(
-                    DataUtilities.GetServiceLogEventId(),
-                    "HttpContextAccessor is null");
+                SudokuCollectiveLogger.LogWarning<AppsService>(
+                    _logger,
+                    LogsUtilities.GetServiceLogEventId(),
+                    LoggerMessages.HttpContextAccessorIsNull,
+                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
 
                 return false;
             }
@@ -1877,10 +1851,11 @@ namespace SudokuCollective.Data.Services
 
                 if (!appResponse.IsSuccess || !license.Equals(((App)appResponse.Object).License))
                 {
-                    _logger.LogInformation(
-                        DataUtilities.GetServiceLogEventId(),
-                        string.Format("The license is not valid on this request:\n\tlicense: {0}",
-                            license));
+                    SudokuCollectiveLogger.LogWarning<AppsService>(
+                        _logger,
+                        LogsUtilities.GetServiceLogEventId(),
+                        LoggerMessages.TheLicenseIsNotValidOnThisRequest,
+                        (SudokuCollective.Logs.Models.Request)_requestService.Get());
 
                     return false;
                 }
@@ -1914,9 +1889,11 @@ namespace SudokuCollective.Data.Services
                         }
                         else
                         {
-                            _logger.LogInformation(
-                                DataUtilities.GetServiceLogEventId(),
-                                string.Format("{0} is not active", ((App)appResponse.Object).Name));
+                            SudokuCollectiveLogger.LogWarning<AppsService>(
+                                _logger,
+                                LogsUtilities.GetServiceLogEventId(),
+                                string.Format(LoggerMessages.AppIsNotActive, ((App)appResponse.Object).Name),
+                                (SudokuCollective.Logs.Models.Request)_requestService.Get());
 
                             return false;
                         }
@@ -1927,31 +1904,36 @@ namespace SudokuCollective.Data.Services
                     }
                     else
                     {
-                        _logger.LogInformation(
-                            DataUtilities.GetServiceLogEventId(),
-                            string.Format("The requestor is not a super user or license is invalid:\n\tuser name: {0}\n\tlicense: {1}", 
-                                ((User)userResponse.Object).UserName, 
-                                license));
+                        SudokuCollectiveLogger.LogWarning<AppsService>(
+                            _logger,
+                            LogsUtilities.GetServiceLogEventId(),
+                            "The requestor is not a super user or license is invalid",
+                            (SudokuCollective.Logs.Models.Request)_requestService.Get());
 
                         return false;
                     }
                 }
                 else
                 {
-                    _logger.LogInformation(
-                        DataUtilities.GetServiceLogEventId(),
+                    SudokuCollectiveLogger.LogWarning<AppsService>(
+                        _logger,
+                        LogsUtilities.GetServiceLogEventId(),
                         string.Format("{0} or {1}", 
                             UsersMessages.UserNotFoundMessage, 
-                            AppsMessages.AppsNotFoundMessage));
+                            AppsMessages.AppsNotFoundMessage),
+                        (SudokuCollective.Logs.Models.Request)_requestService.Get());
                         
                     return false;
                 }
             }
             catch (Exception e)
             {
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, e.Message));
+                SudokuCollectiveLogger.LogError<AppsService>(
+                    _logger,
+                    LogsUtilities.GetServiceErrorEventId(), 
+                    string.Format(LoggerMessages.ErrorThrownMessage, e.Message),
+                    e,
+                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
 
                 throw;
             }

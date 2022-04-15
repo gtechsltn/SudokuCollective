@@ -31,5 +31,6 @@
         public const string DeactivationOfAdminPrivilegesFailedMessage = "Deactivation of Admin Privileges Failed";
         public const string AdminAppCannotBeDeletedMessage = "Admin App cannot be Deleted";
         public const string UserIsTheAppOwnerMessage = "User is the App Owner";
+        public const string UserIsNotTheAppOwnerMessage = "User is not the App Owner";
     }
 }

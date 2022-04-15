@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using Moq;
 using SudokuCollective.Core.Enums;
@@ -695,6 +697,27 @@ namespace SudokuCollective.Test.TestData
             result.Setup(
                 mock => mock.HttpContext.Request.Headers["Authorization"])
                 .Returns(string.Format("bearer {0}", new JwtSecurityTokenHandler().WriteToken(jwtToken)));
+
+            var request = GetRequest();
+
+            string json;
+
+            try 
+            {
+                json = JsonSerializer.Serialize<SudokuCollective.Logs.Models.Request>((SudokuCollective.Logs.Models.Request)request);
+            }
+            catch
+            {
+                throw;
+            }
+
+            byte[] byteArray = Encoding.UTF8.GetBytes(json);
+            //byte[] byteArray = Encoding.ASCII.GetBytes(contents);
+            MemoryStream stream = new MemoryStream(byteArray);
+
+            result.Setup(
+                mock => mock.HttpContext.Request.Body)
+                .Returns(stream);
 
             return result;
         }

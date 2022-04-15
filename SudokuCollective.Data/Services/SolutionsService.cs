@@ -18,6 +18,8 @@ using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Payloads;
 using SudokuCollective.Data.Utilities;
+using SudokuCollective.Logs;
+using SudokuCollective.Logs.Utilities;
 
 namespace SudokuCollective.Data.Services
 {
@@ -25,6 +27,7 @@ namespace SudokuCollective.Data.Services
     {
         #region Fields
         private readonly ISolutionsRepository<SudokuSolution> _solutionsRepository;
+        private readonly IRequestService _requestService;
         private readonly IDistributedCache _distributedCache;
         private readonly ICacheService _cacheService;
         private readonly ICacheKeys _cacheKeys;
@@ -34,12 +37,14 @@ namespace SudokuCollective.Data.Services
         #region Constructor
         public SolutionsService(
             ISolutionsRepository<SudokuSolution> solutionsRepository,
+            IRequestService requestService,
             IDistributedCache distributedCache,
             ICacheService cacheService,
             ICacheKeys cacheKeys,
             ILogger<SolutionsService> logger)
         {
             _solutionsRepository = solutionsRepository;
+            _requestService = requestService;
             _distributedCache = distributedCache;
             _cacheService = cacheService;
             _cacheKeys = cacheKeys;
@@ -92,14 +97,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<SolutionsService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
@@ -175,14 +177,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<SolutionsService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
@@ -310,14 +309,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<SolutionsService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
@@ -429,14 +425,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<SolutionsService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
 
             var matrix = new SudokuMatrix();
@@ -509,14 +502,11 @@ namespace SudokuCollective.Data.Services
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-
-                _logger.LogError(
-                    DataUtilities.GetServiceErrorEventId(),
-                    string.Format(LoggerMessages.ErrorThrownMessage, result.Message));
-
-                return result;
+                return DataUtilities.ProcessException<SolutionsService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
         #endregion

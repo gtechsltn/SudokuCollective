@@ -17,6 +17,7 @@ using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Payloads;
 using SudokuCollective.Test.Cache;
 using SudokuCollective.Cache;
+using SudokuCollective.Test.Services;
 
 namespace SudokuCollective.Test.TestCases.Services
 {
@@ -24,6 +25,7 @@ namespace SudokuCollective.Test.TestCases.Services
     {
         private DatabaseContext context;
         private MockedDifficultiesRepository mockedDifficultiesRepository;
+        private MockedRequestService mockedRequestService;
         private MockedCacheService mockedCacheService;
         private MemoryDistributedCache memoryCache;
         private Mock<ILogger<DifficultiesService>> mockedLogger;
@@ -37,6 +39,7 @@ namespace SudokuCollective.Test.TestCases.Services
         {
             context = await TestDatabase.GetDatabaseContext();
             mockedDifficultiesRepository = new MockedDifficultiesRepository(context);
+            mockedRequestService = new MockedRequestService();
             mockedCacheService = new MockedCacheService(context);
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
@@ -44,6 +47,7 @@ namespace SudokuCollective.Test.TestCases.Services
 
             sut = new DifficultiesService(
                 mockedDifficultiesRepository.SuccessfulRequest.Object,
+                mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
@@ -51,6 +55,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedLogger.Object);
             sutCreateDifficulty = new DifficultiesService(
                 mockedDifficultiesRepository.CreateDifficultyRequest.Object,
+                mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
                 mockedCacheService.CreateDifficultyRoleSuccessfulRequest.Object,
                 new CacheKeys(),
