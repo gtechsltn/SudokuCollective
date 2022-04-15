@@ -20,7 +20,7 @@ namespace SudokuCollective.Logs
                 request = new Request();
             }
 
-            logger.LogInformation((EventId)eventId, "Message: {0}, License: {1}, AppId: {2}, RequestorId: {3}", message, request.License, request.AppId, request.RequestorId);
+            logger.LogInformation(eventId, "Message: {0}, License: {1}, AppId: {2}, RequestorId: {3}", message, request.License, request.AppId, request.RequestorId);
         }
         public static void LogWarning<T>(
             ILogger<T> logger,
@@ -58,7 +58,7 @@ namespace SudokuCollective.Logs
                 request = new Request();
             }
 
-            logger.LogError((EventId)eventId, exception, "Message: {0}, License: {1}, AppId: {2}, RequestorId: {3}", message, request.License, request.AppId, request.RequestorId);
+            logger.LogError(eventId, exception, "Message: {0}, License: {1}, AppId: {2}, RequestorId: {3}", message, request.License, request.AppId, request.RequestorId);
         }
     }
 }
