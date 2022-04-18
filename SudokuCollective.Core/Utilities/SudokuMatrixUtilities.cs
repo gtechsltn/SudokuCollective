@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Models;
 
+[assembly:InternalsVisibleTo("SudokuCollective.Test")]
 namespace SudokuCollective.Core.Utilities
 {
     internal static class SudokuMatrixUtilities
