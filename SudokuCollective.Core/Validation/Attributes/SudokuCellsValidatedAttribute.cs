@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Core.Utilities;
 
+[assembly:InternalsVisibleTo("SudokuCollective.Data")]
+[assembly:InternalsVisibleTo("SudokuCollective.Test")]
 namespace SudokuCollective.Core.Validation.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter | AttributeTargets.Property)]
-    public sealed class SudokuCellsValidatedAttribute : ValidationAttribute
+    sealed internal class SudokuCellsValidatedAttribute : ValidationAttribute
     {
-        public SudokuCellsValidatedAttribute() : base() { }
+        internal SudokuCellsValidatedAttribute() : base() { }
 
         public override bool IsValid(object value)
         {

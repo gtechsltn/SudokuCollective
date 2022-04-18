@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
+[assembly:InternalsVisibleTo("SudokuCollective.Test")]
 namespace SudokuCollective.Core.Extensions
 {
-    public static class CoreExtensions
+    internal static class CoreExtensions
     {
-        public static void Shuffle<T>(List<T> list, Random generateRandomNumber)
+        internal static void Shuffle<T>(List<T> list, Random generateRandomNumber)
         {
             var _randomShuffle = generateRandomNumber;
 
@@ -22,7 +24,7 @@ namespace SudokuCollective.Core.Extensions
             }
         }
 
-        public static bool IsThisListEqual(this IEnumerable<int> aList, IEnumerable<int> bList)
+        internal static bool IsThisListEqual(this IEnumerable<int> aList, IEnumerable<int> bList)
         {
             bool result = true;
 
@@ -43,7 +45,7 @@ namespace SudokuCollective.Core.Extensions
 
             return result;
         }
-        public static IEnumerable<T> RemoveSubList<T>(this IEnumerable<T> list, IEnumerable<T> subList)
+        internal static IEnumerable<T> RemoveSubList<T>(this IEnumerable<T> list, IEnumerable<T> subList)
         {
             var result = new List<T>();
 

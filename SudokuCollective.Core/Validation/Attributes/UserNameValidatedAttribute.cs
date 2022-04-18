@@ -1,12 +1,15 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 
+[assembly:InternalsVisibleTo("SudokuCollective.Data")]
+[assembly:InternalsVisibleTo("SudokuCollective.Test")]
 namespace SudokuCollective.Core.Validation.Attributes
 {
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Property)]
-    public sealed class UserNameValidatedAttribute : RegularExpressionAttribute
+    sealed internal class UserNameValidatedAttribute : RegularExpressionAttribute
     {
-        public UserNameValidatedAttribute() : base(RegexValidators.UserNameRegexPattern)
+        internal UserNameValidatedAttribute() : base(RegexValidators.UserNameRegexPattern)
         {
         }
     }

@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 
+[assembly:InternalsVisibleTo("SudokuCollective.Test")]
 namespace SudokuCollective.Core.Utilities
 {
-    public static class ModelValidator
+    internal static class ModelValidator
     {
-        public static bool Validate<T>(T obj, out ICollection<ValidationResult> results)
+        internal static bool Validate<T>(T obj, out ICollection<ValidationResult> results)
         {
             results = new List<ValidationResult>();
 
