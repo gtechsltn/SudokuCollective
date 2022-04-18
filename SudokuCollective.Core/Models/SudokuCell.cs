@@ -309,23 +309,21 @@ namespace SudokuCollective.Core.Models
         #region Methods
         public void UpdateAvailableValues(int i)
         {
-            if (AvailableValues.Any(a => a.Value == i && a.Available))
-            {
-                var availableValue = AvailableValues
-                    .Where(a => a.Value == i)
-                    .FirstOrDefault();
+            var availableValue = AvailableValues
+                .FirstOrDefault(a => a.Value == i && a.Available);
 
+            if (availableValue != null)
+            {
                 availableValue.Available = false;
 
-                if (AvailableValues.Where(a => a.Available).ToList().Count == 1)
+                var valuesStillAvailable = AvailableValues
+                    .Where(a => a.Available).ToList();
+
+                if (valuesStillAvailable.Count() == 1)
                 {
-                    var finalAvailableValue = AvailableValues
-                        .Where(a => a.Available)
-                        .FirstOrDefault();
+                    Value = valuesStillAvailable[0].Value;
 
-                    Value = finalAvailableValue.Value;
-
-                    finalAvailableValue.Available = false;
+                    valuesStillAvailable[0].Available = false;
                 }
             }
         }

@@ -947,7 +947,7 @@ namespace SudokuCollective.Core.Models
 
                 var tmp = new SudokuMatrix(this.ToIntList());
 
-                var seed = SudokuMatrixUtilities.IsolateIntersectingValues(tmp, tmp.ToIntList());
+                var seed = SudokuMatrixUtilities.SolveByElimination(tmp, tmp.ToIntList());
 
                 if (seed.Contains(0))
                 {

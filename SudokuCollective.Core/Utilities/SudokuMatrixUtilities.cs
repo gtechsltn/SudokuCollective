@@ -6,7 +6,20 @@ namespace SudokuCollective.Core.Utilities
 {
     internal static class SudokuMatrixUtilities
     {
-        internal static List<int> IsolateIntersectingValues(ISudokuMatrix sudokuMatrix, List<int> paramList)
+        /* The most straight forward method for solving a sudoku puzzle is to review the associated
+         * row, column and region for any given sudoku cell and if all three lists contain only one
+         * similar value then that value has to be the value for the associated sudoku cell.  This 
+         * method automates that process.  The algorithm is as follows:
+         * 
+         *  1. Obtain the missing values for each row, column and region.
+         *  2. Cycle through each sudoku cell by its index value, the the sudoku cell value is unknown
+         *     we then review the associated row, columnm and region to see if there is only one value
+         *     shared between all three lists.  If so that value is applied to the index sudoku cell.
+         *
+         * That's pretty much it.  This algorithm works for simple sudoku puzzles but if after this 
+         * process the remaining sudoku cells have more than one possible value you then need a process
+         * to try and eliminate these remaining values. The Sudoku Matrix solve method will do this. */
+        internal static List<int> SolveByElimination(ISudokuMatrix sudokuMatrix, List<int> paramList)
         {
             var MissingFirstColumn = MissingSudokuValues(sudokuMatrix.FirstColumnValues);
             var MissingSecondColumn = MissingSudokuValues(sudokuMatrix.SecondColumnValues);
@@ -458,6 +471,7 @@ namespace SudokuCollective.Core.Utilities
             return result.ToIntList();
         }
 
+        // This method ascertains which values a given row, column, or region is missing.
         private static List<int> MissingSudokuValues(List<int> values)
         {
             var result = new List<int>();
@@ -481,6 +495,9 @@ namespace SudokuCollective.Core.Utilities
             return result;
         }
 
+        /* Each sudoku cell has an associated row, column and region, this method submits the
+         * relevant lists for processing and if one value is obtained it is removed from the 
+         * relevant lists. */
         private static void ReviewSudokuCharacterForPossibleUpdate(ref List<int> _firstList,
             ref List<int> _secondList, ref List<int> _thirdList, ISudokuCell cell)
         {
@@ -512,6 +529,8 @@ namespace SudokuCollective.Core.Utilities
             }
         }
 
+        // This method actually evalutes the row, column and region and if one value is shared it is 
+        // returned.
         private static int FindSudokuValue(ref List<int> firstList, ref List<int> secondList,
             ref List<int> thirdList, int result)
         {
