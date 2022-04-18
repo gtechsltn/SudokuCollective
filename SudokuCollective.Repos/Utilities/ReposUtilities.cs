@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using SudokuCollective.Core.Interfaces.ServiceModels;
 using SudokuCollective.Core.Interfaces.Services;
@@ -5,12 +6,12 @@ using SudokuCollective.Data.Messages;
 using SudokuCollective.Logs;
 using SudokuCollective.Logs.Utilities;
 
+[assembly:InternalsVisibleTo("SudokuCollective.Test")]
 namespace SudokuCollective.Repos.Utilities
 {
-    public static class ReposUtilities
+    internal static class ReposUtilities
     {
-
-        public static IRepositoryResponse ProcessException<T>(
+        internal static IRepositoryResponse ProcessException<T>(
             IRequestService requestService, 
             ILogger<T> logger, 
             IRepositoryResponse result, 
