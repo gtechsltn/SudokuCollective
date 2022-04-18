@@ -1,18 +1,18 @@
 ﻿namespace SudokuCollective.Data.Messages
 {
-    public static class DifficultiesMessages
+    internal static class DifficultiesMessages
     {
-        public const string DifficultyFoundMessage = "Difficulty Found";
-        public const string DifficultyNotFoundMessage = "Difficulty not Found";
-        public const string DifficultiesFoundMessage = "Difficulties Found";
-        public const string DifficultiesNotFoundMessage = "Difficulties not Found";
-        public const string DifficultyCreatedMessage = "Difficulty Created";
-        public const string DifficultyNotCreatedMessage = "Difficulty not Created";
-        public const string DifficultyUpdatedMessage = "Difficulty Updated";
-        public const string DifficultyNotUpdatedMessage = "Difficulty not Updated";
-        public const string DifficultyDeletedMessage = "Difficulty Deleted";
-        public const string DifficultyNotDeletedMessage = "Difficulty not Deleted";
-        public const string DifficultyAlreadyExistsMessage = "Difficulty Already Exists";
-        public const string DifficultyDoesNotExistMessage = "Difficulty does not Exist";
+        internal const string DifficultyFoundMessage = "Difficulty Found";
+        internal const string DifficultyNotFoundMessage = "Difficulty not Found";
+        internal const string DifficultiesFoundMessage = "Difficulties Found";
+        internal const string DifficultiesNotFoundMessage = "Difficulties not Found";
+        internal const string DifficultyCreatedMessage = "Difficulty Created";
+        internal const string DifficultyNotCreatedMessage = "Difficulty not Created";
+        internal const string DifficultyUpdatedMessage = "Difficulty Updated";
+        internal const string DifficultyNotUpdatedMessage = "Difficulty not Updated";
+        internal const string DifficultyDeletedMessage = "Difficulty Deleted";
+        internal const string DifficultyNotDeletedMessage = "Difficulty not Deleted";
+        internal const string DifficultyAlreadyExistsMessage = "Difficulty Already Exists";
+        internal const string DifficultyDoesNotExistMessage = "Difficulty does not Exist";
     }
 }

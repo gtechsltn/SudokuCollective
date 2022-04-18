@@ -1,9 +1,9 @@
 ﻿namespace SudokuCollective.Data.Messages
 {
-    public static class ServicesMesages
+    internal static class ServicesMesages
     {
-        public const string PageNotFoundMessage = "Page not Found";
-        public const string SortValueNotImplementedMessage = "Sorting not Implemented for this Sort Value";
-        public const string InvalidRequestMessage = "Invalid Request";
+        internal const string PageNotFoundMessage = "Page not Found";
+        internal const string SortValueNotImplementedMessage = "Sorting not Implemented for this Sort Value";
+        internal const string InvalidRequestMessage = "Invalid Request";
     }
 }

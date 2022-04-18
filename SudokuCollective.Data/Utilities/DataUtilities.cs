@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -14,11 +15,12 @@ using SudokuCollective.Data.Models;
 using SudokuCollective.Logs;
 using SudokuCollective.Logs.Utilities;
 
+[assembly: InternalsVisibleTo("SudokuCollective.Test")]
 namespace SudokuCollective.Data.Utilities
 {
-    public static class DataUtilities
+    internal static class DataUtilities
     {
-        public async static Task AttachSudokuCells(
+        internal async static Task AttachSudokuCells(
             this ISudokuMatrix matrix,
             DatabaseContext context)
         {
@@ -30,14 +32,14 @@ namespace SudokuCollective.Data.Utilities
             ((SudokuMatrix)matrix).SudokuCells = cells.ConvertAll(cell => cell);
         }
 
-        public async static Task<bool> IsGameInActiveApp(this IGame game, DatabaseContext context)
+        internal async static Task<bool> IsGameInActiveApp(this IGame game, DatabaseContext context)
         {
             var app = await context.Apps.FirstOrDefaultAsync(a => a.Id == game.AppId);
 
             return app.IsActive;
         }
 
-        public static bool IsPageValid(IPaginator paginator, List<IDomainEntity> entities)
+        internal static bool IsPageValid(IPaginator paginator, List<IDomainEntity> entities)
         {
             if (paginator.ItemsPerPage * paginator.Page > entities.Count && paginator.Page == 1)
             {
@@ -53,7 +55,7 @@ namespace SudokuCollective.Data.Utilities
             }
         }
 
-        public static IResult ProcessException<T>(
+        internal static IResult ProcessException<T>(
             IRequestService requestService, 
             ILogger<T> logger, 
             IResult result, 

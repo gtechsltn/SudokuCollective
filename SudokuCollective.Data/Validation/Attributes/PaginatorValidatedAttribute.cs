@@ -1,17 +1,19 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Data.Models.Params;
 
+[assembly: InternalsVisibleTo("SudokuCollective.Test")]
 namespace SudokuCollective.Data.Validation.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter | AttributeTargets.Property)]
-    public sealed class PaginatorValidatedAttribute : ValidationAttribute
+    internal sealed class PaginatorValidatedAttribute : ValidationAttribute
     {
         private const string defaultError = "{0} Sortby field is invalid.";
 
-        public PaginatorValidatedAttribute() : base(defaultError) { }
+        internal PaginatorValidatedAttribute() : base(defaultError) { }
 
         public override bool IsValid(object value)
         {

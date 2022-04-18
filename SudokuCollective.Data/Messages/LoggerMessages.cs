@@ -1,11 +1,14 @@
+using System.Runtime.CompilerServices;
+
+[assembly:InternalsVisibleTo("SudokuCollective.Repos")]
 namespace SudokuCollective.Data.Messages
 {
-    public static class LoggerMessages
+    internal static class LoggerMessages
     {
-        public const string ErrorThrownMessage = "Following error thrown: {0}";
-        public const string TheLicenseIsNotValidOnThisRequest = "The License is not valid on this Request";
-        public const string TheUserOrAppIsNotValidForThisJWTToken = "The user or app is not valid for this JWT Token";
-        public const string HttpContextAccessorIsNull = "HttpContextAccessor is null";
-        public const string AppIsNotActive = "{0} is not Active";
+        internal const string ErrorThrownMessage = "Following error thrown: {0}";
+        internal const string TheLicenseIsNotValidOnThisRequest = "The License is not valid on this Request";
+        internal const string TheUserOrAppIsNotValidForThisJWTToken = "The user or app is not valid for this JWT Token";
+        internal const string HttpContextAccessorIsNull = "HttpContextAccessor is null";
+        internal const string AppIsNotActive = "{0} is not Active";
     }
 }

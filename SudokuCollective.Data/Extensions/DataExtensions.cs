@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models.Payloads;
 
+[assembly:InternalsVisibleTo("SudokuCollective.Test")]
 namespace SudokuCollective.Data.Extensions
 {
-    public static class DataExtensions
+    internal static class DataExtensions
     {
-        public static bool ConvertToPayloadSuccessful(this JsonElement element, Type type, out IPayload result)
+        internal static bool ConvertToPayloadSuccessful(this JsonElement element, Type type, out IPayload result)
         {
             result = null;
 
