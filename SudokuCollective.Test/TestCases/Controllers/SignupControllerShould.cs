@@ -67,8 +67,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Request = new ResendEmailConfirmationRequest();
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyRegisterUsers()
         {
             // Arrange
@@ -86,8 +85,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(user, Is.InstanceOf<AuthenticatedUser>());
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldSuccessfullyRegisterUsersFail()
         {
             // Arrange
@@ -103,8 +101,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyResendEmailConfirmation()
         {
             // Arrange
@@ -122,8 +119,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(emailResent, Is.True);
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldSuccessfullyResendEmailConfirmationFail()
         {
             // Arrange

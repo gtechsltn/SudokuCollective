@@ -15,8 +15,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             sut = new HelloWorldController();
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void ReturnAMessage()
         {
             // Arrange
@@ -34,8 +33,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void EchoParams()
         {
             // Arrange

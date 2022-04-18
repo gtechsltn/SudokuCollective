@@ -38,8 +38,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             emailConfirmationToken = Guid.NewGuid().ToString();
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyConfirmUserEmails()
         {
             // Arrange
@@ -51,8 +50,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(result.Result, Is.InstanceOf<ActionResult>());
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void ProcessRequestIfConfirmEmailTokenAlreadyProcessed()
         {
             // Arrange

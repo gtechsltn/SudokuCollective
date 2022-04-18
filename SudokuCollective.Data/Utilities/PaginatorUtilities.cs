@@ -5,7 +5,6 @@ using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Params;
-using SudokuCollective.Core.Models;
 
 namespace SudokuCollective.Data.Utilities
 {

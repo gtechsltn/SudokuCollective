@@ -107,8 +107,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
                 mockedLogger.Object);
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyGetUser()
         {
             // Arrange
@@ -127,8 +126,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(user, Is.InstanceOf<User>());
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldGetUserFail()
         {
             // Arrange
@@ -145,8 +143,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyGetUsers()
         {
             // Arrange
@@ -163,8 +160,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldGetUsersFail()
         {
             // Arrange
@@ -179,8 +175,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyUpdateUsers()
         {
             // Arrange
@@ -200,8 +195,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldUpdateUserFail()
         {
             // Arrange
@@ -219,8 +213,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyUpdateUsersPasswords()
         {
             // Arrange and Act
@@ -234,8 +227,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldUpdateUsersPasswordsFail()
         {
             // Arrange and Act
@@ -249,8 +241,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyDeleteUsers()
         {
             // Arrange
@@ -267,8 +258,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldDeleteUsersFail()
         {
             // Arrange
@@ -285,8 +275,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyAddUsersRole()
         {
             // Arrange
@@ -304,8 +293,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldAddUsersRoleFail()
         {
             // Arrange
@@ -323,8 +311,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyRemoveUsersRoles()
         {
             // Arrange
@@ -342,8 +329,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldRemoveUsersRolesFail()
         {
             // Arrange
@@ -361,8 +347,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyActivateUsers()
         {
             // Arrange
@@ -379,8 +364,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldActivateUsersFail()
         {
             // Arrange
@@ -397,8 +381,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyDeactivateUsers()
         {
             // Arrange
@@ -415,8 +398,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldDeactivateUsersFail()
         {
             // Arrange
@@ -433,8 +415,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyResendPasswordResetEmails()
         {
             // Arrange
@@ -450,8 +431,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldSuccessfullyResendEmailConfirmationFail()
         {
             // Arrange
@@ -467,8 +447,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyCancelEmailConfirmation()
         {
             // Arrange
@@ -484,8 +463,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldSuccessfullyCancelEmailConfirmationFail()
         {
             // Arrange
@@ -501,8 +479,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyCancelPasswordRequest()
         {
             // Arrange
@@ -518,8 +495,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldSuccessfullyCancelPasswordRequestFail()
         {
             // Arrange
@@ -535,8 +511,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyCancelAllEmailRequests()
         {
             // Arrange
@@ -552,8 +527,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldSuccessfullyCancelAllEmailRequestsFail()
         {
             // Arrange
@@ -569,8 +543,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyConfirmUserEmail()
         {
             // Arrange
@@ -587,8 +560,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorMessageShouldConfirmUserEmailFails()
         {
             // Arrange
@@ -605,8 +577,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyResetPassword()
         {
             // Arrange
@@ -628,8 +599,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorMessageShouldResetPasswordFails()
         {
             // Arrange

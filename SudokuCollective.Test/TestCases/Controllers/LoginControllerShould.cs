@@ -80,8 +80,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
                 mockedLogger.Object);
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void AuthenticateUsers()
         {
             // Arrange
@@ -99,8 +98,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void ReturnBadRequestMessageWhenUserNameIsInvalid()
         {
             // Arrange
@@ -116,8 +114,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void ReturnBadRequestMessageWhenPasswordIsInvalid()
         {
             // Arrange
@@ -133,8 +130,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void ReturnBadRequestMessageWhenUsersArentAuthenticated()
         {
             // Arrange
@@ -150,8 +146,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void ReturnUserName()
         {
             // Arrange
@@ -172,8 +167,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(username, Is.EqualTo(userName));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void ReturnErrorMessageIfUserNameNotFound()
         {
             // Arrange

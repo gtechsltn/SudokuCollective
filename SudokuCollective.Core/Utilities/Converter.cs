@@ -16,7 +16,6 @@ namespace SudokuCollective.Core.Utilities
             }
 
             return JsonSerializer.Deserialize<T>(ref reader, options);
-
         }
 
         public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
