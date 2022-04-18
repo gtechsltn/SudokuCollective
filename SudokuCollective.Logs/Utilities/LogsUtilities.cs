@@ -1,54 +1,60 @@
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 
+[assembly:InternalsVisibleTo("SudokuCollective.Api")]
+[assembly:InternalsVisibleTo("SudokuCollective.Data")]
+[assembly:InternalsVisibleTo("SudokuCollective.Repos")]
+[assembly:InternalsVisibleTo("SudokuCollective.Test")]
 namespace SudokuCollective.Logs.Utilities
 {
-    public static class LogsUtilities
+    internal static class LogsUtilities
     {
-        public static EventId GetControllerLogEventId()
+        internal static EventId GetControllerLogEventId()
         {
             return new EventId(100, "Controller Event");
         }
 
-        public static EventId GetControllerWarningEventId()
+        internal static EventId GetControllerWarningEventId()
         {
             return new EventId(101, "Controller Event Warning");
         }
 
-        public static EventId GetControllerErrorEventId()
+        internal static EventId GetControllerErrorEventId()
         {
             return new EventId(102, "Controller Event Error");
         }
         
-        public static EventId GetServiceLogEventId()
+        internal static EventId GetServiceLogEventId()
         {
             return new EventId(200, "Service Event");
         }
 
-        public static EventId GetServiceWarningEventId()
+        internal static EventId GetServiceWarningEventId()
         {
             return new EventId(201, "Service Event Warning");
         }
 
-        public static EventId GetServiceErrorEventId()
+        internal static EventId GetServiceErrorEventId()
         {
             return new EventId(202, "Service Event Error");
         }
 
-        public static EventId GetSMTPEventId()
+        internal static EventId GetSMTPEventId()
         {
             return new EventId(203, "SMTP Event");
         }
-        public static EventId GetRepoLogEventId()
+
+        internal static EventId GetRepoLogEventId()
         {
             return new EventId(300, "Repository Event");
         }
 
-        public static EventId GetRepoWarningEventId()
+        internal static EventId GetRepoWarningEventId()
         {
             return new EventId(301, "Repository Event Warning");
         }
 
-        public static EventId GetRepoErrorEventId()
+        internal static EventId GetRepoErrorEventId()
         {
             return new EventId(302, "Repository Event Error");
         }

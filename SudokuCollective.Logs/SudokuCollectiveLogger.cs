@@ -1,11 +1,16 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Logging;
 using SudokuCollective.Logs.Models;
 
+[assembly:InternalsVisibleTo("SudokuCollective.Api")]
+[assembly:InternalsVisibleTo("SudokuCollective.Data")]
+[assembly:InternalsVisibleTo("SudokuCollective.Repos")]
+[assembly:InternalsVisibleTo("SudokuCollective.Test")]
 namespace SudokuCollective.Logs
 {
-    public static class SudokuCollectiveLogger
+    internal static class SudokuCollectiveLogger
     {
-        public static void LogInformation<T>(
+        internal static void LogInformation<T>(
             ILogger<T> logger,
             EventId eventId,
             string message,
@@ -22,7 +27,8 @@ namespace SudokuCollective.Logs
 
             logger.LogInformation(eventId, "Message: {0}, License: {1}, AppId: {2}, RequestorId: {3}", message, request.License, request.AppId, request.RequestorId);
         }
-        public static void LogWarning<T>(
+
+        internal static void LogWarning<T>(
             ILogger<T> logger,
             EventId eventId,
             string message,
@@ -40,7 +46,7 @@ namespace SudokuCollective.Logs
             logger.LogWarning(eventId, "Message: {0}, License: {1}, AppId: {2}, RequestorId: {3}", message, request.License, request.AppId, request.RequestorId);
         }
 
-        public static void LogError<T>(
+        internal static void LogError<T>(
             ILogger<T> logger, 
             EventId eventId, 
             string message,
