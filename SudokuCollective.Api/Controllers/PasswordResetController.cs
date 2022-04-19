@@ -132,7 +132,8 @@ namespace SudokuCollective.Api.Controllers
                 var updatePasswordRequest = new UpdatePasswordRequest
                 {
                     UserId = ((User)userResut.Payload[0]).Id,
-                    NewPassword = passwordReset.NewPassword
+                    NewPassword = passwordReset.NewPassword,
+                    License = app.License
                 };
 
                 var updatePasswordResult = await _usersService.UpdatePassword(updatePasswordRequest);
