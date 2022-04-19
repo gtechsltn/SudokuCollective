@@ -168,9 +168,9 @@ namespace SudokuCollective.Test.TestCases.Services
 
             // Act
             var result = await sut.Get(
-                userId, 
-                request, 
-                license);
+                userId,
+                license,
+                request);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -188,8 +188,8 @@ namespace SudokuCollective.Test.TestCases.Services
             // Act
             var result = await sutFailure.Get(
                 userId,
-                request,
-                license);
+                license,
+                request);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);

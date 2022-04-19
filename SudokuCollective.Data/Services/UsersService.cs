@@ -352,8 +352,8 @@ namespace SudokuCollective.Data.Services
 
         public async Task<IResult> Get(
             int id,
-            IRequest request,
-            string license)
+            string license,
+            IRequest request = null)
         {
             if (string.IsNullOrEmpty(license)) throw new ArgumentNullException(nameof(license));
 
@@ -449,19 +449,27 @@ namespace SudokuCollective.Data.Services
                         }
                     }
 
-                    var getRequestorResponse = await _cacheService.GetWithCacheAsync<User>(
-                        _usersRepository,
-                        _distributedCache,
-                        string.Format(_cacheKeys.GetUserCacheKey, request.RequestorId, license),
-                        _cachingStrategy.Medium,
-                        request.RequestorId);
+                    if (request != null)
+                    {
+                        var getRequestorResponse = await _cacheService.GetWithCacheAsync<User>(
+                            _usersRepository,
+                            _distributedCache,
+                            string.Format(_cacheKeys.GetUserCacheKey, request.RequestorId, license),
+                            _cachingStrategy.Medium,
+                            request.RequestorId);
 
-                    var requestorResponse = (RepositoryResponse)getRequestorResponse.Item1;
+                        var requestorResponse = (RepositoryResponse)getRequestorResponse.Item1;
 
-                    if (!((User)requestorResponse.Object).IsSuperUser && request.RequestorId != id)
+                        if (!((User)requestorResponse.Object).IsSuperUser && request.RequestorId != id)
+                        {
+                            ((User)result.Payload[0]).NullifyEmail();
+                        }
+                    }
+                    else
                     {
                         ((User)result.Payload[0]).NullifyEmail();
                     }
+
 
                     return result;
                 }

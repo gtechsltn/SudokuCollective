@@ -756,5 +756,21 @@ namespace SudokuCollective.Test.TestData
 
             return result;
         }
+
+        public static SudokuCollective.Api.Models.PasswordReset GetPasswordReset()
+        {
+            return new SudokuCollective.Api.Models.PasswordReset
+            {
+                IsSuccess = true,
+                UserId = 1,
+                UserName = "UserName",
+                NewPassword = "N3wP@ssw0rd!",
+                ConfirmNewPassword = "N3wP@ssw0rd!",
+                AppTitle = "AppTItle",
+                AppId = 1,
+                AppUrl = "https://localhost:5001",
+                ErrorMessage = "Message"
+            };
+        }
     }
 }

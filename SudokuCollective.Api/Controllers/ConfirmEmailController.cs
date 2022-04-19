@@ -20,7 +20,7 @@ namespace SudokuCollective.Api.Controllers
         private readonly IWebHostEnvironment _hostEnvironment;
 
         /// <summary>
-        /// A class constructor which serves as a DI hook.
+        /// A class constructor for the confirm email controller.
         /// </summary>
         public ConfirmEmailController(
             IUsersService usersServ,
@@ -59,7 +59,7 @@ namespace SudokuCollective.Api.Controllers
         ///
         /// The token will be provided by the api and will be sent to the user in the confirmation email, along with a 
         /// link to either this default email confirmation action or to your custom email confirmation action. Once your
-        /// custom email action is implemented it will submit the token and new password to the ResetPassword endpoint 
+        /// custom email action is implemented it will submit the token and new password to the ConfirmEmail endpoint 
         /// in the user controller.
         /// </remarks>
         [AllowAnonymous]

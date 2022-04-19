@@ -101,8 +101,8 @@ namespace SudokuCollective.Api.Controllers.V1
                 {
                     var result = await _usersService.Get(
                         id,
-                        request,
-                        request.License);
+                        request.License,
+                        request);
 
                     if (result.IsSuccess)
                     {

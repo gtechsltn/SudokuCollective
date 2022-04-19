@@ -13,8 +13,8 @@ namespace SudokuCollective.Core.Interfaces.Services
             string emailTemplatePath);
         Task<IResult> Get(
             int id,
-            IRequest request,
-            string license);
+            string license,
+            IRequest request = null);
         Task<IResult> GetUsers(
             int requestorId,
             string license,
