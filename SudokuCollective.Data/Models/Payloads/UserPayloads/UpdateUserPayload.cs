@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Validation.Attributes;
@@ -14,7 +15,7 @@ namespace SudokuCollective.Data.Models.Payloads
         private readonly UserNameValidatedAttribute _usernameValidatedAttribute = new();
         private readonly EmailValidatedAttribute _emailValidator = new();
 
-        [Required, UserNameValidated(ErrorMessage = AttributeMessages.InvalidUserName)]
+        [Required, UserNameValidated(ErrorMessage = AttributeMessages.InvalidUserName), JsonPropertyName("userName")]
         public string UserName 
         {
             get
@@ -38,13 +39,13 @@ namespace SudokuCollective.Data.Models.Payloads
                 }
             }
         }
-        [Required]
+        [Required, JsonPropertyName("firstName")]
         public string FirstName { get; set; }
-        [Required]
+        [Required, JsonPropertyName("lastName")]
         public string LastName { get; set; }
-        [Required]
+        [JsonPropertyName("nickName")]
         public string NickName { get; set; }
-        [Required, EmailValidated(ErrorMessage = AttributeMessages.InvalidEmail)]
+        [Required, EmailValidated(ErrorMessage = AttributeMessages.InvalidEmail), JsonPropertyName("email")]
         public string Email
         {
             get

@@ -23,7 +23,7 @@ namespace SudokuCollective.Test.TestCases.Requests
             Assert.That(sut.Name, Is.InstanceOf<string>());
             Assert.That(sut.OwnerId, Is.InstanceOf<int>());
             Assert.That(sut.LocalUrl, Is.InstanceOf<string>());
-            Assert.That(sut.DevUrl, Is.InstanceOf<string>());
+            Assert.That(sut.StagingUrl, Is.InstanceOf<string>());
             Assert.That(sut.QaUrl, Is.InstanceOf<string>());
             Assert.That(sut.ProdUrl, Is.InstanceOf<string>());
         }
@@ -46,7 +46,7 @@ namespace SudokuCollective.Test.TestCases.Requests
                 "name",
                 0,
                 "localUrl",
-                "devUrl",
+                "stagingUrl",
                 "qaUrl",
                 "prodUrl");
 

@@ -25,7 +25,7 @@ namespace SudokuCollective.Data.Extensions
                     {
                         Name = element.GetProperty("name").ToString(),
                         LocalUrl = element.GetProperty("localUrl").ToString(),
-                        DevUrl = element.GetProperty("devUrl").ToString(),
+                        StagingUrl = element.GetProperty("stagingUrl").ToString(),
                         QaUrl = element.GetProperty("qaUrl").ToString(),
                         ProdUrl = element.GetProperty("prodUrl").ToString(),
                         IsActive = Convert.ToBoolean(element.GetProperty("isActive").ToString()),

@@ -1,17 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 
 namespace SudokuCollective.Data.Models.Requests
 {
     public class LicenseRequest : ILicenseRequest
     {
-        [Required]
+        [Required, JsonPropertyName("name")]
         public string Name { get; set; }
-        [Required]
+        [Required, JsonPropertyName("ownerId")]
         public int OwnerId { get; set; }
+        [JsonPropertyName("localUrl")]
         public string LocalUrl { get; set; }
-        public string DevUrl { get; set; }
+        [JsonPropertyName("stagingUrl")]
+        public string StagingUrl { get; set; }
+        [JsonPropertyName("qaUrl")]
         public string QaUrl { get; set; }
+        [JsonPropertyName("prodUrl")]
         public string ProdUrl { get; set; }
 
         public LicenseRequest()
@@ -19,7 +24,7 @@ namespace SudokuCollective.Data.Models.Requests
             Name = string.Empty;
             OwnerId = 0;
             LocalUrl = string.Empty;
-            DevUrl = string.Empty;
+            StagingUrl = string.Empty;
             QaUrl = string.Empty;
             ProdUrl = string.Empty;
         }
@@ -28,14 +33,14 @@ namespace SudokuCollective.Data.Models.Requests
             string name,
             int ownerId,
             string localUrl,
-            string devUrl,
+            string stagingUrl,
             string qaUrl,
             string prodUrl)
         {
             Name = name;
             OwnerId = ownerId;
             LocalUrl = localUrl;
-            DevUrl = devUrl;
+            StagingUrl = stagingUrl;
             QaUrl = qaUrl;
             ProdUrl = prodUrl;
         }

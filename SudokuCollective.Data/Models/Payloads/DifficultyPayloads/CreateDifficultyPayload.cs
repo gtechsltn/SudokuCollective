@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 
@@ -7,11 +8,11 @@ namespace SudokuCollective.Data.Models.Payloads
 {
     public class CreateDifficultyPayload : ICreateDifficultyPayload
     {
-        [Required]
+        [Required, JsonPropertyName("name")]
         public string Name { get; set; }
-        [Required]
+        [Required, JsonPropertyName("displayName")]
         public string DisplayName { get; set; }
-        [Required]
+        [Required, JsonPropertyName("difficultyLevel")]
         public DifficultyLevel DifficultyLevel { get; set; }
 
         public CreateDifficultyPayload()

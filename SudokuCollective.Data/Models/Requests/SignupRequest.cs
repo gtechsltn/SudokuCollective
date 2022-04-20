@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Validation.Attributes;
@@ -18,7 +19,7 @@ namespace SudokuCollective.Data.Models.Requests
         private readonly EmailValidatedAttribute _emailValidator = new();
         private readonly PasswordValidatedAttribute _passwordValidator = new();
 
-        [Required, GuidValidated(ErrorMessage = AttributeMessages.InvalidLicense)]
+        [Required, GuidValidated(ErrorMessage = AttributeMessages.InvalidLicense), JsonPropertyName("license")]
         public string License
         {
             get
@@ -37,7 +38,7 @@ namespace SudokuCollective.Data.Models.Requests
                 }
             }
         }
-        [Required, UserNameValidated(ErrorMessage = AttributeMessages.InvalidUserName)]
+        [Required, UserNameValidated(ErrorMessage = AttributeMessages.InvalidUserName), JsonPropertyName("userName")]
         public string UserName
         {
             get
@@ -56,12 +57,13 @@ namespace SudokuCollective.Data.Models.Requests
                 }
             }
         }
-        [Required]
+        [Required, JsonPropertyName("firstName")]
         public string FirstName { get; set; }
-        [Required]
+        [Required, JsonPropertyName("lastName")]
         public string LastName { get; set; }
+        [JsonPropertyName("nickName")]
         public string NickName { get; set; }
-        [Required, EmailValidated(ErrorMessage = AttributeMessages.InvalidEmail)]
+        [Required, EmailValidated(ErrorMessage = AttributeMessages.InvalidEmail), JsonPropertyName("email")]
         public string Email
         {
             get
@@ -80,7 +82,7 @@ namespace SudokuCollective.Data.Models.Requests
                 }
             }
         }
-        [Required, PasswordValidated(ErrorMessage = AttributeMessages.InvalidPassword)]
+        [Required, PasswordValidated(ErrorMessage = AttributeMessages.InvalidPassword), JsonPropertyName("password")]
         public string Password
         {
             get

@@ -1,14 +1,20 @@
-﻿using SudokuCollective.Core.Enums;
+﻿using System.Text.Json.Serialization;
+using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 
 namespace SudokuCollective.Data.Models.Params
 {
     public class Paginator : IPaginator
     {
+        [JsonPropertyName("page")]
         public int Page { get; set; }
+        [JsonPropertyName("itemsPerPage")]
         public int ItemsPerPage { get; set; }
+        [JsonPropertyName("sortBy")]
         public SortValue SortBy { get; set; }
+        [JsonPropertyName("orderByDescending")]
         public bool OrderByDescending { get; set; }
+        [JsonPropertyName("includeCompletedGames")]
         public bool IncludeCompletedGames { get; set; }
 
         public Paginator()

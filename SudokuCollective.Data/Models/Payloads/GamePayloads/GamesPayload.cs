@@ -1,12 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 
 namespace SudokuCollective.Data.Models.Payloads
 {
     public class GamesPayload : IGamesPayload
     {
-        [Required]
+        [Required, JsonPropertyName("userId")]
         public int UserId { get; set; }
 
         public GamesPayload()

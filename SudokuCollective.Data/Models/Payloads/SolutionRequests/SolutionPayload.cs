@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 using SudokuCollective.Core.Messages;
 using SudokuCollective.Data.Validation.Attributes;
@@ -25,7 +26,7 @@ namespace SudokuCollective.Data.Models.Payloads
         #endregion
 
         #region Properties
-        [Required, RowValidated]
+        [Required, RowValidated, JsonPropertyName("firstRow")]
         public List<int> FirstRow
         {
             get
@@ -44,7 +45,7 @@ namespace SudokuCollective.Data.Models.Payloads
                 }
             }
         }
-        [Required, RowValidated]
+        [Required, RowValidated, JsonPropertyName("secondRow")]
         public List<int> SecondRow
         {
             get
@@ -63,7 +64,7 @@ namespace SudokuCollective.Data.Models.Payloads
                 }
             }
         }
-        [Required, RowValidated]
+        [Required, RowValidated, JsonPropertyName("thirdRow")]
         public List<int> ThirdRow
         {
             get
@@ -82,7 +83,7 @@ namespace SudokuCollective.Data.Models.Payloads
                 }
             }
         }
-        [Required, RowValidated]
+        [Required, RowValidated, JsonPropertyName("fourthRow")]
         public List<int> FourthRow
         {
             get
@@ -101,7 +102,7 @@ namespace SudokuCollective.Data.Models.Payloads
                 }
             }
         }
-        [Required, RowValidated]
+        [Required, RowValidated, JsonPropertyName("fifthRow")]
         public List<int> FifthRow
         {
             get
@@ -120,7 +121,7 @@ namespace SudokuCollective.Data.Models.Payloads
                 }
             }
         }
-        [Required, RowValidated]
+        [Required, RowValidated, JsonPropertyName("sixthRow")]
         public List<int> SixthRow
         {
             get
@@ -139,7 +140,7 @@ namespace SudokuCollective.Data.Models.Payloads
                 }
             }
         }
-        [Required, RowValidated]
+        [Required, RowValidated, JsonPropertyName("seventhRow")]
         public List<int> SeventhRow
         {
             get
@@ -158,7 +159,7 @@ namespace SudokuCollective.Data.Models.Payloads
                 }
             }
         }
-        [Required, RowValidated]
+        [Required, RowValidated, JsonPropertyName("eighthRow")]
         public List<int> EighthRow
         {
             get
@@ -177,7 +178,7 @@ namespace SudokuCollective.Data.Models.Payloads
                 }
             }
         }
-        [Required, RowValidated]
+        [Required, RowValidated, JsonPropertyName("ninthRow")]
         public List<int> NinthRow
         {
             get

@@ -186,7 +186,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Name = "Test App 3",
                 OwnerId = 1,
                 LocalUrl = "https://localhost:8081",
-                DevUrl = "https://testapp3-dev.com",
+                StagingUrl = "https://testapp3-dev.com",
                 ProdUrl = "https://testapp3.com"
             });
 
@@ -210,7 +210,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 Name = "Test App 3",
                 OwnerId = 4,
                 LocalUrl = "https://localhost:8081",
-                DevUrl = "https://testapp3-dev.com",
+                StagingUrl = "https://testapp3-dev.com",
                 ProdUrl = "https://testapp3.com"
             });
 
@@ -302,7 +302,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 {
                     Name = "Test App 1... UPDATED!",
                     LocalUrl = "https://localhost:4200",
-                    DevUrl = "https://testapp-dev.com",
+                    StagingUrl = "https://testapp-dev.com",
                     QaUrl = string.Empty,
                     ProdUrl = "https://testapp.com",
                     IsActive = true,

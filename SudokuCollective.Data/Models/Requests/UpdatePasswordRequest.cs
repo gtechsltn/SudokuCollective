@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Validation.Attributes;
@@ -15,7 +16,7 @@ namespace SudokuCollective.Data.Models.Requests
         private readonly PasswordValidatedAttribute _passwordValidator = new();
 
 
-        [Required, GuidValidated(ErrorMessage = AttributeMessages.InvalidLicense)]
+        [Required, GuidValidated(ErrorMessage = AttributeMessages.InvalidLicense), JsonPropertyName("license")]
         public string License
         {
             get
@@ -34,9 +35,9 @@ namespace SudokuCollective.Data.Models.Requests
                 }
             }
         }
-        [Required]
+        [Required, JsonPropertyName("userId")]
         public int UserId { get; set; }
-        [Required, PasswordValidated(ErrorMessage = AttributeMessages.InvalidPassword)]
+        [Required, PasswordValidated(ErrorMessage = AttributeMessages.InvalidPassword), JsonPropertyName("newPassword")]
         public string NewPassword 
         {
             get

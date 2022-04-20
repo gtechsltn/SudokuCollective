@@ -1,26 +1,26 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 
 namespace SudokuCollective.Data.Models.Params
 {
     public class Request : IRequest
     {
-        [Required]
+        [Required, JsonPropertyName("license")]
         public string License { get; set; }
-        [Required]
+        [Required, JsonPropertyName("requestorId")]
         public int RequestorId { get; set; }
-        [Required]
+        [Required, JsonPropertyName("appId")]
         public int AppId { get; set; }
-        [Required]
         IPaginator IRequest.Paginator
         {
             get => Paginator;
             set => Paginator = (Paginator)value;
         }
-        [Required]
+        [Required, JsonPropertyName("paginator")]
         public Paginator Paginator { get; set; }
-        [Required]
+        [Required, JsonPropertyName("payload")]
         public JsonElement Payload { get; set; }
 
         public Request()

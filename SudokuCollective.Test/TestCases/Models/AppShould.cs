@@ -208,11 +208,11 @@ namespace SudokuCollective.Test.TestCases.Models
             string name = "name";
             string license = TestObjects.GetLicense();
             int ownerId = 0;
-            string devUrl = "devUrl";
+            string stagingUrl = "stagingUrl";
             string liveUrl = "liveUrl";
 
             // Act
-            var app = new App(name, license, ownerId, devUrl, liveUrl);
+            var app = new App(name, license, ownerId, stagingUrl, liveUrl);
 
             // Assert
             Assert.That(app, Is.TypeOf<App>());
@@ -230,7 +230,7 @@ namespace SudokuCollective.Test.TestCases.Models
                 TestObjects.GetLicense(),
                 0,
                 "localUrl",
-                "devUrl",
+                "stagingUrl",
                 "qUrl",
                 "prodUrl",
                 true,

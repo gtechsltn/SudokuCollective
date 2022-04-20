@@ -134,7 +134,7 @@ namespace SudokuCollective.Data.Services
                         request.Name,
                         license.ToString(),
                         request.OwnerId,
-                        request.DevUrl,
+                        request.StagingUrl,
                         request.ProdUrl);
 
                     var addAppResponse = await _cacheService.AddWithCacheAsync(
@@ -584,7 +584,7 @@ namespace SudokuCollective.Data.Services
                         var app = (App)getAppResponse.Object;
 
                         app.Name = payload.Name;
-                        app.StagingUrl = payload.DevUrl;
+                        app.StagingUrl = payload.StagingUrl;
                         app.ProdUrl = payload.ProdUrl;
                         app.IsActive = payload.IsActive;
                         app.Environment = payload.Environment;

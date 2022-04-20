@@ -23,7 +23,7 @@ namespace SudokuCollective.Test.TestCases.Payloads
             // Assert
             Assert.That(sut.Name, Is.InstanceOf<string>());
             Assert.That(sut.LocalUrl, Is.InstanceOf<string>());
-            Assert.That(sut.DevUrl, Is.InstanceOf<string>());
+            Assert.That(sut.StagingUrl, Is.InstanceOf<string>());
             Assert.That(sut.QaUrl, Is.InstanceOf<string>());
             Assert.That(sut.ProdUrl, Is.InstanceOf<string>());
             Assert.That(sut.IsActive, Is.InstanceOf<bool>());
@@ -54,7 +54,7 @@ namespace SudokuCollective.Test.TestCases.Payloads
             sut = new AppPayload(
                 "name",
                 "localUrl",
-                "devUrl",
+                "stagingUrl",
                 "qaUrl",
                 "prodUrl",
                 true,
@@ -78,7 +78,7 @@ namespace SudokuCollective.Test.TestCases.Payloads
             sut = new AppPayload(
                 "name",
                 "localUrl",
-                "devUrl",
+                "stagingUrl",
                 "qaUrl",
                 "prodUrl",
                 true,

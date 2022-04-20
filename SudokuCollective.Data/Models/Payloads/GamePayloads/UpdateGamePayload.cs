@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Models;
@@ -15,9 +16,9 @@ namespace SudokuCollective.Data.Models.Payloads
         private List<SudokuCell> _sudokuCells = new();
         private readonly SudokuCellsValidatedAttribute _sudokuCellsValidator = new();
 
-        [Required]
+        [Required, JsonPropertyName("gameId")]
         public int GameId { get; set; }
-        [Required, SudokuCellsValidated(ErrorMessage = AttributeMessages.InvalidSudokuCells)]
+        [Required, SudokuCellsValidated(ErrorMessage = AttributeMessages.InvalidSudokuCells), JsonPropertyName("sudokuCells")]
         public List<SudokuCell> SudokuCells
         {
             get
@@ -36,6 +37,7 @@ namespace SudokuCollective.Data.Models.Payloads
                 }
             }
         }
+        
         public UpdateGamePayload()
         {
             GameId = 0;

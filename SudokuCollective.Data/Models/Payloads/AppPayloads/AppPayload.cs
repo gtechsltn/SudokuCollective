@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 
@@ -7,40 +8,40 @@ namespace SudokuCollective.Data.Models.Payloads
 {
     public class AppPayload : IAppPayload
     {
-        [Required]
+        [Required, JsonPropertyName("license")]
         public string Name { get; set; }
-        [Required]
+        [JsonPropertyName("localUrl")]
         public string LocalUrl { get; set; }
-        [Required]
-        public string DevUrl { get; set; }
-        [Required]
+        [JsonPropertyName("stagingUrl")]
+        public string StagingUrl { get; set; }
+        [JsonPropertyName("qaUrl")]
         public string QaUrl { get; set; }
-        [Required]
+        [JsonPropertyName("prodUrl")]
         public string ProdUrl { get; set; }
-        [Required]
+        [Required, JsonPropertyName("isActive")]
         public bool IsActive { get; set; }
-        [Required]
+        [Required, JsonPropertyName("environment")]
         public ReleaseEnvironment Environment { get; set; }
-        [Required]
+        [Required, JsonPropertyName("permitSuperUserAccess")]
         public bool PermitSuperUserAccess { get; set; }
-        [Required]
+        [Required, JsonPropertyName("permitCollectiveLogins")]
         public bool PermitCollectiveLogins { get; set; }
-        [Required]
+        [Required, JsonPropertyName("disableCustomUrls")]
         public bool DisableCustomUrls { get; set; }
-        [Required]
+        [Required, JsonPropertyName("customEmailConfirmationAction")]
         public string CustomEmailConfirmationAction { get; set; }
-        [Required]
+        [Required, JsonPropertyName("customPasswordResetAction")]
         public string CustomPasswordResetAction { get; set; }
-        [Required]
+        [Required, JsonPropertyName("timeFrame")]
         public TimeFrame TimeFrame { get; set; }
-        [Required]
+        [Required, JsonPropertyName("accessDuration")]
         public int AccessDuration { get; set; }
 
         public AppPayload()
         {
             Name = string.Empty;
             LocalUrl = string.Empty;
-            DevUrl = string.Empty;
+            StagingUrl = string.Empty;
             QaUrl = string.Empty;
             ProdUrl = string.Empty;
             IsActive = false;
@@ -57,7 +58,7 @@ namespace SudokuCollective.Data.Models.Payloads
         public AppPayload(
             string name, 
             string localUrl, 
-            string devUrl, 
+            string stagingUrl, 
             string qaUrl, 
             string prodUrl, 
             bool isActive, 
@@ -72,7 +73,7 @@ namespace SudokuCollective.Data.Models.Payloads
         {
             Name = name;
             LocalUrl = localUrl;
-            DevUrl = devUrl;
+            StagingUrl = stagingUrl;
             QaUrl = qaUrl;
             ProdUrl = prodUrl;
             IsActive = isActive;
@@ -89,7 +90,7 @@ namespace SudokuCollective.Data.Models.Payloads
         public AppPayload(
             string name, 
             string localUrl, 
-            string devUrl, 
+            string stagingUrl, 
             string qaUrl, 
             string prodUrl, 
             bool isActive, 
@@ -104,7 +105,7 @@ namespace SudokuCollective.Data.Models.Payloads
         {
             Name = name;
             LocalUrl = localUrl;
-            DevUrl = devUrl;
+            StagingUrl = stagingUrl;
             QaUrl = qaUrl;
             ProdUrl = prodUrl;
             IsActive = isActive;

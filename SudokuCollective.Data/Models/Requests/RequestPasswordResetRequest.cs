@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Core.Messages;
 using SudokuCollective.Core.Validation.Attributes;
@@ -14,7 +15,7 @@ namespace SudokuCollective.Data.Models.Requests
         private readonly GuidValidatedAttribute _guidValidator = new();
         private readonly EmailValidatedAttribute _emailRegexAttribute = new();
 
-        [Required, GuidValidated(ErrorMessage = AttributeMessages.InvalidLicense)]
+        [Required, GuidValidated(ErrorMessage = AttributeMessages.InvalidLicense), JsonPropertyName("license")]
         public string License
         {
             get
@@ -33,7 +34,7 @@ namespace SudokuCollective.Data.Models.Requests
                 }
             }
         }
-        [Required, EmailValidated(ErrorMessage = AttributeMessages.InvalidEmail)]
+        [Required, EmailValidated(ErrorMessage = AttributeMessages.InvalidEmail), JsonPropertyName("email")]
         public string Email
         {
             get
