@@ -8,7 +8,7 @@ namespace SudokuCollective.Data.Models.Payloads
 {
     public class AppPayload : IAppPayload
     {
-        [Required, JsonPropertyName("license")]
+        [Required, JsonPropertyName("name")]
         public string Name { get; set; }
         [JsonPropertyName("localUrl")]
         public string LocalUrl { get; set; }

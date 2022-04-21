@@ -41,7 +41,7 @@ namespace SudokuCollective.Data.Extensions
 
                     return true;
                 }
-                catch (KeyNotFoundException)
+                catch (KeyNotFoundException e)
                 {
                     return false;
                 }
