@@ -1,20 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SudokuCollective.Api.Utilities;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Requests;
-using SudokuCollective.Logs;
-using SudokuCollective.Logs.Utilities;
 
 namespace SudokuCollective.Api.Controllers.V1
 {
@@ -28,7 +26,6 @@ namespace SudokuCollective.Api.Controllers.V1
     {
         private readonly IUsersService _usersService;
         private readonly IAppsService _appsService;
-
         private readonly IRequestService _requestService;
         private readonly IWebHostEnvironment _hostEnvironment;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -130,20 +127,11 @@ namespace SudokuCollective.Api.Controllers.V1
             }
             catch (Exception e)
             {
-                var result = new Result
-                {
-                    IsSuccess = false,
-                    Message = ControllerMessages.StatusCode500(e.Message)
-                };
-
-                SudokuCollectiveLogger.LogError<UsersController>(
+                return ControllerUtilities.ProcessException<UsersController>(
+                    this,
+                    _requestService,
                     _logger,
-                    LogsUtilities.GetControllerErrorEventId(), 
-                    result.Message,
-                    e,
-                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, result);
+                    e);
             }
         }
 
@@ -252,20 +240,11 @@ namespace SudokuCollective.Api.Controllers.V1
             }
             catch (Exception e)
             {
-                var result = new Result
-                {
-                    IsSuccess = false,
-                    Message = ControllerMessages.StatusCode500(e.Message)
-                };
-
-                SudokuCollectiveLogger.LogError<UsersController>(
+                return ControllerUtilities.ProcessException<UsersController>(
+                    this,
+                    _requestService,
                     _logger,
-                    LogsUtilities.GetControllerErrorEventId(), 
-                    result.Message,
-                    e,
-                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, result);
+                    e);
             }
         }
 
@@ -336,20 +315,11 @@ namespace SudokuCollective.Api.Controllers.V1
             }
             catch (Exception e)
             {
-                var result = new Result
-                {
-                    IsSuccess = false,
-                    Message = ControllerMessages.StatusCode500(e.Message)
-                };
-
-                SudokuCollectiveLogger.LogError<UsersController>(
+                return ControllerUtilities.ProcessException<UsersController>(
+                    this,
+                    _requestService,
                     _logger,
-                    LogsUtilities.GetControllerErrorEventId(), 
-                    result.Message,
-                    e,
-                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, result);
+                    e);
             }
         }
 
@@ -449,20 +419,11 @@ namespace SudokuCollective.Api.Controllers.V1
             }
             catch (Exception e)
             {
-                var result = new Result
-                {
-                    IsSuccess = false,
-                    Message = ControllerMessages.StatusCode500(e.Message)
-                };
-
-                SudokuCollectiveLogger.LogError<UsersController>(
+                return ControllerUtilities.ProcessException<UsersController>(
+                    this,
+                    _requestService,
                     _logger,
-                    LogsUtilities.GetControllerErrorEventId(), 
-                    result.Message,
-                    e,
-                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, result);
+                    e);
             }
         }
 
@@ -539,20 +500,11 @@ namespace SudokuCollective.Api.Controllers.V1
             }
             catch (Exception e)
             {
-                var result = new Result
-                {
-                    IsSuccess = false,
-                    Message = ControllerMessages.StatusCode500(e.Message)
-                };
-
-                SudokuCollectiveLogger.LogError<UsersController>(
+                return ControllerUtilities.ProcessException<UsersController>(
+                    this,
+                    _requestService,
                     _logger,
-                    LogsUtilities.GetControllerErrorEventId(), 
-                    result.Message,
-                    e,
-                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, result);
+                    e);
             }
         }
 
@@ -629,20 +581,11 @@ namespace SudokuCollective.Api.Controllers.V1
             }
             catch (Exception e)
             {
-                var result = new Result
-                {
-                    IsSuccess = false,
-                    Message = ControllerMessages.StatusCode500(e.Message)
-                };
-
-                SudokuCollectiveLogger.LogError<UsersController>(
+                return ControllerUtilities.ProcessException<UsersController>(
+                    this,
+                    _requestService,
                     _logger,
-                    LogsUtilities.GetControllerErrorEventId(), 
-                    result.Message,
-                    e,
-                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, result);
+                    e);
             }
         }
 
@@ -680,19 +623,11 @@ namespace SudokuCollective.Api.Controllers.V1
             }
             catch (Exception e)
             {
-                var result = new Result
-                {
-                    IsSuccess = false,
-                    Message = ControllerMessages.StatusCode500(e.Message)
-                };
-
-                SudokuCollectiveLogger.LogError<UsersController>(
+                return ControllerUtilities.ProcessException<UsersController>(
+                    this,
+                    _requestService,
                     _logger,
-                    LogsUtilities.GetControllerErrorEventId(), 
-                    result.Message,
                     e);
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
         }
 
@@ -730,19 +665,11 @@ namespace SudokuCollective.Api.Controllers.V1
             }
             catch (Exception e)
             {
-                var result = new Result
-                {
-                    IsSuccess = false,
-                    Message = ControllerMessages.StatusCode500(e.Message)
-                };
-
-                SudokuCollectiveLogger.LogError<UsersController>(
+                return ControllerUtilities.ProcessException<UsersController>(
+                    this,
+                    _requestService,
                     _logger,
-                    LogsUtilities.GetControllerErrorEventId(), 
-                    result.Message,
                     e);
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
         }
 
@@ -800,19 +727,11 @@ namespace SudokuCollective.Api.Controllers.V1
             }
             catch (Exception e)
             {
-                var result = new Result
-                {
-                    IsSuccess = false,
-                    Message = ControllerMessages.StatusCode500(e.Message)
-                };
-
-                SudokuCollectiveLogger.LogError<UsersController>(
+                return ControllerUtilities.ProcessException<UsersController>(
+                    this,
+                    _requestService,
                     _logger,
-                    LogsUtilities.GetControllerErrorEventId(), 
-                    result.Message,
                     e);
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
         }
 
@@ -882,19 +801,11 @@ namespace SudokuCollective.Api.Controllers.V1
             }
             catch (Exception e)
             {
-                var result = new Result
-                {
-                    IsSuccess = false,
-                    Message = ControllerMessages.StatusCode500(e.Message)
-                };
-
-                SudokuCollectiveLogger.LogError<UsersController>(
+                return ControllerUtilities.ProcessException<UsersController>(
+                    this,
+                    _requestService,
                     _logger,
-                    LogsUtilities.GetControllerErrorEventId(), 
-                    result.Message,
                     e);
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
         }
 
@@ -969,19 +880,11 @@ namespace SudokuCollective.Api.Controllers.V1
             }
             catch (Exception e)
             {
-                var result = new Result
-                {
-                    IsSuccess = false,
-                    Message = ControllerMessages.StatusCode500(e.Message)
-                };
-
-                SudokuCollectiveLogger.LogError<UsersController>(
+                return ControllerUtilities.ProcessException<UsersController>(
+                    this,
+                    _requestService,
                     _logger,
-                    LogsUtilities.GetControllerErrorEventId(), 
-                    result.Message,
                     e);
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
         }
 
@@ -1045,19 +948,11 @@ namespace SudokuCollective.Api.Controllers.V1
             }
             catch (Exception e)
             {
-                var result = new Result
-                {
-                    IsSuccess = false,
-                    Message = ControllerMessages.StatusCode500(e.Message)
-                };
-
-                SudokuCollectiveLogger.LogError<UsersController>(
+                return ControllerUtilities.ProcessException<UsersController>(
+                    this,
+                    _requestService,
                     _logger,
-                    LogsUtilities.GetControllerErrorEventId(), 
-                    result.Message,
                     e);
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
         }
 
@@ -1125,20 +1020,11 @@ namespace SudokuCollective.Api.Controllers.V1
             }
             catch (Exception e)
             {
-                var result = new Result
-                {
-                    IsSuccess = false,
-                    Message = ControllerMessages.StatusCode500(e.Message)
-                };
-
-                SudokuCollectiveLogger.LogError<UsersController>(
+                return ControllerUtilities.ProcessException<UsersController>(
+                    this,
+                    _requestService,
                     _logger,
-                    LogsUtilities.GetControllerErrorEventId(), 
-                    result.Message,
-                    e,
-                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, result);
+                    e);
             }
         }
 
@@ -1206,20 +1092,11 @@ namespace SudokuCollective.Api.Controllers.V1
             }
             catch (Exception e)
             {
-                var result = new Result
-                {
-                    IsSuccess = false,
-                    Message = ControllerMessages.StatusCode500(e.Message)
-                };
-
-                SudokuCollectiveLogger.LogError<UsersController>(
+                return ControllerUtilities.ProcessException<UsersController>(
+                    this,
+                    _requestService,
                     _logger,
-                    LogsUtilities.GetControllerErrorEventId(), 
-                    result.Message,
-                    e,
-                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, result);
+                    e);
             }
         }
 
@@ -1287,20 +1164,11 @@ namespace SudokuCollective.Api.Controllers.V1
             }
             catch (Exception e)
             {
-                var result = new Result
-                {
-                    IsSuccess = false,
-                    Message = ControllerMessages.StatusCode500(e.Message)
-                };
-
-                SudokuCollectiveLogger.LogError<UsersController>(
+                return ControllerUtilities.ProcessException<UsersController>(
+                    this,
+                    _requestService,
                     _logger,
-                    LogsUtilities.GetControllerErrorEventId(), 
-                    result.Message,
-                    e,
-                    (SudokuCollective.Logs.Models.Request)_requestService.Get());
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, result);
+                    e);
             }
         }
     }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SudokuCollective.Api.Utilities;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Data.Messages;
@@ -26,7 +27,7 @@ namespace SudokuCollective.Api.Controllers.V1
     {
         private readonly IAuthenticateService _authService;
         private readonly IUserManagementService _userManagementService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IRequestService _requestService;
         private readonly ILogger<LoginController> _logger;
 
         /// <summary>
@@ -34,17 +35,17 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </summary>
         /// <param name="authService"></param>
         /// <param name="userManagementService"></param>
-        /// <param name="httpContextAccessor"></param>
+        /// <param name="requestService"></param>
         /// <param name="logger"></param>
         public LoginController(
             IAuthenticateService authService,
             IUserManagementService userManagementService,
-            IHttpContextAccessor httpContextAccessor, 
+            IRequestService requestService,
             ILogger<LoginController> logger)
         {
             _authService = authService;
             _userManagementService = userManagementService;
-            _httpContextAccessor = httpContextAccessor;
+            _requestService = requestService;
             _logger = logger;
         }
 
@@ -120,19 +121,11 @@ namespace SudokuCollective.Api.Controllers.V1
             }
             catch (Exception e)
             {
-                var result = new Result
-                {
-                    IsSuccess = false,
-                    Message = ControllerMessages.StatusCode500(e.Message)
-                };
-
-                SudokuCollectiveLogger.LogError<LoginController>(
+                return ControllerUtilities.ProcessException<LoginController>(
+                    this,
+                    _requestService,
                     _logger,
-                    LogsUtilities.GetControllerErrorEventId(), 
-                    result.Message,
                     e);
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
         }
 
@@ -179,19 +172,11 @@ namespace SudokuCollective.Api.Controllers.V1
             }
             catch (Exception e)
             {
-                var result = new Result
-                {
-                    IsSuccess = false,
-                    Message = ControllerMessages.StatusCode500(e.Message)
-                };
-
-                SudokuCollectiveLogger.LogError<LoginController>(
+                return ControllerUtilities.ProcessException<LoginController>(
+                    this,
+                    _requestService,
                     _logger,
-                    LogsUtilities.GetControllerErrorEventId(), 
-                    result.Message,
                     e);
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
         }
     }

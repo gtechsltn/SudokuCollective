@@ -9,15 +9,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using SudokuCollective.Api.Utilities;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Authentication;
-using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Requests;
 using SudokuCollective.Data.Models.Results;
-using SudokuCollective.Logs;
-using SudokuCollective.Logs.Utilities;
 
 namespace SudokuCollective.Api.Controllers.V1
 {
@@ -30,8 +28,8 @@ namespace SudokuCollective.Api.Controllers.V1
     {
         private readonly IUsersService _usersService;
         private readonly IAuthenticateService _authService;
+        private readonly IRequestService _requestService;
         private readonly IWebHostEnvironment _hostEnvironment;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<SignupController> _logger;
 
         /// <summary>
@@ -39,20 +37,20 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </summary>
         /// <param name="usersService"></param>
         /// <param name="authService"></param>
+        /// <param name="requestService"></param>
         /// <param name="hostEnvironment"></param>
-        /// <param name="httpContextAccessor"></param>
         /// <param name="logger"></param>
         public SignupController(
             IUsersService usersService,
             IAuthenticateService authService,
-            IWebHostEnvironment hostEnvironment,
-            IHttpContextAccessor httpContextAccessor, 
+            IRequestService requestService,
+            IWebHostEnvironment hostEnvironment, 
             ILogger<SignupController> logger)
         {
             _usersService = usersService;
             _authService = authService;
+            _requestService = requestService;
             _hostEnvironment = hostEnvironment;
-            _httpContextAccessor = httpContextAccessor;
             _logger = logger;
         }
 
@@ -164,19 +162,11 @@ namespace SudokuCollective.Api.Controllers.V1
             }
             catch (Exception e)
             {
-                var result = new Result
-                {
-                    IsSuccess = false,
-                    Message = ControllerMessages.StatusCode500(e.Message)
-                };
-
-                SudokuCollectiveLogger.LogError<SignupController>(
+                return ControllerUtilities.ProcessException<SignupController>(
+                    this,
+                    _requestService,
                     _logger,
-                    LogsUtilities.GetControllerErrorEventId(), 
-                    result.Message,
                     e);
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
         }
 
@@ -254,19 +244,11 @@ namespace SudokuCollective.Api.Controllers.V1
             }
             catch (Exception e)
             {
-                var result = new Result
-                {
-                    IsSuccess = false,
-                    Message = ControllerMessages.StatusCode500(e.Message)
-                };
-
-                SudokuCollectiveLogger.LogError<SignupController>(
+                return ControllerUtilities.ProcessException<SignupController>(
+                    this,
+                    _requestService,
                     _logger,
-                    LogsUtilities.GetControllerErrorEventId(), 
-                    result.Message,
                     e);
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
         }
     }

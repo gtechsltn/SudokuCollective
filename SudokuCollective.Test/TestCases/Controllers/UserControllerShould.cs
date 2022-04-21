@@ -30,7 +30,6 @@ namespace SudokuCollective.Test.TestCases.Controllers
         private Request request;
         private UpdateUserPayload updateUserPayload;
         private RequestPasswordResetRequest requestPasswordResetRequest;
-        private UpdatePasswordRequest updatePasswordRequest;
         private UpdateUserRolePayload updateUserRolePayload;
         private ResendRequestPasswordRequest resendRequestPasswordRequest;
         private Mock<IWebHostEnvironment> mockWebHostEnvironment;
@@ -63,12 +62,6 @@ namespace SudokuCollective.Test.TestCases.Controllers
             {
                 License = TestObjects.GetLicense(),
                 Email = "TestSuperUser@example.com"
-            };
-
-            updatePasswordRequest = new UpdatePasswordRequest()
-            {
-                UserId = 1,
-                NewPassword = "P@ssword2"
             };
 
             updateUserRolePayload = new UpdateUserRolePayload()
