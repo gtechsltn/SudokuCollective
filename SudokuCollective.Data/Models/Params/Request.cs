@@ -13,6 +13,7 @@ namespace SudokuCollective.Data.Models.Params
         public int RequestorId { get; set; }
         [Required, JsonPropertyName("appId")]
         public int AppId { get; set; }
+        [JsonIgnore]
         IPaginator IRequest.Paginator
         {
             get => Paginator;

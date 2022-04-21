@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Results;
 
 namespace SudokuCollective.Data.Models.Results
 {
     public class AnnonymousGameResult : IAnnonymousGameResult
     {
+        [JsonPropertyName("sudokuMatrix")]
         public List<List<int>> SudokuMatrix { get; set; }
 
         public AnnonymousGameResult()

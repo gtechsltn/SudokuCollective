@@ -32,8 +32,11 @@ namespace SudokuCollective.Data.Models.Results
                 User = (User)value;
             }
         }
+        [JsonPropertyName("user")]
         public User User { get; set; }
+        [JsonPropertyName("confirmationEmailSuccessfullySent")]
         public bool? ConfirmationEmailSuccessfullySent { get; set; }
+        [JsonPropertyName("token")]
         public string Token { get; set; }
 
         public InitiatePasswordResetResult()

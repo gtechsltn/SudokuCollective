@@ -16,8 +16,11 @@ namespace SudokuCollective.Data.Models.Results
                 User = (AuthenticatedUser)value;
             }
         }
+        [JsonPropertyName("user")]
         public AuthenticatedUser User { get; set; }
+        [JsonPropertyName("token")]
         public string Token { get; set; }
+        [JsonPropertyName("emailConfirmationSent")]
         public bool EmailConfirmationSent { get; set; }
 
         public UserCreatedResult()

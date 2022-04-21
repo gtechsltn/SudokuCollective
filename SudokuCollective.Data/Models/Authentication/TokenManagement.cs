@@ -6,15 +6,15 @@ namespace SudokuCollective.Data.Models.Authentication
 {
     public class TokenManagement : ITokenManagement
     {
-        [JsonPropertyName("Secret"), Required]
+        [Required, JsonPropertyName("secret")]
         public string Secret { get; set; }
-        [JsonPropertyName("Issuer"), Required]
+        [Required, JsonPropertyName("issuer")]
         public string Issuer { get; set; }
-        [JsonPropertyName("Audience"), Required]
+        [Required, JsonPropertyName("audience")]
         public string Audience { get; set; }
-        [JsonPropertyName("AccessExpiration"), Required]
+        [Required, JsonPropertyName("accessExpiration")]
         public int AccessExpiration { get; set; }
-        [JsonPropertyName("RefreshExpiration"), Required]
+        [Required, JsonPropertyName("refreshExpiration")]
         public int RefreshExpiration { get; set; }
 
         public TokenManagement()

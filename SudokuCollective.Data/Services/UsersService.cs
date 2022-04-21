@@ -1893,7 +1893,7 @@ namespace SudokuCollective.Data.Services
                                 .Select(ua => ua.App.Environment == ReleaseEnvironment.LOCAL)
                                 .FirstOrDefault())
                             {
-                                confirmEmailResult.Url = user
+                                confirmEmailResult.AppUrl = user
                                     .Apps
                                     .Where(ua => ua.AppId == emailConfirmation.AppId)
                                     .Select(ua => ua.App.LocalUrl)
@@ -1905,7 +1905,7 @@ namespace SudokuCollective.Data.Services
                                 .Select(ua => ua.App.Environment == ReleaseEnvironment.STAGING)
                                 .FirstOrDefault())
                             {
-                                confirmEmailResult.Url = user
+                                confirmEmailResult.AppUrl = user
                                     .Apps
                                     .Where(ua => ua.AppId == emailConfirmation.AppId)
                                     .Select(ua => ua.App.StagingUrl)
@@ -1917,7 +1917,7 @@ namespace SudokuCollective.Data.Services
                                 .Select(ua => ua.App.Environment == ReleaseEnvironment.QA)
                                 .FirstOrDefault())
                             {
-                                confirmEmailResult.Url = user
+                                confirmEmailResult.AppUrl = user
                                     .Apps
                                     .Where(ua => ua.AppId == emailConfirmation.AppId)
                                     .Select(ua => ua.App.QaUrl)
@@ -1925,7 +1925,7 @@ namespace SudokuCollective.Data.Services
                             }
                             else
                             {
-                                confirmEmailResult.Url = user
+                                confirmEmailResult.AppUrl = user
                                     .Apps
                                     .Where(ua => ua.AppId == emailConfirmation.AppId)
                                     .Select(ua => ua.App.ProdUrl)
@@ -2028,7 +2028,7 @@ namespace SudokuCollective.Data.Services
                             confirmEmailResult.DateUpdated = user.DateUpdated;
                             confirmEmailResult.IsUpdate = emailConfirmation.IsUpdate;
                             confirmEmailResult.AppTitle = appTitle;
-                            confirmEmailResult.Url = url;
+                            confirmEmailResult.AppUrl = url;
                             result.Payload.Add(confirmEmailResult);
 
                             return result;
@@ -2079,7 +2079,7 @@ namespace SudokuCollective.Data.Services
                                 .Select(ua => ua.App.Environment == ReleaseEnvironment.LOCAL)
                                 .FirstOrDefault())
                             {
-                                confirmEmailResult.Url = user
+                                confirmEmailResult.AppUrl = user
                                     .Apps
                                     .Where(ua => ua.AppId == emailConfirmation.AppId)
                                     .Select(ua => ua.App.LocalUrl)
@@ -2091,7 +2091,7 @@ namespace SudokuCollective.Data.Services
                                 .Select(ua => ua.App.Environment == ReleaseEnvironment.STAGING)
                                 .FirstOrDefault())
                             {
-                                confirmEmailResult.Url = user
+                                confirmEmailResult.AppUrl = user
                                     .Apps
                                     .Where(ua => ua.AppId == emailConfirmation.AppId)
                                     .Select(ua => ua.App.StagingUrl)
@@ -2103,7 +2103,7 @@ namespace SudokuCollective.Data.Services
                                 .Select(ua => ua.App.Environment == ReleaseEnvironment.QA)
                                 .FirstOrDefault())
                             {
-                                confirmEmailResult.Url = user
+                                confirmEmailResult.AppUrl = user
                                     .Apps
                                     .Where(ua => ua.AppId == emailConfirmation.AppId)
                                     .Select(ua => ua.App.QaUrl)
@@ -2111,7 +2111,7 @@ namespace SudokuCollective.Data.Services
                             }
                             else
                             {
-                                confirmEmailResult.Url = user
+                                confirmEmailResult.AppUrl = user
                                     .Apps
                                     .Where(ua => ua.AppId == emailConfirmation.AppId)
                                     .Select(ua => ua.App.ProdUrl)

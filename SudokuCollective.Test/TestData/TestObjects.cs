@@ -640,7 +640,7 @@ namespace SudokuCollective.Test.TestData
                 Email = "TestSuperUser@example.com",
                 DateUpdated = DateTime.Now,
                 AppTitle = "Test App 1",
-                Url = "https://localhost:4200",
+                AppUrl = "https://localhost:4200",
                 IsUpdate = true,
                 NewEmailAddressConfirmed = false,
                 ConfirmationEmailSuccessfullySent = true

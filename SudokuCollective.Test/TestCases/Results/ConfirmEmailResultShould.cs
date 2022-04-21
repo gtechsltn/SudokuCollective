@@ -25,7 +25,7 @@ namespace SudokuCollective.Test.TestCases.Results
             Assert.That(sut.Email, Is.InstanceOf<string>());
             Assert.That(sut.DateUpdated, Is.InstanceOf<DateTime>());
             Assert.That(sut.AppTitle, Is.InstanceOf<string>());
-            Assert.That(sut.Url, Is.InstanceOf<string>());
+            Assert.That(sut.AppUrl, Is.InstanceOf<string>());
             Assert.That(sut.IsUpdate, Is.Null);
             Assert.That(sut.NewEmailAddressConfirmed, Is.Null);
             Assert.That(sut.ConfirmationEmailSuccessfullySent, Is.Null);
