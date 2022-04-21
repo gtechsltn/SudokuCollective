@@ -1,0 +1,21 @@
+{
+    "ConnectionStrings": {
+      "DatabaseConnection": "[Your value here]",
+      "CacheConnection": "localhost:6379"
+    },
+    "Logging": {
+      "LogLevel": {
+        "Default": "Information",
+        "System": "Critical",
+        "Microsoft": "Information"
+      }
+    },
+    "TokenManagement": {
+      "Secret": "[Your value here]",
+      "Issuer": "[Your value here]",
+      "Audience": "clients",
+      "AccessExpiration": 24,
+      "RefreshExpiration": 24
+    }
+  }
+  
