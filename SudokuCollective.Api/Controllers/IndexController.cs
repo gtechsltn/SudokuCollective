@@ -11,7 +11,7 @@ namespace SudokuCollective.Api.Controllers
     /// Index Controller Class
     /// </summary>
     [AllowAnonymous]
-    [Route("api/index")]
+    [Route("api/[controller]")]
     [ApiController]
     public class IndexController : ControllerBase
     {

@@ -1,4 +1,4 @@
-﻿window.addEventListener('load', async () => {
+window.addEventListener('load', async () => {
 
     const date = new Date();
 

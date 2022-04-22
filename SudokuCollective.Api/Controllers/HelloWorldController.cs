@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Params;
@@ -9,7 +9,7 @@ namespace SudokuCollective.Api.Controllers
     /// Hello World Controller Class
     /// </summary>
     [AllowAnonymous]
-    [Route("api/helloWorld")]
+    [Route("api/[controller]")]
     [ApiController]
     public class HelloWorldController : ControllerBase
     {
