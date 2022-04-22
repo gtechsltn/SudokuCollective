@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using SudokuCollective.Api.Models;
 using SudokuCollective.Cache;
 using SudokuCollective.Core.Interfaces.Cache;
@@ -25,7 +27,6 @@ using SudokuCollective.Data.Services;
 using SudokuCollective.Repos;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using SudokuCollective.Core.Interfaces.ServiceModels;
-using Microsoft.AspNetCore.Http;
 
 namespace SudokuCollective.Api
 {
@@ -237,6 +238,7 @@ namespace SudokuCollective.Api
                 var swaggerTitle = "SudokuCollective API v1";
                 swaggerUI.DocumentTitle = swaggerTitle;
                 swaggerUI.SwaggerEndpoint("/swagger/v1/swagger.json", swaggerTitle);
+                swaggerUI.DocExpansion(DocExpansion.None);
             });
 
             // Initialize and set the path for the welcome page saved in wwwroot
