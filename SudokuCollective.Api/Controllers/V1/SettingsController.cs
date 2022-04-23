@@ -211,104 +211,104 @@ namespace SudokuCollective.Api.Controllers.V1
         ///     "label": "Id",
         ///     "value": 1,
         ///     "appliesTo": [
-        ///       "app",
-        ///       "user",
-        ///       "game"
+        ///       "apps",
+        ///       "users",
+        ///       "games"
         ///     ]
         ///   },
         ///   {
         ///     "label": "Username",
         ///     "value": 2,
         ///     "appliesTo": [
-        ///       "user"
+        ///       "users"
         ///     ]
         ///   },
         ///   {
         ///     "label": "First Name",
         ///     "value": 3,
         ///     "appliesTo": [
-        ///       "user"
+        ///       "users"
         ///     ]
         ///   },
         ///   {
         ///     "label": "Last Name",
         ///     "value": 4,
         ///     "appliesTo": [
-        ///       "user"
+        ///       "users"
         ///     ]
         ///   },
         ///   {
         ///     "label": "Full Name",
         ///     "value": 5,
         ///     "appliesTo": [
-        ///       "user"
+        ///       "users"
         ///     ]
         ///   },
         ///   {
         ///     "label": "Nick Name",
         ///     "value": 6,
         ///     "appliesTo": [
-        ///       "user"
+        ///       "users"
         ///     ]
         ///   },
         ///   {
         ///     "label": "Game Count",
         ///     "value": 7,
         ///     "appliesTo": [
-        ///       "user"
+        ///       "users"
         ///     ]
         ///   },
         ///   {
         ///     "label": "App Count",
         ///     "value": 8,
         ///     "appliesTo": [
-        ///       "user"
+        ///       "users"
         ///     ]
         ///   },
         ///   {
         ///     "label": "Name",
         ///     "value": 9,
         ///     "appliesTo": [
-        ///       "app"
+        ///       "apps"
         ///     ]
         ///   },
         ///   {
         ///     "label": "Date Created",
         ///     "value": 10,
         ///     "appliesTo": [
-        ///       "app",
-        ///       "user",
-        ///       "game"
+        ///       "apps",
+        ///       "users",
+        ///       "games"
         ///     ]
         ///   },
         ///   {
         ///     "label": "Date Updated",
         ///     "value": 11,
         ///     "appliesTo": [
-        ///       "app",
-        ///       "user",
-        ///       "game"
+        ///       "apps",
+        ///       "users",
+        ///       "games"
         ///     ]
         ///   },
         ///   {
         ///     "label": "Difficulty Level",
         ///     "value": 12,
         ///     "appliesTo": [
-        ///       "game"
+        ///       "games"
         ///     ]
         ///   },
         ///   {
         ///     "label": "User Count",
         ///     "value": 13,
         ///     "appliesTo": [
-        ///       "app"
+        ///       "apps"
         ///     ]
         ///   },
         ///   {
         ///     "label": "Score",
         ///     "value": 14,
         ///     "appliesTo": [
-        ///       "game"
+        ///       "games"
         ///     ]
         ///   }
         /// ]
@@ -318,10 +318,10 @@ namespace SudokuCollective.Api.Controllers.V1
         [HttpGet, Route("getSortValues")]
         public ActionResult<List<EnumListItem>> GetSortValues()
         {
-            var all = new List<string> { "app", "user", "game" };
-            var app = new List<string> { "app" };
-            var game = new List<string> { "game" };
-            var user = new List<string> { "user" };
+            var all = new List<string> { "apps", "users", "games" };
+            var app = new List<string> { "apps" };
+            var game = new List<string> { "games" };
+            var user = new List<string> { "users" };
             
             var result = new List<EnumListItem>
             {

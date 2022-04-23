@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -301,7 +302,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues getting an app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The Get method requires the user to be logged in. Available to all roles. The query parameter license 
+        /// The GetByLicense method requires the user to be logged in. Available to all roles. The query parameter license 
         /// refers to the relevant app. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
@@ -332,6 +333,109 @@ namespace SudokuCollective.Api.Controllers.V1
                     request.RequestorId))
                 {
                     var result = await _appsService.GetByLicense(license);
+
+                    if (result.IsSuccess)
+                    {
+                        result.Message = ControllerMessages.StatusCode200(result.Message);
+
+                        return Ok(result);
+                    }
+                    else
+                    {
+                        result.Message = ControllerMessages.StatusCode404(result.Message);
+
+                        return NotFound(result);
+                    }
+                }
+                else
+                {
+                    var result = new Result
+                    {
+                        IsSuccess = false,
+                        Message = ControllerMessages.InvalidTokenRequestMessage
+                    };
+
+                    return BadRequest(result);
+                }
+            }
+            catch (Exception e)
+            {
+                return ControllerUtilities.ProcessException<AppsController>(
+                    this,
+                    _requestService,
+                    _logger,
+                    e);
+            }
+        }
+
+        /// <summary>
+        /// A method to get a list of all apps, requires superuser or admin roles.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>A list of all apps.</returns>
+        /// <response code="200">A list of all apps.</response>
+        /// <response code="404">A message detailing any issues obtaining all apps.</response>
+        /// <response code="500">A description of any errors processing the request.</response>
+        /// <remarks>
+        /// The GetApps method requires the user to be logged in. Requires superuser or admin roles. The request body 
+        /// parameter uses the request model.
+        /// 
+        /// The request should be structured as follows:
+        /// ```
+        ///     {                                 
+        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request model
+        ///       "requestorId": integer, // the user id for the requesting logged in user
+        ///       "appId": integer,       // the app id for the app the requesting user is logged into
+        ///       "paginator": {
+        ///         "page": integer,                 // this param works in conjection with itemsPerPage starting with page 1
+        ///         "itemsPerPage": integer          // in conjunction with page if you want items 11 through 21 page would be 2 and this would be 10
+        ///         "sortBy": sortValue              // an enumeration indicating the field for sorting, documented below; you return the integer
+        ///         "OrderByDescending": boolean     // a boolean to indicate is the order is ascending or descending
+        ///         "includeCompletedGames": boolean // a boolean which only applies to game lists
+        ///       },
+        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///     }     
+        /// ```
+        ///
+        /// Sort values are as follows, those applicable to apps are indicated below:
+        /// ```
+        /// {
+        ///     0,  \\ indicates null and is not applicable to apps
+        ///     1,  \\ indicates "id" and is applicable to apps
+        ///     2,  \\ indicates "userName" and is not applicable to apps
+        ///     3,  \\ indicates "firstName" and is not applicable to apps
+        ///     4,  \\ indicates "lastName" and is not applicable to apps
+        ///     5,  \\ indicates "fullName" and is not applicable to apps
+        ///     6,  \\ indicates "nickName" and is not applicable to apps
+        ///     7,  \\ indicates "gameCount" and is not applicanle to apps
+        ///     8,  \\ indicates "appCount" and is not applicable to apps
+        ///     9,  \\ indicates "name" and is applicable to apps
+        ///     10, \\ indicates "dateCreated" and is applicable to apps
+        ///     11, \\ indicates "dateUpdated" and is applicable to apps
+        ///     12, \\ indicates "difficultyLevel" and is not applicable to apps
+        ///     13, \\ indicates "userCount" and is applicable to apps
+        ///     14  \\ indicates "score" and is not applicable to apps
+        /// }
+        /// ```
+        /// </remarks>
+        [Authorize(Roles = "SUPERUSER, ADMIN")]
+        [HttpPost]
+        public async Task<ActionResult<IEnumerable<App>>> GetApps(
+            [FromBody] Request request)
+        {
+            _requestService.Update(request);
+            
+            try
+            {
+                if (await _appsService.IsRequestValidOnThisToken(
+                    _httpContextAccessor,
+                    request.License,
+                    request.AppId,
+                    request.RequestorId))
+                {
+                    var result = await _appsService.GetApps(
+                        request.Paginator, 
+                        request.RequestorId);
 
                     if (result.IsSuccess)
                     {
