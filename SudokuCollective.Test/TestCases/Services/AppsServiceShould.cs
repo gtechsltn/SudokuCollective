@@ -228,7 +228,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.GetByLicense(license, 1);
+            var result = await sut.GetByLicense(license);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -244,7 +244,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var invalidLicense = "5CDBFC8F-F304-4703-831B-750A7B7F8531";
 
             // Act
-            var result = await sutAppRepoFailure.GetByLicense(invalidLicense, 1);
+            var result = await sutAppRepoFailure.GetByLicense(invalidLicense);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);

@@ -253,14 +253,14 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> GetByLicense(string license, int requestorId)
+        public async Task<IResult> GetByLicense(string license)
         {
             var result = new Result();
 
-            if (string.IsNullOrEmpty(license) || requestorId == 0)
+            if (string.IsNullOrEmpty(license))
             {
                 result.IsSuccess = false;
-                result.Message = UsersMessages.UserNotFoundMessage;
+                result.Message = AppsMessages.AppNotFoundMessage;
 
                 return result;
             }

@@ -60,9 +60,7 @@ namespace SudokuCollective.Test.Services
                 } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.GetByLicense(
-                    It.IsAny<string>(),
-                    It.IsAny<int>()))
+                service.GetByLicense(It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                 {
                     IsSuccess = MockedAppsRepository
@@ -375,9 +373,7 @@ namespace SudokuCollective.Test.Services
                     } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             FailedRequest.Setup(service =>
-                service.GetByLicense(
-                    It.IsAny<string>(),
-                    It.IsAny<int>()))
+                service.GetByLicense(It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedAppsRepository
@@ -618,9 +614,7 @@ namespace SudokuCollective.Test.Services
                     } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(service =>
-                service.GetByLicense(
-                    It.IsAny<string>(),
-                    It.IsAny<int>()))
+                service.GetByLicense(It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                 {
                     IsSuccess = MockedAppsRepository
@@ -930,9 +924,7 @@ namespace SudokuCollective.Test.Services
                     } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(service =>
-                service.GetByLicense(
-                    It.IsAny<string>(),
-                    It.IsAny<int>()))
+                service.GetByLicense(It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedAppsRepository

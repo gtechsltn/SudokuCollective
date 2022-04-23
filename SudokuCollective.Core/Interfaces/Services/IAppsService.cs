@@ -14,7 +14,7 @@ namespace SudokuCollective.Core.Interfaces.Services
         Task<IResult> GetApps(IPaginator paginator, int requestorId);
         Task<IResult> GetMyApps(int ownerId, IPaginator paginator);
         Task<IResult> GetRegisteredApps(int userId, IPaginator paginator);
-        Task<IResult> GetByLicense(string license, int requestorId);
+        Task<IResult> GetByLicense(string license);
         Task<ILicenseResult> GetLicense(int id);
         Task<IResult> GetAppUsers(int id, int requestorId, IPaginator paginator, bool appUsers = true);
         Task<IResult> AddAppUser(int appId, int userId);

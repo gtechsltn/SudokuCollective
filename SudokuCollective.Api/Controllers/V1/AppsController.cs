@@ -237,12 +237,14 @@ namespace SudokuCollective.Api.Controllers.V1
         /// ```
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
-        [HttpDelete, Route("{id}/{license}")]
+        [HttpDelete, Route("{id}")]
         public async Task<ActionResult> Delete(
             int id,
             string license,
             [FromBody] Request request)
         {
+            _requestService.Update(request);
+            
             try
             {
                 if (await _appsService.IsUserOwnerOThisfApp(
@@ -274,6 +276,82 @@ namespace SudokuCollective.Api.Controllers.V1
                     {
                         IsSuccess = false,
                         Message = ControllerMessages.NotOwnerMessage
+                    };
+
+                    return BadRequest(result);
+                }
+            }
+            catch (Exception e)
+            {
+                return ControllerUtilities.ProcessException<AppsController>(
+                    this,
+                    _requestService,
+                    _logger,
+                    e);
+            }
+        }
+
+        /// <summary>
+        /// A method which gets an app by its license, available to all roles.
+        /// </summary>
+        /// <param name="license"></param>
+        /// <param name="request"></param>
+        /// <returns>Records for a given app.</returns>
+        /// <response code="200">Records for a given app.</response>
+        /// <response code="404">A message detailing any issues getting an app.</response>
+        /// <response code="500">A description of any errors processing the request.</response>
+        /// <remarks>
+        /// The Get method requires the user to be logged in. Available to all roles. The query parameter license 
+        /// refers to the relevant app. The request body parameter uses the request model.
+        /// 
+        /// The request should be structured as follows:
+        /// ```
+        ///     {                                 
+        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request model
+        ///       "requestorId": integer, // the user id for the requesting logged in user
+        ///       "appId": integer,       // the app id for the app the requesting user is logged into
+        ///       "paginator": paginator, // an object to control list pagination, not applicable here
+        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///     }     
+        /// ```
+        /// </remarks>
+        [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
+        [HttpPost, Route("GetByLicense/{license}")]
+        public async Task<ActionResult<App>> GetByLicense(
+            string license,
+            [FromBody] Request request)
+        {
+            _requestService.Update(request);
+            
+            try
+            {
+                if (await _appsService.IsRequestValidOnThisToken(
+                    _httpContextAccessor,
+                    request.License,
+                    request.AppId,
+                    request.RequestorId))
+                {
+                    var result = await _appsService.GetByLicense(license);
+
+                    if (result.IsSuccess)
+                    {
+                        result.Message = ControllerMessages.StatusCode200(result.Message);
+
+                        return Ok(result);
+                    }
+                    else
+                    {
+                        result.Message = ControllerMessages.StatusCode404(result.Message);
+
+                        return NotFound(result);
+                    }
+                }
+                else
+                {
+                    var result = new Result
+                    {
+                        IsSuccess = false,
+                        Message = ControllerMessages.InvalidTokenRequestMessage
                     };
 
                     return BadRequest(result);
