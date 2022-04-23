@@ -520,11 +520,12 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.IsOwnerOfThisLicense(
+            var result = await sut.IsUserOwnerOThisfApp(
                 mockedHttpContextAccessor.Object, 
-                license, 
-                appId, 
+                license,
                 userId,
+                license,
+                appId, 
                 userId);
 
             // Assert
@@ -538,11 +539,12 @@ namespace SudokuCollective.Test.TestCases.Services
             var invalidLicense = "5CDBFC8F-F304-4703-831B-750A7B7F8531";
 
             // Act
-            var result = await sutUserRepoFailure.IsOwnerOfThisLicense(
+            var result = await sutUserRepoFailure.IsUserOwnerOThisfApp(
                 mockedHttpContextAccessor.Object, 
-                invalidLicense, 
-                appId, 
+                invalidLicense,
                 userId,
+                license,
+                appId, 
                 userId);
 
             // Assert

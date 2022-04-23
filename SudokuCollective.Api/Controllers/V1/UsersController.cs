@@ -67,7 +67,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
         /// The Get method requires the user to be logged in. Available to all roles. The query parameter id 
-        /// refers to the relevant user. The request body parameter users the request model.
+        /// refers to the relevant user. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -146,7 +146,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
         /// The Update method requires the user to be logged in. Available to all roles. The query 
-        /// parameter id refers to the relevant user. The request body parameter users the request model.
+        /// parameter id refers to the relevant user. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -259,7 +259,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
         /// The Delete method requires the user to be logged in. Available to all roles. The query parameter 
-        /// id refers to the relevant user. The request body parameter users the request model.
+        /// id refers to the relevant user. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -438,7 +438,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
         /// The AddRoles method requires the user to be logged in. Requires superuser or admin roles. The query 
-        /// parameter id refers to the relevant user. The request body parameter users the request model.
+        /// parameter id refers to the relevant user. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -519,7 +519,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
         /// The RemoveRoles method requires the user to be logged in. Requires superuser or admin roles. The query 
-        /// parameter id refers to the relevant user. The request body parameter users the request model.
+        /// parameter id refers to the relevant user. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -965,7 +965,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues cancelling outstanding email confirmation requests.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The CancelEmailConfirmation method requires the user to be logged in.  The request body parameter users the request model.
+        /// The CancelEmailConfirmation method requires the user to be logged in.  The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -1037,7 +1037,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues cancelling outstanding email confirmation requests.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The CancelPasswordReset method requires the user to be logged in.  The request body parameter users the request model.
+        /// The CancelPasswordReset method requires the user to be logged in.  The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -1109,7 +1109,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues cancelling outstanding email confirmation and password reset requests.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The CancelAllEmailRequests method requires the user to be logged in.  The request body parameter users the request model.
+        /// The CancelAllEmailRequests method requires the user to be logged in.  The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```

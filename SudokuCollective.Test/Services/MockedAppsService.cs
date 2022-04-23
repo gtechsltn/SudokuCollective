@@ -180,10 +180,11 @@ namespace SudokuCollective.Test.Services
                 .Returns(Task.FromResult(true));
 
             SuccessfulRequest.Setup(service =>
-                service.IsOwnerOfThisLicense(
+                service.IsUserOwnerOThisfApp(
                     It.IsAny<IHttpContextAccessor>(),
                     It.IsAny<string>(),
                     It.IsAny<int>(),
+                    It.IsAny<string>(),
                     It.IsAny<int>(),
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(true));
@@ -455,10 +456,11 @@ namespace SudokuCollective.Test.Services
                 .Returns(Task.FromResult(true));
 
             FailedRequest.Setup(service =>
-                service.IsOwnerOfThisLicense(
+                service.IsUserOwnerOThisfApp(
                     It.IsAny<IHttpContextAccessor>(),
                     It.IsAny<string>(),
                     It.IsAny<int>(),
+                    It.IsAny<string>(),
                     It.IsAny<int>(),
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(false));
@@ -736,10 +738,11 @@ namespace SudokuCollective.Test.Services
                 .Returns(Task.FromResult(false));
 
             InvalidRequest.Setup(service =>
-                service.IsOwnerOfThisLicense(
+                service.IsUserOwnerOThisfApp(
                     It.IsAny<IHttpContextAccessor>(),
                     It.IsAny<string>(),
                     It.IsAny<int>(),
+                    It.IsAny<string>(),
                     It.IsAny<int>(),
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(true));
@@ -1047,10 +1050,11 @@ namespace SudokuCollective.Test.Services
                 .Returns(Task.FromResult(true));
 
             PromoteUserFailsRequest.Setup(service =>
-                service.IsOwnerOfThisLicense(
+                service.IsUserOwnerOThisfApp(
                     It.IsAny<IHttpContextAccessor>(),
                     It.IsAny<string>(),
                     It.IsAny<int>(),
+                    It.IsAny<string>(),
                     It.IsAny<int>(),
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(true));

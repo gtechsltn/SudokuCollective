@@ -18,7 +18,7 @@ namespace SudokuCollective.Core.Interfaces.Repositories
         Task<IRepositoryResponse> Deactivate(int id);
         Task<bool> IsAppLicenseValid(string license);
         Task<bool> IsUserRegisteredToApp(int id, string license, int userId);
-        Task<bool> IsUserOwnerOfApp(int id, string license, int userId);
+        Task<bool> IsUserOwnerOThisfApp(int id, string license, int userId);
         Task<string> GetLicense(int id);
     }
 }

@@ -11,8 +11,89 @@ namespace SudokuCollective.Api.Controllers.V1
     [AllowAnonymous]
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class AdminController : ControllerBase
+    public class SettingsController : ControllerBase
     {
+        /// <summary>
+        /// A method which returns a list of releaseEnvironments
+        /// </summary>
+        /// <remarks>
+        /// The GetReleaseEnvironments method returns a list of release environments. Your app can be in
+        /// one of the following active environments: local, staging, QA and production.  These states
+        /// represent the URL routes the API will direct email links to. So for example, users will 
+        /// receive an email when they sign up. This value determines which URL the email will link them 
+        /// too. If the app is in production and your prodUrl is https://example-app.com then the sign up
+        /// email will use the prodUrl for the email link if the release environment is set to production.
+        ///
+        /// When updating the app the value integer will be passed up the API to represent the apps
+        /// release environment as the environment property.
+        ///
+        /// This method allows you to populate a dropdown list in your app if you want to control the 
+        /// release environment from your app.
+        ///
+        /// The array returned is as follows:
+        ///
+        /// ```
+        /// [
+        ///   {
+        ///     "label": "Local",
+        ///     "value": 1,
+        ///     "appliesTo": [ 
+        ///       "releaseEnvironment"
+        ///     ]
+        ///   },
+        ///   {
+        ///     "label": "Staging",
+        ///     "value": 2,
+        ///     "appliesTo": [ 
+        ///       "releaseEnvironment"
+        ///     ]
+        ///   },
+        ///   {
+        ///     "label": "QA",
+        ///     "value": 3,
+        ///     "appliesTo": [ 
+        ///       "releaseEnvironment"
+        ///     ]
+        ///   },
+        ///   {
+        ///     "label": "Production",
+        ///     "value": 4,
+        ///     "appliesTo": [ 
+        ///       "releaseEnvironment"
+        ///     ]
+        ///   },
+        /// ]
+        /// ```
+        /// </remarks>
+        [AllowAnonymous]
+        [HttpGet, Route("getReleaseEnvironments")]
+        public ActionResult<List<EnumListItem>> GetReleaseEnvironments()
+        {
+            var releaseEnvironment = new List<string> { "releaseEnvironment" };
+
+            var result = new List<EnumListItem>
+            {
+                new EnumListItem { 
+                    Label = "Local", 
+                    Value = (int)ReleaseEnvironment.LOCAL,
+                    AppliesTo = releaseEnvironment },
+                new EnumListItem { 
+                    Label = "Staging", 
+                    Value = (int)ReleaseEnvironment.STAGING,
+                    AppliesTo = releaseEnvironment },
+                new EnumListItem { 
+                    Label = "QA", 
+                    Value = (int)ReleaseEnvironment.QA,
+                    AppliesTo = releaseEnvironment },
+                new EnumListItem { 
+                    Label = "Production", 
+                    Value = (int)ReleaseEnvironment.PROD,
+                    AppliesTo = releaseEnvironment },
+            };
+
+            return Ok(result);
+        }
+
         /// <summary>
         /// A method which returns a list of timeFrames
         /// </summary>

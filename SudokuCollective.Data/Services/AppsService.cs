@@ -1682,26 +1682,29 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<bool> IsOwnerOfThisLicense(
+        public async Task<bool> IsUserOwnerOThisfApp(
             IHttpContextAccessor httpContextAccessor, 
             string license,
-            int appId,
             int userId,
+            string requestorLicense,
+            int requestorAppId,
             int requestorId)
         {
             if (httpContextAccessor == null) throw new ArgumentNullException(nameof(httpContextAccessor));
 
             if (string.IsNullOrEmpty(license)) throw new ArgumentNullException(nameof(license));
+            
+            if (string.IsNullOrEmpty(requestorLicense)) throw new ArgumentNullException(nameof(license));
 
-            if (appId == 0 || userId == 0 || requestorId == 0)
+            if (requestorAppId == 0 || userId == 0 || requestorId == 0)
             {
                 return false;
             }
 
             var requestValid = await IsRequestValidOnThisToken(
                 httpContextAccessor, 
-                license, 
-                appId, 
+                requestorLicense, 
+                requestorAppId, 
                 userId);
 
             if (requestValid)
@@ -1726,7 +1729,7 @@ namespace SudokuCollective.Data.Services
 
                     if (userResponse.IsSuccess && validLicense)
                     {
-                        var requestorOwnerOfThisApp = await _appsRepository.IsUserOwnerOfApp(
+                        var requestorOwnerOfThisApp = await _appsRepository.IsUserOwnerOThisfApp(
                             requestorId, 
                             license, 
                             userId);

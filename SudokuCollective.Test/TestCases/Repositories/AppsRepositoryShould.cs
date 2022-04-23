@@ -498,7 +498,10 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var app = context.Apps.FirstOrDefault(a => a.OwnerId == user.Id);
 
             // Act
-            var result = await sut.IsUserOwnerOfApp(app.Id, app.License, user.Id);
+            var result = await sut.IsUserOwnerOThisfApp(
+                app.Id, 
+                app.License, 
+                user.Id);
 
             // Assert
             Assert.That(result, Is.True);
@@ -532,7 +535,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             }
 
             // Act
-            var result = await sut.IsUserOwnerOfApp(app.Id, app.License, user.Id);
+            var result = await sut.IsUserOwnerOThisfApp(app.Id, app.License, user.Id);
 
             // Assert
             Assert.That(result, Is.False);

@@ -211,7 +211,7 @@ namespace SudokuCollective.Test.Repositories
                     .Returns(Task.FromResult(true));
 
             SuccessfulRequest.Setup(repo =>
-                repo.IsUserOwnerOfApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
+                repo.IsUserOwnerOThisfApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
             FailedRequest.Setup(repo =>
@@ -359,7 +359,7 @@ namespace SudokuCollective.Test.Repositories
                     .Returns(Task.FromResult(false));
 
             FailedRequest.Setup(repo =>
-                repo.IsUserOwnerOfApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
+                repo.IsUserOwnerOThisfApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(false));
 
             InitiatePasswordSuccessfulRequest.Setup(repo =>
@@ -537,7 +537,7 @@ namespace SudokuCollective.Test.Repositories
                     .Returns(Task.FromResult(true));
 
             InitiatePasswordSuccessfulRequest.Setup(repo =>
-                repo.IsUserOwnerOfApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
+                repo.IsUserOwnerOThisfApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
         }
     }

@@ -1382,7 +1382,7 @@ namespace SudokuCollective.Repos
                     && a.Id == id
                     && a.License.ToLower().Equals(license.ToLower()));
 
-        public async Task<bool> IsUserOwnerOfApp(
+        public async Task<bool> IsUserOwnerOThisfApp(
             int id, 
             string license, 
             int userId) =>

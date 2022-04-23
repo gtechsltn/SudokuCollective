@@ -23,7 +23,7 @@ namespace SudokuCollective.Core.Interfaces.Services
         Task<IResult> Deactivate(int id);
         Task<IResult> ActivateAdminPrivileges(int appId, int userId);
         Task<IResult> DeactivateAdminPrivileges(int appId, int userId);
-        Task<bool> IsOwnerOfThisLicense(IHttpContextAccessor httpContextAccessor, string license, int appId, int userId, int requestorId);
+        Task<bool> IsUserOwnerOThisfApp(IHttpContextAccessor httpContextAccessor, string license, int userId, string requestorLicense, int requestorAppId, int requestorId);
         Task<bool> IsRequestValidOnThisToken(IHttpContextAccessor httpContextAccessor, string license, int appId, int userId);
     }
 }
