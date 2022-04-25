@@ -255,7 +255,7 @@ namespace SudokuCollective.Core.Models
                         _accessDuration = value;
                     }
                 }
-                else
+                else if (TimeFrame == TimeFrame.YEARS)
                 {
                     if (0 < value || value <= 5)
                     {
