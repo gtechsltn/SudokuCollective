@@ -187,19 +187,31 @@ namespace SudokuCollective.Core.Models
             {
                 _timeFrame = value;
 
-                if (value == TimeFrame.HOURS && AccessDuration < 23)
+
+                if (value == TimeFrame.SECONDS && AccessDuration > 60)
+                {
+                    AccessDuration = 60;
+                }
+                else if (value == TimeFrame.MINUTES && AccessDuration > 60)
+                {
+                    AccessDuration = 60;
+                }
+                else if (value == TimeFrame.HOURS && AccessDuration > 23)
                 {
                     AccessDuration = 23;
                 }
-                else if (value == TimeFrame.DAYS && AccessDuration < 31)
+                else if (value == TimeFrame.DAYS && AccessDuration > 31)
                 {
                     AccessDuration = 31;
                 }
-                else if (value == TimeFrame.MONTHS && AccessDuration < 12)
+                else if (value == TimeFrame.MONTHS && AccessDuration > 12)
                 {
                     AccessDuration = 12;
                 }
-                else { }
+                else if (value == TimeFrame.YEARS && AccessDuration > 5)
+                {
+                    AccessDuration = 5;
+                }
             }
         }
         [JsonPropertyName("accessDuration")]
@@ -236,9 +248,16 @@ namespace SudokuCollective.Core.Models
                         _accessDuration = value;
                     }
                 }
-                else
+                else if (TimeFrame == TimeFrame.MONTHS)
                 {
                     if (0 < value || value <= 12)
+                    {
+                        _accessDuration = value;
+                    }
+                }
+                else if (TimeFrame == TimeFrame.YEARS)
+                {
+                    if (0 < value || value <= 5)
                     {
                         _accessDuration = value;
                     }

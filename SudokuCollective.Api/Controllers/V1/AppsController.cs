@@ -154,7 +154,7 @@ namespace SudokuCollective.Api.Controllers.V1
         ///         "disableCustomUrls": boolean // disableCustomUrls is required, indicates if the app uses custom email and password actions
         ///         "customEmailConfirmationAction": string // customEmailConfirmationAction is required, if implemented this represents the custom action
         ///         "customPasswordResetAction": string // customPasswordResetAction is required, if implemented this represents the custom action
-        ///         "timeFrame": integer   // timeFrame is required, represents the timeFrame applied to authorization tokens
+        ///         "timeFrame": integer   // timeFrame is required, represents the timeFrame applied to authorization tokens, if set to years accessDuration is limited to 5
         ///         "accessDuration": integer // accessDuration is required, represents the magnitude of the timeframe: eq: 1 day
         ///       }
         ///     }     
