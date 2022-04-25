@@ -349,9 +349,11 @@ namespace SudokuCollective.Test.TestCases.Services
 
             // Act
             var result = await sut.RemoveAppUser(1, 2);
+            var user = (User)result.Payload[0];
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
+            Assert.That(user, Is.InstanceOf<User>());
             Assert.That(result.Message, Is.EqualTo("User Removed from App"));
         }
 
@@ -375,9 +377,11 @@ namespace SudokuCollective.Test.TestCases.Services
 
             // Act
             var result = await sut.Activate(1);
+            var app = (App)result.Payload[0];
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
+            Assert.That(app, Is.InstanceOf<App>());
             Assert.That(result.Message, Is.EqualTo("App Activated"));
         }
 
@@ -389,9 +393,11 @@ namespace SudokuCollective.Test.TestCases.Services
             // Act
             var result = await sut.Deactivate(1);
             var app = context.Apps.FirstOrDefault(a => a.Id == 1);
+            var returnedApp = (App)result.Payload[0];
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
+            Assert.That(returnedApp, Is.InstanceOf<App>());
             Assert.That(result.Message, Is.EqualTo("App Deactivated"));
         }
 
@@ -558,9 +564,11 @@ namespace SudokuCollective.Test.TestCases.Services
 
             // Act
             var result = await sutPromoteUser.ActivateAdminPrivileges(1, 3);
+            var user = (User)result.Payload[0];
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
+            Assert.That(user, Is.InstanceOf<User>());
             Assert.That(result.Message, Is.EqualTo("User has been Promoted to Admin"));
         }
 
@@ -642,7 +650,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.GetRegisteredApps(2, new Paginator());
+            var result = await sut.GetMyRegisteredApps(2, new Paginator());
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -656,7 +664,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sutAppRepoFailure.GetRegisteredApps(1, new Paginator());
+            var result = await sutAppRepoFailure.GetMyRegisteredApps(1, new Paginator());
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);

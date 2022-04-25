@@ -152,7 +152,7 @@ namespace SudokuCollective.Test.TestData
                     new App(
                         2,
                         "Test App 2",
-                        "03C0D43F-3AD8-490A-A131-F73C81FE02C0",
+                        TestObjects.GetSecondLicense(),
                         1,
                         "https://localhost:8080",
                         "https://testapp2.dev.com",

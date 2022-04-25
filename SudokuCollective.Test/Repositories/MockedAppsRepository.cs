@@ -152,7 +152,8 @@ namespace SudokuCollective.Test.Repositories
                 repo.RemoveAppUser(It.IsAny<int>(), It.IsAny<string>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
-                        IsSuccess = true
+                        IsSuccess = true,
+                        Object = context.Users.FirstOrDefault(a => a.Id == 2)
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>

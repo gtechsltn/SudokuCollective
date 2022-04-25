@@ -207,7 +207,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// ```
         ///  "paginator": {
         ///    "page": integer,                 // this param works in conjection with itemsPerPage starting with page 1
-        ///    "itemsPerPage": integer          // in conjunction with page if you want items 11 through 21 page would be 2 and this would be 10
+        ///    "itemsPerPage": integer          // in conjunction with page if you want items 11 through 20 page would be 2 and this would be 10
         ///    "sortBy": sortValue              // an enumeration indicating the field for sorting
         ///    "OrderByDescending": boolean     // a boolean to indicate is the order is ascending or descending
         ///    "includeCompletedGames": boolean // a boolean which only applies to game lists
@@ -332,10 +332,10 @@ namespace SudokuCollective.Api.Controllers.V1
         public ActionResult<List<EnumListItem>> GetSortValues()
         {
             var all = new List<string> { "apps", "users", "games" };
-            var app = new List<string> { "apps" };
-            var game = new List<string> { "games" };
-            var user = new List<string> { "users" };
-            
+            var apps = new List<string> { "apps" };
+            var users = new List<string> { "users" };
+            var games = new List<string> { "games" };
+
             var result = new List<EnumListItem>
             {
                 new EnumListItem { 
@@ -345,35 +345,35 @@ namespace SudokuCollective.Api.Controllers.V1
                 new EnumListItem { 
                     Label = "Username", 
                     Value = (int)SortValue.USERNAME,
-                    AppliesTo = user },
+                    AppliesTo = users },
                 new EnumListItem { 
                     Label = "First Name", 
                     Value = (int)SortValue.FIRSTNAME,
-                    AppliesTo = user },
+                    AppliesTo = users },
                 new EnumListItem { 
                     Label = "Last Name", 
                     Value = (int)SortValue.LASTNAME,
-                    AppliesTo = user },
+                    AppliesTo = users },
                 new EnumListItem { 
                     Label = "Full Name", 
                     Value = (int)SortValue.FULLNAME,
-                    AppliesTo = user },
+                    AppliesTo = users },
                 new EnumListItem { 
                     Label = "Nick Name", 
                     Value = (int)SortValue.NICKNAME,
-                    AppliesTo = user },
+                    AppliesTo = users },
                 new EnumListItem { 
                     Label = "Game Count", 
                     Value = (int)SortValue.GAMECOUNT,
-                    AppliesTo = user },
+                    AppliesTo = users },
                 new EnumListItem { 
                     Label = "App Count", 
                     Value = (int)SortValue.APPCOUNT,
-                    AppliesTo = user },
+                    AppliesTo = users },
                 new EnumListItem { 
                     Label = "Name", 
                     Value = (int)SortValue.NAME,
-                    AppliesTo = app },
+                    AppliesTo = apps },
                 new EnumListItem { 
                     Label = "Date Created", 
                     Value = (int)SortValue.DATECREATED,
@@ -385,15 +385,15 @@ namespace SudokuCollective.Api.Controllers.V1
                 new EnumListItem { 
                     Label = "Difficulty Level", 
                     Value = (int)SortValue.DIFFICULTYLEVEL,
-                    AppliesTo = game },
+                    AppliesTo = games },
                 new EnumListItem {
                     Label = "User Count",
                     Value = (int)SortValue.USERCOUNT,
-                    AppliesTo = app },
+                    AppliesTo = apps },
                 new EnumListItem { 
                     Label = "Score", 
                     Value = (int)SortValue.SCORE,
-                    AppliesTo = game }
+                    AppliesTo = games }
             };
 
             return Ok(result);
@@ -417,5 +417,15 @@ namespace SudokuCollective.Api.Controllers.V1
         /// An array for filtering dropdown items
         /// </summary>
         public List<string> AppliesTo { get; set; }
+
+        /// <summary>
+        /// The default constructor
+        /// </summary>
+        public EnumListItem()
+        {
+            Label = string.Empty;
+            Value = 0;
+            AppliesTo = new List<string>();
+        }
     };
 }
