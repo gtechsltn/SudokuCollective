@@ -225,9 +225,13 @@ namespace SudokuCollective.Data.Services
                 {
                     expirationLimit = DateTime.UtcNow.AddDays(app.AccessDuration);
                 }
-                else
+                else if (app.TimeFrame == TimeFrame.MONTHS)
                 {
                     expirationLimit = DateTime.UtcNow.AddMonths(app.AccessDuration);
+                }
+                else
+                {
+                    expirationLimit = DateTime.UtcNow.AddYears(app.AccessDuration);
                 }
 
                 var jwtToken = new JwtSecurityToken(

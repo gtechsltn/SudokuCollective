@@ -49,7 +49,7 @@ namespace SudokuCollective.Api.Controllers.V1
         ///     ]
         ///   },
         ///   {
-        ///     "label": "QA",
+        ///     "label": "Quality Assurance",
         ///     "value": 3,
         ///     "appliesTo": [ 
         ///       "releaseEnvironment"
@@ -82,7 +82,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     Value = (int)ReleaseEnvironment.STAGING,
                     AppliesTo = releaseEnvironment },
                 new EnumListItem { 
-                    Label = "QA", 
+                    Label = "Quality Assurance", 
                     Value = (int)ReleaseEnvironment.QA,
                     AppliesTo = releaseEnvironment },
                 new EnumListItem { 
@@ -103,6 +103,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// which time the user has to reauthenticate themselves. You control the expiration period by
         /// updating two settings on your app: accessDuration and timeFrames.  AccessDuration controls the 
         /// magnitude of the expiration period and timeFrame controls the period: seconds, minutes, etc...
+        /// 
+        /// Please note if timeFrame is set to "Years" then accessDuration is limited to 5.
         ///
         /// This method allows you to populate a dropdown list in your app if you want to control the app
         /// token from within your app.
@@ -146,6 +148,13 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "authToken"
         ///     ]
         ///   },
+        ///   {
+        ///     "label": "Years",
+        ///     "value": 6,
+        ///     "appliesTo": [ 
+        ///       "authToken"
+        ///     ]
+        ///   },
         /// ]
         /// ```
         /// </remarks>
@@ -176,6 +185,10 @@ namespace SudokuCollective.Api.Controllers.V1
                 new EnumListItem { 
                     Label = "Months", 
                     Value = (int)TimeFrame.MONTHS,
+                    AppliesTo = authToken },
+                new EnumListItem {
+                    Label = "Years",
+                    Value = (int)TimeFrame.YEARS,
                     AppliesTo = authToken },
             };
 
