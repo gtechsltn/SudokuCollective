@@ -468,7 +468,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> GetRegisteredApps(int userId, IPaginator paginator)
+        public async Task<IResult> GetMyRegisteredApps(int userId, IPaginator paginator)
         {
             if (paginator == null) throw new ArgumentNullException(nameof(paginator));
 
@@ -986,6 +986,7 @@ namespace SudokuCollective.Data.Services
 
                             result.IsSuccess = addUserToAppResponse.IsSuccess;
                             result.Message = AppsMessages.UserAddedToAppMessage;
+                            result.Payload.Add((User)userResponse.Object);
 
                             return result;
                         }
@@ -1088,11 +1089,11 @@ namespace SudokuCollective.Data.Services
                             return result;
                         }
 
-                        var addUserToAppResponse = await _appsRepository.RemoveAppUser(
+                        var removeUserToAppResponse = await _appsRepository.RemoveAppUser(
                             userId,
                             app.License);
 
-                        if (addUserToAppResponse.IsSuccess)
+                        if (removeUserToAppResponse.IsSuccess)
                         {
                             // Remove any app cache items which may exist
                             var removeKeys = new List<string> {
@@ -1106,15 +1107,16 @@ namespace SudokuCollective.Data.Services
 
                             await _cacheService.RemoveKeysAsync(_distributedCache, removeKeys);
 
-                            result.IsSuccess = addUserToAppResponse.IsSuccess;
+                            result.IsSuccess = removeUserToAppResponse.IsSuccess;
                             result.Message = AppsMessages.UserRemovedFromAppMessage;
+                            result.Payload.Add(removeUserToAppResponse.Object);
 
                             return result;
                         }
-                        else if (!addUserToAppResponse.IsSuccess && addUserToAppResponse.Exception != null)
+                        else if (!removeUserToAppResponse.IsSuccess && removeUserToAppResponse.Exception != null)
                         {
-                            result.IsSuccess = addUserToAppResponse.IsSuccess;
-                            result.Message = addUserToAppResponse.Exception.Message;
+                            result.IsSuccess = removeUserToAppResponse.IsSuccess;
+                            result.Message = removeUserToAppResponse.Exception.Message;
 
                             return result;
                         }
@@ -1263,6 +1265,7 @@ namespace SudokuCollective.Data.Services
 
                                     result.IsSuccess = adminRecordUpdateResult.IsSuccess;
                                     result.Message = UsersMessages.UserHasBeenPromotedToAdminMessage;
+                                    result.Payload.Add(user);
 
                                     return result;
                                 }
@@ -1541,6 +1544,7 @@ namespace SudokuCollective.Data.Services
                 {
                     result.IsSuccess = activateAppResponse.IsSuccess;
                     result.Message = AppsMessages.AppActivatedMessage;
+                    result.Payload.Add(activateAppResponse.Object);
 
                     return result;
                 }
@@ -1593,6 +1597,7 @@ namespace SudokuCollective.Data.Services
                 {
                     result.IsSuccess = activateAppResponse.IsSuccess;
                     result.Message = AppsMessages.AppDeactivatedMessage;
+                    result.Payload.Add(activateAppResponse.Object);
 
                     return result;
                 }

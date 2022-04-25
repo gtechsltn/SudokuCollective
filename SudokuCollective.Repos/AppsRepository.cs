@@ -1221,6 +1221,7 @@ namespace SudokuCollective.Repos
                 await _context.SaveChangesAsync();
 
                 result.IsSuccess = true;
+                result.Object = user;
 
                 return result;
             }

@@ -6,7 +6,6 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using Moq;
 using SudokuCollective.Core.Enums;
@@ -24,7 +23,15 @@ namespace SudokuCollective.Test.TestData
         {
             return "D17F0ED3-BE9A-450A-A146-F6733DB2BBDB";
         }
-        
+        public static string GetInvalidLicense()
+        {
+            return "A0FA1A7C-AF21-433E-8E7F-F94F0086F45E";
+        }
+        public static string GetSecondLicense()
+        {
+            return "03C0D43F-3AD8-490A-A131-F73C81FE02C0";
+        }
+
         public static string GetToken()
         {
             return "D17F0ED3-BE9A-450A-A146-F6733DB2BBDB";
@@ -770,6 +777,48 @@ namespace SudokuCollective.Test.TestData
                 AppId = 1,
                 AppUrl = "https://localhost:5001",
                 ErrorMessage = "Message"
+            };
+        }
+
+        public static AppPayload GetAppPayload()
+        {
+            return new AppPayload
+            {
+                Name = "Test App 1 UPDATED!",
+                LocalUrl = "https://localhost:4200",
+                StagingUrl = "https://testapp.dev.com",
+                QaUrl = "https://testapp.qa.com",
+                ProdUrl = "https://testapp.com",
+                IsActive = true,
+                Environment = ReleaseEnvironment.LOCAL,
+                PermitSuperUserAccess = true,
+                PermitCollectiveLogins = true,
+                DisableCustomUrls = true,
+                CustomEmailConfirmationAction = string.Empty,
+                CustomPasswordResetAction = string.Empty,
+                TimeFrame = TimeFrame.DAYS,
+                AccessDuration = 7
+            };
+        }
+
+        public static AppPayload GetInvalidAppPayload()
+        {
+            return new AppPayload
+            {
+                Name = string.Empty,
+                LocalUrl = "https://localhost:4200",
+                StagingUrl = "https://testapp.dev.com",
+                QaUrl = "https://testapp.qa.com",
+                ProdUrl = "https://testapp.com",
+                IsActive = true,
+                Environment = ReleaseEnvironment.LOCAL,
+                PermitSuperUserAccess = true,
+                PermitCollectiveLogins = true,
+                DisableCustomUrls = true,
+                CustomEmailConfirmationAction = string.Empty,
+                CustomPasswordResetAction = string.Empty,
+                TimeFrame = TimeFrame.DAYS,
+                AccessDuration = 7
             };
         }
     }

@@ -126,7 +126,7 @@ namespace SudokuCollective.Test.Services
                 } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.GetRegisteredApps(
+                service.GetMyRegisteredApps(
                     It.IsAny<int>(),
                     It.IsAny<Paginator>()))
                 .Returns(Task.FromResult(new Result()
@@ -224,16 +224,13 @@ namespace SudokuCollective.Test.Services
                         .Result
                         .IsSuccess,
                     Message = UsersMessages.UsersFoundMessage,
-                    Payload = new List<object>()
-                        { 
-                            MockedAppsRepository
-                                .SuccessfulRequest
-                                .Object
-                                .GetAppUsers(It.IsAny<int>())
-                                .Result
-                                .Objects
-                                .ConvertAll(u => (object)u)
-                        }
+                    Payload = MockedAppsRepository
+                        .SuccessfulRequest
+                        .Object
+                        .GetAppUsers(It.IsAny<int>())
+                        .Result
+                        .Objects
+                        .ConvertAll(u => (object)u)
                 } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(service =>
@@ -259,7 +256,16 @@ namespace SudokuCollective.Test.Services
                         .AddAppUser(It.IsAny<int>(), It.IsAny<string>())
                         .Result
                         .IsSuccess,
-                    Message = AppsMessages.UserAddedToAppMessage
+                    Message = AppsMessages.UserAddedToAppMessage,
+                    Payload = new List<object>
+                        {
+                            MockedUsersRepository
+                                .SuccessfulRequest
+                                .Object
+                                .Get(It.IsAny<int>())
+                                .Result
+                                .Object
+                        }
                 } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(service =>
@@ -272,7 +278,16 @@ namespace SudokuCollective.Test.Services
                         .RemoveAppUser(It.IsAny<int>(), It.IsAny<string>())
                         .Result
                         .IsSuccess,
-                    Message = AppsMessages.UserRemovedFromAppMessage
+                    Message = AppsMessages.UserRemovedFromAppMessage,
+                    Payload = new List<object>
+                        {
+                            MockedUsersRepository
+                                .SuccessfulRequest
+                                .Object
+                                .Get(It.IsAny<int>())
+                                .Result
+                                .Object
+                        }
                 } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(service =>
@@ -285,7 +300,16 @@ namespace SudokuCollective.Test.Services
                         .Activate(It.IsAny<int>())
                         .Result
                         .IsSuccess,
-                    Message = AppsMessages.AppActivatedMessage
+                    Message = AppsMessages.AppActivatedMessage,
+                    Payload = new List<object>()
+                        {
+                            MockedAppsRepository
+                                .SuccessfulRequest
+                                .Object
+                                .Get(It.IsAny<int>())
+                                .Result
+                                .Object
+                        }
                 } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(service =>
@@ -298,7 +322,16 @@ namespace SudokuCollective.Test.Services
                         .Deactivate(It.IsAny<int>())
                         .Result
                         .IsSuccess,
-                    Message = AppsMessages.AppDeactivatedMessage
+                    Message = AppsMessages.AppDeactivatedMessage,
+                    Payload = new List<object>()
+                        {
+                            MockedAppsRepository
+                                .SuccessfulRequest
+                                .Object
+                                .Get(It.IsAny<int>())
+                                .Result
+                                .Object
+                        }
                 } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(service =>
@@ -416,7 +449,7 @@ namespace SudokuCollective.Test.Services
                     } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             FailedRequest.Setup(service =>
-                service.GetRegisteredApps(
+                service.GetMyRegisteredApps(
                     It.IsAny<int>(),
                     It.IsAny<Paginator>()))
                 .Returns(Task.FromResult(new Result()
@@ -680,7 +713,7 @@ namespace SudokuCollective.Test.Services
                 } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(service =>
-                service.GetRegisteredApps(
+                service.GetMyRegisteredApps(
                     It.IsAny<int>(),
                     It.IsAny<Paginator>()))
                 .Returns(Task.FromResult(new Result()
@@ -785,7 +818,7 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Objects
                             .ConvertAll(u => (object)u)
-                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(service =>
                 service.GetLicense(It.IsAny<int>()))
@@ -810,8 +843,17 @@ namespace SudokuCollective.Test.Services
                             .AddAppUser(It.IsAny<int>(), It.IsAny<string>())
                             .Result
                             .IsSuccess,
-                        Message = AppsMessages.UserAddedToAppMessage
-                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
+                        Message = AppsMessages.UserAddedToAppMessage,
+                        Payload = new List<object>
+                            {
+                                MockedUsersRepository
+                                    .SuccessfulRequest
+                                    .Object
+                                    .Get(It.IsAny<int>())
+                                    .Result
+                                    .Object
+                            }
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(service =>
                 service.RemoveAppUser(It.IsAny<int>(), It.IsAny<int>()))
@@ -823,8 +865,17 @@ namespace SudokuCollective.Test.Services
                             .RemoveAppUser(It.IsAny<int>(), It.IsAny<string>())
                             .Result
                             .IsSuccess,
-                        Message = AppsMessages.UserRemovedFromAppMessage
-                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
+                        Message = AppsMessages.UserRemovedFromAppMessage,
+                        Payload = new List<object>
+                            {
+                                MockedUsersRepository
+                                    .SuccessfulRequest
+                                    .Object
+                                    .Get(It.IsAny<int>())
+                                    .Result
+                                    .Object
+                            }
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(service =>
                 service.Activate(It.IsAny<int>()))
@@ -836,8 +887,17 @@ namespace SudokuCollective.Test.Services
                             .Activate(It.IsAny<int>())
                             .Result
                             .IsSuccess,
-                        Message = AppsMessages.AppActivatedMessage
-                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
+                        Message = AppsMessages.AppActivatedMessage,
+                        Payload = new List<object>()
+                            {
+                                MockedAppsRepository
+                                    .SuccessfulRequest
+                                    .Object
+                                    .Get(It.IsAny<int>())
+                                    .Result
+                                    .Object
+                            }
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(service =>
                 service.Deactivate(It.IsAny<int>()))
@@ -990,7 +1050,7 @@ namespace SudokuCollective.Test.Services
                     } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(service =>
-                service.GetRegisteredApps(
+                service.GetMyRegisteredApps(
                     It.IsAny<int>(),
                     It.IsAny<Paginator>()))
                 .Returns(Task.FromResult(new Result()
@@ -1120,8 +1180,17 @@ namespace SudokuCollective.Test.Services
                             .AddAppUser(It.IsAny<int>(), It.IsAny<string>())
                             .Result
                             .IsSuccess,
-                        Message = AppsMessages.UserAddedToAppMessage
-                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
+                        Message = AppsMessages.UserAddedToAppMessage,
+                        Payload = new List<object>
+                            {
+                                MockedUsersRepository
+                                    .SuccessfulRequest
+                                    .Object
+                                    .Get(It.IsAny<int>())
+                                    .Result
+                                    .Object
+                            }
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(service =>
                 service.RemoveAppUser(It.IsAny<int>(), It.IsAny<int>()))
@@ -1133,8 +1202,17 @@ namespace SudokuCollective.Test.Services
                             .RemoveAppUser(It.IsAny<int>(), It.IsAny<string>())
                             .Result
                             .IsSuccess,
-                        Message = AppsMessages.UserRemovedFromAppMessage
-                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
+                        Message = AppsMessages.UserRemovedFromAppMessage,
+                        Payload = new List<object>
+                            {
+                                MockedUsersRepository
+                                    .SuccessfulRequest
+                                    .Object
+                                    .Get(It.IsAny<int>())
+                                    .Result
+                                    .Object
+                            }
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(service =>
                 service.Activate(It.IsAny<int>()))
@@ -1146,8 +1224,17 @@ namespace SudokuCollective.Test.Services
                             .Activate(It.IsAny<int>())
                             .Result
                             .IsSuccess,
-                        Message = AppsMessages.AppActivatedMessage
-                    } as Core.Interfaces.Models.DomainObjects.Params.IResult));
+                        Message = AppsMessages.AppActivatedMessage,
+                        Payload = new List<object>()
+                            {
+                                MockedAppsRepository
+                                    .SuccessfulRequest
+                                    .Object
+                                    .Get(It.IsAny<int>())
+                                    .Result
+                                    .Object
+                            }
+                } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(service =>
                 service.Deactivate(It.IsAny<int>()))
