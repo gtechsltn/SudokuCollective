@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SudokuCollective.Core.Interfaces.Services;
@@ -8,6 +9,7 @@ using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Logs;
 using SudokuCollective.Logs.Utilities;
 
+[assembly: InternalsVisibleTo("SudokuCollective.Test")]
 namespace SudokuCollective.Api.Utilities
 {
     internal static class ControllerUtilities
@@ -32,6 +34,17 @@ namespace SudokuCollective.Api.Utilities
                 (SudokuCollective.Logs.Models.Request)requestService.Get());
 
             return controller.StatusCode((int)HttpStatusCode.InternalServerError, result);
+        }
+
+        internal static ObjectResult ProcessTokenError(ControllerBase controller)
+        {
+            var result = new Result
+            {
+                IsSuccess = false,
+                Message = ControllerMessages.InvalidTokenRequestMessage
+            };
+
+            return controller.BadRequest(result);
         }
     }
 }
