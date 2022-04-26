@@ -1,13 +1,12 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 
 namespace SudokuCollective.Core.Interfaces.Services
 {
     public interface IAppsService : IService
     {
-        Task<IResult> Create(ILicenseRequest request);
+        Task<IResult> Create(IRequest request);
         Task<IResult> Get(int id);
         Task<IResult> Update(int id, IRequest request);
         Task<IResult> DeleteOrReset(int id, bool isReset = false);

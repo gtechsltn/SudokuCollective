@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using System.Text.Json.Serialization;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 
-namespace SudokuCollective.Data.Models.Requests
+namespace SudokuCollective.Data.Models.Payloads
 {
-    public class LicenseRequest : ILicenseRequest
+    public class LicensePayload : ILicensePayload
     {
         [Required, JsonPropertyName("name")]
         public string Name { get; set; }
@@ -19,7 +20,7 @@ namespace SudokuCollective.Data.Models.Requests
         [JsonPropertyName("prodUrl")]
         public string ProdUrl { get; set; }
 
-        public LicenseRequest()
+        public LicensePayload()
         {
             Name = string.Empty;
             OwnerId = 0;
@@ -29,7 +30,7 @@ namespace SudokuCollective.Data.Models.Requests
             ProdUrl = string.Empty;
         }
 
-        public LicenseRequest(
+        public LicensePayload(
             string name,
             int ownerId,
             string localUrl,
@@ -43,6 +44,11 @@ namespace SudokuCollective.Data.Models.Requests
             StagingUrl = stagingUrl;
             QaUrl = qaUrl;
             ProdUrl = prodUrl;
+        }
+
+        public static implicit operator JsonElement(LicensePayload v)
+        {
+            return JsonSerializer.SerializeToElement(v, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
         }
     }
 }

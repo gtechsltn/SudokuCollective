@@ -1,6 +1,6 @@
-﻿namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests
+﻿namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads
 {
-    public interface ILicenseRequest
+    public interface ILicensePayload : IPayload
     {
         string Name { get; set; }
         int OwnerId { get; set; }

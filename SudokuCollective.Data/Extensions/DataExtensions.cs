@@ -528,6 +528,31 @@ namespace SudokuCollective.Data.Extensions
                     throw;
                 }
             }
+            else if (type == typeof(LicensePayload))
+            {
+                try
+                {
+                    result = new LicensePayload()
+                    {
+                        Name = element.GetProperty("name").ToString(),
+                        OwnerId = Convert.ToInt32(element.GetProperty("ownerId").ToString()),
+                        LocalUrl = element.GetProperty("localUrl").ToString(),
+                        StagingUrl = element.GetProperty("stagingUrl").ToString(),
+                        QaUrl = element.GetProperty("qaUrl").ToString(),
+                        ProdUrl = element.GetProperty("prodUrl").ToString()
+                    };
+
+                    return true;
+                }
+                catch (KeyNotFoundException)
+                {
+                    return false;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
             else
             {
                 try
