@@ -73,16 +73,30 @@ namespace SudokuCollective.Data.Services
         #endregion
 
         #region Methods
-        public async Task<IResult> Create(ILicenseRequest request)
+        public async Task<IResult> Create(IRequest request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
 
             var result = new Result();
 
+            LicensePayload payload;
+
+            if (request.Payload.ConvertToPayloadSuccessful(typeof(LicensePayload), out IPayload conversionResult))
+            {
+                payload = (LicensePayload)conversionResult;
+            }
+            else
+            {
+                result.IsSuccess = false;
+                result.Message = ServicesMesages.InvalidRequestMessage;
+
+                return result;
+            }
+
             try
             {
                 // Ensure the intended owner exists by pull the records from the repository
-                var userResponse = await _usersRepository.Get(request.OwnerId);
+                var userResponse = await _usersRepository.Get(payload.OwnerId);
 
                 if (userResponse.IsSuccess)
                 {
@@ -131,11 +145,11 @@ namespace SudokuCollective.Data.Services
                     } while (generatingGuid);
 
                     var app = new App(
-                        request.Name,
+                        payload.Name,
                         license.ToString(),
-                        request.OwnerId,
-                        request.StagingUrl,
-                        request.ProdUrl);
+                        payload.OwnerId,
+                        payload.StagingUrl,
+                        payload.ProdUrl);
 
                     var addAppResponse = await _cacheService.AddWithCacheAsync(
                         _appsRepository,

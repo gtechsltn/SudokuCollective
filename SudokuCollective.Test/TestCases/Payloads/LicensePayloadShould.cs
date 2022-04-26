@@ -1,17 +1,17 @@
 ﻿using NUnit.Framework;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
-using SudokuCollective.Data.Models.Requests;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
+using SudokuCollective.Data.Models.Payloads;
 
-namespace SudokuCollective.Test.TestCases.Requests
+namespace SudokuCollective.Test.TestCases.Payloads
 {
-    public class LicenseRequestShould
+    public class LicensePayloadShould
     {
-        private ILicenseRequest sut;
+        private ILicensePayload sut;
 
         [SetUp]
         public void Setup()
         {
-            sut = new LicenseRequest();
+            sut = new LicensePayload();
         }
 
         [Test, Category("Requests")]
@@ -32,17 +32,17 @@ namespace SudokuCollective.Test.TestCases.Requests
         public void HaveADefaultConstructor()
         {
             // Arrange and Act
-            sut = new LicenseRequest();
+            sut = new LicensePayload();
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<LicenseRequest>());
+            Assert.That(sut, Is.InstanceOf<LicensePayload>());
         }
 
         [Test, Category("Requests")]
         public void HaveAConstructorThatAcceptsIntsForEnums()
         {
             // Arrange and Act
-            sut = new LicenseRequest(
+            sut = new LicensePayload(
                 "name",
                 0,
                 "localUrl",
@@ -51,7 +51,7 @@ namespace SudokuCollective.Test.TestCases.Requests
                 "prodUrl");
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<LicenseRequest>());
+            Assert.That(sut, Is.InstanceOf<LicensePayload>());
         }
     }
 }

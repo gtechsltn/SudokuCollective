@@ -20,7 +20,6 @@ using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Payloads;
-using SudokuCollective.Data.Models.Requests;
 using SudokuCollective.Data.Services;
 using SudokuCollective.Test.Cache;
 using SudokuCollective.Test.Repositories;
@@ -46,6 +45,7 @@ namespace SudokuCollective.Test.TestCases.Services
         private IAppsService sutUserRepoFailure;
         private IAppsService sutPromoteUser;
         private DateTime dateCreated;
+        private Request request;
         private string license;
         private Paginator paginator;
         private int userId;
@@ -70,6 +70,7 @@ namespace SudokuCollective.Test.TestCases.Services
             mockedLogger = new Mock<ILogger<AppsService>>();
 
             dateCreated = DateTime.UtcNow;
+            request = TestObjects.GetRequest();
             license = TestObjects.GetLicense();
             paginator = TestObjects.GetPaginator();
             userId = 1;
@@ -178,9 +179,7 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task CreateApps()
         {
             // Arrange
-
-            // Act
-            var result = await sut.Create(new LicenseRequest()
+            request.Payload = new LicensePayload()
             {
 
                 Name = "Test App 3",
@@ -188,9 +187,11 @@ namespace SudokuCollective.Test.TestCases.Services
                 LocalUrl = "https://localhost:8081",
                 StagingUrl = "https://testapp3-dev.com",
                 ProdUrl = "https://testapp3.com"
-            });
+            };
 
-            var apps = context.Apps.ToList();
+
+            // Act
+            var result = await sut.Create(request);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -202,9 +203,7 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task NotCreateAppsIfOwnerDoesNotExist()
         {
             // Arrange
-
-            // Act
-            var result = await sutUserRepoFailure.Create(new LicenseRequest()
+            request.Payload = new LicensePayload()
             {
 
                 Name = "Test App 3",
@@ -212,7 +211,10 @@ namespace SudokuCollective.Test.TestCases.Services
                 LocalUrl = "https://localhost:8081",
                 StagingUrl = "https://testapp3-dev.com",
                 ProdUrl = "https://testapp3.com"
-            });
+            };
+
+            // Act
+            var result = await sutUserRepoFailure.Create(request);
 
             var apps = context.Apps.ToList();
 
