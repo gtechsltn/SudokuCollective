@@ -9,6 +9,8 @@ namespace SudokuCollective.Data.Messages
         internal const string InvalidTokenRequestMessage = "Status Code 400: Invalid Request on this Token";
         internal const string NotOwnerMessage = "Status Code 400: You are not the Owner of this App";
         internal const string IdIncorrectMessage = "Status Code 400: Id is Incorrect";
+        internal const string IdCannotBeZeroMessage = "Id cannot be zero";
+        internal const string UserIdCannotBeZeroMessage = "User id cannot be zero";
 
         internal static string StatusCode200(string serviceMessage) => string.Format("Status Code 200: {0}", serviceMessage);
 

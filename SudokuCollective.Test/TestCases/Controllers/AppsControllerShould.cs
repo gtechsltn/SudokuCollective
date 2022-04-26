@@ -63,8 +63,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
                 mockedLogger.Object);
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyGetApp()
         {
             // Arrange
@@ -84,8 +83,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(app.Id, Is.EqualTo(1));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldGetAppFail()
         {
             // Arrange
@@ -102,8 +100,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyGetAppByLicense()
         {
             // Arrange
@@ -123,8 +120,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldGetAppByLicenseFail()
         {
             // Arrange
@@ -142,8 +138,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyGetApps()
         {
             // Arrange
@@ -161,8 +156,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(apps, Is.InstanceOf<List<App>>());
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldSuccessfullyGetAppsFail()
         {
             // Arrange
@@ -178,8 +172,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyUpdateApps()
         {
             // Arrange
@@ -196,8 +189,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldSuccessfullyUpdateAppsFail()
         {
             // Arrange
@@ -214,8 +206,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyGetAppUsers()
         {
             // Arrange
@@ -236,8 +227,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(users.Count, Is.EqualTo(2));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldSuccessfullyGetAppUsersFail()
         {
             // Arrange
@@ -256,8 +246,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyAddUserToApp()
         {
             // Arrange
@@ -275,8 +264,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldSuccessfullyAddUserToAppFail()
         {
             // Arrange
@@ -292,8 +280,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyRemoveUserFromApp()
         {
             // Arrange
@@ -311,8 +298,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldSuccessfullyRemoveUserFromAppFail()
         {
             // Arrange
@@ -328,8 +314,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyActivateAnApp()
         {
             // Arrange
@@ -347,8 +332,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldSuccessfullyActivateAnAppFail()
         {
             // Arrange
@@ -364,8 +348,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyDeactivateAnApp()
         {
             // Arrange
@@ -383,8 +366,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldSuccessfullyDeactivateAnAppFail()
         {
             // Arrange
@@ -400,8 +382,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void ReturnBadRequestResponseShouldLicenseValidationFail()
         {
             // Arrange
@@ -471,8 +452,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCodeSix, Is.EqualTo(400));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyAllowSuperuserToDeleteApps()
         {
             // Arrange
@@ -491,8 +471,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldSuccessfullyAllowSuperuserToDeleteAppsFail()
         {
             // Arrange
@@ -514,8 +493,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(400));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyPromoteUserToAppAdmin()
         {
             // Arrange
@@ -533,8 +511,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(user, Is.InstanceOf<User>());
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldSuccessfullyPromoteUserToAppAdminFail()
         {
             // Arrange
@@ -550,8 +527,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyDeactivateAdminPrivileges()
         {
             // Arrange
@@ -569,8 +545,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(user, Is.InstanceOf<User>());
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldSuccessfullyDeactivateAdminPrivilegesFail()
         {
             // Arrange
@@ -586,8 +561,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyGetMyApps()
         {
             // Arrange
@@ -605,8 +579,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(apps, Is.InstanceOf<List<App>>());
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldSuccessfullyGetMyAppsFail()
         {
             // Arrange
@@ -622,8 +595,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void SuccessfullyGetMyRegisteredApps()
         {
             // Arrange
@@ -641,8 +613,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             Assert.That(apps, Is.InstanceOf<List<App>>());
         }
 
-        [Test]
-        [Category("Controllers")]
+        [Test, Category("Controllers")]
         public void IssueErrorAndMessageShouldSuccessfullyGetRegisteredAppsFail()
         {
             // Arrange

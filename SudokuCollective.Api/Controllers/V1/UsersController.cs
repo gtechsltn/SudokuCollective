@@ -86,10 +86,14 @@ namespace SudokuCollective.Api.Controllers.V1
             int id,
             [FromBody] Request request)
         {
-            _requestService.Update(request);
-
             try
             {
+                if (id == 0) throw new ArgumentException(ControllerMessages.IdCannotBeZeroMessage);
+
+                if (request == null) throw new ArgumentNullException(nameof(request));
+
+                _requestService.Update(request);
+
                 if (await _appsService.IsRequestValidOnThisToken(
                     _httpContextAccessor,
                     request.License,
@@ -116,13 +120,7 @@ namespace SudokuCollective.Api.Controllers.V1
                 }
                 else
                 {
-                    var result = new Result
-                    {
-                        IsSuccess = false,
-                        Message = ControllerMessages.InvalidTokenRequestMessage
-                    };
-
-                    return BadRequest(result);
+                    return ControllerUtilities.ProcessTokenError(this);
                 }
             }
             catch (Exception e)
@@ -171,10 +169,14 @@ namespace SudokuCollective.Api.Controllers.V1
             int id, 
             [FromBody] Request request)
         {
-            _requestService.Update(request);
-
             try
             {
+                if (id == 0) throw new ArgumentException(ControllerMessages.IdCannotBeZeroMessage);
+
+                if (request == null) throw new ArgumentNullException(nameof(request));
+
+                _requestService.Update(request);
+
                 if (await _appsService.IsRequestValidOnThisToken(
                     _httpContextAccessor,
                     request.License,
@@ -229,13 +231,7 @@ namespace SudokuCollective.Api.Controllers.V1
                 }
                 else
                 {
-                    var result = new Result
-                    {
-                        IsSuccess = false,
-                        Message = ControllerMessages.InvalidTokenRequestMessage
-                    };
-
-                    return BadRequest(result);
+                    return ControllerUtilities.ProcessTokenError(this);
                 }
             }
             catch (Exception e)
@@ -278,9 +274,14 @@ namespace SudokuCollective.Api.Controllers.V1
             int id, 
             [FromBody] Request request)
         {
-            _requestService.Update(request);
             try
             {
+                if (id == 0) throw new ArgumentException(ControllerMessages.IdCannotBeZeroMessage);
+
+                if (request == null) throw new ArgumentNullException(nameof(request));
+
+                _requestService.Update(request);
+
                 if (await _appsService.IsRequestValidOnThisToken(
                     _httpContextAccessor,
                     request.License,
@@ -304,13 +305,7 @@ namespace SudokuCollective.Api.Controllers.V1
                 }
                 else
                 {
-                    var result = new Result
-                    {
-                        IsSuccess = false,
-                        Message = ControllerMessages.InvalidTokenRequestMessage
-                    };
-
-                    return BadRequest(result);
+                    return ControllerUtilities.ProcessTokenError(this);
                 }
             }
             catch (Exception e)
@@ -378,10 +373,12 @@ namespace SudokuCollective.Api.Controllers.V1
         public async Task<ActionResult<IEnumerable<User>>> GetUsers(
             [FromBody] Request request)
         {
-            _requestService.Update(request);
-
             try
             {
+                if (request == null) throw new ArgumentNullException(nameof(request));
+
+                _requestService.Update(request);
+
                 if (await _appsService.IsRequestValidOnThisToken(
                     _httpContextAccessor,
                     request.License,
@@ -408,13 +405,7 @@ namespace SudokuCollective.Api.Controllers.V1
                 }
                 else
                 {
-                    var result = new Result
-                    {
-                        IsSuccess = false,
-                        Message = ControllerMessages.InvalidTokenRequestMessage
-                    };
-
-                    return BadRequest(result);
+                    return ControllerUtilities.ProcessTokenError(this);
                 }
             }
             catch (Exception e)
@@ -459,10 +450,14 @@ namespace SudokuCollective.Api.Controllers.V1
             int id,
             [FromBody] Request request)
         {
-            _requestService.Update(request);
-
             try
             {
+                if (id == 0) throw new ArgumentException(ControllerMessages.IdCannotBeZeroMessage);
+
+                if (request == null) throw new ArgumentNullException(nameof(request));
+
+                _requestService.Update(request);
+
                 if (await _appsService.IsRequestValidOnThisToken(
                     _httpContextAccessor,
                     request.License,
@@ -489,13 +484,7 @@ namespace SudokuCollective.Api.Controllers.V1
                 }
                 else
                 {
-                    var result = new Result
-                    {
-                        IsSuccess = false,
-                        Message = ControllerMessages.InvalidTokenRequestMessage
-                    };
-
-                    return BadRequest(result);
+                    return ControllerUtilities.ProcessTokenError(this);
                 }
             }
             catch (Exception e)
@@ -540,10 +529,14 @@ namespace SudokuCollective.Api.Controllers.V1
             int id,
             [FromBody] Request request)
         {
-            _requestService.Update(request);
-
             try
             {
+                if (id == 0) throw new ArgumentException(ControllerMessages.IdCannotBeZeroMessage);
+
+                if (request == null) throw new ArgumentNullException(nameof(request));
+
+                _requestService.Update(request);
+
                 if (await _appsService.IsRequestValidOnThisToken(
                     _httpContextAccessor,
                     request.License,
@@ -570,13 +563,7 @@ namespace SudokuCollective.Api.Controllers.V1
                 }
                 else
                 {
-                    var result = new Result
-                    {
-                        IsSuccess = false,
-                        Message = ControllerMessages.InvalidTokenRequestMessage
-                    };
-
-                    return BadRequest(result);
+                    return ControllerUtilities.ProcessTokenError(this);
                 }
             }
             catch (Exception e)
@@ -606,6 +593,8 @@ namespace SudokuCollective.Api.Controllers.V1
         {
             try
             {
+                if (id == 0) throw new ArgumentException(ControllerMessages.IdCannotBeZeroMessage);
+
                 var result = await _usersService.Activate(id);
 
                 if (result.IsSuccess)
@@ -648,6 +637,8 @@ namespace SudokuCollective.Api.Controllers.V1
         {
             try
             {
+                if (id == 0) throw new ArgumentException(ControllerMessages.IdCannotBeZeroMessage);
+
                 var result = await _usersService.Deactivate(id);
 
                 if (result.IsSuccess)
@@ -700,6 +691,8 @@ namespace SudokuCollective.Api.Controllers.V1
         {
             try
             {
+                if (request == null) throw new ArgumentNullException(nameof(request));
+
                 var user = (User)(await _usersService.GetUserByPasswordToken(request.Token)).Payload[0];
                 var license = (await _usersService.GetAppLicenseByPasswordToken(request.Token)).License;
 
@@ -760,6 +753,8 @@ namespace SudokuCollective.Api.Controllers.V1
         {
             try
             {
+                if (request == null) throw new ArgumentNullException(nameof(request));
+
                 string baseUrl;
 
                 if (Request != null)
@@ -835,6 +830,8 @@ namespace SudokuCollective.Api.Controllers.V1
         {
             try
             {
+                if (request == null) throw new ArgumentNullException(nameof(request));
+
                 string baseUrl;
 
                 if (Request != null)
@@ -907,6 +904,8 @@ namespace SudokuCollective.Api.Controllers.V1
         {
             try
             {
+                if (string.IsNullOrEmpty(token)) throw new ArgumentNullException(nameof(token));
+
                 string baseUrl;
 
                 if (Request != null)
@@ -982,10 +981,12 @@ namespace SudokuCollective.Api.Controllers.V1
         [HttpPut, Route("cancelEmailConfirmation")]
         public async Task<IActionResult> CancelEmailConfirmation([FromBody] Request request)
         {
-            _requestService.Update(request);
-
             try
             {
+                if (request == null) throw new ArgumentNullException(nameof(request));
+
+                _requestService.Update(request);
+
                 if (await _appsService.IsRequestValidOnThisToken(
                     _httpContextAccessor,
                     request.License,
@@ -1009,13 +1010,7 @@ namespace SudokuCollective.Api.Controllers.V1
                 }
                 else
                 {
-                    var result = new Result
-                    {
-                        IsSuccess = false,
-                        Message = ControllerMessages.InvalidTokenRequestMessage
-                    };
-
-                    return BadRequest(result);
+                    return ControllerUtilities.ProcessTokenError(this);
                 }
             }
             catch (Exception e)
@@ -1054,10 +1049,12 @@ namespace SudokuCollective.Api.Controllers.V1
         [HttpPut, Route("cancelPasswordReset")]
         public async Task<IActionResult> CancelPasswordReset([FromBody] Request request)
         {
-            _requestService.Update(request);
-
             try
             {
+                if (request == null) throw new ArgumentNullException(nameof(request));
+
+                _requestService.Update(request);
+
                 if (await _appsService.IsRequestValidOnThisToken(
                     _httpContextAccessor,
                     request.License,
@@ -1081,13 +1078,7 @@ namespace SudokuCollective.Api.Controllers.V1
                 }
                 else
                 {
-                    var result = new Result
-                    {
-                        IsSuccess = false,
-                        Message = ControllerMessages.InvalidTokenRequestMessage
-                    };
-
-                    return BadRequest(result);
+                    return ControllerUtilities.ProcessTokenError(this);
                 }
             }
             catch (Exception e)
@@ -1126,10 +1117,12 @@ namespace SudokuCollective.Api.Controllers.V1
         [HttpPut, Route("cancelAllEmailRequests")]
         public async Task<IActionResult> CancelAllEmailRequests([FromBody] Request request)
         {
-            _requestService.Update(request);
-
             try
             {
+                if (request == null) throw new ArgumentNullException(nameof(request));
+
+                _requestService.Update(request);
+
                 if (await _appsService.IsRequestValidOnThisToken(
                     _httpContextAccessor,
                     request.License,
@@ -1153,13 +1146,7 @@ namespace SudokuCollective.Api.Controllers.V1
                 }
                 else
                 {
-                    var result = new Result
-                    {
-                        IsSuccess = false,
-                        Message = ControllerMessages.InvalidTokenRequestMessage
-                    };
-
-                    return BadRequest(result);
+                    return ControllerUtilities.ProcessTokenError(this);
                 }
             }
             catch (Exception e)
