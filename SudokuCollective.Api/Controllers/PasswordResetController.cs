@@ -121,7 +121,7 @@ namespace SudokuCollective.Api.Controllers
             }
 
             var app = (App)(await _appsService.Get(passwordReset.AppId)).Payload[0];
-            app.License = (await _appsService.GetLicense(app.Id)).License;
+            app.License = (await _appsService.GetLicense(app.Id, passwordReset.UserId)).License;
 
             var userResut = await _usersService.Get(
                 passwordReset.UserId, 

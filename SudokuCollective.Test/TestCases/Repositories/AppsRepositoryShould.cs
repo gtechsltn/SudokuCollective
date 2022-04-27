@@ -36,7 +36,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 mockedLogger.Object);
 
             newApp = new App(
-                "Test App 3",
+                "Test App 4",
                 "6e32e987-13b9-43ab-aee5-9df659eeb6bd",
                 1,
                 "https://localhost:8080",
@@ -146,7 +146,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task GetUsersByApp()
         {
             // Arrange
-            var id = context.Apps.FirstOrDefault().Id;
+            var id = context.Apps.FirstOrDefault(a => a.Id == 2).Id;
 
             // Act
             var result = await sut.GetAppUsers(id);
@@ -189,7 +189,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ReturnFalseIfGetNonAppUsersByAppFails()
         {
             // Arrange
-            var id = context.Apps.LastOrDefault().Id;
+            var id = context.Apps.LastOrDefault(a => a.Id == 2).Id;
 
             // Act
 
@@ -593,7 +593,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Act
 
             // Add 1 to the last ID retrieved to cause a failure
-            var result = await sut.GetMyApps(user.Id + 1);
+            var result = await sut.GetMyApps(user.Id + 2);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);

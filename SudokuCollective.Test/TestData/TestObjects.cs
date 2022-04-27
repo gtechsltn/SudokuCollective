@@ -23,13 +23,19 @@ namespace SudokuCollective.Test.TestData
         {
             return "D17F0ED3-BE9A-450A-A146-F6733DB2BBDB";
         }
+
         public static string GetInvalidLicense()
         {
             return "A0FA1A7C-AF21-433E-8E7F-F94F0086F45E";
         }
+
         public static string GetSecondLicense()
         {
             return "03C0D43F-3AD8-490A-A131-F73C81FE02C0";
+        }
+        public static string GetThirdLicense()
+        {
+            return "AAA6C3EC-EC85-46E7-9793-68A6E2BF4904";
         }
 
         public static string GetToken()
@@ -826,7 +832,7 @@ namespace SudokuCollective.Test.TestData
         {
             return new LicensePayload
             {
-                Name = "Test App 3",
+                Name = "Test App 4",
                 LocalUrl = "https://localhost:4200",
                 StagingUrl = "https://testapp3.dev.com",
                 QaUrl = "https://testapp3.qa.com",

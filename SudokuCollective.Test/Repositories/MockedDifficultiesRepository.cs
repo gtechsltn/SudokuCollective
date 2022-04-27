@@ -26,6 +26,7 @@ namespace SudokuCollective.Test.Repositories
             FailedRequest = new Mock<IDifficultiesRepository<Difficulty>>();
             CreateDifficultyRequest = new Mock<IDifficultiesRepository<Difficulty>>();
 
+            #region SuccessfulRequest
             SuccessfulRequest.Setup(repo =>
                 repo.Add(It.IsAny<Difficulty>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
@@ -90,7 +91,9 @@ namespace SudokuCollective.Test.Repositories
             SuccessfulRequest.Setup(repo =>
                 repo.HasDifficultyLevel(It.IsAny<DifficultyLevel>()))
                     .Returns(Task.FromResult(true));
+            #endregion
 
+            #region FailedRequest
             FailedRequest.Setup(repo =>
                 repo.Add(It.IsAny<Difficulty>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -147,7 +150,9 @@ namespace SudokuCollective.Test.Repositories
             FailedRequest.Setup(repo =>
                 repo.HasDifficultyLevel(It.IsAny<DifficultyLevel>()))
                     .Returns(Task.FromResult(false));
+            #endregion
 
+            #region CreateDifficultyRequest
             CreateDifficultyRequest.Setup(repo =>
                 repo.Add(It.IsAny<Difficulty>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -212,6 +217,7 @@ namespace SudokuCollective.Test.Repositories
             CreateDifficultyRequest.Setup(repo =>
                 repo.HasDifficultyLevel(It.IsAny<DifficultyLevel>()))
                     .Returns(Task.FromResult(false));
+            #endregion
         }
     }
 }

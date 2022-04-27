@@ -1640,7 +1640,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<ILicenseResult> GetLicense(int id)
+        public async Task<ILicenseResult> GetLicense(int id, int requestorId)
         {
             var result = new LicenseResult();
 
@@ -1670,10 +1670,35 @@ namespace SudokuCollective.Data.Services
                         id,
                         result);
 
-                    result.IsSuccess = true;
-                    result.IsFromCache = response.Item2.IsFromCache;
-                    result.Message = AppsMessages.AppFoundMessage;
-                    result.License = response.Item1;
+                    var appResponse = await _cacheService.GetWithCacheAsync(
+                        _appsRepository,
+                        _distributedCache,
+                        string.Format(_cacheKeys.GetAppCacheKey, id),
+                        _cachingStrategy.Medium,
+                        id);
+
+                    var userResponse = await _cacheService.GetWithCacheAsync(
+                        _usersRepository,
+                        _distributedCache,
+                        string.Format(_cacheKeys.GetUserCacheKey, id, response.Item1),
+                        _cachingStrategy.Heavy,
+                        id,
+                        result);
+
+                    var app = (App)((RepositoryResponse)appResponse.Item1).Object;
+                    var user = (User)((RepositoryResponse)userResponse.Item1).Object;
+
+                    if (!user.IsSuperUser && app.OwnerId != user.Id)
+                    {
+                        result.IsSuccess = false;
+                    }
+                    else if (user.IsSuperUser || app.OwnerId == user.Id)
+                    {
+                        result.IsSuccess = true;
+                        result.IsFromCache = response.Item2.IsFromCache;
+                        result.Message = AppsMessages.AppFoundMessage;
+                        result.License = response.Item1;
+                    }
 
                     return result;
                 }

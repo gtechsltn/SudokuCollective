@@ -20,6 +20,7 @@ namespace SudokuCollective.Test.Repositories
         internal Mock<IUsersRepository<User>> EmailFailedRequest { get; set; }
         internal Mock<IUsersRepository<User>> InitiatePasswordSuccessfulRequest { get; set; }
         internal Mock<IUsersRepository<User>> ResendEmailConfirmationSuccessfulRequest { get; set; }
+        internal Mock<IUsersRepository<User>> PermitSuperUserSuccessfulRequest { get; set; }
 
         public MockedUsersRepository(DatabaseContext ctxt)
         {
@@ -31,7 +32,9 @@ namespace SudokuCollective.Test.Repositories
             EmailFailedRequest = new Mock<IUsersRepository<User>>();
             InitiatePasswordSuccessfulRequest = new Mock<IUsersRepository<User>>();
             ResendEmailConfirmationSuccessfulRequest = new Mock<IUsersRepository<User>>();
+            PermitSuperUserSuccessfulRequest = new Mock<IUsersRepository<User>>();
 
+            #region SuccessfulRequest
             SuccessfulRequest.Setup(repo =>
                 repo.Add(It.IsAny<User>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -213,7 +216,9 @@ namespace SudokuCollective.Test.Repositories
             SuccessfulRequest.Setup(repo =>
                 repo.IsUpdatedEmailUnique(It.IsAny<int>(), It.IsAny<string>()))
                     .Returns(Task.FromResult(true));
+            #endregion
 
+            #region FailedRequest
             FailedRequest.Setup(repo =>
                 repo.Add(It.IsAny<User>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -352,7 +357,9 @@ namespace SudokuCollective.Test.Repositories
             FailedRequest.Setup(repo =>
                 repo.IsUpdatedEmailUnique(It.IsAny<int>(), It.IsAny<string>()))
                     .Returns(Task.FromResult(false));
+            #endregion
 
+            #region EmailFailedRequest
             EmailFailedRequest.Setup(repo =>
                 repo.Add(It.IsAny<User>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -518,7 +525,9 @@ namespace SudokuCollective.Test.Repositories
             EmailFailedRequest.Setup(repo =>
                 repo.IsUpdatedEmailUnique(It.IsAny<int>(), It.IsAny<string>()))
                     .Returns(Task.FromResult(false));
+            #endregion
 
+            #region InitiatePasswordSuccessfulRequest
             InitiatePasswordSuccessfulRequest.Setup(repo =>
                 repo.Add(It.IsAny<User>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -700,7 +709,9 @@ namespace SudokuCollective.Test.Repositories
             InitiatePasswordSuccessfulRequest.Setup(repo =>
                 repo.IsUpdatedEmailUnique(It.IsAny<int>(), It.IsAny<string>()))
                     .Returns(Task.FromResult(true));
+            #endregion
 
+            #region ResendEmailConfirmationSuccessfulRequest
             ResendEmailConfirmationSuccessfulRequest.Setup(repo =>
                 repo.Add(It.IsAny<User>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -882,6 +893,191 @@ namespace SudokuCollective.Test.Repositories
             ResendEmailConfirmationSuccessfulRequest.Setup(repo =>
                 repo.IsUpdatedEmailUnique(It.IsAny<int>(), It.IsAny<string>()))
                     .Returns(Task.FromResult(true));
+            #endregion
+
+            #region PermitSuperUserSuccessfulRequest
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.Add(It.IsAny<User>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Object = new User(
+                            4,
+                            "TestUser3",
+                            "Test",
+                            "User 3",
+                            "Test User 3",
+                            "TestUser3@example.com",
+                            true,
+                            false,
+                            "password",
+                            false,
+                            true,
+                            todaysDate,
+                            DateTime.MinValue)
+                        {
+                            Apps = new List<UserApp>()
+                            {
+                                new UserApp()
+                                {
+                                    App = new App()
+                                }
+                            }
+                        }
+                    } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.Get(It.IsAny<int>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Object = context.Users.FirstOrDefault(u => u.Id == 1)
+                    } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.GetByUserName(It.IsAny<string>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Object = context
+                            .Users
+                            .FirstOrDefault(u => u.UserName.Equals("TestSuperUser"))
+                    } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.GetByEmail(It.IsAny<string>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Object = context
+                            .Users
+                            .FirstOrDefault(u => u.Email.Equals("TestSuperUser@example.com"))
+                    } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.GetAll())
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Objects = context
+                            .Users
+                            .ToList()
+                            .ConvertAll(u => (IDomainEntity)u)
+                    } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.Update(It.IsAny<User>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Object = context.Users.FirstOrDefault(u => u.Id == 2)
+                    } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.UpdateRange(It.IsAny<List<User>>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Objects = context.Users.ToList().ConvertAll(u => (IDomainEntity)u)
+                    } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.Delete(It.IsAny<User>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true
+                    } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.DeleteRange(It.IsAny<List<User>>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true
+                    } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.HasEntity(It.IsAny<int>()))
+                    .Returns(Task.FromResult(true));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.AddRoles(It.IsAny<int>(), It.IsAny<List<int>>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true
+                    } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.RemoveRoles(It.IsAny<int>(), It.IsAny<List<int>>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true
+                    } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.ConfirmEmail(It.IsAny<EmailConfirmation>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Object = context.Users.FirstOrDefault(u => u.Id == 1)
+                    } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.UpdateEmail(It.IsAny<EmailConfirmation>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Object = context.Users.FirstOrDefault(u => u.Id == 1)
+                    } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.GetMyApps(It.IsAny<int>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Objects = context
+                            .Apps
+                            .Where(a => a.OwnerId == 2)
+                            .ToList()
+                            .ConvertAll(a => (IDomainEntity)a)
+
+                    } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.GetAppLicense(It.IsAny<int>()))
+                    .Returns(Task.FromResult(TestData.TestObjects.GetLicense()));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.Activate(It.IsAny<int>()))
+                    .Returns(Task.FromResult(true));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.Deactivate(It.IsAny<int>()))
+                    .Returns(Task.FromResult(true));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.PromoteToAdmin(It.IsAny<int>()))
+                    .Returns(Task.FromResult(true));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.IsUserRegistered(It.IsAny<int>()))
+                    .Returns(Task.FromResult(true));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.IsUserNameUnique(It.IsAny<string>()))
+                    .Returns(Task.FromResult(true));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.IsEmailUnique(It.IsAny<string>()))
+                    .Returns(Task.FromResult(true));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.IsUpdatedUserNameUnique(It.IsAny<int>(), It.IsAny<string>()))
+                    .Returns(Task.FromResult(true));
+
+            PermitSuperUserSuccessfulRequest.Setup(repo =>
+                repo.IsUpdatedEmailUnique(It.IsAny<int>(), It.IsAny<string>()))
+                    .Returns(Task.FromResult(true));
+            #endregion
         }
     }
 }

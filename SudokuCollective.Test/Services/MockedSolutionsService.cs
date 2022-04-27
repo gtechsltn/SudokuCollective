@@ -15,7 +15,6 @@ namespace SudokuCollective.Test.Services
     public class MockedSolutionsService
     {
         private MockedSolutionsRepository MockedSolutionsRepository { get; set; }
-        private MockedUsersRepository MockedUsersRepository { get; set; }
 
         internal Mock<ISolutionsService> SuccessfulRequest { get; set; }
         internal Mock<ISolutionsService> FailedRequest { get; set; }
@@ -24,12 +23,12 @@ namespace SudokuCollective.Test.Services
         public MockedSolutionsService(DatabaseContext context)
         {
             MockedSolutionsRepository = new MockedSolutionsRepository(context);
-            MockedUsersRepository = new MockedUsersRepository(context);
 
             SuccessfulRequest = new Mock<ISolutionsService>();
             FailedRequest = new Mock<ISolutionsService>();
             SolveFailedRequest = new Mock<ISolutionsService>();
 
+            #region SuccessfulRequest
             SuccessfulRequest.Setup(service =>
                 service.Get(It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
@@ -123,7 +122,9 @@ namespace SudokuCollective.Test.Services
                             .IsSuccess,
                         Message = SolutionsMessages.SolutionsAddedMessage
                     } as IResult));
+            #endregion
 
+            #region FailedRequest
             FailedRequest.Setup(service =>
                 service.Get(It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
@@ -183,7 +184,9 @@ namespace SudokuCollective.Test.Services
                             .IsSuccess,
                         Message = SolutionsMessages.SolutionsNotAddedMessage
                     } as IResult));
+            #endregion
 
+            #region SolveFailedRequest
             SolveFailedRequest.Setup(service =>
                 service.Solve(It.IsAny<IRequest>()))
                 .Returns(Task.FromResult(new Result()
@@ -191,6 +194,7 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = true,
                         Message = SolutionsMessages.SudokuSolutionNotFoundMessage
                     } as IResult));
+            #endregion
         }
     }
 }

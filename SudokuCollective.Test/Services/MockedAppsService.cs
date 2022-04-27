@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
@@ -36,6 +35,7 @@ namespace SudokuCollective.Test.Services
             InvalidRequest = new Mock<IAppsService>();
             PromoteUserFailsRequest = new Mock<IAppsService>();
 
+            #region SuccessfulRequest
             SuccessfulRequest.Setup(service =>
                 service.Get(
                     It.IsAny<int>()))
@@ -234,7 +234,9 @@ namespace SudokuCollective.Test.Services
                 } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.GetLicense(It.IsAny<int>()))
+                service.GetLicense(
+                    It.IsAny<int>(),
+                    It.IsAny<int>()))
                 .Returns(Task.FromResult(new LicenseResult()
                 {
                     IsSuccess = true,
@@ -390,7 +392,9 @@ namespace SudokuCollective.Test.Services
                                 .Object
                         }
                 } as Core.Interfaces.Models.DomainObjects.Params.IResult));
+            #endregion
 
+            #region FailedRequest
             FailedRequest.Setup(service =>
                 service.Get(
                     It.IsAny<int>()))
@@ -525,7 +529,9 @@ namespace SudokuCollective.Test.Services
                     } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             FailedRequest.Setup(service =>
-                service.GetLicense(It.IsAny<int>()))
+                service.GetLicense(
+                    It.IsAny<int>(),
+                    It.IsAny<int>()))
                 .Returns(Task.FromResult(new LicenseResult()
                     {
                         IsSuccess = false,
@@ -622,7 +628,9 @@ namespace SudokuCollective.Test.Services
                             .IsSuccess,
                         Message = AppsMessages.DeactivationOfAdminPrivilegesFailedMessage
                     } as Core.Interfaces.Models.DomainObjects.Params.IResult));
+            #endregion
 
+            #region InvalidRequest
             InvalidRequest.Setup(service =>
                 service.Get(
                     It.IsAny<int>()))
@@ -821,7 +829,9 @@ namespace SudokuCollective.Test.Services
                 } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             InvalidRequest.Setup(service =>
-                service.GetLicense(It.IsAny<int>()))
+                service.GetLicense(
+                    It.IsAny<int>(),
+                    It.IsAny<int>()))
                 .Returns(Task.FromResult(new LicenseResult()
                     {
                         IsSuccess = true,
@@ -959,7 +969,9 @@ namespace SudokuCollective.Test.Services
                                     .Object
                             }
                     } as Core.Interfaces.Models.DomainObjects.Params.IResult));
+            #endregion
 
+            #region PromoteUserFailsRequest
             PromoteUserFailsRequest.Setup(service =>
                 service.Get(
                     It.IsAny<int>()))
@@ -1158,7 +1170,9 @@ namespace SudokuCollective.Test.Services
                     } as Core.Interfaces.Models.DomainObjects.Params.IResult));
 
             PromoteUserFailsRequest.Setup(service =>
-                service.GetLicense(It.IsAny<int>()))
+                service.GetLicense(
+                    It.IsAny<int>(),
+                    It.IsAny<int>()))
                 .Returns(Task.FromResult(new LicenseResult()
                     {
                         IsSuccess = true,
@@ -1300,6 +1314,7 @@ namespace SudokuCollective.Test.Services
                             .IsSuccess,
                         Message = AppsMessages.DeactivationOfAdminPrivilegesFailedMessage
                     } as Core.Interfaces.Models.DomainObjects.Params.IResult));
+            #endregion
         }
     }
 }

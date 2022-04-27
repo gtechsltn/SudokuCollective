@@ -35,6 +35,7 @@ namespace SudokuCollective.Test.Services
             FailedRequest = new Mock<IUsersService>();
             FailedResetPasswordRequest = new Mock<IUsersService>();
 
+            #region SuccessfulRequest
             SuccessfulRequest.Setup(service =>
                 service.Create(It.IsAny<ISignupRequest>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
@@ -372,7 +373,9 @@ namespace SudokuCollective.Test.Services
                                 TestObjects.GetUserResult()
                             }
                 } as IResult));
+            #endregion
 
+            #region FailedRequest
             FailedRequest.Setup(service =>
                 service.Create(It.IsAny<ISignupRequest>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
@@ -643,7 +646,9 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = false,
                         Message = UsersMessages.EmailRequestsNotFoundMessage
                     } as IResult));
-            
+            #endregion
+
+            #region FailedResetPasswordRequest
             FailedResetPasswordRequest.Setup(service =>
                 service.Create(It.IsAny<ISignupRequest>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
@@ -981,6 +986,7 @@ namespace SudokuCollective.Test.Services
                                 TestObjects.GetUserResult()
                             }
                 } as IResult));
+            #endregion
         }
     }
 }

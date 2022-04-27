@@ -24,6 +24,7 @@ namespace SudokuCollective.Test.Repositories
             SuccessfulRequest = new Mock<IRolesRepository<Role>>();
             FailedRequest = new Mock<IRolesRepository<Role>>();
 
+            #region SuccessfulRequest
             SuccessfulRequest.Setup(rolesRepo =>
                 rolesRepo.Add(It.IsAny<Role>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -91,7 +92,9 @@ namespace SudokuCollective.Test.Repositories
             SuccessfulRequest.Setup(rolesRepo =>
                 rolesRepo.IsListValid(It.IsAny<List<int>>()))
                     .Returns(Task.FromResult(true));
+            #endregion
 
+            #region FailedRequest
             FailedRequest.Setup(rolesRepo =>
                 rolesRepo.Add(It.IsAny<Role>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -152,6 +155,7 @@ namespace SudokuCollective.Test.Repositories
             FailedRequest.Setup(rolesRepo =>
                 rolesRepo.IsListValid(It.IsAny<List<int>>()))
                     .Returns(Task.FromResult(false));
+            #endregion
         }
     }
 }

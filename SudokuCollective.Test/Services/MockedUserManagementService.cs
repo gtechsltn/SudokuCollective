@@ -24,6 +24,7 @@ namespace SudokuCollective.Test.Services
             UserNameFailedRequest = new Mock<IUserManagementService>();
             PasswordFailedRequest = new Mock<IUserManagementService>();
 
+            #region SuccessfulRequest
             SuccssfulRequest.Setup(userManagementService =>
                 userManagementService.IsValidUser(It.IsAny<string>(), It.IsAny<string>()))
                     .Returns(Task.FromResult(true));
@@ -36,7 +37,9 @@ namespace SudokuCollective.Test.Services
                         Message = UsersMessages.UserNameConfirmedMessage,
                         Payload = new List<object> { new AuthenticatedUserNameResult { UserName = "TestSuperUser" } }
                     } as IResult));
+            #endregion
 
+            #region FailedRequest
             FailedRequest.Setup(userManagementService =>
                 userManagementService.IsValidUser(It.IsAny<string>(), It.IsAny<string>()))
                     .Returns(Task.FromResult(false));
@@ -48,20 +51,25 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = false,
                         Message = UsersMessages.NoUserIsUsingThisEmailMessage
                     } as IResult));
+            #endregion
 
+            #region UserNameFailedRequest
             UserNameFailedRequest.Setup(userManagementService =>
                 userManagementService.ConfirmAuthenticationIssue(
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>()))
                     .Returns(Task.FromResult(UserAuthenticationErrorType.USERNAMEINVALID));
+            #endregion
 
+            #region PasswordFailedRequest
             PasswordFailedRequest.Setup(userManagementService =>
                 userManagementService.ConfirmAuthenticationIssue(
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>()))
                     .Returns(Task.FromResult(UserAuthenticationErrorType.PASSWORDINVALID));
+            #endregion
         }
     }
 }

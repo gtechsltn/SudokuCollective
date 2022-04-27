@@ -166,7 +166,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _appsService.GetLicense(id);
+                    var result = await _appsService.GetLicense(id, request.RequestorId);
 
                     if (result.IsSuccess)
                     {

@@ -168,6 +168,27 @@ namespace SudokuCollective.Test.TestData
                         TimeFrame.DAYS,
                         1,
                         dateCreated,
+                        DateTime.MinValue),
+
+                    new App(
+                        3,
+                        "Test App 3",
+                        TestObjects.GetThirdLicense(),
+                        2,
+                        "https://localhost:8080",
+                        "https://testapp3.dev.com",
+                        "https://testapp3.qa.com",
+                        "https://testapp3.com",
+                        true,
+                        false,
+                        true,
+                        ReleaseEnvironment.LOCAL,
+                        true,
+                        string.Empty,
+                        string.Empty,
+                        TimeFrame.DAYS,
+                        1,
+                        dateCreated,
                         DateTime.MinValue)
                 );
 
@@ -181,7 +202,8 @@ namespace SudokuCollective.Test.TestData
                     new UserApp(1, 1, 1),
                     new UserApp(3, 2, 1),
                     new UserApp(4, 2, 2),
-                    new UserApp(5, 3, 2)
+                    new UserApp(5, 3, 2),
+                    new UserApp(6, 2, 3)
                 );
 
                 await databaseContext.SaveChangesAsync();
@@ -192,7 +214,8 @@ namespace SudokuCollective.Test.TestData
                 databaseContext.AppAdmins.AddRange(
 
                     new AppAdmin(1, 1, 1, true),
-                    new AppAdmin(2, 2, 1, true)
+                    new AppAdmin(2, 2, 1, true),
+                    new AppAdmin(3, 3, 2, true)
                 );
             }
             if (!await databaseContext.SudokuMatrices.AnyAsync())

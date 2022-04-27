@@ -22,6 +22,7 @@ namespace SudokuCollective.Test.Repositories
             SuccessfulRequest = new Mock<IEmailConfirmationsRepository<EmailConfirmation>>();
             FailedRequest = new Mock<IEmailConfirmationsRepository<EmailConfirmation>>();
 
+            #region SuccessfulRequest
             SuccessfulRequest.Setup(repo =>
                 repo.Create(It.IsAny<EmailConfirmation>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -78,7 +79,9 @@ namespace SudokuCollective.Test.Repositories
                         IsSuccess = true,
                         Object = context.EmailConfirmations.FirstOrDefault(ec => ec.Id == 1)
                     } as IRepositoryResponse));
+            #endregion
 
+            #region FailedRequest
             FailedRequest.Setup(repo =>
                 repo.Create(It.IsAny<EmailConfirmation>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -128,6 +131,7 @@ namespace SudokuCollective.Test.Repositories
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
+            #endregion
         }
     }
 }
