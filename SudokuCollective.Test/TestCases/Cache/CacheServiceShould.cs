@@ -50,7 +50,7 @@ namespace SudokuCollective.Test.TestCases.Cache
         public async Task AddNewApps()
         {
             // Arrange
-            var app = new App("New Test App", Guid.NewGuid().ToString(), 2, string.Empty, string.Empty);
+            var app = new App("New Test App", Guid.NewGuid().ToString(), 2, "http://example-dev.com", "http://example.com");
 
             // Act
             var result = await sut.AddWithCacheAsync<App>(
@@ -70,7 +70,7 @@ namespace SudokuCollective.Test.TestCases.Cache
         public async Task ReturnsFalseIfAddNewAppsFails()
         {
             // Arrange
-            var app = new App("New Test App", Guid.NewGuid().ToString(), 2, string.Empty, string.Empty);
+            var app = new App("New Test App", Guid.NewGuid().ToString(), 2, "http://example-dev.com", "http://example.com");
 
             // Act
             var result = await sut.AddWithCacheAsync<App>(

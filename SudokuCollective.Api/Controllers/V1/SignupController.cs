@@ -67,13 +67,13 @@ namespace SudokuCollective.Api.Controllers.V1
         /// The request should be structured as follows:
         /// ```
         ///     {
-        ///       "license": string    // the app license must be valid using the applicable regex pattern as documented in the SignupRequest model
-        ///       "userName": string,  // user name must be unique, the api will ensure this for you; the applicable regex pattern as documented in the SignupRequest model
+        ///       "license": string    // the app license must be valid using the applicable regex pattern as documented in the SignupRequest schema below
+        ///       "userName": string,  // user name must be unique, the api will ensure this for you; the applicable regex pattern as documented in the SignupRequest schema below
         ///       "firstName": string, // first name, required and cannot be null but nothing additional to note
         ///       "lastName": string,  // last name, required and cannot be null but nothing additional to note
         ///       "nickName": string,  // nick name, the value can be null but it must be included in the request
-        ///       "email": string,     // email must be unique, the api will ensure this for you; the applicable regex pattern as documented in the SignupRequest model
-        ///       "password": string,  // password is required, the applicable regex pattern as documented in the SignupRequest model
+        ///       "email": string,     // email must be unique, the api will ensure this for you; the applicable regex pattern as documented in the SignupRequest schema below
+        ///       "password": string,  // password is required, the applicable regex pattern as documented in the SignupRequest schema below
         ///     }     
         /// ```
         /// </remarks>
@@ -183,7 +183,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// The request should be structured as follows:
         /// ```
         ///     {
-        ///       "license": "string", // the app license must be valid using the applicable regex pattern as documented in the ResendEmailConfirmationRequest model
+        ///       "license": "string", // the app license must be valid using the applicable regex pattern as documented in the ResendEmailConfirmationRequest schema below
         ///       "requestorId": 0,    // the id of the individual requesting the email confirmation is resent
         ///       "appId": 0           // the id of your app
         ///     }     

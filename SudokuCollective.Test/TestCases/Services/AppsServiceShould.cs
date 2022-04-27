@@ -319,7 +319,6 @@ namespace SudokuCollective.Test.TestCases.Services
                     Name = "Test App 1... UPDATED!",
                     LocalUrl = "https://localhost:4200",
                     StagingUrl = "https://testapp-dev.com",
-                    QaUrl = string.Empty,
                     ProdUrl = "https://testapp.com",
                     IsActive = true,
                     Environment = ReleaseEnvironment.LOCAL,

@@ -17,9 +17,14 @@ namespace SudokuCollective.Core.Models
     {
         #region Fields
         private string _license = string.Empty;
+        private string _localUrl = string.Empty;
+        private string _stagingUrl = string.Empty;
+        private string _qaUrl = string.Empty;
+        private string _prodUrl = string.Empty;
         private TimeFrame _timeFrame = TimeFrame.NULL;
         private int _accessDuration = 0;
         private readonly GuidValidatedAttribute _guidValidator = new();
+        private readonly UrlValidatedAttribute _urlValidator = new();
         #endregion
 
         #region Properties
@@ -48,14 +53,82 @@ namespace SudokuCollective.Core.Models
         }
         [Required, JsonPropertyName("ownerId")]
         public int OwnerId { get; set; }
-        [JsonPropertyName("localUrl")]
-        public string LocalUrl { get; set; }
-        [JsonPropertyName("stagingUrl")]
-        public string StagingUrl { get; set; }
-        [JsonPropertyName("qaUrl")]
-        public string QaUrl { get; set; }
-        [JsonPropertyName("prodUrl")]
-        public string ProdUrl { get; set; }
+        [JsonPropertyName("localUrl"), UrlValidated(ErrorMessage = AttributeMessages.InvalidUrl)]
+        public string LocalUrl
+        {
+            get
+            {
+                return _localUrl;
+            }
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && _urlValidator.IsValid(value))
+                {
+                    _localUrl = value;
+                }
+                else
+                {
+                    throw new ArgumentException(AttributeMessages.InvalidUrl);
+                }
+            }
+        }
+        [JsonPropertyName("stagingUrl"), UrlValidated(ErrorMessage = AttributeMessages.InvalidUrl)]
+        public string StagingUrl
+        {
+            get
+            {
+                return _stagingUrl;
+            }
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && _urlValidator.IsValid(value))
+                {
+                    _stagingUrl = value;
+                }
+                else
+                {
+                    throw new ArgumentException(AttributeMessages.InvalidUrl);
+                }
+            }
+        }
+        [JsonPropertyName("qaUrl"), UrlValidated(ErrorMessage = AttributeMessages.InvalidUrl)]
+        public string QaUrl
+        {
+            get
+            {
+                return _qaUrl;
+            }
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && _urlValidator.IsValid(value))
+                {
+                    _qaUrl = value;
+                }
+                else
+                {
+                    throw new ArgumentException(AttributeMessages.InvalidUrl);
+                }
+            }
+        }
+        [JsonPropertyName("prodUrl"), UrlValidated(ErrorMessage = AttributeMessages.InvalidUrl)]
+        public string ProdUrl
+        {
+            get
+            {
+                return _prodUrl;
+            }
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && _urlValidator.IsValid(value))
+                {
+                    _prodUrl = value;
+                }
+                else
+                {
+                    throw new ArgumentException(AttributeMessages.InvalidUrl);
+                }
+            }
+        }
         [Required, JsonPropertyName("IsActive")]
         public bool IsActive { get; set; }
         [Required, JsonPropertyName("environment")]
@@ -285,10 +358,6 @@ namespace SudokuCollective.Core.Models
             Name = string.Empty;
             OwnerId = 0;
             DateCreated = DateTime.UtcNow;
-            LocalUrl = string.Empty;
-            StagingUrl = string.Empty;
-            QaUrl = string.Empty;
-            ProdUrl = string.Empty;
             IsActive = false;
             PermitSuperUserAccess = false;
             PermitCollectiveLogins = false;

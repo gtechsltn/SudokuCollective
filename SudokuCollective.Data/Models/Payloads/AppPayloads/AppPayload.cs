@@ -1,23 +1,100 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
+using SudokuCollective.Core.Messages;
+using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Data.Models.Payloads
 {
     public class AppPayload : IAppPayload
     {
+        private string _localUrl = string.Empty;
+        private string _stagingUrl = string.Empty;
+        private string _qaUrl = string.Empty;
+        private string _prodUrl = string.Empty;
+        private readonly UrlValidatedAttribute _urlValidator = new();
+
         [Required, JsonPropertyName("name")]
         public string Name { get; set; }
-        [JsonPropertyName("localUrl")]
-        public string LocalUrl { get; set; }
-        [JsonPropertyName("stagingUrl")]
-        public string StagingUrl { get; set; }
-        [JsonPropertyName("qaUrl")]
-        public string QaUrl { get; set; }
-        [JsonPropertyName("prodUrl")]
-        public string ProdUrl { get; set; }
+        [JsonPropertyName("localUrl"), GuidValidated(ErrorMessage = AttributeMessages.InvalidUrl)]
+        public string LocalUrl
+        {
+            get
+            {
+                return _localUrl;
+            }
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && _urlValidator.IsValid(value))
+                {
+                    _localUrl = value;
+                }
+                else
+                {
+                    throw new ArgumentException(AttributeMessages.InvalidUrl);
+                }
+            }
+        }
+        [JsonPropertyName("stagingUrl"), GuidValidated(ErrorMessage = AttributeMessages.InvalidUrl)]
+        public string StagingUrl
+        {
+            get
+            {
+                return _stagingUrl;
+            }
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && _urlValidator.IsValid(value))
+                {
+                    _stagingUrl = value;
+                }
+                else
+                {
+                    throw new ArgumentException(AttributeMessages.InvalidUrl);
+                }
+            }
+        }
+        [JsonPropertyName("qaUrl"), GuidValidated(ErrorMessage = AttributeMessages.InvalidUrl)]
+        public string QaUrl
+        {
+            get
+            {
+                return _qaUrl;
+            }
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && _urlValidator.IsValid(value))
+                {
+                    _qaUrl = value;
+                }
+                else
+                {
+                    throw new ArgumentException(AttributeMessages.InvalidUrl);
+                }
+            }
+        }
+        [JsonPropertyName("prodUrl"), GuidValidated(ErrorMessage = AttributeMessages.InvalidUrl)]
+        public string ProdUrl
+        {
+            get
+            {
+                return _prodUrl;
+            }
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && _urlValidator.IsValid(value))
+                {
+                    _prodUrl = value;
+                }
+                else
+                {
+                    throw new ArgumentException(AttributeMessages.InvalidUrl);
+                }
+            }
+        }
         [Required, JsonPropertyName("isActive")]
         public bool IsActive { get; set; }
         [Required, JsonPropertyName("environment")]
@@ -40,10 +117,6 @@ namespace SudokuCollective.Data.Models.Payloads
         public AppPayload()
         {
             Name = string.Empty;
-            LocalUrl = string.Empty;
-            StagingUrl = string.Empty;
-            QaUrl = string.Empty;
-            ProdUrl = string.Empty;
             IsActive = false;
             Environment = ReleaseEnvironment.NULL;
             PermitSuperUserAccess = false;

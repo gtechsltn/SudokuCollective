@@ -53,10 +53,10 @@ namespace SudokuCollective.Test.TestCases.Payloads
             // Arrange and Act
             sut = new AppPayload(
                 "name",
-                "localUrl",
-                "stagingUrl",
-                "qaUrl",
-                "prodUrl",
+                "http://localhost:8080",
+                "https://example-dev.com",
+                "https://example-qa.com",
+                "https://www.example.com",
                 true,
                 1,
                 true,
@@ -77,10 +77,10 @@ namespace SudokuCollective.Test.TestCases.Payloads
             // Arrange and Act
             sut = new AppPayload(
                 "name",
-                "localUrl",
-                "stagingUrl",
-                "qaUrl",
-                "prodUrl",
+                "http://localhost:8080",
+                "https://example-dev.com",
+                "https://example-qa.com",
+                "https://www.example.com",
                 true,
                 ReleaseEnvironment.LOCAL,
                 true,
