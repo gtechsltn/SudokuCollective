@@ -21,26 +21,26 @@ namespace SudokuCollective.Test.TestData
     {
         public static string GetLicense()
         {
-            return "D17F0ED3-BE9A-450A-A146-F6733DB2BBDB";
+            return "d17f0ed3-be9a-450a-a146-f6733db2bbdb";
         }
 
         public static string GetInvalidLicense()
         {
-            return "A0FA1A7C-AF21-433E-8E7F-F94F0086F45E";
+            return "a0fa1a7c-af21-433e-8e7f-f94f0086f45e";
         }
 
         public static string GetSecondLicense()
         {
-            return "03C0D43F-3AD8-490A-A131-F73C81FE02C0";
+            return "03c0d43f-3ad8-490a-a131-f73c81fe02c0";
         }
         public static string GetThirdLicense()
         {
-            return "AAA6C3EC-EC85-46E7-9793-68A6E2BF4904";
+            return "aaa6c3ec-ec85-46e7-9793-68a6e2bf4904";
         }
 
         public static string GetToken()
         {
-            return "D17F0ED3-BE9A-450A-A146-F6733DB2BBDB";
+            return "d17f0ed3-be9a-450a-a146-f6733db2bbdb";
         }
 
         public static Paginator GetPaginator()
@@ -535,7 +535,7 @@ namespace SudokuCollective.Test.TestData
             {
                 UserId = 1,
                 AppId = 1,
-                Token = "CC924471-AAB6-4809-8E6D-723AE422CB33"
+                Token = "cc924471-aab6-4809-8e6d-723ae422cb33"
             };
         }
 
@@ -545,7 +545,7 @@ namespace SudokuCollective.Test.TestData
             {
                 UserId = 1,
                 AppId = 1,
-                Token = "CC924471-AAB6-4809-8E6D-723AE422CB33",
+                Token = "cc924471-aab6-4809-8e6d-723ae422cb33",
                 OldEmailAddress = "TestSuperUser@example.com",
                 NewEmailAddress = "UPDATEDTestSuperUser@example.com"
             };
