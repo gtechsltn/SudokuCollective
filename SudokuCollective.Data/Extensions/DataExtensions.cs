@@ -24,10 +24,6 @@ namespace SudokuCollective.Data.Extensions
                     result = new AppPayload()
                     {
                         Name = element.GetProperty("name").ToString(),
-                        LocalUrl = element.GetProperty("localUrl").ToString(),
-                        StagingUrl = element.GetProperty("stagingUrl").ToString(),
-                        QaUrl = element.GetProperty("qaUrl").ToString(),
-                        ProdUrl = element.GetProperty("prodUrl").ToString(),
                         IsActive = Convert.ToBoolean(element.GetProperty("isActive").ToString()),
                         Environment = (ReleaseEnvironment)Convert.ToInt32(element.GetProperty("environment").ToString()),
                         PermitSuperUserAccess = Convert.ToBoolean(element.GetProperty("permitSuperUserAccess").ToString()),
@@ -38,6 +34,26 @@ namespace SudokuCollective.Data.Extensions
                         TimeFrame = (TimeFrame)Convert.ToInt32(element.GetProperty("timeFrame").ToString()),
                         AccessDuration = Convert.ToInt32(element.GetProperty("accessDuration").ToString())
                     };
+
+                    if (!string.IsNullOrEmpty(element.GetProperty("localUrl").ToString()))
+                    {
+                        ((AppPayload)result).LocalUrl = element.GetProperty("localUrl").ToString();
+                    }
+
+                    if (!string.IsNullOrEmpty(element.GetProperty("stagingUrl").ToString()))
+                    {
+                        ((AppPayload)result).StagingUrl = element.GetProperty("stagingUrl").ToString();
+                    }
+
+                    if (!string.IsNullOrEmpty(element.GetProperty("qaUrl").ToString()))
+                    {
+                        ((AppPayload)result).QaUrl = element.GetProperty("qaUrl").ToString();
+                    }
+
+                    if (!string.IsNullOrEmpty(element.GetProperty("prodUrl").ToString()))
+                    {
+                        ((AppPayload)result).ProdUrl = element.GetProperty("prodUrl").ToString();
+                    }
 
                     return true;
                 }

@@ -72,7 +72,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// The request should be structured as follows:
         /// ```
         ///     {                                 
-        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request model
+        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
@@ -149,16 +149,16 @@ namespace SudokuCollective.Api.Controllers.V1
         /// The request should be structured as follows:
         /// ```
         ///     {                                 
-        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request model
+        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
         ///       "payload": {
-        ///         "userName": string,  // username is required; uses the same regex pattern as documented in the LoginRequest model
+        ///         "userName": string,  // username is required; uses the same regex pattern as documented in the LoginRequest schema below
         ///         "firstName": string, // firstname is required
         ///         "lastName": string,  // lastname is required
         ///         "nickName": string,  // nickname is not required
-        ///         "email": string      // email is required; uses the same regex pattern as documented in the SignupRequest model
+        ///         "email": string      // email is required; uses the same regex pattern as documented in the SignupRequest schema below
         ///       }
         ///     }     
         /// ```
@@ -260,7 +260,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// The request should be structured as follows:
         /// ```
         ///     {                                 
-        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request model
+        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
@@ -333,7 +333,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// The request should be structured as follows:
         /// ```
         ///     {                                 
-        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request model
+        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": {
@@ -434,7 +434,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// The request should be structured as follows:
         /// ```
         ///     {                                 
-        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request model
+        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
@@ -513,7 +513,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// The request should be structured as follows:
         /// ```
         ///     {                                 
-        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request model
+        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
@@ -969,7 +969,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// The request should be structured as follows:
         /// ```
         ///     {                                 
-        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request model
+        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
@@ -1037,7 +1037,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// The request should be structured as follows:
         /// ```
         ///     {                                 
-        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request model
+        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
@@ -1105,7 +1105,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// The request should be structured as follows:
         /// ```
         ///     {                                 
-        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request model
+        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here

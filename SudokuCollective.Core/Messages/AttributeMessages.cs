@@ -8,6 +8,7 @@ namespace SudokuCollective.Core.Messages
         internal const string InvalidUserName = "User name must be at least 4 characters and can contain alphanumeric characters and special characters of [! @ # $ % ^ & * + = ? - _ . ,]";
         internal const string InvalidEmail = "Email must be in a valid format";
         internal const string InvalidLicense = "License must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters";
+        internal const string InvalidUrl = "Url is invalid";
         internal const string InvalidToken = "Token must be in the pattern of d36ddcfd-5161-4c20-80aa-b312ef161433 with hexadecimal characters";
         internal const string InvalidOldEmail = "Old email must be in a valid format";
         internal const string InvalidNewEmail = "New email must be in a valid format";

@@ -208,8 +208,8 @@ namespace SudokuCollective.Test.TestCases.Models
             string name = "name";
             string license = TestObjects.GetLicense();
             int ownerId = 0;
-            string stagingUrl = "stagingUrl";
-            string liveUrl = "liveUrl";
+            string stagingUrl = "https://example-dev.com";
+            string liveUrl = "https://www.example.com";
 
             // Act
             var app = new App(name, license, ownerId, stagingUrl, liveUrl);
@@ -229,10 +229,10 @@ namespace SudokuCollective.Test.TestCases.Models
                 "name",
                 TestObjects.GetLicense(),
                 0,
-                "localUrl",
-                "stagingUrl",
-                "qUrl",
-                "prodUrl",
+                "http://localhost:8080",
+                "https://example-dev.com",
+                "https://example-qa.com",
+                "https://www.example.com",
                 true,
                 false,
                 true,
