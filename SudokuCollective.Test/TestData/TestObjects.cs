@@ -821,5 +821,17 @@ namespace SudokuCollective.Test.TestData
                 AccessDuration = 7
             };
         }
+
+        public static LicensePayload GetLicensePayload()
+        {
+            return new LicensePayload
+            {
+                Name = "Test App 3",
+                LocalUrl = "https://localhost:4200",
+                StagingUrl = "https://testapp3.dev.com",
+                QaUrl = "https://testapp3.qa.com",
+                ProdUrl = "https://testapp3.com"
+            };
+        }
     }
 }
