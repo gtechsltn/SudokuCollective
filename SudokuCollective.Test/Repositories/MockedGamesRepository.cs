@@ -30,6 +30,7 @@ namespace SudokuCollective.Test.Repositories
             SolvedRequest = new Mock<IGamesRepository<Game>>();
             UpdateFailedRequest = new Mock<IGamesRepository<Game>>();
 
+            #region SuccessfulRequest
             SuccessfulRequest.Setup(repo =>
                 repo.Add(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
@@ -130,7 +131,9 @@ namespace SudokuCollective.Test.Repositories
                     {
                         IsSuccess = true
                     } as IRepositoryResponse));
+            #endregion
 
+            #region FailedRequest
             FailedRequest.Setup(repo =>
                 repo.Add(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -218,19 +221,9 @@ namespace SudokuCollective.Test.Repositories
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
+            #endregion
 
-            UpdateFailedRequest.Setup(repo =>
-                repo.Add(It.IsAny<Game>()))
-                    .Returns(Task.FromResult(new RepositoryResponse()
-                    {
-                        IsSuccess = true,
-                        Object = new Game(
-                            context.Users.FirstOrDefault(u => u.Id == 1),
-                            new SudokuMatrix(),
-                            context.Difficulties.FirstOrDefault(d => d.DifficultyLevel == DifficultyLevel.TEST),
-                            context.Apps.Where(a => a.Id == 1).Select(a => a.Id).FirstOrDefault())
-                    } as IRepositoryResponse));
-
+            #region SolvedRequest
             SolvedRequest.Setup(repo =>
                 repo.Add(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -331,6 +324,20 @@ namespace SudokuCollective.Test.Repositories
                     {
                         IsSuccess = true
                     } as IRepositoryResponse));
+            #endregion
+
+            #region UpdateFailedRequest
+            UpdateFailedRequest.Setup(repo =>
+                repo.Add(It.IsAny<Game>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Object = new Game(
+                            context.Users.FirstOrDefault(u => u.Id == 1),
+                            new SudokuMatrix(),
+                            context.Difficulties.FirstOrDefault(d => d.DifficultyLevel == DifficultyLevel.TEST),
+                            context.Apps.Where(a => a.Id == 1).Select(a => a.Id).FirstOrDefault())
+                    } as IRepositoryResponse));
 
             UpdateFailedRequest.Setup(repo =>
                 repo.Get(It.IsAny<int>()))
@@ -419,6 +426,8 @@ namespace SudokuCollective.Test.Repositories
                     {
                         IsSuccess = true
                     } as IRepositoryResponse));
+
+            #endregion
         }
     }
 }

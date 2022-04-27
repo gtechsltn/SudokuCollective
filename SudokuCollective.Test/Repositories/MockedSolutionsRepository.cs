@@ -25,6 +25,7 @@ namespace SudokuCollective.Test.Repositories
             SuccessfulRequest = new Mock<ISolutionsRepository<SudokuSolution>>();
             FailedRequest = new Mock<ISolutionsRepository<SudokuSolution>>();
 
+            #region SuccessfulRequest
             SuccessfulRequest.Setup(repo =>
                 repo.Add(It.IsAny<SudokuSolution>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -66,7 +67,9 @@ namespace SudokuCollective.Test.Repositories
                             .ToList()
                             .ConvertAll(s => (IDomainEntity)s)
                     } as IRepositoryResponse));
+            #endregion
 
+            #region SuccessfulRequest
             FailedRequest.Setup(repo =>
                 repo.Add(It.IsAny<SudokuSolution>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -101,6 +104,7 @@ namespace SudokuCollective.Test.Repositories
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
+            #endregion
         }
     }
 }

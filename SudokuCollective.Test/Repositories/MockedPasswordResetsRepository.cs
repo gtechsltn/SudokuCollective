@@ -24,6 +24,7 @@ namespace SudokuCollective.Test.Repositories
             FailedRequest = new Mock<IPasswordResetsRepository<PasswordReset>>();
             SuccessfullyCreatedRequest = new Mock<IPasswordResetsRepository<PasswordReset>>();
 
+            #region SuccessfulRequest
             SuccessfulRequest.Setup(repo =>
                 repo.Create(It.IsAny<PasswordReset>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -80,7 +81,9 @@ namespace SudokuCollective.Test.Repositories
                         IsSuccess = true,
                         Object = context.PasswordResets.FirstOrDefault(pr => pr.Id == 1)
                     } as IRepositoryResponse));
+            #endregion
 
+            #region FailedRequest
             FailedRequest.Setup(repo =>
                 repo.Create(It.IsAny<PasswordReset>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -130,7 +133,9 @@ namespace SudokuCollective.Test.Repositories
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
+            #endregion
 
+            #region SuccessfullyCreatedRequest
             SuccessfullyCreatedRequest.Setup(repo =>
                 repo.Create(It.IsAny<PasswordReset>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -186,6 +191,7 @@ namespace SudokuCollective.Test.Repositories
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
+            #endregion
         }
     }
 }

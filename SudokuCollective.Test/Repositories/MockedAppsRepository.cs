@@ -19,6 +19,7 @@ namespace SudokuCollective.Test.Repositories
         internal Mock<IAppsRepository<App>> SuccessfulRequest { get; set; }
         internal Mock<IAppsRepository<App>> FailedRequest { get; set; }
         internal Mock<IAppsRepository<App>> InitiatePasswordSuccessfulRequest { get; set; }
+        internal Mock<IAppsRepository<App>> PermitSuperUserRequest { get; set; }
 
         public MockedAppsRepository(DatabaseContext ctxt)
         {
@@ -28,7 +29,9 @@ namespace SudokuCollective.Test.Repositories
             SuccessfulRequest = new Mock<IAppsRepository<App>>();
             FailedRequest = new Mock<IAppsRepository<App>>();
             InitiatePasswordSuccessfulRequest = new Mock<IAppsRepository<App>>();
+            PermitSuperUserRequest = new Mock<IAppsRepository<App>>();
 
+            #region SuccessfulRequest
             SuccessfulRequest.Setup(repo =>
                 repo.Add(It.IsAny<App>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -36,7 +39,7 @@ namespace SudokuCollective.Test.Repositories
                         IsSuccess = true,
                         Object = new App(
                             3,
-                            "Test App 3",
+                            "Test App 4",
                             "2b789e72-1df3-4313-8091-68cfa8a1db60",
                             1,
                             "https://localhost:8080",
@@ -214,7 +217,9 @@ namespace SudokuCollective.Test.Repositories
             SuccessfulRequest.Setup(repo =>
                 repo.IsUserOwnerOThisfApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
+            #endregion
 
+            #region FailedRequest
             FailedRequest.Setup(repo =>
                 repo.Add(It.IsAny<App>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -362,7 +367,9 @@ namespace SudokuCollective.Test.Repositories
             FailedRequest.Setup(repo =>
                 repo.IsUserOwnerOThisfApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(false));
+            #endregion
 
+            #region InitiatePasswordSuccessfulRequest
             InitiatePasswordSuccessfulRequest.Setup(repo =>
                 repo.Add(It.IsAny<App>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -370,7 +377,7 @@ namespace SudokuCollective.Test.Repositories
                         IsSuccess = true,
                         Object = new App(
                             3,
-                            "Test App 3",
+                            "Test App 4",
                             "2b789e72-1df3-4313-8091-68cfa8a1db60",
                             1,
                             "https://localhost:8080",
@@ -540,6 +547,195 @@ namespace SudokuCollective.Test.Repositories
             InitiatePasswordSuccessfulRequest.Setup(repo =>
                 repo.IsUserOwnerOThisfApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
+            #endregion
+
+            #region PermitSuperUserRequest
+            PermitSuperUserRequest.Setup(repo =>
+                repo.Add(It.IsAny<App>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Object = new App(
+                            3,
+                            "Test App 4",
+                            "2b789e72-1df3-4313-8091-68cfa8a1db60",
+                            1,
+                            "https://localhost:8080",
+                            "https://testapp3-dev.com",
+                            "https://testapp3-qa.com",
+                            "https://testapp3.com",
+                            true,
+                            false,
+                            true,
+                            ReleaseEnvironment.LOCAL,
+                            true,
+                            string.Empty,
+                            string.Empty,
+                            TimeFrame.DAYS,
+                            1,
+                            todaysDate,
+                            DateTime.MinValue)
+                    } as IRepositoryResponse));
+
+            PermitSuperUserRequest.Setup(repo =>
+                repo.Get(It.IsAny<int>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Object = context.Apps.FirstOrDefault(a => a.Id == 3)
+                    } as IRepositoryResponse));
+
+            PermitSuperUserRequest.Setup(repo =>
+                repo.GetByLicense(It.IsAny<string>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Object = context.Apps.FirstOrDefault(a => a.Id == 3)
+                    } as IRepositoryResponse));
+
+            PermitSuperUserRequest.Setup(repo =>
+                repo.GetAll())
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Objects = context.Apps.ToList().ConvertAll(a => (IDomainEntity)a)
+                    } as IRepositoryResponse));
+
+            PermitSuperUserRequest.Setup(repo =>
+                repo.GetMyApps(It.IsAny<int>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Objects = context
+                            .Apps
+                            .Where(a => a.OwnerId == 1)
+                            .ToList()
+                            .ConvertAll(a => (IDomainEntity)a)
+                    } as IRepositoryResponse));
+
+            PermitSuperUserRequest.Setup(repo =>
+                repo.GetMyRegisteredApps(It.IsAny<int>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Objects = context
+                            .Apps
+                            .Where(a => a.OwnerId == 1)
+                            .ToList()
+                            .ConvertAll(a => (IDomainEntity)a)
+                    } as IRepositoryResponse));
+
+            PermitSuperUserRequest.Setup(repo =>
+                repo.GetAppUsers(It.IsAny<int>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Objects = context.Users
+                            .Where(user => user.Apps.Any(ua => ua.AppId == 1))
+                            .ToList()
+                            .ConvertAll(a => (IDomainEntity)a)
+                    } as IRepositoryResponse));
+
+            PermitSuperUserRequest.Setup(repo =>
+                repo.GetNonAppUsers(It.IsAny<int>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Objects = context.Users
+                            .Where(user => user.Apps.Any(ua => ua.AppId != 1))
+                            .ToList()
+                            .ConvertAll(a => (IDomainEntity)a)
+                    } as IRepositoryResponse));
+
+            PermitSuperUserRequest.Setup(repo =>
+                repo.Update(It.IsAny<App>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Object = context.Apps.FirstOrDefault(a => a.Id == 1)
+                    } as IRepositoryResponse));
+
+            PermitSuperUserRequest.Setup(repo =>
+                repo.UpdateRange(It.IsAny<List<App>>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true
+                    } as IRepositoryResponse));
+
+            PermitSuperUserRequest.Setup(repo =>
+                repo.AddAppUser(It.IsAny<int>(), It.IsAny<string>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true
+                    } as IRepositoryResponse));
+
+            PermitSuperUserRequest.Setup(repo =>
+                repo.RemoveAppUser(It.IsAny<int>(), It.IsAny<string>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Object = context.Users.FirstOrDefault(a => a.Id == 2)
+                    } as IRepositoryResponse));
+
+            PermitSuperUserRequest.Setup(repo =>
+                repo.Delete(It.IsAny<App>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true
+                    } as IRepositoryResponse));
+
+            PermitSuperUserRequest.Setup(repo =>
+                repo.DeleteRange(It.IsAny<List<App>>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true
+                    } as IRepositoryResponse));
+
+            PermitSuperUserRequest.Setup(repo =>
+                repo.Reset(It.IsAny<App>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Object = context.Apps.FirstOrDefault(a => a.Id == 1)
+                    } as IRepositoryResponse));
+
+            PermitSuperUserRequest.Setup(repo =>
+                repo.Activate(It.IsAny<int>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Object = context.Apps.FirstOrDefault(a => a.Id == 1)
+                    } as IRepositoryResponse));
+
+            PermitSuperUserRequest.Setup(repo =>
+                repo.Deactivate(It.IsAny<int>()))
+                    .Returns(Task.FromResult(new RepositoryResponse()
+                    {
+                        IsSuccess = true,
+                        Object = context.Apps.FirstOrDefault(a => a.Id == 1)
+                    } as IRepositoryResponse));
+
+            PermitSuperUserRequest.Setup(repo =>
+                repo.HasEntity(It.IsAny<int>()))
+                    .Returns(Task.FromResult(true));
+
+            PermitSuperUserRequest.Setup(repo =>
+                repo.IsAppLicenseValid(It.IsAny<string>()))
+                    .Returns(Task.FromResult(true));
+
+            PermitSuperUserRequest.Setup(repo =>
+                repo.GetLicense(It.IsAny<int>()))
+                    .Returns(Task.FromResult(
+                        TestObjects.GetThirdLicense()));
+
+            PermitSuperUserRequest.Setup(repo =>
+                repo.IsUserRegisteredToApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
+                    .Returns(Task.FromResult(true));
+
+            PermitSuperUserRequest.Setup(repo =>
+                repo.IsUserOwnerOThisfApp(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()))
+                    .Returns(Task.FromResult(true));
+            #endregion
         }
     }
 }

@@ -25,6 +25,7 @@ namespace SudokuCollective.Test.Repositories
             FailedRequest = new Mock<IAppAdminsRepository<AppAdmin>>();
             PromoteUserRequest = new Mock<IAppAdminsRepository<AppAdmin>>();
 
+            #region SuccessfulRequest
             SuccessfulRequest.Setup(repo =>
                 repo.Add(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
@@ -99,7 +100,9 @@ namespace SudokuCollective.Test.Repositories
                         IsSuccess = true,
                         Object = context.AppAdmins.FirstOrDefault(aa => aa.Id == 1)
                     } as IRepositoryResponse));
+            #endregion
 
+            #region FailedRequest
             FailedRequest.Setup(repo =>
                 repo.Add(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -163,7 +166,9 @@ namespace SudokuCollective.Test.Repositories
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
+            #endregion
 
+            #region PromoteUserRequest
             PromoteUserRequest.Setup(repo =>
                 repo.Add(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
@@ -240,6 +245,7 @@ namespace SudokuCollective.Test.Repositories
                         IsSuccess = true,
                         Object = context.AppAdmins.FirstOrDefault(aa => aa.Id == 1)
                     } as IRepositoryResponse));
+            #endregion
         }
     }
 }

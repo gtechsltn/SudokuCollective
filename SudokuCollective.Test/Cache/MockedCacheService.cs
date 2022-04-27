@@ -30,6 +30,7 @@ namespace SudokuCollective.Test.Cache
         internal Mock<ICacheService> SuccessfulRequest { get; set; }
         internal Mock<ICacheService> FailedRequest { get; set; }
         internal Mock<ICacheService> CreateDifficultyRoleSuccessfulRequest { get; set; }
+        internal Mock<ICacheService> PermitSuperUserSuccessfulRequest { get; set; }
 
         public MockedCacheService(DatabaseContext context)
         {
@@ -46,7 +47,9 @@ namespace SudokuCollective.Test.Cache
             SuccessfulRequest = new Mock<ICacheService>();
             FailedRequest = new Mock<ICacheService>();
             CreateDifficultyRoleSuccessfulRequest = new Mock<ICacheService>();
+            PermitSuperUserSuccessfulRequest = new Mock<ICacheService>();
 
+            #region SuccessfulRequest
             SuccessfulRequest.Setup(cache =>
                 cache.AddWithCacheAsync<App>(
                     It.IsAny<IAppsRepository<App>>(),
@@ -864,7 +867,9 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<DateTime>(),
                     It.IsAny<RoleLevel>()))
                 .Returns(Task.FromResult(true));
+            #endregion
 
+            #region FailedRequest
             FailedRequest.Setup(cache =>
                 cache.AddWithCacheAsync<App>(
                     It.IsAny<IAppsRepository<App>>(),
@@ -1484,7 +1489,9 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<DateTime>(),
                     It.IsAny<RoleLevel>()))
                 .Returns(Task.FromResult(false));
+            #endregion
 
+            #region CreateDifficultyRoleSuccessfulRequest
             CreateDifficultyRoleSuccessfulRequest.Setup(cache =>
                 cache.AddWithCacheAsync<App>(
                     It.IsAny<IAppsRepository<App>>(),
@@ -2275,6 +2282,827 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<DateTime>(),
                     It.IsAny<RoleLevel>()))
                 .Returns(Task.FromResult(false));
+            #endregion
+
+            #region PermitSuperUserSuccessfulRequest
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.AddWithCacheAsync<App>(
+                    It.IsAny<IAppsRepository<App>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<ICacheKeys>(),
+                    It.IsAny<App>()))
+                .Returns(Task.FromResult(new RepositoryResponse()
+                {
+                    IsSuccess = true,
+                    Object = MockedAppsRepository
+                        .SuccessfulRequest
+                        .Object
+                        .Get(It.IsAny<int>())
+                        .Result
+                        .Object
+                } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.AddWithCacheAsync<Difficulty>(
+                    It.IsAny<IDifficultiesRepository<Difficulty>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<ICacheKeys>(),
+                    It.IsAny<Difficulty>()))
+                .Returns(Task.FromResult(new RepositoryResponse()
+                {
+                    IsSuccess = true,
+                    Object = MockedDifficultiesRepository
+                        .SuccessfulRequest
+                        .Object
+                        .Get(It.IsAny<int>())
+                        .Result
+                        .Object
+                } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.AddWithCacheAsync<Role>(
+                    It.IsAny<IRolesRepository<Role>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<ICacheKeys>(),
+                    It.IsAny<Role>()))
+                .Returns(Task.FromResult(new RepositoryResponse()
+                {
+                    IsSuccess = true,
+                    Object = MockedRolesRepository
+                        .SuccessfulRequest
+                        .Object
+                        .Get(It.IsAny<int>())
+                        .Result
+                        .Object
+                } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.AddWithCacheAsync<User>(
+                    It.IsAny<IUsersRepository<User>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<ICacheKeys>(),
+                    It.IsAny<User>()))
+                .Returns(Task.FromResult(new RepositoryResponse()
+                {
+                    IsSuccess = true,
+                    Object = MockedUsersRepository
+                        .SuccessfulRequest
+                        .Object
+                        .Get(It.IsAny<int>())
+                        .Result
+                        .Object
+                } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.GetWithCacheAsync<App>(
+                    It.IsAny<IAppsRepository<App>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<int>(),
+                    It.IsAny<IResult>()))
+                .ReturnsAsync((
+                    IAppsRepository<App> repo,
+                    IDistributedCache cache,
+                    string cacheKey,
+                    DateTime expiration,
+                    int id,
+                    IResult result) =>
+                {
+                    if (result != null)
+                    {
+                        result.IsSuccess = false;
+                    }
+                    return new Tuple<IRepositoryResponse, IResult>(
+                        new RepositoryResponse
+                        {
+                            IsSuccess = true,
+                            Object = MockedAppsRepository
+                                .PermitSuperUserRequest
+                                .Object
+                                .Get(It.IsAny<int>())
+                                .Result
+                                .Object
+                        }, result);
+                });
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.GetWithCacheAsync<Difficulty>(
+                    It.IsAny<IDifficultiesRepository<Difficulty>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<int>(),
+                    It.IsAny<IResult>()))
+                .ReturnsAsync((
+                    IDifficultiesRepository<Difficulty> repo,
+                    IDistributedCache cache,
+                    string cacheKey,
+                    DateTime expiration,
+                    int id,
+                    IResult result) =>
+                {
+                    if (result != null)
+                    {
+                        result.IsSuccess = false;
+                    }
+                    return new Tuple<IRepositoryResponse, IResult>(
+                        new RepositoryResponse
+                        {
+                            IsSuccess = true,
+                            Object = MockedDifficultiesRepository
+                                .SuccessfulRequest
+                                .Object
+                                .Get(It.IsAny<int>())
+                                .Result
+                                .Object
+                        }, result);
+                });
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.GetWithCacheAsync<Role>(
+                    It.IsAny<IRolesRepository<Role>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<int>(),
+                    It.IsAny<IResult>()))
+                .ReturnsAsync((
+                    IRolesRepository<Role> repo,
+                    IDistributedCache cache,
+                    string cacheKey,
+                    DateTime expiration,
+                    int id,
+                    IResult result) =>
+                {
+                    if (result != null)
+                    {
+                        result.IsSuccess = false;
+                    }
+                    return new Tuple<IRepositoryResponse, IResult>(
+                        new RepositoryResponse
+                        {
+                            IsSuccess = true,
+                            Object = MockedRolesRepository
+                                .SuccessfulRequest
+                                .Object
+                                .Get(It.IsAny<int>())
+                                .Result
+                                .Object
+                        }, result);
+                });
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.GetWithCacheAsync<User>(
+                    It.IsAny<IUsersRepository<User>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<int>(),
+                    It.IsAny<IResult>()))
+                .ReturnsAsync((
+                    IUsersRepository<User> repo,
+                    IDistributedCache cache,
+                    string cacheKey,
+                    DateTime expiration,
+                    int id,
+                    IResult result) =>
+                {
+                    if (result != null)
+                    {
+                        result.IsSuccess = false;
+                    }
+                    return new Tuple<IRepositoryResponse, IResult>(
+                        new RepositoryResponse
+                        {
+                            IsSuccess = true,
+                            Object = MockedUsersRepository
+                                .PermitSuperUserSuccessfulRequest
+                                .Object
+                                .Get(It.IsAny<int>())
+                                .Result
+                                .Object
+                        }, result);
+                });
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.GetAllWithCacheAsync<App>(
+                    It.IsAny<IAppsRepository<App>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<IResult>()))
+                .ReturnsAsync((
+                    IAppsRepository<App> repo,
+                    IDistributedCache cache,
+                    string cacheKey,
+                    DateTime expiration,
+                    IResult result) =>
+                        new Tuple<IRepositoryResponse, IResult>(
+                            new RepositoryResponse
+                            {
+                                IsSuccess = true,
+                                Objects = MockedAppsRepository
+                                    .SuccessfulRequest
+                                    .Object
+                                    .GetAll()
+                                    .Result
+                                    .Objects
+                            }, result));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.GetAllWithCacheAsync<Difficulty>(
+                    It.IsAny<IDifficultiesRepository<Difficulty>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<IResult>()))
+                .ReturnsAsync((
+                    IDifficultiesRepository<Difficulty> repo,
+                    IDistributedCache cache,
+                    string cacheKey,
+                    DateTime expiration,
+                    IResult result) =>
+                        new Tuple<IRepositoryResponse, IResult>(
+                            new RepositoryResponse
+                            {
+                                IsSuccess = true,
+                                Objects = MockedDifficultiesRepository
+                                    .SuccessfulRequest
+                                    .Object
+                                    .GetAll()
+                                    .Result
+                                    .Objects
+                            }, result));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.GetAllWithCacheAsync<Role>(
+                    It.IsAny<IRolesRepository<Role>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<IResult>()))
+                .ReturnsAsync((
+                    IRolesRepository<Role> repo,
+                    IDistributedCache cache,
+                    string cacheKey,
+                    DateTime expiration,
+                    IResult result) =>
+                        new Tuple<IRepositoryResponse, IResult>(
+                            new RepositoryResponse
+                            {
+                                IsSuccess = true,
+                                Objects = MockedRolesRepository
+                                    .SuccessfulRequest
+                                    .Object
+                                    .GetAll()
+                                    .Result
+                                    .Objects
+                            }, result));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.GetAllWithCacheAsync<SudokuSolution>(
+                    It.IsAny<ISolutionsRepository<SudokuSolution>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<IResult>()))
+                .ReturnsAsync((
+                    ISolutionsRepository<SudokuSolution> repo,
+                    IDistributedCache cache,
+                    string cacheKey,
+                    DateTime expiration,
+                    IResult result) =>
+                        new Tuple<IRepositoryResponse, IResult>(
+                            new RepositoryResponse
+                            {
+                                IsSuccess = true,
+                                Objects = MockedSolutionsRepository
+                                    .SuccessfulRequest
+                                    .Object
+                                    .GetAll()
+                                    .Result
+                                    .Objects
+                            }, result));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.GetAllWithCacheAsync<User>(
+                    It.IsAny<IUsersRepository<User>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<IResult>()))
+                .ReturnsAsync((
+                    IUsersRepository<User> repo,
+                    IDistributedCache cache,
+                    string cacheKey,
+                    DateTime expiration,
+                    IResult result) =>
+                        new Tuple<IRepositoryResponse, IResult>(
+                            new RepositoryResponse
+                            {
+                                IsSuccess = true,
+                                Objects = MockedUsersRepository
+                                    .SuccessfulRequest
+                                    .Object
+                                    .GetAll()
+                                    .Result
+                                    .Objects
+                            }, result));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.UpdateWithCacheAsync<App>(
+                    It.IsAny<IAppsRepository<App>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<ICacheKeys>(),
+                    It.IsAny<App>(),
+                    It.IsAny<string>()))
+                .Returns(Task.FromResult(new RepositoryResponse()
+                {
+                    IsSuccess = true,
+                    Object = MockedAppsRepository
+                            .SuccessfulRequest
+                            .Object
+                            .Get(It.IsAny<int>())
+                            .Result
+                            .Object
+                } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.UpdateWithCacheAsync<Difficulty>(
+                    It.IsAny<IDifficultiesRepository<Difficulty>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<ICacheKeys>(),
+                    It.IsAny<Difficulty>(),
+                    It.IsAny<string>()))
+                .Returns(Task.FromResult(new RepositoryResponse()
+                {
+                    IsSuccess = true,
+                    Object = MockedDifficultiesRepository
+                            .SuccessfulRequest
+                            .Object
+                            .Get(It.IsAny<int>())
+                            .Result
+                            .Object
+                } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.UpdateWithCacheAsync<Role>(
+                    It.IsAny<IRolesRepository<Role>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<ICacheKeys>(),
+                    It.IsAny<Role>(),
+                    It.IsAny<string>()))
+                .Returns(Task.FromResult(new RepositoryResponse()
+                {
+                    IsSuccess = true,
+                    Object = MockedRolesRepository
+                            .SuccessfulRequest
+                            .Object
+                            .Get(It.IsAny<int>())
+                            .Result
+                            .Object
+                } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.UpdateWithCacheAsync<User>(
+                    It.IsAny<IUsersRepository<User>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<ICacheKeys>(),
+                    It.IsAny<User>(),
+                    It.IsAny<string>()))
+                .Returns(Task.FromResult(new RepositoryResponse()
+                {
+                    IsSuccess = true,
+                    Object = MockedUsersRepository
+                            .SuccessfulRequest
+                            .Object
+                            .Get(It.IsAny<int>())
+                            .Result
+                            .Object
+                } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.DeleteWithCacheAsync<App>(
+                    It.IsAny<IAppsRepository<App>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<ICacheKeys>(),
+                    It.IsAny<App>(),
+                    It.IsAny<string>()))
+                .Returns(Task.FromResult(new RepositoryResponse()
+                {
+                    IsSuccess = true
+                } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.DeleteWithCacheAsync<Difficulty>(
+                    It.IsAny<IDifficultiesRepository<Difficulty>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<ICacheKeys>(),
+                    It.IsAny<Difficulty>(),
+                    It.IsAny<string>()))
+                .Returns(Task.FromResult(new RepositoryResponse()
+                {
+                    IsSuccess = true
+                } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.DeleteWithCacheAsync<Role>(
+                    It.IsAny<IRolesRepository<Role>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<ICacheKeys>(),
+                    It.IsAny<Role>(),
+                    It.IsAny<string>()))
+                .Returns(Task.FromResult(new RepositoryResponse()
+                {
+                    IsSuccess = true
+                } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.DeleteWithCacheAsync<User>(
+                    It.IsAny<IUsersRepository<User>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<ICacheKeys>(),
+                    It.IsAny<User>(),
+                    It.IsAny<string>()))
+                .Returns(Task.FromResult(new RepositoryResponse()
+                {
+                    IsSuccess = true
+                } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.HasEntityWithCacheAsync<App>(
+                    It.IsAny<IAppsRepository<App>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<int>()))
+                .Returns(Task.FromResult(true));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.HasEntityWithCacheAsync<User>(
+                    It.IsAny<IUsersRepository<User>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<int>()))
+                .Returns(Task.FromResult(true));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.RemoveKeysAsync(
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<List<string>>()));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.GetAppByLicenseWithCacheAsync(
+                    It.IsAny<IAppsRepository<App>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<string>(),
+                    It.IsAny<IResult>()))
+                .ReturnsAsync((
+                    IAppsRepository<App> repo,
+                    IDistributedCache cache,
+                    string cacheKey,
+                    DateTime expiration,
+                    string license,
+                    IResult result) =>
+                        new Tuple<IRepositoryResponse, IResult>(
+                            new RepositoryResponse
+                            {
+                                IsSuccess = true,
+                                Object = MockedAppsRepository
+                                    .SuccessfulRequest
+                                    .Object
+                                    .GetByLicense(It.IsAny<string>())
+                                    .Result
+                                    .Object
+                            }, result));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.GetAppUsersWithCacheAsync(
+                    It.IsAny<IAppsRepository<App>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<int>(),
+                    It.IsAny<IResult>()))
+                .ReturnsAsync((
+                    IAppsRepository<App> repo,
+                    IDistributedCache cache,
+                    string cacheKey,
+                    DateTime expiration,
+                    int id,
+                    IResult result) =>
+                        new Tuple<IRepositoryResponse, IResult>(
+                            new RepositoryResponse
+                            {
+                                IsSuccess = true,
+                                Objects = MockedAppsRepository
+                                    .SuccessfulRequest
+                                    .Object
+                                    .GetAppUsers(It.IsAny<int>())
+                                    .Result
+                                    .Objects
+                            }, result));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.GetNonAppUsersWithCacheAsync(
+                    It.IsAny<IAppsRepository<App>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<int>(),
+                    It.IsAny<IResult>()))
+                .ReturnsAsync((
+                    IAppsRepository<App> repo,
+                    IDistributedCache cache,
+                    string cacheKey,
+                    DateTime expiration,
+                    int id,
+                    IResult result) =>
+                        new Tuple<IRepositoryResponse, IResult>(
+                            new RepositoryResponse
+                            {
+                                IsSuccess = true,
+                                Objects = MockedAppsRepository
+                                    .SuccessfulRequest
+                                    .Object
+                                    .GetNonAppUsers(It.IsAny<int>())
+                                    .Result
+                                    .Objects
+                            }, result));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.GetMyAppsWithCacheAsync(
+                    It.IsAny<IAppsRepository<App>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<int>(),
+                    It.IsAny<IResult>()))
+                .ReturnsAsync((
+                    IAppsRepository<App> repo,
+                    IDistributedCache cache,
+                    string cacheKey,
+                    DateTime expiration,
+                    int id,
+                    IResult result) =>
+                        new Tuple<IRepositoryResponse, IResult>(
+                            new RepositoryResponse
+                            {
+                                IsSuccess = true,
+                                Objects = MockedAppsRepository
+                                    .SuccessfulRequest
+                                    .Object
+                                    .GetMyRegisteredApps(It.IsAny<int>())
+                                    .Result
+                                    .Objects
+                            }, result));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.GetMyRegisteredAppsWithCacheAsync(
+                    It.IsAny<IAppsRepository<App>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<int>(),
+                    It.IsAny<IResult>()))
+                .ReturnsAsync((
+                    IAppsRepository<App> repo,
+                    IDistributedCache cache,
+                    string cacheKey,
+                    DateTime expiration,
+                    int id,
+                    IResult result) =>
+                        new Tuple<IRepositoryResponse, IResult>(
+                            new RepositoryResponse
+                            {
+                                IsSuccess = true,
+                                Objects = MockedAppsRepository
+                                    .SuccessfulRequest
+                                    .Object
+                                    .GetMyRegisteredApps(It.IsAny<int>())
+                                    .Result
+                                    .Objects
+                            }, result));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.GetLicenseWithCacheAsync(
+                    It.IsAny<IAppsRepository<App>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<ICacheKeys>(),
+                    It.IsAny<int>(),
+                    It.IsAny<IResult>()))
+                .ReturnsAsync((
+                    IAppsRepository<App> repo,
+                    IDistributedCache cache,
+                    string cacheKey,
+                    DateTime expiration,
+                    ICacheKeys cacheKeys,
+                    int id,
+                    IResult result) =>
+                        new Tuple<string, IResult>(TestObjects.GetThirdLicense(), result));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.ResetWithCacheAsync(
+                    It.IsAny<IAppsRepository<App>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<ICacheKeys>(),
+                    It.IsAny<App>()))
+                .Returns(Task.FromResult(new RepositoryResponse()
+                {
+                    IsSuccess = true,
+                    Object = MockedAppsRepository
+                        .SuccessfulRequest
+                        .Object
+                        .Get(It.IsAny<int>())
+                        .Result
+                        .Object
+                } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.ActivatetWithCacheAsync(
+                    It.IsAny<IAppsRepository<App>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<ICacheKeys>(),
+                    It.IsAny<int>()))
+                .Returns(Task.FromResult(new RepositoryResponse()
+                {
+                    IsSuccess = true,
+                    Object = MockedAppsRepository
+                        .SuccessfulRequest
+                        .Object
+                        .Get(It.IsAny<int>())
+                        .Result
+                        .Object
+                } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.DeactivatetWithCacheAsync(
+                    It.IsAny<IAppsRepository<App>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<ICacheKeys>(),
+                    It.IsAny<int>()))
+                .Returns(Task.FromResult(new RepositoryResponse()
+                {
+                    IsSuccess = true,
+                    Object = MockedAppsRepository
+                        .SuccessfulRequest
+                        .Object
+                        .Get(It.IsAny<int>())
+                        .Result
+                        .Object
+                } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.IsAppLicenseValidWithCacheAsync(
+                    It.IsAny<IAppsRepository<App>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<string>()))
+                .Returns(Task.FromResult(true));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.GetByUserNameWithCacheAsync(
+                    It.IsAny<IUsersRepository<User>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<ICacheKeys>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<IResult>()))
+                .ReturnsAsync((
+                    IUsersRepository<User> repo,
+                    IDistributedCache cache,
+                    string cacheKey,
+                    DateTime expiration,
+                    ICacheKeys cacheKeys,
+                    string userName,
+                    string license,
+                    IResult result) =>
+                {
+                    if (result != null)
+                    {
+                        result.IsSuccess = true;
+                    }
+                    return new Tuple<IRepositoryResponse, IResult>(
+                        new RepositoryResponse
+                        {
+                            IsSuccess = true,
+                            Object = MockedUsersRepository
+                                .SuccessfulRequest
+                                .Object
+                                .GetByUserName(It.IsAny<string>())
+                                .Result
+                                .Object
+                        }, result);
+                });
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.GetByEmailWithCacheAsync(
+                    It.IsAny<IUsersRepository<User>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<string>(),
+                    It.IsAny<IResult>()))
+                .ReturnsAsync((
+                    IUsersRepository<User> repo,
+                    IDistributedCache cache,
+                    string cacheKey,
+                    DateTime expiration,
+                    string email,
+                    IResult result) =>
+                        new Tuple<IRepositoryResponse, IResult>(
+                            new RepositoryResponse
+                            {
+                                IsSuccess = true,
+                                Object = MockedUsersRepository
+                                    .SuccessfulRequest
+                                    .Object
+                                    .GetByEmail(It.IsAny<string>())
+                                    .Result
+                                    .Object
+                            }, result));
+
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.ConfirmEmailWithCacheAsync(
+                    It.IsAny<IUsersRepository<User>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<ICacheKeys>(),
+                    It.IsAny<EmailConfirmation>(),
+                    It.IsAny<string>()))
+                .Returns(Task.FromResult(new RepositoryResponse()
+                {
+                    IsSuccess = true,
+                    Object = MockedUsersRepository
+                        .SuccessfulRequest
+                        .Object
+                        .Get(It.IsAny<int>())
+                        .Result
+                        .Object
+                } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.UpdateEmailWithCacheAsync(
+                    It.IsAny<IUsersRepository<User>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<ICacheKeys>(),
+                    It.IsAny<EmailConfirmation>(),
+                    It.IsAny<string>()))
+                .Returns(Task.FromResult(new RepositoryResponse()
+                {
+                    IsSuccess = true,
+                    Object = MockedUsersRepository
+                        .SuccessfulRequest
+                        .Object
+                        .Get(It.IsAny<int>())
+                        .Result
+                        .Object
+                } as IRepositoryResponse));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.IsUserRegisteredWithCacheAsync(
+                    It.IsAny<IUsersRepository<User>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<int>()))
+                .Returns(Task.FromResult(true));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.HasDifficultyLevelWithCacheAsync(
+                    It.IsAny<IDifficultiesRepository<Difficulty>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<DifficultyLevel>()))
+                .Returns(Task.FromResult(true));
+
+            PermitSuperUserSuccessfulRequest.Setup(cache =>
+                cache.HasRoleLevelWithCacheAsync(
+                    It.IsAny<IRolesRepository<Role>>(),
+                    It.IsAny<IDistributedCache>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>(),
+                    It.IsAny<RoleLevel>()))
+                .Returns(Task.FromResult(true));
+            #endregion
         }
     }
 }

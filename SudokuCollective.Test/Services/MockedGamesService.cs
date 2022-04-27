@@ -29,6 +29,7 @@ namespace SudokuCollective.Test.Services
             FailedRequest = new Mock<IGamesService>();
             UpdateFailedRequest = new Mock<IGamesService>();
 
+            #region SuccessfulRequest
             SuccessfulRequest.Setup(Service =>
                 Service.Create(It.IsAny<IRequest>()))
                 .Returns(Task.FromResult(new Result()
@@ -221,7 +222,9 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = true,
                         Message = GamesMessages.GameSolvedMessage
                     } as IResult));
+            #endregion
 
+            #region FailedRequest
             FailedRequest.Setup(Service =>
                 Service.Create(It.IsAny<IRequest>()))
                 .Returns(Task.FromResult(new Result()
@@ -354,6 +357,7 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = false,
                         Message = GamesMessages.GameNotSolvedMessage
                     } as IResult));
+            #endregion
         }
     }
 }

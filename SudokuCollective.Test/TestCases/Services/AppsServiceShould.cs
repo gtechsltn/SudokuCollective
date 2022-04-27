@@ -44,6 +44,7 @@ namespace SudokuCollective.Test.TestCases.Services
         private IAppsService sutAppRepoFailure;
         private IAppsService sutUserRepoFailure;
         private IAppsService sutPromoteUser;
+        private IAppsService sutPermitSuperUser;
         private DateTime dateCreated;
         private Request request;
         private string license;
@@ -131,6 +132,19 @@ namespace SudokuCollective.Test.TestCases.Services
                 new CachingStrategy(),
                 mockedHttpContextAccessor.Object,
                 mockedLogger.Object);
+
+            sutPermitSuperUser = new AppsService(
+                mockedAppsRepository.PermitSuperUserRequest.Object,
+                mockedUsersRepository.SuccessfulRequest.Object,
+                mockedAppAdminsRepository.SuccessfulRequest.Object,
+                mockedRolesRepository.SuccessfulRequest.Object,
+                mockedRequestService.SuccessfulRequest.Object,
+                memoryCache,
+                mockedCacheService.PermitSuperUserSuccessfulRequest.Object,
+                new CacheKeys(),
+                new CachingStrategy(),
+                mockedHttpContextAccessor.Object,
+                mockedLogger.Object);
         }
 
         [Test, Category("Services")]
@@ -172,7 +186,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Apps Found"));
-            Assert.That(result.Payload.Count, Is.EqualTo(2));
+            Assert.That(result.Payload.Count, Is.EqualTo(3));
         }
 
         [Test, Category("Services")]
@@ -182,7 +196,7 @@ namespace SudokuCollective.Test.TestCases.Services
             request.Payload = new LicensePayload()
             {
 
-                Name = "Test App 3",
+                Name = "Test App 4",
                 OwnerId = 1,
                 LocalUrl = "https://localhost:8081",
                 StagingUrl = "https://testapp3-dev.com",
@@ -206,7 +220,7 @@ namespace SudokuCollective.Test.TestCases.Services
             request.Payload = new LicensePayload()
             {
 
-                Name = "Test App 3",
+                Name = "Test App 4",
                 OwnerId = 4,
                 LocalUrl = "https://localhost:8081",
                 StagingUrl = "https://testapp3-dev.com",
@@ -221,7 +235,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.False);
             Assert.That(result.Message, Is.EqualTo("User does not Exist"));
-            Assert.That(apps.Count, Is.EqualTo(2));
+            Assert.That(apps.Count, Is.EqualTo(3));
         }
 
         [Test, Category("Services")]
@@ -259,12 +273,12 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.GetLicense(1);
+            var result = await sutPermitSuperUser.GetLicense(3, 2);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("App Found"));
-            Assert.That(result.License, Is.EqualTo(license));
+            Assert.That(result.License, Is.EqualTo(TestObjects.GetThirdLicense()));
         }
 
         [Test, Category("Services")]
@@ -273,7 +287,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sutAppRepoFailure.GetLicense(5);
+            var result = await sutAppRepoFailure.GetLicense(5, 1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -474,8 +488,8 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task PermitSuperUserSystemWideAccess()
         {
             // Arrange
-            var app = context.Apps.FirstOrDefault(a => a.Id == 2);
-            var licenseResult =await sut.GetLicense(app.Id);
+            var app = context.Apps.FirstOrDefault(a => a.Id == 3);
+            var licenseResult =await sutPermitSuperUser.GetLicense(app.Id, 2);
             var superUser = context.Users.Where(user => user.Id == 1).FirstOrDefault();
 
             // Act
@@ -510,14 +524,13 @@ namespace SudokuCollective.Test.TestCases.Services
                 mock => mock.HttpContext.Request.Headers["Authorization"])
                 .Returns(string.Format("bearer {0}", new JwtSecurityTokenHandler().WriteToken(jwtInvalidToken)));
 
-            var result = await sut.IsRequestValidOnThisToken(
+            var result = await sutPermitSuperUser.IsRequestValidOnThisToken(
                 mockSuperUserHttpContextAccessor.Object, 
                 licenseResult.License, 
                 app.Id, 
                 superUser.Id);
 
             // Assert
-            Assert.That(superUserIsInApp, Is.False);
             Assert.That(superUser.IsSuperUser, Is.True);
             Assert.That(result, Is.True);
         }

@@ -168,6 +168,27 @@ namespace SudokuCollective.Test.TestData
                         TimeFrame.DAYS,
                         1,
                         dateCreated,
+                        DateTime.MinValue),
+
+                    new App(
+                        3,
+                        "Test App 3",
+                        TestObjects.GetThirdLicense(),
+                        2,
+                        "https://localhost:8080",
+                        "https://testapp3.dev.com",
+                        "https://testapp3.qa.com",
+                        "https://testapp3.com",
+                        true,
+                        false,
+                        true,
+                        ReleaseEnvironment.LOCAL,
+                        true,
+                        string.Empty,
+                        string.Empty,
+                        TimeFrame.DAYS,
+                        1,
+                        dateCreated,
                         DateTime.MinValue)
                 );
 
@@ -181,7 +202,8 @@ namespace SudokuCollective.Test.TestData
                     new UserApp(1, 1, 1),
                     new UserApp(3, 2, 1),
                     new UserApp(4, 2, 2),
-                    new UserApp(5, 3, 2)
+                    new UserApp(5, 3, 2),
+                    new UserApp(6, 2, 3)
                 );
 
                 await databaseContext.SaveChangesAsync();
@@ -192,7 +214,8 @@ namespace SudokuCollective.Test.TestData
                 databaseContext.AppAdmins.AddRange(
 
                     new AppAdmin(1, 1, 1, true),
-                    new AppAdmin(2, 2, 1, true)
+                    new AppAdmin(2, 2, 1, true),
+                    new AppAdmin(3, 3, 2, true)
                 );
             }
             if (!await databaseContext.SudokuMatrices.AnyAsync())
@@ -404,8 +427,8 @@ namespace SudokuCollective.Test.TestData
             {
                 databaseContext.EmailConfirmations.AddRange(
 
-                    new EmailConfirmation(1, 1, 1, "F5D6377E-B170-4335-A425-25066A112987", "oldEmail@example.com", "newEmail@example.com", false, DateTime.UtcNow),
-                    new EmailConfirmation(2, 3, 1, "4667A7D3-70C7-4DA1-B472-8C34C8280723", "oldEmail@example.com", "newEmail@example.com", false, DateTime.UtcNow)
+                    new EmailConfirmation(1, 1, 1, "f5d6377e-b170-4335-a425-25066a112987", "oldEmail@example.com", "newEmail@example.com", false, DateTime.UtcNow),
+                    new EmailConfirmation(2, 3, 1, "4667a7d3-70c7-4da1-b472-8c34c8280723", "oldEmail@example.com", "newEmail@example.com", false, DateTime.UtcNow)
                 );
 
                 await databaseContext.SaveChangesAsync();

@@ -25,6 +25,7 @@ namespace SudokuCollective.Test.Services
             SuccessfulRequest = new Mock<IRolesService>();
             FailedRequest = new Mock<IRolesService>();
 
+            #region SuccessfulRequest
             SuccessfulRequest.Setup(rolesService =>
                 rolesService.Get(It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
@@ -114,7 +115,9 @@ namespace SudokuCollective.Test.Services
                             .IsSuccess,
                         Message = RolesMessages.RoleDeletedMessage
                     } as IResult));
+            #endregion
 
+            #region FailedRequest
             FailedRequest.Setup(rolesService =>
                 rolesService.Get(It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
@@ -179,6 +182,7 @@ namespace SudokuCollective.Test.Services
                             .IsSuccess,
                         Message = RolesMessages.RoleNotDeletedMessage
                     } as IResult));
+            #endregion
         }
     }
 }
