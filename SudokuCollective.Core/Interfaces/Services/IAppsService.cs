@@ -7,13 +7,13 @@ namespace SudokuCollective.Core.Interfaces.Services
     public interface IAppsService : IService
     {
         Task<IResult> Create(IRequest request);
-        Task<IResult> Get(int id);
+        Task<IResult> Get(int id, int userId);
         Task<IResult> Update(int id, IRequest request);
         Task<IResult> DeleteOrReset(int id, bool isReset = false);
-        Task<IResult> GetApps(IPaginator paginator, int requestorId);
+        Task<IResult> GetApps(IRequest request);
         Task<IResult> GetMyApps(int ownerId, IPaginator paginator);
         Task<IResult> GetMyRegisteredApps(int userId, IPaginator paginator);
-        Task<IResult> GetByLicense(string license);
+        Task<IResult> GetByLicense(string license, int userId);
         Task<ILicenseResult> GetLicense(int id, int requestorId);
         Task<IResult> GetAppUsers(int id, int requestorId, IPaginator paginator, bool appUsers = true);
         Task<IResult> AddAppUser(int appId, int userId);

@@ -89,7 +89,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _appsService.Get(id);
+                    var result = await _appsService.Get(id, request.RequestorId);
 
                     if (result.IsSuccess)
                     {
@@ -338,7 +338,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _appsService.GetByLicense(license);
+                    var result = await _appsService.GetByLicense(license, request.RequestorId);
 
                     if (result.IsSuccess)
                     {
@@ -435,9 +435,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _appsService.GetApps(
-                        request.Paginator, 
-                        request.RequestorId);
+                    var result = await _appsService.GetApps(request);
 
                     if (result.IsSuccess)
                     {

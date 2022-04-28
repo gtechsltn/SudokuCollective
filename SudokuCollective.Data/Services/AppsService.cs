@@ -12,7 +12,6 @@ using SudokuCollective.Core.Interfaces.Cache;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
@@ -207,7 +206,9 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> Get(int id)
+        public async Task<IResult> Get(
+            int id,
+            int userId)
         {
             var result = new Result();
 
@@ -221,7 +222,7 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                var cacheServiceResponse = await _cacheService.GetWithCacheAsync(
+                var appCacheServiceResponse = await _cacheService.GetWithCacheAsync(
                     _appsRepository,
                     _distributedCache,
                     string.Format(_cacheKeys.GetAppCacheKey, id),
@@ -229,23 +230,56 @@ namespace SudokuCollective.Data.Services
                     id,
                     result);
 
-                var response = (RepositoryResponse)cacheServiceResponse.Item1;
-                result = (Result)cacheServiceResponse.Item2;
+                var appResponse = (RepositoryResponse)appCacheServiceResponse.Item1;
+                result = (Result)appCacheServiceResponse.Item2;
 
-                if (response.IsSuccess)
+                if (appResponse.IsSuccess)
                 {
-                    var app = (App)response.Object;
+                    var app = (App)appResponse.Object;
 
-                    result.IsSuccess = response.IsSuccess;
-                    result.Message = AppsMessages.AppFoundMessage;
-                    result.Payload.Add(app);
+                    var userCacheServiceResponse = await _cacheService.GetWithCacheAsync(
+                        _usersRepository,
+                        _distributedCache,
+                        string.Format(_cacheKeys.GetUserCacheKey, userId, app.License),
+                        _cachingStrategy.Medium,
+                        userId);
+                    
+                    var userResponse = (RepositoryResponse)userCacheServiceResponse.Item1;
 
-                    return result;
+                    if (userResponse.IsSuccess)
+                    {
+                        var user = (User)userResponse.Object;
+
+                        if (!user.IsSuperUser && app.OwnerId != user.Id)
+                        {
+                            app.NullifyLicense();
+                        }
+
+                        result.IsSuccess = appResponse.IsSuccess;
+                        result.Message = AppsMessages.AppFoundMessage;
+                        result.Payload.Add(app);
+
+                        return result;
+                    }
+                    else if (!userResponse.IsSuccess && userResponse.Exception != null)
+                    {
+                        result.IsSuccess = userResponse.IsSuccess;
+                        result.Message = userResponse.Exception.Message;
+
+                        return result;
+                    }
+                    else
+                    {
+                        result.IsSuccess = false;
+                        result.Message = UsersMessages.UserNotFoundMessage;
+
+                        return result;
+                    }
                 }
-                else if (!response.IsSuccess && response.Exception != null)
+                else if (!appResponse.IsSuccess && appResponse.Exception != null)
                 {
-                    result.IsSuccess = response.IsSuccess;
-                    result.Message = response.Exception.Message;
+                    result.IsSuccess = appResponse.IsSuccess;
+                    result.Message = appResponse.Exception.Message;
 
                     return result;
                 }
@@ -267,7 +301,9 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> GetByLicense(string license)
+        public async Task<IResult> GetByLicense(
+            string license,
+            int userId)
         {
             var result = new Result();
 
@@ -289,23 +325,56 @@ namespace SudokuCollective.Data.Services
                     license,
                     result);
 
-                var response = (RepositoryResponse)cacheServiceResponse.Item1;
+                var appResponse = (RepositoryResponse)cacheServiceResponse.Item1;
                 result = (Result)cacheServiceResponse.Item2;
 
-                if (response.IsSuccess)
+                if (appResponse.IsSuccess)
                 {
-                    var app = (IApp)response.Object;
+                    var app = (IApp)appResponse.Object;
 
-                    result.IsSuccess = response.IsSuccess;
-                    result.Message = AppsMessages.AppFoundMessage;
-                    result.Payload.Add(app);
+                    var userCacheServiceResponse = await _cacheService.GetWithCacheAsync(
+                        _usersRepository,
+                        _distributedCache,
+                        string.Format(_cacheKeys.GetUserCacheKey, userId, app.License),
+                        _cachingStrategy.Medium,
+                        userId);
+                    
+                    var userResponse = (RepositoryResponse)userCacheServiceResponse.Item1;
 
-                    return result;
+                    if (userResponse.IsSuccess)
+                    {
+                        var user = (User)userResponse.Object;
+
+                        if (!user.IsSuperUser && app.OwnerId != user.Id)
+                        {
+                            app.NullifyLicense();
+                        }
+
+                        result.IsSuccess = appResponse.IsSuccess;
+                        result.Message = AppsMessages.AppFoundMessage;
+                        result.Payload.Add(app);
+
+                        return result;    
+                    }
+                    else if (!userResponse.IsSuccess && userResponse.Exception != null)
+                    {
+                        result.IsSuccess = userResponse.IsSuccess;
+                        result.Message = userResponse.Exception.Message;
+
+                        return result;
+                    }
+                    else
+                    {
+                        result.IsSuccess = false;
+                        result.Message = UsersMessages.UserNotFoundMessage;
+
+                        return result;
+                    }
                 }
-                else if (!response.IsSuccess && response.Exception != null)
+                else if (!appResponse.IsSuccess && appResponse.Exception != null)
                 {
-                    result.IsSuccess = response.IsSuccess;
-                    result.Message = response.Exception.Message;
+                    result.IsSuccess = appResponse.IsSuccess;
+                    result.Message = appResponse.Exception.Message;
 
                     return result;
                 }
@@ -327,15 +396,13 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> GetApps(
-            IPaginator paginator, 
-            int requestorId)
+        public async Task<IResult> GetApps(IRequest request)
         {
-            if (paginator == null) throw new ArgumentNullException(nameof(paginator));
+            if (request == null) throw new ArgumentNullException(nameof(request));
 
             var result = new Result();
 
-            if (requestorId == 0)
+            if (request.RequestorId == 0)
             {
                 result.IsSuccess = false;
                 result.Message = UsersMessages.UserNotFoundMessage;
@@ -357,28 +424,67 @@ namespace SudokuCollective.Data.Services
 
                 if (response.IsSuccess)
                 {
-                    if (DataUtilities.IsPageValid(paginator, response.Objects))
-                    {
-                        result = PaginatorUtilities.PaginateApps(paginator, response, result);
+                    var userCacheServiceResponse = await _cacheService.GetWithCacheAsync(
+                        _usersRepository,
+                        _distributedCache,
+                        string.Format(_cacheKeys.GetUserCacheKey, request.RequestorId, request.License),
+                        _cachingStrategy.Medium,
+                        request.RequestorId);
 
-                        if (result.Message.Equals(
-                            ServicesMesages.SortValueNotImplementedMessage))
+                    var userResponse = (RepositoryResponse)userCacheServiceResponse.Item1;
+
+                    if (userResponse.IsSuccess)
+                    {
+                        var user = (User)userResponse.Object;
+
+                        if (DataUtilities.IsPageValid(request.Paginator, response.Objects))
                         {
+                            result = PaginatorUtilities.PaginateApps(
+                                request.Paginator,
+                                response, 
+                                result);
+
+                            if (result.Message.Equals(
+                                ServicesMesages.SortValueNotImplementedMessage))
+                            {
+                                return result;
+                            }
+                        }
+                        else
+                        {
+                            result.IsSuccess = false;
+                            result.Message = ServicesMesages.PageNotFoundMessage;
+
                             return result;
                         }
+
+                        result.IsSuccess = response.IsSuccess;
+                        result.Message = AppsMessages.AppsFoundMessage;
+
+                        foreach (var app in result.Payload.ConvertAll(a => (App)a))
+                        {
+                            if (!user.IsSuperUser && app.OwnerId != user.Id)
+                            {
+                                app.NullifyLicense();
+                            }
+                        }
+
+                        return result;
+                    }
+                    else if (!userResponse.IsSuccess && userResponse.Exception != null)
+                    {
+                        result.IsSuccess = userResponse.IsSuccess;
+                        result.Message = userResponse.Exception.Message;
+
+                        return result;
                     }
                     else
                     {
                         result.IsSuccess = false;
-                        result.Message = ServicesMesages.PageNotFoundMessage;
+                        result.Message = UsersMessages.UserNotFoundMessage;
 
                         return result;
                     }
-
-                    result.IsSuccess = response.IsSuccess;
-                    result.Message = AppsMessages.AppsFoundMessage;
-
-                    return result;
                 }
                 else if (!response.IsSuccess && response.Exception != null)
                 {
@@ -531,6 +637,11 @@ namespace SudokuCollective.Data.Services
 
                     result.IsSuccess = response.IsSuccess;
                     result.Message = AppsMessages.AppsFoundMessage;
+
+                    foreach (var app in result.Payload.ConvertAll(a => (App)a))
+                    {
+                        app.NullifyLicense();
+                    }
 
                     return result;
                 }
