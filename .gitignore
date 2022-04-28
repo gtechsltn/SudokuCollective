@@ -41,6 +41,9 @@ TestResult.xml
 [Rr]eleasePS/
 dlldata.c
 
+# Mac files that get left everywhere
+.DS_Store
+
 # DNX
 project.lock.json
 project.fragment.lock.json
