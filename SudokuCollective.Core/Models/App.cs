@@ -32,7 +32,9 @@ namespace SudokuCollective.Core.Models
         public int Id { get; set; }
         [Required, JsonPropertyName("name")]
         public string Name { get; set; }
-        [IgnoreDataMember, GuidValidated(ErrorMessage = AttributeMessages.InvalidLicense)]
+        [IgnoreDataMember]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [GuidValidated(ErrorMessage = AttributeMessages.InvalidLicense)]
         public string License
         {
             get
@@ -44,6 +46,10 @@ namespace SudokuCollective.Core.Models
                 if (!string.IsNullOrEmpty(value) && _guidValidator.IsValid(value))
                 {
                     _license = value;
+                }
+                else if (string.IsNullOrEmpty(value))
+                {
+                    // do nothing...
                 }
                 else
                 {
@@ -66,6 +72,10 @@ namespace SudokuCollective.Core.Models
                 {
                     _localUrl = value;
                 }
+                else if (string.IsNullOrEmpty(value))
+                {
+                    // do nothing...
+                }
                 else
                 {
                     throw new ArgumentException(AttributeMessages.InvalidUrl);
@@ -84,6 +94,10 @@ namespace SudokuCollective.Core.Models
                 if (!string.IsNullOrEmpty(value) && _urlValidator.IsValid(value))
                 {
                     _stagingUrl = value;
+                }
+                else if (string.IsNullOrEmpty(value))
+                {
+                    // do nothing...
                 }
                 else
                 {
@@ -104,6 +118,10 @@ namespace SudokuCollective.Core.Models
                 {
                     _qaUrl = value;
                 }
+                else if (string.IsNullOrEmpty(value))
+                {
+                    // do nothing...
+                }
                 else
                 {
                     throw new ArgumentException(AttributeMessages.InvalidUrl);
@@ -122,6 +140,10 @@ namespace SudokuCollective.Core.Models
                 if (!string.IsNullOrEmpty(value) && _urlValidator.IsValid(value))
                 {
                     _prodUrl = value;
+                }
+                else if (string.IsNullOrEmpty(value))
+                {
+                    // do nothing...
                 }
                 else
                 {
@@ -448,6 +470,11 @@ namespace SudokuCollective.Core.Models
             }
 
             return result;
+        }
+
+        public void NullifyLicense()
+        {
+            _license = null;
         }
 
         public override string ToString() => string.Format(base.ToString() + ".Id:{0}.Name:{1}", Id, Name);

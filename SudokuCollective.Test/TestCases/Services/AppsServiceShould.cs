@@ -153,7 +153,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.Get(1);
+            var result = await sut.Get(1, 1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -167,7 +167,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sutAppRepoFailure.Get(3);
+            var result = await sutAppRepoFailure.Get(4, 1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -181,7 +181,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.GetApps(new Paginator(), 1);
+            var result = await sut.GetApps(TestObjects.GetRequest());
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -244,7 +244,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.GetByLicense(license);
+            var result = await sut.GetByLicense(license, 1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -260,7 +260,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var invalidLicense = "5CDBFC8F-F304-4703-831B-750A7B7F8531";
 
             // Act
-            var result = await sutAppRepoFailure.GetByLicense(invalidLicense);
+            var result = await sutAppRepoFailure.GetByLicense(invalidLicense, 1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);

@@ -120,7 +120,7 @@ namespace SudokuCollective.Api.Controllers
                 return View("Index", passwordReset);
             }
 
-            var app = (App)(await _appsService.Get(passwordReset.AppId)).Payload[0];
+            var app = (App)(await _appsService.Get(passwordReset.AppId, passwordReset.UserId)).Payload[0];
             app.License = (await _appsService.GetLicense(app.Id, passwordReset.UserId)).License;
 
             var userResut = await _usersService.Get(

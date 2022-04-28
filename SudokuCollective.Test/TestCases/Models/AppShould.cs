@@ -248,5 +248,15 @@ namespace SudokuCollective.Test.TestCases.Models
             // Assert
             Assert.That(sut, Is.InstanceOf<App>());
         }
+
+        [Test, Category("Models")]
+        public void NullifyLicenses()
+        {
+            // Arrange and Act
+            sut.NullifyLicense();
+
+            // Assert
+            Assert.That(string.IsNullOrEmpty(sut.License), Is.True);
+        }
     }
 }
