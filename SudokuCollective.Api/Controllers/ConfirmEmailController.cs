@@ -92,7 +92,7 @@ namespace SudokuCollective.Api.Controllers
                 emailtTemplatePath = "../../Content/EmailTemplates/confirm-new-email-inlined.html";
             }
 
-            var result = await _usersService.ConfirmEmail(token, baseUrl, emailtTemplatePath);
+            var result = await _usersService.ConfirmEmailAsync(token, baseUrl, emailtTemplatePath);
 
             if (result.IsSuccess)
             {

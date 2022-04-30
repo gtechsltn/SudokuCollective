@@ -66,7 +66,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues getting a user.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The Get method requires the user to be logged in. Available to all roles. The query parameter id 
+        /// The GetAsync method requires the user to be logged in. Available to all roles. The query parameter id 
         /// refers to the relevant user. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
@@ -76,13 +76,13 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
         [HttpPost("{id}")]
-        public async Task<ActionResult<User>> Get(
+        public async Task<ActionResult<User>> GetAsync(
             int id,
             [FromBody] Request request)
         {
@@ -94,13 +94,13 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _usersService.Get(
+                    var result = await _usersService.GetAsync(
                         id,
                         request.License,
                         request);
@@ -143,7 +143,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues updating a user.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The Update method requires the user to be logged in. Available to all roles. The query 
+        /// The UpdateAsync method requires the user to be logged in. Available to all roles. The query 
         /// parameter id refers to the relevant user. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
@@ -158,14 +158,14 @@ namespace SudokuCollective.Api.Controllers.V1
         ///         "firstName": string, // firstname is required
         ///         "lastName": string,  // lastname is required
         ///         "nickName": string,  // nickname is not required
-        ///         "email": string      // email is required; uses the same regex pattern as documented in the SignupRequest schema below
+        ///         "email": string,     // email is required; uses the same regex pattern as documented in the SignupRequest schema below
         ///       }
         ///     }     
         /// ```
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(
+        public async Task<IActionResult> UpdateAsync(
             int id, 
             [FromBody] Request request)
         {
@@ -177,7 +177,7 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
@@ -209,7 +209,7 @@ namespace SudokuCollective.Api.Controllers.V1
                         emailtTemplatePath = "../../Content/EmailTemplates/confirm-old-email-inlined.html";
                     }
 
-                    var result = await _usersService.Update(
+                    var result = await _usersService.UpdateAsync(
                         id,
                         request,
                         baseUrl,
@@ -254,7 +254,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues deleting a user.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The Delete method requires the user to be logged in. Available to all roles. The query parameter 
+        /// The DeleteAsync method requires the user to be logged in. Available to all roles. The query parameter 
         /// id refers to the relevant user. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
@@ -264,13 +264,13 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
         [HttpDelete("{id}")]
-        public async Task<ActionResult<User>> Delete(
+        public async Task<ActionResult<User>> DeleteAsync(
             int id, 
             [FromBody] Request request)
         {
@@ -282,13 +282,13 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _usersService.Delete(id, request.License);
+                    var result = await _usersService.DeleteAsync(id, request.License);
 
                     if (result.IsSuccess)
                     {
@@ -327,7 +327,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues obtaining all users.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The GetUsers method requires the user to be logged in. Requires superuser or admin roles. The request body 
+        /// The GetUsersAsync method requires the user to be logged in. Requires superuser or admin roles. The request body 
         /// parameter uses the request model.
         /// 
         /// The request should be structured as follows:
@@ -337,20 +337,19 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": {
-        ///         "page": integer,                 // this param works in conjection with itemsPerPage starting with page 1
-        ///         "itemsPerPage": integer          // in conjunction with page if you want items 11 through 21 page would be 2 and this would be 10
-        ///         "sortBy": sortValue              // an enumeration indicating the field for sorting, documented below; you return the integer
-        ///         "OrderByDescending": boolean     // a boolean to indicate is the order is ascending or descending
-        ///         "includeCompletedGames": boolean // a boolean which only applies to game lists
+        ///         "page": integer,                  // this param works in conjection with itemsPerPage starting with page 1
+        ///         "itemsPerPage": integer           // in conjunction with page if you want items 11 through 21 page would be 2 and this would be 10
+        ///         "sortBy": sortValue               // an enumeration indicating the field for sorting, documented below; you return the integer
+        ///         "OrderByDescending": boolean      // a boolean to indicate is the order is ascending or descending
+        ///         "includeCompletedGames": boolean, // a boolean which only applies to game lists
         ///       },
-        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         ///
         /// Sort values are as follows, those applicable to users are indicated below:
         /// ```
         /// {
-        ///     0,  \\ indicates null and is not applicable to users
         ///     1,  \\ indicates "id" and is applicable to users
         ///     2,  \\ indicates "userName" and is applicable to users
         ///     3,  \\ indicates "firstName" and is applicable to users
@@ -370,7 +369,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPost]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers(
+        public async Task<ActionResult<IEnumerable<User>>> GetUsersAsync(
             [FromBody] Request request)
         {
             try
@@ -379,13 +378,13 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _usersService.GetUsers(
+                    var result = await _usersService.GetUsersAsync(
                         request.RequestorId,
                         request.License,
                         request.Paginator);
@@ -428,7 +427,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues adding the role to the user.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The AddRoles method requires the user to be logged in. Requires superuser or admin roles. The query 
+        /// The AddRolesAsync method requires the user to be logged in. Requires superuser or admin roles. The query 
         /// parameter id refers to the relevant user. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
@@ -446,7 +445,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPut("{id}/AddRoles")]
-        public async Task<IActionResult> AddRoles(
+        public async Task<IActionResult> AddRolesAsync(
             int id,
             [FromBody] Request request)
         {
@@ -458,13 +457,13 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _usersService.AddUserRoles(
+                    var result = await _usersService.AddUserRolesAsync(
                         id,
                         request,
                         request.License);
@@ -507,7 +506,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues adding the role to the user.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The RemoveRoles method requires the user to be logged in. Requires superuser or admin roles. The query 
+        /// The RemoveRolesAsync method requires the user to be logged in. Requires superuser or admin roles. The query 
         /// parameter id refers to the relevant user. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
@@ -525,7 +524,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPut("{id}/RemoveRoles")]
-        public async Task<IActionResult> RemoveRoles(
+        public async Task<IActionResult> RemoveRolesAsync(
             int id,
             [FromBody] Request request)
         {
@@ -537,13 +536,13 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _usersService.RemoveUserRoles(
+                    var result = await _usersService.RemoveUserRolesAsync(
                         id,
                         request,
                         request.License);
@@ -585,17 +584,17 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues activating the user.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The Activate method requires the user to be logged in. Requires the superuser role.
+        /// The ActivateAsync method requires the user to be logged in. Requires the superuser role.
         /// </remarks>
         [Authorize(Roles = "SUPERUSER")]
         [HttpPut("{id}/Activate")]
-        public async Task<IActionResult> Activate(int id)
+        public async Task<IActionResult> ActivateAsync(int id)
         {
             try
             {
                 if (id == 0) throw new ArgumentException(ControllerMessages.IdCannotBeZeroMessage);
 
-                var result = await _usersService.Activate(id);
+                var result = await _usersService.ActivateAsync(id);
 
                 if (result.IsSuccess)
                 {
@@ -629,17 +628,17 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues deactivating the user.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The Deactivate method requires the user to be logged in. Requires the superuser role.
+        /// The DeactivateAsync method requires the user to be logged in. Requires the superuser role.
         /// </remarks>
         [Authorize(Roles = "SUPERUSER")]
         [HttpPut("{id}/Deactivate")]
-        public async Task<IActionResult> Deactivate(int id)
+        public async Task<IActionResult> DeactivateAsync(int id)
         {
             try
             {
                 if (id == 0) throw new ArgumentException(ControllerMessages.IdCannotBeZeroMessage);
 
-                var result = await _usersService.Deactivate(id);
+                var result = await _usersService.DeactivateAsync(id);
 
                 if (result.IsSuccess)
                 {
@@ -673,28 +672,28 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues resetting the users password.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The ResetPassword method does not require a login. This method works in conjunction with the custom email action for your 
+        /// The ResetPasswordAsync method does not require a login. This method works in conjunction with the custom email action for your 
         /// app. When your custom action is ready to submit it's data it will submit the token it receives from the email along with the 
         /// new password to this endpoint. The request body parameter uses a custom request model.
         /// 
         /// The request should be structured as follows:
         /// ```
         ///     {                                 
-        ///       "token": string,      // this will be provided by the api, the applicable regex pattern is documented in the ResetPasswordRequest model
-        ///       "newPassword": string // the new password, the applicable regex pattern is documented in the ResetPasswordRequest model
+        ///       "token": string,       // this will be provided by the api, the applicable regex pattern is documented in the ResetPasswordRequest model
+        ///       "newPassword": string, // the new password, the applicable regex pattern is documented in the ResetPasswordRequest model
         ///     }     
         /// ```
         /// </remarks>
         [AllowAnonymous]
         [HttpPut("ResetPassword")]
-        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
+        public async Task<IActionResult> ResetPasswordAsync([FromBody] ResetPasswordRequest request)
         {
             try
             {
                 if (request == null) throw new ArgumentNullException(nameof(request));
 
-                var user = (User)(await _usersService.GetUserByPasswordToken(request.Token)).Payload[0];
-                var license = (await _usersService.GetAppLicenseByPasswordToken(request.Token)).License;
+                var user = (User)(await _usersService.GetUserByPasswordTokenAsync(request.Token)).Payload[0];
+                var license = (await _usersService.GetAppLicenseByPasswordTokenAsync(request.Token)).License;
 
                 var updatePasswordRequest = new UpdatePasswordRequest
                 {
@@ -703,7 +702,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     License = license
                 };
 
-                var result = await _usersService.UpdatePassword(updatePasswordRequest);
+                var result = await _usersService.UpdatePasswordAsync(updatePasswordRequest);
 
                 if (result.IsSuccess)
                 {
@@ -737,19 +736,19 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues sending the password reset email.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The RequestPasswordReset method does not require a login. It sends password reset emails. The request body parameter uses a custom request model.
+        /// The RequestPasswordResetAsync method does not require a login. It sends password reset emails. The request body parameter uses a custom request model.
         /// 
         /// The request should be structured as follows:
         /// ```
         ///     {                                 
         ///       "license": string, // the app license must be valid using the applicable regex pattern as documented in the RequestPasswordResetRequest model
-        ///       "email": string    // email is required, the applicable regex pattern is documented in the RequestPasswordResetRequest model
+        ///       "email": string,   // email is required, the applicable regex pattern is documented in the RequestPasswordResetRequest model
         ///     }     
         /// ```
         /// </remarks>
         [AllowAnonymous]
         [HttpPost("RequestPasswordReset")]
-        public async Task<IActionResult> RequestPasswordReset([FromBody] RequestPasswordResetRequest request)
+        public async Task<IActionResult> RequestPasswordResetAsync([FromBody] RequestPasswordResetRequest request)
         {
             try
             {
@@ -779,7 +778,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     emailtTemplatePath = "../../Content/EmailTemplates/confirm-old-email-inlined.html";
                 }
 
-                var result = await _usersService.RequestPasswordReset(request, baseUrl, emailtTemplatePath);
+                var result = await _usersService.RequestPasswordResetAsync(request, baseUrl, emailtTemplatePath);
 
                 if (result.IsSuccess)
                 {
@@ -813,20 +812,20 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues resending the password reset email.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The ResendRequestPasswordReset method does not require a login. It resends password reset emails
+        /// The ResendRequestPasswordResetAsync method does not require a login. It resends password reset emails
         /// if the user has lost the original email. The request body parameter uses a custom request model.
         /// 
         /// The request should be structured as follows:
         /// ```
         ///     {                                 
         ///       "userId": integer, // the id for the requesting user
-        ///       "appId": integer   // the id for the relevant app
+        ///       "appId": integer,  // the id for the relevant app
         ///     }     
         /// ```
         /// </remarks>
         [AllowAnonymous]
         [HttpPut("ResendRequestPasswordReset")]
-        public async Task<IActionResult> ResendRequestPasswordReset([FromBody] ResendRequestPasswordRequest request)
+        public async Task<IActionResult> ResendRequestPasswordResetAsync([FromBody] ResendRequestPasswordRequest request)
         {
             try
             {
@@ -856,7 +855,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     emailtTemplatePath = "../../Content/EmailTemplates/confirm-old-email-inlined.html";
                 }
 
-                var result = await _usersService.ResendPasswordReset(
+                var result = await _usersService.ResendPasswordResetAsync(
                     request.UserId,
                     request.AppId,
                     baseUrl,
@@ -894,13 +893,13 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues confirming the users email.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The ConfirmEmail method does not require a login. If you've implemented a custom confirm email action that action will link
+        /// The ConfirmEmailAsync method does not require a login. If you've implemented a custom confirm email action that action will link
         /// back to this endpoint once confirmed. Your action will send the token to this endpoint to complete the process, the boolean 
         /// will indicate if the email was confirmed.
         /// </remarks>
         [AllowAnonymous]
         [HttpGet("ConfirmEmail/{token}")]
-        public async Task<IActionResult> ConfirmEmail(string token)
+        public async Task<IActionResult> ConfirmEmailAsync(string token)
         {
             try
             {
@@ -930,7 +929,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     emailtTemplatePath = "../../Content/EmailTemplates/confirm-new-email-inlined.html";
                 }
 
-                var result = await _usersService.ConfirmEmail(token, baseUrl, emailtTemplatePath);
+                var result = await _usersService.ConfirmEmailAsync(token, baseUrl, emailtTemplatePath);
 
                 if (result.IsSuccess)
                 {
@@ -964,7 +963,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues cancelling outstanding email confirmation requests.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The CancelEmailConfirmation method requires the user to be logged in.  The request body parameter uses the request model.
+        /// The CancelEmailConfirmationAsync method requires the user to be logged in.  The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -973,13 +972,13 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
         [HttpPut, Route("cancelEmailConfirmation")]
-        public async Task<IActionResult> CancelEmailConfirmation([FromBody] Request request)
+        public async Task<IActionResult> CancelEmailConfirmationAsync([FromBody] Request request)
         {
             try
             {
@@ -987,13 +986,13 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _usersService.CancelEmailConfirmationRequest(request.RequestorId, request.AppId);
+                    var result = await _usersService.CancelEmailConfirmationRequestAsync(request.RequestorId, request.AppId);
 
                     if (result.IsSuccess)
                     {
@@ -1032,7 +1031,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues cancelling outstanding email confirmation requests.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The CancelPasswordReset method requires the user to be logged in.  The request body parameter uses the request model.
+        /// The CancelPasswordResetAsync method requires the user to be logged in.  The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -1041,13 +1040,13 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
         [HttpPut, Route("cancelPasswordReset")]
-        public async Task<IActionResult> CancelPasswordReset([FromBody] Request request)
+        public async Task<IActionResult> CancelPasswordResetAsync([FromBody] Request request)
         {
             try
             {
@@ -1055,13 +1054,13 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _usersService.CancelPasswordResetRequest(request.RequestorId, request.AppId);
+                    var result = await _usersService.CancelPasswordResetRequestAsync(request.RequestorId, request.AppId);
 
                     if (result.IsSuccess)
                     {
@@ -1100,7 +1099,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues cancelling outstanding email confirmation and password reset requests.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The CancelAllEmailRequests method requires the user to be logged in.  The request body parameter uses the request model.
+        /// The CancelAllEmailRequestsAsync method requires the user to be logged in.  The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -1109,13 +1108,13 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
         [HttpPut, Route("cancelAllEmailRequests")]
-        public async Task<IActionResult> CancelAllEmailRequests([FromBody] Request request)
+        public async Task<IActionResult> CancelAllEmailRequestsAsync([FromBody] Request request)
         {
             try
             {
@@ -1123,13 +1122,13 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _usersService.CancelAllEmailRequests(request.RequestorId, request.AppId);
+                    var result = await _usersService.CancelAllEmailRequestsAsync(request.RequestorId, request.AppId);
 
                     if (result.IsSuccess)
                     {

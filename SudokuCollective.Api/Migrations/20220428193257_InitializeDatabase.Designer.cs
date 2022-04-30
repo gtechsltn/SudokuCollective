@@ -12,7 +12,7 @@ using SudokuCollective.Data.Models;
 namespace SudokuCollective.Api.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220422191257_InitializeDatabase")]
+    [Migration("20220428193257_InitializeDatabase")]
     partial class InitializeDatabase
     {
         /// <summary>
@@ -22,7 +22,7 @@ namespace SudokuCollective.Api.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.2")
+                .HasAnnotation("ProductVersion", "6.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -89,6 +89,9 @@ namespace SudokuCollective.Api.Migrations
 
                     b.Property<int>("TimeFrame")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("UseCustomSMTPServer")
+                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
@@ -270,6 +273,40 @@ namespace SudokuCollective.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("SudokuCollective.Core.Models.SMTPServerSettings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AppId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("FromEmail")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Port")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("SmtpServer")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppId")
+                        .IsUnique();
+
+                    b.ToTable("SMTPServerSettings");
                 });
 
             modelBuilder.Entity("SudokuCollective.Core.Models.SudokuCell", b =>
@@ -484,6 +521,15 @@ namespace SudokuCollective.Api.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("SudokuCollective.Core.Models.SMTPServerSettings", b =>
+                {
+                    b.HasOne("SudokuCollective.Core.Models.App", null)
+                        .WithOne("SMTPServerSettings")
+                        .HasForeignKey("SudokuCollective.Core.Models.SMTPServerSettings", "AppId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("SudokuCollective.Core.Models.SudokuCell", b =>
                 {
                     b.HasOne("SudokuCollective.Core.Models.SudokuMatrix", "SudokuMatrix")
@@ -546,6 +592,8 @@ namespace SudokuCollective.Api.Migrations
 
             modelBuilder.Entity("SudokuCollective.Core.Models.App", b =>
                 {
+                    b.Navigation("SMTPServerSettings");
+
                     b.Navigation("Users");
                 });
 
