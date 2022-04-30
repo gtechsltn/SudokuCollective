@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SudokuCollective.Core.Enums;
+using SudokuCollective.Core.Interfaces.ServiceModels;
 
 namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
 {
@@ -22,6 +23,8 @@ namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
         bool DisableCustomUrls { get; set; }
         string CustomEmailConfirmationAction { get; set; }
         string CustomPasswordResetAction { get; set; }
+        bool UseCustomSMTPServer { get; set; }
+        ISMTPServerSettings SMTPServerSettings { get; set; }
         int UserCount { get; }
         TimeFrame TimeFrame { get; set; }
         int AccessDuration { get; set; }
@@ -32,5 +35,6 @@ namespace SudokuCollective.Core.Interfaces.Models.DomainEntities
         void DeactivateApp();
         string GetLicense(int id, int ownerId);
         void NullifyLicense();
+        void NullifySMTPServerSettings();
     }
 }

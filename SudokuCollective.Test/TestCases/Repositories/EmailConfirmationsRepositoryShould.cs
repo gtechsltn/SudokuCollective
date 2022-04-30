@@ -41,7 +41,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task CreateEmailConfirmations()
         {
             // Arrange and Act
-            var result = await sut.Create(newEmailConfirmation);
+            var result = await sut.CreateAsync(newEmailConfirmation);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -55,7 +55,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             newEmailConfirmation.Id = 2;
 
             // Act
-            var result = await sut.Create(newEmailConfirmation);
+            var result = await sut.CreateAsync(newEmailConfirmation);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -68,7 +68,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var token = context.EmailConfirmations.Select(ec => ec.Token).FirstOrDefault();
 
             // Act
-            var result = await sut.Get(token);
+            var result = await sut.GetAsync(token);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -79,7 +79,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ReturnFalseIfGetByTokenFails()
         {
             // Arrange and Act
-            var result = await sut.Get(Guid.NewGuid().ToString());
+            var result = await sut.GetAsync(Guid.NewGuid().ToString());
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -90,7 +90,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task GetAllEmailConfirmations()
         {
             // Arrange and Act
-            var result = await sut.GetAll();
+            var result = await sut.GetAllAsync();
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -105,7 +105,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             emailConfirmation.OldEmailAddress = string.Format("UPDATED{0}", emailConfirmation.OldEmailAddress);
 
             // Act
-            var result = await sut.Update(emailConfirmation);
+            var result = await sut.UpdateAsync(emailConfirmation);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -117,7 +117,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ReturnFalseIfUpdateEmailConfirmationsFails()
         {
             // Arrange and Act
-            var result = await sut.Update(newEmailConfirmation);
+            var result = await sut.UpdateAsync(newEmailConfirmation);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -131,7 +131,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var emailConfirmation = context.EmailConfirmations.FirstOrDefault(ec => ec.Id == 1);
 
             // Act
-            var result = await sut.Delete(emailConfirmation);
+            var result = await sut.DeleteAsync(emailConfirmation);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -141,7 +141,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ReturnFalseIfDeleteEmailConfirmationsFails()
         {
             // Arrange and Act
-            var result = await sut.Delete(newEmailConfirmation);
+            var result = await sut.DeleteAsync(newEmailConfirmation);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -151,7 +151,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ConfirmItHasAnEmailConfirmation()
         {
             // Arrange and Act
-            var result = await sut.HasEntity(1);
+            var result = await sut.HasEntityAsync(1);
 
             // Assert
             Assert.That(result, Is.True);
@@ -164,7 +164,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var emailConfirmation = context.EmailConfirmations.FirstOrDefault();
 
             // Act
-            var result = await sut.HasOutstandingEmailConfirmation(emailConfirmation.UserId, emailConfirmation.AppId);
+            var result = await sut.HasOutstandingEmailConfirmationAsync(emailConfirmation.UserId, emailConfirmation.AppId);
 
             // Assert
             Assert.That(result, Is.True);
@@ -177,7 +177,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var emailConfirmation = context.EmailConfirmations.FirstOrDefault();
 
             // Act
-            var result = await sut.RetrieveEmailConfirmation(emailConfirmation.UserId, emailConfirmation.AppId);
+            var result = await sut.RetrieveEmailConfirmationAsync(emailConfirmation.UserId, emailConfirmation.AppId);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -191,7 +191,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var emailConfirmation = context.EmailConfirmations.FirstOrDefault();
 
             // Act
-            var result = await sut.RetrieveEmailConfirmation(emailConfirmation.UserId + 3, emailConfirmation.AppId);
+            var result = await sut.RetrieveEmailConfirmationAsync(emailConfirmation.UserId + 3, emailConfirmation.AppId);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);

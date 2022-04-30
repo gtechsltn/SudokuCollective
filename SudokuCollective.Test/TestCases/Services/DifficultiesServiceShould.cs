@@ -71,7 +71,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.Get(1);
+            var result = await sut.GetAsync(1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -85,7 +85,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.GetDifficulties();
+            var result = await sut.GetDifficultiesAsync();
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -99,7 +99,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.GetDifficulties();
+            var result = await sut.GetDifficultiesAsync();
             var nullAndTestDifficultyLevelsBlocked = result.Payload
                 .ConvertAll(d => (Difficulty)d)
                 .Any(difficulty =>
@@ -129,7 +129,7 @@ namespace SudokuCollective.Test.TestCases.Services
             };
 
             // Act
-            var result = await sut.Update(1, request);
+            var result = await sut.UpdateAsync(1, request);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -143,7 +143,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.Delete(1);
+            var result = await sut.DeleteAsync(1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -168,7 +168,7 @@ namespace SudokuCollective.Test.TestCases.Services
             };
 
             // Act
-            var result = await sutCreateDifficulty.Create(request);
+            var result = await sutCreateDifficulty.CreateAsync(request);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);

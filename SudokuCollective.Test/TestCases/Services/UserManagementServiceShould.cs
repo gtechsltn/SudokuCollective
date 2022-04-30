@@ -71,7 +71,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.IsValidUser(userName, password);
+            var result = await sut.IsValidUserAsync(userName, password);
 
             // Assert
             Assert.That(result, Is.True);
@@ -84,7 +84,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var invalidUserName = "invalidUser";
 
             // Act
-            var result = await sutFailure.IsValidUser(invalidUserName, password);
+            var result = await sutFailure.IsValidUserAsync(invalidUserName, password);
 
             // Assert
             Assert.That(result, Is.False);
@@ -97,7 +97,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var invalidPassword = "invalidPassword";
 
             // Act
-            var result = await sut.IsValidUser(userName, invalidPassword);
+            var result = await sut.IsValidUserAsync(userName, invalidPassword);
 
             // Assert
             Assert.That(result, Is.False);
@@ -111,7 +111,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var license = TestObjects.GetLicense();
 
             // Act
-            var result = await sutFailure.ConfirmAuthenticationIssue(
+            var result = await sutFailure.ConfirmAuthenticationIssueAsync(
                 invalidUserName,
                 password,
                 license);
@@ -128,7 +128,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var license = TestObjects.GetLicense();
 
             // Act
-            var result = await sut.ConfirmAuthenticationIssue(
+            var result = await sut.ConfirmAuthenticationIssueAsync(
                 userName,
                 invalidPassword,
                 license);
@@ -143,7 +143,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.ConfirmUserName(
+            var result = await sut.ConfirmUserNameAsync(
                 email,
                 TestObjects.GetLicense());
             var success = result.IsSuccess;
@@ -161,7 +161,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sutFailure.ConfirmUserName(
+            var result = await sutFailure.ConfirmUserNameAsync(
                 "invalidEmail@example.com",
                 TestObjects.GetLicense());
             var success = result.IsSuccess;

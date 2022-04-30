@@ -6,23 +6,23 @@ namespace SudokuCollective.Core.Interfaces.Services
 {
     public interface IAppsService : IService
     {
-        Task<IResult> Create(IRequest request);
-        Task<IResult> Get(int id, int userId);
-        Task<IResult> Update(int id, IRequest request);
-        Task<IResult> DeleteOrReset(int id, bool isReset = false);
-        Task<IResult> GetApps(IRequest request);
-        Task<IResult> GetMyApps(int ownerId, IPaginator paginator);
-        Task<IResult> GetMyRegisteredApps(int userId, IPaginator paginator);
-        Task<IResult> GetByLicense(string license, int userId);
-        Task<ILicenseResult> GetLicense(int id, int requestorId);
-        Task<IResult> GetAppUsers(int id, int requestorId, IPaginator paginator, bool appUsers = true);
-        Task<IResult> AddAppUser(int appId, int userId);
-        Task<IResult> RemoveAppUser(int appId, int userId);
-        Task<IResult> Activate(int id);
-        Task<IResult> Deactivate(int id);
-        Task<IResult> ActivateAdminPrivileges(int appId, int userId);
-        Task<IResult> DeactivateAdminPrivileges(int appId, int userId);
-        Task<bool> IsUserOwnerOThisfApp(IHttpContextAccessor httpContextAccessor, string license, int userId, string requestorLicense, int requestorAppId, int requestorId);
-        Task<bool> IsRequestValidOnThisToken(IHttpContextAccessor httpContextAccessor, string license, int appId, int userId);
+        Task<IResult> CreateAync(IRequest request);
+        Task<IResult> GetAsync(int id, int userId);
+        Task<IResult> UpdateAsync(int id, IRequest request);
+        Task<IResult> DeleteOrResetAsync(int id, bool isReset = false);
+        Task<IResult> GetAppsAsync(IRequest request);
+        Task<IResult> GetMyAppsAsync(int ownerId, IPaginator paginator);
+        Task<IResult> GetMyRegisteredAppsAsync(int userId, IPaginator paginator);
+        Task<IResult> GetByLicenseAsync(string license, int userId);
+        Task<ILicenseResult> GetLicenseAsync(int id, int requestorId);
+        Task<IResult> GetAppUsersAsync(int id, int requestorId, IPaginator paginator, bool appUsers = true);
+        Task<IResult> AddAppUserAsync(int appId, int userId);
+        Task<IResult> RemoveAppUserAsync(int appId, int userId);
+        Task<IResult> ActivateAsync(int id);
+        Task<IResult> DeactivateAsync(int id);
+        Task<IResult> ActivateAdminPrivilegesAsync(int appId, int userId);
+        Task<IResult> DeactivateAdminPrivilegesAsync(int appId, int userId);
+        Task<bool> IsUserOwnerOThisfAppAsync(IHttpContextAccessor httpContextAccessor, string license, int userId, string requestorLicense, int requestorAppId, int requestorId);
+        Task<bool> IsRequestValidOnThisTokenAsync(IHttpContextAccessor httpContextAccessor, string license, int appId, int userId);
     }
 }

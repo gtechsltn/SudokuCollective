@@ -6,6 +6,6 @@ namespace SudokuCollective.Core.Interfaces.Repositories
 {
     public interface IDifficultiesRepository<TEntity> : IRepository<TEntity> where TEntity : IDifficulty
     {
-        Task<bool> HasDifficultyLevel(DifficultyLevel level);
+        Task<bool> HasDifficultyLevelAsync(DifficultyLevel level);
     }
 }

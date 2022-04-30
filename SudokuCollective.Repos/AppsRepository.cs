@@ -32,7 +32,7 @@ namespace SudokuCollective.Repos
         #endregion
 
         #region Methods
-        public async Task<IRepositoryResponse> Add(TEntity entity)
+        public async Task<IRepositoryResponse> AddAsync(TEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -82,6 +82,17 @@ namespace SudokuCollective.Repos
                     else if (entry.Entity is UserApp ua)
                     {
                         if (ua.Id == userApp.Id)
+                        {
+                            entry.State = EntityState.Added;
+                        }
+                        else
+                        {
+                            entry.State = EntityState.Modified;
+                        }
+                    }
+                    else if (entry.Entity is SMTPServerSettings s)
+                    {
+                        if (s.AppId == entity.Id)
                         {
                             entry.State = EntityState.Added;
                         }
@@ -194,7 +205,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> Get(int id)
+        public async Task<IRepositoryResponse> GetAsync(int id)
         {
             var result = new RepositoryResponse();
 
@@ -212,6 +223,10 @@ namespace SudokuCollective.Repos
                 query = await _context
                     .Apps
                     .FirstOrDefaultAsync(a => a.Id == id);
+                
+                query.SMTPServerSettings = await _context
+                    .SMTPServerSettings
+                    .FirstOrDefaultAsync(s => s.AppId == query.Id);
 
                 if (query != null)
                 {
@@ -267,7 +282,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> GetByLicense(string license)
+        public async Task<IRepositoryResponse> GetByLicenseAsync(string license)
         {
             var result = new RepositoryResponse();
 
@@ -286,6 +301,10 @@ namespace SudokuCollective.Repos
                     .Apps
                     .FirstOrDefaultAsync(
                         a => a.License.ToLower().Equals(license.ToLower()));
+                
+                query.SMTPServerSettings = await _context
+                    .SMTPServerSettings
+                    .FirstOrDefaultAsync(s => s.AppId == query.Id);
 
                 if (query != null)
                 {
@@ -341,7 +360,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> GetAll()
+        public async Task<IRepositoryResponse> GetAllAsync()
         {
             var result = new RepositoryResponse();
 
@@ -363,6 +382,10 @@ namespace SudokuCollective.Repos
                     // Filter games by app
                     foreach (var app in query)
                     {
+                        app.SMTPServerSettings = await _context
+                            .SMTPServerSettings
+                            .FirstOrDefaultAsync(s => s.AppId == app.Id);
+                        
                         foreach (var userApp in app.Users)
                         {
                             userApp.User.Games = new List<Game>();
@@ -401,7 +424,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> GetMyApps(int ownerId)
+        public async Task<IRepositoryResponse> GetMyAppsAsync(int ownerId)
         {
             var result = new RepositoryResponse();
 
@@ -431,6 +454,10 @@ namespace SudokuCollective.Repos
                     // Filter games by app
                     foreach (var app in query)
                     {
+                        app.SMTPServerSettings = await _context
+                            .SMTPServerSettings
+                            .FirstOrDefaultAsync(s => s.AppId == app.Id);
+                        
                         foreach (var userApp in app.Users)
                         {
                             userApp.User.Games = new List<Game>();
@@ -469,7 +496,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> GetMyRegisteredApps(int userId)
+        public async Task<IRepositoryResponse> GetMyRegisteredAppsAsync(int userId)
         {
             var result = new RepositoryResponse();
 
@@ -495,6 +522,10 @@ namespace SudokuCollective.Repos
                     // Filter games by app
                     foreach (var app in query)
                     {
+                        app.SMTPServerSettings = await _context
+                            .SMTPServerSettings
+                            .FirstOrDefaultAsync(s => s.AppId == app.Id);
+
                         foreach (var userApp in app.Users)
                         {
                             userApp.User.Games = new List<Game>();
@@ -533,7 +564,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> GetAppUsers(int id)
+        public async Task<IRepositoryResponse> GetAppUsersAsync(int id)
         {
             var result = new RepositoryResponse();
 
@@ -623,11 +654,11 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> GetNonAppUsers(int id)
+        public async Task<IRepositoryResponse> GetNonAppUsersAsync(int id)
         {
             var result = new RepositoryResponse();
 
-            if (id == 0 || !await HasEntity(id))
+            if (id == 0 || !await HasEntityAsync(id))
             {
                 result.IsSuccess = false;
 
@@ -688,7 +719,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> Update(TEntity entity)
+        public async Task<IRepositoryResponse> UpdateAsync(TEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -758,7 +789,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> UpdateRange(List<TEntity> entities)
+        public async Task<IRepositoryResponse> UpdateRangeAsync(List<TEntity> entities)
         {
             if (entities == null) throw new ArgumentNullException(nameof(entities));
 
@@ -825,7 +856,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> Delete(TEntity entity)
+        public async Task<IRepositoryResponse> DeleteAsync(TEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -900,7 +931,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> DeleteRange(List<TEntity> entities)
+        public async Task<IRepositoryResponse> DeleteRangeAsync(List<TEntity> entities)
         {
             if (entities == null) throw new ArgumentNullException(nameof(entities));
             var result = new RepositoryResponse();
@@ -987,7 +1018,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> Reset(TEntity entity)
+        public async Task<IRepositoryResponse> ResetAsync(TEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -1057,7 +1088,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> AddAppUser(int userId, string license)
+        public async Task<IRepositoryResponse> AddAppUserAsync(int userId, string license)
         {
             var result = new RepositoryResponse();
 
@@ -1137,7 +1168,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> RemoveAppUser(int userId, string license)
+        public async Task<IRepositoryResponse> RemoveAppUserAsync(int userId, string license)
         {
             var result = new RepositoryResponse();
 
@@ -1235,7 +1266,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> Activate(int id)
+        public async Task<IRepositoryResponse> ActivateAsync(int id)
         {
             var result = new RepositoryResponse();
 
@@ -1299,7 +1330,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> Deactivate(int id)
+        public async Task<IRepositoryResponse> DeactivateAsync(int id)
         {
             var result = new RepositoryResponse();
 
@@ -1363,16 +1394,16 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<bool> HasEntity(int id) => 
+        public async Task<bool> HasEntityAsync(int id) => 
             await _context.Apps.AnyAsync(a => a.Id == id);
 
-        public async Task<bool> IsAppLicenseValid(string license) => 
+        public async Task<bool> IsAppLicenseValidAsync(string license) => 
             await _context
                 .Apps
                 .AnyAsync(
                     app => app.License.ToLower().Equals(license.ToLower()));
 
-        public async Task<bool> IsUserRegisteredToApp(
+        public async Task<bool> IsUserRegisteredToAppAsync(
             int id, 
             string license, 
             int userId) => 
@@ -1383,7 +1414,7 @@ namespace SudokuCollective.Repos
                     && a.Id == id
                     && a.License.ToLower().Equals(license.ToLower()));
 
-        public async Task<bool> IsUserOwnerOThisfApp(
+        public async Task<bool> IsUserOwnerOThisfAppAsync(
             int id, 
             string license, 
             int userId) =>
@@ -1394,7 +1425,7 @@ namespace SudokuCollective.Repos
                     && a.OwnerId == userId
                     && a.Id == id);
 
-        public async Task<string> GetLicense(int id) => await _context
+        public async Task<string> GetLicenseAsync(int id) => await _context
                 .Apps
                 .Where(a => a.Id == id)
                 .Select(a => a.License)

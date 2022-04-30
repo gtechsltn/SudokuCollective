@@ -64,7 +64,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -83,7 +83,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedDifficultiesRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -102,7 +102,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedRolesRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -121,7 +121,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedUsersRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -153,7 +153,7 @@ namespace SudokuCollective.Test.Cache
                                 Object = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .Get(It.IsAny<int>())
+                                    .GetAsync(It.IsAny<int>())
                                     .Result
                                     .Object
                             }, result);
@@ -186,7 +186,7 @@ namespace SudokuCollective.Test.Cache
                             Object = MockedDifficultiesRepository
                                 .SuccessfulRequest
                                 .Object
-                                .Get(It.IsAny<int>())
+                                .GetAsync(It.IsAny<int>())
                                 .Result
                                 .Object
                         }, result);
@@ -219,7 +219,7 @@ namespace SudokuCollective.Test.Cache
                             Object = MockedRolesRepository
                                 .SuccessfulRequest
                                 .Object
-                                .Get(It.IsAny<int>())
+                                .GetAsync(It.IsAny<int>())
                                 .Result
                                 .Object
                         }, result);
@@ -252,7 +252,7 @@ namespace SudokuCollective.Test.Cache
                                 Object = MockedUsersRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .Get(It.IsAny<int>())
+                                    .GetAsync(It.IsAny<int>())
                                     .Result
                                     .Object
                             }, result);
@@ -278,7 +278,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetAll()
+                                    .GetAllAsync()
                                     .Result
                                     .Objects
                             }, result));
@@ -303,7 +303,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedDifficultiesRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetAll()
+                                    .GetAllAsync()
                                     .Result
                                     .Objects
                             }, result));
@@ -328,7 +328,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedRolesRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetAll()
+                                    .GetAllAsync()
                                     .Result
                                     .Objects
                             }, result));
@@ -353,7 +353,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedSolutionsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetAll()
+                                    .GetAllAsync()
                                     .Result
                                     .Objects
                             }, result));
@@ -378,7 +378,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedUsersRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetAll()
+                                    .GetAllAsync()
                                     .Result
                                     .Objects
                             }, result));
@@ -396,7 +396,7 @@ namespace SudokuCollective.Test.Cache
                         Object = MockedAppsRepository
                             .SuccessfulRequest
                             .Object
-                            .Get(It.IsAny<int>())
+                            .GetAsync(It.IsAny<int>())
                             .Result
                             .Object
                     } as IRepositoryResponse));
@@ -414,7 +414,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedDifficultiesRepository
                             .SuccessfulRequest
                             .Object
-                            .Get(It.IsAny<int>())
+                            .GetAsync(It.IsAny<int>())
                             .Result
                             .Object
                 } as IRepositoryResponse));
@@ -432,7 +432,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedRolesRepository
                             .SuccessfulRequest
                             .Object
-                            .Get(It.IsAny<int>())
+                            .GetAsync(It.IsAny<int>())
                             .Result
                             .Object
                 } as IRepositoryResponse));
@@ -450,7 +450,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .Get(It.IsAny<int>())
+                            .GetAsync(It.IsAny<int>())
                             .Result
                             .Object
                 } as IRepositoryResponse));
@@ -548,7 +548,7 @@ namespace SudokuCollective.Test.Cache
                                 Object = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetByLicense(It.IsAny<string>())
+                                    .GetByLicenseAsync(It.IsAny<string>())
                                     .Result
                                     .Object
                             }, result));
@@ -575,7 +575,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetAppUsers(It.IsAny<int>())
+                                    .GetAppUsersAsync(It.IsAny<int>())
                                     .Result
                                     .Objects
                             }, result));
@@ -602,7 +602,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetNonAppUsers(It.IsAny<int>())
+                                    .GetNonAppUsersAsync(It.IsAny<int>())
                                     .Result
                                     .Objects
                             }, result));
@@ -629,7 +629,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetMyRegisteredApps(It.IsAny<int>())
+                                    .GetMyRegisteredAppsAsync(It.IsAny<int>())
                                     .Result
                                     .Objects
                             }, result));
@@ -656,7 +656,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetMyRegisteredApps(It.IsAny<int>())
+                                    .GetMyRegisteredAppsAsync(It.IsAny<int>())
                                     .Result
                                     .Objects
                             }, result));
@@ -692,7 +692,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -709,7 +709,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -726,7 +726,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -771,7 +771,7 @@ namespace SudokuCollective.Test.Cache
                                 Object = MockedUsersRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetByUserName(It.IsAny<string>())
+                                    .GetByUserNameAsync(It.IsAny<string>())
                                     .Result
                                     .Object
                             }, result);
@@ -799,7 +799,7 @@ namespace SudokuCollective.Test.Cache
                                 Object = MockedUsersRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetByEmail(It.IsAny<string>())
+                                    .GetByEmailAsync(It.IsAny<string>())
                                     .Result
                                     .Object
                             }, result));
@@ -818,7 +818,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedUsersRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -836,7 +836,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedUsersRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -1506,7 +1506,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -1525,7 +1525,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedDifficultiesRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -1544,7 +1544,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedRolesRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -1563,7 +1563,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedUsersRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -1590,7 +1590,7 @@ namespace SudokuCollective.Test.Cache
                                 Object = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .Get(It.IsAny<int>())
+                                    .GetAsync(It.IsAny<int>())
                                     .Result
                                     .Object
                             }, result));
@@ -1617,7 +1617,7 @@ namespace SudokuCollective.Test.Cache
                                 Object = MockedDifficultiesRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .Get(It.IsAny<int>())
+                                    .GetAsync(It.IsAny<int>())
                                     .Result
                                     .Object
                             }, result));
@@ -1644,7 +1644,7 @@ namespace SudokuCollective.Test.Cache
                                 Object = MockedRolesRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .Get(It.IsAny<int>())
+                                    .GetAsync(It.IsAny<int>())
                                     .Result
                                     .Object
                             }, result));
@@ -1671,7 +1671,7 @@ namespace SudokuCollective.Test.Cache
                                 Object = MockedUsersRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .Get(It.IsAny<int>())
+                                    .GetAsync(It.IsAny<int>())
                                     .Result
                                     .Object
                             }, result));
@@ -1696,7 +1696,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetAll()
+                                    .GetAllAsync()
                                     .Result
                                     .Objects
                             }, result));
@@ -1721,7 +1721,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedDifficultiesRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetAll()
+                                    .GetAllAsync()
                                     .Result
                                     .Objects
                             }, result));
@@ -1746,7 +1746,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedRolesRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetAll()
+                                    .GetAllAsync()
                                     .Result
                                     .Objects
                             }, result));
@@ -1771,7 +1771,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedSolutionsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetAll()
+                                    .GetAllAsync()
                                     .Result
                                     .Objects
                             }, result));
@@ -1796,7 +1796,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedUsersRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetAll()
+                                    .GetAllAsync()
                                     .Result
                                     .Objects
                             }, result));
@@ -1814,7 +1814,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedAppsRepository
                             .SuccessfulRequest
                             .Object
-                            .Get(It.IsAny<int>())
+                            .GetAsync(It.IsAny<int>())
                             .Result
                             .Object
                 } as IRepositoryResponse));
@@ -1832,7 +1832,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedDifficultiesRepository
                             .SuccessfulRequest
                             .Object
-                            .Get(It.IsAny<int>())
+                            .GetAsync(It.IsAny<int>())
                             .Result
                             .Object
                 } as IRepositoryResponse));
@@ -1850,7 +1850,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedRolesRepository
                             .SuccessfulRequest
                             .Object
-                            .Get(It.IsAny<int>())
+                            .GetAsync(It.IsAny<int>())
                             .Result
                             .Object
                 } as IRepositoryResponse));
@@ -1868,7 +1868,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .Get(It.IsAny<int>())
+                            .GetAsync(It.IsAny<int>())
                             .Result
                             .Object
                 } as IRepositoryResponse));
@@ -1966,7 +1966,7 @@ namespace SudokuCollective.Test.Cache
                                 Object = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetByLicense(It.IsAny<string>())
+                                    .GetByLicenseAsync(It.IsAny<string>())
                                     .Result
                                     .Object
                             }, result));
@@ -1993,7 +1993,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetAppUsers(It.IsAny<int>())
+                                    .GetAppUsersAsync(It.IsAny<int>())
                                     .Result
                                     .Objects
                             }, result));
@@ -2020,7 +2020,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetNonAppUsers(It.IsAny<int>())
+                                    .GetNonAppUsersAsync(It.IsAny<int>())
                                     .Result
                                     .Objects
                             }, result));
@@ -2047,7 +2047,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetMyRegisteredApps(It.IsAny<int>())
+                                    .GetMyRegisteredAppsAsync(It.IsAny<int>())
                                     .Result
                                     .Objects
                             }, result));
@@ -2074,7 +2074,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetMyRegisteredApps(It.IsAny<int>())
+                                    .GetMyRegisteredAppsAsync(It.IsAny<int>())
                                     .Result
                                     .Objects
                             }, result));
@@ -2110,7 +2110,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -2127,7 +2127,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -2144,7 +2144,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -2186,7 +2186,7 @@ namespace SudokuCollective.Test.Cache
                             Object = MockedUsersRepository
                                 .SuccessfulRequest
                                 .Object
-                                .GetByUserName(It.IsAny<string>())
+                                .GetByUserNameAsync(It.IsAny<string>())
                                 .Result
                                 .Object
                         }, result);
@@ -2214,7 +2214,7 @@ namespace SudokuCollective.Test.Cache
                                 Object = MockedUsersRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetByEmail(It.IsAny<string>())
+                                    .GetByEmailAsync(It.IsAny<string>())
                                     .Result
                                     .Object
                             }, result));
@@ -2233,7 +2233,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedUsersRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -2251,7 +2251,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedUsersRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -2299,7 +2299,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -2318,7 +2318,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedDifficultiesRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -2337,7 +2337,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedRolesRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -2356,7 +2356,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedUsersRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -2388,7 +2388,7 @@ namespace SudokuCollective.Test.Cache
                             Object = MockedAppsRepository
                                 .PermitSuperUserRequest
                                 .Object
-                                .Get(It.IsAny<int>())
+                                .GetAsync(It.IsAny<int>())
                                 .Result
                                 .Object
                         }, result);
@@ -2421,7 +2421,7 @@ namespace SudokuCollective.Test.Cache
                             Object = MockedDifficultiesRepository
                                 .SuccessfulRequest
                                 .Object
-                                .Get(It.IsAny<int>())
+                                .GetAsync(It.IsAny<int>())
                                 .Result
                                 .Object
                         }, result);
@@ -2454,7 +2454,7 @@ namespace SudokuCollective.Test.Cache
                             Object = MockedRolesRepository
                                 .SuccessfulRequest
                                 .Object
-                                .Get(It.IsAny<int>())
+                                .GetAsync(It.IsAny<int>())
                                 .Result
                                 .Object
                         }, result);
@@ -2487,7 +2487,7 @@ namespace SudokuCollective.Test.Cache
                             Object = MockedUsersRepository
                                 .PermitSuperUserSuccessfulRequest
                                 .Object
-                                .Get(It.IsAny<int>())
+                                .GetAsync(It.IsAny<int>())
                                 .Result
                                 .Object
                         }, result);
@@ -2513,7 +2513,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetAll()
+                                    .GetAllAsync()
                                     .Result
                                     .Objects
                             }, result));
@@ -2538,7 +2538,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedDifficultiesRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetAll()
+                                    .GetAllAsync()
                                     .Result
                                     .Objects
                             }, result));
@@ -2563,7 +2563,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedRolesRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetAll()
+                                    .GetAllAsync()
                                     .Result
                                     .Objects
                             }, result));
@@ -2588,7 +2588,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedSolutionsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetAll()
+                                    .GetAllAsync()
                                     .Result
                                     .Objects
                             }, result));
@@ -2613,7 +2613,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedUsersRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetAll()
+                                    .GetAllAsync()
                                     .Result
                                     .Objects
                             }, result));
@@ -2631,7 +2631,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedAppsRepository
                             .SuccessfulRequest
                             .Object
-                            .Get(It.IsAny<int>())
+                            .GetAsync(It.IsAny<int>())
                             .Result
                             .Object
                 } as IRepositoryResponse));
@@ -2649,7 +2649,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedDifficultiesRepository
                             .SuccessfulRequest
                             .Object
-                            .Get(It.IsAny<int>())
+                            .GetAsync(It.IsAny<int>())
                             .Result
                             .Object
                 } as IRepositoryResponse));
@@ -2667,7 +2667,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedRolesRepository
                             .SuccessfulRequest
                             .Object
-                            .Get(It.IsAny<int>())
+                            .GetAsync(It.IsAny<int>())
                             .Result
                             .Object
                 } as IRepositoryResponse));
@@ -2685,7 +2685,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .Get(It.IsAny<int>())
+                            .GetAsync(It.IsAny<int>())
                             .Result
                             .Object
                 } as IRepositoryResponse));
@@ -2783,7 +2783,7 @@ namespace SudokuCollective.Test.Cache
                                 Object = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetByLicense(It.IsAny<string>())
+                                    .GetByLicenseAsync(It.IsAny<string>())
                                     .Result
                                     .Object
                             }, result));
@@ -2810,7 +2810,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetAppUsers(It.IsAny<int>())
+                                    .GetAppUsersAsync(It.IsAny<int>())
                                     .Result
                                     .Objects
                             }, result));
@@ -2837,7 +2837,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetNonAppUsers(It.IsAny<int>())
+                                    .GetNonAppUsersAsync(It.IsAny<int>())
                                     .Result
                                     .Objects
                             }, result));
@@ -2864,7 +2864,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetMyRegisteredApps(It.IsAny<int>())
+                                    .GetMyRegisteredAppsAsync(It.IsAny<int>())
                                     .Result
                                     .Objects
                             }, result));
@@ -2891,7 +2891,7 @@ namespace SudokuCollective.Test.Cache
                                 Objects = MockedAppsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetMyRegisteredApps(It.IsAny<int>())
+                                    .GetMyRegisteredAppsAsync(It.IsAny<int>())
                                     .Result
                                     .Objects
                             }, result));
@@ -2927,7 +2927,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -2944,7 +2944,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -2961,7 +2961,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedAppsRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -3006,7 +3006,7 @@ namespace SudokuCollective.Test.Cache
                             Object = MockedUsersRepository
                                 .SuccessfulRequest
                                 .Object
-                                .GetByUserName(It.IsAny<string>())
+                                .GetByUserNameAsync(It.IsAny<string>())
                                 .Result
                                 .Object
                         }, result);
@@ -3034,7 +3034,7 @@ namespace SudokuCollective.Test.Cache
                                 Object = MockedUsersRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .GetByEmail(It.IsAny<string>())
+                                    .GetByEmailAsync(It.IsAny<string>())
                                     .Result
                                     .Object
                             }, result));
@@ -3053,7 +3053,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedUsersRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));
@@ -3071,7 +3071,7 @@ namespace SudokuCollective.Test.Cache
                     Object = MockedUsersRepository
                         .SuccessfulRequest
                         .Object
-                        .Get(It.IsAny<int>())
+                        .GetAsync(It.IsAny<int>())
                         .Result
                         .Object
                 } as IRepositoryResponse));

@@ -30,13 +30,13 @@ namespace SudokuCollective.Test.Services
 
             #region SuccessfulRequest
             SuccessfulRequest.Setup(service =>
-                service.Get(It.IsAny<int>()))
+                service.GetAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedSolutionsRepository
                             .SuccessfulRequest
                             .Object
-                            .Get(It.IsAny<int>())
+                            .GetAsync(It.IsAny<int>())
                             .Result
                             .IsSuccess,
                         Message = SolutionsMessages.SolutionFoundMessage,
@@ -45,34 +45,34 @@ namespace SudokuCollective.Test.Services
                             MockedSolutionsRepository
                                 .SuccessfulRequest
                                 .Object
-                                .Get(It.IsAny<int>())
+                                .GetAsync(It.IsAny<int>())
                                 .Result
                                 .Object
                         }
                     } as IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.GetSolutions(It.IsAny<IRequest>()))
+                service.GetSolutionsAsync(It.IsAny<IRequest>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedSolutionsRepository
                             .SuccessfulRequest
                             .Object
-                            .GetAll()
+                            .GetAllAsync()
                             .Result
                             .IsSuccess,
                         Message = SolutionsMessages.SolutionsFoundMessage,
                         Payload = MockedSolutionsRepository
                             .SuccessfulRequest
                             .Object
-                            .GetAll()
+                            .GetAllAsync()
                             .Result
                             .Objects
                             .ConvertAll(s => (object)s)
                     } as IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.Solve(It.IsAny<IRequest>()))
+                service.SolveAsync(It.IsAny<IRequest>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = true,
@@ -82,20 +82,20 @@ namespace SudokuCollective.Test.Services
                                 MockedSolutionsRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .Get(It.IsAny<int>())
+                                    .GetAsync(It.IsAny<int>())
                                     .Result
                                     .Object
                             }
                     } as IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.Generate())
+                service.GenerateAsync())
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedSolutionsRepository
                             .SuccessfulRequest
                             .Object
-                            .Add(It.IsAny<SudokuSolution>())
+                            .AddAsync(It.IsAny<SudokuSolution>())
                             .Result
                             .IsSuccess,
                         Message = SolutionsMessages.SolutionGeneratedMessage,
@@ -104,20 +104,20 @@ namespace SudokuCollective.Test.Services
                                     MockedSolutionsRepository
                                         .SuccessfulRequest
                                         .Object
-                                        .Get(It.IsAny<int>())
+                                        .GetAsync(It.IsAny<int>())
                                         .Result
                                         .Object
                                 }
                 } as IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.Add(It.IsAny<int>()))
+                service.Async(It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedSolutionsRepository
                             .SuccessfulRequest
                             .Object
-                            .AddSolutions(It.IsAny<List<ISudokuSolution>>())
+                            .AddSolutionsAsync(It.IsAny<List<ISudokuSolution>>())
                             .Result
                             .IsSuccess,
                         Message = SolutionsMessages.SolutionsAddedMessage
@@ -126,33 +126,33 @@ namespace SudokuCollective.Test.Services
 
             #region FailedRequest
             FailedRequest.Setup(service =>
-                service.Get(It.IsAny<int>()))
+                service.GetAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedSolutionsRepository
                             .FailedRequest
                             .Object
-                            .Get(It.IsAny<int>())
+                            .GetAsync(It.IsAny<int>())
                             .Result
                             .IsSuccess,
                         Message = SolutionsMessages.SolutionNotFoundMessage
                     } as IResult));
 
             FailedRequest.Setup(service =>
-                service.GetSolutions(It.IsAny<IRequest>()))
+                service.GetSolutionsAsync(It.IsAny<IRequest>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedSolutionsRepository
                             .FailedRequest
                             .Object
-                            .GetAll()
+                            .GetAllAsync()
                             .Result
                             .IsSuccess,
                         Message = SolutionsMessages.SolutionsNotFoundMessage
                     } as IResult));
 
             FailedRequest.Setup(service =>
-                service.Solve(It.IsAny<IRequest>()))
+                service.SolveAsync(It.IsAny<IRequest>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = false,
@@ -160,26 +160,26 @@ namespace SudokuCollective.Test.Services
                     } as IResult));
 
             FailedRequest.Setup(service =>
-                service.Generate())
+                service.GenerateAsync())
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedSolutionsRepository
                         .FailedRequest
                         .Object
-                        .Add(It.IsAny<SudokuSolution>())
+                        .AddAsync(It.IsAny<SudokuSolution>())
                         .Result
                         .IsSuccess,
                         Message = SolutionsMessages.SolutionNotGeneratedMessage
                     } as IResult));
 
             FailedRequest.Setup(service =>
-                service.Add(It.IsAny<int>())).Returns(
+                service.Async(It.IsAny<int>())).Returns(
                     Task.FromResult(new Result()
                     {
                         IsSuccess = MockedSolutionsRepository
                             .FailedRequest
                             .Object
-                            .AddSolutions(It.IsAny<List<ISudokuSolution>>())
+                            .AddSolutionsAsync(It.IsAny<List<ISudokuSolution>>())
                             .Result
                             .IsSuccess,
                         Message = SolutionsMessages.SolutionsNotAddedMessage
@@ -188,7 +188,7 @@ namespace SudokuCollective.Test.Services
 
             #region SolveFailedRequest
             SolveFailedRequest.Setup(service =>
-                service.Solve(It.IsAny<IRequest>()))
+                service.SolveAsync(It.IsAny<IRequest>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = true,

@@ -51,7 +51,7 @@ namespace SudokuCollective.Data.Services
         #endregion
 
         #region Methods
-        public async Task<bool> IsValidUser(string username, string password)
+        public async Task<bool> IsValidUserAsync(string username, string password)
         {
             if (string.IsNullOrEmpty(username)) throw new ArgumentNullException(nameof(username));
 
@@ -59,7 +59,7 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                var userResponse = await _usersRepository.GetByUserName(username);
+                var userResponse = await _usersRepository.GetByUserNameAsync(username);
 
                 if (userResponse.IsSuccess)
                 {
@@ -91,7 +91,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<UserAuthenticationErrorType> ConfirmAuthenticationIssue(string username, string password, string license)
+        public async Task<UserAuthenticationErrorType> ConfirmAuthenticationIssueAsync(string username, string password, string license)
         {
             if (string.IsNullOrEmpty(username)) throw new ArgumentNullException(nameof(username));
 
@@ -143,7 +143,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> ConfirmUserName(string email, string license)
+        public async Task<IResult> ConfirmUserNameAsync(string email, string license)
         {
             if (string.IsNullOrEmpty(email)) throw new ArgumentNullException(nameof(email));
 

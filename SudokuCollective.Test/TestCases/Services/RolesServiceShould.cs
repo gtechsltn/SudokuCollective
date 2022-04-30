@@ -70,7 +70,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.Get(1);
+            var result = await sut.GetAsync(1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -84,7 +84,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sutFailue.Get(1);
+            var result = await sutFailue.GetAsync(1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -97,7 +97,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.GetRoles();
+            var result = await sut.GetRolesAsync();
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -111,7 +111,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sutFailue.GetRoles();
+            var result = await sutFailue.GetRolesAsync();
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -124,7 +124,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.GetRoles();
+            var result = await sut.GetRolesAsync();
             var nullAndSuperUserRoleLevelsBlocked = result.Payload
                 .ConvertAll(r => (Role)r)
                 .Any(role =>
@@ -146,7 +146,7 @@ namespace SudokuCollective.Test.TestCases.Services
             request.Payload = updateRolePayload;
 
             // Act
-            var result = await sut.Update(1, request);
+            var result = await sut.UpdateAsync(1, request);
             var updatedDifficulty = context.Roles
                 .FirstOrDefault(role => role.Id == 1);
 
@@ -164,7 +164,7 @@ namespace SudokuCollective.Test.TestCases.Services
             request.Payload = updateRolePayload;
 
             // Act
-            var result = await sutFailue.Update(1, request);
+            var result = await sutFailue.UpdateAsync(1, request);
 
         // Assert
         Assert.That(result.IsSuccess, Is.False);
@@ -177,7 +177,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.Delete(1);
+            var result = await sut.DeleteAsync(1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -190,7 +190,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sutFailue.Delete(10);
+            var result = await sutFailue.DeleteAsync(10);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);

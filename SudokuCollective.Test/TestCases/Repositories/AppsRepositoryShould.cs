@@ -47,7 +47,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task CreateApps()
         {
             // Arrange and Act
-            var result = await sut.Add(newApp);
+            var result = await sut.AddAsync(newApp);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -63,7 +63,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             newApp.OwnerId = 0;
 
             // Act
-            var result = await sut.Add(newApp);
+            var result = await sut.AddAsync(newApp);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -74,7 +74,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task GetAppsById()
         {
             // Arrange and Act
-            var result = await sut.Get(1);
+            var result = await sut.GetAsync(1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -94,7 +94,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Act
 
             // Add 1 to the last ID retrieved to cause a failure
-            result = await sut.Get(app.Id + 1);
+            result = await sut.GetAsync(app.Id + 1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -108,7 +108,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var license = context.Apps.FirstOrDefault().License;
 
             // Act
-            var result = await sut.GetByLicense(license);
+            var result = await sut.GetByLicenseAsync(license);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -122,7 +122,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var license = "aabe5bb5-cf60-4d7e-8bf1-f3686e4a1c4c";
 
             // Act
-            var result = await sut.GetByLicense(license);
+            var result = await sut.GetByLicenseAsync(license);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -135,7 +135,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.GetAll();
+            var result = await sut.GetAllAsync();
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -149,7 +149,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var id = context.Apps.FirstOrDefault(a => a.Id == 2).Id;
 
             // Act
-            var result = await sut.GetAppUsers(id);
+            var result = await sut.GetAppUsersAsync(id);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -165,7 +165,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Act
 
             // Add 1 to the last ID retrieved to cause a failure
-            var result = await sut.GetAppUsers(id + 1);
+            var result = await sut.GetAppUsersAsync(id + 1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -178,7 +178,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var id = context.Apps.LastOrDefault().Id;
 
             // Act
-            var result = await sut.GetNonAppUsers(id);
+            var result = await sut.GetNonAppUsersAsync(id);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -194,7 +194,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Act
 
             // Add 2 to the last ID retrieved to cause a failure
-            var result = await sut.GetNonAppUsers(id + 2);
+            var result = await sut.GetNonAppUsersAsync(id + 2);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -208,7 +208,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             app.Name = string.Format("{0} UPDATED!", app.Name);
 
             // Act
-            var result = await sut.Update(app);
+            var result = await sut.UpdateAsync(app);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -222,7 +222,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange and Act
 
             // New app is not saved in the DB so this should cause a failure
-            var result = await sut.Update(newApp);
+            var result = await sut.UpdateAsync(newApp);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -238,7 +238,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var user = context.Users.FirstOrDefault(u => u.Apps.Any(ua => ua.AppId != app.Id));
 
             // Act
-            var result = await sut.AddAppUser(user.Id, license);
+            var result = await sut.AddAppUserAsync(user.Id, license);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -254,7 +254,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Act
 
             // Add 1 to the last ID retrieved to cause a failure
-            var result = await sut.AddAppUser(id + 1, license);
+            var result = await sut.AddAppUserAsync(id + 1, license);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -277,7 +277,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .FirstOrDefault(a => a.Id == 1).License;
 
             // Act
-            var result = await sut.RemoveAppUser(user.Id, license);
+            var result = await sut.RemoveAppUserAsync(user.Id, license);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -293,7 +293,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Act
 
             // The license is not in the DB so this should cause a failure
-            var result = await sut.RemoveAppUser(user.Id, license);
+            var result = await sut.RemoveAppUserAsync(user.Id, license);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -306,7 +306,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var app = context.Apps.FirstOrDefault();
 
             // Act
-            var result = await sut.Delete(app);
+            var result = await sut.DeleteAsync(app);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -318,7 +318,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange and Act
 
             // newApp is not in the DB so this should cause a failure
-            var result = await sut.Delete(newApp);
+            var result = await sut.DeleteAsync(newApp);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -331,7 +331,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var app = context.Apps.FirstOrDefault();
 
             // Act
-            var result = await sut.Reset(app);
+            var result = await sut.ResetAsync(app);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -343,7 +343,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange and Act
 
             // newApp is not in the DB so this should cause a failure
-            var result = await sut.Reset(newApp);
+            var result = await sut.ResetAsync(newApp);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -356,7 +356,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var app = context.Apps.FirstOrDefault();
 
             // Act
-            var result = await sut.Activate(app.Id);
+            var result = await sut.ActivateAsync(app.Id);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -371,7 +371,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Act
 
             // Add 1 to the last ID retrieved to cause a failure
-            var result = await sut.Activate(app.Id + 1);
+            var result = await sut.ActivateAsync(app.Id + 1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -384,7 +384,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var app = context.Apps.FirstOrDefault();
 
             // Act
-            var result = await sut.Deactivate(app.Id);
+            var result = await sut.DeactivateAsync(app.Id);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -399,7 +399,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Act
 
             // Add 1 to the last ID retrieved to cause a failure
-            var result = await sut.Deactivate(app.Id + 1);
+            var result = await sut.DeactivateAsync(app.Id + 1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -412,7 +412,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var app = context.Apps.FirstOrDefault();
 
             // Act
-            var result = await sut.HasEntity(app.Id);
+            var result = await sut.HasEntityAsync(app.Id);
 
             // Assert
             Assert.That(result, Is.True);
@@ -430,7 +430,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .Id + 1;
 
             // Act
-            var result = await sut.HasEntity(id);
+            var result = await sut.HasEntityAsync(id);
 
             // Assert
             Assert.That(result, Is.False);
@@ -443,7 +443,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var license = context.Apps.FirstOrDefault(a => a.Id == 1).License;
 
             // Act
-            var result = await sut.IsAppLicenseValid(license);
+            var result = await sut.IsAppLicenseValidAsync(license);
 
             // Assert
             Assert.That(result, Is.True);
@@ -455,7 +455,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange and Act
 
             // The license is not in the DB so this should cause a failure
-            var result = await sut.IsAppLicenseValid("aabe5bb5-cf60-4d7e-8bf1-f3686e4a1c4c");
+            var result = await sut.IsAppLicenseValidAsync("aabe5bb5-cf60-4d7e-8bf1-f3686e4a1c4c");
 
             // Assert
             Assert.That(result, Is.False);
@@ -468,7 +468,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var license = context.Apps.FirstOrDefault(a => a.Id == 1).License;
 
             // Act
-            var result = await sut.IsUserRegisteredToApp(1, license, 1);
+            var result = await sut.IsUserRegisteredToAppAsync(1, license, 1);
 
             // Assert
             Assert.That(result, Is.True);
@@ -484,7 +484,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Act
 
             // Add 1 to the last user id to invoke an error
-            var result = await sut.IsUserRegisteredToApp(app.Id, app.License, user.Id + 1);
+            var result = await sut.IsUserRegisteredToAppAsync(app.Id, app.License, user.Id + 1);
 
             // Assert
             Assert.That(result, Is.False);
@@ -498,7 +498,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var app = context.Apps.FirstOrDefault(a => a.OwnerId == user.Id);
 
             // Act
-            var result = await sut.IsUserOwnerOThisfApp(
+            var result = await sut.IsUserOwnerOThisfAppAsync(
                 app.Id, 
                 app.License, 
                 user.Id);
@@ -535,7 +535,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             }
 
             // Act
-            var result = await sut.IsUserOwnerOThisfApp(app.Id, app.License, user.Id);
+            var result = await sut.IsUserOwnerOThisfAppAsync(app.Id, app.License, user.Id);
 
             // Assert
             Assert.That(result, Is.False);
@@ -548,7 +548,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var app = context.Apps.FirstOrDefault();
 
             // Act
-            var result = await sut.GetLicense(app.Id);
+            var result = await sut.GetLicenseAsync(app.Id);
 
             // Assert
             Assert.That(result, Is.InstanceOf<string>());
@@ -564,7 +564,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Act
 
             // Add 1 to the last ID retrieved to cause a failure
-            var result = await sut.GetLicense(app.Id + 1);
+            var result = await sut.GetLicenseAsync(app.Id + 1);
 
             // Assert
             Assert.That(result, Is.Null);
@@ -577,7 +577,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var user = context.Users.OrderBy(u => u.Id).FirstOrDefault();
 
             // Act
-            var result = await sut.GetMyApps(user.Id);
+            var result = await sut.GetMyAppsAsync(user.Id);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -593,7 +593,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Act
 
             // Add 1 to the last ID retrieved to cause a failure
-            var result = await sut.GetMyApps(user.Id + 2);
+            var result = await sut.GetMyAppsAsync(user.Id + 2);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -606,7 +606,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var user = context.Users.OrderBy(u => u.Id).FirstOrDefault(u => u.Id != 1);
 
             // Act
-            var result = await sut.GetMyRegisteredApps(user.Id);
+            var result = await sut.GetMyRegisteredAppsAsync(user.Id);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -621,7 +621,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var user = context.Users.FirstOrDefault(u => u.Id == 1);
 
             // Act
-            var result = await sut.GetMyRegisteredApps(user.Id);
+            var result = await sut.GetMyRegisteredAppsAsync(user.Id);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);

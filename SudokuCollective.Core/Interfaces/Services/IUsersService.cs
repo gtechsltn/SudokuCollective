@@ -7,61 +7,61 @@ namespace SudokuCollective.Core.Interfaces.Services
 {
     public interface IUsersService : IService
     {
-        Task<IResult> Create(
+        Task<IResult> CreateAsync(
             ISignupRequest request,
             string baseUrl,
             string emailTemplatePath);
-        Task<IResult> Get(
+        Task<IResult> GetAsync(
             int id,
             string license,
             IRequest request = null);
-        Task<IResult> GetUsers(
+        Task<IResult> GetUsersAsync(
             int requestorId,
             string license,
             IPaginator paginator);
-        Task<IResult> Update(
+        Task<IResult> UpdateAsync(
             int id,
             IRequest request,
             string baseUrl,
             string emailTemplatePath);
-        Task<IResult> Delete(int id, string license);
-        Task<IResult> RequestPasswordReset(
+        Task<IResult> DeleteAsync(int id, string license);
+        Task<IResult> RequestPasswordResetAsync(
             IRequestPasswordResetRequest request,
             string baseUrl,
             string emailTemplatePath);
-        Task<IResult> InitiatePasswordReset(
+        Task<IResult> InitiatePasswordResetAsync(
             string token,
             string license);
-        Task<IResult> GetUserByPasswordToken(string token);
-        Task<ILicenseResult> GetAppLicenseByPasswordToken(string token);
-        Task<IResult> UpdatePassword(IUpdatePasswordRequest request);
-        Task<IResult> AddUserRoles(
+        Task<IResult> GetUserByPasswordTokenAsync(string token);
+        Task<ILicenseResult> GetAppLicenseByPasswordTokenAsync(string token);
+        Task<IResult> UpdatePasswordAsync(IUpdatePasswordRequest request);
+        Task<IResult> AddUserRolesAsync(
             int userid,
             IRequest request,
             string license);
-        Task<IResult> RemoveUserRoles(
+        Task<IResult> RemoveUserRolesAsync(
             int userid,
             IRequest request,
             string license);
-        Task<IResult> Activate(int id);
-        Task<IResult> Deactivate(int id);
-        Task<IResult> ConfirmEmail(
+        Task<IResult> ActivateAsync(int id);
+        Task<IResult> DeactivateAsync(int id);
+        Task<IResult> ConfirmEmailAsync(
             string token,
             string baseUrl,
             string emailTemplatePath);
-        Task<IResult> ResendPasswordReset(
+        Task<IResult> ResendPasswordResetAsync(
             int userId,
             int appId,
             string baseUrl,
             string emailTemplatePath);
-        Task<IResult> ResendEmailConfirmation(
+        Task<IResult> ResendEmailConfirmationAsync(
             int userId,
             int appId,
             string baseUrl,
             string emailTemplatePath,
             string license);
-        Task<IResult> CancelEmailConfirmationRequest(int id, int appId);
-        Task<IResult> CancelPasswordResetRequest(int id, int appId);
-        Task<IResult> CancelAllEmailRequests(int id, int appId);
+        Task<IResult> CancelEmailConfirmationRequestAsync(int id, int appId);
+        Task<IResult> CancelPasswordResetRequestAsync(int id, int appId);
+        Task<IResult> CancelAllEmailRequestsAsync(int id, int appId);
     }
 }

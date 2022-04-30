@@ -25,7 +25,7 @@ namespace SudokuCollective.Cache
         {
             try
             {
-                var response = await repo.Add(entity);
+                var response = await repo.AddAsync(entity);
 
                 if (response.IsSuccess && response.Object.Id > 0)
                 {
@@ -44,7 +44,7 @@ namespace SudokuCollective.Cache
                     if (response.Object is User user)
                     {
                         var appLicense = await ((IUsersRepository<User>)repo)
-                            .GetAppLicense(user.Apps.ToList()[0].AppId);
+                            .GetAppLicenseAsync(user.Apps.ToList()[0].AppId);
 
                         await cache.SetAsync(
                             string.Format(cacheKey, response.Object.Id, appLicense),
@@ -147,7 +147,7 @@ namespace SudokuCollective.Cache
                 }
                 else
                 {
-                    response = await repo.Get(id);
+                    response = await repo.GetAsync(id);
 
                     if (response.IsSuccess && response.Object != null)
                     {
@@ -207,7 +207,7 @@ namespace SudokuCollective.Cache
                 }
                 else
                 {
-                    response = await repo.GetAll();
+                    response = await repo.GetAllAsync();
 
                     if (response.IsSuccess && response.Objects.Count > 0)
                     {
@@ -245,7 +245,7 @@ namespace SudokuCollective.Cache
         {
             try
             {
-                var response = await repo.Update(entity);
+                var response = await repo.UpdateAsync(entity);
 
                 if (response.IsSuccess && response.Object.Id > 0)
                 {
@@ -321,7 +321,7 @@ namespace SudokuCollective.Cache
                     apps = new List<App>();
 
                     var userRepo = (IUsersRepository<User>)repo;
-                    var appsResponse = await userRepo.GetMyApps(entity.Id);
+                    var appsResponse = await userRepo.GetMyAppsAsync(entity.Id);
 
                     if (appsResponse.IsSuccess && appsResponse.Objects.Count > 0)
                     {
@@ -334,11 +334,11 @@ namespace SudokuCollective.Cache
                     // Finally, attach the license to each app...
                     foreach (var app in apps)
                     {
-                        app.License = await userRepo.GetAppLicense(app.Id);
+                        app.License = await userRepo.GetAppLicenseAsync(app.Id);
                     }
                 }
 
-                var response = await repo.Delete(entity);
+                var response = await repo.DeleteAsync(entity);
 
                 if (response.IsSuccess)
                 {
@@ -439,7 +439,7 @@ namespace SudokuCollective.Cache
                 }
                 else
                 {
-                    var response = await repo.HasEntity(id);
+                    var response = await repo.HasEntityAsync(id);
 
                     var serializedItem = JsonSerializer.Serialize<bool>(
                         response, 
@@ -512,7 +512,7 @@ namespace SudokuCollective.Cache
                 }
                 else
                 {
-                    response = await repo.GetByLicense(license);
+                    response = await repo.GetByLicenseAsync(license);
 
                     if (response.IsSuccess && response.Object != null)
                     {
@@ -573,7 +573,7 @@ namespace SudokuCollective.Cache
                 }
                 else
                 {
-                    response = await repo.GetAppUsers(id);
+                    response = await repo.GetAppUsersAsync(id);
 
                     if (response.IsSuccess && response.Objects.Count > 0)
                     {
@@ -634,7 +634,7 @@ namespace SudokuCollective.Cache
                 }
                 else
                 {
-                    response = await repo.GetNonAppUsers(id);
+                    response = await repo.GetNonAppUsersAsync(id);
 
                     if (response.IsSuccess && response.Objects.Count > 0)
                     {
@@ -695,7 +695,7 @@ namespace SudokuCollective.Cache
                 }
                 else
                 {
-                    response = await repo.GetMyApps(ownerId);
+                    response = await repo.GetMyAppsAsync(ownerId);
 
                     if (response.IsSuccess && response.Objects.Count > 0)
                     {
@@ -756,7 +756,7 @@ namespace SudokuCollective.Cache
                 }
                 else
                 {
-                    response = await repo.GetMyRegisteredApps(userId);
+                    response = await repo.GetMyRegisteredAppsAsync(userId);
 
                     if (response.IsSuccess && response.Objects.Count > 0)
                     {
@@ -813,7 +813,7 @@ namespace SudokuCollective.Cache
                 }
                 else
                 {
-                    license = await repo.GetLicense(id);
+                    license = await repo.GetLicenseAsync(id);
 
                     if (!string.IsNullOrEmpty(license))
                     {
@@ -850,7 +850,7 @@ namespace SudokuCollective.Cache
         {
             try
             {
-                var response = await repo.Reset(app);
+                var response = await repo.ResetAsync(app);
 
                 if (response.IsSuccess)
                 {
@@ -883,11 +883,11 @@ namespace SudokuCollective.Cache
             {
                 IRepositoryResponse response;
 
-                var app = (App)(await repo.Get(id)).Object;
+                var app = (App)(await repo.GetAsync(id)).Object;
 
                 if (app != null)
                 {
-                    response = await repo.Activate(app.Id);
+                    response = await repo.ActivateAsync(app.Id);
                 }
                 else
                 {
@@ -925,11 +925,11 @@ namespace SudokuCollective.Cache
             {
                 IRepositoryResponse response;
 
-                var app = (App)(await repo.Get(id)).Object;
+                var app = (App)(await repo.GetAsync(id)).Object;
 
                 if (app != null)
                 {
-                    response = await repo.Deactivate(app.Id);
+                    response = await repo.DeactivateAsync(app.Id);
                 }
                 else
                 {
@@ -977,7 +977,7 @@ namespace SudokuCollective.Cache
                 }
                 else
                 {
-                    var response = await repo.IsAppLicenseValid(license);
+                    var response = await repo.IsAppLicenseValidAsync(license);
 
                     var serializedItem = JsonSerializer.Serialize<bool>(
                         response, 
@@ -1041,7 +1041,7 @@ namespace SudokuCollective.Cache
                 }
                 else
                 {
-                    response = await repo.GetByUserName(username);
+                    response = await repo.GetByUserNameAsync(username);
 
                     if (response.IsSuccess && response.Object != null)
                     {
@@ -1108,7 +1108,7 @@ namespace SudokuCollective.Cache
                 }
                 else
                 {
-                    response = await repo.GetByEmail(email);
+                    response = await repo.GetByEmailAsync(email);
 
                     if (response.IsSuccess && response.Object != null)
                     {
@@ -1146,7 +1146,7 @@ namespace SudokuCollective.Cache
         {
             try
             {
-                var response = await repo.ConfirmEmail(emailConfirmation);
+                var response = await repo.ConfirmEmailAsync(emailConfirmation);
 
                 if (response.IsSuccess)
                 {
@@ -1180,7 +1180,7 @@ namespace SudokuCollective.Cache
         {
             try
             {
-                var response = await repo.UpdateEmail(emailConfirmation);
+                var response = await repo.UpdateEmailAsync(emailConfirmation);
 
                 if (response.IsSuccess)
                 {
@@ -1225,7 +1225,7 @@ namespace SudokuCollective.Cache
                 }
                 else
                 {
-                    var response = await repo.IsUserRegistered(id);
+                    var response = await repo.IsUserRegisteredAsync(id);
 
                     var serializedItem = JsonSerializer.Serialize<bool>(
                         response, 
@@ -1275,7 +1275,7 @@ namespace SudokuCollective.Cache
                 }
                 else
                 {
-                    var response = await repo.HasDifficultyLevel(difficultyLevel);
+                    var response = await repo.HasDifficultyLevelAsync(difficultyLevel);
 
                     var serializedItem = JsonSerializer.Serialize<bool>(
                         response, 
@@ -1325,7 +1325,7 @@ namespace SudokuCollective.Cache
                 }
                 else
                 {
-                    var response = await repo.HasRoleLevel(roleLevel);
+                    var response = await repo.HasRoleLevelAsync(roleLevel);
 
                     var serializedItem = JsonSerializer.Serialize<bool>(
                         response, 

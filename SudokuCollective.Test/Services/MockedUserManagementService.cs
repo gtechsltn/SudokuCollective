@@ -26,11 +26,11 @@ namespace SudokuCollective.Test.Services
 
             #region SuccessfulRequest
             SuccssfulRequest.Setup(userManagementService =>
-                userManagementService.IsValidUser(It.IsAny<string>(), It.IsAny<string>()))
+                userManagementService.IsValidUserAsync(It.IsAny<string>(), It.IsAny<string>()))
                     .Returns(Task.FromResult(true));
 
             SuccssfulRequest.Setup(userManagementService =>
-                userManagementService.ConfirmUserName(It.IsAny<string>(), It.IsAny<string>()))
+                userManagementService.ConfirmUserNameAsync(It.IsAny<string>(), It.IsAny<string>()))
                     .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = true,
@@ -41,11 +41,11 @@ namespace SudokuCollective.Test.Services
 
             #region FailedRequest
             FailedRequest.Setup(userManagementService =>
-                userManagementService.IsValidUser(It.IsAny<string>(), It.IsAny<string>()))
+                userManagementService.IsValidUserAsync(It.IsAny<string>(), It.IsAny<string>()))
                     .Returns(Task.FromResult(false));
 
             FailedRequest.Setup(userManagementService =>
-                userManagementService.ConfirmUserName(It.IsAny<string>(), It.IsAny<string>()))
+                userManagementService.ConfirmUserNameAsync(It.IsAny<string>(), It.IsAny<string>()))
                     .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = false,
@@ -55,7 +55,7 @@ namespace SudokuCollective.Test.Services
 
             #region UserNameFailedRequest
             UserNameFailedRequest.Setup(userManagementService =>
-                userManagementService.ConfirmAuthenticationIssue(
+                userManagementService.ConfirmAuthenticationIssueAsync(
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>()))
@@ -64,7 +64,7 @@ namespace SudokuCollective.Test.Services
 
             #region PasswordFailedRequest
             PasswordFailedRequest.Setup(userManagementService =>
-                userManagementService.ConfirmAuthenticationIssue(
+                userManagementService.ConfirmAuthenticationIssueAsync(
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>()))

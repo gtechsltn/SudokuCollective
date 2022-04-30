@@ -26,7 +26,7 @@ namespace SudokuCollective.Test.Repositories
 
             #region SuccessfulRequest
             SuccessfulRequest.Setup(rolesRepo =>
-                rolesRepo.Add(It.IsAny<Role>()))
+                rolesRepo.AddAsync(It.IsAny<Role>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -34,7 +34,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(rolesRepo =>
-                rolesRepo.Get(It.IsAny<int>()))
+                rolesRepo.GetAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -42,7 +42,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(rolesRepo =>
-                rolesRepo.GetAll())
+                rolesRepo.GetAllAsync())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -53,7 +53,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(rolesRepo =>
-                rolesRepo.Update(It.IsAny<Role>()))
+                rolesRepo.UpdateAsync(It.IsAny<Role>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -61,99 +61,99 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(rolesRepo =>
-                rolesRepo.UpdateRange(It.IsAny<List<Role>>()))
+                rolesRepo.UpdateRangeAsync(It.IsAny<List<Role>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(rolesRepo =>
-                rolesRepo.Delete(It.IsAny<Role>()))
+                rolesRepo.DeleteAsync(It.IsAny<Role>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(rolesRepo =>
-                rolesRepo.DeleteRange(It.IsAny<List<Role>>()))
+                rolesRepo.DeleteRangeAsync(It.IsAny<List<Role>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(rolesRepo =>
-                rolesRepo.HasEntity(It.IsAny<int>()))
+                rolesRepo.HasEntityAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
             SuccessfulRequest.Setup(rolesRepo =>
-                rolesRepo.HasRoleLevel(It.IsAny<RoleLevel>()))
+                rolesRepo.HasRoleLevelAsync(It.IsAny<RoleLevel>()))
                     .Returns(Task.FromResult(true));
 
             SuccessfulRequest.Setup(rolesRepo =>
-                rolesRepo.IsListValid(It.IsAny<List<int>>()))
+                rolesRepo.IsListValidAsync(It.IsAny<List<int>>()))
                     .Returns(Task.FromResult(true));
             #endregion
 
             #region FailedRequest
             FailedRequest.Setup(rolesRepo =>
-                rolesRepo.Add(It.IsAny<Role>()))
+                rolesRepo.AddAsync(It.IsAny<Role>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(rolesRepo =>
-                rolesRepo.Get(It.IsAny<int>()))
+                rolesRepo.GetAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(rolesRepo =>
-                rolesRepo.GetAll())
+                rolesRepo.GetAllAsync())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(rolesRepo =>
-                rolesRepo.Update(It.IsAny<Role>()))
+                rolesRepo.UpdateAsync(It.IsAny<Role>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(rolesRepo =>
-                rolesRepo.UpdateRange(It.IsAny<List<Role>>()))
+                rolesRepo.UpdateRangeAsync(It.IsAny<List<Role>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(rolesRepo =>
-                rolesRepo.Delete(It.IsAny<Role>()))
+                rolesRepo.DeleteAsync(It.IsAny<Role>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(rolesRepo =>
-                rolesRepo.DeleteRange(It.IsAny<List<Role>>()))
+                rolesRepo.DeleteRangeAsync(It.IsAny<List<Role>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(rolesRepo =>
-                rolesRepo.HasEntity(It.IsAny<int>()))
+                rolesRepo.HasEntityAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(false));
 
             FailedRequest.Setup(rolesRepo =>
-                rolesRepo.HasRoleLevel(It.IsAny<RoleLevel>()))
+                rolesRepo.HasRoleLevelAsync(It.IsAny<RoleLevel>()))
                     .Returns(Task.FromResult(false));
 
             FailedRequest.Setup(rolesRepo =>
-                rolesRepo.IsListValid(It.IsAny<List<int>>()))
+                rolesRepo.IsListValidAsync(It.IsAny<List<int>>()))
                     .Returns(Task.FromResult(false));
             #endregion
         }

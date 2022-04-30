@@ -6,13 +6,13 @@ namespace SudokuCollective.Core.Interfaces.Repositories
 {
     public interface IEmailConfirmationsRepository<TEntity> where TEntity : IEmailConfirmation
     {
-        Task<IRepositoryResponse> Create(TEntity entity);
-        Task<IRepositoryResponse> Get(string token);
-        Task<IRepositoryResponse> GetAll();
-        Task<IRepositoryResponse> Update(TEntity entity);
-        Task<IRepositoryResponse> Delete(TEntity entity);
-        Task<bool> HasEntity(int id);
-        Task<bool> HasOutstandingEmailConfirmation(int userId, int appid);
-        Task<IRepositoryResponse> RetrieveEmailConfirmation(int userId, int appid);
+        Task<IRepositoryResponse> CreateAsync(TEntity entity);
+        Task<IRepositoryResponse> GetAsync(string token);
+        Task<IRepositoryResponse> GetAllAsync();
+        Task<IRepositoryResponse> UpdateAsync(TEntity entity);
+        Task<IRepositoryResponse> DeleteAsync(TEntity entity);
+        Task<bool> HasEntityAsync(int id);
+        Task<bool> HasOutstandingEmailConfirmationAsync(int userId, int appid);
+        Task<IRepositoryResponse> RetrieveEmailConfirmationAsync(int userId, int appid);
     }
 }
