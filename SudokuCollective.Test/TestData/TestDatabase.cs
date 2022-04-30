@@ -29,7 +29,6 @@ namespace SudokuCollective.Test.TestData
             if (!await databaseContext.Roles.AnyAsync())
             {
                 databaseContext.Roles.AddRange(
-
                     new Role(1, "Null", RoleLevel.NULL),
                     new Role(2, "Super User", RoleLevel.SUPERUSER),
                     new Role(3, "Admin", RoleLevel.ADMIN),
@@ -42,7 +41,6 @@ namespace SudokuCollective.Test.TestData
             if (!await databaseContext.Difficulties.AnyAsync())
             {
                 databaseContext.Difficulties.AddRange(
-
                     new Difficulty(1, "Null", "Null", DifficultyLevel.NULL),
                     new Difficulty(2, "Test", "Test", DifficultyLevel.TEST),
                     new Difficulty(3, "Easy", "Steady Sloth", DifficultyLevel.EASY),
@@ -59,7 +57,6 @@ namespace SudokuCollective.Test.TestData
                 var salt = BCrypt.Net.BCrypt.GenerateSalt();
 
                 databaseContext.Users.AddRange(
-
                     new User(
                         1,
                         "TestSuperUser",
@@ -74,7 +71,6 @@ namespace SudokuCollective.Test.TestData
                         true,
                         dateCreated,
                         DateTime.MinValue),
-
                     new User(
                         2,
                         "TestUser",
@@ -89,7 +85,6 @@ namespace SudokuCollective.Test.TestData
                         true,
                         dateCreated,
                         DateTime.MinValue),
-
                     new User(
                         3,
                         "TestUser2",
@@ -112,7 +107,6 @@ namespace SudokuCollective.Test.TestData
             if (!await databaseContext.UsersRoles.AnyAsync())
             {
                 databaseContext.UsersRoles.AddRange(
-
                     new UserRole(1, 1, 2),
                     new UserRole(2, 1, 3),
                     new UserRole(3, 1, 4),
@@ -127,7 +121,6 @@ namespace SudokuCollective.Test.TestData
             if (!await databaseContext.Apps.AnyAsync())
             {
                 databaseContext.Apps.AddRange(
-
                     new App(
                         1,
                         "Test App 1",
@@ -144,11 +137,11 @@ namespace SudokuCollective.Test.TestData
                         true,
                         string.Empty,
                         string.Empty,
+                        false,
                         TimeFrame.DAYS,
                         1,
                         dateCreated,
                         DateTime.MinValue),
-
                     new App(
                         2,
                         "Test App 2",
@@ -165,11 +158,11 @@ namespace SudokuCollective.Test.TestData
                         true,
                         string.Empty,
                         string.Empty,
+                        false,
                         TimeFrame.DAYS,
                         1,
                         dateCreated,
                         DateTime.MinValue),
-
                     new App(
                         3,
                         "Test App 3",
@@ -186,6 +179,7 @@ namespace SudokuCollective.Test.TestData
                         true,
                         string.Empty,
                         string.Empty,
+                        false,
                         TimeFrame.DAYS,
                         1,
                         dateCreated,
@@ -195,10 +189,41 @@ namespace SudokuCollective.Test.TestData
                 await databaseContext.SaveChangesAsync();
             }
 
+            if (!await databaseContext.SMTPServerSettings.AnyAsync())
+            {
+                databaseContext.SMTPServerSettings.AddRange(
+                    new SMTPServerSettings(
+                        1, 
+                        string.Empty, 
+                        0, 
+                        string.Empty, 
+                        string.Empty, 
+                        string.Empty, 
+                        1),
+                    new SMTPServerSettings(
+                        2, 
+                        string.Empty, 
+                        0, 
+                        string.Empty, 
+                        string.Empty, 
+                        string.Empty, 
+                        2),
+                    new SMTPServerSettings(
+                        3, 
+                        string.Empty, 
+                        0, 
+                        string.Empty, 
+                        string.Empty, 
+                        string.Empty,
+                        3)
+                );
+
+                await databaseContext.SaveChangesAsync();
+            }
+
             if (!await databaseContext.UsersApps.AnyAsync())
             {
                 databaseContext.UsersApps.AddRange(
-
                     new UserApp(1, 1, 1),
                     new UserApp(3, 2, 1),
                     new UserApp(4, 2, 2),
@@ -212,7 +237,6 @@ namespace SudokuCollective.Test.TestData
             if (!await databaseContext.AppAdmins.AnyAsync())
             {
                 databaseContext.AppAdmins.AddRange(
-
                     new AppAdmin(1, 1, 1, true),
                     new AppAdmin(2, 2, 1, true),
                     new AppAdmin(3, 3, 2, true)
@@ -221,7 +245,6 @@ namespace SudokuCollective.Test.TestData
             if (!await databaseContext.SudokuMatrices.AnyAsync())
             {
                 databaseContext.SudokuMatrices.AddRange(
-
                     new SudokuMatrix(1, 4),
                     new SudokuMatrix(2, 4)
                 );
@@ -232,7 +255,6 @@ namespace SudokuCollective.Test.TestData
             if (!await databaseContext.SudokuCells.AnyAsync())
             {
                 databaseContext.SudokuCells.AddRange(
-
                     new SudokuCell(81, 1, 1, 1, 1, 4, 4, false, 1),
                     new SudokuCell(58, 2, 2, 1, 1, 2, 0, true, 1),
                     new SudokuCell(57, 3, 3, 1, 1, 8, 8, false, 1),
@@ -403,7 +425,6 @@ namespace SudokuCollective.Test.TestData
             if (!await databaseContext.SudokuSolutions.AnyAsync())
             {
                 databaseContext.SudokuSolutions.AddRange(
-
                     new SudokuSolution(1, new List<int>(), dateCreated, DateTime.MinValue),
                     new SudokuSolution(2, new List<int>(), dateCreated, DateTime.MinValue),
                     new SudokuSolution(3, new List<int>() { 1, 2, 9, 5, 6, 7, 8, 3, 4, 8, 3, 4, 9, 2, 1, 7, 6, 5, 5, 7, 6, 8, 4, 3, 2, 9, 1, 4, 1, 8, 2, 5, 6, 3, 7, 9, 9, 6, 7, 3, 1, 4, 5, 8, 2, 3, 5, 2, 7, 8, 9, 1, 4, 6, 2, 9, 1, 4, 3, 8, 6, 5, 7, 6, 4, 3, 1, 7, 5, 9, 2, 8, 7, 8, 5, 6, 9, 2, 4, 1, 3 }, dateCreated, DateTime.MinValue)
@@ -415,7 +436,6 @@ namespace SudokuCollective.Test.TestData
             if (!await databaseContext.Games.AnyAsync())
             {
                 databaseContext.Games.AddRange(
-
                     new Game(1, 1, 1, 1, 1, true, 0, true, dateCreated, DateTime.MinValue, DateTime.MinValue),
                     new Game(2, 2, 2, 2, 2, true, 0, true, dateCreated, DateTime.MinValue, DateTime.MinValue)
                 );
@@ -426,7 +446,6 @@ namespace SudokuCollective.Test.TestData
             if (!await databaseContext.EmailConfirmations.AnyAsync())
             {
                 databaseContext.EmailConfirmations.AddRange(
-
                     new EmailConfirmation(1, 1, 1, "f5d6377e-b170-4335-a425-25066a112987", "oldEmail@example.com", "newEmail@example.com", false, DateTime.UtcNow),
                     new EmailConfirmation(2, 3, 1, "4667a7d3-70c7-4da1-b472-8c34c8280723", "oldEmail@example.com", "newEmail@example.com", false, DateTime.UtcNow)
                 );
@@ -437,7 +456,6 @@ namespace SudokuCollective.Test.TestData
             if (!await databaseContext.PasswordResets.AnyAsync())
             {
                 databaseContext.PasswordResets.AddRange(
-
                     new PasswordReset(1, 1),
                     new PasswordReset(3, 1)
                 );

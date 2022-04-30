@@ -53,7 +53,7 @@ namespace SudokuCollective.Data.Services
         #endregion
         
         #region Methods
-        public async Task<IResult> Create(IRequest request)
+        public async Task<IResult> CreateAsync(IRequest request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
 
@@ -139,7 +139,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> Get(int id)
+        public async Task<IResult> GetAsync(int id)
         {
             var result = new Result();
 
@@ -199,7 +199,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> GetRoles()
+        public async Task<IResult> GetRolesAsync()
         {
             var result = new Result();
 
@@ -250,7 +250,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> Update(int id, IRequest request)
+        public async Task<IResult> UpdateAsync(int id, IRequest request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
 
@@ -351,7 +351,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> Delete(int id)
+        public async Task<IResult> DeleteAsync(int id)
         {
             var result = new Result();
 
@@ -365,7 +365,7 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                var response = await _rolesRepository.Get(id);
+                var response = await _rolesRepository.GetAsync(id);
 
                 if (response.IsSuccess)
                 {

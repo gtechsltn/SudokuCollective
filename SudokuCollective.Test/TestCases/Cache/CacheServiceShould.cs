@@ -698,7 +698,7 @@ namespace SudokuCollective.Test.TestCases.Cache
             var app = (App)MockedAppsRepository
                 .SuccessfulRequest
                 .Object
-                .Get(1)
+                .GetAsync(1)
                 .Result
                 .Object;
             app.Name = string.Format(app.Name + " {0}", "UPDATED!");
@@ -724,7 +724,7 @@ namespace SudokuCollective.Test.TestCases.Cache
             var app = (App)MockedAppsRepository
                 .SuccessfulRequest
                 .Object
-                .Get(1)
+                .GetAsync(1)
                 .Result
                 .Object;
             app.Name = string.Format(app.Name + " {0}", "UPDATED!");
@@ -748,7 +748,7 @@ namespace SudokuCollective.Test.TestCases.Cache
             var difficulty = (Difficulty)MockedDifficultiesRepository
                 .SuccessfulRequest
                 .Object
-                .Get(1)
+                .GetAsync(1)
                 .Result
                 .Object;
             difficulty.DisplayName = string.Format(difficulty.DisplayName + " {0}", "UPDATED!");
@@ -774,7 +774,7 @@ namespace SudokuCollective.Test.TestCases.Cache
             var difficulty = (Difficulty)MockedDifficultiesRepository
                 .SuccessfulRequest
                 .Object
-                .Get(1)
+                .GetAsync(1)
                 .Result
                 .Object;
             difficulty.DisplayName = string.Format(difficulty.DisplayName + " {0}", "UPDATED!");
@@ -798,7 +798,7 @@ namespace SudokuCollective.Test.TestCases.Cache
             var role = (Role)MockedRolesRepository
                 .SuccessfulRequest
                 .Object
-                .Get(1)
+                .GetAsync(1)
                 .Result
                 .Object;
             role.Name = string.Format(role.Name + " {0}", "UPDATED!");
@@ -824,7 +824,7 @@ namespace SudokuCollective.Test.TestCases.Cache
             var role = (Role)MockedRolesRepository
                 .SuccessfulRequest
                 .Object
-                .Get(1)
+                .GetAsync(1)
                 .Result
                 .Object;
             role.Name = string.Format(role.Name + " {0}", "UPDATED!");
@@ -848,7 +848,7 @@ namespace SudokuCollective.Test.TestCases.Cache
             var user = (User)MockedUsersRepository
                 .SuccessfulRequest
                 .Object
-                .Get(1)
+                .GetAsync(1)
                 .Result
                 .Object;
             user.UserName = string.Format(user.UserName + " {0}", "UPDATED!");
@@ -874,7 +874,7 @@ namespace SudokuCollective.Test.TestCases.Cache
             var user = (User)MockedUsersRepository
                 .SuccessfulRequest
                 .Object
-                .Get(1)
+                .GetAsync(1)
                 .Result
                 .Object;
             user.UserName = string.Format(user.UserName + " {0}", "UPDATED!");
@@ -898,7 +898,7 @@ namespace SudokuCollective.Test.TestCases.Cache
             var app = (App)MockedAppsRepository
                 .SuccessfulRequest
                 .Object
-                .Get(1)
+                .GetAsync(1)
                 .Result
                 .Object;
 
@@ -921,7 +921,7 @@ namespace SudokuCollective.Test.TestCases.Cache
             var app = (App)MockedAppsRepository
                 .SuccessfulRequest
                 .Object
-                .Get(1)
+                .GetAsync(1)
                 .Result
                 .Object;
 
@@ -944,7 +944,7 @@ namespace SudokuCollective.Test.TestCases.Cache
             var difficulty = (Difficulty)MockedDifficultiesRepository
                 .SuccessfulRequest
                 .Object
-                .Get(1)
+                .GetAsync(1)
                 .Result
                 .Object;
 
@@ -967,7 +967,7 @@ namespace SudokuCollective.Test.TestCases.Cache
             var difficulty = (Difficulty)MockedDifficultiesRepository
                 .SuccessfulRequest
                 .Object
-                .Get(1)
+                .GetAsync(1)
                 .Result
                 .Object;
 
@@ -990,7 +990,7 @@ namespace SudokuCollective.Test.TestCases.Cache
             var role = (Role)MockedRolesRepository
                 .SuccessfulRequest
                 .Object
-                .Get(1)
+                .GetAsync(1)
                 .Result
                 .Object;
 
@@ -1013,7 +1013,7 @@ namespace SudokuCollective.Test.TestCases.Cache
             var role = (Role)MockedRolesRepository
                 .SuccessfulRequest
                 .Object
-                .Get(1)
+                .GetAsync(1)
                 .Result
                 .Object;
 
@@ -1036,7 +1036,7 @@ namespace SudokuCollective.Test.TestCases.Cache
             var user = (User)MockedUsersRepository
                 .SuccessfulRequest
                 .Object
-                .Get(1)
+                .GetAsync(1)
                 .Result
                 .Object;
 
@@ -1059,7 +1059,7 @@ namespace SudokuCollective.Test.TestCases.Cache
             var user = (User)MockedUsersRepository
                 .SuccessfulRequest
                 .Object
-                .Get(1)
+                .GetAsync(1)
                 .Result
                 .Object;
 
@@ -1585,7 +1585,7 @@ namespace SudokuCollective.Test.TestCases.Cache
         public async Task ResetApp()
         {
             // Arrange
-            var app = MockedAppsRepository.SuccessfulRequest.Object.Get(1).Result.Object;
+            var app = MockedAppsRepository.SuccessfulRequest.Object.GetAsync(1).Result.Object;
 
             // Act
             var result = await sut.ResetWithCacheAsync(
@@ -1603,7 +1603,7 @@ namespace SudokuCollective.Test.TestCases.Cache
         public async Task ReturnFalseIfResetAppFails()
         {
             // Arrange
-            var app = MockedAppsRepository.SuccessfulRequest.Object.Get(1).Result.Object;
+            var app = MockedAppsRepository.SuccessfulRequest.Object.GetAsync(1).Result.Object;
 
             // Act
             var result = await sut.ResetWithCacheAsync(

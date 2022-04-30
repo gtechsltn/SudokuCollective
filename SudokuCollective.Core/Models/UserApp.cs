@@ -15,14 +15,8 @@ namespace SudokuCollective.Core.Models
         [JsonIgnore]
         IUser IUserApp.User
         {
-            get
-            {
-                return User;
-            }
-            set
-            {
-                User = (User)value;
-            }
+            get => User;
+            set => User = (User)value;
         }
         [JsonIgnore]
         public virtual User User { get; set; }
@@ -31,14 +25,8 @@ namespace SudokuCollective.Core.Models
         [JsonIgnore]
         IApp IUserApp.App
         {
-            get
-            {
-                return App;
-            }
-            set
-            {
-                App = (App)value;
-            }
+            get => App;
+            set => App = (App)value;
         }
         [JsonIgnore]
         public virtual App App { get; set; }

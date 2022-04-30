@@ -54,7 +54,7 @@ namespace SudokuCollective.Data.Services
 
         #region Methods
 
-        public async Task<IResult> Get(int id)
+        public async Task<IResult> GetAsync(int id)
         {
             var result = new Result();
 
@@ -68,7 +68,7 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                var solutionResponse = await _solutionsRepository.Get(id);
+                var solutionResponse = await _solutionsRepository.GetAsync(id);
 
                 if (solutionResponse.IsSuccess)
                 {
@@ -105,7 +105,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> GetSolutions(IRequest request)
+        public async Task<IResult> GetSolutionsAsync(IRequest request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
 
@@ -185,7 +185,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> Solve(
+        public async Task<IResult> SolveAsync(
             IRequest request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
@@ -208,7 +208,7 @@ namespace SudokuCollective.Data.Services
                     return result;
                 }
 
-                var response = await _solutionsRepository.GetAll();
+                var response = await _solutionsRepository.GetAllAsync();
 
                 var solvedSolutions = response
                     .Objects
@@ -250,7 +250,7 @@ namespace SudokuCollective.Data.Services
 
                     if (addResultToDataContext)
                     {
-                        solution = (SudokuSolution)(await _solutionsRepository.Add(solution)).Object;
+                        solution = (SudokuSolution)(await _solutionsRepository.AddAsync(solution)).Object;
                     }
                     else
                     {
@@ -317,7 +317,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> Generate()
+        public async Task<IResult> GenerateAsync()
         {
             try
             {
@@ -367,7 +367,7 @@ namespace SudokuCollective.Data.Services
 
                 } while (continueLoop);
 
-                var solutionResponse = await _solutionsRepository.Add((SudokuSolution)result.Payload[0]);
+                var solutionResponse = await _solutionsRepository.AddAsync((SudokuSolution)result.Payload[0]);
 
                 if (solutionResponse.IsSuccess)
                 {
@@ -390,7 +390,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> Add(int limitArg)
+        public async Task<IResult> Async(int limitArg)
         {
             var result = new Result();
 
@@ -415,7 +415,7 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                var solutions = (await _solutionsRepository.GetSolvedSolutions())
+                var solutions = (await _solutionsRepository.GetSolvedSolutionsAsync())
                     .Objects.ConvertAll(s => (SudokuSolution)s);
 
                 foreach (var solution in solutions)
@@ -475,7 +475,7 @@ namespace SudokuCollective.Data.Services
                 }
 
                 var solutionsResponse = await _solutionsRepository
-                    .AddSolutions(newSolutions.ConvertAll(s => (ISudokuSolution)s));
+                    .AddSolutionsAsync(newSolutions.ConvertAll(s => (ISudokuSolution)s));
 
                 if (solutionsResponse.IsSuccess)
                 {

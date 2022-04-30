@@ -107,7 +107,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var userId = 1;
 
             // Act
-            var result = sutSuccess.Get(userId, request);
+            var result = sutSuccess.GetAsync(userId, request);
             var message = ((Result)((OkObjectResult)result.Result.Result).Value).Message;
             var statusCode = ((OkObjectResult)result.Result.Result).StatusCode;
             var user = (User)((Result)((OkObjectResult)result.Result.Result).Value).Payload[0];
@@ -126,7 +126,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var userId = 1;
 
             // Act
-            var result = sutFailure.Get(userId, request);
+            var result = sutFailure.GetAsync(userId, request);
             var message = ((Result)((NotFoundObjectResult)result.Result.Result).Value).Message;
             var statusCode = ((NotFoundObjectResult)result.Result.Result).StatusCode;
 
@@ -142,7 +142,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = sutSuccess.GetUsers(request);
+            var result = sutSuccess.GetUsersAsync(request);
             var message = ((Result)((OkObjectResult)result.Result.Result).Value).Message;
             var users = ((Result)((OkObjectResult)result.Result.Result).Value).Payload.ConvertAll(u => (User)u);
             var statusCode = ((OkObjectResult)result.Result.Result).StatusCode;
@@ -159,7 +159,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = sutFailure.GetUsers(request);
+            var result = sutFailure.GetUsersAsync(request);
             var message = ((Result)((NotFoundObjectResult)result.Result.Result).Value).Message;
             var statusCode = ((NotFoundObjectResult)result.Result.Result).StatusCode;
 
@@ -176,7 +176,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             request.Payload = updateUserPayload;
 
             // Act
-            var result = sutSuccess.Update(userId, request);
+            var result = sutSuccess.UpdateAsync(userId, request);
             var message = ((Result)((OkObjectResult)result.Result).Value).Message;
             var user = (User)((Result)((OkObjectResult)result.Result).Value).Payload[0];
             var statusCode = ((OkObjectResult)result.Result).StatusCode;
@@ -196,7 +196,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             request.Payload = updateUserPayload;
 
             // Act
-            var result = sutFailure.Update(userId, request);
+            var result = sutFailure.UpdateAsync(userId, request);
             var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
             var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
@@ -210,7 +210,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
         public void SuccessfullyUpdateUsersPasswords()
         {
             // Arrange and Act
-            var result = sutSuccess.RequestPasswordReset(requestPasswordResetRequest);
+            var result = sutSuccess.RequestPasswordResetAsync(requestPasswordResetRequest);
             var message = ((Result)((OkObjectResult)result.Result).Value).Message;
             var statusCode = ((OkObjectResult)result.Result).StatusCode;
 
@@ -224,7 +224,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
         public void IssueErrorAndMessageShouldUpdateUsersPasswordsFail()
         {
             // Arrange and Act
-            var result = sutFailure.RequestPasswordReset(requestPasswordResetRequest);
+            var result = sutFailure.RequestPasswordResetAsync(requestPasswordResetRequest);
             var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
             var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
@@ -241,7 +241,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             int userId = 1;
 
             // Act
-            var result = sutSuccess.Delete(userId, request);
+            var result = sutSuccess.DeleteAsync(userId, request);
             var message = ((Result)((OkObjectResult)result.Result.Result).Value).Message;
             var statusCode = ((OkObjectResult)result.Result.Result).StatusCode;
 
@@ -258,7 +258,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             int userId = 1;
 
             // Act
-            var result = sutFailure.Delete(userId, request);
+            var result = sutFailure.DeleteAsync(userId, request);
             var message = ((Result)((NotFoundObjectResult)result.Result.Result).Value).Message;
             var statusCode = ((NotFoundObjectResult)result.Result.Result).StatusCode;
 
@@ -276,7 +276,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             request.Payload = updateUserRolePayload;
 
             // Act
-            var result = sutSuccess.AddRoles(userId, request);
+            var result = sutSuccess.AddRolesAsync(userId, request);
             var message = ((Result)((OkObjectResult)result.Result).Value).Message;
             var statusCode = ((OkObjectResult)result.Result).StatusCode;
 
@@ -294,7 +294,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             request.Payload = updateUserRolePayload;
 
             // Act
-            var result = sutFailure.AddRoles(userId, request);
+            var result = sutFailure.AddRolesAsync(userId, request);
             var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
             var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
@@ -312,7 +312,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             request.Payload = updateUserRolePayload;
 
             // Act
-            var result = sutSuccess.RemoveRoles(userId, request);
+            var result = sutSuccess.RemoveRolesAsync(userId, request);
             var message = ((Result)((OkObjectResult)result.Result).Value).Message;
             var statusCode = ((OkObjectResult)result.Result).StatusCode;
 
@@ -330,7 +330,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             request.Payload = updateUserRolePayload;
 
             // Act
-            var result = sutFailure.RemoveRoles(userId, request);
+            var result = sutFailure.RemoveRolesAsync(userId, request);
             var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
             var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
@@ -347,7 +347,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             int userId = 1;
 
             // Act
-            var result = sutSuccess.Activate(userId);
+            var result = sutSuccess.ActivateAsync(userId);
             var message = ((Result)((OkObjectResult)result.Result).Value).Message;
             var statusCode = ((OkObjectResult)result.Result).StatusCode;
 
@@ -364,7 +364,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             int userId = 1;
 
             // Act
-            var result = sutFailure.Activate(userId);
+            var result = sutFailure.ActivateAsync(userId);
             var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
             var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
@@ -381,7 +381,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             int userId = 1;
 
             // Act
-            var result = sutSuccess.Deactivate(userId);
+            var result = sutSuccess.DeactivateAsync(userId);
             var message = ((Result)((OkObjectResult)result.Result).Value).Message;
             var statusCode = ((OkObjectResult)result.Result).StatusCode;
 
@@ -398,7 +398,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             int userId = 1;
 
             // Act
-            var result = sutFailure.Deactivate(userId);
+            var result = sutFailure.DeactivateAsync(userId);
             var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
             var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
@@ -414,7 +414,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = sutSuccess.ResendRequestPasswordReset(resendRequestPasswordRequest);
+            var result = sutSuccess.ResendRequestPasswordResetAsync(resendRequestPasswordRequest);
             var message = ((Result)((ObjectResult)result.Result).Value).Message;
             var statusCode = ((ObjectResult)result.Result).StatusCode;
 
@@ -430,7 +430,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = sutFailure.ResendRequestPasswordReset(resendRequestPasswordRequest);
+            var result = sutFailure.ResendRequestPasswordResetAsync(resendRequestPasswordRequest);
             var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
             var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
@@ -446,7 +446,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = sutSuccess.CancelEmailConfirmation(request);
+            var result = sutSuccess.CancelEmailConfirmationAsync(request);
             var message = ((Result)((ObjectResult)result.Result).Value).Message;
             var statusCode = ((ObjectResult)result.Result).StatusCode;
 
@@ -462,7 +462,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = sutFailure.CancelEmailConfirmation(request);
+            var result = sutFailure.CancelEmailConfirmationAsync(request);
             var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
             var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
@@ -478,7 +478,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = sutSuccess.CancelPasswordReset(request);
+            var result = sutSuccess.CancelPasswordResetAsync(request);
             var message = ((Result)((ObjectResult)result.Result).Value).Message;
             var statusCode = ((ObjectResult)result.Result).StatusCode;
 
@@ -494,7 +494,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = sutFailure.CancelPasswordReset(request);
+            var result = sutFailure.CancelPasswordResetAsync(request);
             var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
             var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
@@ -510,7 +510,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = sutSuccess.CancelAllEmailRequests(request);
+            var result = sutSuccess.CancelAllEmailRequestsAsync(request);
             var message = ((Result)((ObjectResult)result.Result).Value).Message;
             var statusCode = ((ObjectResult)result.Result).StatusCode;
 
@@ -526,7 +526,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = sutFailure.CancelAllEmailRequests(request);
+            var result = sutFailure.CancelAllEmailRequestsAsync(request);
             var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
             var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
@@ -543,7 +543,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var emailConfirmationToken = Guid.NewGuid().ToString();
 
             // Act
-            var result = sutSuccess.ConfirmEmail(emailConfirmationToken);
+            var result = sutSuccess.ConfirmEmailAsync(emailConfirmationToken);
             var message = ((Result)((OkObjectResult)result.Result).Value).Message;
             var statusCode = ((OkObjectResult)result.Result).StatusCode;
 
@@ -560,7 +560,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var emailConfirmationToken = Guid.NewGuid().ToString();
 
             // Act
-            var result = sutFailure.ConfirmEmail(emailConfirmationToken);
+            var result = sutFailure.ConfirmEmailAsync(emailConfirmationToken);
             var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
             var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
@@ -582,7 +582,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
                 
 
             // Act
-            var result = sutSuccess.ResetPassword(request);
+            var result = sutSuccess.ResetPasswordAsync(request);
             var message = ((Result)((OkObjectResult)result.Result).Value).Message;
             var statusCode = ((OkObjectResult)result.Result).StatusCode;
 
@@ -603,7 +603,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             };
 
             // Act
-            var result = sutFailureResetPassword.ResetPassword(request);
+            var result = sutFailureResetPassword.ResetPasswordAsync(request);
             var message = ((Result)((ObjectResult)result.Result).Value).Message;
             var statusCode = ((ObjectResult)result.Result).StatusCode;
 

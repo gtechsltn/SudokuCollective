@@ -22,14 +22,8 @@ namespace SudokuCollective.Core.Models
         [JsonIgnore]
         ICollection<ISudokuMatrix> IDifficulty.Matrices
         { 
-            get
-            {
-                return Matrices.ConvertAll(m => (ISudokuMatrix)m);
-            }
-            set
-            {
-                Matrices = value.ToList().ConvertAll(m => (SudokuMatrix)m);
-            }
+            get => Matrices.ConvertAll(m => (ISudokuMatrix)m);
+            set => Matrices = value.ToList().ConvertAll(m => (SudokuMatrix)m);
         }
         [JsonIgnore]
         public virtual List<SudokuMatrix> Matrices { get; set; }

@@ -31,22 +31,11 @@ namespace SudokuCollective.Core.Models
         [Required, JsonPropertyName("userName"), UserNameValidated(ErrorMessage = AttributeMessages.InvalidUserName)]
         public string UserName
         {
-            get
-            {
-                return _userName;
-            }
-
-            set
-            {
-                if (!string.IsNullOrEmpty(value) && _userNameValidatedAttribute.IsValid(value))
-                {
-                    _userName = value;
-                }
-                else
-                {
-                    throw new ArgumentException(AttributeMessages.InvalidUserName);
-                }
-            }
+            get => _userName;
+            set => _userName = CoreUtilities.SetField(
+                value, 
+                _userNameValidatedAttribute, 
+                AttributeMessages.InvalidUserName);
         }
         [Required, JsonPropertyName("firstName")]
         public string FirstName { get; set; }
@@ -65,23 +54,8 @@ namespace SudokuCollective.Core.Models
         [EmailValidated(ErrorMessage = AttributeMessages.InvalidEmail)]
         public string Email
         {
-            get
-            {
-                return _email;
-            }
-
-            set
-            {
-                if (!string.IsNullOrEmpty(value) && _emailValidator.IsValid(value))
-                {
-                    _email = value;
-                    IsEmailConfirmed = false;
-                }
-                else
-                {
-                    throw new ArgumentException(AttributeMessages.InvalidEmail);
-                }
-            }
+            get => _email;
+            set => _email = setEmail(value);
         }
         [Required, JsonPropertyName("isEmailConfirmed")]
         public bool IsEmailConfirmed { get; set; }
@@ -90,18 +64,8 @@ namespace SudokuCollective.Core.Models
         [JsonPropertyName("password"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Password
         {
-            get
-            {
-                return _password;
-            }
-
-            set
-            {
-                if (!string.IsNullOrEmpty(value))
-                {
-                    _password = value;
-                }
-            }
+            get => _password;
+            set => _password = CoreUtilities.SetField(value);
         }
         [JsonPropertyName("receivedRequestToUpdatePassword")]
         public bool ReceivedRequestToUpdatePassword { get; set; }
@@ -110,44 +74,12 @@ namespace SudokuCollective.Core.Models
         [JsonIgnore]
         public bool IsSuperUser
         {
-            get
-            {
-                _isSuperUser = false;
-
-                if (Roles != null)
-                {
-                    foreach (var role in Roles)
-                    {
-                        if (role.Role.RoleLevel == RoleLevel.SUPERUSER)
-                        {
-                            _isSuperUser = true;
-                        }
-                    }
-                }
-
-                return _isSuperUser;
-            }
+            get => getIsSuperUser();
         }
         [JsonIgnore]
         public bool IsAdmin
         {
-            get
-            {
-                _isAdmin = false;
-
-                if (Roles != null)
-                {
-                    foreach (var role in Roles)
-                    {
-                        if (role.Role.RoleLevel == RoleLevel.ADMIN)
-                        {
-                            _isAdmin = true;
-                        }
-                    }
-                }
-
-                return _isAdmin;
-            }
+            get => getIsAdminUser();
         }
         [Required, JsonPropertyName("dateCreated")]
         public DateTime DateCreated { get; set; }
@@ -156,42 +88,24 @@ namespace SudokuCollective.Core.Models
         [JsonIgnore]
         ICollection<IGame> IUser.Games
         {
-            get
-            {
-                return Games.ConvertAll(g => (IGame)g);
-            }
-            set
-            {
-                Games = value.ToList().ConvertAll(g => (Game)g);
-            }
+            get => Games.ConvertAll(g => (IGame)g);
+            set => Games = value.ToList().ConvertAll(g => (Game)g);
         }
         [Required, JsonPropertyName("games"), JsonConverter(typeof(IDomainEntityListConverter<List<Game>>))]
         public virtual List<Game> Games { get; set; }
         [JsonIgnore]
         ICollection<IUserRole> IUser.Roles
         {
-            get
-            {
-                return Roles.ConvertAll(ur => (IUserRole)ur);
-            }
-            set
-            {
-                Roles = value.ToList().ConvertAll(ur => (UserRole)ur);
-            }
+            get => Roles.ConvertAll(ur => (IUserRole)ur);
+            set => Roles = value.ToList().ConvertAll(ur => (UserRole)ur);
         }
         [Required, JsonPropertyName("roles"), JsonConverter(typeof(IDomainEntityListConverter<List<UserRole>>))]
         public virtual List<UserRole> Roles { get; set; }
         [JsonIgnore]
         ICollection<IUserApp> IUser.Apps
         {
-            get
-            {
-                return Apps.ConvertAll(a => (IUserApp)a);
-            }
-            set
-            {
-                Apps = value.ToList().ConvertAll(a => (UserApp)a);
-            }
+            get => Apps.ConvertAll(a => (IUserApp)a);
+            set => Apps = value.ToList().ConvertAll(a => (UserApp)a);
         }
         [Required, JsonPropertyName("apps"), JsonConverter(typeof(IDomainEntityListConverter<List<UserApp>>))]
         public virtual List<UserApp> Apps { get; set; }
@@ -294,15 +208,9 @@ namespace SudokuCollective.Core.Models
         #endregion
 
         #region Methods
-        public void ActivateUser()
-        {
-            _isActive = true;
-        }
+        public void ActivateUser() =>_isActive = true;
 
-        public void DeactiveUser()
-        {
-            _isActive = false;
-        }
+        public void DeactiveUser() => _isActive = false;
 
         public void UpdateRoles()
         {
@@ -326,15 +234,9 @@ namespace SudokuCollective.Core.Models
             }
         }
 
-        public void NullifyEmail()
-        {
-            _email = null;
-        }
+        public void NullifyEmail() => _email = null;
 
-        public void NullifyPassword()
-        {
-            _password = null;
-        }
+        public void NullifyPassword() => _password = null;
 
         public override string ToString() => string.Format(base.ToString() + ".Id:{0}.UserName:{1}", Id, UserName);
 
@@ -345,6 +247,54 @@ namespace SudokuCollective.Core.Models
                 ReferenceHandler = ReferenceHandler.IgnoreCycles
             });
 
+        private string setEmail(string value)
+        {
+            if (!string.IsNullOrEmpty(value) && _emailValidator.IsValid(value))
+            {
+                IsEmailConfirmed = false;
+                return value;
+            }
+            else
+            {
+                throw new ArgumentException(AttributeMessages.InvalidEmail);
+            }
+        }
+
+        private bool getIsSuperUser()
+        {
+            _isSuperUser = false;
+
+            if (Roles != null)
+            {
+                foreach (var role in Roles)
+                {
+                    if (role.Role.RoleLevel == RoleLevel.SUPERUSER)
+                    {
+                        _isSuperUser = true;
+                    }
+                }
+            }
+
+            return _isSuperUser;
+        }
+
+        private bool getIsAdminUser()
+        {
+            _isAdmin = false;
+
+            if (Roles != null)
+            {
+                foreach (var role in Roles)
+                {
+                    if (role.Role.RoleLevel == RoleLevel.ADMIN)
+                    {
+                        _isAdmin = true;
+                    }
+                }
+            }
+
+            return _isAdmin;
+        }
         #endregion
     }
 }

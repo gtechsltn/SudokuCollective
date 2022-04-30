@@ -52,7 +52,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             newUser.Apps.Add(userApp);
 
             // Act
-            var result = await sut.Add(newUser);
+            var result = await sut.AddAsync(newUser);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -67,7 +67,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             newUser.Id = 1;
 
             // Act
-            var result = await sut.Add(newUser);
+            var result = await sut.AddAsync(newUser);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -90,7 +90,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             newUser.Apps.Add(userApp);
 
             // Act
-            var result = await sut.Add(newUser);
+            var result = await sut.AddAsync(newUser);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -101,7 +101,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ReturnFalseIfConfirmUserEmailsFails()
         {
             // Arrange and Act
-            var result = await sut.ConfirmEmail(TestObjects.GetNewEmailConfirmation());
+            var result = await sut.ConfirmEmailAsync(TestObjects.GetNewEmailConfirmation());
 
             Assert.That(result.IsSuccess, Is.False);
         }
@@ -110,7 +110,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task GetUsersById()
         {
             // Arrange and Act
-            var result = await sut.Get(1);
+            var result = await sut.GetAsync(1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -121,7 +121,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ReturnFalseIfGetByIdFails()
         {
             // Arrange and Act
-            var result = await sut.Get(5);
+            var result = await sut.GetAsync(5);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -132,7 +132,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task GetUsersByUserName()
         {
             // Arrange and Act
-            var result = await sut.GetByUserName("TestSuperUser");
+            var result = await sut.GetByUserNameAsync("TestSuperUser");
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -143,7 +143,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ReturnFalseIfGetUsersByUserNameFails()
         {
             // Arrange and Act
-            var result = await sut.GetByUserName("SuperUser");
+            var result = await sut.GetByUserNameAsync("SuperUser");
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -153,7 +153,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task GetUsersByEmail()
         {
             // Arrange and Act
-            var result = await sut.GetByEmail("TestSuperUser@example.com");
+            var result = await sut.GetByEmailAsync("TestSuperUser@example.com");
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -164,7 +164,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ReturnFalseIfGetUsersByEmailFails()
         {
             // Arrange and Act
-            var result = await sut.GetByEmail("SuperUser@example.com");
+            var result = await sut.GetByEmailAsync("SuperUser@example.com");
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -174,7 +174,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task GetAllUsers()
         {
             // Arrange and Act
-            var result = await sut.GetAll();
+            var result = await sut.GetAllAsync();
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -192,7 +192,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             user.UserName = string.Format("{0} UPDATED!", user.UserName);
 
             // Act
-            var result = await sut.Update(user);
+            var result = await sut.UpdateAsync(user);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -207,7 +207,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var newUser = TestObjects.GetNewUser();
 
             // Act
-            var result = await sut.Update(newUser);
+            var result = await sut.UpdateAsync(newUser);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -228,7 +228,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             }
 
             // Act
-            var result = await sut.UpdateRange(users);
+            var result = await sut.UpdateRangeAsync(users);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -250,7 +250,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             }
 
             // Act
-            var result = await sut.UpdateRange(users);
+            var result = await sut.UpdateRangeAsync(users);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -265,7 +265,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .FirstOrDefault(u => u.Id == 2);
 
             // Act
-            var result = await sut.Delete(user);
+            var result = await sut.DeleteAsync(user);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -278,7 +278,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var newUser = TestObjects.GetNewUser();
 
             // Act
-            var result = await sut.Delete(newUser);
+            var result = await sut.DeleteAsync(newUser);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -293,7 +293,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .ToList();
 
             // Act
-            var result = await sut.DeleteRange(users);
+            var result = await sut.DeleteRangeAsync(users);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -310,7 +310,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             users.Add(TestObjects.GetNewUser());
 
             // Act
-            var result = await sut.DeleteRange(users);
+            var result = await sut.DeleteRangeAsync(users);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -320,7 +320,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ConfirmItHasAnUser()
         {
             // Arrange and Act
-            var result = await sut.HasEntity(1);
+            var result = await sut.HasEntityAsync(1);
 
             // Assert
             Assert.That(result, Is.True);
@@ -337,7 +337,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .Last().Id + 1;
 
             // Act
-            var result = await sut.HasEntity(id);
+            var result = await sut.HasEntityAsync(id);
 
             // Assert
             Assert.That(result, Is.False);
@@ -356,7 +356,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .FirstOrDefault();
 
             // Act
-            var result = await sut.AddRole(userId, roleId);
+            var result = await sut.AddRoleAsync(userId, roleId);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -375,7 +375,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .FirstOrDefault();
 
             // Act
-            var result = await sut.AddRole(userId, roleId);
+            var result = await sut.AddRoleAsync(userId, roleId);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -404,7 +404,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             ids = ids.RemoveSubList(userRoleIds).ToList();
 
             // Act
-            var result = await sut.AddRoles(userId, ids);
+            var result = await sut.AddRolesAsync(userId, ids);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -428,7 +428,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .ToList();
 
             // Act
-            var result = await sut.AddRoles(userId, ids);
+            var result = await sut.AddRolesAsync(userId, ids);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -447,7 +447,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .FirstOrDefault();
 
             // Act
-            var result = await sut.RemoveRole(userId, roleId);
+            var result = await sut.RemoveRoleAsync(userId, roleId);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -466,7 +466,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .FirstOrDefault();
 
             // Act
-            var result = await sut.RemoveRole(userId, roleId);
+            var result = await sut.RemoveRoleAsync(userId, roleId);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -488,7 +488,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .ToList();
 
             // Act
-            var result = await sut.RemoveRoles(userId, ids);
+            var result = await sut.RemoveRolesAsync(userId, ids);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -512,7 +512,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .ToList();
 
             // Act
-            var result = await sut.RemoveRoles(userId, ids);
+            var result = await sut.RemoveRolesAsync(userId, ids);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -525,7 +525,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var user = context.Users.FirstOrDefault(u => u.Id == 1);
 
             // Act
-            var result = await sut.Activate(user.Id);
+            var result = await sut.ActivateAsync(user.Id);
 
             // Assert
             Assert.That(result, Is.True);
@@ -542,7 +542,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .Last().Id + 1;
 
             // Act
-            var result = await sut.Activate(userid);
+            var result = await sut.ActivateAsync(userid);
 
             // Assert
             Assert.That(result, Is.False);
@@ -555,7 +555,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var user = context.Users.FirstOrDefault(u => u.Id == 1);
 
             // Act
-            var result = await sut.Deactivate(user.Id);
+            var result = await sut.DeactivateAsync(user.Id);
 
             // Assert
             Assert.That(result, Is.True);
@@ -572,7 +572,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .Last().Id + 1;
 
             // Act
-            var result = await sut.Deactivate(userid);
+            var result = await sut.DeactivateAsync(userid);
 
             // Assert
             Assert.That(result, Is.False);
@@ -585,7 +585,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var user = context.Users.FirstOrDefault(u => u.Id == 3);
 
             // Act
-            var result = await sut.PromoteToAdmin(user.Id);
+            var result = await sut.PromoteToAdminAsync(user.Id);
 
             // Assert
             Assert.That(result, Is.True);
@@ -602,7 +602,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .Last().Id + 1;
 
             // Act
-            var result = await sut.PromoteToAdmin(userid);
+            var result = await sut.PromoteToAdminAsync(userid);
 
             // Assert
             Assert.That(result, Is.False);
@@ -615,7 +615,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var user = context.Users.FirstOrDefault(u => u.Id == 3);
 
             // Act
-            var result = await sut.IsUserRegistered(user.Id);
+            var result = await sut.IsUserRegisteredAsync(user.Id);
 
             Assert.That(result, Is.True);
         }
@@ -631,7 +631,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .Last().Id + 1;
 
             // Act
-            var result = await sut.IsUserRegistered(userid);
+            var result = await sut.IsUserRegisteredAsync(userid);
 
             Assert.That(result, Is.False);
         }
@@ -643,7 +643,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var user = new User();
 
             // Act
-            var result = await sut.IsUserRegistered(user.Id);
+            var result = await sut.IsUserRegisteredAsync(user.Id);
 
             Assert.That(result, Is.False);
         }
@@ -656,7 +656,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             userName = string.Format("{0}UPDATED!", userName);
 
             // Act
-            var result = await sut.IsUserNameUnique(userName);
+            var result = await sut.IsUserNameUniqueAsync(userName);
 
             // Assert
             Assert.That(result, Is.True);
@@ -669,7 +669,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var userName = context.Users.FirstOrDefault(u => u.Id == 1).UserName;
 
             // Act
-            var result = await sut.IsUserNameUnique(userName);
+            var result = await sut.IsUserNameUniqueAsync(userName);
 
             // Assert
             Assert.That(result, Is.False);
@@ -683,7 +683,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             email = string.Format("UPDATED{0}", email);
 
             // Act
-            var result = await sut.IsEmailUnique(email);
+            var result = await sut.IsEmailUniqueAsync(email);
 
             // Assert
             Assert.That(result, Is.True);
@@ -696,7 +696,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var email = context.Users.FirstOrDefault(u => u.Id == 1).Email;
 
             // Act
-            var result = await sut.IsEmailUnique(email);
+            var result = await sut.IsEmailUniqueAsync(email);
 
             // Assert
             Assert.That(result, Is.False);
@@ -710,7 +710,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var userName = context.Users.FirstOrDefault(u => u.Id == userId).UserName;
 
             // Act
-            var result = await sut.IsUpdatedUserNameUnique(userId, userName);
+            var result = await sut.IsUpdatedUserNameUniqueAsync(userId, userName);
 
             // Assert
             Assert.That(result, Is.True);
@@ -725,7 +725,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var userName = context.Users.FirstOrDefault(u => u.Id == userIdTwo).UserName;
 
             // Act
-            var result = await sut.IsUpdatedUserNameUnique(userIdOne, userName);
+            var result = await sut.IsUpdatedUserNameUniqueAsync(userIdOne, userName);
 
             // Assert
             Assert.That(result, Is.False);
@@ -735,7 +735,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task GetUsersApps()
         {
             // Arrange and Act
-            var result = await sut.GetMyApps(1);
+            var result = await sut.GetMyAppsAsync(1);
 
             // Assert
             Assert.That(result, Is.TypeOf<RepositoryResponse>());
@@ -747,7 +747,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ReturnFalseIfGetUsersAppsFails()
         {
             // Arrange and Act
-            var result = await sut.GetMyApps(5);
+            var result = await sut.GetMyAppsAsync(5);
 
             // Assert
             Assert.That(result, Is.TypeOf<RepositoryResponse>());
@@ -758,7 +758,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task GetUsersAppLicense()
         {
             // Arrange and Act
-            var result = await sut.GetAppLicense(1);
+            var result = await sut.GetAppLicenseAsync(1);
 
             // Assert
             Assert.That(result, Is.TypeOf<string>());
@@ -768,7 +768,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ReturnNullIfGetUsersAppLicenseFails()
         {
             // Arrange and Act
-            var result = await sut.GetMyApps(5);
+            var result = await sut.GetMyAppsAsync(5);
 
             // Assert
             Assert.That(result, Is.TypeOf<RepositoryResponse>());

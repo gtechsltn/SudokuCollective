@@ -1,9 +1,13 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Services;
+using SudokuCollective.Test.Repositories;
 using SudokuCollective.Test.Services;
 using SudokuCollective.Test.TestData;
 
@@ -11,33 +15,48 @@ namespace SudokuCollective.Test.TestCases.Services
 {
     public class EmailServiceShould
     {
+        private DatabaseContext context;
         private EmailMetaData emailMetaData;
         private EmailMetaData incorrectEmailMetaData;
         private MockedRequestService mockedRequestService;
+        private MockedAppsRepository mockedAppsRepository;
+        private Mock<ILogger<EmailService>> mockedLogger;
+        private Mock<IWebHostEnvironment> mockedWebHostEnvironment;
+        private Mock<IConfiguration> mockedConfiguration;
         private IEmailService sut;
         private IEmailService sutFailure;
-        private Mock<ILogger<EmailService>> mockedLogger;
         private string toEmail;
         private string subject;
         private string html;
 
         [SetUp]
-        public void Setup()
+        public async Task Setup()
         {
+            context = await TestDatabase.GetDatabaseContext();
+
             emailMetaData = TestObjects.GetEmailMetaData();
             incorrectEmailMetaData = TestObjects.GetIncorrectEmailMetaData();
             mockedRequestService = new MockedRequestService();
+            mockedAppsRepository = new MockedAppsRepository(context);
             mockedLogger = new Mock<ILogger<EmailService>>();
+            mockedWebHostEnvironment = new Mock<IWebHostEnvironment>();
+            mockedConfiguration = new Mock<IConfiguration>();
 
             sut = new EmailService(
                 emailMetaData, 
                 mockedRequestService.SuccessfulRequest.Object,
-                mockedLogger.Object);
+                mockedAppsRepository.SuccessfulRequest.Object,
+                mockedLogger.Object,
+                mockedWebHostEnvironment.Object,
+                mockedConfiguration.Object);
                 
             sutFailure = new EmailService(
                 incorrectEmailMetaData, 
                 mockedRequestService.SuccessfulRequest.Object,
-                mockedLogger.Object);
+                mockedAppsRepository.SuccessfulRequest.Object,
+                mockedLogger.Object,
+                mockedWebHostEnvironment.Object,
+                mockedConfiguration.Object);
 
             toEmail = "sudokucollective@gmail.com";
             subject = "testing123...";
@@ -45,24 +64,26 @@ namespace SudokuCollective.Test.TestCases.Services
         }
 
         [Test, Category("Services")]
-        public void SendEmails()
+        public async Task SendEmails()
         {
             // Arrange
+            var app = mockedAppsRepository.SuccessfulRequest.Object.GetAsync(1);
 
             // Act
-            var result = sut.Send(toEmail, subject, html);
+            var result = await sut.SendAsync(toEmail, subject, html, app.Id);
 
             // Assert
             Assert.That(result, Is.True);
         }
 
         [Test, Category("Services")]
-        public void ReturnFalseIfSendEmailsFails()
+        public async Task ReturnFalseIfSendEmailsFails()
         {
             // Arrange
+            var app = mockedAppsRepository.SuccessfulRequest.Object.GetAsync(1);
 
             // Act
-            var result = sutFailure.Send(toEmail, subject, html);
+            var result = await sutFailure.SendAsync(toEmail, subject, html, app.Id);
 
             // Assert
             Assert.That(result, Is.False);

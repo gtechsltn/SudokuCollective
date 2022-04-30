@@ -7,16 +7,16 @@ namespace SudokuCollective.Core.Interfaces.Services
 {
     public interface IGamesService : IService
     {
-        Task<IResult> Create(IRequest request);
-        Task<IResult> Update(int id, IRequest request);
-        Task<IResult> Delete(int id);
-        Task<IResult> GetGame(int id, int appId);
-        Task<IResult> GetGames(IRequest request);
-        Task<IResult> GetMyGame(int id, IRequest request);
-        Task<IResult> GetMyGames(IRequest request);
-        Task<IResult> DeleteMyGame(int id, IRequest request);
-        Task<IResult> Check(int id, IRequest request);
-        Task<IResult> CreateAnnonymous(DifficultyLevel difficultyLevel);
-        Task<IResult> CheckAnnonymous(List<int> intList);
+        Task<IResult> CreateAsync(IRequest request);
+        Task<IResult> UpdateAsync(int id, IRequest request);
+        Task<IResult> DeleteAsync(int id);
+        Task<IResult> GetGameAsync(int id, int appId);
+        Task<IResult> GetGamesAsync(IRequest request);
+        Task<IResult> GetMyGameAsync(int id, IRequest request);
+        Task<IResult> GetMyGamesAsync(IRequest request);
+        Task<IResult> DeleteMyGameAsync(int id, IRequest request);
+        Task<IResult> CheckAsync(int id, IRequest request);
+        Task<IResult> CreateAnnonymousAsync(DifficultyLevel difficultyLevel);
+        Task<IResult> CheckAnnonymousAsync(List<int> intList);
     }
 }

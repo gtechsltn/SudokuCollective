@@ -27,7 +27,7 @@ namespace SudokuCollective.Test.Repositories
 
             #region SuccessfulRequest
             SuccessfulRequest.Setup(repo =>
-                repo.Add(It.IsAny<SudokuSolution>()))
+                repo.AddAsync(It.IsAny<SudokuSolution>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -35,7 +35,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.Get(It.IsAny<int>()))
+                repo.GetAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -43,7 +43,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.GetAll())
+                repo.GetAllAsync())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -51,14 +51,14 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.AddSolutions(It.IsAny<List<ISudokuSolution>>()))
+                repo.AddSolutionsAsync(It.IsAny<List<ISudokuSolution>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.GetSolvedSolutions())
+                repo.GetSolvedSolutionsAsync())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -71,35 +71,35 @@ namespace SudokuCollective.Test.Repositories
 
             #region SuccessfulRequest
             FailedRequest.Setup(repo =>
-                repo.Add(It.IsAny<SudokuSolution>()))
+                repo.AddAsync(It.IsAny<SudokuSolution>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.Get(It.IsAny<int>()))
+                repo.GetAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.GetAll())
+                repo.GetAllAsync())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.AddSolutions(It.IsAny<List<ISudokuSolution>>()))
+                repo.AddSolutionsAsync(It.IsAny<List<ISudokuSolution>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.GetSolvedSolutions())
+                repo.GetSolvedSolutionsAsync())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false

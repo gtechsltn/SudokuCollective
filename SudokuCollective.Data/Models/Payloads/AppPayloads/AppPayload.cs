@@ -3,8 +3,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Enums;
+using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 using SudokuCollective.Core.Messages;
+using SudokuCollective.Core.Models;
 using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Data.Models.Payloads
@@ -32,6 +34,10 @@ namespace SudokuCollective.Data.Models.Payloads
                 {
                     _localUrl = value;
                 }
+                else if (string.IsNullOrEmpty(value))
+                {
+                    // do nothing...
+                }
                 else
                 {
                     throw new ArgumentException(AttributeMessages.InvalidUrl);
@@ -50,6 +56,10 @@ namespace SudokuCollective.Data.Models.Payloads
                 if (!string.IsNullOrEmpty(value) && _urlValidator.IsValid(value))
                 {
                     _stagingUrl = value;
+                }
+                else if (string.IsNullOrEmpty(value))
+                {
+                    // do nothing...
                 }
                 else
                 {
@@ -70,6 +80,10 @@ namespace SudokuCollective.Data.Models.Payloads
                 {
                     _qaUrl = value;
                 }
+                else if (string.IsNullOrEmpty(value))
+                {
+                    // do nothing...
+                }
                 else
                 {
                     throw new ArgumentException(AttributeMessages.InvalidUrl);
@@ -88,6 +102,10 @@ namespace SudokuCollective.Data.Models.Payloads
                 if (!string.IsNullOrEmpty(value) && _urlValidator.IsValid(value))
                 {
                     _prodUrl = value;
+                }
+                else if (string.IsNullOrEmpty(value))
+                {
+                    // do nothing...
                 }
                 else
                 {
@@ -109,6 +127,16 @@ namespace SudokuCollective.Data.Models.Payloads
         public string CustomEmailConfirmationAction { get; set; }
         [Required, JsonPropertyName("customPasswordResetAction")]
         public string CustomPasswordResetAction { get; set; }
+        [Required, JsonPropertyName("useCustomSMTPServer")]
+        public bool UseCustomSMTPServer { get; set; }
+        [JsonIgnore]
+        ISMTPServerSettings IAppPayload.SMTPServerSettings
+        {
+            get => SMTPServerSettings;
+            set => SMTPServerSettings = (SMTPServerSettings)value;
+        }
+        [JsonPropertyName("smtpServerSettings")]
+        public SMTPServerSettings SMTPServerSettings { get; set; }
         [Required, JsonPropertyName("timeFrame")]
         public TimeFrame TimeFrame { get; set; }
         [Required, JsonPropertyName("accessDuration")]
@@ -124,8 +152,11 @@ namespace SudokuCollective.Data.Models.Payloads
             DisableCustomUrls = false;
             CustomEmailConfirmationAction = string.Empty;
             CustomPasswordResetAction = string.Empty;
+            UseCustomSMTPServer = false;
             TimeFrame = TimeFrame.NULL;
             AccessDuration = 0;
+
+            SMTPServerSettings = new SMTPServerSettings();
         }
 
         public AppPayload(
@@ -141,8 +172,10 @@ namespace SudokuCollective.Data.Models.Payloads
             bool disableCustomUrls, 
             string customEmailConfirmationAction, 
             string customPasswordResetAction, 
+            bool useCustomSMTPServer,
             int timeFrame, 
-            int accessDuration)
+            int accessDuration,
+            SMTPServerSettings smtpServerSettings = null)
         {
             Name = name;
             LocalUrl = localUrl;
@@ -156,8 +189,18 @@ namespace SudokuCollective.Data.Models.Payloads
             DisableCustomUrls = disableCustomUrls;
             CustomEmailConfirmationAction = customEmailConfirmationAction;
             CustomPasswordResetAction = customPasswordResetAction;
+            UseCustomSMTPServer = useCustomSMTPServer;
             TimeFrame = (TimeFrame)timeFrame;
             AccessDuration = accessDuration;
+
+            if (smtpServerSettings != null)
+            {
+                SMTPServerSettings = smtpServerSettings;
+            }
+            else
+            {
+                SMTPServerSettings = new SMTPServerSettings();
+            }
         }
 
         public AppPayload(
@@ -173,8 +216,10 @@ namespace SudokuCollective.Data.Models.Payloads
             bool disableCustomUrls, 
             string customEmailConfirmationAction, 
             string customPasswordResetAction, 
+            bool useCustomSMTPServer,
             TimeFrame timeFrame, 
-            int accessDuration)
+            int accessDuration,
+            SMTPServerSettings smtpServerSettings = null)
         {
             Name = name;
             LocalUrl = localUrl;
@@ -188,8 +233,18 @@ namespace SudokuCollective.Data.Models.Payloads
             DisableCustomUrls = disableCustomUrls;
             CustomEmailConfirmationAction = customEmailConfirmationAction;
             CustomPasswordResetAction = customPasswordResetAction;
+            UseCustomSMTPServer = useCustomSMTPServer;
             TimeFrame = timeFrame;
             AccessDuration = accessDuration;
+
+            if (smtpServerSettings != null)
+            {
+                SMTPServerSettings = smtpServerSettings;
+            }
+            else
+            {
+                SMTPServerSettings = new SMTPServerSettings();
+            }
         }
 
         public static implicit operator JsonElement(AppPayload v)

@@ -31,6 +31,7 @@ namespace SudokuCollective.Data.Extensions
                         DisableCustomUrls = Convert.ToBoolean(element.GetProperty("disableCustomUrls").ToString()),
                         CustomEmailConfirmationAction = element.GetProperty("customEmailConfirmationAction").ToString(),
                         CustomPasswordResetAction = element.GetProperty("customPasswordResetAction").ToString(),
+                        UseCustomSMTPServer = Convert.ToBoolean(element.GetProperty("useCustomSMTPServer").ToString()),
                         TimeFrame = (TimeFrame)Convert.ToInt32(element.GetProperty("timeFrame").ToString()),
                         AccessDuration = Convert.ToInt32(element.GetProperty("accessDuration").ToString())
                     };
@@ -53,6 +54,30 @@ namespace SudokuCollective.Data.Extensions
                     if (!string.IsNullOrEmpty(element.GetProperty("prodUrl").ToString()))
                     {
                         ((AppPayload)result).ProdUrl = element.GetProperty("prodUrl").ToString();
+                    }
+
+                    if (((AppPayload)result).UseCustomSMTPServer && !string.IsNullOrEmpty(element.GetProperty("smtpServerSettings").ToString()))
+                    {
+                        ((AppPayload)result).SMTPServerSettings.SmtpServer = element
+                            .GetProperty("smtpServerSettings")
+                            .GetProperty("smtpServer").ToString();
+                        ((AppPayload)result).SMTPServerSettings.Port = Convert.ToInt32(
+                            element
+                                .GetProperty("smtpServerSettings")
+                                .GetProperty("port").ToString());
+                        ((AppPayload)result).SMTPServerSettings.UserName = element
+                            .GetProperty("smtpServerSettings")
+                            .GetProperty("userName").ToString();
+                        ((AppPayload)result).SMTPServerSettings.Password = element
+                            .GetProperty("smtpServerSettings")
+                            .GetProperty("password").ToString();
+                        ((AppPayload)result).SMTPServerSettings.FromEmail = element
+                            .GetProperty("smtpServerSettings")
+                            .GetProperty("fromEmail").ToString();
+                        ((AppPayload)result).SMTPServerSettings.AppId = Convert.ToInt32(
+                            element
+                                .GetProperty("smtpServerSettings")
+                                .GetProperty("appId").ToString());
                     }
 
                     return true;

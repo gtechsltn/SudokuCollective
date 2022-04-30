@@ -73,7 +73,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = sutSuccess.Post(signupRequest);
+            var result = sutSuccess.PostAsync(signupRequest);
             var message = ((Result)((ObjectResult)result.Result.Result).Value).Message;
             var statusCode = ((ObjectResult)result.Result.Result).StatusCode;
             var user = ((UserCreatedResult)((Result)((ObjectResult)result.Result.Result).Value).Payload[0]).User;
@@ -91,7 +91,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = sutFailure.Post(signupRequest);
+            var result = sutFailure.PostAsync(signupRequest);
             var errorMessage = ((Result)((NotFoundObjectResult)result.Result.Result).Value).Message;
             var statusCode = ((NotFoundObjectResult)result.Result.Result).StatusCode;
 
@@ -107,7 +107,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = sutSuccess.ResendEmailConfirmation(Request);
+            var result = sutSuccess.ResendEmailConfirmationAsync(Request);
             var message = ((Result)((ObjectResult)result.Result).Value).Message;
             var statusCode = ((ObjectResult)result.Result).StatusCode;
             var emailResent = ((UserResult)((Result)((ObjectResult)result.Result).Value).Payload[0]).ConfirmationEmailSuccessfullySent;
@@ -125,7 +125,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = sutFailure.ResendEmailConfirmation(Request);
+            var result = sutFailure.ResendEmailConfirmationAsync(Request);
             var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
             var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 

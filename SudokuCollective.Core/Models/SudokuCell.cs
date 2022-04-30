@@ -27,149 +27,38 @@ namespace SudokuCollective.Core.Models
         [Required, JsonPropertyName("index"), Range(1, 81, ErrorMessage = AttributeMessages.InvalidIndex)]
         public int Index
         {
-            get
-            {
-                return _index;
-            }
-            set
-            {
-                if (value >= 1 && value <= 81)
-                {
-                    _index = value;
-                }
-                else
-                {
-                    throw new ArgumentException(AttributeMessages.InvalidIndex);
-                }
-            }
+            get => _index;
+            set => _index = setField(value, 1, 81, AttributeMessages.InvalidIndex);
         }
         [Required, JsonPropertyName("column"), Range(1, 9, ErrorMessage = AttributeMessages.InvalidColumn)]
         public int Column
         {
-            get
-            {
-                return _column;
-            }
-            set
-            {
-                if (value >= 1 && value <= 9)
-                {
-                    _column = value;
-                }
-                else
-                {
-                    throw new ArgumentException(AttributeMessages.InvalidColumn);
-                }
-            }
+            get => _column;
+            set => _column = setField(value, 1, 9, AttributeMessages.InvalidColumn);
         }
         [Required, JsonPropertyName("region"), Range(1, 9, ErrorMessage = AttributeMessages.InvalidRegion)]
         public int Region
         {
-            get
-            {
-                return _region;
-            }
-            set
-            {
-                if (value >= 1 && value <= 9)
-                {
-                    _region = value;
-                }
-                else
-                {
-                    throw new ArgumentException(AttributeMessages.InvalidRegion);
-                }
-            }
+            get => _region;
+            set => _region = setField(value, 1, 9, AttributeMessages.InvalidRegion);
         }
         [Required, JsonPropertyName("row"), Range(1, 9, ErrorMessage = AttributeMessages.InvalidRow)]
         public int Row
         {
-            get
-            {
-                return _row;
-            }
-            set
-            {
-                if (value >= 1 && value <= 9)
-                {
-                    _row = value;
-                }
-                else
-                {
-                    throw new ArgumentException(AttributeMessages.InvalidRow);
-                }
-            }
+            get => _row;
+            set => _row = setField(value, 1, 9, AttributeMessages.InvalidRow);
         }
         [Required, JsonPropertyName("value"), Range(1, 9, ErrorMessage = AttributeMessages.InvalidValue)]
         public int Value
         {
             get => _value;
-
-            set
-            {
-                if (value == 0)
-                {
-                    if (Value != 0)
-                    {
-                        foreach (var availableValue in AvailableValues)
-                        {
-                            availableValue.Available = true;
-                        }
-                    }
-                }
-                else if (value >= 1 && value <= 9)
-                {
-                    foreach (var availableValue in AvailableValues)
-                    {
-                        availableValue.Available = false;
-                    }
-
-                    if (SudokuCellEvent != null)
-                    {
-                        OnSuccessfulSudokuCellUpdate(
-                            new SudokuCellEventArgs(
-                                Index,
-                                value,
-                                Column,
-                                Region,
-                                Row
-                            )
-                        );
-                    }
-                }
-                else
-                {
-                    throw new ArgumentException(AttributeMessages.InvalidValue);
-                }
-
-                _value = value;
-            }
+            set => _value = setValue(value);
         }
         [Required, JsonPropertyName("displayedValue"), Range(0, 9, ErrorMessage = AttributeMessages.InvalidDisplayedValue)]
         public int DisplayedValue
         {
-            get
-            {
-                if (!Hidden)
-                {
-                    return _value;
-                }
-                else
-                {
-                    return _displayValue;
-                }
-            }
-            set
-            {
-                if (value >= 0 && value <= 9)
-                {
-                    _displayValue = value;
-                }
-                else
-                {
-                    throw new ArgumentException(AttributeMessages.InvalidDisplayedValue);
-                }
-            }
+            get => getDisplayedValue();
+            set => _displayValue = setField(value, 0, 9, AttributeMessages.InvalidDisplayedValue);
         }
         [Required, JsonPropertyName("hidden")]
         public bool Hidden { get; set; }
@@ -178,28 +67,16 @@ namespace SudokuCollective.Core.Models
         [JsonIgnore]
         ISudokuMatrix ISudokuCell.SudokuMatrix
         {
-            get
-            {
-                return SudokuMatrix;
-            }
-            set
-            {
-                SudokuMatrix = (SudokuMatrix)value;
-            }
+            get => SudokuMatrix;
+            set => SudokuMatrix = (SudokuMatrix)value;
         }
         [JsonIgnore]
         public virtual SudokuMatrix SudokuMatrix { get; set; }
         [JsonIgnore]
         ICollection<IAvailableValue> ISudokuCell.AvailableValues
         {
-            get
-            {
-                return AvailableValues.ConvertAll(av => (IAvailableValue)av);
-            }
-            set
-            {
-                AvailableValues = value.ToList().ConvertAll(av => (AvailableValue)av);
-            }
+            get => AvailableValues.ConvertAll(av => (IAvailableValue)av);
+            set => AvailableValues = value.ToList().ConvertAll(av => (AvailableValue)av);
         }
         [JsonIgnore]
         public List<AvailableValue> AvailableValues { get; set; }
@@ -346,6 +223,74 @@ namespace SudokuCollective.Core.Models
         public virtual void OnSuccessfulSudokuCellUpdate(SudokuCellEventArgs e)
         {
             SudokuCellEvent.Invoke(this, e);
+        }
+
+        private int setField(
+            int value, 
+            int minValue, 
+            int maxValue, 
+            string errorMessage)
+        {
+            if (value >= minValue && value <= maxValue)
+            {
+                return value;
+            }
+            else
+            {
+                throw new ArgumentException(errorMessage);
+            }
+        }
+
+        private int setValue(int value)
+        {
+            if (value == 0)
+            {
+                if (Value != 0)
+                {
+                    foreach (var availableValue in AvailableValues)
+                    {
+                        availableValue.Available = true;
+                    }
+                }
+            }
+            else if (value >= 1 && value <= 9)
+            {
+                foreach (var availableValue in AvailableValues)
+                {
+                    availableValue.Available = false;
+                }
+
+                if (SudokuCellEvent != null)
+                {
+                    OnSuccessfulSudokuCellUpdate(
+                        new SudokuCellEventArgs(
+                            Index,
+                            value,
+                            Column,
+                            Region,
+                            Row
+                        )
+                    );
+                }
+            }
+            else
+            {
+                throw new ArgumentException(AttributeMessages.InvalidValue);
+            }
+
+            return value;
+        }
+
+        private int getDisplayedValue()
+        {
+            if (!Hidden)
+            {
+                return _value;
+            }
+            else
+            {
+                return _displayValue;
+            }
         }
         #endregion
     }

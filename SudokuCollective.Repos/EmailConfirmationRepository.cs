@@ -31,7 +31,7 @@ namespace SudokuCollective.Repos
         #endregion
 
         #region Methods
-        public async Task<IRepositoryResponse> Create(TEntity entity)
+        public async Task<IRepositoryResponse> CreateAsync(TEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -91,7 +91,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> Get(string token)
+        public async Task<IRepositoryResponse> GetAsync(string token)
         {
             var result = new RepositoryResponse();
 
@@ -130,7 +130,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> GetAll()
+        public async Task<IRepositoryResponse> GetAllAsync()
         {
             var result = new RepositoryResponse();
 
@@ -165,7 +165,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> Update(TEntity entity)
+        public async Task<IRepositoryResponse> UpdateAsync(TEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -224,7 +224,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> Delete(TEntity entity)
+        public async Task<IRepositoryResponse> DeleteAsync(TEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -278,13 +278,13 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<bool> HasEntity(int id) => 
+        public async Task<bool> HasEntityAsync(int id) => 
             await _context.EmailConfirmations.AnyAsync(ec => ec.Id == id);
 
-        public async Task<bool> HasOutstandingEmailConfirmation(int userId, int appid) => 
+        public async Task<bool> HasOutstandingEmailConfirmationAsync(int userId, int appid) => 
             await _context.EmailConfirmations.AnyAsync(ec => ec.UserId == userId && ec.AppId == appid);
 
-        public async Task<IRepositoryResponse> RetrieveEmailConfirmation(int userId, int appid)
+        public async Task<IRepositoryResponse> RetrieveEmailConfirmationAsync(int userId, int appid)
         {
             var result = new RepositoryResponse();
 

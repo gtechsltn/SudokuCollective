@@ -24,7 +24,7 @@ namespace SudokuCollective.Test.Repositories
 
             #region SuccessfulRequest
             SuccessfulRequest.Setup(repo =>
-                repo.Create(It.IsAny<EmailConfirmation>()))
+                repo.CreateAsync(It.IsAny<EmailConfirmation>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -32,7 +32,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.Get(It.IsAny<string>()))
+                repo.GetAsync(It.IsAny<string>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -40,7 +40,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.GetAll())
+                repo.GetAllAsync())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -50,7 +50,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.Update(It.IsAny<EmailConfirmation>()))
+                repo.UpdateAsync(It.IsAny<EmailConfirmation>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -58,22 +58,22 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.Delete(It.IsAny<EmailConfirmation>()))
+                repo.DeleteAsync(It.IsAny<EmailConfirmation>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.HasEntity(It.IsAny<int>()))
+                repo.HasEntityAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
             SuccessfulRequest.Setup(repo =>
-                repo.HasOutstandingEmailConfirmation(It.IsAny<int>(), It.IsAny<int>()))
+                repo.HasOutstandingEmailConfirmationAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
             SuccessfulRequest.Setup(repo =>
-                repo.RetrieveEmailConfirmation(It.IsAny<int>(), It.IsAny<int>()))
+                repo.RetrieveEmailConfirmationAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
                         IsSuccess = true,
@@ -83,50 +83,50 @@ namespace SudokuCollective.Test.Repositories
 
             #region FailedRequest
             FailedRequest.Setup(repo =>
-                repo.Create(It.IsAny<EmailConfirmation>()))
+                repo.CreateAsync(It.IsAny<EmailConfirmation>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.Get(It.IsAny<string>()))
+                repo.GetAsync(It.IsAny<string>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.GetAll())
+                repo.GetAllAsync())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.Update(It.IsAny<EmailConfirmation>()))
+                repo.UpdateAsync(It.IsAny<EmailConfirmation>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.Delete(It.IsAny<EmailConfirmation>()))
+                repo.DeleteAsync(It.IsAny<EmailConfirmation>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.HasEntity(It.IsAny<int>()))
+                repo.HasEntityAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(false));
 
             FailedRequest.Setup(repo =>
-                repo.HasOutstandingEmailConfirmation(It.IsAny<int>(), It.IsAny<int>()))
+                repo.HasOutstandingEmailConfirmationAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(false));
 
             FailedRequest.Setup(repo =>
-                repo.RetrieveEmailConfirmation(It.IsAny<int>(), It.IsAny<int>()))
+                repo.RetrieveEmailConfirmationAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
                         IsSuccess = false

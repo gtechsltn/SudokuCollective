@@ -5,10 +5,10 @@ namespace SudokuCollective.Core.Interfaces.Services
 {
     public interface ISolutionsService : IService
     {
-        Task<IResult> Get(int id);
-        Task<IResult> GetSolutions(IRequest request);
-        Task<IResult> Solve(IRequest request);
-        Task<IResult> Generate();
-        Task<IResult> Add(int limitArg);
+        Task<IResult> GetAsync(int id);
+        Task<IResult> GetSolutionsAsync(IRequest request);
+        Task<IResult> SolveAsync(IRequest request);
+        Task<IResult> GenerateAsync();
+        Task<IResult> Async(int limitArg);
     }
 }

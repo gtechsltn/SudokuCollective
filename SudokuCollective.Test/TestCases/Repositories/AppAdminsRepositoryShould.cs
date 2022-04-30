@@ -44,7 +44,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task CreateAppAdmins()
         {
             // Arrange and Act
-            var result = await sut.Add(newAppAdmin);
+            var result = await sut.AddAsync(newAppAdmin);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -60,7 +60,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             newAppAdmin.Id = 1;
 
             // Act
-            var result = await sut.Add(newAppAdmin);
+            var result = await sut.AddAsync(newAppAdmin);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -70,7 +70,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task GetAppAdminsById()
         {
             // Arrange and Act
-            var result = await sut.Get(1);
+            var result = await sut.GetAsync(1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -81,7 +81,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ReturnFalseIfGetByIdFails()
         {
             // Arrange and Act
-            var result = await sut.Get(7);
+            var result = await sut.GetAsync(7);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -92,7 +92,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task GetAllAppAdmins()
         {
             // Arrange and Act
-            var result = await sut.GetAll();
+            var result = await sut.GetAllAsync();
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -108,7 +108,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             appAdmin.IsActive = false;
 
             // Act
-            var result = await sut.Update(appAdmin);
+            var result = await sut.UpdateAsync(appAdmin);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -120,7 +120,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ReturnFalseIfUpdateAppAdminsFails()
         {
             // Arrange and Act
-            var result = await sut.Update(newAppAdmin);
+            var result = await sut.UpdateAsync(newAppAdmin);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -136,7 +136,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .FirstOrDefault(aa => aa.Id == 1);
 
             // Act
-            var result = await sut.Delete(appAdmin);
+            var result = await sut.DeleteAsync(appAdmin);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -146,7 +146,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ReturnFalseIfDeleteAppAdminsFails()
         {
             // Arrange and Act
-            var result = await sut.Delete(newAppAdmin);
+            var result = await sut.DeleteAsync(newAppAdmin);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -156,7 +156,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ConfirmItHasAnAppAdmin()
         {
             // Arrange and Act
-            var result = await sut.HasEntity(1);
+            var result = await sut.HasEntityAsync(1);
 
             // Assert
             Assert.That(result, Is.True);
@@ -176,7 +176,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .Id + 1;
 
             // Act
-            var result = await sut.HasEntity(id);
+            var result = await sut.HasEntityAsync(id);
 
             // Assert
             Assert.That(result, Is.False);
@@ -199,7 +199,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .FirstOrDefault();
 
             // Act
-            var result = await sut.HasAdminRecord(appId, userId);
+            var result = await sut.HasAdminRecordAsync(appId, userId);
 
             // Assert
             Assert.That(result, Is.True);
@@ -222,7 +222,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .FirstOrDefault();
 
             // Act
-            var result = await sut.HasAdminRecord(appId, userId + 1);
+            var result = await sut.HasAdminRecordAsync(appId, userId + 1);
 
             // Assert
             Assert.That(result, Is.False);
@@ -245,7 +245,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .FirstOrDefault();
 
             // Act
-            var result = await sut.GetAdminRecord(appId, userId);
+            var result = await sut.GetAdminRecordAsync(appId, userId);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -269,7 +269,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .FirstOrDefault();
 
             // Act
-            var result = await sut.GetAdminRecord(appId, userId + 1);
+            var result = await sut.GetAdminRecordAsync(appId, userId + 1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
