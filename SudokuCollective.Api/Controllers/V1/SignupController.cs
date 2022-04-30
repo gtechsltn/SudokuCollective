@@ -62,12 +62,12 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues creating the user.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The Post method does not require a login. The request body parameter uses a custom request model.
+        /// The PostAsync method does not require a login. The request body parameter uses a custom request model.
         /// 
         /// The request should be structured as follows:
         /// ```
         ///     {
-        ///       "license": string    // the app license must be valid using the applicable regex pattern as documented in the SignupRequest schema below
+        ///       "license": string,   // the app license must be valid using the applicable regex pattern as documented in the SignupRequest schema below
         ///       "userName": string,  // user name must be unique, the api will ensure this for you; the applicable regex pattern as documented in the SignupRequest schema below
         ///       "firstName": string, // first name, required and cannot be null but nothing additional to note
         ///       "lastName": string,  // last name, required and cannot be null but nothing additional to note
@@ -79,7 +79,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<User>> Post([FromBody] SignupRequest request)
+        public async Task<ActionResult<User>> PostAsync([FromBody] SignupRequest request)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     emailtTemplatePath = "../../Content/EmailTemplates/create-email-inlined.html";
                 }
 
-                var result = await _usersService.Create(
+                var result = await _usersService.CreateAsync(
                     request,
                     baseUrl,
                     emailtTemplatePath);
@@ -129,7 +129,7 @@ namespace SudokuCollective.Api.Controllers.V1
                         License = request.License
                     };
 
-                    var authenticateResult = await _authService.IsAuthenticated(tokenRequest);
+                    var authenticateResult = await _authService.IsAuthenticatedAsync(tokenRequest);
 
                     if (authenticateResult.IsSuccess)
                     {
@@ -178,20 +178,20 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues resending the email confirmation.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The ResendEmailConfirmation method does not require a login.  The request body parameter uses a custom request model.
+        /// The ResendEmailConfirmationAsync method does not require a login.  The request body parameter uses a custom request model.
         /// 
         /// The request should be structured as follows:
         /// ```
         ///     {
         ///       "license": "string", // the app license must be valid using the applicable regex pattern as documented in the ResendEmailConfirmationRequest schema below
         ///       "requestorId": 0,    // the id of the individual requesting the email confirmation is resent
-        ///       "appId": 0           // the id of your app
+        ///       "appId": 0,          // the id of your app
         ///     }     
         /// ```
         /// </remarks>
         [AllowAnonymous]
         [HttpPut("ResendEmailConfirmation")]
-        public async Task<ActionResult> ResendEmailConfirmation([FromBody] ResendEmailConfirmationRequest request)
+        public async Task<ActionResult> ResendEmailConfirmationAsync([FromBody] ResendEmailConfirmationRequest request)
         {
             try
             {
@@ -221,7 +221,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     emailtTemplatePath = "../../Content/EmailTemplates/create-email-inlined.html";
                 }
 
-                var result = await _usersService.ResendEmailConfirmation(
+                var result = await _usersService.ResendEmailConfirmationAsync(
                     request.RequestorId,
                     request.AppId,
                     baseUrl,
