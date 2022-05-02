@@ -7,7 +7,7 @@ namespace SudokuCollective.Core.Models
 {
     public class SMTPServerSettings : ISMTPServerSettings
     {
-        [Required, JsonPropertyName("id"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("id"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public int Id { get; set; }
         [JsonPropertyName("smtpServer")]
         public string SmtpServer { get; set; }
@@ -19,7 +19,7 @@ namespace SudokuCollective.Core.Models
         public string Password { get; set; }
         [JsonPropertyName("fromEmail")]
         public string FromEmail { get; set; }
-        [Required, JsonPropertyName("appId"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("appId"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public int AppId { get; set; }
         [JsonIgnore]
         IApp ISMTPServerSettings.App
