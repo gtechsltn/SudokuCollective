@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
@@ -12,6 +14,8 @@ using SudokuCollective.Data.Models;
 using SudokuCollective.Repos;
 using SudokuCollective.Test.Services;
 using SudokuCollective.Test.TestData;
+using System.IO;
+using System.Text;
 
 namespace SudokuCollective.Test.TestCases.Repositories
 {
@@ -20,6 +24,8 @@ namespace SudokuCollective.Test.TestCases.Repositories
         private DatabaseContext context;
         private MockedRequestService mockedRequestService;
         private Mock<ILogger<AppsRepository<App>>> mockedLogger;
+        private Mock<IWebHostEnvironment> mockedWebHostEnvironment;
+        private IConfiguration mockedConfiguration;
         private IAppsRepository<App> sut;
         private App newApp;
 
@@ -29,11 +35,23 @@ namespace SudokuCollective.Test.TestCases.Repositories
             context = await TestDatabase.GetDatabaseContext();
             mockedRequestService = new MockedRequestService();
             mockedLogger = new Mock<ILogger<AppsRepository<App>>>();
+            mockedWebHostEnvironment = new Mock<IWebHostEnvironment>();
+
+            var appSettings = @"{""AppSettings"":{
+            ""SMTPEncryptionKey"" : ""54b31c1777064c6c9c09cfe7fe859d7f""}}";
+
+            var builder = new ConfigurationBuilder();
+
+            builder.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(appSettings)));
+
+            mockedConfiguration = builder.Build();
 
             sut = new AppsRepository<App>(
                 context,
                 mockedRequestService.SuccessfulRequest.Object,
-                mockedLogger.Object);
+                mockedLogger.Object,
+                mockedWebHostEnvironment.Object,
+                mockedConfiguration);
 
             newApp = new App(
                 "Test App 4",

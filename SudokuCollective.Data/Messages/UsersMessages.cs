@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("SudokuCollective.Test")]
+[assembly:InternalsVisibleTo("SudokuCollective.Test")]
 namespace SudokuCollective.Data.Messages
 {
     internal class UsersMessages

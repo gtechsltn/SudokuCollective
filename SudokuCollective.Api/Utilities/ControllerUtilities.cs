@@ -9,7 +9,7 @@ using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Logs;
 using SudokuCollective.Logs.Utilities;
 
-[assembly: InternalsVisibleTo("SudokuCollective.Test")]
+[assembly:InternalsVisibleTo("SudokuCollective.Test")]
 namespace SudokuCollective.Api.Utilities
 {
     internal static class ControllerUtilities

@@ -15,7 +15,7 @@ using SudokuCollective.Data.Models;
 using SudokuCollective.Logs;
 using SudokuCollective.Logs.Utilities;
 
-[assembly: InternalsVisibleTo("SudokuCollective.Test")]
+[assembly:InternalsVisibleTo("SudokuCollective.Test")]
 namespace SudokuCollective.Data.Utilities
 {
     internal static class DataUtilities

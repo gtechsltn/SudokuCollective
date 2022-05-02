@@ -7,7 +7,7 @@ using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Params;
 
-[assembly: InternalsVisibleTo("SudokuCollective.Test")]
+[assembly:InternalsVisibleTo("SudokuCollective.Test")]
 namespace SudokuCollective.Data.Utilities
 {
     internal static class PaginatorUtilities

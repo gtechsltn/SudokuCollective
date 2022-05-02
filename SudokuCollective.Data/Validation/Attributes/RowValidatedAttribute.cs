@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("SudokuCollective.Dev")]
-[assembly: InternalsVisibleTo("SudokuCollective.Test")]
+[assembly:InternalsVisibleTo("SudokuCollective.Dev")]
+[assembly:InternalsVisibleTo("SudokuCollective.Test")]
 namespace SudokuCollective.Data.Validation.Attributes
 {
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Property)]

@@ -5,8 +5,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Distributed;
 using SudokuCollective.Core.Enums;
@@ -26,8 +24,6 @@ using SudokuCollective.Data.Models.Results;
 using SudokuCollective.Data.Utilities;
 using SudokuCollective.Logs;
 using SudokuCollective.Logs.Utilities;
-using Microsoft.AspNetCore.Hosting;
-using SudokuCollective.Data.Encryption;
 
 namespace SudokuCollective.Data.Services
 {
@@ -43,10 +39,7 @@ namespace SudokuCollective.Data.Services
         private readonly ICacheService _cacheService;
         private readonly ICacheKeys _cacheKeys;
         private readonly ICachingStrategy _cachingStrategy;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<AppsService> _logger;
-        private readonly IWebHostEnvironment _environment;
-        public IConfiguration Configuration { get; }
         #endregion
 
         #region Constructor
@@ -60,10 +53,7 @@ namespace SudokuCollective.Data.Services
             ICacheService cacheService,
             ICacheKeys cacheKeys,
             ICachingStrategy cachingStrategy,
-            IHttpContextAccessor httpContextAccessor, 
-            ILogger<AppsService> logger,
-            IWebHostEnvironment environment,
-            IConfiguration configuration)
+            ILogger<AppsService> logger)
         {
             _appsRepository = appRepository;
             _usersRepository = userRepository;
@@ -74,10 +64,7 @@ namespace SudokuCollective.Data.Services
             _cacheService = cacheService;
             _cacheKeys = cacheKeys;
             _cachingStrategy = cachingStrategy;
-            _httpContextAccessor = httpContextAccessor;
             _logger = logger;
-            _environment = environment;
-            Configuration = configuration;
         }
         #endregion
 
@@ -793,11 +780,7 @@ namespace SudokuCollective.Data.Services
 
                             if (!string.IsNullOrEmpty(payload.SMTPServerSettings.Password))
                             {
-                                var key = !_environment.IsStaging() ?
-                                    Configuration.GetSection("SMTPEncryptionKey").Value :
-                                    Environment.GetEnvironmentVariable("SMTP_ENCRYPTION_KEY");
-
-                                app.SMTPServerSettings.Password = DataEncryption.EncryptString(payload.SMTPServerSettings.Password, key);
+                                app.SMTPServerSettings.Password = payload.SMTPServerSettings.Password;
                             }
 
                             if (!string.IsNullOrEmpty(payload.SMTPServerSettings.FromEmail))

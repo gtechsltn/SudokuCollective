@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.ServiceModels;
@@ -8,6 +11,7 @@ using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Repos.Utilities;
+using SudokuCollective.Encrypt;
 
 namespace SudokuCollective.Repos
 {
@@ -17,17 +21,26 @@ namespace SudokuCollective.Repos
         private readonly DatabaseContext _context;
         private readonly IRequestService _requestService;
         private readonly ILogger<AppsRepository<App>> _logger;
+        private readonly IWebHostEnvironment _environment;
+        #endregion
+
+        #region Properties
+        private IConfiguration Configuration { get; }
         #endregion
 
         #region Constructor
         public AppsRepository(
             DatabaseContext context,
             IRequestService requestService,
-            ILogger<AppsRepository<App>> logger)
+            ILogger<AppsRepository<App>> logger,
+            IWebHostEnvironment environment,
+            IConfiguration configuration)
         {
             _context = context;
             _requestService = requestService;
             _logger = logger;
+            _environment = environment;
+            Configuration = configuration;
         }
         #endregion
 
@@ -47,6 +60,30 @@ namespace SudokuCollective.Repos
 
             try
             {
+                var key = !_environment.IsStaging() ?
+                    Configuration.GetSection("SMTPEncryptionKey").Value :
+                    Environment.GetEnvironmentVariable("SMTP_ENCRYPTION_KEY");
+
+                if (!string.IsNullOrEmpty(entity.SMTPServerSettings.SmtpServer))
+                {
+                    entity.SMTPServerSettings.SmtpServer = Encryption.EncryptString(entity.SMTPServerSettings.SmtpServer, key);
+                }
+
+                if (!string.IsNullOrEmpty(entity.SMTPServerSettings.UserName))
+                {
+                    entity.SMTPServerSettings.UserName = Encryption.EncryptString(entity.SMTPServerSettings.UserName, key);
+                }
+
+                if (!string.IsNullOrEmpty(entity.SMTPServerSettings.Password))
+                {
+                    entity.SMTPServerSettings.Password = Encryption.EncryptString(entity.SMTPServerSettings.Password, key);
+                }
+
+                if (!string.IsNullOrEmpty(entity.SMTPServerSettings.FromEmail))
+                {
+                    entity.SMTPServerSettings.FromEmail = Encryption.EncryptString(entity.SMTPServerSettings.FromEmail, key);
+                }
+
                 _context.Attach(entity);
 
                 var user = await _context
@@ -228,6 +265,30 @@ namespace SudokuCollective.Repos
                     .SMTPServerSettings
                     .FirstOrDefaultAsync(s => s.AppId == query.Id);
 
+                var key = !_environment.IsStaging() ?
+                    Configuration.GetSection("SMTPEncryptionKey").Value :
+                    Environment.GetEnvironmentVariable("SMTP_ENCRYPTION_KEY");
+
+                if (!string.IsNullOrEmpty(query.SMTPServerSettings.SmtpServer))
+                {
+                    query.SMTPServerSettings.SmtpServer = Encryption.DecryptString(query.SMTPServerSettings.SmtpServer, key);
+                }
+
+                if (!string.IsNullOrEmpty(query.SMTPServerSettings.UserName))
+                {
+                    query.SMTPServerSettings.UserName = Encryption.DecryptString(query.SMTPServerSettings.UserName, key);
+                }
+
+                if (!string.IsNullOrEmpty(query.SMTPServerSettings.Password))
+                {
+                    query.SMTPServerSettings.Password = Encryption.DecryptString(query.SMTPServerSettings.Password, key);
+                }
+
+                if (!string.IsNullOrEmpty(query.SMTPServerSettings.FromEmail))
+                {
+                    query.SMTPServerSettings.FromEmail = Encryption.DecryptString(query.SMTPServerSettings.FromEmail, key);
+                }
+
                 if (query != null)
                 {
                     query.Users = await _context.UsersApps
@@ -306,6 +367,30 @@ namespace SudokuCollective.Repos
                     .SMTPServerSettings
                     .FirstOrDefaultAsync(s => s.AppId == query.Id);
 
+                var key = !_environment.IsStaging() ?
+                    Configuration.GetSection("SMTPEncryptionKey").Value :
+                    Environment.GetEnvironmentVariable("SMTP_ENCRYPTION_KEY");
+
+                if (!string.IsNullOrEmpty(query.SMTPServerSettings.SmtpServer))
+                {
+                    query.SMTPServerSettings.SmtpServer = Encryption.DecryptString(query.SMTPServerSettings.SmtpServer, key);
+                }
+
+                if (!string.IsNullOrEmpty(query.SMTPServerSettings.UserName))
+                {
+                    query.SMTPServerSettings.UserName = Encryption.DecryptString(query.SMTPServerSettings.UserName, key);
+                }
+
+                if (!string.IsNullOrEmpty(query.SMTPServerSettings.Password))
+                {
+                    query.SMTPServerSettings.Password = Encryption.DecryptString(query.SMTPServerSettings.Password, key);
+                }
+
+                if (!string.IsNullOrEmpty(query.SMTPServerSettings.FromEmail))
+                {
+                    query.SMTPServerSettings.FromEmail = Encryption.DecryptString(query.SMTPServerSettings.FromEmail, key);
+                }
+
                 if (query != null)
                 {
                     query.Users = await _context.UsersApps
@@ -379,13 +464,37 @@ namespace SudokuCollective.Repos
 
                 if (query.Count != 0)
                 {
+                    var key = !_environment.IsStaging() ?
+                        Configuration.GetSection("SMTPEncryptionKey").Value :
+                        Environment.GetEnvironmentVariable("SMTP_ENCRYPTION_KEY");
+
                     // Filter games by app
                     foreach (var app in query)
                     {
                         app.SMTPServerSettings = await _context
                             .SMTPServerSettings
                             .FirstOrDefaultAsync(s => s.AppId == app.Id);
-                        
+
+                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.SmtpServer))
+                        {
+                            app.SMTPServerSettings.SmtpServer = Encryption.DecryptString(app.SMTPServerSettings.SmtpServer, key);
+                        }
+
+                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.UserName))
+                        {
+                            app.SMTPServerSettings.UserName = Encryption.DecryptString(app.SMTPServerSettings.UserName, key);
+                        }
+
+                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.Password))
+                        {
+                            app.SMTPServerSettings.Password = Encryption.DecryptString(app.SMTPServerSettings.Password, key);
+                        }
+
+                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.FromEmail))
+                        {
+                            app.SMTPServerSettings.FromEmail = Encryption.DecryptString(app.SMTPServerSettings.FromEmail, key);
+                        }
+
                         foreach (var userApp in app.Users)
                         {
                             userApp.User.Games = new List<Game>();
@@ -451,13 +560,37 @@ namespace SudokuCollective.Repos
 
                 if (query.Count != 0)
                 {
+                    var key = !_environment.IsStaging() ?
+                        Configuration.GetSection("SMTPEncryptionKey").Value :
+                        Environment.GetEnvironmentVariable("SMTP_ENCRYPTION_KEY");
+
                     // Filter games by app
                     foreach (var app in query)
                     {
                         app.SMTPServerSettings = await _context
                             .SMTPServerSettings
                             .FirstOrDefaultAsync(s => s.AppId == app.Id);
-                        
+
+                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.SmtpServer))
+                        {
+                            app.SMTPServerSettings.SmtpServer = Encryption.DecryptString(app.SMTPServerSettings.SmtpServer, key);
+                        }
+
+                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.UserName))
+                        {
+                            app.SMTPServerSettings.UserName = Encryption.DecryptString(app.SMTPServerSettings.UserName, key);
+                        }
+
+                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.Password))
+                        {
+                            app.SMTPServerSettings.Password = Encryption.DecryptString(app.SMTPServerSettings.Password, key);
+                        }
+
+                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.FromEmail))
+                        {
+                            app.SMTPServerSettings.FromEmail = Encryption.DecryptString(app.SMTPServerSettings.FromEmail, key);
+                        }
+
                         foreach (var userApp in app.Users)
                         {
                             userApp.User.Games = new List<Game>();
@@ -519,12 +652,36 @@ namespace SudokuCollective.Repos
 
                 if (query.Count != 0)
                 {
+                    var key = !_environment.IsStaging() ?
+                        Configuration.GetSection("SMTPEncryptionKey").Value :
+                        Environment.GetEnvironmentVariable("SMTP_ENCRYPTION_KEY");
+
                     // Filter games by app
                     foreach (var app in query)
                     {
                         app.SMTPServerSettings = await _context
                             .SMTPServerSettings
                             .FirstOrDefaultAsync(s => s.AppId == app.Id);
+
+                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.SmtpServer))
+                        {
+                            app.SMTPServerSettings.SmtpServer = Encryption.DecryptString(app.SMTPServerSettings.SmtpServer, key);
+                        }
+
+                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.UserName))
+                        {
+                            app.SMTPServerSettings.UserName = Encryption.DecryptString(app.SMTPServerSettings.UserName, key);
+                        }
+
+                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.Password))
+                        {
+                            app.SMTPServerSettings.Password = Encryption.DecryptString(app.SMTPServerSettings.Password, key);
+                        }
+
+                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.FromEmail))
+                        {
+                            app.SMTPServerSettings.FromEmail = Encryption.DecryptString(app.SMTPServerSettings.FromEmail, key);
+                        }
 
                         foreach (var userApp in app.Users)
                         {
@@ -734,6 +891,30 @@ namespace SudokuCollective.Repos
                     return result;
                 }
 
+                var key = !_environment.IsStaging() ?
+                    Configuration.GetSection("SMTPEncryptionKey").Value :
+                    Environment.GetEnvironmentVariable("SMTP_ENCRYPTION_KEY");
+
+                if (!string.IsNullOrEmpty(entity.SMTPServerSettings.SmtpServer))
+                {
+                    entity.SMTPServerSettings.SmtpServer = Encryption.EncryptString(entity.SMTPServerSettings.SmtpServer, key);
+                }
+
+                if (!string.IsNullOrEmpty(entity.SMTPServerSettings.UserName))
+                {
+                    entity.SMTPServerSettings.UserName = Encryption.EncryptString(entity.SMTPServerSettings.UserName, key);
+                }
+
+                if (!string.IsNullOrEmpty(entity.SMTPServerSettings.Password))
+                {
+                    entity.SMTPServerSettings.Password = Encryption.EncryptString(entity.SMTPServerSettings.Password, key);
+                }
+
+                if (!string.IsNullOrEmpty(entity.SMTPServerSettings.FromEmail))
+                {
+                    entity.SMTPServerSettings.FromEmail = Encryption.EncryptString(entity.SMTPServerSettings.FromEmail, key);
+                }
+
                 if (await _context.Apps.AnyAsync(a => a.Id == entity.Id))
                 {
                     entity.DateUpdated = DateTime.UtcNow;
@@ -797,6 +978,10 @@ namespace SudokuCollective.Repos
 
             try
             {
+                var key = !_environment.IsStaging() ?
+                    Configuration.GetSection("SMTPEncryptionKey").Value :
+                    Environment.GetEnvironmentVariable("SMTP_ENCRYPTION_KEY");
+
                 var dateUpdated = DateTime.UtcNow;
 
                 foreach (var entity in entities)
@@ -806,6 +991,26 @@ namespace SudokuCollective.Repos
                         result.IsSuccess = false;
 
                         return result;
+                    }
+
+                    if (!string.IsNullOrEmpty(entity.SMTPServerSettings.SmtpServer))
+                    {
+                        entity.SMTPServerSettings.SmtpServer = Encryption.EncryptString(entity.SMTPServerSettings.SmtpServer, key);
+                    }
+
+                    if (!string.IsNullOrEmpty(entity.SMTPServerSettings.UserName))
+                    {
+                        entity.SMTPServerSettings.UserName = Encryption.EncryptString(entity.SMTPServerSettings.UserName, key);
+                    }
+
+                    if (!string.IsNullOrEmpty(entity.SMTPServerSettings.Password))
+                    {
+                        entity.SMTPServerSettings.Password = Encryption.EncryptString(entity.SMTPServerSettings.Password, key);
+                    }
+
+                    if (!string.IsNullOrEmpty(entity.SMTPServerSettings.FromEmail))
+                    {
+                        entity.SMTPServerSettings.FromEmail = Encryption.EncryptString(entity.SMTPServerSettings.FromEmail, key);
                     }
 
                     if (await _context.Apps.AnyAsync(a => a.Id == entity.Id))

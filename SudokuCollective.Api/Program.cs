@@ -18,7 +18,7 @@ namespace SudokuCollective.Api
         }
 
         /// <summary>
-        /// A method which starts the web api.
+        /// A method which starts the rest api.
         /// </summary>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)

@@ -5,12 +5,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -43,8 +40,6 @@ namespace SudokuCollective.Test.TestCases.Services
         private MemoryDistributedCache memoryCache;
         private Mock<IHttpContextAccessor> mockedHttpContextAccessor;
         private Mock<ILogger<AppsService>> mockedLogger;
-        private Mock<IWebHostEnvironment> mockedWebHostEnvironment;
-        private Mock<IConfiguration> mockedConfiguration;
         private IAppsService sut;
         private IAppsService sutAppRepoFailure;
         private IAppsService sutUserRepoFailure;
@@ -74,8 +69,6 @@ namespace SudokuCollective.Test.TestCases.Services
                 Options.Create(new MemoryDistributedCacheOptions()));
             mockedHttpContextAccessor = new Mock<IHttpContextAccessor>();
             mockedLogger = new Mock<ILogger<AppsService>>();
-            mockedWebHostEnvironment = new Mock<IWebHostEnvironment>();
-            mockedConfiguration = new Mock<IConfiguration>();
 
             dateCreated = DateTime.UtcNow;
             request = TestObjects.GetRequest();
@@ -98,10 +91,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
                 new CachingStrategy(),
-                mockedHttpContextAccessor.Object,
-                mockedLogger.Object,
-                mockedWebHostEnvironment.Object,
-                mockedConfiguration.Object);
+                mockedLogger.Object);
 
             sutAppRepoFailure = new AppsService(
                 mockedAppsRepository.FailedRequest.Object,
@@ -113,10 +103,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedCacheService.FailedRequest.Object,
                 new CacheKeys(),
                 new CachingStrategy(),
-                mockedHttpContextAccessor.Object,
-                mockedLogger.Object,
-                mockedWebHostEnvironment.Object,
-                mockedConfiguration.Object);
+                mockedLogger.Object);
 
             sutUserRepoFailure = new AppsService(
                 mockedAppsRepository.SuccessfulRequest.Object,
@@ -128,10 +115,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedCacheService.FailedRequest.Object,
                 new CacheKeys(),
                 new CachingStrategy(),
-                mockedHttpContextAccessor.Object,
-                mockedLogger.Object,
-                mockedWebHostEnvironment.Object,
-                mockedConfiguration.Object);
+                mockedLogger.Object);
 
             sutPromoteUser = new AppsService(
                 mockedAppsRepository.SuccessfulRequest.Object,
@@ -143,10 +127,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
                 new CachingStrategy(),
-                mockedHttpContextAccessor.Object,
-                mockedLogger.Object,
-                mockedWebHostEnvironment.Object,
-                mockedConfiguration.Object);
+                mockedLogger.Object);
 
             sutPermitSuperUser = new AppsService(
                 mockedAppsRepository.PermitSuperUserRequest.Object,
@@ -158,10 +139,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedCacheService.PermitSuperUserSuccessfulRequest.Object,
                 new CacheKeys(),
                 new CachingStrategy(),
-                mockedHttpContextAccessor.Object,
-                mockedLogger.Object,
-                mockedWebHostEnvironment.Object,
-                mockedConfiguration.Object);
+                mockedLogger.Object);
         }
 
         [Test, Category("Services")]

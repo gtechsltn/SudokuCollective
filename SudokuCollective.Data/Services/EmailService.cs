@@ -16,7 +16,7 @@ using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 using System.Threading.Tasks;
-using SudokuCollective.Data.Encryption;
+using SudokuCollective.Encrypt;
 
 namespace SudokuCollective.Data.Services
 {
@@ -27,7 +27,8 @@ namespace SudokuCollective.Data.Services
         private readonly IAppsRepository<App> _appsRepository;
         private readonly ILogger<EmailService> _logger;
         private readonly IWebHostEnvironment _environment;
-        public IConfiguration Configuration { get; }
+
+        private IConfiguration Configuration { get; }
 
         public EmailService(
             IEmailMetaData emailMetaData, 
@@ -65,7 +66,7 @@ namespace SudokuCollective.Data.Services
                     Configuration.GetSection("SMTPEncryptionKey").Value :
                     Environment.GetEnvironmentVariable("SMTP_ENCRYPTION_KEY");
 
-                var password = DataEncryption.DecryptString(app.SMTPServerSettings.Password, key);
+                var password = Encryption.DecryptString(app.SMTPServerSettings.Password, key);
 
                 emailMetaData = new EmailMetaData(
                     app.SMTPServerSettings.SmtpServer, 
