@@ -86,7 +86,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = sut.Post(loginRequest);
+            var result = sut.PostAsync(loginRequest);
             var returnedValue = ((OkObjectResult)result.Result).Value;
             var message = ((Result)((OkObjectResult)result.Result).Value).Message;
             var statusCode = ((OkObjectResult)result.Result).StatusCode;
@@ -104,7 +104,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = sutInvalidUserName.Post(loginRequest);
+            var result = sutInvalidUserName.PostAsync(loginRequest);
             var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
             var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
@@ -120,7 +120,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = sutInvalidPassword.Post(loginRequest);
+            var result = sutInvalidPassword.PostAsync(loginRequest);
             var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
             var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
@@ -136,7 +136,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = sutInvalid.Post(loginRequest);
+            var result = sutInvalid.PostAsync(loginRequest);
             var message = ((NotFoundObjectResult)result.Result).Value;
             var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
@@ -157,7 +157,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             };
 
             // Act
-            var result = sut.ConfirmUserName(request);
+            var result = sut.ConfirmUserNameAsync(request);
             var message = ((Result)((OkObjectResult)result.Result).Value).Message;
             var username = ((AuthenticatedUserNameResult)((Result)((OkObjectResult)result.Result).Value).Payload[0]).UserName;
 
@@ -178,7 +178,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             };
 
             // Act
-            var result = sutUserNameNotFound.ConfirmUserName(request);
+            var result = sutUserNameNotFound.ConfirmUserNameAsync(request);
             var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
 
             // Assert

@@ -27,13 +27,13 @@ namespace SudokuCollective.Test.Services
 
             #region SuccessfulRequest
             SuccessfulRequest.Setup(Service =>
-                Service.Get(It.IsAny<int>()))
+                Service.GetAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedDifficultiesRepository
                             .SuccessfulRequest
                             .Object
-                            .Get(It.IsAny<int>())
+                            .GetAsync(It.IsAny<int>())
                             .Result
                             .IsSuccess,
                         Message = DifficultiesMessages.DifficultyFoundMessage,
@@ -42,40 +42,40 @@ namespace SudokuCollective.Test.Services
                             MockedDifficultiesRepository
                                 .SuccessfulRequest
                                 .Object
-                                .Get(It.IsAny<int>())
+                                .GetAsync(It.IsAny<int>())
                                 .Result
                                 .Object
                         }
                     } as IResult));
 
             SuccessfulRequest.Setup(Service =>
-                Service.GetDifficulties())
+                Service.GetDifficultiesAsync())
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedDifficultiesRepository
                             .SuccessfulRequest
                             .Object
-                            .GetAll()
+                            .GetAllAsync()
                             .Result
                             .IsSuccess,
                         Message = DifficultiesMessages.DifficultiesFoundMessage,
                         Payload = MockedDifficultiesRepository
                             .SuccessfulRequest
                             .Object
-                            .GetAll()
+                            .GetAllAsync()
                             .Result
                             .Objects
                             .ConvertAll(d => (object)d)
                     } as IResult));
 
             SuccessfulRequest.Setup(Service =>
-                Service.Create(It.IsAny<IRequest>()))
+                Service.CreateAsync(It.IsAny<IRequest>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedDifficultiesRepository
                             .SuccessfulRequest
                             .Object
-                            .Add(It.IsAny<Difficulty>())
+                            .AddAsync(It.IsAny<Difficulty>())
                             .Result
                             .IsSuccess,
                         Message = DifficultiesMessages.DifficultyCreatedMessage,
@@ -84,33 +84,33 @@ namespace SudokuCollective.Test.Services
                                 MockedDifficultiesRepository
                                     .SuccessfulRequest
                                     .Object
-                                    .Get(It.IsAny<int>())
+                                    .GetAsync(It.IsAny<int>())
                                     .Result
                                     .Object
                             }
                     } as IResult));
 
             SuccessfulRequest.Setup(Service =>
-                Service.Update(It.IsAny<int>(), It.IsAny<IRequest>()))
+                Service.UpdateAsync(It.IsAny<int>(), It.IsAny<IRequest>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedDifficultiesRepository
                             .SuccessfulRequest
                             .Object
-                            .Update(It.IsAny<Difficulty>())
+                            .UpdateAsync(It.IsAny<Difficulty>())
                             .Result
                             .IsSuccess,
                         Message = DifficultiesMessages.DifficultyUpdatedMessage
                     } as IResult));
 
             SuccessfulRequest.Setup(Service =>
-                Service.Delete(It.IsAny<int>()))
+                Service.DeleteAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedDifficultiesRepository
                             .SuccessfulRequest
                             .Object
-                            .Delete(It.IsAny<Difficulty>())
+                            .DeleteAsync(It.IsAny<Difficulty>())
                             .Result
                             .IsSuccess,
                         Message = DifficultiesMessages.DifficultyDeletedMessage
@@ -119,65 +119,65 @@ namespace SudokuCollective.Test.Services
 
             #region FailedRequest
             FailedRequest.Setup(Service =>
-                Service.Get(It.IsAny<int>()))
+                Service.GetAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedDifficultiesRepository
                             .FailedRequest
                             .Object
-                            .Add(It.IsAny<Difficulty>())
+                            .AddAsync(It.IsAny<Difficulty>())
                             .Result
                             .IsSuccess,
                         Message = DifficultiesMessages.DifficultyNotFoundMessage
                     } as IResult));
 
             FailedRequest.Setup(Service =>
-                Service.GetDifficulties())
+                Service.GetDifficultiesAsync())
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedDifficultiesRepository
                             .FailedRequest
                             .Object
-                            .GetAll()
+                            .GetAllAsync()
                             .Result
                             .IsSuccess,
                         Message = DifficultiesMessages.DifficultiesNotFoundMessage
                     } as IResult));
 
             FailedRequest.Setup(Service =>
-                Service.Create(It.IsAny<IRequest>()))
+                Service.CreateAsync(It.IsAny<IRequest>()))
                 .Returns(Task.FromResult(new Result()
                 {
                     IsSuccess = MockedDifficultiesRepository
                         .FailedRequest
                         .Object
-                        .Add(It.IsAny<Difficulty>())
+                        .AddAsync(It.IsAny<Difficulty>())
                         .Result
                         .IsSuccess,
                     Message = DifficultiesMessages.DifficultyNotCreatedMessage
                 } as IResult));
 
             FailedRequest.Setup(Service =>
-                Service.Update(It.IsAny<int>(), It.IsAny<IRequest>()))
+                Service.UpdateAsync(It.IsAny<int>(), It.IsAny<IRequest>()))
                     .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedDifficultiesRepository
                             .FailedRequest
                             .Object
-                            .Update(It.IsAny<Difficulty>())
+                            .UpdateAsync(It.IsAny<Difficulty>())
                             .Result
                             .IsSuccess,
                         Message = DifficultiesMessages.DifficultyNotUpdatedMessage
                     } as IResult));
 
             FailedRequest.Setup(Service =>
-                Service.Delete(It.IsAny<int>()))
+                Service.DeleteAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedDifficultiesRepository
                             .FailedRequest
                             .Object
-                            .Delete(It.IsAny<Difficulty>())
+                            .DeleteAsync(It.IsAny<Difficulty>())
                             .Result
                             .IsSuccess,
                         Message = DifficultiesMessages.DifficultyNotDeletedMessage

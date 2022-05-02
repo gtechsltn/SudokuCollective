@@ -7,7 +7,7 @@ namespace SudokuCollective.Core.Interfaces.Repositories
 {
     public interface IRolesRepository<TEntity> : IRepository<TEntity> where TEntity : IRole
     {
-        Task<bool> HasRoleLevel(RoleLevel level);
-        Task<bool> IsListValid(List<int> ids);
+        Task<bool> HasRoleLevelAsync(RoleLevel level);
+        Task<bool> IsListValidAsync(List<int> ids);
     }
 }

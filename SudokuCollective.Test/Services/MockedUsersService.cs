@@ -37,13 +37,13 @@ namespace SudokuCollective.Test.Services
 
             #region SuccessfulRequest
             SuccessfulRequest.Setup(service =>
-                service.Create(It.IsAny<ISignupRequest>(), It.IsAny<string>(), It.IsAny<string>()))
+                service.CreateAsync(It.IsAny<ISignupRequest>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .Add(It.IsAny<User>())
+                            .AddAsync(It.IsAny<User>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.UserCreatedMessage,
@@ -57,7 +57,7 @@ namespace SudokuCollective.Test.Services
                     } as IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.Get(
+                service.GetAsync(
                     It.IsAny<int>(),
                     It.IsAny<string>(),
                     It.IsAny<Request>()))
@@ -66,7 +66,7 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .Get(It.IsAny<int>())
+                            .GetAsync(It.IsAny<int>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.UserFoundMessage,
@@ -75,14 +75,14 @@ namespace SudokuCollective.Test.Services
                                 MockedUsersRepository
                                 .SuccessfulRequest
                                 .Object
-                                .Add(It.IsAny<User>())
+                                .AddAsync(It.IsAny<User>())
                                 .Result
                                 .Object
                             }
                 } as IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.GetUsers(
+                service.GetUsersAsync(
                     It.IsAny<int>(),
                     It.IsAny<string>(),
                     It.IsAny<Paginator>()))
@@ -91,21 +91,21 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .GetAll()
+                            .GetAllAsync()
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.UsersFoundMessage,
                         Payload = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .GetAll()
+                            .GetAllAsync()
                             .Result
                             .Objects
                             .ConvertAll(u => (object)u)
                     } as IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.Update(
+                service.UpdateAsync(
                     It.IsAny<int>(),
                     It.IsAny<IRequest>(),
                     It.IsAny<string>(),
@@ -115,7 +115,7 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .Update(It.IsAny<User>())
+                            .UpdateAsync(It.IsAny<User>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.UserUpdatedMessage,
@@ -124,14 +124,14 @@ namespace SudokuCollective.Test.Services
                                 MockedUsersRepository
                                 .SuccessfulRequest
                                 .Object
-                                .Add(It.IsAny<User>())
+                                .AddAsync(It.IsAny<User>())
                                 .Result
                                 .Object
                             }
                     } as IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.RequestPasswordReset(
+                service.RequestPasswordResetAsync(
                     It.IsAny<IRequestPasswordResetRequest>(),
                     It.IsAny<string>(),
                     It.IsAny<string>()))
@@ -142,7 +142,7 @@ namespace SudokuCollective.Test.Services
                     } as IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.ResendPasswordReset(
+                service.ResendPasswordResetAsync(
                     It.IsAny<int>(),
                     It.IsAny<int>(),
                     It.IsAny<string>(),
@@ -154,7 +154,7 @@ namespace SudokuCollective.Test.Services
                     } as IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.GetUserByPasswordToken(It.IsAny<string>()))
+                service.GetUserByPasswordTokenAsync(It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = true,
@@ -164,14 +164,14 @@ namespace SudokuCollective.Test.Services
                                 MockedUsersRepository
                                 .SuccessfulRequest
                                 .Object
-                                .Add(It.IsAny<User>())
+                                .AddAsync(It.IsAny<User>())
                                 .Result
                                 .Object
                             }
                     } as IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.GetAppLicenseByPasswordToken(It.IsAny<string>()))
+                service.GetAppLicenseByPasswordTokenAsync(It.IsAny<string>()))
                 .Returns(Task.FromResult(new LicenseResult()
                     {
                         IsSuccess = true,
@@ -180,34 +180,34 @@ namespace SudokuCollective.Test.Services
                     } as ILicenseResult));
 
             SuccessfulRequest.Setup(service =>
-                service.UpdatePassword(
+                service.UpdatePasswordAsync(
                     It.IsAny<IUpdatePasswordRequest>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .Update(It.IsAny<User>())
+                            .UpdateAsync(It.IsAny<User>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.PasswordResetMessage
                     } as IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.Delete(It.IsAny<int>(), It.IsAny<string>()))
+                service.DeleteAsync(It.IsAny<int>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .Delete(It.IsAny<User>())
+                            .DeleteAsync(It.IsAny<User>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.UserDeletedMessage
                     } as IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.AddUserRoles(
+                service.AddUserRolesAsync(
                     It.IsAny<int>(),
                     It.IsAny<IRequest>(),
                     It.IsAny<string>()))
@@ -216,14 +216,14 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .AddRoles(It.IsAny<int>(), It.IsAny<List<int>>())
+                            .AddRolesAsync(It.IsAny<int>(), It.IsAny<List<int>>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.RolesAddedMessage
                     } as IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.RemoveUserRoles(
+                service.RemoveUserRolesAsync(
                     It.IsAny<int>(),
                     It.IsAny<IRequest>(),
                     It.IsAny<string>()))
@@ -232,38 +232,38 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .RemoveRoles(It.IsAny<int>(), It.IsAny<List<int>>())
+                            .RemoveRolesAsync(It.IsAny<int>(), It.IsAny<List<int>>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.RolesRemovedMessage
                     } as IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.Activate(It.IsAny<int>()))
+                service.ActivateAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .Activate(It.IsAny<int>())
+                            .ActivateAsync(It.IsAny<int>())
                             .Result,
                         Message = UsersMessages.UserActivatedMessage
                     } as IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.Deactivate(It.IsAny<int>()))
+                service.DeactivateAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .Deactivate(It.IsAny<int>())
+                            .DeactivateAsync(It.IsAny<int>())
                             .Result,
                         Message = UsersMessages.UserDeactivatedMessage
                     } as IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.ConfirmEmail(
+                service.ConfirmEmailAsync(
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>()))
@@ -272,7 +272,7 @@ namespace SudokuCollective.Test.Services
                     IsSuccess = MockedUsersRepository
                         .SuccessfulRequest
                         .Object
-                        .ConfirmEmail(It.IsAny<IEmailConfirmation>())
+                        .ConfirmEmailAsync(It.IsAny<IEmailConfirmation>())
                         .Result
                         .IsSuccess,
                     Message = UsersMessages.EmailConfirmedMessage,
@@ -283,13 +283,13 @@ namespace SudokuCollective.Test.Services
                 } as IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.InitiatePasswordReset(It.IsAny<string>(), It.IsAny<string>()))
+                service.InitiatePasswordResetAsync(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedPasswordResetsRepository
                             .SuccessfulRequest
                             .Object
-                            .Create(It.IsAny<PasswordReset>())
+                            .CreateAsync(It.IsAny<PasswordReset>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.UserFoundMessage,
@@ -300,7 +300,7 @@ namespace SudokuCollective.Test.Services
                     } as IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.ResendEmailConfirmation(
+                service.ResendEmailConfirmationAsync(
                     It.IsAny<int>(),
                     It.IsAny<int>(),
                     It.IsAny<string>(),
@@ -311,7 +311,7 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedEmailConfirmationsRepository
                             .SuccessfulRequest
                             .Object
-                            .HasOutstandingEmailConfirmation(It.IsAny<int>(), It.IsAny<int>())
+                            .HasOutstandingEmailConfirmationAsync(It.IsAny<int>(), It.IsAny<int>())
                             .Result,
                         Message = UsersMessages.EmailConfirmationEmailResentMessage,
                         Payload = new List<object>()
@@ -321,7 +321,7 @@ namespace SudokuCollective.Test.Services
                     } as IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.CancelEmailConfirmationRequest(
+                service.CancelEmailConfirmationRequestAsync(
                     It.IsAny<int>(),
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
@@ -329,7 +329,7 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedEmailConfirmationsRepository
                             .SuccessfulRequest
                             .Object
-                            .Delete(It.IsAny<EmailConfirmation>())
+                            .DeleteAsync(It.IsAny<EmailConfirmation>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.EmailConfirmationRequestCancelledMessage,
@@ -340,7 +340,7 @@ namespace SudokuCollective.Test.Services
                     } as IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.CancelPasswordResetRequest(
+                service.CancelPasswordResetRequestAsync(
                     It.IsAny<int>(),
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
@@ -348,7 +348,7 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedPasswordResetsRepository
                             .SuccessfulRequest
                             .Object
-                            .Delete(It.IsAny<PasswordReset>())
+                            .DeleteAsync(It.IsAny<PasswordReset>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.PasswordResetRequestCancelledMessage,
@@ -359,7 +359,7 @@ namespace SudokuCollective.Test.Services
                     } as IResult));
 
             SuccessfulRequest.Setup(service =>
-                service.CancelAllEmailRequests(
+                service.CancelAllEmailRequestsAsync(
                     It.IsAny<int>(),
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
@@ -377,20 +377,20 @@ namespace SudokuCollective.Test.Services
 
             #region FailedRequest
             FailedRequest.Setup(service =>
-                service.Create(It.IsAny<ISignupRequest>(), It.IsAny<string>(), It.IsAny<string>()))
+                service.CreateAsync(It.IsAny<ISignupRequest>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedUsersRepository
                             .FailedRequest
                             .Object
-                            .Add(It.IsAny<User>())
+                            .AddAsync(It.IsAny<User>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.UserNotCreatedMessage
                     } as IResult));
 
             FailedRequest.Setup(service =>
-                service.Get(
+                service.GetAsync(
                     It.IsAny<int>(),
                     It.IsAny<string>(),
                     It.IsAny<Request>()))
@@ -399,14 +399,14 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedUsersRepository
                             .FailedRequest
                             .Object
-                            .Get(It.IsAny<int>())
+                            .GetAsync(It.IsAny<int>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.UserNotFoundMessage
                     } as IResult));
 
             FailedRequest.Setup(service =>
-                service.GetUsers(
+                service.GetUsersAsync(
                     It.IsAny<int>(),
                     It.IsAny<string>(),
                     It.IsAny<Paginator>()))
@@ -415,14 +415,14 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedUsersRepository
                             .FailedRequest
                             .Object
-                            .GetAll()
+                            .GetAllAsync()
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.UsersNotFoundMessage
                     } as IResult));
 
             FailedRequest.Setup(service =>
-                service.Update(
+                service.UpdateAsync(
                     It.IsAny<int>(),
                     It.IsAny<IRequest>(),
                     It.IsAny<string>(),
@@ -432,14 +432,14 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedUsersRepository
                             .FailedRequest
                             .Object
-                            .Update(It.IsAny<User>())
+                            .UpdateAsync(It.IsAny<User>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.UserNotUpdatedMessage
                     } as IResult));
 
             FailedRequest.Setup(service =>
-                service.RequestPasswordReset(
+                service.RequestPasswordResetAsync(
                     It.IsAny<IRequestPasswordResetRequest>(),
                     It.IsAny<string>(),
                     It.IsAny<string>()))
@@ -450,7 +450,7 @@ namespace SudokuCollective.Test.Services
                     } as IResult));
 
             FailedRequest.Setup(service =>
-                service.ResendPasswordReset(
+                service.ResendPasswordResetAsync(
                     It.IsAny<int>(),
                     It.IsAny<int>(),
                     It.IsAny<string>(),
@@ -462,7 +462,7 @@ namespace SudokuCollective.Test.Services
                     } as IResult));
 
             FailedRequest.Setup(service =>
-                service.GetUserByPasswordToken(It.IsAny<string>()))
+                service.GetUserByPasswordTokenAsync(It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = true,
@@ -470,7 +470,7 @@ namespace SudokuCollective.Test.Services
                     } as IResult));
 
             FailedRequest.Setup(service =>
-                service.GetAppLicenseByPasswordToken(It.IsAny<string>()))
+                service.GetAppLicenseByPasswordTokenAsync(It.IsAny<string>()))
                 .Returns(Task.FromResult(new LicenseResult()
                     {
                         IsSuccess = false,
@@ -479,34 +479,34 @@ namespace SudokuCollective.Test.Services
                     } as ILicenseResult));
 
             FailedRequest.Setup(service =>
-                service.UpdatePassword(
+                service.UpdatePasswordAsync(
                     It.IsAny<IUpdatePasswordRequest>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedUsersRepository
                             .FailedRequest
                             .Object
-                            .Update(It.IsAny<User>())
+                            .UpdateAsync(It.IsAny<User>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.PasswordNotResetMessage
                     } as IResult));
 
             FailedRequest.Setup(service =>
-                service.Delete(It.IsAny<int>(), It.IsAny<string>()))
+                service.DeleteAsync(It.IsAny<int>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedUsersRepository
                             .FailedRequest
                             .Object
-                            .Delete(It.IsAny<User>())
+                            .DeleteAsync(It.IsAny<User>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.UserNotDeletedMessage
                     } as IResult));
 
             FailedRequest.Setup(service =>
-                service.AddUserRoles(
+                service.AddUserRolesAsync(
                     It.IsAny<int>(),
                     It.IsAny<IRequest>(),
                     It.IsAny<string>()))
@@ -515,14 +515,14 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedUsersRepository
                             .FailedRequest
                             .Object
-                            .AddRoles(It.IsAny<int>(), It.IsAny<List<int>>())
+                            .AddRolesAsync(It.IsAny<int>(), It.IsAny<List<int>>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.RolesNotAddedMessage
                     } as IResult));
 
             FailedRequest.Setup(service =>
-                service.RemoveUserRoles(
+                service.RemoveUserRolesAsync(
                     It.IsAny<int>(),
                     It.IsAny<IRequest>(),
                     It.IsAny<string>()))
@@ -531,38 +531,38 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedUsersRepository
                             .FailedRequest
                             .Object
-                            .RemoveRoles(It.IsAny<int>(), It.IsAny<List<int>>())
+                            .RemoveRolesAsync(It.IsAny<int>(), It.IsAny<List<int>>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.RolesNotRemovedMessage
                     } as IResult));
 
             FailedRequest.Setup(service =>
-                service.Activate(It.IsAny<int>()))
+                service.ActivateAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedUsersRepository
                             .FailedRequest
                             .Object
-                            .Activate(It.IsAny<int>())
+                            .ActivateAsync(It.IsAny<int>())
                             .Result,
                         Message = UsersMessages.UserNotActivatedMessage
                     } as IResult));
 
             FailedRequest.Setup(service =>
-                service.Deactivate(It.IsAny<int>()))
+                service.DeactivateAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedUsersRepository
                             .FailedRequest
                             .Object
-                            .Deactivate(It.IsAny<int>())
+                            .DeactivateAsync(It.IsAny<int>())
                             .Result,
                         Message = UsersMessages.UserNotDeactivatedMessage
                     } as IResult));
 
             FailedRequest.Setup(service =>
-                service.ConfirmEmail(
+                service.ConfirmEmailAsync(
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>()))
@@ -571,27 +571,27 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedUsersRepository
                             .FailedRequest
                             .Object
-                            .ConfirmEmail(It.IsAny<IEmailConfirmation>())
+                            .ConfirmEmailAsync(It.IsAny<IEmailConfirmation>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.EmailNotConfirmedMessage
                     } as IResult));
 
             FailedRequest.Setup(service =>
-                service.InitiatePasswordReset(It.IsAny<string>(), It.IsAny<string>()))
+                service.InitiatePasswordResetAsync(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                 {
                     IsSuccess = MockedPasswordResetsRepository
                         .FailedRequest
                         .Object
-                        .Create(It.IsAny<PasswordReset>())
+                        .CreateAsync(It.IsAny<PasswordReset>())
                         .Result
                         .IsSuccess,
                     Message = UsersMessages.UserNotFoundMessage
                 } as IResult));
 
             FailedRequest.Setup(service =>
-                service.ResendEmailConfirmation(
+                service.ResendEmailConfirmationAsync(
                     It.IsAny<int>(),
                     It.IsAny<int>(),
                     It.IsAny<string>(),
@@ -602,13 +602,13 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedEmailConfirmationsRepository
                             .FailedRequest
                             .Object
-                            .HasOutstandingEmailConfirmation(It.IsAny<int>(), It.IsAny<int>())
+                            .HasOutstandingEmailConfirmationAsync(It.IsAny<int>(), It.IsAny<int>())
                             .Result,
                         Message = UsersMessages.EmailConfirmationEmailNotResentMessage
                     } as IResult));
 
             FailedRequest.Setup(service =>
-                service.CancelEmailConfirmationRequest(
+                service.CancelEmailConfirmationRequestAsync(
                     It.IsAny<int>(),
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
@@ -616,14 +616,14 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedEmailConfirmationsRepository
                             .FailedRequest
                             .Object
-                            .Delete(It.IsAny<EmailConfirmation>())
+                            .DeleteAsync(It.IsAny<EmailConfirmation>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.EmailConfirmationRequestNotCancelledMessage
                     } as IResult));
 
             FailedRequest.Setup(service =>
-                service.CancelPasswordResetRequest(
+                service.CancelPasswordResetRequestAsync(
                     It.IsAny<int>(),
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
@@ -631,14 +631,14 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedPasswordResetsRepository
                             .FailedRequest
                             .Object
-                            .Delete(It.IsAny<PasswordReset>())
+                            .DeleteAsync(It.IsAny<PasswordReset>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.PasswordResetRequestNotCancelledMessage
                     } as IResult));
 
             FailedRequest.Setup(service =>
-                service.CancelAllEmailRequests(
+                service.CancelAllEmailRequestsAsync(
                     It.IsAny<int>(),
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
@@ -650,13 +650,13 @@ namespace SudokuCollective.Test.Services
 
             #region FailedResetPasswordRequest
             FailedResetPasswordRequest.Setup(service =>
-                service.Create(It.IsAny<ISignupRequest>(), It.IsAny<string>(), It.IsAny<string>()))
+                service.CreateAsync(It.IsAny<ISignupRequest>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .Add(It.IsAny<User>())
+                            .AddAsync(It.IsAny<User>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.UserCreatedMessage,
@@ -670,7 +670,7 @@ namespace SudokuCollective.Test.Services
                     } as IResult));
 
             FailedResetPasswordRequest.Setup(service =>
-                service.Get(
+                service.GetAsync(
                     It.IsAny<int>(),
                     It.IsAny<string>(),
                     It.IsAny<Request>()))
@@ -679,7 +679,7 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .Get(It.IsAny<int>())
+                            .GetAsync(It.IsAny<int>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.UserFoundMessage,
@@ -688,14 +688,14 @@ namespace SudokuCollective.Test.Services
                                 MockedUsersRepository
                                 .SuccessfulRequest
                                 .Object
-                                .Add(It.IsAny<User>())
+                                .AddAsync(It.IsAny<User>())
                                 .Result
                                 .Object
                             }
                 } as IResult));
 
             FailedResetPasswordRequest.Setup(service =>
-                service.GetUsers(
+                service.GetUsersAsync(
                     It.IsAny<int>(),
                     It.IsAny<string>(),
                     It.IsAny<Paginator>()))
@@ -704,21 +704,21 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .GetAll()
+                            .GetAllAsync()
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.UsersFoundMessage,
                         Payload = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .GetAll()
+                            .GetAllAsync()
                             .Result
                             .Objects
                             .ConvertAll(u => (object)u)
                     } as IResult));
 
             FailedResetPasswordRequest.Setup(service =>
-                service.Update(
+                service.UpdateAsync(
                     It.IsAny<int>(),
                     It.IsAny<IRequest>(),
                     It.IsAny<string>(),
@@ -728,7 +728,7 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .Update(It.IsAny<User>())
+                            .UpdateAsync(It.IsAny<User>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.UserUpdatedMessage,
@@ -737,14 +737,14 @@ namespace SudokuCollective.Test.Services
                                 MockedUsersRepository
                                 .SuccessfulRequest
                                 .Object
-                                .Add(It.IsAny<User>())
+                                .AddAsync(It.IsAny<User>())
                                 .Result
                                 .Object
                             }
                     } as IResult));
 
             FailedResetPasswordRequest.Setup(service =>
-                service.RequestPasswordReset(
+                service.RequestPasswordResetAsync(
                     It.IsAny<IRequestPasswordResetRequest>(),
                     It.IsAny<string>(),
                     It.IsAny<string>()))
@@ -755,7 +755,7 @@ namespace SudokuCollective.Test.Services
                     } as IResult));
 
             FailedResetPasswordRequest.Setup(service =>
-                service.ResendPasswordReset(
+                service.ResendPasswordResetAsync(
                     It.IsAny<int>(),
                     It.IsAny<int>(),
                     It.IsAny<string>(),
@@ -767,7 +767,7 @@ namespace SudokuCollective.Test.Services
                     } as IResult));
 
             FailedResetPasswordRequest.Setup(service =>
-                service.GetUserByPasswordToken(It.IsAny<string>()))
+                service.GetUserByPasswordTokenAsync(It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = true,
@@ -777,14 +777,14 @@ namespace SudokuCollective.Test.Services
                                 MockedUsersRepository
                                 .SuccessfulRequest
                                 .Object
-                                .Add(It.IsAny<User>())
+                                .AddAsync(It.IsAny<User>())
                                 .Result
                                 .Object
                             }
                     } as IResult));
 
             FailedResetPasswordRequest.Setup(service =>
-                service.GetAppLicenseByPasswordToken(It.IsAny<string>()))
+                service.GetAppLicenseByPasswordTokenAsync(It.IsAny<string>()))
                 .Returns(Task.FromResult(new LicenseResult()
                     {
                         IsSuccess = true,
@@ -793,34 +793,34 @@ namespace SudokuCollective.Test.Services
                     } as ILicenseResult));
 
             FailedResetPasswordRequest.Setup(service =>
-                service.UpdatePassword(
+                service.UpdatePasswordAsync(
                     It.IsAny<IUpdatePasswordRequest>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedUsersRepository
                             .FailedRequest
                             .Object
-                            .Update(It.IsAny<User>())
+                            .UpdateAsync(It.IsAny<User>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.PasswordNotResetMessage
                     } as IResult));
 
             FailedResetPasswordRequest.Setup(service =>
-                service.Delete(It.IsAny<int>(), It.IsAny<string>()))
+                service.DeleteAsync(It.IsAny<int>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .Delete(It.IsAny<User>())
+                            .DeleteAsync(It.IsAny<User>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.UserDeletedMessage
                     } as IResult));
 
             FailedResetPasswordRequest.Setup(service =>
-                service.AddUserRoles(
+                service.AddUserRolesAsync(
                     It.IsAny<int>(),
                     It.IsAny<IRequest>(),
                     It.IsAny<string>()))
@@ -829,14 +829,14 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .AddRoles(It.IsAny<int>(), It.IsAny<List<int>>())
+                            .AddRolesAsync(It.IsAny<int>(), It.IsAny<List<int>>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.RolesAddedMessage
                     } as IResult));
 
             FailedResetPasswordRequest.Setup(service =>
-                service.RemoveUserRoles(
+                service.RemoveUserRolesAsync(
                     It.IsAny<int>(),
                     It.IsAny<IRequest>(),
                     It.IsAny<string>()))
@@ -845,38 +845,38 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .RemoveRoles(It.IsAny<int>(), It.IsAny<List<int>>())
+                            .RemoveRolesAsync(It.IsAny<int>(), It.IsAny<List<int>>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.RolesRemovedMessage
                     } as IResult));
 
             FailedResetPasswordRequest.Setup(service =>
-                service.Activate(It.IsAny<int>()))
+                service.ActivateAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .Activate(It.IsAny<int>())
+                            .ActivateAsync(It.IsAny<int>())
                             .Result,
                         Message = UsersMessages.UserActivatedMessage
                     } as IResult));
 
             FailedResetPasswordRequest.Setup(service =>
-                service.Deactivate(It.IsAny<int>()))
+                service.DeactivateAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedUsersRepository
                             .SuccessfulRequest
                             .Object
-                            .Deactivate(It.IsAny<int>())
+                            .DeactivateAsync(It.IsAny<int>())
                             .Result,
                         Message = UsersMessages.UserDeactivatedMessage
                     } as IResult));
 
             FailedResetPasswordRequest.Setup(service =>
-                service.ConfirmEmail(
+                service.ConfirmEmailAsync(
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>()))
@@ -885,7 +885,7 @@ namespace SudokuCollective.Test.Services
                     IsSuccess = MockedUsersRepository
                         .SuccessfulRequest
                         .Object
-                        .ConfirmEmail(It.IsAny<IEmailConfirmation>())
+                        .ConfirmEmailAsync(It.IsAny<IEmailConfirmation>())
                         .Result
                         .IsSuccess,
                     Message = UsersMessages.EmailConfirmedMessage,
@@ -896,13 +896,13 @@ namespace SudokuCollective.Test.Services
                 } as IResult));
 
             FailedResetPasswordRequest.Setup(service =>
-                service.InitiatePasswordReset(It.IsAny<string>(), It.IsAny<string>()))
+                service.InitiatePasswordResetAsync(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedPasswordResetsRepository
                             .SuccessfulRequest
                             .Object
-                            .Create(It.IsAny<PasswordReset>())
+                            .CreateAsync(It.IsAny<PasswordReset>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.UserFoundMessage,
@@ -913,7 +913,7 @@ namespace SudokuCollective.Test.Services
                     } as IResult));
 
             FailedResetPasswordRequest.Setup(service =>
-                service.ResendEmailConfirmation(
+                service.ResendEmailConfirmationAsync(
                     It.IsAny<int>(),
                     It.IsAny<int>(),
                     It.IsAny<string>(),
@@ -924,7 +924,7 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedEmailConfirmationsRepository
                             .SuccessfulRequest
                             .Object
-                            .HasOutstandingEmailConfirmation(It.IsAny<int>(), It.IsAny<int>())
+                            .HasOutstandingEmailConfirmationAsync(It.IsAny<int>(), It.IsAny<int>())
                             .Result,
                         Message = UsersMessages.EmailConfirmationEmailResentMessage,
                         Payload = new List<object>()
@@ -934,7 +934,7 @@ namespace SudokuCollective.Test.Services
                     } as IResult));
 
             FailedResetPasswordRequest.Setup(service =>
-                service.CancelEmailConfirmationRequest(
+                service.CancelEmailConfirmationRequestAsync(
                     It.IsAny<int>(),
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
@@ -942,7 +942,7 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedEmailConfirmationsRepository
                             .SuccessfulRequest
                             .Object
-                            .Delete(It.IsAny<EmailConfirmation>())
+                            .DeleteAsync(It.IsAny<EmailConfirmation>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.EmailConfirmationRequestCancelledMessage,
@@ -953,7 +953,7 @@ namespace SudokuCollective.Test.Services
                     } as IResult));
 
             FailedResetPasswordRequest.Setup(service =>
-                service.CancelPasswordResetRequest(
+                service.CancelPasswordResetRequestAsync(
                     It.IsAny<int>(),
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
@@ -961,7 +961,7 @@ namespace SudokuCollective.Test.Services
                         IsSuccess = MockedPasswordResetsRepository
                             .SuccessfulRequest
                             .Object
-                            .Delete(It.IsAny<PasswordReset>())
+                            .DeleteAsync(It.IsAny<PasswordReset>())
                             .Result
                             .IsSuccess,
                         Message = UsersMessages.PasswordResetRequestCancelledMessage,
@@ -972,7 +972,7 @@ namespace SudokuCollective.Test.Services
                     } as IResult));
 
             FailedResetPasswordRequest.Setup(service =>
-                service.CancelAllEmailRequests(
+                service.CancelAllEmailRequestsAsync(
                     It.IsAny<int>(),
                     It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()

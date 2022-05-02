@@ -7,23 +7,23 @@ namespace SudokuCollective.Core.Interfaces.Repositories
 {
     public interface IUsersRepository<TEntity> : IRepository<TEntity> where TEntity : IUser
     {
-        Task<IRepositoryResponse> GetByUserName(string username);
-        Task<IRepositoryResponse> GetByEmail(string email);
-        Task<IRepositoryResponse> AddRole(int userId, int roleId);
-        Task<IRepositoryResponse> AddRoles(int userId, List<int> roleIds);
-        Task<IRepositoryResponse> RemoveRole(int userId, int roleId);
-        Task<IRepositoryResponse> RemoveRoles(int userId, List<int> roleIds);
-        Task<IRepositoryResponse> ConfirmEmail(IEmailConfirmation emailConfirmation);
-        Task<IRepositoryResponse> UpdateEmail(IEmailConfirmation emailConfirmation);
-        Task<IRepositoryResponse> GetMyApps(int id);
-        Task<string> GetAppLicense(int appId);
-        Task<bool> Activate(int id);
-        Task<bool> Deactivate(int id);
-        Task<bool> PromoteToAdmin(int id);
-        Task<bool> IsUserRegistered(int id);
-        Task<bool> IsUserNameUnique(string username);
-        Task<bool> IsEmailUnique(string email);
-        Task<bool> IsUpdatedUserNameUnique(int userId, string username);
-        Task<bool> IsUpdatedEmailUnique(int userId, string email);
+        Task<IRepositoryResponse> GetByUserNameAsync(string username);
+        Task<IRepositoryResponse> GetByEmailAsync(string email);
+        Task<IRepositoryResponse> AddRoleAsync(int userId, int roleId);
+        Task<IRepositoryResponse> AddRolesAsync(int userId, List<int> roleIds);
+        Task<IRepositoryResponse> RemoveRoleAsync(int userId, int roleId);
+        Task<IRepositoryResponse> RemoveRolesAsync(int userId, List<int> roleIds);
+        Task<IRepositoryResponse> ConfirmEmailAsync(IEmailConfirmation emailConfirmation);
+        Task<IRepositoryResponse> UpdateEmailAsync(IEmailConfirmation emailConfirmation);
+        Task<IRepositoryResponse> GetMyAppsAsync(int id);
+        Task<string> GetAppLicenseAsync(int appId);
+        Task<bool> ActivateAsync(int id);
+        Task<bool> DeactivateAsync(int id);
+        Task<bool> PromoteToAdminAsync(int id);
+        Task<bool> IsUserRegisteredAsync(int id);
+        Task<bool> IsUserNameUniqueAsync(string username);
+        Task<bool> IsEmailUniqueAsync(string email);
+        Task<bool> IsUpdatedUserNameUniqueAsync(int userId, string username);
+        Task<bool> IsUpdatedEmailUniqueAsync(int userId, string email);
     }
 }

@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SudokuCollective.Repos", "S
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{CFD3B332-45C3-4BC6-ADB8-8D5918B49C70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SudokuCollective.Logs", "SudokuCollective.Logs\SudokuCollective.Logs.csproj", "{AB1AB9A0-A9A4-4D94-9B2C-723A0FA73FA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SudokuCollective.Logs", "SudokuCollective.Logs\SudokuCollective.Logs.csproj", "{AB1AB9A0-A9A4-4D94-9B2C-723A0FA73FA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SudokuCollective.Encrypt", "SudokuCollective.Encrypt\SudokuCollective.Encrypt.csproj", "{1009B5A2-358D-4820-BD92-82925B10F941}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{AB1AB9A0-A9A4-4D94-9B2C-723A0FA73FA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB1AB9A0-A9A4-4D94-9B2C-723A0FA73FA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB1AB9A0-A9A4-4D94-9B2C-723A0FA73FA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1009B5A2-358D-4820-BD92-82925B10F941}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1009B5A2-358D-4820-BD92-82925B10F941}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1009B5A2-358D-4820-BD92-82925B10F941}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1009B5A2-358D-4820-BD92-82925B10F941}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

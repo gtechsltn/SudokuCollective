@@ -32,7 +32,7 @@ namespace SudokuCollective.Repos
         #endregion
 
         #region Methods
-        public async Task<IRepositoryResponse> Add(TEntity entity)
+        public async Task<IRepositoryResponse> AddAsync(TEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -84,7 +84,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> Get(int id)
+        public async Task<IRepositoryResponse> GetAsync(int id)
         {
             var result = new RepositoryResponse();
 
@@ -123,7 +123,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> GetAll()
+        public async Task<IRepositoryResponse> GetAllAsync()
         {
             var result = new RepositoryResponse();
 
@@ -157,7 +157,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> AddSolutions(List<ISudokuSolution> solutions)
+        public async Task<IRepositoryResponse> AddSolutionsAsync(List<ISudokuSolution> solutions)
         {
             if (solutions == null) throw new ArgumentNullException(nameof(solutions));
 
@@ -201,7 +201,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> GetSolvedSolutions()
+        public async Task<IRepositoryResponse> GetSolvedSolutionsAsync()
         {
             var result = new RepositoryResponse();
 
@@ -229,7 +229,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> Update(TEntity entity)
+        public async Task<IRepositoryResponse> UpdateAsync(TEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -297,7 +297,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> UpdateRange(List<TEntity> entities)
+        public async Task<IRepositoryResponse> UpdateRangeAsync(List<TEntity> entities)
         {
             if (entities == null) throw new ArgumentNullException(nameof(entities));
 
@@ -360,7 +360,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> Delete(TEntity entity)
+        public async Task<IRepositoryResponse> DeleteAsync(TEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -428,7 +428,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> DeleteRange(List<TEntity> entities)
+        public async Task<IRepositoryResponse> DeleteRangeAsync(List<TEntity> entities)
         {
             if (entities == null) throw new ArgumentNullException(nameof(entities));
 
@@ -501,7 +501,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<bool> HasEntity(int id) => 
+        public async Task<bool> HasEntityAsync(int id) => 
             await _context.SudokuSolutions.AnyAsync(d => d.Id == id);
         #endregion
     }

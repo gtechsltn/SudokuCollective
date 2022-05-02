@@ -1,7 +1,9 @@
-﻿namespace SudokuCollective.Core.Interfaces.Services
+﻿using System.Threading.Tasks;
+
+namespace SudokuCollective.Core.Interfaces.Services
 {
     public interface IEmailService : IService
     {
-        bool Send(string to, string subject, string html);
+        Task<bool> SendAsync(string to, string subject, string html, int appId);
     }
 }

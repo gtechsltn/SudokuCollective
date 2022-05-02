@@ -32,102 +32,54 @@ namespace SudokuCollective.Core.Models
         public int Id { get; set; }
         [Required, JsonPropertyName("name")]
         public string Name { get; set; }
-        [IgnoreDataMember, GuidValidated(ErrorMessage = AttributeMessages.InvalidLicense)]
+        [IgnoreDataMember]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [GuidValidated(ErrorMessage = AttributeMessages.InvalidLicense)]
         public string License
         {
-            get
-            {
-                return _license;
-            }
-            set
-            {
-                if (!string.IsNullOrEmpty(value) && _guidValidator.IsValid(value))
-                {
-                    _license = value;
-                }
-                else
-                {
-                    throw new ArgumentException(AttributeMessages.InvalidLicense);
-                }
-            }
+            get =>_license;
+            set => _license = CoreUtilities.SetNullableField(
+                value, 
+                _guidValidator,
+                AttributeMessages.InvalidLicense);
         }
         [Required, JsonPropertyName("ownerId")]
         public int OwnerId { get; set; }
         [JsonPropertyName("localUrl"), UrlValidated(ErrorMessage = AttributeMessages.InvalidUrl)]
         public string LocalUrl
         {
-            get
-            {
-                return _localUrl;
-            }
-            set
-            {
-                if (!string.IsNullOrEmpty(value) && _urlValidator.IsValid(value))
-                {
-                    _localUrl = value;
-                }
-                else
-                {
-                    throw new ArgumentException(AttributeMessages.InvalidUrl);
-                }
-            }
+            get => _localUrl;
+            set => _localUrl = CoreUtilities.SetNullableField(
+                value, 
+                _urlValidator,
+                AttributeMessages.InvalidUrl);
         }
         [JsonPropertyName("stagingUrl"), UrlValidated(ErrorMessage = AttributeMessages.InvalidUrl)]
         public string StagingUrl
         {
-            get
-            {
-                return _stagingUrl;
-            }
-            set
-            {
-                if (!string.IsNullOrEmpty(value) && _urlValidator.IsValid(value))
-                {
-                    _stagingUrl = value;
-                }
-                else
-                {
-                    throw new ArgumentException(AttributeMessages.InvalidUrl);
-                }
-            }
+            get => _stagingUrl;
+            set => _stagingUrl = CoreUtilities.SetNullableField(
+                value, 
+                _urlValidator,
+                AttributeMessages.InvalidUrl);
         }
         [JsonPropertyName("qaUrl"), UrlValidated(ErrorMessage = AttributeMessages.InvalidUrl)]
         public string QaUrl
         {
-            get
-            {
-                return _qaUrl;
-            }
-            set
-            {
-                if (!string.IsNullOrEmpty(value) && _urlValidator.IsValid(value))
-                {
-                    _qaUrl = value;
-                }
-                else
-                {
-                    throw new ArgumentException(AttributeMessages.InvalidUrl);
-                }
-            }
+            get => _qaUrl;
+            set => _qaUrl = CoreUtilities.SetNullableField(
+                value, 
+                _urlValidator,
+                AttributeMessages.InvalidUrl);
         }
         [JsonPropertyName("prodUrl"), UrlValidated(ErrorMessage = AttributeMessages.InvalidUrl)]
         public string ProdUrl
         {
-            get
-            {
-                return _prodUrl;
-            }
-            set
-            {
-                if (!string.IsNullOrEmpty(value) && _urlValidator.IsValid(value))
-                {
-                    _prodUrl = value;
-                }
-                else
-                {
-                    throw new ArgumentException(AttributeMessages.InvalidUrl);
-                }
-            }
+            get => _prodUrl;
+            set => _prodUrl = CoreUtilities.SetNullableField(
+                value, 
+                _urlValidator,
+                AttributeMessages.InvalidUrl);
         }
         [Required, JsonPropertyName("IsActive")]
         public bool IsActive { get; set; }
@@ -140,96 +92,12 @@ namespace SudokuCollective.Core.Models
         [JsonIgnore]
         public bool UseCustomEmailConfirmationAction
         {
-            get
-            {
-                if (
-                    Environment == ReleaseEnvironment.LOCAL
-                    && !DisableCustomUrls
-                    && !string.IsNullOrEmpty(LocalUrl)
-                    && !string.IsNullOrEmpty(CustomEmailConfirmationAction)
-                )
-                {
-                    return true;
-                }
-                else if (
-                    Environment == ReleaseEnvironment.STAGING
-                    && !DisableCustomUrls
-                    && !string.IsNullOrEmpty(StagingUrl)
-                    && !string.IsNullOrEmpty(CustomEmailConfirmationAction)
-                )
-                {
-                    return true;
-                }
-                else if (
-                    Environment == ReleaseEnvironment.QA
-                    && !DisableCustomUrls
-                    && !string.IsNullOrEmpty(QaUrl)
-                    && !string.IsNullOrEmpty(CustomEmailConfirmationAction)
-                )
-                {
-                    return true;
-                }
-                else if (
-                    Environment == ReleaseEnvironment.PROD
-                    && !DisableCustomUrls
-                    && !string.IsNullOrEmpty(ProdUrl)
-                    && !string.IsNullOrEmpty(CustomEmailConfirmationAction)
-                )
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
+            get => getUseCustomEmailConfirmationAction();
         }
         [JsonIgnore]
         public bool UseCustomPasswordResetAction
         {
-            get
-            {
-                if (
-                    Environment == ReleaseEnvironment.LOCAL
-                    && !DisableCustomUrls
-                    && !string.IsNullOrEmpty(LocalUrl)
-                    && !string.IsNullOrEmpty(CustomPasswordResetAction)
-                )
-                {
-                    return true;
-                }
-                else if (
-                    Environment == ReleaseEnvironment.STAGING
-                    && !DisableCustomUrls
-                    && !string.IsNullOrEmpty(StagingUrl)
-                    && !string.IsNullOrEmpty(CustomPasswordResetAction)
-                )
-                {
-                    return true;
-                }
-                else if (
-                    Environment == ReleaseEnvironment.QA
-                    && !DisableCustomUrls
-                    && !string.IsNullOrEmpty(QaUrl)
-                    && !string.IsNullOrEmpty(CustomPasswordResetAction)
-                )
-                {
-                    return true;
-                }
-                else if (
-                    Environment == ReleaseEnvironment.PROD
-                    && !DisableCustomUrls
-                    && !string.IsNullOrEmpty(ProdUrl)
-                    && !string.IsNullOrEmpty(CustomPasswordResetAction)
-                )
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
+            get => getUseCustomPasswordResetAction();
         }
         [JsonPropertyName("disableCustomUrls")]
         public bool DisableCustomUrls { get; set; }
@@ -237,105 +105,32 @@ namespace SudokuCollective.Core.Models
         public string CustomEmailConfirmationAction { get; set; }
         [JsonPropertyName("customPasswordResetAction")]
         public string CustomPasswordResetAction { get; set; }
+        [JsonPropertyName("useCustomSMTPServer")]
+        public bool UseCustomSMTPServer { get; set; }
+        [JsonIgnore]
+        ISMTPServerSettings IApp.SMTPServerSettings
+        {
+            get => SMTPServerSettings;
+            set => SMTPServerSettings = (SMTPServerSettings)value;
+        }
+        [JsonPropertyName("smtpServerSettings"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public SMTPServerSettings SMTPServerSettings { get; set; }
         [Required, JsonPropertyName("userCount")]
         public int UserCount
         {
-            get
-            {
-                if (Users != null)
-                {
-                    return Users.Count;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
+            get => getUserCount();
         }
         [JsonPropertyName("timeFrame")]
         public TimeFrame TimeFrame
         {
-            get { return _timeFrame; }
-            set
-            {
-                _timeFrame = value;
-
-
-                if (value == TimeFrame.SECONDS && AccessDuration > 60)
-                {
-                    AccessDuration = 60;
-                }
-                else if (value == TimeFrame.MINUTES && AccessDuration > 60)
-                {
-                    AccessDuration = 60;
-                }
-                else if (value == TimeFrame.HOURS && AccessDuration > 23)
-                {
-                    AccessDuration = 23;
-                }
-                else if (value == TimeFrame.DAYS && AccessDuration > 31)
-                {
-                    AccessDuration = 31;
-                }
-                else if (value == TimeFrame.MONTHS && AccessDuration > 12)
-                {
-                    AccessDuration = 12;
-                }
-                else if (value == TimeFrame.YEARS && AccessDuration > 5)
-                {
-                    AccessDuration = 5;
-                }
-            }
+            get => _timeFrame;
+            set => setTimeFrame(value);
         }
         [JsonPropertyName("accessDuration")]
         public int AccessDuration
         {
-            get { return _accessDuration; }
-            set
-            {
-                if (TimeFrame == TimeFrame.SECONDS)
-                {
-                    if (0 < value || value <= 59)
-                    {
-                        _accessDuration = value;
-                    }
-                }
-                else if (TimeFrame == TimeFrame.MINUTES)
-                {
-                    if (0 < value || value <= 59)
-                    {
-                        _accessDuration = value;
-                    }
-                }
-                else if (TimeFrame == TimeFrame.HOURS)
-                {
-                    if (0 < value || value <= 23)
-                    {
-                        _accessDuration = value;
-                    }
-                }
-                else if (TimeFrame == TimeFrame.DAYS)
-                {
-                    if (0 < value || value <= 31)
-                    {
-                        _accessDuration = value;
-                    }
-                }
-                else if (TimeFrame == TimeFrame.MONTHS)
-                {
-                    if (0 < value || value <= 12)
-                    {
-                        _accessDuration = value;
-                    }
-                }
-                else if (TimeFrame == TimeFrame.YEARS)
-                {
-                    if (0 < value || value <= 5)
-                    {
-                        _accessDuration = value;
-                    }
-                }
-            }
+            get => _accessDuration;
+            set => setAccessDuration(value);
         }
         [Required, JsonPropertyName("dateCreated")]
         public DateTime DateCreated { get; set; }
@@ -344,8 +139,8 @@ namespace SudokuCollective.Core.Models
         [JsonIgnore]
         ICollection<IUserApp> IApp.Users
         {
-            get { return Users.ConvertAll(u => (IUserApp)u); }
-            set { Users = value.ToList().ConvertAll(u => (UserApp)u); }
+            get => Users.ConvertAll(u => (IUserApp)u);
+            set => Users = value.ToList().ConvertAll(u => (UserApp)u);
         }
         [Required, JsonPropertyName("users"), JsonConverter(typeof(IDomainEntityListConverter<List<UserApp>>))]
         public virtual List<UserApp> Users { get; set; }
@@ -356,6 +151,7 @@ namespace SudokuCollective.Core.Models
         {
             Id = 0;
             Name = string.Empty;
+            LocalUrl = "http://localhost:8080";
             OwnerId = 0;
             DateCreated = DateTime.UtcNow;
             IsActive = false;
@@ -365,6 +161,8 @@ namespace SudokuCollective.Core.Models
             DisableCustomUrls = true;
             CustomEmailConfirmationAction = string.Empty;
             CustomPasswordResetAction = string.Empty;
+            UseCustomSMTPServer = false;
+            SMTPServerSettings = new SMTPServerSettings();
             Users = new List<UserApp>();
             TimeFrame = TimeFrame.DAYS;
             AccessDuration = 1;
@@ -398,10 +196,12 @@ namespace SudokuCollective.Core.Models
             bool disableCustomUrls,
             string customEmailConfirmationAction,
             string customPasswordResetAction,
+            bool useCustomSMTPServer,
             TimeFrame timeFrame,
             int accessDuration,
             DateTime dateCreated,
-            DateTime dateUpdated
+            DateTime dateUpdated,
+            SMTPServerSettings smtpServerSettings = null
         )
         {
             Id = id;
@@ -419,11 +219,17 @@ namespace SudokuCollective.Core.Models
             DisableCustomUrls = disableCustomUrls;
             CustomEmailConfirmationAction = customEmailConfirmationAction;
             CustomPasswordResetAction = customPasswordResetAction;
+            UseCustomSMTPServer = useCustomSMTPServer;
             TimeFrame = timeFrame;
             AccessDuration = accessDuration;
             DateCreated = dateCreated;
             DateUpdated = dateUpdated;
             Users = new List<UserApp>();
+
+            if (smtpServerSettings != null)
+            {
+                SMTPServerSettings = smtpServerSettings;
+            }
         }
         #endregion
 
@@ -450,6 +256,16 @@ namespace SudokuCollective.Core.Models
             return result;
         }
 
+        public void NullifyLicense()
+        {
+            _license = null;
+        }
+
+        public void NullifySMTPServerSettings()
+        {
+            SMTPServerSettings = null;
+        }
+
         public override string ToString() => string.Format(base.ToString() + ".Id:{0}.Name:{1}", Id, Name);
 
         public string ToJson() => JsonSerializer.Serialize(
@@ -458,6 +274,183 @@ namespace SudokuCollective.Core.Models
             {
                 ReferenceHandler = ReferenceHandler.IgnoreCycles
             });
+
+        private bool getUseCustomEmailConfirmationAction()
+        {
+            if (
+                Environment == ReleaseEnvironment.LOCAL
+                && !DisableCustomUrls
+                && !string.IsNullOrEmpty(LocalUrl)
+                && !string.IsNullOrEmpty(CustomEmailConfirmationAction)
+            )
+            {
+                return true;
+            }
+            else if (
+                Environment == ReleaseEnvironment.STAGING
+                && !DisableCustomUrls
+                && !string.IsNullOrEmpty(StagingUrl)
+                && !string.IsNullOrEmpty(CustomEmailConfirmationAction)
+            )
+            {
+                return true;
+            }
+            else if (
+                Environment == ReleaseEnvironment.QA
+                && !DisableCustomUrls
+                && !string.IsNullOrEmpty(QaUrl)
+                && !string.IsNullOrEmpty(CustomEmailConfirmationAction)
+            )
+            {
+                return true;
+            }
+            else if (
+                Environment == ReleaseEnvironment.PROD
+                && !DisableCustomUrls
+                && !string.IsNullOrEmpty(ProdUrl)
+                && !string.IsNullOrEmpty(CustomEmailConfirmationAction)
+            )
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool getUseCustomPasswordResetAction()
+        {
+            if (
+                Environment == ReleaseEnvironment.LOCAL
+                && !DisableCustomUrls
+                && !string.IsNullOrEmpty(LocalUrl)
+                && !string.IsNullOrEmpty(CustomPasswordResetAction)
+            )
+            {
+                return true;
+            }
+            else if (
+                Environment == ReleaseEnvironment.STAGING
+                && !DisableCustomUrls
+                && !string.IsNullOrEmpty(StagingUrl)
+                && !string.IsNullOrEmpty(CustomPasswordResetAction)
+            )
+            {
+                return true;
+            }
+            else if (
+                Environment == ReleaseEnvironment.QA
+                && !DisableCustomUrls
+                && !string.IsNullOrEmpty(QaUrl)
+                && !string.IsNullOrEmpty(CustomPasswordResetAction)
+            )
+            {
+                return true;
+            }
+            else if (
+                Environment == ReleaseEnvironment.PROD
+                && !DisableCustomUrls
+                && !string.IsNullOrEmpty(ProdUrl)
+                && !string.IsNullOrEmpty(CustomPasswordResetAction)
+            )
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private int getUserCount()
+        {  
+            if (Users != null)
+            {
+                return Users.Count;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        private void setTimeFrame(TimeFrame value)
+        {
+            _timeFrame = value;
+
+
+            if (value == TimeFrame.SECONDS && AccessDuration > 60)
+            {
+                AccessDuration = 60;
+            }
+            else if (value == TimeFrame.MINUTES && AccessDuration > 60)
+            {
+                AccessDuration = 60;
+            }
+            else if (value == TimeFrame.HOURS && AccessDuration > 23)
+            {
+                AccessDuration = 23;
+            }
+            else if (value == TimeFrame.DAYS && AccessDuration > 31)
+            {
+                AccessDuration = 31;
+            }
+            else if (value == TimeFrame.MONTHS && AccessDuration > 12)
+            {
+                AccessDuration = 12;
+            }
+            else if (value == TimeFrame.YEARS && AccessDuration > 5)
+            {
+                AccessDuration = 5;
+            }
+        }
+
+        private void setAccessDuration(int value)
+        {
+            if (TimeFrame == TimeFrame.SECONDS)
+            {
+                if (0 < value || value <= 59)
+                {
+                    _accessDuration = value;
+                }
+            }
+            else if (TimeFrame == TimeFrame.MINUTES)
+            {
+                if (0 < value || value <= 59)
+                {
+                    _accessDuration = value;
+                }
+            }
+            else if (TimeFrame == TimeFrame.HOURS)
+            {
+                if (0 < value || value <= 23)
+                {
+                    _accessDuration = value;
+                }
+            }
+            else if (TimeFrame == TimeFrame.DAYS)
+            {
+                if (0 < value || value <= 31)
+                {
+                    _accessDuration = value;
+                }
+            }
+            else if (TimeFrame == TimeFrame.MONTHS)
+            {
+                if (0 < value || value <= 12)
+                {
+                    _accessDuration = value;
+                }
+            }
+            else if (TimeFrame == TimeFrame.YEARS)
+            {
+                if (0 < value || value <= 5)
+                {
+                    _accessDuration = value;
+                }
+            }
+        }
         #endregion
     }
 }

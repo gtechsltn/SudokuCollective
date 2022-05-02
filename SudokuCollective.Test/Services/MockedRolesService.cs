@@ -27,13 +27,13 @@ namespace SudokuCollective.Test.Services
 
             #region SuccessfulRequest
             SuccessfulRequest.Setup(rolesService =>
-                rolesService.Get(It.IsAny<int>()))
+                rolesService.GetAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedRolesRepository
                             .SuccessfulRequest
                             .Object
-                            .Get(It.IsAny<int>())
+                            .GetAsync(It.IsAny<int>())
                             .Result
                             .IsSuccess,
                         Message = RolesMessages.RoleFoundMessage,
@@ -42,40 +42,40 @@ namespace SudokuCollective.Test.Services
                             MockedRolesRepository
                                 .SuccessfulRequest
                                 .Object
-                                .Get(It.IsAny<int>())
+                                .GetAsync(It.IsAny<int>())
                                 .Result
                                 .Object
                         }
                     } as IResult));
 
             SuccessfulRequest.Setup(rolesService =>
-                rolesService.GetRoles())
+                rolesService.GetRolesAsync())
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedRolesRepository
                             .SuccessfulRequest
                             .Object
-                            .GetAll()
+                            .GetAllAsync()
                             .Result
                             .IsSuccess,
                         Message = RolesMessages.RolesFoundMessage,
                         Payload = MockedRolesRepository
                             .SuccessfulRequest
                             .Object
-                            .GetAll()
+                            .GetAllAsync()
                             .Result
                             .Objects
                             .ConvertAll(r => (object)r)
                     } as IResult));
 
             SuccessfulRequest.Setup(rolesService =>
-                rolesService.Create(It.IsAny<IRequest>()))
+                rolesService.CreateAsync(It.IsAny<IRequest>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedRolesRepository
                             .SuccessfulRequest
                             .Object
-                            .Add(It.IsAny<Role>())
+                            .AddAsync(It.IsAny<Role>())
                             .Result
                             .IsSuccess,
                         Message = RolesMessages.RoleCreatedMessage,
@@ -84,33 +84,33 @@ namespace SudokuCollective.Test.Services
                             MockedRolesRepository
                                 .SuccessfulRequest
                                 .Object
-                                .Get(It.IsAny<int>())
+                                .GetAsync(It.IsAny<int>())
                                 .Result
                                 .Object
                         }
                     } as IResult));
 
             SuccessfulRequest.Setup(rolesService =>
-                rolesService.Update(It.IsAny<int>(), It.IsAny<IRequest>()))
+                rolesService.UpdateAsync(It.IsAny<int>(), It.IsAny<IRequest>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedRolesRepository
                             .SuccessfulRequest
                             .Object
-                            .Update(It.IsAny<Role>())
+                            .UpdateAsync(It.IsAny<Role>())
                             .Result
                             .IsSuccess,
                         Message = RolesMessages.RoleUpdatedMessage
                     } as IResult));
 
             SuccessfulRequest.Setup(rolesService =>
-                rolesService.Delete(It.IsAny<int>()))
+                rolesService.DeleteAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedRolesRepository
                             .SuccessfulRequest
                             .Object
-                            .Delete(It.IsAny<Role>())
+                            .DeleteAsync(It.IsAny<Role>())
                             .Result
                             .IsSuccess,
                         Message = RolesMessages.RoleDeletedMessage
@@ -119,65 +119,65 @@ namespace SudokuCollective.Test.Services
 
             #region FailedRequest
             FailedRequest.Setup(rolesService =>
-                rolesService.Get(It.IsAny<int>()))
+                rolesService.GetAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedRolesRepository
                             .FailedRequest
                             .Object
-                            .Get(It.IsAny<int>())
+                            .GetAsync(It.IsAny<int>())
                             .Result
                             .IsSuccess,
                         Message = RolesMessages.RoleNotFoundMessage,
                     } as IResult));
 
             FailedRequest.Setup(rolesService =>
-                rolesService.GetRoles())
+                rolesService.GetRolesAsync())
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedRolesRepository
                             .FailedRequest
                             .Object
-                            .GetAll()
+                            .GetAllAsync()
                             .Result
                             .IsSuccess,
                         Message = RolesMessages.RolesNotFoundMessage
                     } as IResult));
 
             FailedRequest.Setup(rolesService =>
-                rolesService.Create(It.IsAny<IRequest>()))
+                rolesService.CreateAsync(It.IsAny<IRequest>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedRolesRepository
                             .FailedRequest
                             .Object
-                            .Add(It.IsAny<Role>())
+                            .AddAsync(It.IsAny<Role>())
                             .Result
                             .IsSuccess,
                         Message = RolesMessages.RoleNotCreatedMessage
                     } as IResult));
 
             FailedRequest.Setup(rolesService =>
-                rolesService.Update(It.IsAny<int>(), It.IsAny<IRequest>()))
+                rolesService.UpdateAsync(It.IsAny<int>(), It.IsAny<IRequest>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedRolesRepository
                             .FailedRequest
                             .Object
-                            .Update(It.IsAny<Role>())
+                            .UpdateAsync(It.IsAny<Role>())
                             .Result
                             .IsSuccess,
                         Message = RolesMessages.RoleNotUpdatedMessage
                     } as IResult));
 
             FailedRequest.Setup(rolesService =>
-                rolesService.Delete(It.IsAny<int>()))
+                rolesService.DeleteAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = MockedRolesRepository
                             .FailedRequest
                             .Object
-                            .Delete(It.IsAny<Role>())
+                            .DeleteAsync(It.IsAny<Role>())
                             .Result
                             .IsSuccess,
                         Message = RolesMessages.RoleNotDeletedMessage

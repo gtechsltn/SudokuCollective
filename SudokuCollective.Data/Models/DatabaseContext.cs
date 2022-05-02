@@ -30,6 +30,7 @@ namespace SudokuCollective.Data.Models
         public DbSet<UserRole> UsersRoles { get; set; }
         public DbSet<SudokuSolution> SudokuSolutions { get; set; }
         public DbSet<App> Apps { get; set; }
+        public DbSet<SMTPServerSettings> SMTPServerSettings { get; set; }
         public DbSet<UserApp> UsersApps { get; set; }
         public DbSet<AppAdmin> AppAdmins { get; set; }
         public DbSet<EmailConfirmation> EmailConfirmations { get; set; }
@@ -270,6 +271,11 @@ namespace SudokuCollective.Data.Models
             modelBuilder.Entity<App>()
                 .Ignore(app => app.UseCustomPasswordResetAction);
 
+            modelBuilder.Entity<App>()
+                .HasOne(app => app.SMTPServerSettings)
+                .WithOne(smtpServerSettings => smtpServerSettings.App)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<UserApp>()
                 .HasKey(ua => ua.Id);
 
@@ -282,6 +288,12 @@ namespace SudokuCollective.Data.Models
                 .HasOne(ua => ua.App)
                 .WithMany(app => app.Users)
                 .HasForeignKey(ua => ua.AppId);
+
+            modelBuilder.Entity<SMTPServerSettings>()
+                .HasKey(s => s.Id);
+
+            modelBuilder.Entity<SMTPServerSettings>()
+                .Ignore(s => s.App);
             
             modelBuilder.Entity<AppAdmin>()
                 .HasKey(aa => aa.Id);

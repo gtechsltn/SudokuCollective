@@ -69,7 +69,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.Get(1);
+            var result = await sut.GetAsync(1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -83,7 +83,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sutFailure.Get(1);
+            var result = await sutFailure.GetAsync(1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -96,7 +96,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.GetSolutions(request);
+            var result = await sut.GetSolutionsAsync(request);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -110,7 +110,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sutFailure.GetSolutions(request);
+            var result = await sutFailure.GetSolutionsAsync(request);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -136,7 +136,7 @@ namespace SudokuCollective.Test.TestCases.Services
             request.Payload = payload;
 
             // Act
-            var result = await sut.Solve(request);
+            var result = await sut.SolveAsync(request);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -150,7 +150,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.Generate();
+            var result = await sut.GenerateAsync();
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -164,7 +164,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.Add(10);
+            var result = await sut.Async(10);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -177,7 +177,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sutFailure.Add(10);
+            var result = await sutFailure.Async(10);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);

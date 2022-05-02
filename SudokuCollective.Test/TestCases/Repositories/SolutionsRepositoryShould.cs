@@ -42,7 +42,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.Add(newSolution);
+            var result = await sut.AddAsync(newSolution);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -56,7 +56,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             newSolution.Id = 10;
 
             // Act
-            var result = await sut.Add(newSolution);
+            var result = await sut.AddAsync(newSolution);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -68,7 +68,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.Get(1);
+            var result = await sut.GetAsync(1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -81,7 +81,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.Get(5);
+            var result = await sut.GetAsync(5);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -94,7 +94,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.GetAll();
+            var result = await sut.GetAllAsync();
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -109,7 +109,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             solutions.Add(newSolution);
 
             // Act
-            var result = await sut.AddSolutions(solutions.ConvertAll(s => (ISudokuSolution)s));
+            var result = await sut.AddSolutionsAsync(solutions.ConvertAll(s => (ISudokuSolution)s));
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -121,7 +121,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.GetSolvedSolutions();
+            var result = await sut.GetSolvedSolutionsAsync();
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);

@@ -54,7 +54,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues creating a new app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The Post method requires the user to be logged in. Requires superuser or admin roles. The
+        /// The PostAsync method requires the user to be logged in. Requires superuser or admin roles. The
         /// request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
@@ -70,14 +70,14 @@ namespace SudokuCollective.Api.Controllers.V1
         ///         "localUrl": string,    // localUrl is not required, an example is https://localhost:8081; regex documented in app schema below
         ///         "stagingUrl": string,  // stagingUrl is not required, an exampled is https://example-app.herokuapp.com; regex documented in app schema below
         ///         "qaUrl": string,       // qaUrl is not required, an exampled is https://example-qa.herokuapp.com; regex documented in app schema below
-        ///         "prodUrl": string      // prodUrl is not required, an exampled is https://example-app.com; regex documented in app schema below
-        ///       }
+        ///         "prodUrl": string,     // prodUrl is not required, an exampled is https://example-app.com; regex documented in app schema below
+        ///       },
         ///     }     
         /// ```
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPost]
-        public async Task<ActionResult<App>> Post(
+        public async Task<ActionResult<App>> PostAsync(
             [FromBody] Request request)
         {
             try
@@ -86,13 +86,13 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _appsService.Create(request);
+                    var result = await _appsService.CreateAync(request);
 
                     if (result.IsSuccess)
                     {
@@ -132,7 +132,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues getting an app license.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The Get method requires the user to be logged in. Requires superuser or admin roles. The query parameter id 
+        /// The GetAsync method requires the user to be logged in. Requires superuser or admin roles. The query parameter id 
         /// refers to the relevant app. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
@@ -142,13 +142,13 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpGet, Route("{id}")]
-        public async Task<ActionResult> Get(
+        public async Task<ActionResult> GetAsync(
             int id,
             [FromBody] Request request)
         {
@@ -160,13 +160,13 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _appsService.GetLicense(id, request.RequestorId);
+                    var result = await _appsService.GetLicenseAsync(id, request.RequestorId);
 
                     if (result.IsSuccess)
                     {

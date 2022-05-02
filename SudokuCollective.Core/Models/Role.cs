@@ -20,14 +20,8 @@ namespace SudokuCollective.Core.Models
         [JsonIgnore]
         ICollection<IUserRole> IRole.Users
         {
-            get
-            {
-                return Users.ConvertAll(ur => (IUserRole)ur);
-            }
-            set
-            {
-                Users = value.ToList().ConvertAll(ur => (UserRole)ur);
-            }
+            get => Users.ConvertAll(ur => (IUserRole)ur);
+            set => Users = value.ToList().ConvertAll(ur => (UserRole)ur);
         }
         [JsonIgnore]
         public virtual List<UserRole> Users { get; set; }

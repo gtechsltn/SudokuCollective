@@ -61,6 +61,8 @@ namespace SudokuCollective.Test.TestCases.Models
             Assert.That(sut.DisableCustomUrls, Is.TypeOf<bool>());
             Assert.That(sut.CustomEmailConfirmationAction, Is.TypeOf<string>());
             Assert.That(sut.CustomPasswordResetAction, Is.TypeOf<string>());
+            Assert.That(sut.UseCustomSMTPServer, Is.TypeOf<bool>());
+            Assert.That(sut.SMTPServerSettings, Is.TypeOf<SMTPServerSettings>());
             Assert.That(sut.UserCount, Is.TypeOf<int>());
             Assert.That(sut.TimeFrame, Is.TypeOf<TimeFrame>());
             Assert.That(sut.AccessDuration, Is.TypeOf<int>());
@@ -240,6 +242,7 @@ namespace SudokuCollective.Test.TestCases.Models
                 true,
                 null,
                 null,
+                false,
                 TimeFrame.DAYS,
                 1,
                 DateTime.Now,
@@ -247,6 +250,26 @@ namespace SudokuCollective.Test.TestCases.Models
 
             // Assert
             Assert.That(sut, Is.InstanceOf<App>());
+        }
+
+        [Test, Category("Models")]
+        public void NullifyLicenses()
+        {
+            // Arrange and Act
+            sut.NullifyLicense();
+
+            // Assert
+            Assert.That(string.IsNullOrEmpty(sut.License), Is.True);
+        }
+
+        [Test, Category("Models")]
+        public void NullifySMTPServerSettings()
+        {
+            // Arrange and Act
+            sut.NullifySMTPServerSettings();
+
+            // Assert
+            Assert.That(sut.SMTPServerSettings, Is.Null);
         }
     }
 }

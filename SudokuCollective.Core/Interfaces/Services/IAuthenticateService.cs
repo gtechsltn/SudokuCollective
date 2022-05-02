@@ -6,6 +6,6 @@ namespace SudokuCollective.Core.Interfaces.Services
 {
     public interface IAuthenticateService : IService
     {
-        Task<IResult> IsAuthenticated(ILoginRequest request);
+        Task<IResult> IsAuthenticatedAsync(ILoginRequest request);
     }
 }

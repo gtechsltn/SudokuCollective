@@ -68,7 +68,7 @@ namespace SudokuCollective.Data.Services
             _logger = logger;
         }
         
-        public async Task<IResult> IsAuthenticated(ILoginRequest request)
+        public async Task<IResult> IsAuthenticatedAsync(ILoginRequest request)
         {
             try
             {
@@ -76,7 +76,7 @@ namespace SudokuCollective.Data.Services
 
                 var result = new Result();
 
-                var validateUserTask = _userManagementService.IsValidUser(request.UserName, request.Password);
+                var validateUserTask = _userManagementService.IsValidUserAsync(request.UserName, request.Password);
 
                 validateUserTask.Wait();
 
@@ -138,7 +138,7 @@ namespace SudokuCollective.Data.Services
                     return result;
                 }
 
-                var appAdmins = (await _appAdminsRepository.GetAll()).Objects.ConvertAll(aa => (AppAdmin)aa);
+                var appAdmins = (await _appAdminsRepository.GetAllAsync()).Objects.ConvertAll(aa => (AppAdmin)aa);
 
                 if (!user.IsSuperUser)
                 {
@@ -198,7 +198,7 @@ namespace SudokuCollective.Data.Services
 
                 foreach (var role in user.Roles)
                 {
-                    var r = (Role)(await _rolesRepository.Get(role.Role.Id)).Object;
+                    var r = (Role)(await _rolesRepository.GetAsync(role.Role.Id)).Object;
 
                     claim.Add(new Claim(ClaimTypes.Role, r.RoleLevel.ToString()));
                 }

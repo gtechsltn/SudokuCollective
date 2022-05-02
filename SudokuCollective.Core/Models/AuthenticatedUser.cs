@@ -45,14 +45,8 @@ namespace SudokuCollective.Core.Models
         [JsonIgnore]
         ICollection<IGame> IAuthenticatedUser.Games
         {
-            get
-            {
-                return Games.ConvertAll(g => (IGame)g);
-            }
-            set
-            {
-                Games = value.ToList().ConvertAll(g => (Game)g);
-            }
+            get => Games.ConvertAll(g => (IGame)g);
+            set => Games = value.ToList().ConvertAll(g => (Game)g);
         }
         [Required, JsonPropertyName("games"), JsonConverter(typeof(IDomainEntityListConverter<List<Game>>))]
         public virtual List<Game> Games { get; set; }

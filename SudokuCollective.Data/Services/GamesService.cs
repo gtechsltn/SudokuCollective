@@ -58,7 +58,7 @@ namespace SudokuCollective.Data.Services
         #endregion
 
         #region Methods
-        public async Task<IResult> Create(IRequest request)
+        public async Task<IResult> CreateAsync(IRequest request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
 
@@ -80,11 +80,11 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                var userResponse = await _usersRepository.Get(payload.UserId);
+                var userResponse = await _usersRepository.GetAsync(payload.UserId);
 
                 if (userResponse.IsSuccess)
                 {
-                    var difficultyResponse = await _difficultiesRepository.Get(payload.DifficultyId);
+                    var difficultyResponse = await _difficultiesRepository.GetAsync(payload.DifficultyId);
 
                     if (difficultyResponse.IsSuccess)
                     {
@@ -99,7 +99,7 @@ namespace SudokuCollective.Data.Services
 
                         game.SudokuMatrix.GenerateSolution();
 
-                        var gameResponse = await _gamesRepository.Add(game);
+                        var gameResponse = await _gamesRepository.AddAsync(game);
 
                         if (gameResponse.IsSuccess)
                         {
@@ -161,7 +161,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> GetGame(int id, int appId)
+        public async Task<IResult> GetGameAsync(int id, int appId)
         {
             var result = new Result();
 
@@ -173,9 +173,9 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                if (await _appsRepository.HasEntity(appId))
+                if (await _appsRepository.HasEntityAsync(appId))
                 {
-                    var gameResponse = await _gamesRepository.GetAppGame(id, appId);
+                    var gameResponse = await _gamesRepository.GetAppGameAsync(id, appId);
 
                     if (gameResponse.IsSuccess)
                     {
@@ -220,7 +220,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> GetGames(IRequest request)
+        public async Task<IResult> GetGamesAsync(IRequest request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
 
@@ -228,9 +228,9 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                if (await _appsRepository.HasEntity(request.AppId))
+                if (await _appsRepository.HasEntityAsync(request.AppId))
                 {
-                    var response = await _gamesRepository.GetAppGames(request.AppId);
+                    var response = await _gamesRepository.GetAppGamesAsync(request.AppId);
 
                     if (response.IsSuccess)
                     {
@@ -300,7 +300,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> GetMyGame(int id, IRequest request)
+        public async Task<IResult> GetMyGameAsync(int id, IRequest request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
 
@@ -330,9 +330,9 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                if (await _appsRepository.HasEntity(request.AppId))
+                if (await _appsRepository.HasEntityAsync(request.AppId))
                 {
-                    var gameResponse = await _gamesRepository.GetMyGame(
+                    var gameResponse = await _gamesRepository.GetMyGameAsync(
                         payload.UserId, 
                         id,
                         request.AppId);
@@ -380,7 +380,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> GetMyGames(IRequest request)
+        public async Task<IResult> GetMyGamesAsync(IRequest request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
 
@@ -402,9 +402,9 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                if (await _appsRepository.HasEntity(request.AppId))
+                if (await _appsRepository.HasEntityAsync(request.AppId))
                 {
-                    var response = await _gamesRepository.GetMyGames(
+                    var response = await _gamesRepository.GetMyGamesAsync(
                         payload.UserId,
                         request.AppId);
 
@@ -476,7 +476,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> Update(int id, IRequest request)
+        public async Task<IResult> UpdateAsync(int id, IRequest request)
         {
             var result = new Result();
 
@@ -496,9 +496,9 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                if (await _gamesRepository.HasEntity(id))
+                if (await _gamesRepository.HasEntityAsync(id))
                 {
-                    var gameResponse = await _gamesRepository.Get(id);
+                    var gameResponse = await _gamesRepository.GetAsync(id);
 
                     if (gameResponse.IsSuccess)
                     {
@@ -513,7 +513,7 @@ namespace SudokuCollective.Data.Services
                             }
                         }
 
-                        var updateGameResponse = await _gamesRepository.Update((Game)gameResponse.Object);
+                        var updateGameResponse = await _gamesRepository.UpdateAsync((Game)gameResponse.Object);
 
                         if (updateGameResponse.IsSuccess)
                         {
@@ -571,7 +571,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> Delete(int id)
+        public async Task<IResult> DeleteAsync(int id)
         {
             var result = new Result();
 
@@ -585,11 +585,11 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                var gameResponse = await _gamesRepository.Get(id);
+                var gameResponse = await _gamesRepository.GetAsync(id);
 
                 if (gameResponse.IsSuccess)
                 {
-                    var deleteGameResponse = await _gamesRepository.Delete((Game)gameResponse.Object);
+                    var deleteGameResponse = await _gamesRepository.DeleteAsync((Game)gameResponse.Object);
 
                     if (deleteGameResponse.IsSuccess)
                     {
@@ -638,7 +638,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> DeleteMyGame(int id, IRequest request)
+        public async Task<IResult> DeleteMyGameAsync(int id, IRequest request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
 
@@ -668,9 +668,9 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                if (await _appsRepository.HasEntity(request.AppId))
+                if (await _appsRepository.HasEntityAsync(request.AppId))
                 {
-                    var response = await _gamesRepository.DeleteMyGame(
+                    var response = await _gamesRepository.DeleteMyGameAsync(
                         payload.UserId, 
                         id, 
                         request.AppId);
@@ -715,7 +715,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> Check(int id, IRequest request)
+        public async Task<IResult> CheckAsync(int id, IRequest request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
 
@@ -745,7 +745,7 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                var gameResponse = await _gamesRepository.Get(id);
+                var gameResponse = await _gamesRepository.GetAsync(id);
 
                 if (gameResponse.IsSuccess)
                 {
@@ -769,7 +769,7 @@ namespace SudokuCollective.Data.Services
                         result.Message = GamesMessages.GameNotSolvedMessage;
                     }
 
-                    var updateGameResponse = await _gamesRepository.Update((Game)gameResponse.Object);
+                    var updateGameResponse = await _gamesRepository.UpdateAsync((Game)gameResponse.Object);
 
                     if (updateGameResponse.IsSuccess)
                     {
@@ -818,14 +818,14 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> CreateAnnonymous(DifficultyLevel difficultyLevel)
+        public async Task<IResult> CreateAnnonymousAsync(DifficultyLevel difficultyLevel)
         {
             var result = new Result();
             var gameResult = new AnnonymousGameResult();
 
             try
             {
-                if (await _difficultiesRepository.HasDifficultyLevel(difficultyLevel))
+                if (await _difficultiesRepository.HasDifficultyLevelAsync(difficultyLevel))
                 {
                     var game = new Game(new Difficulty { DifficultyLevel = difficultyLevel });
 
@@ -860,7 +860,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> CheckAnnonymous(List<int> intList)
+        public async Task<IResult> CheckAnnonymousAsync(List<int> intList)
         {
             if (intList == null) throw new ArgumentNullException(nameof(intList));
 
@@ -888,7 +888,7 @@ namespace SudokuCollective.Data.Services
                 if (result.IsSuccess)
                 {
                     // Add solution to the database
-                    var response = await _solutionsRepository.GetAll();
+                    var response = await _solutionsRepository.GetAllAsync();
 
                     if (response.IsSuccess)
                     {
@@ -907,7 +907,7 @@ namespace SudokuCollective.Data.Services
 
                         if (!solutionInDB)
                         {
-                            _ = _solutionsRepository.Add(game.SudokuSolution);
+                            _ = _solutionsRepository.AddAsync(game.SudokuSolution);
                         }
                     }
 

@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Messages;
+using SudokuCollective.Core.Utilities;
 using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Core.Models
@@ -28,79 +29,36 @@ namespace SudokuCollective.Core.Models
         [Required, JsonPropertyName("token"), GuidValidated(ErrorMessage = AttributeMessages.InvalidToken)]
         public string Token
         {
-            get
-            {
-                return _token;
-            }
-            set
-            {
-                if (!string.IsNullOrEmpty(value) && _guidValidator.IsValid(value))
-                {
-                    _token = value;
-                }
-                else
-                {
-                    throw new ArgumentException(AttributeMessages.InvalidToken);
-                }
-            }
+            get => _token;
+            set => _token = CoreUtilities.SetField(
+                value, 
+                _guidValidator, 
+                AttributeMessages.InvalidToken);
         }
         [JsonPropertyName("oldEmailAddress"), EmailValidated(ErrorMessage = AttributeMessages.InvalidOldEmail)]
         public string OldEmailAddress
         {
-            get
-            {
-                return _oldEmailAddress;
-            }
-
-            set
-            {
-                if (!string.IsNullOrEmpty(value) && _emailValidatedAttribute.IsValid(value))
-                {
-                    _oldEmailAddress = value;
-                    OldEmailAddressConfirmed = false;
-                }
-                else
-                {
-                    throw new ArgumentException(AttributeMessages.InvalidOldEmail);
-                }
-            }
+            get => _oldEmailAddress;
+            set => _oldEmailAddress = setOldEmailAddressField(
+                value,
+                _emailValidatedAttribute,
+                AttributeMessages.InvalidOldEmail);
         }
         [JsonPropertyName("newEmailAddress"), EmailValidated(ErrorMessage = AttributeMessages.InvalidNewEmail)]
         public string NewEmailAddress
         {
-            get
-            {
-                return _newEmailAddress;
-            }
-
-            set
-            {
-                if (!string.IsNullOrEmpty(value) && _emailValidatedAttribute.IsValid(value))
-                {
-                    _newEmailAddress = value;
-                }
-                else
-                {
-                    throw new ArgumentException(AttributeMessages.InvalidNewEmail);
-                }
-            }
+            get => _newEmailAddress;
+            set => _newEmailAddress = CoreUtilities.SetField(
+                value, 
+                _emailValidatedAttribute, 
+                AttributeMessages.InvalidEmail);
         }
         [JsonPropertyName("oldEmailAddress")]
         public bool? OldEmailAddressConfirmed { get; set; }
         [Required, JsonPropertyName("isUpdate")]
         public bool IsUpdate
         {
-            get
-            {
-                if (string.IsNullOrEmpty(OldEmailAddress) && string.IsNullOrEmpty(NewEmailAddress))
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
+            get => getIsUpdate();
         }
         [Required, JsonPropertyName("dateCreated")]
         public DateTime DateCreated { get; set; }
@@ -181,6 +139,34 @@ namespace SudokuCollective.Core.Models
             {
                 ReferenceHandler = ReferenceHandler.IgnoreCycles
             });
+
+        private string setOldEmailAddressField(
+            string value, 
+            RegularExpressionAttribute validator, 
+            string errorMessage)
+        {
+            if (!string.IsNullOrEmpty(value) && validator.IsValid(value))
+            {
+                OldEmailAddressConfirmed = false;
+                return value;
+            }
+            else
+            {
+                throw new ArgumentException(errorMessage);
+            }
+        }
+
+        private bool getIsUpdate()
+        {
+            if (string.IsNullOrEmpty(OldEmailAddress) && string.IsNullOrEmpty(NewEmailAddress))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
         #endregion
     }
 }

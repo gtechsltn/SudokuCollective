@@ -27,7 +27,7 @@ namespace SudokuCollective.Test.Repositories
 
             #region SuccessfulRequest
             SuccessfulRequest.Setup(repo =>
-                repo.Add(It.IsAny<AppAdmin>()))
+                repo.AddAsync(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
                         IsSuccess = true,
@@ -39,7 +39,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.Get(It.IsAny<int>()))
+                repo.GetAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -47,7 +47,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.GetAll())
+                repo.GetAllAsync())
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
                         IsSuccess = true,
@@ -57,7 +57,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.Update(It.IsAny<AppAdmin>()))
+                repo.UpdateAsync(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -65,36 +65,36 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.UpdateRange(It.IsAny<List<AppAdmin>>()))
+                repo.UpdateRangeAsync(It.IsAny<List<AppAdmin>>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     { 
                         IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.Delete(It.IsAny<AppAdmin>()))
+                repo.DeleteAsync(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.DeleteRange(It.IsAny<List<AppAdmin>>()))
+                repo.DeleteRangeAsync(It.IsAny<List<AppAdmin>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.HasEntity(It.IsAny<int>()))
+                repo.HasEntityAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
             SuccessfulRequest.Setup(repo =>
-                repo.HasAdminRecord(It.IsAny<int>(), It.IsAny<int>()))
+                repo.HasAdminRecordAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
             SuccessfulRequest.Setup(repo =>
-                repo.GetAdminRecord(It.IsAny<int>(), It.IsAny<int>()))
+                repo.GetAdminRecordAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -104,64 +104,64 @@ namespace SudokuCollective.Test.Repositories
 
             #region FailedRequest
             FailedRequest.Setup(repo =>
-                repo.Add(It.IsAny<AppAdmin>()))
+                repo.AddAsync(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.Get(It.IsAny<int>()))
+                repo.GetAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.GetAll())
+                repo.GetAllAsync())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.Update(It.IsAny<AppAdmin>()))
+                repo.UpdateAsync(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.UpdateRange(It.IsAny<List<AppAdmin>>()))
+                repo.UpdateRangeAsync(It.IsAny<List<AppAdmin>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.Delete(It.IsAny<AppAdmin>()))
+                repo.DeleteAsync(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.DeleteRange(It.IsAny<List<AppAdmin>>()))
+                repo.DeleteRangeAsync(It.IsAny<List<AppAdmin>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.HasEntity(It.IsAny<int>()))
+                repo.HasEntityAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(false));
 
             FailedRequest.Setup(repo =>
-                repo.HasAdminRecord(It.IsAny<int>(), It.IsAny<int>()))
+                repo.HasAdminRecordAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(false));
 
             FailedRequest.Setup(repo =>
-                repo.GetAdminRecord(It.IsAny<int>(), It.IsAny<int>()))
+                repo.GetAdminRecordAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
@@ -170,7 +170,7 @@ namespace SudokuCollective.Test.Repositories
 
             #region PromoteUserRequest
             PromoteUserRequest.Setup(repo =>
-                repo.Add(It.IsAny<AppAdmin>()))
+                repo.AddAsync(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -184,7 +184,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             PromoteUserRequest.Setup(repo =>
-                repo.Get(It.IsAny<int>()))
+                repo.GetAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -192,7 +192,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             PromoteUserRequest.Setup(repo =>
-                repo.GetAll())
+                repo.GetAllAsync())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -202,7 +202,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             PromoteUserRequest.Setup(repo =>
-                repo.Update(It.IsAny<AppAdmin>()))
+                repo.UpdateAsync(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -210,36 +210,36 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             PromoteUserRequest.Setup(repo =>
-                repo.UpdateRange(It.IsAny<List<AppAdmin>>()))
+                repo.UpdateRangeAsync(It.IsAny<List<AppAdmin>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true
                     } as IRepositoryResponse));
 
             PromoteUserRequest.Setup(repo =>
-                repo.Delete(It.IsAny<AppAdmin>()))
+                repo.DeleteAsync(It.IsAny<AppAdmin>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true
                     } as IRepositoryResponse));
 
             PromoteUserRequest.Setup(repo =>
-                repo.DeleteRange(It.IsAny<List<AppAdmin>>()))
+                repo.DeleteRangeAsync(It.IsAny<List<AppAdmin>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true
                     } as IRepositoryResponse));
 
             PromoteUserRequest.Setup(repo =>
-                repo.HasEntity(It.IsAny<int>()))
+                repo.HasEntityAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
             PromoteUserRequest.Setup(repo =>
-                repo.HasAdminRecord(It.IsAny<int>(), It.IsAny<int>()))
+                repo.HasAdminRecordAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(false));
 
             PromoteUserRequest.Setup(repo =>
-                repo.GetAdminRecord(It.IsAny<int>(), It.IsAny<int>()))
+                repo.GetAdminRecordAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,

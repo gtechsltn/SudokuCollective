@@ -104,7 +104,7 @@ namespace SudokuCollective.Test.TestCases.Services
             };
 
             // Act
-            var result = (sutValid.IsAuthenticated(tokenRequest)).Result;
+            var result = (sutValid.IsAuthenticatedAsync(tokenRequest)).Result;
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -124,7 +124,7 @@ namespace SudokuCollective.Test.TestCases.Services
             };
 
             // Act
-            var result = (sutInvalid.IsAuthenticated(tokenRequest)).Result;
+            var result = (sutInvalid.IsAuthenticatedAsync(tokenRequest)).Result;
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);

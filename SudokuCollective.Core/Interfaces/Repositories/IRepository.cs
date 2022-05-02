@@ -7,13 +7,13 @@ namespace SudokuCollective.Core.Interfaces.Repositories
 {
     public interface IRepository<TEntity> where TEntity : IDomainEntity
     {
-        Task<IRepositoryResponse> Add(TEntity entity);
-        Task<IRepositoryResponse> Get(int id);
-        Task<IRepositoryResponse> GetAll();
-        Task<IRepositoryResponse> Update(TEntity entity);
-        Task<IRepositoryResponse> UpdateRange(List<TEntity> entities);
-        Task<IRepositoryResponse> Delete(TEntity entity);
-        Task<IRepositoryResponse> DeleteRange(List<TEntity> entities);
-        Task<bool> HasEntity(int id);
+        Task<IRepositoryResponse> AddAsync(TEntity entity);
+        Task<IRepositoryResponse> GetAsync(int id);
+        Task<IRepositoryResponse> GetAllAsync();
+        Task<IRepositoryResponse> UpdateAsync(TEntity entity);
+        Task<IRepositoryResponse> UpdateRangeAsync(List<TEntity> entities);
+        Task<IRepositoryResponse> DeleteAsync(TEntity entity);
+        Task<IRepositoryResponse> DeleteRangeAsync(List<TEntity> entities);
+        Task<bool> HasEntityAsync(int id);
     }
 }

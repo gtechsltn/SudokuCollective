@@ -53,12 +53,12 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues logging in the user.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The Post method does not require a login. The request body parameter uses a custom request model.
+        /// The PostAsync method does not require a login. The request body parameter uses a custom request model.
         /// 
         /// The request should be structured as follows:
         /// ```
         ///     {
-        ///       "license": string   // the app license must be valid using the applicable regex pattern as documented in the LoginRequest schema below
+        ///       "license": string,  // the app license must be valid using the applicable regex pattern as documented in the LoginRequest schema below
         ///       "userName": string, // user name must be unique, the api will ensure this for you; the applicable regex pattern as documented in the LoginRequest schema below
         ///       "password": string, // password is required, the applicable regex pattern as documented in the LoginRequest schema below
         ///     }     
@@ -66,7 +66,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] LoginRequest request)
+        public async Task<ActionResult> PostAsync([FromBody] LoginRequest request)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     return BadRequest(ModelState);
                 }
 
-                var result = await _authService.IsAuthenticated(request);
+                var result = await _authService.IsAuthenticatedAsync(request);
 
                 if (result.IsSuccess)
                 {
@@ -93,7 +93,7 @@ namespace SudokuCollective.Api.Controllers.V1
                 else
                 {
                     var confirmAuthenticationIssueResponse = await _userManagementService
-                        .ConfirmAuthenticationIssue(
+                        .ConfirmAuthenticationIssueAsync(
                             request.UserName,
                             request.Password,
                             request.License);
@@ -133,23 +133,23 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues obtaining the user name.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The ConfirmUserName method does not require a login. The request body parameter uses a custom request model.
+        /// The ConfirmUserNameAsync method does not require a login. The request body parameter uses a custom request model.
         /// 
         /// The request should be structured as follows:
         /// ```
         ///     {
-        ///       "license": string // the applicable regex pattern as documented in the ConfirmUserNameRequest model
-        ///       "email": string,  // email is required, the applicable regex pattern is documented in the ConfirmUserNameRequest model
+        ///       "license": string, // the applicable regex pattern as documented in the ConfirmUserNameRequest model
+        ///       "email": string,   // email is required, the applicable regex pattern is documented in the ConfirmUserNameRequest model
         ///     }     
         /// ```
         /// </remarks>
         [AllowAnonymous]
         [HttpPost("ConfirmUserName")]
-        public async Task<ActionResult> ConfirmUserName([FromBody] ConfirmUserNameRequest request)
+        public async Task<ActionResult> ConfirmUserNameAsync([FromBody] ConfirmUserNameRequest request)
         {
             try
             {
-                var result = await _userManagementService.ConfirmUserName(
+                var result = await _userManagementService.ConfirmUserNameAsync(
                     request.Email,
                     request.License);
 

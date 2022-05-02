@@ -51,7 +51,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             context.SaveChanges();
 
             // Act
-            var result = await sut.Add(newDifficutly);
+            var result = await sut.AddAsync(newDifficutly);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -62,7 +62,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ReturnFalseIfCreateDifficutliesFails()
         {
             // Arrange and Act
-            var result = await sut.Add(newDifficutly);
+            var result = await sut.AddAsync(newDifficutly);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -72,7 +72,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task GetDifficultiesById()
         {
             // Arrange and Act
-            var result = await sut.Get(1);
+            var result = await sut.GetAsync(1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -83,7 +83,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ReturnFalseIfGetByIdFails()
         {
             // Arrange and Act
-            var result = await sut.Get(7);
+            var result = await sut.GetAsync(7);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -94,7 +94,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task GetAllDifficulties()
         {
             // Arrange and Act
-            var result = await sut.GetAll();
+            var result = await sut.GetAllAsync();
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -109,7 +109,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             difficulty.Name = string.Format("{0} UPDATED!", difficulty.Name);
 
             // Act
-            var result = await sut.Update(difficulty);
+            var result = await sut.UpdateAsync(difficulty);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -121,7 +121,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ReturnFalseIfUpdateDifficultiesFails()
         {
             // Arrange and Act
-            var result = await sut.Update(newDifficutly);
+            var result = await sut.UpdateAsync(newDifficutly);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -135,7 +135,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var difficulty = context.Difficulties.FirstOrDefault(d => d.Id == 1);
 
             // Act
-            var result = await sut.Delete(difficulty);
+            var result = await sut.DeleteAsync(difficulty);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -145,7 +145,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ReturnFalseIfDeleteDifficultiesFails()
         {
             // Arrange and Act
-            var result = await sut.Delete(newDifficutly);
+            var result = await sut.DeleteAsync(newDifficutly);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -155,7 +155,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ConfirmItHasAnDifficulty()
         {
             // Arrange and Act
-            var result = await sut.HasEntity(1);
+            var result = await sut.HasEntityAsync(1);
 
             // Assert
             Assert.That(result, Is.True);
@@ -173,7 +173,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .Id + 1;
 
             // Act
-            var result = await sut.HasEntity(id);
+            var result = await sut.HasEntityAsync(id);
 
             // Assert
             Assert.That(result, Is.False);
@@ -183,7 +183,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         public async Task ConfirmItHasAnDifficultyLevel()
         {
             // Arrange and Act
-            var result = await sut.HasDifficultyLevel(DifficultyLevel.TEST);
+            var result = await sut.HasDifficultyLevelAsync(DifficultyLevel.TEST);
 
             // Assert
             Assert.That(result, Is.True);
@@ -198,7 +198,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             context.SaveChanges();
 
             // Act
-            var result = await sut.HasDifficultyLevel(DifficultyLevel.TEST);
+            var result = await sut.HasDifficultyLevelAsync(DifficultyLevel.TEST);
 
             // Assert
             Assert.That(result, Is.False);
