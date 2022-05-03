@@ -21,7 +21,7 @@ namespace SudokuCollective.Data.Models.Payloads
 
         [Required, JsonPropertyName("name")]
         public string Name { get; set; }
-        [JsonPropertyName("localUrl"), GuidValidated(ErrorMessage = AttributeMessages.InvalidUrl)]
+        [Required, JsonPropertyName("localUrl"), GuidValidated(ErrorMessage = AttributeMessages.InvalidUrl)]
         public string LocalUrl
         {
             get
@@ -44,7 +44,7 @@ namespace SudokuCollective.Data.Models.Payloads
                 }
             }
         }
-        [JsonPropertyName("stagingUrl"), GuidValidated(ErrorMessage = AttributeMessages.InvalidUrl)]
+        [Required, JsonPropertyName("stagingUrl"), GuidValidated(ErrorMessage = AttributeMessages.InvalidUrl)]
         public string StagingUrl
         {
             get
@@ -67,7 +67,7 @@ namespace SudokuCollective.Data.Models.Payloads
                 }
             }
         }
-        [JsonPropertyName("qaUrl"), GuidValidated(ErrorMessage = AttributeMessages.InvalidUrl)]
+        [Required, JsonPropertyName("qaUrl"), GuidValidated(ErrorMessage = AttributeMessages.InvalidUrl)]
         public string QaUrl
         {
             get
@@ -90,7 +90,7 @@ namespace SudokuCollective.Data.Models.Payloads
                 }
             }
         }
-        [JsonPropertyName("prodUrl"), GuidValidated(ErrorMessage = AttributeMessages.InvalidUrl)]
+        [Required, JsonPropertyName("prodUrl"), GuidValidated(ErrorMessage = AttributeMessages.InvalidUrl)]
         public string ProdUrl
         {
             get
