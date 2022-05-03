@@ -81,7 +81,7 @@ namespace SudokuCollective.Core.Models
                 _urlValidator,
                 AttributeMessages.InvalidUrl);
         }
-        [Required, JsonPropertyName("IsActive")]
+        [Required, JsonPropertyName("isActive")]
         public bool IsActive { get; set; }
         [Required, JsonPropertyName("environment")]
         public ReleaseEnvironment Environment { get; set; }
