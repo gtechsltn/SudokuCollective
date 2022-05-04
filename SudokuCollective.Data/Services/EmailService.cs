@@ -63,8 +63,8 @@ namespace SudokuCollective.Data.Services
             if (app.UseCustomSMTPServer && app.SMTPServerSettings.AreSettingsValid())
             {
                 var key = !_environment.IsStaging() ?
-                    Configuration.GetSection("SMTPEncryptionKey").Value :
-                    Environment.GetEnvironmentVariable("SMTP_ENCRYPTION_KEY");
+                    Configuration.GetSection("EncryptionKey").Value :
+                    Environment.GetEnvironmentVariable("ENCRYPTION_KEY");
 
                 var password = Encryption.DecryptString(app.SMTPServerSettings.Password, key);
 

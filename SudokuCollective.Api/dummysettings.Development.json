@@ -24,7 +24,7 @@
     "Password": "[Your value here]",
     "Fromemail": "[Your value here]"
   },
-  "SMTPEncryptionKey": "[Your value here]",
+  "EncryptionKey": "[Your value here]",
   "DefaultUserAccounts": {
     "SuperUser": {
       "FirstName": "[Your value here]",

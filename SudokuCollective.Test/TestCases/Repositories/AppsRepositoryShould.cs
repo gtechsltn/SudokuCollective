@@ -38,7 +38,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             mockedWebHostEnvironment = new Mock<IWebHostEnvironment>();
 
             var appSettings = @"{""AppSettings"":{
-            ""SMTPEncryptionKey"" : ""54b31c1777064c6c9c09cfe7fe859d7f""}}";
+            ""EncryptionKey"" : ""54b31c1777064c6c9c09cfe7fe859d7f""}}";
 
             var builder = new ConfigurationBuilder();
 
