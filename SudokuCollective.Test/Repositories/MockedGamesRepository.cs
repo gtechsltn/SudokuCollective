@@ -32,7 +32,7 @@ namespace SudokuCollective.Test.Repositories
 
             #region SuccessfulRequest
             SuccessfulRequest.Setup(repo =>
-                repo.Add(It.IsAny<Game>()))
+                repo.AddAsync(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
                         IsSuccess = true,
@@ -44,7 +44,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.Get(It.IsAny<int>()))
+                repo.GetAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
                         IsSuccess = true,
@@ -52,7 +52,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.GetAll())
+                repo.GetAllAsync())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -60,7 +60,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.Update(It.IsAny<Game>()))
+                repo.UpdateAsync(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -68,7 +68,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.UpdateRange(It.IsAny<List<Game>>()))
+                repo.UpdateRangeAsync(It.IsAny<List<Game>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     { 
                         IsSuccess = true,
@@ -76,25 +76,25 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.Delete(It.IsAny<Game>()))
+                repo.DeleteAsync(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse() 
                     {
                         IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.DeleteRange(It.IsAny<List<Game>>()))
+                repo.DeleteRangeAsync(It.IsAny<List<Game>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.HasEntity(It.IsAny<int>()))
+                repo.HasEntityAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
             SuccessfulRequest.Setup(repo =>
-                repo.GetAppGame(It.IsAny<int>(), It.IsAny<int>()))
+                repo.GetAppGameAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -102,7 +102,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.GetAppGames(It.IsAny<int>()))
+                repo.GetAppGamesAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -110,7 +110,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.GetMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
+                repo.GetMyGameAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -118,7 +118,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.GetMyGames(It.IsAny<int>(), It.IsAny<int>()))
+                repo.GetMyGamesAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -126,7 +126,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.DeleteMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
+                repo.DeleteMyGameAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true
@@ -135,88 +135,88 @@ namespace SudokuCollective.Test.Repositories
 
             #region FailedRequest
             FailedRequest.Setup(repo =>
-                repo.Add(It.IsAny<Game>()))
+                repo.AddAsync(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.Get(It.IsAny<int>()))
+                repo.GetAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.GetAll())
+                repo.GetAllAsync())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.Update(It.IsAny<Game>()))
+                repo.UpdateAsync(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.UpdateRange(It.IsAny<List<Game>>()))
+                repo.UpdateRangeAsync(It.IsAny<List<Game>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.Delete(It.IsAny<Game>()))
+                repo.DeleteAsync(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.DeleteRange(It.IsAny<List<Game>>()))
+                repo.DeleteRangeAsync(It.IsAny<List<Game>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.HasEntity(It.IsAny<int>()))
+                repo.HasEntityAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(false));
 
             FailedRequest.Setup(repo =>
-                repo.GetAppGame(It.IsAny<int>(), It.IsAny<int>()))
+                repo.GetAppGameAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.GetAppGames(It.IsAny<int>()))
+                repo.GetAppGamesAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.GetMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
+                repo.GetMyGameAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.GetMyGames(It.IsAny<int>(), It.IsAny<int>()))
+                repo.GetMyGamesAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.DeleteMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
+                repo.DeleteMyGameAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
@@ -225,7 +225,7 @@ namespace SudokuCollective.Test.Repositories
 
             #region SolvedRequest
             SolvedRequest.Setup(repo =>
-                repo.Add(It.IsAny<Game>()))
+                repo.AddAsync(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -237,7 +237,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SolvedRequest.Setup(repo =>
-                repo.Get(It.IsAny<int>()))
+                repo.GetAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -245,7 +245,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SolvedRequest.Setup(repo =>
-                repo.GetAll())
+                repo.GetAllAsync())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -253,7 +253,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SolvedRequest.Setup(repo =>
-                repo.Update(It.IsAny<Game>()))
+                repo.UpdateAsync(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -261,7 +261,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SolvedRequest.Setup(repo =>
-                repo.UpdateRange(It.IsAny<List<Game>>()))
+                repo.UpdateRangeAsync(It.IsAny<List<Game>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -269,25 +269,25 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SolvedRequest.Setup(repo =>
-                repo.Delete(It.IsAny<Game>()))
+                repo.DeleteAsync(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true
                     } as IRepositoryResponse));
 
             SolvedRequest.Setup(repo =>
-                repo.DeleteRange(It.IsAny<List<Game>>()))
+                repo.DeleteRangeAsync(It.IsAny<List<Game>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true
                     } as IRepositoryResponse));
 
             SolvedRequest.Setup(repo =>
-                repo.HasEntity(It.IsAny<int>()))
+                repo.HasEntityAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
             SolvedRequest.Setup(repo =>
-                repo.GetAppGame(It.IsAny<int>(), It.IsAny<int>()))
+                repo.GetAppGameAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -295,7 +295,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SolvedRequest.Setup(repo =>
-                repo.GetAppGames(It.IsAny<int>()))
+                repo.GetAppGamesAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -303,7 +303,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SolvedRequest.Setup(repo =>
-                repo.GetMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
+                repo.GetMyGameAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -311,7 +311,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SolvedRequest.Setup(repo =>
-                repo.GetMyGames(It.IsAny<int>(), It.IsAny<int>()))
+                repo.GetMyGamesAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -319,7 +319,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SolvedRequest.Setup(repo =>
-                repo.DeleteMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
+                repo.DeleteMyGameAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true
@@ -328,7 +328,7 @@ namespace SudokuCollective.Test.Repositories
 
             #region UpdateFailedRequest
             UpdateFailedRequest.Setup(repo =>
-                repo.Add(It.IsAny<Game>()))
+                repo.AddAsync(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -340,7 +340,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             UpdateFailedRequest.Setup(repo =>
-                repo.Get(It.IsAny<int>()))
+                repo.GetAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -348,7 +348,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             UpdateFailedRequest.Setup(repo =>
-                repo.GetAll())
+                repo.GetAllAsync())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -356,14 +356,14 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             UpdateFailedRequest.Setup(repo =>
-                repo.Update(It.IsAny<Game>()))
+                repo.UpdateAsync(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             UpdateFailedRequest.Setup(repo =>
-                repo.UpdateRange(It.IsAny<List<Game>>()))
+                repo.UpdateRangeAsync(It.IsAny<List<Game>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -371,25 +371,25 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             UpdateFailedRequest.Setup(repo =>
-                repo.Delete(It.IsAny<Game>()))
+                repo.DeleteAsync(It.IsAny<Game>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true
                     } as IRepositoryResponse));
 
             UpdateFailedRequest.Setup(repo =>
-                repo.DeleteRange(It.IsAny<List<Game>>()))
+                repo.DeleteRangeAsync(It.IsAny<List<Game>>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true
                     } as IRepositoryResponse));
 
             UpdateFailedRequest.Setup(repo =>
-                repo.HasEntity(It.IsAny<int>()))
+                repo.HasEntityAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
             UpdateFailedRequest.Setup(repo =>
-                repo.GetAppGame(It.IsAny<int>(), It.IsAny<int>()))
+                repo.GetAppGameAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -397,7 +397,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             UpdateFailedRequest.Setup(repo =>
-                repo.GetAppGames(It.IsAny<int>()))
+                repo.GetAppGamesAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -405,7 +405,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             UpdateFailedRequest.Setup(repo =>
-                repo.GetMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
+                repo.GetMyGameAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -413,7 +413,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             UpdateFailedRequest.Setup(repo =>
-                repo.GetMyGames(It.IsAny<int>(), It.IsAny<int>()))
+                repo.GetMyGamesAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -421,7 +421,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             UpdateFailedRequest.Setup(repo =>
-                repo.DeleteMyGame(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
+                repo.DeleteMyGameAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true

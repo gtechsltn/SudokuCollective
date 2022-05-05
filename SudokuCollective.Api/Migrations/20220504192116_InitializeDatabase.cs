@@ -6,9 +6,6 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace SudokuCollective.Api.Migrations
 {
-    /// <summary>
-    /// Auto generated class
-    /// </summary>
     public partial class InitializeDatabase : Migration
     {
         /// <summary>
@@ -51,6 +48,7 @@ namespace SudokuCollective.Api.Migrations
                     DisableCustomUrls = table.Column<bool>(type: "boolean", nullable: false),
                     CustomEmailConfirmationAction = table.Column<string>(type: "text", nullable: true),
                     CustomPasswordResetAction = table.Column<string>(type: "text", nullable: true),
+                    UseCustomSMTPServer = table.Column<bool>(type: "boolean", nullable: false),
                     TimeFrame = table.Column<int>(type: "integer", nullable: false),
                     AccessDuration = table.Column<int>(type: "integer", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -162,6 +160,30 @@ namespace SudokuCollective.Api.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SMTPServerSettings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    SmtpServer = table.Column<string>(type: "text", nullable: true),
+                    Port = table.Column<int>(type: "integer", nullable: false),
+                    UserName = table.Column<string>(type: "text", nullable: true),
+                    Password = table.Column<string>(type: "text", nullable: true),
+                    FromEmail = table.Column<string>(type: "text", nullable: true),
+                    AppId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SMTPServerSettings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SMTPServerSettings_Apps_AppId",
+                        column: x => x.AppId,
+                        principalTable: "Apps",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -318,6 +340,12 @@ namespace SudokuCollective.Api.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SMTPServerSettings_AppId",
+                table: "SMTPServerSettings",
+                column: "AppId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SudokuCells_SudokuMatrixId",
                 table: "SudokuCells",
                 column: "SudokuMatrixId");
@@ -376,6 +404,9 @@ namespace SudokuCollective.Api.Migrations
 
             migrationBuilder.DropTable(
                 name: "PasswordResets");
+
+            migrationBuilder.DropTable(
+                name: "SMTPServerSettings");
 
             migrationBuilder.DropTable(
                 name: "SudokuCells");

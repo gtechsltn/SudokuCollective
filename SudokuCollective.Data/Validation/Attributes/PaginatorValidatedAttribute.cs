@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Data.Models.Params;
 
-[assembly: InternalsVisibleTo("SudokuCollective.Test")]
+[assembly:InternalsVisibleTo("SudokuCollective.Test")]
 namespace SudokuCollective.Data.Validation.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter | AttributeTargets.Property)]

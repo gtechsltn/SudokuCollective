@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using MailKit.Net.Smtp;
 using MailKit.Security;
@@ -9,6 +10,9 @@ using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Logs;
 using SudokuCollective.Logs.Utilities;
+using SudokuCollective.Core.Interfaces.Repositories;
+using SudokuCollective.Core.Models;
+using SudokuCollective.Data.Models;
 
 namespace SudokuCollective.Data.Services
 {
@@ -16,19 +20,22 @@ namespace SudokuCollective.Data.Services
     {
         private readonly IEmailMetaData _emailMetaData;
         private readonly IRequestService _requestService;
+        private readonly IAppsRepository<App> _appsRepository;
         private readonly ILogger<EmailService> _logger;
 
         public EmailService(
             IEmailMetaData emailMetaData, 
             IRequestService requestService,
+            IAppsRepository<App> appsRepository,
             ILogger<EmailService> logger)
         {
             _emailMetaData = emailMetaData;
             _requestService= requestService;
+            _appsRepository = appsRepository;
             _logger = logger;
         }
         
-        public bool Send(string to, string subject, string html)
+        public async Task<bool> SendAsync(string to, string subject, string html, int appId)
         {
             if (string.IsNullOrEmpty(to)) throw new ArgumentNullException(nameof(to));
 
@@ -36,10 +43,30 @@ namespace SudokuCollective.Data.Services
 
             if (string.IsNullOrEmpty(html)) throw new ArgumentNullException(nameof(html));
 
+            if (appId == 0) throw new ArgumentException(ServicesMesages.IdCannotBeZeroMessage);
+
+            var app = (App)(await _appsRepository.GetAsync(appId)).Object;
+
+            IEmailMetaData emailMetaData;
+
+            if (app.UseCustomSMTPServer && app.SMTPServerSettings.AreSettingsValid())
+            {
+                emailMetaData = new EmailMetaData(
+                    app.SMTPServerSettings.SmtpServer, 
+                    app.SMTPServerSettings.Port, 
+                    app.SMTPServerSettings.UserName,
+                    app.SMTPServerSettings.Password, 
+                    app.SMTPServerSettings.FromEmail);
+            }
+            else
+            {
+                emailMetaData = _emailMetaData;
+            }
+
             // create message
             var email = new MimeMessage();
 
-            email.From.Add(MailboxAddress.Parse(_emailMetaData.FromEmail));
+            email.From.Add(MailboxAddress.Parse(emailMetaData.FromEmail));
 
             email.To.Add(MailboxAddress.Parse(to));
 
@@ -52,9 +79,9 @@ namespace SudokuCollective.Data.Services
                 // send email
                 using (var smtp = new SmtpClient())
                 {
-                    smtp.Connect(_emailMetaData.SmtpServer, _emailMetaData.Port, SecureSocketOptions.Auto);
+                    smtp.Connect(emailMetaData.SmtpServer, emailMetaData.Port, SecureSocketOptions.Auto);
 
-                    smtp.Authenticate(_emailMetaData.UserName, _emailMetaData.Password);
+                    smtp.Authenticate(emailMetaData.UserName, emailMetaData.Password);
 
                     var smtpResponse = smtp.Send(email);
 

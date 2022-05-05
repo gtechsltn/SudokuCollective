@@ -41,14 +41,8 @@ namespace SudokuCollective.Core.Models
         [JsonIgnore]
         IGame ISudokuSolution.Game
         {
-            get
-            {
-                return Game;
-            }
-            set
-            {
-                Game = (Game)value;
-            }
+            get => Game;
+            set => Game = (Game)value;
         }
         [JsonIgnore]
         public virtual Game Game { get; set; }

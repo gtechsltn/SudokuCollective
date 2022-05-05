@@ -19,33 +19,19 @@ namespace SudokuCollective.Test.TestData
 {
     public static class TestObjects
     {
-        public static string GetLicense()
-        {
-            return "d17f0ed3-be9a-450a-a146-f6733db2bbdb";
-        }
+        public static string GetLicense() => "d17f0ed3-be9a-450a-a146-f6733db2bbdb";
 
-        public static string GetInvalidLicense()
-        {
-            return "a0fa1a7c-af21-433e-8e7f-f94f0086f45e";
-        }
+        public static string GetInvalidLicense() => "a0fa1a7c-af21-433e-8e7f-f94f0086f45e";
 
-        public static string GetSecondLicense()
-        {
-            return "03c0d43f-3ad8-490a-a131-f73c81fe02c0";
-        }
-        public static string GetThirdLicense()
-        {
-            return "aaa6c3ec-ec85-46e7-9793-68a6e2bf4904";
-        }
+        public static string GetSecondLicense() => "03c0d43f-3ad8-490a-a131-f73c81fe02c0";
+        
+        public static string GetThirdLicense() => "aaa6c3ec-ec85-46e7-9793-68a6e2bf4904";
 
-        public static string GetToken()
-        {
-            return "d17f0ed3-be9a-450a-a146-f6733db2bbdb";
-        }
+        public static string GetToken() => "d17f0ed3-be9a-450a-a146-f6733db2bbdb";
+        public static string GetEncryptionKey() => "0b13b6b05d7c498ea8d222f28b921f5f";
 
-        public static Paginator GetPaginator()
-        {
-            return new Paginator()
+
+        public static Paginator GetPaginator() => new Paginator()
             {
                 Page = 1,
                 ItemsPerPage = 10,
@@ -53,11 +39,9 @@ namespace SudokuCollective.Test.TestData
                 OrderByDescending = false,
                 IncludeCompletedGames = false
             };
-        }
 
-        public static AnnonymousCheckPayload GetValidAnnonymousCheckPayload()
-        {
-            return new AnnonymousCheckPayload
+        public static AnnonymousCheckPayload GetValidAnnonymousCheckPayload() =>
+            new AnnonymousCheckPayload
             {
                 FirstRow = new List<int> { 7, 8, 5, 4, 1, 3, 2, 9, 6 },
                 SecondRow = new List<int> { 1, 4, 2, 8, 6, 9, 5, 7, 3 },
@@ -69,11 +53,9 @@ namespace SudokuCollective.Test.TestData
                 EighthRow = new List<int> { 3, 5, 8, 1, 9, 7, 6, 4, 2 },
                 NinthRow = new List<int> { 9, 7, 6, 5, 2, 4, 8, 3, 1 }
             };
-        }
 
-        public static AnnonymousCheckPayload GetInvalidAnnonymousCheckPayload()
-        {
-            return new AnnonymousCheckPayload
+        public static AnnonymousCheckPayload GetInvalidAnnonymousCheckPayload() =>
+            new AnnonymousCheckPayload
             {
                 FirstRow = new List<int> { 7, 8, 5, 4, 1, 3, 2, 9, 6, 0 },
                 SecondRow = new List<int> { 1, 4, 2, 8, 6, 9, 5, 7, 3 },
@@ -85,7 +67,6 @@ namespace SudokuCollective.Test.TestData
                 EighthRow = new List<int> { 3, 5, 8, 1, 9, 7, 6, 4, 2 },
                 NinthRow = new List<int> { 9, 7, 6, 5, 2, 4, 8, 3, 1 }
             };
-        }
 
         public static List<List<int>> GetAnnonymousGame() => new List<List<int>>()
             {
@@ -100,9 +81,8 @@ namespace SudokuCollective.Test.TestData
                 new List<int> { 9, 7, 6, 5, 2, 4, 8, 3, 1 }
             };
 
-        public static SolutionPayload GetValidSolutionPayload()
-        {
-            return new SolutionPayload
+        public static SolutionPayload GetValidSolutionPayload() =>
+            new SolutionPayload
             {
                 FirstRow = new List<int> { 7, 8, 5, 4, 1, 3, 2, 9, 6 },
                 SecondRow = new List<int> { 1, 4, 2, 8, 6, 9, 5, 7, 3 },
@@ -114,11 +94,9 @@ namespace SudokuCollective.Test.TestData
                 EighthRow = new List<int> { 3, 5, 8, 1, 9, 7, 6, 4, 2 },
                 NinthRow = new List<int> { 9, 7, 6, 5, 2, 4, 8, 3, 1 }
             };
-        }
 
-        public static SolutionPayload GetInvalidSolutionPayload()
-        {
-            return new SolutionPayload
+        public static SolutionPayload GetInvalidSolutionPayload() =>
+            new SolutionPayload
             {
                 FirstRow = new List<int> { 7, 8, 5, 4, 1, 3, 2, 9, 6, 0 },
                 SecondRow = new List<int> { 1, 4, 2, 8, 6, 9, 5, 7, 3 },
@@ -130,7 +108,6 @@ namespace SudokuCollective.Test.TestData
                 EighthRow = new List<int> { 3, 5, 8, 1, 9, 7, 6, 4, 2 },
                 NinthRow = new List<int> { 9, 7, 6, 5, 2, 4, 8, 3, 1 }
             };
-        }
 
         public static List<SudokuCell> GetUpdateSudokuCells(int updatedValue)
         {
@@ -492,9 +469,8 @@ namespace SudokuCollective.Test.TestData
             return cells;
         }
 
-        public static EmailMetaData GetEmailMetaData()
-        {
-            return new EmailMetaData()
+        public static EmailMetaData GetEmailMetaData() =>
+            new EmailMetaData()
             {
                 SmtpServer = "email-smtp.us-east-1.amazonaws.com",
                 Port = 465,
@@ -502,11 +478,9 @@ namespace SudokuCollective.Test.TestData
                 Password = "BMvhz4xMUuhlghfzkG1ooc66eqDqcB7aKCgiDvE1PogP",
                 FromEmail = "sudokucollective-testing@sudokucollective.com"
             };
-        }
 
-        public static EmailMetaData GetIncorrectEmailMetaData()
-        {
-            return new EmailMetaData()
+        public static EmailMetaData GetIncorrectEmailMetaData() =>
+            new EmailMetaData()
             {
                 SmtpServer = "smtp.mail.yahoo.com",
                 Port = 465,
@@ -514,11 +488,9 @@ namespace SudokuCollective.Test.TestData
                 Password = "P@ssw0rd1",
                 FromEmail = "SudokuCollectivetesting@yahoo.com"
             };
-        }
 
-        public static User GetNewUser()
-        {
-            return new User
+        public static User GetNewUser() =>
+            new User
             {
                 FirstName = "John",
                 LastName = "Doe",
@@ -527,21 +499,17 @@ namespace SudokuCollective.Test.TestData
                 Password = "P@s5w1",
                 DateCreated = DateTime.UtcNow
             };
-        }
 
-        public static EmailConfirmation GetNewEmailConfirmation()
-        {
-            return new EmailConfirmation
+        public static EmailConfirmation GetNewEmailConfirmation() =>
+            new EmailConfirmation
             {
                 UserId = 1,
                 AppId = 1,
                 Token = "cc924471-aab6-4809-8e6d-723ae422cb33"
             };
-        }
 
-        public static EmailConfirmation GetUpdateEmailConfirmation()
-        {
-            return new EmailConfirmation
+        public static EmailConfirmation GetUpdateEmailConfirmation() =>
+            new EmailConfirmation
             {
                 UserId = 1,
                 AppId = 1,
@@ -549,11 +517,9 @@ namespace SudokuCollective.Test.TestData
                 OldEmailAddress = "TestSuperUser@example.com",
                 NewEmailAddress = "UPDATEDTestSuperUser@example.com"
             };
-        }
 
-        public static Request GetRequest()
-        {
-            return new Request()
+        public static Request GetRequest() =>
+            new Request()
             {
                 License = GetLicense(),
                 RequestorId = 1,
@@ -561,93 +527,73 @@ namespace SudokuCollective.Test.TestData
                 Paginator = GetPaginator(),
                 Payload = new JsonElement()
             };
-        }
 
-        public static CreateGamePayload GetCreateGamePayload()
-        {
-            return new CreateGamePayload()
+        public static CreateGamePayload GetCreateGamePayload() =>
+            new CreateGamePayload()
             {
                 UserId = 1,
                 DifficultyId = 4
             };
-        }
 
-        public static UpdateGamePayload GetUpdateGamePayload(int updatedValue)
-        {
-            return new UpdateGamePayload()
+        public static UpdateGamePayload GetUpdateGamePayload(int updatedValue) =>
+            new UpdateGamePayload()
             {
                 GameId = 1,
                 SudokuCells = GetUpdateSudokuCells(updatedValue)
             };
-        }
 
-        public static UpdateGamePayload GetInvalidUpdateGamePayload(int updatedValue)
-        {
-            return new UpdateGamePayload()
+        public static UpdateGamePayload GetInvalidUpdateGamePayload(int updatedValue) =>
+            new UpdateGamePayload()
             {
                 GameId = 1,
                 SudokuCells = GetUpdateInvalidSudokuCells(updatedValue)
             };
-        }
 
-        public static UpdateGamePayload GetSolvedUpdateGamePayload()
-        {
-            return new UpdateGamePayload()
+        public static UpdateGamePayload GetSolvedUpdateGamePayload() =>
+            new UpdateGamePayload()
             {
                 GameId = 1,
                 SudokuCells = GetValidSudokuCells()
             };
-        }
 
-        public static UpdateGamePayload GetGameNotFoundUpdateGamePayload()
-        {
-            return new UpdateGamePayload()
+        public static UpdateGamePayload GetGameNotFoundUpdateGamePayload() =>
+            new UpdateGamePayload()
             {
                 GameId = 5,
                 SudokuCells = GetValidSudokuCells()
             };
-        }
 
-        public static GamesPayload GetGamesPayload()
-        {
-            return new GamesPayload()
+        public static GamesPayload GetGamesPayload() =>
+            new GamesPayload()
             {
                 UserId = 1,
             };
-        }
 
-        public static UpdateRolePayload GetUpdateRolePayload()
-        {
-            return new UpdateRolePayload()
+        public static UpdateRolePayload GetUpdateRolePayload() =>
+            new UpdateRolePayload()
             {
                 Id = 1,
                 Name = "Null UPDATED!",
                 RoleLevel = RoleLevel.NULL
             };
-        }
 
-        public static UpdateRolePayload GetInvalidUpdateRolePayload()
-        {
-            return new UpdateRolePayload()
+        public static UpdateRolePayload GetInvalidUpdateRolePayload() =>
+            new UpdateRolePayload()
             {
                 Id = 10,
                 Name = "Null UPDATED!",
                 RoleLevel = RoleLevel.NULL
             };
-        }
 
-        public static Result GetResult()
-        {
-            return new Result()
+        public static Result GetResult() =>
+            new Result()
             {
                 IsSuccess = true,
                 IsFromCache = true,
             };
-        }
 
-        public static ConfirmEmailResult GetConfirmEmailResult()
-        {
-            return new ConfirmEmailResult()
+        public static ConfirmEmailResult GetConfirmEmailResult() =>
+            new ConfirmEmailResult()
             {
                 UserName = "TestSuperUser",
                 Email = "TestSuperUser@example.com",
@@ -658,28 +604,23 @@ namespace SudokuCollective.Test.TestData
                 NewEmailAddressConfirmed = false,
                 ConfirmationEmailSuccessfullySent = true
             };
-        }
 
-        public static InitiatePasswordResetResult GetInitiatePasswordResetResult()
-        {
-            return new InitiatePasswordResetResult()
+        public static InitiatePasswordResetResult GetInitiatePasswordResetResult() =>
+            new InitiatePasswordResetResult()
             {
                 App = new App(),
                 User = new User(),
                 ConfirmationEmailSuccessfullySent = true,
                 Token = GetToken()
             };
-        }
 
-        public static UserResult GetUserResult()
-        {
-            return new UserResult()
+        public static UserResult GetUserResult() =>
+            new UserResult()
             {
                 User = new User(),
                 ConfirmationEmailSuccessfullySent = true,
                 Token = GetToken()
             };
-        }
 
         public static Mock<IHttpContextAccessor> GetHttpContextAccessor(User user, App app)
         {
@@ -770,9 +711,8 @@ namespace SudokuCollective.Test.TestData
             return result;
         }
 
-        public static SudokuCollective.Api.Models.PasswordReset GetPasswordReset()
-        {
-            return new SudokuCollective.Api.Models.PasswordReset
+        public static SudokuCollective.Api.Models.PasswordReset GetPasswordReset() =>
+            new SudokuCollective.Api.Models.PasswordReset
             {
                 IsSuccess = true,
                 UserId = 1,
@@ -784,11 +724,9 @@ namespace SudokuCollective.Test.TestData
                 AppUrl = "https://localhost:5001",
                 ErrorMessage = "Message"
             };
-        }
 
-        public static AppPayload GetAppPayload()
-        {
-            return new AppPayload
+        public static AppPayload GetAppPayload() =>
+            new AppPayload
             {
                 Name = "Test App 1 UPDATED!",
                 LocalUrl = "https://localhost:4200",
@@ -805,11 +743,9 @@ namespace SudokuCollective.Test.TestData
                 TimeFrame = TimeFrame.DAYS,
                 AccessDuration = 7
             };
-        }
 
-        public static AppPayload GetInvalidAppPayload()
-        {
-            return new AppPayload
+        public static AppPayload GetInvalidAppPayload() =>
+            new AppPayload
             {
                 Name = string.Empty,
                 LocalUrl = "https://localhost:4200",
@@ -826,11 +762,9 @@ namespace SudokuCollective.Test.TestData
                 TimeFrame = TimeFrame.DAYS,
                 AccessDuration = 7
             };
-        }
 
-        public static LicensePayload GetLicensePayload()
-        {
-            return new LicensePayload
+        public static LicensePayload GetLicensePayload() =>
+            new LicensePayload
             {
                 Name = "Test App 4",
                 LocalUrl = "https://localhost:4200",
@@ -838,6 +772,5 @@ namespace SudokuCollective.Test.TestData
                 QaUrl = "https://testapp3.qa.com",
                 ProdUrl = "https://testapp3.com"
             };
-        }
     }
 }

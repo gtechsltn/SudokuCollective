@@ -125,7 +125,7 @@ namespace SudokuCollective.Test.TestCases.Services
             request.Payload = createGamePayload;
 
             // Act
-            var result = await sut.Create(request);
+            var result = await sut.CreateAsync(request);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -145,7 +145,7 @@ namespace SudokuCollective.Test.TestCases.Services
             request.Payload = payload;
 
             // Act
-            var result = await sutFailure.Create(request);
+            var result = await sutFailure.CreateAsync(request);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -162,7 +162,7 @@ namespace SudokuCollective.Test.TestCases.Services
             request.Payload = updateGamePayload;
 
             // Act
-            var result = await sut.Update(gameId, request);
+            var result = await sut.UpdateAsync(gameId, request);
 
             var checkValue = ((Game)result.Payload[0])
                 .SudokuMatrix.SudokuCells
@@ -188,7 +188,7 @@ namespace SudokuCollective.Test.TestCases.Services
             request.Payload = updateGamePayload;
 
             // Act
-            var result = await sutUpdateFailure.Update(gameId, request);
+            var result = await sutUpdateFailure.UpdateAsync(gameId, request);
 
             var updatedGame = await context.Games
                 .FirstOrDefaultAsync(game => game.Id == gameId);
@@ -205,7 +205,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var gameId = 1;
 
             // Act
-            var result = await sut.Delete(gameId);
+            var result = await sut.DeleteAsync(gameId);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -219,7 +219,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var gameId = 5;
 
             // Act
-            var result = await sutFailure.Delete(gameId);
+            var result = await sutFailure.DeleteAsync(gameId);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -234,7 +234,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var appId = 1;
 
             // Act
-            var result = await sut.GetGame(gameId, appId);
+            var result = await sut.GetGameAsync(gameId, appId);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -250,7 +250,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var appId = 1;
 
             // Act
-            var result = await sutFailure.GetGame(gameId, appId);
+            var result = await sutFailure.GetGameAsync(gameId, appId);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -264,7 +264,7 @@ namespace SudokuCollective.Test.TestCases.Services
             request.Payload = gamesPayload;
 
             // Act
-            var result = await sut.GetGames(request);
+            var result = await sut.GetGamesAsync(request);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -280,7 +280,7 @@ namespace SudokuCollective.Test.TestCases.Services
             request.Payload = gamesPayload;
 
             // Act
-            var result = await sut.GetMyGame(gameId, request);
+            var result = await sut.GetMyGameAsync(gameId, request);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -295,7 +295,7 @@ namespace SudokuCollective.Test.TestCases.Services
             request.Payload = gamesPayload;
 
             // Act
-            var result = await sut.GetMyGames(request);
+            var result = await sut.GetMyGamesAsync(request);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -311,7 +311,7 @@ namespace SudokuCollective.Test.TestCases.Services
             request.Payload = gamesPayload;
 
             // Act
-            var result = await sut.DeleteMyGame(gameId, request);
+            var result = await sut.DeleteMyGameAsync(gameId, request);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -328,7 +328,7 @@ namespace SudokuCollective.Test.TestCases.Services
             request.Payload = updateGamePayload;
 
             // Act
-            var result = await sut.Check(gameId, request);
+            var result = await sut.CheckAsync(gameId, request);
 
             var updatedGame = await context.Games
                 .FirstOrDefaultAsync(game => game.Id == gameId);
@@ -354,7 +354,7 @@ namespace SudokuCollective.Test.TestCases.Services
             request.Payload = updateGamePayload;
 
             // Act
-            var result = await sutSolved.Check(gameId, request);
+            var result = await sutSolved.CheckAsync(gameId, request);
 
             var updatedGame = await context.Games
                 .FirstOrDefaultAsync(game => game.Id == gameId);
@@ -377,7 +377,7 @@ namespace SudokuCollective.Test.TestCases.Services
             request.Payload = updateGamePayload;
 
             // Act
-            var result = await sutFailure.Check(gameId, request);
+            var result = await sutFailure.CheckAsync(gameId, request);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -390,7 +390,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.CreateAnnonymous(DifficultyLevel.TEST);
+            var result = await sut.CreateAnnonymousAsync(DifficultyLevel.TEST);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -409,7 +409,7 @@ namespace SudokuCollective.Test.TestCases.Services
             context.Difficulties.Remove(difficulty);
 
             // Act
-            var result = await sutAnonFailure.CreateAnnonymous(difficulty.DifficultyLevel);
+            var result = await sutAnonFailure.CreateAnnonymousAsync(difficulty.DifficultyLevel);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -432,7 +432,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 1, 6, 9, 4, 7, 5, 8, 3, 2 };
 
             // Act
-            var result = await sut.CheckAnnonymous(intList);
+            var result = await sut.CheckAnnonymousAsync(intList);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -455,7 +455,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 1, 6, 9, 4, 7, 5, 8, 3, 2 };
 
             // Act
-            var result = await sut.CheckAnnonymous(intList);
+            var result = await sut.CheckAnnonymousAsync(intList);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);

@@ -23,7 +23,7 @@ namespace SudokuCollective.Test.Services
             FailedRequest = new Mock<IAuthenticateService>();
 
             SuccessfulRequest.Setup(authenticateService =>
-                authenticateService.IsAuthenticated(It.IsAny<LoginRequest>()))
+                authenticateService.IsAuthenticatedAsync(It.IsAny<LoginRequest>()))
                     .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = true,
@@ -39,7 +39,7 @@ namespace SudokuCollective.Test.Services
                     } as IResult));
 
             FailedRequest.Setup(authenticateService =>
-                authenticateService.IsAuthenticated(It.IsAny<LoginRequest>()))
+                authenticateService.IsAuthenticatedAsync(It.IsAny<LoginRequest>()))
                     .Returns(Task.FromResult(new Result()
                     {
                         IsSuccess = false,

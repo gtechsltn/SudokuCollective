@@ -26,7 +26,7 @@ namespace SudokuCollective.Test.Repositories
 
             #region SuccessfulRequest
             SuccessfulRequest.Setup(repo =>
-                repo.Create(It.IsAny<PasswordReset>()))
+                repo.CreateAsync(It.IsAny<PasswordReset>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -34,7 +34,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.Get(It.IsAny<string>()))
+                repo.GetAsync(It.IsAny<string>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -42,7 +42,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.GetAll())
+                repo.GetAllAsync())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -52,7 +52,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.Update(It.IsAny<PasswordReset>()))
+                repo.UpdateAsync(It.IsAny<PasswordReset>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -60,22 +60,22 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.Delete(It.IsAny<PasswordReset>()))
+                repo.DeleteAsync(It.IsAny<PasswordReset>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfulRequest.Setup(repo =>
-                repo.HasEntity(It.IsAny<int>()))
+                repo.HasEntityAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
             SuccessfulRequest.Setup(repo =>
-                repo.HasOutstandingPasswordReset(It.IsAny<int>(), It.IsAny<int>()))
+                repo.HasOutstandingPasswordResetAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
             SuccessfulRequest.Setup(repo =>
-                repo.RetrievePasswordReset(It.IsAny<int>(), It.IsAny<int>()))
+                repo.RetrievePasswordResetAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -85,50 +85,50 @@ namespace SudokuCollective.Test.Repositories
 
             #region FailedRequest
             FailedRequest.Setup(repo =>
-                repo.Create(It.IsAny<PasswordReset>()))
+                repo.CreateAsync(It.IsAny<PasswordReset>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.Get(It.IsAny<string>()))
+                repo.GetAsync(It.IsAny<string>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.GetAll())
+                repo.GetAllAsync())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.Update(It.IsAny<PasswordReset>()))
+                repo.UpdateAsync(It.IsAny<PasswordReset>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.Delete(It.IsAny<PasswordReset>()))
+                repo.DeleteAsync(It.IsAny<PasswordReset>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
                     } as IRepositoryResponse));
 
             FailedRequest.Setup(repo =>
-                repo.HasEntity(It.IsAny<int>()))
+                repo.HasEntityAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(false));
 
             FailedRequest.Setup(repo =>
-                repo.HasOutstandingPasswordReset(It.IsAny<int>(), It.IsAny<int>()))
+                repo.HasOutstandingPasswordResetAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(false));
 
             FailedRequest.Setup(repo =>
-                repo.RetrievePasswordReset(It.IsAny<int>(), It.IsAny<int>()))
+                repo.RetrievePasswordResetAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false
@@ -137,7 +137,7 @@ namespace SudokuCollective.Test.Repositories
 
             #region SuccessfullyCreatedRequest
             SuccessfullyCreatedRequest.Setup(repo =>
-                repo.Create(It.IsAny<PasswordReset>()))
+                repo.CreateAsync(It.IsAny<PasswordReset>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -145,7 +145,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfullyCreatedRequest.Setup(repo =>
-                repo.Get(It.IsAny<string>()))
+                repo.GetAsync(It.IsAny<string>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -153,7 +153,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfullyCreatedRequest.Setup(repo =>
-                repo.GetAll())
+                repo.GetAllAsync())
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -163,7 +163,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfullyCreatedRequest.Setup(repo =>
-                repo.Update(It.IsAny<PasswordReset>()))
+                repo.UpdateAsync(It.IsAny<PasswordReset>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true,
@@ -171,22 +171,22 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
 
             SuccessfullyCreatedRequest.Setup(repo =>
-                repo.Delete(It.IsAny<PasswordReset>()))
+                repo.DeleteAsync(It.IsAny<PasswordReset>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = true
                     } as IRepositoryResponse));
 
             SuccessfullyCreatedRequest.Setup(repo =>
-                repo.HasEntity(It.IsAny<int>()))
+                repo.HasEntityAsync(It.IsAny<int>()))
                     .Returns(Task.FromResult(true));
 
             SuccessfullyCreatedRequest.Setup(repo =>
-                repo.HasOutstandingPasswordReset(It.IsAny<int>(), It.IsAny<int>()))
+                repo.HasOutstandingPasswordResetAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(false));
 
             SuccessfullyCreatedRequest.Setup(repo =>
-                repo.RetrievePasswordReset(It.IsAny<int>(), It.IsAny<int>()))
+                repo.RetrievePasswordResetAsync(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult(new RepositoryResponse()
                     {
                         IsSuccess = false

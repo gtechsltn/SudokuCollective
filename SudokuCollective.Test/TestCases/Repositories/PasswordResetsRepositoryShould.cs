@@ -43,7 +43,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.Create(newPasswordReset);
+            var result = await sut.CreateAsync(newPasswordReset);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -57,7 +57,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             newPasswordReset.Id = 2;
 
             // Act
-            var result = await sut.Create(newPasswordReset);
+            var result = await sut.CreateAsync(newPasswordReset);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -74,7 +74,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .FirstOrDefault();
 
             // Act
-            var result = await sut.Get(token);
+            var result = await sut.GetAsync(token);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -88,7 +88,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var token = Guid.NewGuid().ToString();
 
             // Act
-            var result = await sut.Get(token);
+            var result = await sut.GetAsync(token);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -101,7 +101,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.GetAll();
+            var result = await sut.GetAllAsync();
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -115,7 +115,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var passwordReset = context.PasswordResets.FirstOrDefault(ec => ec.Id == 1);
 
             // Act
-            var result = await sut.Delete(passwordReset);
+            var result = await sut.DeleteAsync(passwordReset);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -127,7 +127,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.Delete(newPasswordReset);
+            var result = await sut.DeleteAsync(newPasswordReset);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -139,7 +139,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.HasEntity(1);
+            var result = await sut.HasEntityAsync(1);
 
             // Assert
             Assert.That(result, Is.True);
@@ -152,7 +152,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var passwordReset = context.PasswordResets.FirstOrDefault();
 
             // Act
-            var result = await sut.HasOutstandingPasswordReset(passwordReset.UserId, passwordReset.AppId);
+            var result = await sut.HasOutstandingPasswordResetAsync(passwordReset.UserId, passwordReset.AppId);
 
             // Assert
             Assert.That(result, Is.True);
@@ -165,7 +165,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var passwordReset = context.PasswordResets.FirstOrDefault();
 
             // Act
-            var result = await sut.RetrievePasswordReset(passwordReset.UserId, passwordReset.AppId);
+            var result = await sut.RetrievePasswordResetAsync(passwordReset.UserId, passwordReset.AppId);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -179,7 +179,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             var passwordReset = context.PasswordResets.FirstOrDefault();
 
             // Act
-            var result = await sut.RetrievePasswordReset(passwordReset.UserId + 3, passwordReset.AppId);
+            var result = await sut.RetrievePasswordResetAsync(passwordReset.UserId + 3, passwordReset.AppId);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);

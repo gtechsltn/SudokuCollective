@@ -36,57 +36,29 @@ namespace SudokuCollective.Core.Models
         [JsonIgnore]
         public TimeSpan TimeToSolve
         {
-            get
-            {
-                if (DateCompleted == DateTime.MinValue)
-                {
-                    return TimeSpan.Zero;
-                }
-                else
-                {
-                    return DateCompleted - DateCreated;
-                }
-            }
+            get => getTimeSpan();
         }
         [JsonIgnore]
         IUser IGame.User
         {
-            get
-            {
-                return User;
-            }
-            set
-            {
-                User = (User)value;
-            }
+            get => User;
+            set => User = (User)value;
         }
         [JsonIgnore]
         public User User { get; set; }
         [JsonIgnore]
         ISudokuMatrix IGame.SudokuMatrix
         {
-            get
-            {
-                return SudokuMatrix;
-            }
-            set
-            {
-                SudokuMatrix = (SudokuMatrix)value;
-            }
+            get => SudokuMatrix;
+            set => SudokuMatrix = (SudokuMatrix)value;
         }
         [Required, JsonPropertyName("sudokuMatrix")]
         public virtual SudokuMatrix SudokuMatrix { get; set; }
         [JsonIgnore]
         ISudokuSolution IGame.SudokuSolution
         {
-            get
-            {
-                return SudokuSolution;
-            }
-            set
-            {
-                SudokuSolution = (SudokuSolution)value;
-            }
+            get => SudokuSolution;
+            set => SudokuSolution = (SudokuSolution)value;
         }
         [Required, JsonPropertyName("sudokuSolution")]
         public virtual SudokuSolution SudokuSolution { get; set; }
@@ -259,6 +231,18 @@ namespace SudokuCollective.Core.Models
             {
                 ReferenceHandler = ReferenceHandler.IgnoreCycles
             });
+
+        private TimeSpan getTimeSpan()
+        {
+            if (DateCompleted == DateTime.MinValue)
+            {
+                return TimeSpan.Zero;
+            }
+            else
+            {
+                return DateCompleted - DateCreated;
+            }
+        }
         #endregion
     }
 }

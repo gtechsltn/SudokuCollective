@@ -167,7 +167,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var license = TestObjects.GetLicense();
 
             // Act
-            var result = await sut.Get(
+            var result = await sut.GetAsync(
                 userId,
                 license,
                 request);
@@ -186,7 +186,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var license = TestObjects.GetLicense();
 
             // Act
-            var result = await sutFailure.Get(
+            var result = await sutFailure.GetAsync(
                 userId,
                 license,
                 request);
@@ -203,7 +203,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var license = TestObjects.GetLicense();
 
             // Act
-            var result = await sut.GetUsers(
+            var result = await sut.GetUsersAsync(
                 request.RequestorId,
                 license,
                 request.Paginator);
@@ -234,7 +234,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var html = "../../../../SudokuCollective.Api/Content/EmailTemplates/create-email-inlined.html";
 
             // Act
-            var result = await sut.Create(request, baseUrl, html);
+            var result = await sut.CreateAsync(request, baseUrl, html);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -252,7 +252,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var html = "../../../../SudokuCollective.Api/Content/EmailTemplates/confirm-old-email-inlined.html";
 
             // Act
-            var result = await sut.ConfirmEmail(emailConfirmation.Token, baseUrl, html);
+            var result = await sut.ConfirmEmailAsync(emailConfirmation.Token, baseUrl, html);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -270,7 +270,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var html = "../../../../SudokuCollective.Api/Content/EmailTemplates/confirm-old-email-inlined.html";
 
             // Act
-            var result = await sutEmailFailure.ConfirmEmail(emailConfirmation.Token, baseUrl, html);
+            var result = await sutEmailFailure.ConfirmEmailAsync(emailConfirmation.Token, baseUrl, html);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -297,7 +297,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var html = "c:/path/to/html";
 
             // Act
-            var result = await sutFailure.Create(request, baseUrl, html);
+            var result = await sutFailure.CreateAsync(request, baseUrl, html);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -323,7 +323,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var html = "c:/path/to/html";
 
             // Act
-            var result = await sutEmailFailure.Create(request, baseUrl, html);
+            var result = await sutEmailFailure.CreateAsync(request, baseUrl, html);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -352,7 +352,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var html = "c:/path/to/html";
 
             // Act
-            var result = await sutEmailFailure.Create(request, baseUrl, html);
+            var result = await sutEmailFailure.CreateAsync(request, baseUrl, html);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -378,7 +378,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var html = "c:/path/to/html";
 
             // Act
-            var result = await sut.Create(request, baseUrl, html);
+            var result = await sut.CreateAsync(request, baseUrl, html);
 
             // Act and Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -407,7 +407,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var html = "../../../../SudokuCollective.Api/Content/EmailTemplates/create-email-inlined.html";
 
             // Act
-            var result = await sut.Update(userId, request, baseUrl, html);
+            var result = await sut.UpdateAsync(userId, request, baseUrl, html);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -430,7 +430,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var html = "../../../../SudokuCollective.Api/Content/EmailTemplates/confirm-old-email-inlined.html";
 
             // Act
-            var result = await sutRequestPasswordReset.RequestPasswordReset(
+            var result = await sutRequestPasswordReset.RequestPasswordResetAsync(
                 requestReset,
                 baseUrl,
                 html);
@@ -455,7 +455,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var html = "../../../../SudokuCollective.Api/Content/EmailTemplates/confirm-old-email-inlined.html";
 
             // Act
-            var result = await sutFailure.RequestPasswordReset(
+            var result = await sutFailure.RequestPasswordResetAsync(
                 requestReset,
                 baseUrl,
                 html);
@@ -486,7 +486,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var html = "../../../../SudokuCollective.Api/Content/EmailTemplates/confirm-old-email-inlined.html";
 
             // Act
-            var result = await sutFailure.Update(userId, request, baseUrl, html);
+            var result = await sutFailure.UpdateAsync(userId, request, baseUrl, html);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -514,7 +514,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var html = "../../../../SudokuCollective.Api/Content/EmailTemplates/confirm-old-email-inlined.html";
 
             // Act
-            var result = await sut.Update(userId, request, baseUrl, html);
+            var result = await sut.UpdateAsync(userId, request, baseUrl, html);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -543,7 +543,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var html = "../../../../SudokuCollective.Api/Content/EmailTemplates/confirm-old-email-inlined.html";
 
             // Act
-            var result = await sutEmailFailure.Update(userId, request, baseUrl, html);
+            var result = await sutEmailFailure.UpdateAsync(userId, request, baseUrl, html);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -571,7 +571,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var html = "../../../../SudokuCollective.Api/Content/EmailTemplates/confirm-old-email-inlined.html";
 
             // Act
-            var result = await sut.Update(userId, request, baseUrl, html);
+            var result = await sut.UpdateAsync(userId, request, baseUrl, html);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -594,7 +594,7 @@ namespace SudokuCollective.Test.TestCases.Services
             };
 
             // Act
-            var result = await sut.UpdatePassword(updatePasswordRequest);
+            var result = await sut.UpdatePasswordAsync(updatePasswordRequest);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -609,7 +609,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var license = TestObjects.GetLicense();
 
             // Act
-            var result = await sut.Delete(userId, license);
+            var result = await sut.DeleteAsync(userId, license);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -623,7 +623,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var license = TestObjects.GetLicense();
 
             // Act
-            var result = await sutFailure.Delete(userId, license);
+            var result = await sutFailure.DeleteAsync(userId, license);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -647,7 +647,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var license = TestObjects.GetLicense();
 
             // Act
-            var result = await sut.AddUserRoles(
+            var result = await sut.AddUserRolesAsync(
                 userId,
                 request,
                 license);
@@ -674,7 +674,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var license = TestObjects.GetLicense();
 
             // Act
-            var result = await sut.RemoveUserRoles(
+            var result = await sut.RemoveUserRolesAsync(
                 userId,
                 request,
                 license);
@@ -691,7 +691,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var userId = 1;
 
             // Act
-            var result = await sut.Activate(userId);
+            var result = await sut.ActivateAsync(userId);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -705,7 +705,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var userId = 1;
 
             // Act
-            var result = await sut.Deactivate(userId);
+            var result = await sut.DeactivateAsync(userId);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -719,7 +719,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var passwordReset = context.PasswordResets.FirstOrDefault();
 
             // Act
-            var result = await sutResetPassword.InitiatePasswordReset(
+            var result = await sutResetPassword.InitiatePasswordResetAsync(
                 passwordReset.Token,
                 TestObjects.GetLicense());
 
@@ -735,7 +735,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var passwordReset = context.PasswordResets.FirstOrDefault();
 
             // Act
-            var result = await sutFailure.InitiatePasswordReset(
+            var result = await sutFailure.InitiatePasswordResetAsync(
                 passwordReset.Token,
                 TestObjects.GetLicense());
 
@@ -755,7 +755,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var license = TestObjects.GetLicense();
 
             // Act
-            var result = await sutResendEmailConfirmation.ResendEmailConfirmation(
+            var result = await sutResendEmailConfirmation.ResendEmailConfirmationAsync(
                 3,
                 1,
                 baseUrl,
@@ -778,7 +778,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var license = TestObjects.GetLicense();
 
             // Act
-            var result = await sutFailure.ResendEmailConfirmation(
+            var result = await sutFailure.ResendEmailConfirmationAsync(
                 3,
                 1,
                 baseUrl,
@@ -797,7 +797,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var app = context.Apps.FirstOrDefault(a => a.Id == 1);
 
             // Act
-            var result = await sut.CancelEmailConfirmationRequest(user.Id, app.Id);
+            var result = await sut.CancelEmailConfirmationRequestAsync(user.Id, app.Id);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -813,7 +813,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var app = context.Apps.FirstOrDefault(a => a.Id == 1);
 
             // Act
-            var result = await sutFailure.CancelEmailConfirmationRequest(user.Id, app.Id);
+            var result = await sutFailure.CancelEmailConfirmationRequestAsync(user.Id, app.Id);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -829,7 +829,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var html = "../../../../SudokuCollective.Api/Content/EmailTemplates/confirm-old-email-inlined.html";
 
             // Act
-            var result = await sutResetPassword.ResendPasswordReset(3, 1, baseUrl, html);
+            var result = await sutResetPassword.ResendPasswordResetAsync(3, 1, baseUrl, html);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -845,7 +845,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var html = "../../../../SudokuCollective.Api/Content/EmailTemplates/confirm-old-email-inlined.html";
 
             // Act
-            var result = await sutFailure.ResendPasswordReset(1, 1, baseUrl, html);
+            var result = await sutFailure.ResendPasswordResetAsync(1, 1, baseUrl, html);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -859,7 +859,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var app = context.Apps.FirstOrDefault(a => a.Id == 1);
 
             // Act
-            var result = await sut.CancelPasswordResetRequest(user.Id, app.Id);
+            var result = await sut.CancelPasswordResetRequestAsync(user.Id, app.Id);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -875,7 +875,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var app = context.Apps.FirstOrDefault(a => a.Id == 1);
 
             // Act
-            var result = await sutFailure.CancelPasswordResetRequest(user.Id, app.Id);
+            var result = await sutFailure.CancelPasswordResetRequestAsync(user.Id, app.Id);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -890,7 +890,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var app = context.Apps.FirstOrDefault(a => a.Id == 1);
 
             // Act
-            var result = await sut.CancelAllEmailRequests(user.Id, app.Id);
+            var result = await sut.CancelAllEmailRequestsAsync(user.Id, app.Id);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -906,7 +906,7 @@ namespace SudokuCollective.Test.TestCases.Services
             var app = context.Apps.FirstOrDefault(a => a.Id == 1);
 
             // Act
-            var result = await sutFailure.CancelAllEmailRequests(user.Id, app.Id);
+            var result = await sutFailure.CancelAllEmailRequestsAsync(user.Id, app.Id);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -918,7 +918,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.GetUserByPasswordToken(Guid.NewGuid().ToString());
+            var result = await sut.GetUserByPasswordTokenAsync(Guid.NewGuid().ToString());
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -932,7 +932,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sutFailure.GetUserByPasswordToken(Guid.NewGuid().ToString());
+            var result = await sutFailure.GetUserByPasswordTokenAsync(Guid.NewGuid().ToString());
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -945,7 +945,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.GetAppLicenseByPasswordToken(Guid.NewGuid().ToString());
+            var result = await sut.GetAppLicenseByPasswordTokenAsync(Guid.NewGuid().ToString());
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -959,7 +959,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sutFailure.GetAppLicenseByPasswordToken(Guid.NewGuid().ToString());
+            var result = await sutFailure.GetAppLicenseByPasswordTokenAsync(Guid.NewGuid().ToString());
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);

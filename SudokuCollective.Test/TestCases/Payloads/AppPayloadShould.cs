@@ -64,6 +64,7 @@ namespace SudokuCollective.Test.TestCases.Payloads
                 false,
                 "customEmailConfirmationAction",
                 "customPasswordResetAction",
+                false,
                 4,
                 1);
 
@@ -88,6 +89,7 @@ namespace SudokuCollective.Test.TestCases.Payloads
                 false,
                 "customEmailConfirmationAction",
                 "customPasswordResetAction",
+                false,
                 TimeFrame.DAYS,
                 1);
 

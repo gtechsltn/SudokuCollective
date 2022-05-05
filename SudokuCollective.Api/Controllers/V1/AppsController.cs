@@ -55,7 +55,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues getting an app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The Get method requires the user to be logged in. Available to all roles. The query parameter id 
+        /// The GetAsync method requires the user to be logged in. Available to all roles. The query parameter id 
         /// refers to the relevant app. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
@@ -65,13 +65,13 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
         [HttpPost, Route("{id}")]
-        public async Task<ActionResult<App>> Get(
+        public async Task<ActionResult<App>> GetAsync(
             int id,
             [FromBody] Request request)
         {
@@ -83,13 +83,13 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _appsService.Get(id);
+                    var result = await _appsService.GetAsync(id, request.RequestorId);
 
                     if (result.IsSuccess)
                     {
@@ -129,7 +129,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues updating a app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The Update method requires the user to be logged in. Requires superuser or admin roles. The query 
+        /// The UpdateAsync method requires the user to be logged in. Requires superuser or admin roles. The query 
         /// parameter id refers to the relevant app. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
@@ -144,23 +144,31 @@ namespace SudokuCollective.Api.Controllers.V1
         ///         "localUrl": string,    // localUrl is not required, an example is https://localhost:8081; regex documented in app schema below
         ///         "stagingUrl": string,  // stagingUrl is not required, an exampled is https://example-app.herokuapp.com; regex documented in app schema below
         ///         "qaUrl": string,       // qaUrl is not required, an exampled is https://example-qa.herokuapp.com; regex documented in app schema below
-        ///         "prodUrl": string      // prodUrl is not required, an exampled is https://example-app.com; regex documented in app schema below
-        ///         "isActive": boolean    // isActive is required, represents the apps active status
+        ///         "prodUrl": string,     // prodUrl is not required, an exampled is https://example-app.com; regex documented in app schema below
+        ///         "isActive": boolean,   // isActive is required, represents the apps active status
         ///         "environment": integer // environment is required, this integer represents the apps release status: local, staging, qa, or production
-        ///         "permitSuperUserAccess": boolean // permitSuperUserAccess is required, indicates if the super user has to register for access
-        ///         "permitCollectiveLogins": boolean // permitCollectiveLogins is required, indicates if collective users have to register for access
-        ///         "disableCustomUrls": boolean // disableCustomUrls is required, indicates if the app uses custom email and password actions
-        ///         "customEmailConfirmationAction": string // customEmailConfirmationAction is required, if implemented this represents the custom action
-        ///         "customPasswordResetAction": string // customPasswordResetAction is required, if implemented this represents the custom action
-        ///         "timeFrame": integer   // timeFrame is required, represents the timeFrame applied to authorization tokens, if set to years accessDuration is limited to 5
-        ///         "accessDuration": integer // accessDuration is required, represents the magnitude of the timeframe: eq: 1 day
-        ///       }
+        ///         "permitSuperUserAccess": boolean, // permitSuperUserAccess is required, indicates if the super user has to register for access
+        ///         "permitCollectiveLogins": boolean, // permitCollectiveLogins is required, indicates if collective users have to register for access
+        ///         "disableCustomUrls": boolean, // disableCustomUrls is required, indicates if the app uses custom email and password actions
+        ///         "customEmailConfirmationAction": string, // customEmailConfirmationAction is required, if implemented this represents the custom action
+        ///         "customPasswordResetAction": string, // customPasswordResetAction is required, if implemented this represents the custom action
+        ///         "useCustomSMTPServer": boolean, // useCustomSMTPServer is required, indicates if you've configured a custom SMTP server
+        ///         "smtpServerSettings": { // smtpServerSettings is not required, this object holds your custom SMTP server settings
+        ///           "smtpServer": string, // This value will be obtained from your custom SMTP server
+        ///           "port": integer,      // This value will be obtained from your custom SMTP server
+        ///           "userName": string,   // This value will be obtained from your custom SMTP server
+        ///           "password": string,   // This value will be obtained from your custom SMTP server, will be encrypted in the database and will not return in requests
+        ///           "fromEmail": string,  // This value will be obtained from your custom SMTP server
+        ///         },
+        ///         "timeFrame": integer,   // timeFrame is required, represents the timeFrame applied to authorization tokens, if set to years accessDuration is limited to 5
+        ///         "accessDuration": integer, // accessDuration is required, represents the magnitude of the timeframe: eq: 1 day
+        ///       },
         ///     }     
         /// ```
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPut, Route("{id}")]
-        public async Task<IActionResult> Update(
+        public async Task<IActionResult> UpdateAsync(
             int id,
             [FromBody] Request request)
         {
@@ -172,13 +180,13 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _appsService.Update(id, request);
+                    var result = await _appsService.UpdateAsync(id, request);
 
                     if (result.IsSuccess)
                     {
@@ -219,7 +227,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues deleting an app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The Delete method requires the user to be logged in. Requires superuser or admin roles. The query parameters 
+        /// The DeleteAsync method requires the user to be logged in. Requires superuser or admin roles. The query parameters 
         /// id and license refers to the relevant app. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
@@ -229,13 +237,13 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpDelete, Route("{id}")]
-        public async Task<ActionResult> Delete(
+        public async Task<ActionResult> DeleteAsync(
             int id,
             string license,
             [FromBody] Request request)
@@ -250,7 +258,7 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsUserOwnerOThisfApp(
+                if (await _appsService.IsUserOwnerOThisfAppAsync(
                     _httpContextAccessor,
                     license,
                     request.RequestorId,
@@ -258,7 +266,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _appsService.DeleteOrReset(id);
+                    var result = await _appsService.DeleteOrResetAsync(id);
 
                     if (result.IsSuccess)
                     {
@@ -304,7 +312,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues getting an app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The GetByLicense method requires the user to be logged in. Available to all roles. The query parameter license 
+        /// The GetByLicenseAsync method requires the user to be logged in. Available to all roles. The query parameter license 
         /// refers to the relevant app. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
@@ -314,13 +322,13 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
         [HttpPost, Route("{license}/GetByLicense")]
-        public async Task<ActionResult<App>> GetByLicense(
+        public async Task<ActionResult<App>> GetByLicenseAsync(
             string license,
             [FromBody] Request request)
         {
@@ -332,13 +340,13 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _appsService.GetByLicense(license);
+                    var result = await _appsService.GetByLicenseAsync(license, request.RequestorId);
 
                     if (result.IsSuccess)
                     {
@@ -377,7 +385,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues obtaining all apps.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The GetApps method requires the user to be logged in. Requires superuser or admin roles. The request body 
+        /// The GetAppsAsync method requires the user to be logged in. Requires superuser or admin roles. The request body 
         /// parameter uses the request model.
         /// 
         /// The request should be structured as follows:
@@ -388,19 +396,18 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": {
         ///         "page": integer,                 // this param works in conjection with itemsPerPage starting with page 1
-        ///         "itemsPerPage": integer          // in conjunction with page if you want items 11 through 21 page would be 2 and this would be 10
-        ///         "sortBy": sortValue              // an enumeration indicating the field for sorting, documented below; you return the integer
-        ///         "OrderByDescending": boolean     // a boolean to indicate is the order is ascending or descending
+        ///         "itemsPerPage": integer,         // in conjunction with page if you want items 11 through 21 page would be 2 and this would be 10
+        ///         "sortBy": sortValue,             // an enumeration indicating the field for sorting, documented below; you return the integer
+        ///         "OrderByDescending": boolean,    // a boolean to indicate is the order is ascending or descending
         ///         "includeCompletedGames": boolean // a boolean which only applies to game lists
         ///       },
-        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         ///
         /// Sort values are as follows, those applicable to apps are indicated below:
         /// ```
         /// {
-        ///     0,  \\ indicates null and is not applicable to apps
         ///     1,  \\ indicates "id" and is applicable to apps
         ///     2,  \\ indicates "userName" and is not applicable to apps
         ///     3,  \\ indicates "firstName" and is not applicable to apps
@@ -420,7 +427,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPost]
-        public async Task<ActionResult<IEnumerable<App>>> GetApps(
+        public async Task<ActionResult<IEnumerable<App>>> GetAppsAsync(
             [FromBody] Request request)
         {
             try
@@ -429,15 +436,13 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _appsService.GetApps(
-                        request.Paginator, 
-                        request.RequestorId);
+                    var result = await _appsService.GetAppsAsync(request);
 
                     if (result.IsSuccess)
                     {
@@ -476,7 +481,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues obtaining all apps.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The GetMyApps method requires the user to be logged in. Requires superuser or admin roles. Unlike the above GetApps method
+        /// The GetMyAppsAsync method requires the user to be logged in. Requires superuser or admin roles. Unlike the above GetApps method
         /// this method specifically gets apps associated with the logged in user as the owner. The request body parameter uses the
         /// request model.
         /// 
@@ -488,19 +493,18 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": {
         ///         "page": integer,                 // this param works in conjection with itemsPerPage starting with page 1
-        ///         "itemsPerPage": integer          // in conjunction with page if you want items 11 through 21 page would be 2 and this would be 10
-        ///         "sortBy": sortValue              // an enumeration indicating the field for sorting, documented below; you return the integer
-        ///         "OrderByDescending": boolean     // a boolean to indicate is the order is ascending or descending
+        ///         "itemsPerPage": integer,         // in conjunction with page if you want items 11 through 21 page would be 2 and this would be 10
+        ///         "sortBy": sortValue,             // an enumeration indicating the field for sorting, documented below; you return the integer
+        ///         "OrderByDescending": boolean,    // a boolean to indicate is the order is ascending or descending
         ///         "includeCompletedGames": boolean // a boolean which only applies to game lists
         ///       },
-        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         ///
         /// Sort values are as follows, those applicable to apps are indicated below:
         /// ```
         /// {
-        ///     0,  \\ indicates null and is not applicable to apps
         ///     1,  \\ indicates "id" and is applicable to apps
         ///     2,  \\ indicates "userName" and is not applicable to apps
         ///     3,  \\ indicates "firstName" and is not applicable to apps
@@ -520,7 +524,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPost, Route("GetMyApps")]
-        public async Task<ActionResult<IEnumerable<App>>> GetMyApps(
+        public async Task<ActionResult<IEnumerable<App>>> GetMyAppsAsync(
             [FromBody] Request request)
         {
             try
@@ -529,14 +533,14 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
                     var result = await _appsService
-                        .GetMyApps(
+                        .GetMyAppsAsync(
                         request.RequestorId,
                         request.Paginator);
 
@@ -577,7 +581,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues obtaining all apps.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The GetMyRegisteredApps method requires the user to be logged in. Requires superuser or admin roles. Unlike the above GetMyApps method
+        /// The GetMyRegisteredAppsAsync method requires the user to be logged in. Requires superuser or admin roles. Unlike the above GetMyApps method
         /// this method specifically gets apps associated with the logged in user as a user. The request body parameter uses the
         /// request model.
         /// 
@@ -588,20 +592,19 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": {
-        ///         "page": integer,                 // this param works in conjection with itemsPerPage starting with page 1
-        ///         "itemsPerPage": integer          // in conjunction with page if you want items 11 through 21 page would be 2 and this would be 10
-        ///         "sortBy": sortValue              // an enumeration indicating the field for sorting, documented below; you return the integer
-        ///         "OrderByDescending": boolean     // a boolean to indicate is the order is ascending or descending
-        ///         "includeCompletedGames": boolean // a boolean which only applies to game lists
+        ///         "page": integer,                  // this param works in conjection with itemsPerPage starting with page 1
+        ///         "itemsPerPage": integer,          // in conjunction with page if you want items 11 through 21 page would be 2 and this would be 10
+        ///         "sortBy": sortValue,              // an enumeration indicating the field for sorting, documented below; you return the integer
+        ///         "OrderByDescending": boolean,     // a boolean to indicate is the order is ascending or descending
+        ///         "includeCompletedGames": boolean, // a boolean which only applies to game lists
         ///       },
-        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         ///
         /// Sort values are as follows, those applicable to apps are indicated below:
         /// ```
         /// {
-        ///     0,  \\ indicates null and is not applicable to apps
         ///     1,  \\ indicates "id" and is applicable to apps
         ///     2,  \\ indicates "userName" and is not applicable to apps
         ///     3,  \\ indicates "firstName" and is not applicable to apps
@@ -621,7 +624,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
         [HttpPost, Route("GetMyRegisteredApps")]
-        public async Task<ActionResult> GetMyRegisteredApps(
+        public async Task<ActionResult> GetMyRegisteredAppsAsync(
             [FromBody] Request request)
         {
             try
@@ -630,13 +633,13 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _appsService.GetMyRegisteredApps(
+                    var result = await _appsService.GetMyRegisteredAppsAsync(
                         request.RequestorId,
                         request.Paginator);
 
@@ -678,7 +681,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues obtaining all users.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The GetAppUsers method requires the user to be logged in. Requires superuser or admin roles. Returns a list of all users 
+        /// The GetAppUsersAsync method requires the user to be logged in. Requires superuser or admin roles. Returns a list of all users 
         /// registered to an app. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
@@ -688,20 +691,19 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": {
-        ///         "page": integer,                 // this param works in conjection with itemsPerPage starting with page 1
-        ///         "itemsPerPage": integer          // in conjunction with page if you want items 11 through 21 page would be 2 and this would be 10
-        ///         "sortBy": sortValue              // an enumeration indicating the field for sorting, documented below; you return the integer
-        ///         "OrderByDescending": boolean     // a boolean to indicate is the order is ascending or descending
-        ///         "includeCompletedGames": boolean // a boolean which only applies to game lists
+        ///         "page": integer,                  // this param works in conjection with itemsPerPage starting with page 1
+        ///         "itemsPerPage": integer,          // in conjunction with page if you want items 11 through 21 page would be 2 and this would be 10
+        ///         "sortBy": sortValue,              // an enumeration indicating the field for sorting, documented below; you return the integer
+        ///         "OrderByDescending": boolean,     // a boolean to indicate is the order is ascending or descending
+        ///         "includeCompletedGames": boolean, // a boolean which only applies to game lists
         ///       },
-        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         ///
         /// Sort values are as follows, those applicable to users are indicated below:
         /// ```
         /// {
-        ///     0,  \\ indicates null and is not applicable to users
         ///     1,  \\ indicates "id" and is applicable to users
         ///     2,  \\ indicates "userName" and is applicable to users
         ///     3,  \\ indicates "firstName" and is applicable to users
@@ -721,7 +723,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPost, Route("{id}/GetAppUsers")]
-        public async Task<ActionResult<IEnumerable<User>>> GetAppUsers(
+        public async Task<ActionResult<IEnumerable<User>>> GetAppUsersAsync(
             int id,
             [FromBody] Request request)
         {
@@ -733,14 +735,14 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
                     var result = await _appsService
-                        .GetAppUsers(
+                        .GetAppUsersAsync(
                             id,
                             request.RequestorId,
                             request.Paginator,
@@ -784,7 +786,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues obtaining all users.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The GetAppUsers method requires the user to be logged in. Requires superuser or admin roles. Returns a list of all users 
+        /// The GetNonAppUsersAsync method requires the user to be logged in. Requires superuser or admin roles. Returns a list of all users 
         /// not registered to an app. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
@@ -794,20 +796,19 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": {
-        ///         "page": integer,                 // this param works in conjection with itemsPerPage starting with page 1
-        ///         "itemsPerPage": integer          // in conjunction with page if you want items 11 through 21 page would be 2 and this would be 10
-        ///         "sortBy": sortValue              // an enumeration indicating the field for sorting, documented below; you return the integer
-        ///         "OrderByDescending": boolean     // a boolean to indicate is the order is ascending or descending
-        ///         "includeCompletedGames": boolean // a boolean which only applies to game lists
+        ///         "page": integer,                  // this param works in conjection with itemsPerPage starting with page 1
+        ///         "itemsPerPage": integer,          // in conjunction with page if you want items 11 through 21 page would be 2 and this would be 10
+        ///         "sortBy": sortValue ,             // an enumeration indicating the field for sorting, documented below; you return the integer
+        ///         "OrderByDescending": boolean,     // a boolean to indicate is the order is ascending or descending
+        ///         "includeCompletedGames": boolean, // a boolean which only applies to game lists
         ///       },
-        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         ///
         /// Sort values are as follows, those applicable to users are indicated below:
         /// ```
         /// {
-        ///     0,  \\ indicates null and is not applicable to users
         ///     1,  \\ indicates "id" and is applicable to users
         ///     2,  \\ indicates "userName" and is applicable to users
         ///     3,  \\ indicates "firstName" and is applicable to users
@@ -827,7 +828,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPost, Route("{id}/GetNonAppUsers")]
-        public async Task<ActionResult<IEnumerable<User>>> GetNonAppUsers(
+        public async Task<ActionResult<IEnumerable<User>>> GetNonAppUsersAsync(
             int id,
             [FromBody] Request request)
         {
@@ -839,14 +840,14 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
                     var result = await _appsService
-                        .GetAppUsers(
+                        .GetAppUsersAsync(
                             id,
                             request.RequestorId,
                             request.Paginator,
@@ -891,7 +892,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues adding a user to an app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The AddUser method requires the user to be logged in. Requires superuser or admin roles. The query parameter id 
+        /// The AddUserAsync method requires the user to be logged in. Requires superuser or admin roles. The query parameter id 
         /// refers to the relevant app and the query parameter userId refers to the relevant user. The request body parameter 
         /// uses the request model.
         /// 
@@ -902,13 +903,13 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPut, Route("{id}/AddUser")]
-        public async Task<IActionResult> AddUser(
+        public async Task<IActionResult> AddUserAsync(
             int id,
             int userId,
             [FromBody] Request request)
@@ -923,13 +924,13 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _appsService.AddAppUser(id, userId);
+                    var result = await _appsService.AddAppUserAsync(id, userId);
 
                     if (result.IsSuccess)
                     {
@@ -970,7 +971,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues removing a user from an app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The RemoveUser method requires the user to be logged in. Requires superuser or admin roles. The query parameter id 
+        /// The RemoveUserAsync method requires the user to be logged in. Requires superuser or admin roles. The query parameter id 
         /// refers to the relevant app and the query parameter userId refers to the relevant user. The request body parameter 
         /// uses the request model.
         /// 
@@ -981,13 +982,13 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPut, Route("{id}/RemoveUser")]
-        public async Task<IActionResult> RemoveUser(
+        public async Task<IActionResult> RemoveUserAsync(
             int id,
             int userId,
             [FromBody] Request request)
@@ -1002,13 +1003,13 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _appsService.RemoveAppUser(id, userId);
+                    var result = await _appsService.RemoveAppUserAsync(id, userId);
 
                     if (result.IsSuccess)
                     {
@@ -1048,7 +1049,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues activating an app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The Activate method requires the user to be logged in. Requires superuser or admin roles. The query parameter id 
+        /// The ActivateAsync method requires the user to be logged in. Requires superuser or admin roles. The query parameter id 
         /// refers to the relevant app. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
@@ -1058,13 +1059,13 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPut, Route("{id}/Activate")]
-        public async Task<IActionResult> Activate(
+        public async Task<IActionResult> ActivateAsync(
             int id, 
             [FromBody] Request request)
         {
@@ -1076,13 +1077,13 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _appsService.Activate(id);
+                    var result = await _appsService.ActivateAsync(id);
 
                     if (result.IsSuccess)
                     {
@@ -1122,7 +1123,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues deactivating an app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The Deactivate method requires the user to be logged in. Requires superuser or admin roles. The query parameter id 
+        /// The DeactivateAsync method requires the user to be logged in. Requires superuser or admin roles. The query parameter id 
         /// refers to the relevant app. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
@@ -1132,13 +1133,13 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPut, Route("{id}/Deactivate")]
-        public async Task<IActionResult> Deactivate(
+        public async Task<IActionResult> DeactivateAsync(
             int id,
             [FromBody] Request request)
         {
@@ -1150,13 +1151,13 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _appsService.Deactivate(id);
+                    var result = await _appsService.DeactivateAsync(id);
 
                     if (result.IsSuccess)
                     {
@@ -1196,7 +1197,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues resetting an app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The Reset method requires the user to be logged in. Requires superuser or admin roles. Returns a copy of
+        /// The ResetAsync method requires the user to be logged in. Requires superuser or admin roles. Returns a copy of
         /// the app with all games deleted. The query parameters id refers to the relevant app. The request body 
         /// parameter uses the request model.
         /// 
@@ -1207,13 +1208,13 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPut, Route("{id}/Reset")]
-        public async Task<ActionResult> Reset(
+        public async Task<ActionResult> ResetAsync(
             int id,
             [FromBody] Request request)
         {
@@ -1225,7 +1226,7 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsUserOwnerOThisfApp(
+                if (await _appsService.IsUserOwnerOThisfAppAsync(
                     _httpContextAccessor,
                     request.License,
                     request.RequestorId,
@@ -1233,7 +1234,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _appsService.DeleteOrReset(id, true);
+                    var result = await _appsService.DeleteOrResetAsync(id, true);
 
                     if (result.IsSuccess)
                     {
@@ -1280,7 +1281,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues promoting a user to an admin for a given app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The ActivateAdminPrivileges method requires the user to be logged in. Requires superuser or admin roles. Returns a copy of
+        /// The ActivateAdminPrivilegesAsync method requires the user to be logged in. Requires superuser or admin roles. Returns a copy of
         /// the relevant user with admin privileges added. The query parameters id refers to the relevant app. The request body 
         /// parameter uses the request model.
         /// 
@@ -1291,13 +1292,13 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
         [HttpPut, Route("{id}/ActivateAdminPrivileges")]
-        public async Task<ActionResult> ActivateAdminPrivileges(
+        public async Task<ActionResult> ActivateAdminPrivilegesAsync(
             int id,
             int userId,
             [FromBody] Request request)
@@ -1312,13 +1313,13 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _appsService.ActivateAdminPrivileges(id, userId);
+                    var result = await _appsService.ActivateAdminPrivilegesAsync(id, userId);
 
                     if (result.IsSuccess)
                     {
@@ -1359,7 +1360,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues demoting a user from an admin for a given app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The DeactivateAdminPrivileges method requires the user to be logged in. Requires superuser or admin roles. Returns a copy of
+        /// The DeactivateAdminPrivilegesAsync method requires the user to be logged in. Requires superuser or admin roles. Returns a copy of
         /// the relevant user with admin privileges removed. The query parameters id refers to the relevant app. The request body 
         /// parameter uses the request model.
         /// 
@@ -1370,13 +1371,13 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "requestorId": integer, // the user id for the requesting logged in user
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": {}           // an object holding additional request parameters, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
         ///     }     
         /// ```
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPut, Route("{id}/DeactivateAdminPrivileges")]
-        public async Task<ActionResult> DeactivateAdminPrivileges(
+        public async Task<ActionResult> DeactivateAdminPrivilegesAsync(
             int id,
             int userId,
             [FromBody] Request request)
@@ -1391,13 +1392,13 @@ namespace SudokuCollective.Api.Controllers.V1
 
                 _requestService.Update(request);
 
-                if (await _appsService.IsRequestValidOnThisToken(
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
                     _httpContextAccessor,
                     request.License,
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _appsService.DeactivateAdminPrivileges(id, userId);
+                    var result = await _appsService.DeactivateAdminPrivilegesAsync(id, userId);
 
                     if (result.IsSuccess)
                     {

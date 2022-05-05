@@ -12,7 +12,7 @@ namespace SudokuCollective.Test.TestCases.Models
 {
     public class EmailConfirmationShould
     {
-        private IEmailConfirmation sut;
+        private EmailConfirmation sut;
         private DatabaseContext context;
 
         [SetUp]
@@ -179,7 +179,7 @@ namespace SudokuCollective.Test.TestCases.Models
             Assert.That(sut, Is.InstanceOf<EmailConfirmation>());
         }
 
-        private static IEmailConfirmation InitializeSut()
+        private static EmailConfirmation InitializeSut()
         {
             return TestObjects.GetNewEmailConfirmation();
         }

@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Messages;
+using SudokuCollective.Core.Utilities;
 using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Core.Models
@@ -12,6 +13,7 @@ namespace SudokuCollective.Core.Models
     {
         #region Fields
         private string _token = string.Empty;
+        private readonly GuidValidatedAttribute _guidValidator = new();
         #endregion
 
         #region Properties
@@ -24,23 +26,11 @@ namespace SudokuCollective.Core.Models
         [Required, JsonPropertyName("token"), GuidValidated(ErrorMessage = AttributeMessages.InvalidToken)]
         public string Token
         {
-            get
-            {
-                return _token;
-            }
-            set
-            {
-                var validator = new GuidValidatedAttribute();
-
-                if (!string.IsNullOrEmpty(value) && validator.IsValid(value))
-                {
-                    _token = value;
-                }
-                else
-                {
-                    throw new ArgumentException(AttributeMessages.InvalidToken);
-                }
-            }
+            get => _token;
+            set => _token = CoreUtilities.SetField(
+                value, 
+                _guidValidator, 
+                AttributeMessages.InvalidToken);
         }
         [Required, JsonPropertyName("dateCreated")]
         public DateTime DateCreated { get; set; }

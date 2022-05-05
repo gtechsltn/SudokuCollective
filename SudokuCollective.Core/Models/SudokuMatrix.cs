@@ -31,14 +31,8 @@ namespace SudokuCollective.Core.Models
         [JsonIgnore]
         IGame ISudokuMatrix.Game
         {
-            get
-            {
-                return Game;
-            }
-            set
-            {
-                Game = (Game)value;
-            }
+            get => Game;
+            set => Game = (Game)value;
         }
         [JsonIgnore]
         public Game Game { get; set; }
@@ -47,55 +41,30 @@ namespace SudokuCollective.Core.Models
         [JsonIgnore]
         IDifficulty ISudokuMatrix.Difficulty
         {
-            get
-            {
-                return Difficulty;
-            }
-            set
-            {
-                Difficulty = (Difficulty)value;
-            }
+            get => Difficulty;
+            set => Difficulty = (Difficulty)value;
         }
         [Required, JsonPropertyName("difficulty")]
         public Difficulty Difficulty { get; set; }
         [JsonIgnore]
         ICollection<ISudokuCell> ISudokuMatrix.SudokuCells
         {
-            get
-            {
-                return SudokuCells.ConvertAll(cell => (ISudokuCell)cell);
-            }
-            set
-            {
-                SudokuCells = value.ToList().ConvertAll(cell => (SudokuCell)cell);
-            }
+            get => SudokuCells.ConvertAll(cell => (ISudokuCell)cell);
+            set => SudokuCells = value.ToList().ConvertAll(cell => (SudokuCell)cell);
         }
         [Required, JsonPropertyName("sudokuCells"), SudokuCellsValidated(ErrorMessage = AttributeMessages.InvalidSudokuCells), JsonConverter(typeof(IDomainEntityListConverter<List<SudokuCell>>))]
         public virtual List<SudokuCell> SudokuCells
         {
-            get
-            {
-                return _sudokuCells;
-            }
-            set
-            {
-                if (value != null && _sudokuCellsValidator.IsValid(value))
-                {
-                    _sudokuCells = value;
-                }
-                else
-                {
-                    throw new ArgumentException(AttributeMessages.InvalidSudokuCells);
-                }
-            }
+            get => _sudokuCells;
+            set => _sudokuCells = CoreUtilities.SetField(
+                value, 
+                _sudokuCellsValidator, 
+                AttributeMessages.InvalidSudokuCells);
         }
         [JsonIgnore]
         public Stopwatch Stopwatch
         {
-            get
-            {
-                return _stopwatch;
-            }
+            get => _stopwatch;
         }
 
         #region SudokuCell List Properties

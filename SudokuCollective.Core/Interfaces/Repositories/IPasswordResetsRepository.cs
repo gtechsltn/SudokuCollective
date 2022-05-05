@@ -6,13 +6,13 @@ namespace SudokuCollective.Core.Interfaces.Repositories
 {
     public interface IPasswordResetsRepository<TEntity> where TEntity : IDomainEntity
     {
-        Task<IRepositoryResponse> Create(TEntity entity);
-        Task<IRepositoryResponse> Get(string token);
-        Task<IRepositoryResponse> GetAll();
-        Task<IRepositoryResponse> Update(TEntity entity);
-        Task<IRepositoryResponse> Delete(TEntity entity);
-        Task<bool> HasEntity(int id);
-        Task<bool> HasOutstandingPasswordReset(int userId, int appid);
-        Task<IRepositoryResponse> RetrievePasswordReset(int userId, int appid);
+        Task<IRepositoryResponse> CreateAsync(TEntity entity);
+        Task<IRepositoryResponse> GetAsync(string token);
+        Task<IRepositoryResponse> GetAllAsync();
+        Task<IRepositoryResponse> UpdateAsync(TEntity entity);
+        Task<IRepositoryResponse> DeleteAsync(TEntity entity);
+        Task<bool> HasEntityAsync(int id);
+        Task<bool> HasOutstandingPasswordResetAsync(int userId, int appid);
+        Task<IRepositoryResponse> RetrievePasswordResetAsync(int userId, int appid);
     }
 }

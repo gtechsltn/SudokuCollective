@@ -6,7 +6,6 @@ using SudokuCollective.Core.Interfaces.Models;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Models;
-using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Repos.Utilities;
 using SudokuCollective.Core.Interfaces.Services;
@@ -34,7 +33,7 @@ namespace SudokuCollective.Repos
         #endregion
 
         #region Methods
-        public async Task<IRepositoryResponse> Add(TEntity entity)
+        public async Task<IRepositoryResponse> AddAsync(TEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -167,7 +166,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> Get(int id)
+        public async Task<IRepositoryResponse> GetAsync(int id)
         {
             var result = new RepositoryResponse();
 
@@ -213,7 +212,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> GetByUserName(string username)
+        public async Task<IRepositoryResponse> GetByUserNameAsync(string username)
         {
             if (string.IsNullOrEmpty(username)) throw new ArgumentNullException(nameof(username));
 
@@ -256,7 +255,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> GetByEmail(string email)
+        public async Task<IRepositoryResponse> GetByEmailAsync(string email)
         {
             if (string.IsNullOrEmpty(email)) throw new ArgumentNullException(nameof(email));
 
@@ -264,7 +263,9 @@ namespace SudokuCollective.Repos
 
             try
             {
-                var query = await _context
+                /* Since emails are encrypted we have to pull all users
+                 * first and then search by email */
+                var users = await _context
                     .Users
                     .Include(u => u.Apps)
                     .Include(u => u.Roles)
@@ -274,7 +275,15 @@ namespace SudokuCollective.Repos
                     .Include(u => u.Games)
                         .ThenInclude(g => g.SudokuMatrix)
                             .ThenInclude(m => m.SudokuCells)
-                    .FirstOrDefaultAsync(
+                    .ToListAsync();
+
+                if (users == null)
+                {
+                    result.IsSuccess = false;
+                }
+
+                var query = users
+                    .FirstOrDefault(
                         u => u.Email.ToLower().Equals(email.ToLower()));
 
                 if (query == null)
@@ -299,7 +308,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> GetAll()
+        public async Task<IRepositoryResponse> GetAllAsync()
         {
             var result = new RepositoryResponse();
 
@@ -343,7 +352,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> GetMyApps(int id)
+        public async Task<IRepositoryResponse> GetMyAppsAsync(int id)
         {
             var result = new RepositoryResponse();
 
@@ -411,7 +420,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> Update(TEntity entity)
+        public async Task<IRepositoryResponse> UpdateAsync(TEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -508,7 +517,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> UpdateRange(List<TEntity> entities)
+        public async Task<IRepositoryResponse> UpdateRangeAsync(List<TEntity> entities)
         {
             if (entities == null) throw new ArgumentNullException(nameof(entities));
 
@@ -576,7 +585,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> Delete(TEntity entity)
+        public async Task<IRepositoryResponse> DeleteAsync(TEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -676,7 +685,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> DeleteRange(List<TEntity> entities)
+        public async Task<IRepositoryResponse> DeleteRangeAsync(List<TEntity> entities)
         {
             if (entities == null) throw new ArgumentNullException(nameof(entities));
 
@@ -767,10 +776,10 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<bool> HasEntity(int id) => 
+        public async Task<bool> HasEntityAsync(int id) => 
             await _context.Users.AnyAsync(u => u.Id == id);
 
-        public async Task<bool> Activate(int id)
+        public async Task<bool> ActivateAsync(int id)
         {
             if (id == 0)
             {
@@ -816,7 +825,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<bool> Deactivate(int id)
+        public async Task<bool> DeactivateAsync(int id)
         {
             if (id == 0)
             {
@@ -862,7 +871,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<bool> IsUserRegistered(int id)
+        public async Task<bool> IsUserRegisteredAsync(int id)
         {
             if (id == 0)
             {
@@ -874,7 +883,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> AddRole(int userId, int roleId)
+        public async Task<IRepositoryResponse> AddRoleAsync(int userId, int roleId)
         {
             var result = new RepositoryResponse();
 
@@ -953,7 +962,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> AddRoles(int userId, List<int> roleIds)
+        public async Task<IRepositoryResponse> AddRolesAsync(int userId, List<int> roleIds)
         {
             if (roleIds == null) throw new ArgumentNullException(nameof(roleIds));
 
@@ -1047,7 +1056,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> RemoveRole(int userId, int roleId)
+        public async Task<IRepositoryResponse> RemoveRoleAsync(int userId, int roleId)
         {
             var result = new RepositoryResponse();
 
@@ -1110,7 +1119,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<IRepositoryResponse> RemoveRoles(int userId, List<int> roleIds)
+        public async Task<IRepositoryResponse> RemoveRolesAsync(int userId, List<int> roleIds)
         {
             if (roleIds == null) throw new ArgumentNullException(nameof(roleIds));
 
@@ -1190,7 +1199,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<bool> PromoteToAdmin(int id)
+        public async Task<bool> PromoteToAdminAsync(int id)
         {
             if (id == 0)
             {
@@ -1255,14 +1264,14 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<string> GetAppLicense(int appId) => 
+        public async Task<string> GetAppLicenseAsync(int appId) => 
             await _context
                 .Apps
                 .Where(a => a.Id == appId)
                 .Select(a => a.License)
                 .FirstOrDefaultAsync();
 
-        public async Task<IRepositoryResponse> ConfirmEmail(IEmailConfirmation emailConfirmation)
+        public async Task<IRepositoryResponse> ConfirmEmailAsync(IEmailConfirmation emailConfirmation)
         {
             if (emailConfirmation == null) throw new ArgumentNullException(nameof(emailConfirmation));
 
@@ -1344,7 +1353,7 @@ namespace SudokuCollective.Repos
             }
         }
         
-        public async Task<IRepositoryResponse> UpdateEmail(IEmailConfirmation emailConfirmation)
+        public async Task<IRepositoryResponse> UpdateEmailAsync(IEmailConfirmation emailConfirmation)
         {
             if (emailConfirmation == null) throw new ArgumentNullException(nameof(emailConfirmation));
 
@@ -1427,7 +1436,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<bool> IsEmailUnique(string email)
+        public async Task<bool> IsEmailUniqueAsync(string email)
         {
             if (string.IsNullOrEmpty(email)) throw new ArgumentNullException(nameof(email));
 
@@ -1453,7 +1462,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<bool> IsUpdatedEmailUnique(int userId, string email)
+        public async Task<bool> IsUpdatedEmailUniqueAsync(int userId, string email)
         {
             if (string.IsNullOrEmpty(email)) throw new ArgumentNullException(nameof(email));
 
@@ -1488,7 +1497,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<bool> IsUserNameUnique(string username)
+        public async Task<bool> IsUserNameUniqueAsync(string username)
         {
             if (string.IsNullOrEmpty(username)) throw new ArgumentNullException(nameof(username));
 
@@ -1514,7 +1523,7 @@ namespace SudokuCollective.Repos
             }
         }
 
-        public async Task<bool> IsUpdatedUserNameUnique(int userId, string username)
+        public async Task<bool> IsUpdatedUserNameUniqueAsync(int userId, string username)
         {
             if (string.IsNullOrEmpty(username)) throw new ArgumentNullException(nameof(username));
 

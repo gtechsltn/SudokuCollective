@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -12,7 +12,6 @@ using SudokuCollective.Core.Interfaces.Cache;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
@@ -40,7 +39,6 @@ namespace SudokuCollective.Data.Services
         private readonly ICacheService _cacheService;
         private readonly ICacheKeys _cacheKeys;
         private readonly ICachingStrategy _cachingStrategy;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<AppsService> _logger;
         #endregion
 
@@ -55,7 +53,6 @@ namespace SudokuCollective.Data.Services
             ICacheService cacheService,
             ICacheKeys cacheKeys,
             ICachingStrategy cachingStrategy,
-            IHttpContextAccessor httpContextAccessor, 
             ILogger<AppsService> logger)
         {
             _appsRepository = appRepository;
@@ -67,13 +64,12 @@ namespace SudokuCollective.Data.Services
             _cacheService = cacheService;
             _cacheKeys = cacheKeys;
             _cachingStrategy = cachingStrategy;
-            _httpContextAccessor = httpContextAccessor;
             _logger = logger;
         }
         #endregion
 
         #region Methods
-        public async Task<IResult> Create(IRequest request)
+        public async Task<Core.Interfaces.Models.DomainObjects.Params.IResult> CreateAync(IRequest request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
 
@@ -96,7 +92,7 @@ namespace SudokuCollective.Data.Services
             try
             {
                 // Ensure the intended owner exists by pull the records from the repository
-                var userResponse = await _usersRepository.Get(payload.OwnerId);
+                var userResponse = await _usersRepository.GetAsync(payload.OwnerId);
 
                 if (userResponse.IsSuccess)
                 {
@@ -165,7 +161,7 @@ namespace SudokuCollective.Data.Services
                         {
                             var appAdmin = new AppAdmin(app.Id, user.Id);
 
-                            _ = await _appAdminsRepository.Add(appAdmin);
+                            _ = await _appAdminsRepository.AddAsync(appAdmin);
                         }
 
                         result.IsSuccess = addAppResponse.IsSuccess;
@@ -207,7 +203,9 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> Get(int id)
+        public async Task<Core.Interfaces.Models.DomainObjects.Params.IResult> GetAsync(
+            int id,
+            int userId)
         {
             var result = new Result();
 
@@ -221,7 +219,7 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                var cacheServiceResponse = await _cacheService.GetWithCacheAsync(
+                var appCacheServiceResponse = await _cacheService.GetWithCacheAsync(
                     _appsRepository,
                     _distributedCache,
                     string.Format(_cacheKeys.GetAppCacheKey, id),
@@ -229,23 +227,69 @@ namespace SudokuCollective.Data.Services
                     id,
                     result);
 
-                var response = (RepositoryResponse)cacheServiceResponse.Item1;
-                result = (Result)cacheServiceResponse.Item2;
+                var appResponse = (RepositoryResponse)appCacheServiceResponse.Item1;
+                result = (Result)appCacheServiceResponse.Item2;
 
-                if (response.IsSuccess)
+                if (appResponse.IsSuccess)
                 {
-                    var app = (App)response.Object;
+                    var app = (App)appResponse.Object;
 
-                    result.IsSuccess = response.IsSuccess;
-                    result.Message = AppsMessages.AppFoundMessage;
-                    result.Payload.Add(app);
+                    var userCacheServiceResponse = await _cacheService.GetWithCacheAsync(
+                        _usersRepository,
+                        _distributedCache,
+                        string.Format(_cacheKeys.GetUserCacheKey, userId, app.License),
+                        _cachingStrategy.Medium,
+                        userId);
+                    
+                    var userResponse = (RepositoryResponse)userCacheServiceResponse.Item1;
 
-                    return result;
+                    if (userResponse.IsSuccess)
+                    {
+                        var user = (User)userResponse.Object;
+
+                        if (!user.IsSuperUser && app.OwnerId != user.Id)
+                        {
+                            app.NullifyLicense();
+                        }
+
+                        if (app.OwnerId != user.Id)
+                        {
+                            app.NullifySMTPServerSettings();
+                        }
+                        else if (app.OwnerId == user.Id && !app.UseCustomSMTPServer)
+                        {
+                            app.NullifySMTPServerSettings();
+                        }
+                        else
+                        {
+                            app.SMTPServerSettings.Sanitize();
+                        }
+
+                        result.IsSuccess = appResponse.IsSuccess;
+                        result.Message = AppsMessages.AppFoundMessage;
+                        result.Payload.Add(app);
+
+                        return result;
+                    }
+                    else if (!userResponse.IsSuccess && userResponse.Exception != null)
+                    {
+                        result.IsSuccess = userResponse.IsSuccess;
+                        result.Message = userResponse.Exception.Message;
+
+                        return result;
+                    }
+                    else
+                    {
+                        result.IsSuccess = false;
+                        result.Message = UsersMessages.UserNotFoundMessage;
+
+                        return result;
+                    }
                 }
-                else if (!response.IsSuccess && response.Exception != null)
+                else if (!appResponse.IsSuccess && appResponse.Exception != null)
                 {
-                    result.IsSuccess = response.IsSuccess;
-                    result.Message = response.Exception.Message;
+                    result.IsSuccess = appResponse.IsSuccess;
+                    result.Message = appResponse.Exception.Message;
 
                     return result;
                 }
@@ -267,7 +311,9 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> GetByLicense(string license)
+        public async Task<Core.Interfaces.Models.DomainObjects.Params.IResult> GetByLicenseAsync(
+            string license,
+            int userId)
         {
             var result = new Result();
 
@@ -289,23 +335,69 @@ namespace SudokuCollective.Data.Services
                     license,
                     result);
 
-                var response = (RepositoryResponse)cacheServiceResponse.Item1;
+                var appResponse = (RepositoryResponse)cacheServiceResponse.Item1;
                 result = (Result)cacheServiceResponse.Item2;
 
-                if (response.IsSuccess)
+                if (appResponse.IsSuccess)
                 {
-                    var app = (IApp)response.Object;
+                    var app = (IApp)appResponse.Object;
 
-                    result.IsSuccess = response.IsSuccess;
-                    result.Message = AppsMessages.AppFoundMessage;
-                    result.Payload.Add(app);
+                    var userCacheServiceResponse = await _cacheService.GetWithCacheAsync(
+                        _usersRepository,
+                        _distributedCache,
+                        string.Format(_cacheKeys.GetUserCacheKey, userId, app.License),
+                        _cachingStrategy.Medium,
+                        userId);
+                    
+                    var userResponse = (RepositoryResponse)userCacheServiceResponse.Item1;
 
-                    return result;
+                    if (userResponse.IsSuccess)
+                    {
+                        var user = (User)userResponse.Object;
+
+                        if (!user.IsSuperUser && app.OwnerId != user.Id)
+                        {
+                            app.NullifyLicense();
+                        }
+
+                        if (app.OwnerId != user.Id)
+                        {
+                            app.NullifySMTPServerSettings();
+                        }
+                        else if (app.OwnerId == user.Id && !app.UseCustomSMTPServer)
+                        {
+                            app.NullifySMTPServerSettings();
+                        }
+                        else
+                        {
+                            app.SMTPServerSettings.Sanitize();
+                        }
+
+                        result.IsSuccess = appResponse.IsSuccess;
+                        result.Message = AppsMessages.AppFoundMessage;
+                        result.Payload.Add(app);
+
+                        return result;    
+                    }
+                    else if (!userResponse.IsSuccess && userResponse.Exception != null)
+                    {
+                        result.IsSuccess = userResponse.IsSuccess;
+                        result.Message = userResponse.Exception.Message;
+
+                        return result;
+                    }
+                    else
+                    {
+                        result.IsSuccess = false;
+                        result.Message = UsersMessages.UserNotFoundMessage;
+
+                        return result;
+                    }
                 }
-                else if (!response.IsSuccess && response.Exception != null)
+                else if (!appResponse.IsSuccess && appResponse.Exception != null)
                 {
-                    result.IsSuccess = response.IsSuccess;
-                    result.Message = response.Exception.Message;
+                    result.IsSuccess = appResponse.IsSuccess;
+                    result.Message = appResponse.Exception.Message;
 
                     return result;
                 }
@@ -327,15 +419,13 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> GetApps(
-            IPaginator paginator, 
-            int requestorId)
+        public async Task<Core.Interfaces.Models.DomainObjects.Params.IResult> GetAppsAsync(IRequest request)
         {
-            if (paginator == null) throw new ArgumentNullException(nameof(paginator));
+            if (request == null) throw new ArgumentNullException(nameof(request));
 
             var result = new Result();
 
-            if (requestorId == 0)
+            if (request.RequestorId == 0)
             {
                 result.IsSuccess = false;
                 result.Message = UsersMessages.UserNotFoundMessage;
@@ -357,28 +447,80 @@ namespace SudokuCollective.Data.Services
 
                 if (response.IsSuccess)
                 {
-                    if (DataUtilities.IsPageValid(paginator, response.Objects))
-                    {
-                        result = PaginatorUtilities.PaginateApps(paginator, response, result);
+                    var userCacheServiceResponse = await _cacheService.GetWithCacheAsync(
+                        _usersRepository,
+                        _distributedCache,
+                        string.Format(_cacheKeys.GetUserCacheKey, request.RequestorId, request.License),
+                        _cachingStrategy.Medium,
+                        request.RequestorId);
 
-                        if (result.Message.Equals(
-                            ServicesMesages.SortValueNotImplementedMessage))
+                    var userResponse = (RepositoryResponse)userCacheServiceResponse.Item1;
+
+                    if (userResponse.IsSuccess)
+                    {
+                        var user = (User)userResponse.Object;
+
+                        if (DataUtilities.IsPageValid(request.Paginator, response.Objects))
                         {
+                            result = PaginatorUtilities.PaginateApps(
+                                request.Paginator,
+                                response, 
+                                result);
+
+                            if (result.Message.Equals(
+                                ServicesMesages.SortValueNotImplementedMessage))
+                            {
+                                return result;
+                            }
+                        }
+                        else
+                        {
+                            result.IsSuccess = false;
+                            result.Message = ServicesMesages.PageNotFoundMessage;
+
                             return result;
                         }
+
+                        result.IsSuccess = response.IsSuccess;
+                        result.Message = AppsMessages.AppsFoundMessage;
+
+                        foreach (var app in result.Payload.ConvertAll(a => (App)a))
+                        {
+                            if (!user.IsSuperUser && app.OwnerId != user.Id)
+                            {
+                                app.NullifyLicense();
+                            }
+
+                            if (app.OwnerId != user.Id)
+                            {
+                                app.NullifySMTPServerSettings();
+                            }
+                            else if (app.OwnerId == user.Id && !app.UseCustomSMTPServer)
+                            {
+                                app.NullifySMTPServerSettings();
+                            }
+                            else
+                            {
+                                app.SMTPServerSettings.Sanitize();
+                            }
+                        }
+
+                        return result;
+                    }
+                    else if (!userResponse.IsSuccess && userResponse.Exception != null)
+                    {
+                        result.IsSuccess = userResponse.IsSuccess;
+                        result.Message = userResponse.Exception.Message;
+
+                        return result;
                     }
                     else
                     {
                         result.IsSuccess = false;
-                        result.Message = ServicesMesages.PageNotFoundMessage;
+                        result.Message = UsersMessages.UserNotFoundMessage;
 
                         return result;
                     }
-
-                    result.IsSuccess = response.IsSuccess;
-                    result.Message = AppsMessages.AppsFoundMessage;
-
-                    return result;
                 }
                 else if (!response.IsSuccess && response.Exception != null)
                 {
@@ -405,7 +547,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> GetMyApps(int ownerId, IPaginator paginator)
+        public async Task<Core.Interfaces.Models.DomainObjects.Params.IResult> GetMyAppsAsync(int ownerId, IPaginator paginator)
         {
             if (paginator == null) throw new ArgumentNullException(nameof(paginator));
 
@@ -455,6 +597,11 @@ namespace SudokuCollective.Data.Services
                     result.IsSuccess = response.IsSuccess;
                     result.Message = AppsMessages.AppsFoundMessage;
 
+                    foreach (var app in result.Payload.ConvertAll(a => (App)a))
+                    {
+                        app.SMTPServerSettings.Sanitize();
+                    }
+
                     return result;
                 }
                 else if (!response.IsSuccess && response.Exception != null)
@@ -482,7 +629,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> GetMyRegisteredApps(int userId, IPaginator paginator)
+        public async Task<Core.Interfaces.Models.DomainObjects.Params.IResult> GetMyRegisteredAppsAsync(int userId, IPaginator paginator)
         {
             if (paginator == null) throw new ArgumentNullException(nameof(paginator));
 
@@ -532,6 +679,12 @@ namespace SudokuCollective.Data.Services
                     result.IsSuccess = response.IsSuccess;
                     result.Message = AppsMessages.AppsFoundMessage;
 
+                    foreach (var app in result.Payload.ConvertAll(a => (App)a))
+                    {
+                        app.NullifyLicense();
+                        app.NullifySMTPServerSettings();
+                    }
+
                     return result;
                 }
                 else if (!response.IsSuccess && response.Exception != null)
@@ -559,7 +712,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> Update(int id, IRequest request)
+        public async Task<Core.Interfaces.Models.DomainObjects.Params.IResult> UpdateAsync(int id, IRequest request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
 
@@ -589,7 +742,7 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                var getAppResponse = await _appsRepository.Get(id);
+                var getAppResponse = await _appsRepository.GetAsync(id);
 
                 if (getAppResponse.IsSuccess)
                 {
@@ -607,6 +760,34 @@ namespace SudokuCollective.Data.Services
                         app.DisableCustomUrls = payload.DisableCustomUrls;
                         app.CustomEmailConfirmationAction = payload.CustomEmailConfirmationAction;
                         app.CustomPasswordResetAction = payload.CustomPasswordResetAction;
+                        app.UseCustomSMTPServer = payload.UseCustomSMTPServer;
+                        if (payload.UseCustomSMTPServer)
+                        {
+                            if (!string.IsNullOrEmpty(payload.SMTPServerSettings.SmtpServer))
+                            {
+                                app.SMTPServerSettings.SmtpServer = payload.SMTPServerSettings.SmtpServer;
+                            }
+
+                            if (payload.SMTPServerSettings.Port != 0)
+                            {
+                                app.SMTPServerSettings.Port = payload.SMTPServerSettings.Port;
+                            }
+
+                            if (!string.IsNullOrEmpty(payload.SMTPServerSettings.UserName))
+                            {
+                                app.SMTPServerSettings.UserName = payload.SMTPServerSettings.UserName;
+                            }
+
+                            if (!string.IsNullOrEmpty(payload.SMTPServerSettings.Password))
+                            {
+                                app.SMTPServerSettings.Password = payload.SMTPServerSettings.Password;
+                            }
+
+                            if (!string.IsNullOrEmpty(payload.SMTPServerSettings.FromEmail))
+                            {
+                                app.SMTPServerSettings.FromEmail = payload.SMTPServerSettings.FromEmail;
+                            }
+                        }
                         app.TimeFrame = payload.TimeFrame;
                         app.AccessDuration = payload.AccessDuration;
                         app.DateUpdated = DateTime.UtcNow;
@@ -666,7 +847,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> DeleteOrReset(int id, bool isReset = false)
+        public async Task<Core.Interfaces.Models.DomainObjects.Params.IResult> DeleteOrResetAsync(int id, bool isReset = false)
         {
             var result = new Result();
 
@@ -680,7 +861,7 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                var getAppResponse = await _appsRepository.Get(id);
+                var getAppResponse = await _appsRepository.GetAsync(id);
 
                 if (getAppResponse.IsSuccess)
                 {
@@ -806,7 +987,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> GetAppUsers(int id, int requestorId, IPaginator paginator, bool appUsers = true)
+        public async Task<Core.Interfaces.Models.DomainObjects.Params.IResult> GetAppUsersAsync(int id, int requestorId, IPaginator paginator, bool appUsers = true)
         {
             if (paginator == null) throw new ArgumentNullException(nameof(paginator));
 
@@ -875,7 +1056,7 @@ namespace SudokuCollective.Data.Services
                             return result;
                         }
 
-                        var requestor = (User)(await _usersRepository.Get(requestorId)).Object;
+                        var requestor = (User)(await _usersRepository.GetAsync(requestorId)).Object;
 
                         if (requestor != null && !requestor.IsSuperUser)
                         {
@@ -926,7 +1107,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> AddAppUser(int appId, int userId)
+        public async Task<Core.Interfaces.Models.DomainObjects.Params.IResult> AddAppUserAsync(int appId, int userId)
         {
             var result = new Result();
 
@@ -980,7 +1161,7 @@ namespace SudokuCollective.Data.Services
 
                     if (userResponse.IsSuccess)
                     {
-                        var addUserToAppResponse = await _appsRepository.AddAppUser(
+                        var addUserToAppResponse = await _appsRepository.AddAppUserAsync(
                             userId,
                             app.License);
 
@@ -1045,7 +1226,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> RemoveAppUser(int appId, int userId)
+        public async Task<Core.Interfaces.Models.DomainObjects.Params.IResult> RemoveAppUserAsync(int appId, int userId)
         {
             var result = new Result();
 
@@ -1103,7 +1284,7 @@ namespace SudokuCollective.Data.Services
                             return result;
                         }
 
-                        var removeUserToAppResponse = await _appsRepository.RemoveAppUser(
+                        var removeUserToAppResponse = await _appsRepository.RemoveAppUserAsync(
                             userId,
                             app.License);
 
@@ -1168,7 +1349,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> ActivateAdminPrivileges(int appId, int userId)
+        public async Task<Core.Interfaces.Models.DomainObjects.Params.IResult> ActivateAdminPrivilegesAsync(int appId, int userId)
         {
             var result = new Result();
 
@@ -1232,19 +1413,19 @@ namespace SudokuCollective.Data.Services
                             return result;
                         }
 
-                        if (!await _appsRepository.IsUserRegisteredToApp(
+                        if (!await _appsRepository.IsUserRegisteredToAppAsync(
                             app.Id, 
                             app.License, 
                             user.Id))
                         {
-                            _ = await _appsRepository.AddAppUser(user.Id, app.License);
+                            _ = await _appsRepository.AddAppUserAsync(user.Id, app.License);
                         }
                         else
                         {
-                            if (await _appAdminsRepository.HasAdminRecord(app.Id, user.Id))
+                            if (await _appAdminsRepository.HasAdminRecordAsync(app.Id, user.Id))
                             {
                                 var adminRecord = (AppAdmin)(await _appAdminsRepository
-                                    .GetAdminRecord(app.Id, user.Id)).Object;
+                                    .GetAdminRecordAsync(app.Id, user.Id)).Object;
 
                                 if (adminRecord.IsActive)
                                 {
@@ -1258,7 +1439,7 @@ namespace SudokuCollective.Data.Services
                                     adminRecord.IsActive = true;
 
                                     var adminRecordUpdateResult = await _appAdminsRepository
-                                        .Update(adminRecord);
+                                        .UpdateAsync(adminRecord);
 
                                     var removeKeys = new List<string> {
                                         string.Format(_cacheKeys.GetAppCacheKey, app.Id),
@@ -1289,7 +1470,7 @@ namespace SudokuCollective.Data.Services
 
                         if (!user.IsAdmin)
                         {
-                            var adminRole = (await _rolesRepository.GetAll())
+                            var adminRole = (await _rolesRepository.GetAllAsync())
                                 .Objects
                                 .ConvertAll(r => (Role)r)
                                 .FirstOrDefault(r => r.RoleLevel == RoleLevel.ADMIN);
@@ -1300,19 +1481,19 @@ namespace SudokuCollective.Data.Services
                                 RoleId = adminRole.Id,
                                 Role = adminRole}) ;
 
-                            user = (User)(await _usersRepository.Update(user)).Object;
+                            user = (User)(await _usersRepository.UpdateAsync(user)).Object;
                         }
 
                         var appAdmin = new AppAdmin(app.Id, user.Id);
 
-                        var appAdminResult = await _appAdminsRepository.Add(appAdmin);
+                        var appAdminResult = await _appAdminsRepository.AddAsync(appAdmin);
 
                         if (appAdminResult.IsSuccess)
                         {
                             result.IsSuccess = appAdminResult.IsSuccess;
                             result.Message = UsersMessages.UserHasBeenPromotedToAdminMessage;
                             result.Payload.Add(
-                                (await _usersRepository.Get(userId))
+                                (await _usersRepository.GetAsync(userId))
                                     .Object);
 
                             return result;
@@ -1372,7 +1553,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> DeactivateAdminPrivileges(int appId, int userId)
+        public async Task<Core.Interfaces.Models.DomainObjects.Params.IResult> DeactivateAdminPrivilegesAsync(int appId, int userId)
         {
             var result = new Result();
 
@@ -1436,7 +1617,7 @@ namespace SudokuCollective.Data.Services
                             return result;
                         }
 
-                        if (!await _appAdminsRepository.HasAdminRecord(app.Id, user.Id))
+                        if (!await _appAdminsRepository.HasAdminRecordAsync(app.Id, user.Id))
                         {
                             result.IsSuccess = false;
                             result.Message = AppsMessages.UserIsNotAnAssignedAdminMessage;
@@ -1445,12 +1626,12 @@ namespace SudokuCollective.Data.Services
                         }
 
                         var appAdmin = (AppAdmin)
-                            (await _appAdminsRepository.GetAdminRecord(app.Id, user.Id))
+                            (await _appAdminsRepository.GetAdminRecordAsync(app.Id, user.Id))
                             .Object;
 
                         appAdmin.IsActive = false;
 
-                        var appAdminResult = await _appAdminsRepository.Update(appAdmin);
+                        var appAdminResult = await _appAdminsRepository.UpdateAsync(appAdmin);
 
                         if (appAdminResult.IsSuccess)
                         {
@@ -1474,7 +1655,7 @@ namespace SudokuCollective.Data.Services
                             result.IsSuccess = appAdminResult.IsSuccess;
                             result.Message = AppsMessages.AdminPrivilegesDeactivatedMessage;
                             result.Payload.Add(
-                                (await _usersRepository.Get(user.Id))
+                                (await _usersRepository.GetAsync(user.Id))
                                 .Object);
 
                             return result;
@@ -1534,7 +1715,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> Activate(int id)
+        public async Task<Core.Interfaces.Models.DomainObjects.Params.IResult> ActivateAsync(int id)
         {
             var result = new Result();
 
@@ -1587,7 +1768,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> Deactivate(int id)
+        public async Task<Core.Interfaces.Models.DomainObjects.Params.IResult> DeactivateAsync(int id)
         {
             var result = new Result();
 
@@ -1640,7 +1821,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<ILicenseResult> GetLicense(int id, int requestorId)
+        public async Task<ILicenseResult> GetLicenseAsync(int id, int requestorId)
         {
             var result = new LicenseResult();
 
@@ -1726,7 +1907,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<bool> IsUserOwnerOThisfApp(
+        public async Task<bool> IsUserOwnerOThisfAppAsync(
             IHttpContextAccessor httpContextAccessor, 
             string license,
             int userId,
@@ -1745,7 +1926,7 @@ namespace SudokuCollective.Data.Services
                 return false;
             }
 
-            var requestValid = await IsRequestValidOnThisToken(
+            var requestValid = await IsRequestValidOnThisTokenAsync(
                 httpContextAccessor, 
                 requestorLicense, 
                 requestorAppId, 
@@ -1773,7 +1954,7 @@ namespace SudokuCollective.Data.Services
 
                     if (userResponse.IsSuccess && validLicense)
                     {
-                        var requestorOwnerOfThisApp = await _appsRepository.IsUserOwnerOThisfApp(
+                        var requestorOwnerOfThisApp = await _appsRepository.IsUserOwnerOThisfAppAsync(
                             requestorId, 
                             license, 
                             userId);
@@ -1826,7 +2007,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<bool> IsRequestValidOnThisToken(
+        public async Task<bool> IsRequestValidOnThisTokenAsync(
             IHttpContextAccessor httpContextAccessor, 
             string license, 
             int appId, 
@@ -1921,7 +2102,7 @@ namespace SudokuCollective.Data.Services
                     if (!((App)appResponse.Object).PermitCollectiveLogins)
                     {
                         userPermittedAccess = await _appsRepository
-                            .IsUserRegisteredToApp(appId, license, userId);
+                            .IsUserRegisteredToAppAsync(appId, license, userId);
                     }
                     else
                     {

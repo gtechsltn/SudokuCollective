@@ -15,14 +15,8 @@ namespace SudokuCollective.Core.Models
         [JsonIgnore]
         IUser IUserRole.User
         {
-            get
-            {
-                return User;
-            }
-            set
-            {
-                User = (User)value;
-            }
+            get => User;
+            set => User = (User)value;
         }
         [JsonIgnore]
         public virtual User User { get; set; }
@@ -31,14 +25,8 @@ namespace SudokuCollective.Core.Models
         [JsonIgnore]
         IRole IUserRole.Role
         {
-            get
-            {
-                return Role;
-            }
-            set
-            {
-                Role = (Role)value;
-            }
+            get => Role;
+            set => Role = (Role)value;
         }
         [Required, JsonPropertyName("role")]
         public virtual Role Role { get; set; }

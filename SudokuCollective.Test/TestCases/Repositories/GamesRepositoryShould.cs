@@ -59,7 +59,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             newGame.SudokuMatrix.GenerateSolution();
 
             // Act
-            var result = await sut.Add(newGame);
+            var result = await sut.AddAsync(newGame);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -73,7 +73,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             newGame.Id = 10;
 
             // Act
-            var result = await sut.Add(newGame);
+            var result = await sut.AddAsync(newGame);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -85,7 +85,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.Get(1);
+            var result = await sut.GetAsync(1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -98,7 +98,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.Get(3);
+            var result = await sut.GetAsync(3);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -110,7 +110,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.GetAll();
+            var result = await sut.GetAllAsync();
 
             // Arrange
             Assert.That(result.IsSuccess, Is.True);
@@ -129,7 +129,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .FirstOrDefault(g => g.Id == 1);
 
             // Act
-            var result = await sut.Update(game);
+            var result = await sut.UpdateAsync(game);
 
             // Arrange
             Assert.That(result.IsSuccess, Is.True);
@@ -144,7 +144,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.Update(newGame);
+            var result = await sut.UpdateAsync(newGame);
 
             // Arrange
             Assert.That(result.IsSuccess, Is.False);
@@ -180,7 +180,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             }
 
             // Act
-            var result = await sut.Delete(game);
+            var result = await sut.DeleteAsync(game);
 
             // Arrange
             Assert.That(result.IsSuccess, Is.True);
@@ -193,7 +193,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.Delete(newGame);
+            var result = await sut.DeleteAsync(newGame);
 
             // Arrange
             Assert.That(result.IsSuccess, Is.False);
@@ -206,7 +206,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.HasEntity(1);
+            var result = await sut.HasEntityAsync(1);
 
             // Assert
             Assert.That(result, Is.True);
@@ -224,7 +224,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
                 .Id + 1;
 
             // Act
-            var result = await sut.HasEntity(id);
+            var result = await sut.HasEntityAsync(id);
 
             // Assert
             Assert.That(result, Is.False);
@@ -236,7 +236,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.GetMyGame(1, 1, 1);
+            var result = await sut.GetMyGameAsync(1, 1, 1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -249,7 +249,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.GetMyGame(1, 3, 1);
+            var result = await sut.GetMyGameAsync(1, 3, 1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -261,7 +261,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.GetMyGames(1, 1);
+            var result = await sut.GetMyGamesAsync(1, 1);
 
             // Arrange
             Assert.That(result.IsSuccess, Is.True);
@@ -274,7 +274,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.GetMyGames(1, 3);
+            var result = await sut.GetMyGamesAsync(1, 3);
 
             // Arrange
             Assert.That(result.IsSuccess, Is.False);
@@ -286,7 +286,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.DeleteMyGame(1, 1, 1);
+            var result = await sut.DeleteMyGameAsync(1, 1, 1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -298,7 +298,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.DeleteMyGame(1, 3, 1);
+            var result = await sut.DeleteMyGameAsync(1, 3, 1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -310,7 +310,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.GetAppGame(1, 1);
+            var result = await sut.GetAppGameAsync(1, 1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -323,7 +323,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.GetAppGame(1, 5);
+            var result = await sut.GetAppGameAsync(1, 5);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
@@ -335,7 +335,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.GetAppGames(1);
+            var result = await sut.GetAppGamesAsync(1);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -347,7 +347,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
             // Arrange
 
             // Act
-            var result = await sut.GetAppGames(5);
+            var result = await sut.GetAppGamesAsync(5);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);

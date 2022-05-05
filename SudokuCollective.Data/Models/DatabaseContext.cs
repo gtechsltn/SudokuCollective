@@ -1,24 +1,35 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SudokuCollective.Core.Models;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using SudokuCollective.Core.Models;
+using SudokuCollective.Encrypt;
 
 namespace SudokuCollective.Data.Models
 {
     public class DatabaseContext : DbContext
     {
-        private readonly IConfiguration configuration;
+        private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _environment;
+        private readonly string _key;
 
         public DatabaseContext(
                 DbContextOptions<DatabaseContext> options,
-                IConfiguration iConfigService
+                IWebHostEnvironment environment,
+                IConfiguration configuration
             ) : base(options)
         {
-            configuration = iConfigService;
+            _configuration = configuration;
+            _environment = environment;
+            
+            _key = !_environment.IsStaging() ?
+                configuration.GetSection("EncryptionKey").Value :
+                Environment.GetEnvironmentVariable("ENCRYPTION_KEY");
         }
 
         public DbSet<Role> Roles { get; set; }
@@ -30,6 +41,7 @@ namespace SudokuCollective.Data.Models
         public DbSet<UserRole> UsersRoles { get; set; }
         public DbSet<SudokuSolution> SudokuSolutions { get; set; }
         public DbSet<App> Apps { get; set; }
+        public DbSet<SMTPServerSettings> SMTPServerSettings { get; set; }
         public DbSet<UserApp> UsersApps { get; set; }
         public DbSet<AppAdmin> AppAdmins { get; set; }
         public DbSet<EmailConfirmation> EmailConfirmations { get; set; }
@@ -37,7 +49,12 @@ namespace SudokuCollective.Data.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var valueConverter = new ValueConverter<List<int>, string>(
+            var encryptionConverter = new ValueConverter<string, string>(
+                v => Encryption.EncryptString(v, _key),
+                v => Encryption.DecryptString(v, _key)
+            );
+
+            var intListConverter = new ValueConverter<List<int>, string>(
                 v => string.Join(",", v),
                 v => v.Split(",", StringSplitOptions.RemoveEmptyEntries)
                     .Select(val => int.Parse(val))
@@ -184,7 +201,7 @@ namespace SudokuCollective.Data.Models
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Game>()
-                .Ignore(g => g.TimeToSolve);
+                .Ignore(game => game.TimeToSolve);
 
             modelBuilder.Entity<User>()
                 .HasKey(user => user.Id);
@@ -207,6 +224,7 @@ namespace SudokuCollective.Data.Models
 
             modelBuilder.Entity<User>()
                 .Property(user => user.Email)
+                .HasConversion(encryptionConverter)
                 .IsRequired();
 
             modelBuilder.Entity<User>()
@@ -225,24 +243,24 @@ namespace SudokuCollective.Data.Models
                 .Ignore(user => user.IsSuperUser);
 
             modelBuilder.Entity<UserRole>()
-                .HasKey(ur => ur.Id);
+                .HasKey(userRole => userRole.Id);
 
             modelBuilder.Entity<UserRole>()
-                .HasOne(ur => ur.User)
+                .HasOne(userRole => userRole.User)
                 .WithMany(user => user.Roles)
-                .HasForeignKey(ur => ur.UserId);
+                .HasForeignKey(userRole => userRole.UserId);
 
             modelBuilder.Entity<UserRole>()
-                .HasOne(ur => ur.Role)
+                .HasOne(userRole => userRole.Role)
                 .WithMany(role => role.Users)
-                .HasForeignKey(ur => ur.RoleId);
+                .HasForeignKey(userRole => userRole.RoleId);
 
             modelBuilder.Entity<SudokuSolution>()
                 .HasKey(solution => solution.Id);
 
             modelBuilder.Entity<SudokuSolution>()
                 .Property(solution => solution.SolutionList)
-                .HasConversion(valueConverter)
+                .HasConversion(intListConverter)
                 .Metadata
                 .SetValueComparer(valueComparer);
 
@@ -262,38 +280,73 @@ namespace SudokuCollective.Data.Models
                 .HasKey(app => app.Id);
 
             modelBuilder.Entity<App>()
-                .Ignore(app => app.UserCount);
-
-            modelBuilder.Entity<App>()
-                .Ignore(app => app.UseCustomEmailConfirmationAction);
-
-            modelBuilder.Entity<App>()
+                .Ignore(app => app.UserCount)
+                .Ignore(app => app.UseCustomEmailConfirmationAction)
                 .Ignore(app => app.UseCustomPasswordResetAction);
 
-            modelBuilder.Entity<UserApp>()
-                .HasKey(ua => ua.Id);
+            modelBuilder.Entity<App>()
+                .Property(app => app.License)
+                .HasConversion(encryptionConverter);
+
+            modelBuilder.Entity<App>()
+                .HasOne(app => app.SMTPServerSettings)
+                .WithOne(smtpServerSettings => smtpServerSettings.App)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<UserApp>()
-                .HasOne(ua => ua.User)
+                .HasKey(userApp => userApp.Id);
+
+            modelBuilder.Entity<UserApp>()
+                .HasOne(userApp => userApp.User)
                 .WithMany(user => user.Apps)
-                .HasForeignKey(ua => ua.UserId);
+                .HasForeignKey(userApp => userApp.UserId);
 
             modelBuilder.Entity<UserApp>()
-                .HasOne(ua => ua.App)
+                .HasOne(userApp => userApp.App)
                 .WithMany(app => app.Users)
-                .HasForeignKey(ua => ua.AppId);
+                .HasForeignKey(userApp => userApp.AppId);
+
+            modelBuilder.Entity<SMTPServerSettings>()
+                .HasKey(settings => settings.Id);
+
+            modelBuilder.Entity<SMTPServerSettings>()
+                .Property(settings => settings.SmtpServer)
+                .HasConversion(encryptionConverter);
+
+            modelBuilder.Entity<SMTPServerSettings>()
+                .Property(settings => settings.UserName)
+                .HasConversion(encryptionConverter);
+
+            modelBuilder.Entity<SMTPServerSettings>()
+                .Property(settings => settings.Password)
+                .HasConversion(encryptionConverter);
+
+            modelBuilder.Entity<SMTPServerSettings>()
+                .Property(settings => settings.FromEmail)
+                .HasConversion(encryptionConverter);
+
+            modelBuilder.Entity<SMTPServerSettings>()
+                .Ignore(settings => settings.App);
             
             modelBuilder.Entity<AppAdmin>()
-                .HasKey(aa => aa.Id);
+                .HasKey(appAdmin => appAdmin.Id);
 
             modelBuilder.Entity<EmailConfirmation>()
-                .HasKey(ec => ec.Id);
+                .HasKey(emailConfirmation => emailConfirmation.Id);
 
             modelBuilder.Entity<EmailConfirmation>()
-                .Ignore(ec => ec.IsUpdate);
+                .Property(emailConfirmation => emailConfirmation.OldEmailAddress)
+                .HasConversion(encryptionConverter);
+
+            modelBuilder.Entity<EmailConfirmation>()
+                .Property(emailConfirmation => emailConfirmation.NewEmailAddress)
+                .HasConversion(encryptionConverter);
+
+            modelBuilder.Entity<EmailConfirmation>()
+                .Ignore(emailConfirmation => emailConfirmation.IsUpdate);
 
             modelBuilder.Entity<PasswordReset>()
-                .HasKey(pu => pu.Id);
+                .HasKey(passwordReset => passwordReset.Id);
         }
     }
 }
