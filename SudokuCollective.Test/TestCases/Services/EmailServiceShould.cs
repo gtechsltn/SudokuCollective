@@ -21,8 +21,6 @@ namespace SudokuCollective.Test.TestCases.Services
         private MockedRequestService mockedRequestService;
         private MockedAppsRepository mockedAppsRepository;
         private Mock<ILogger<EmailService>> mockedLogger;
-        private Mock<IWebHostEnvironment> mockedWebHostEnvironment;
-        private Mock<IConfiguration> mockedConfiguration;
         private IEmailService sut;
         private IEmailService sutFailure;
         private string toEmail;
@@ -39,24 +37,18 @@ namespace SudokuCollective.Test.TestCases.Services
             mockedRequestService = new MockedRequestService();
             mockedAppsRepository = new MockedAppsRepository(context);
             mockedLogger = new Mock<ILogger<EmailService>>();
-            mockedWebHostEnvironment = new Mock<IWebHostEnvironment>();
-            mockedConfiguration = new Mock<IConfiguration>();
 
             sut = new EmailService(
                 emailMetaData, 
                 mockedRequestService.SuccessfulRequest.Object,
                 mockedAppsRepository.SuccessfulRequest.Object,
-                mockedLogger.Object,
-                mockedWebHostEnvironment.Object,
-                mockedConfiguration.Object);
+                mockedLogger.Object);
                 
             sutFailure = new EmailService(
                 incorrectEmailMetaData, 
                 mockedRequestService.SuccessfulRequest.Object,
                 mockedAppsRepository.SuccessfulRequest.Object,
-                mockedLogger.Object,
-                mockedWebHostEnvironment.Object,
-                mockedConfiguration.Object);
+                mockedLogger.Object);
 
             toEmail = "sudokucollective@gmail.com";
             subject = "testing123...";

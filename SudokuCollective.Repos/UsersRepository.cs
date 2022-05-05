@@ -263,7 +263,9 @@ namespace SudokuCollective.Repos
 
             try
             {
-                var query = await _context
+                /* Since emails are encrypted we have to pull all users
+                 * first and then search by email */
+                var users = await _context
                     .Users
                     .Include(u => u.Apps)
                     .Include(u => u.Roles)
@@ -273,7 +275,15 @@ namespace SudokuCollective.Repos
                     .Include(u => u.Games)
                         .ThenInclude(g => g.SudokuMatrix)
                             .ThenInclude(m => m.SudokuCells)
-                    .FirstOrDefaultAsync(
+                    .ToListAsync();
+
+                if (users == null)
+                {
+                    result.IsSuccess = false;
+                }
+
+                var query = users
+                    .FirstOrDefault(
                         u => u.Email.ToLower().Equals(email.ToLower()));
 
                 if (query == null)

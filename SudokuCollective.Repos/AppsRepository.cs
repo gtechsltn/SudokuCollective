@@ -1,7 +1,4 @@
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.ServiceModels;
@@ -11,7 +8,6 @@ using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Repos.Utilities;
-using SudokuCollective.Encrypt;
 
 namespace SudokuCollective.Repos
 {
@@ -21,26 +17,17 @@ namespace SudokuCollective.Repos
         private readonly DatabaseContext _context;
         private readonly IRequestService _requestService;
         private readonly ILogger<AppsRepository<App>> _logger;
-        private readonly IWebHostEnvironment _environment;
-        #endregion
-
-        #region Properties
-        private IConfiguration Configuration { get; }
         #endregion
 
         #region Constructor
         public AppsRepository(
             DatabaseContext context,
             IRequestService requestService,
-            ILogger<AppsRepository<App>> logger,
-            IWebHostEnvironment environment,
-            IConfiguration configuration)
+            ILogger<AppsRepository<App>> logger)
         {
             _context = context;
             _requestService = requestService;
             _logger = logger;
-            _environment = environment;
-            Configuration = configuration;
         }
         #endregion
 
@@ -241,30 +228,6 @@ namespace SudokuCollective.Repos
                     .SMTPServerSettings
                     .FirstOrDefaultAsync(s => s.AppId == query.Id);
 
-                var key = !_environment.IsStaging() ?
-                    Configuration.GetSection("EncryptionKey").Value :
-                    Environment.GetEnvironmentVariable("ENCRYPTION_KEY");
-
-                if (!string.IsNullOrEmpty(query.SMTPServerSettings.SmtpServer))
-                {
-                    query.SMTPServerSettings.SmtpServer = Encryption.DecryptString(query.SMTPServerSettings.SmtpServer, key);
-                }
-
-                if (!string.IsNullOrEmpty(query.SMTPServerSettings.UserName))
-                {
-                    query.SMTPServerSettings.UserName = Encryption.DecryptString(query.SMTPServerSettings.UserName, key);
-                }
-
-                if (!string.IsNullOrEmpty(query.SMTPServerSettings.Password))
-                {
-                    query.SMTPServerSettings.Password = Encryption.DecryptString(query.SMTPServerSettings.Password, key);
-                }
-
-                if (!string.IsNullOrEmpty(query.SMTPServerSettings.FromEmail))
-                {
-                    query.SMTPServerSettings.FromEmail = Encryption.DecryptString(query.SMTPServerSettings.FromEmail, key);
-                }
-
                 if (query != null)
                 {
                     query.Users = await _context.UsersApps
@@ -333,39 +296,19 @@ namespace SudokuCollective.Repos
             try
             {
                 var query = new App();
-
-                query = await _context
+                
+                /* Since licenses are encrypted we have to pull all apps
+                 * first and then search by license */
+                var apps = await _context
                     .Apps
-                    .FirstOrDefaultAsync(
+                    .ToListAsync();
+
+                query = apps.FirstOrDefault(
                         a => a.License.ToLower().Equals(license.ToLower()));
                 
                 query.SMTPServerSettings = await _context
                     .SMTPServerSettings
                     .FirstOrDefaultAsync(s => s.AppId == query.Id);
-
-                var key = !_environment.IsStaging() ?
-                    Configuration.GetSection("EncryptionKey").Value :
-                    Environment.GetEnvironmentVariable("ENCRYPTION_KEY");
-
-                if (!string.IsNullOrEmpty(query.SMTPServerSettings.SmtpServer))
-                {
-                    query.SMTPServerSettings.SmtpServer = Encryption.DecryptString(query.SMTPServerSettings.SmtpServer, key);
-                }
-
-                if (!string.IsNullOrEmpty(query.SMTPServerSettings.UserName))
-                {
-                    query.SMTPServerSettings.UserName = Encryption.DecryptString(query.SMTPServerSettings.UserName, key);
-                }
-
-                if (!string.IsNullOrEmpty(query.SMTPServerSettings.Password))
-                {
-                    query.SMTPServerSettings.Password = Encryption.DecryptString(query.SMTPServerSettings.Password, key);
-                }
-
-                if (!string.IsNullOrEmpty(query.SMTPServerSettings.FromEmail))
-                {
-                    query.SMTPServerSettings.FromEmail = Encryption.DecryptString(query.SMTPServerSettings.FromEmail, key);
-                }
 
                 if (query != null)
                 {
@@ -440,36 +383,12 @@ namespace SudokuCollective.Repos
 
                 if (query.Count != 0)
                 {
-                    var key = !_environment.IsStaging() ?
-                        Configuration.GetSection("EncryptionKey").Value :
-                        Environment.GetEnvironmentVariable("ENCRYPTION_KEY");
-
                     // Filter games by app
                     foreach (var app in query)
                     {
                         app.SMTPServerSettings = await _context
                             .SMTPServerSettings
                             .FirstOrDefaultAsync(s => s.AppId == app.Id);
-
-                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.SmtpServer))
-                        {
-                            app.SMTPServerSettings.SmtpServer = Encryption.DecryptString(app.SMTPServerSettings.SmtpServer, key);
-                        }
-
-                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.UserName))
-                        {
-                            app.SMTPServerSettings.UserName = Encryption.DecryptString(app.SMTPServerSettings.UserName, key);
-                        }
-
-                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.Password))
-                        {
-                            app.SMTPServerSettings.Password = Encryption.DecryptString(app.SMTPServerSettings.Password, key);
-                        }
-
-                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.FromEmail))
-                        {
-                            app.SMTPServerSettings.FromEmail = Encryption.DecryptString(app.SMTPServerSettings.FromEmail, key);
-                        }
 
                         foreach (var userApp in app.Users)
                         {
@@ -536,36 +455,12 @@ namespace SudokuCollective.Repos
 
                 if (query.Count != 0)
                 {
-                    var key = !_environment.IsStaging() ?
-                        Configuration.GetSection("EncryptionKey").Value :
-                        Environment.GetEnvironmentVariable("ENCRYPTION_KEY");
-
                     // Filter games by app
                     foreach (var app in query)
                     {
                         app.SMTPServerSettings = await _context
                             .SMTPServerSettings
                             .FirstOrDefaultAsync(s => s.AppId == app.Id);
-
-                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.SmtpServer))
-                        {
-                            app.SMTPServerSettings.SmtpServer = Encryption.DecryptString(app.SMTPServerSettings.SmtpServer, key);
-                        }
-
-                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.UserName))
-                        {
-                            app.SMTPServerSettings.UserName = Encryption.DecryptString(app.SMTPServerSettings.UserName, key);
-                        }
-
-                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.Password))
-                        {
-                            app.SMTPServerSettings.Password = Encryption.DecryptString(app.SMTPServerSettings.Password, key);
-                        }
-
-                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.FromEmail))
-                        {
-                            app.SMTPServerSettings.FromEmail = Encryption.DecryptString(app.SMTPServerSettings.FromEmail, key);
-                        }
 
                         foreach (var userApp in app.Users)
                         {
@@ -628,36 +523,12 @@ namespace SudokuCollective.Repos
 
                 if (query.Count != 0)
                 {
-                    var key = !_environment.IsStaging() ?
-                        Configuration.GetSection("EncryptionKey").Value :
-                        Environment.GetEnvironmentVariable("ENCRYPTION_KEY");
-
                     // Filter games by app
                     foreach (var app in query)
                     {
                         app.SMTPServerSettings = await _context
                             .SMTPServerSettings
                             .FirstOrDefaultAsync(s => s.AppId == app.Id);
-
-                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.SmtpServer))
-                        {
-                            app.SMTPServerSettings.SmtpServer = Encryption.DecryptString(app.SMTPServerSettings.SmtpServer, key);
-                        }
-
-                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.UserName))
-                        {
-                            app.SMTPServerSettings.UserName = Encryption.DecryptString(app.SMTPServerSettings.UserName, key);
-                        }
-
-                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.Password))
-                        {
-                            app.SMTPServerSettings.Password = Encryption.DecryptString(app.SMTPServerSettings.Password, key);
-                        }
-
-                        if (!string.IsNullOrEmpty(app.SMTPServerSettings.FromEmail))
-                        {
-                            app.SMTPServerSettings.FromEmail = Encryption.DecryptString(app.SMTPServerSettings.FromEmail, key);
-                        }
 
                         foreach (var userApp in app.Users)
                         {
@@ -1234,14 +1105,19 @@ namespace SudokuCollective.Repos
             }
 
             try
-            {
+            { 
                 var user = await _context
                     .Users
                     .FirstOrDefaultAsync(u => u.Id == userId);
 
-                var app = await _context
+                /* Since licenses are encrypted we have to pull all apps
+                 * first and then search by license */
+                var apps = await _context
                     .Apps
-                    .FirstOrDefaultAsync(
+                    .ToListAsync();
+
+                var app = apps
+                    .FirstOrDefault(
                         a => a.License.ToLower().Equals(license.ToLower()));
 
                 if (user == null || app == null)
@@ -1314,10 +1190,15 @@ namespace SudokuCollective.Repos
             }
 
             try
-            {
-                var app = await _context
+            {                
+                /* Since licenses are encrypted we have to pull all apps
+                 * first and then search by license */
+                var apps = await _context
                     .Apps
-                    .FirstOrDefaultAsync(
+                    .ToListAsync();
+
+                var app = apps
+                    .FirstOrDefault(
                         a => a.License.ToLower().Equals(license.ToLower()));
 
                 var user = await _context
@@ -1531,33 +1412,52 @@ namespace SudokuCollective.Repos
         public async Task<bool> HasEntityAsync(int id) => 
             await _context.Apps.AnyAsync(a => a.Id == id);
 
-        public async Task<bool> IsAppLicenseValidAsync(string license) => 
-            await _context
+        public async Task<bool> IsAppLicenseValidAsync(string license)
+        {
+            /* Since licenses are encrypted we have to pull all apps
+             * first and then search by license */
+            var apps = await _context
                 .Apps
-                .AnyAsync(
-                    app => app.License.ToLower().Equals(license.ToLower()));
+                .ToListAsync();
+
+            return apps.Any(app => app.License.ToLower().Equals(license.ToLower()));
+        }
 
         public async Task<bool> IsUserRegisteredToAppAsync(
             int id, 
             string license, 
-            int userId) => 
-            await _context
+            int userId)
+        {
+            /* Since licenses are encrypted we have to pull all apps
+             * first and then search by license */
+            var apps = await _context
                 .Apps
-                .AnyAsync(
+                .ToListAsync();
+
+            return apps
+                .Any(
                     a => a.Users.Any(ua => ua.UserId == userId)
                     && a.Id == id
-                    && a.License.ToLower().Equals(license.ToLower()));
+                    && a.License.ToLower().Equals(license.ToLower()));       
+        }
 
         public async Task<bool> IsUserOwnerOThisfAppAsync(
             int id, 
             string license, 
-            int userId) =>
-            await _context
+            int userId)
+        {
+            /* Since licenses are encrypted we have to pull all apps
+             * first and then search by license */
+            var apps = await _context
                 .Apps
-                .AnyAsync(
+                .ToListAsync();
+
+            return apps
+                .Any(
                     a => a.License.ToLower().Equals(license.ToLower())
                     && a.OwnerId == userId
                     && a.Id == id);
+        }
 
         public async Task<string> GetLicenseAsync(int id) => await _context
                 .Apps
