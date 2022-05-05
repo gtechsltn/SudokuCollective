@@ -11,8 +11,11 @@ using SudokuCollective.Data.Models;
 
 namespace SudokuCollective.Api.Migrations
 {
+    /// <summary>
+    /// Auto generated class
+    /// </summary>
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220428193257_InitializeDatabase")]
+    [Migration("20220504192116_InitializeDatabase")]
     partial class InitializeDatabase
     {
         /// <summary>

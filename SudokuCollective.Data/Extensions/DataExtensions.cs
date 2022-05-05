@@ -74,10 +74,6 @@ namespace SudokuCollective.Data.Extensions
                         ((AppPayload)result).SMTPServerSettings.FromEmail = element
                             .GetProperty("smtpServerSettings")
                             .GetProperty("fromEmail").ToString();
-                        ((AppPayload)result).SMTPServerSettings.AppId = Convert.ToInt32(
-                            element
-                                .GetProperty("smtpServerSettings")
-                                .GetProperty("appId").ToString());
                     }
 
                     return true;
