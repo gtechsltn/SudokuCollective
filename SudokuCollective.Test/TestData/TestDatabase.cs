@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Moq;
@@ -14,13 +15,26 @@ namespace SudokuCollective.Test.TestData
     {
         public static async Task<DatabaseContext> GetDatabaseContext()
         {
-            Mock<IConfiguration> config = new Mock<IConfiguration>();
-
             var options = new DbContextOptionsBuilder<DatabaseContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
 
-            var databaseContext = new DatabaseContext(options, config.Object);
+            Mock<IWebHostEnvironment> env = new Mock<IWebHostEnvironment>();
+
+            Mock<IConfigurationSection> mockSection = new Mock<IConfigurationSection>();
+            
+            mockSection.Setup(x=>x.Value).Returns(TestObjects.GetEncryptionKey());
+
+            Mock<IConfiguration> config = new Mock<IConfiguration>();
+
+            config
+                .Setup(x => x.GetSection(It.Is<string>(k => k == "EncryptionKey")))
+                .Returns(mockSection.Object);
+
+            var databaseContext = new DatabaseContext(
+                options,
+                env.Object,
+                config.Object);
 
             databaseContext.Database.EnsureCreated();
 
