@@ -125,7 +125,7 @@ namespace SudokuCollective.Api.V1.Controllers
         }
 
         /// <summary>
-        /// An endpoint to update a game, requires the user role.
+        /// An endpoint to update a game, requires the superuser or admin roles.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="request"></param>
@@ -134,7 +134,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// <response code="404">A message detailing any issues updating a game.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The Update endpoint requires the user to be logged in. Requires the user role. The query parameter id refers to the relevant game. 
+        /// The Update endpoint requires the user to be logged in. Requires the superuser or admin roles. The query parameter id refers to the relevant game. 
         /// The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
@@ -150,7 +150,7 @@ namespace SudokuCollective.Api.V1.Controllers
         ///     }     
         /// ```
         /// </remarks>
-        [Authorize(Roles = "USER")]
+        [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(
             int id,
@@ -539,6 +539,85 @@ namespace SudokuCollective.Api.V1.Controllers
                     request.RequestorId))
                 {
                     var result = await _gamesService.GetMyGamesAsync(request);
+
+                    if (result.IsSuccess)
+                    {
+                        result.Message = ControllerMessages.StatusCode200(result.Message);
+
+                        return Ok(result);
+                    }
+                    else
+                    {
+                        result.Message = ControllerMessages.StatusCode404(result.Message);
+
+                        return NotFound(result);
+                    }
+                }
+                else
+                {
+                    return ControllerUtilities.ProcessTokenError(this);
+                }
+            }
+            catch (Exception e)
+            {
+                return ControllerUtilities.ProcessException<GamesController>(
+                    this,
+                    _requestService,
+                    _logger,
+                    e);
+            }
+        }
+
+        /// <summary>
+        /// An endpoint to update a logged in user's games, requires the user role.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="request"></param>
+        /// <returns>An updated logged in user's game.</returns>
+        /// <response code="200">An updated logged in user's game.</response>
+        /// <response code="404">A message detailing any issues updating a logged in user's game.</response>
+        /// <response code="500">A description of any errors processing the request.</response>
+        /// <remarks>
+        /// The UpdateMyGame endpoint requires the user to be logged in. Requires the user role. The query parameter id refers to the relevant game. 
+        /// This endpoint provides additional checks to ensure the requesting user is the originator of the game. User is indicated by the 
+        /// request requestorId. The request body parameter uses the request model.
+        /// 
+        /// The request should be structured as follows:
+        /// ```
+        ///     {                                 
+        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
+        ///       "requestorId": integer, // the user id for the requesting logged in user
+        ///       "appId": integer,       // the app id for the app the requesting user is logged into
+        ///       "paginator": paginator, // an object to control list pagination, not applicable here
+        ///       "payload": {
+        ///         "SudokuCells": SudokuCells[], // SudokuCells is required, represents the array of a games sudoku cells for updating
+        ///       }
+        ///     }     
+        /// ```
+        /// </remarks>
+        [Authorize(Roles = "USER")]
+        [HttpPut("{id}/UpdateMyGame")]
+        public async Task<IActionResult> UpdateMyGameAsync(
+            int id,
+            [FromBody] Request request)
+        {
+            try
+            {
+                if (id == 0) throw new ArgumentException(ControllerMessages.IdCannotBeZeroMessage);
+
+                if (request == null) throw new ArgumentNullException(nameof(request));
+
+                _requestService.Update(request);
+
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
+                    _httpContextAccessor,
+                    request.License,
+                    request.AppId,
+                    request.RequestorId))
+                {
+                    var result = await _gamesService.UpdateMyGameAsync(
+                        id, 
+                        request);
 
                     if (result.IsSuccess)
                     {
