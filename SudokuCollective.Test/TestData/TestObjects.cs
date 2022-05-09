@@ -40,8 +40,8 @@ namespace SudokuCollective.Test.TestData
                 IncludeCompletedGames = false
             };
 
-        public static AnnonymousCheckPayload GetValidAnnonymousCheckPayload() =>
-            new AnnonymousCheckPayload
+        public static AnnonymousCheckRequest GetValidAnnonymousCheckPayload() =>
+            new AnnonymousCheckRequest
             {
                 FirstRow = new List<int> { 7, 8, 5, 4, 1, 3, 2, 9, 6 },
                 SecondRow = new List<int> { 1, 4, 2, 8, 6, 9, 5, 7, 3 },
@@ -54,8 +54,8 @@ namespace SudokuCollective.Test.TestData
                 NinthRow = new List<int> { 9, 7, 6, 5, 2, 4, 8, 3, 1 }
             };
 
-        public static AnnonymousCheckPayload GetInvalidAnnonymousCheckPayload() =>
-            new AnnonymousCheckPayload
+        public static AnnonymousCheckRequest GetInvalidAnnonymousCheckPayload() =>
+            new AnnonymousCheckRequest
             {
                 FirstRow = new List<int> { 7, 8, 5, 4, 1, 3, 2, 9, 6, 0 },
                 SecondRow = new List<int> { 1, 4, 2, 8, 6, 9, 5, 7, 3 },
@@ -531,35 +531,30 @@ namespace SudokuCollective.Test.TestData
         public static CreateGamePayload GetCreateGamePayload() =>
             new CreateGamePayload()
             {
-                UserId = 1,
                 DifficultyId = 4
             };
 
-        public static UpdateGamePayload GetUpdateGamePayload(int updatedValue) =>
-            new UpdateGamePayload()
+        public static GamePayload GetGamePayload(int updatedValue) =>
+            new GamePayload()
             {
-                GameId = 1,
                 SudokuCells = GetUpdateSudokuCells(updatedValue)
             };
 
-        public static UpdateGamePayload GetInvalidUpdateGamePayload(int updatedValue) =>
-            new UpdateGamePayload()
+        public static GamePayload GetInvalidGamePayload(int updatedValue) =>
+            new GamePayload()
             {
-                GameId = 1,
                 SudokuCells = GetUpdateInvalidSudokuCells(updatedValue)
             };
 
-        public static UpdateGamePayload GetSolvedUpdateGamePayload() =>
-            new UpdateGamePayload()
+        public static GamePayload GetSolvedGamePayload() =>
+            new GamePayload()
             {
-                GameId = 1,
                 SudokuCells = GetValidSudokuCells()
             };
 
-        public static UpdateGamePayload GetGameNotFoundUpdateGamePayload() =>
-            new UpdateGamePayload()
+        public static GamePayload GetGameNotFoundGamePayload() =>
+            new GamePayload()
             {
-                GameId = 5,
                 SudokuCells = GetValidSudokuCells()
             };
 

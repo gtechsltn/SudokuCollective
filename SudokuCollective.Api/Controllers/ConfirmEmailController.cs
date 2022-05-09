@@ -20,7 +20,7 @@ namespace SudokuCollective.Api.Controllers
         private readonly IWebHostEnvironment _hostEnvironment;
 
         /// <summary>
-        /// A class constructor for the confirm email controller.
+        /// Confirm Email Controller Constructor
         /// </summary>
         public ConfirmEmailController(
             IUsersService usersServ,
@@ -31,11 +31,11 @@ namespace SudokuCollective.Api.Controllers
         }
 
         /// <summary>
-        /// A default method to process confirm email requests, does not require a login.
+        /// A default endpoint to process confirm email requests, does not require a login.
         /// </summary>
         /// <remarks>
-        /// This is a default method to handle email confirmations.  It is strongly recommended that you implement a 
-        /// custom email confirmation action to handle such requests, this method is simply a placeholder to handle
+        /// This is a default endpoint to handle email confirmations.  It is strongly recommended that you implement a 
+        /// custom email confirmation action to handle such requests, this endpoint is simply a placeholder to handle
         /// such requests until you've implemented a custom action.  In order to implement such a request you have to 
         /// create it within your app (the details of which are dependent upon your apps particular framework) and 
         /// then enable it by setting the following app properties:

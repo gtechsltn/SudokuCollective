@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Data.Models.Payloads;
 using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Payloads
 {
-    public class AnnonymousCheckPayloadShould
+    public class AnnonymousCheckRequestShould
     {
-        private IAnnonymousCheckPayload sut;
+        private IAnnonymousCheckRequest sut;
 
         [SetUp]
         public void Setup()
@@ -55,17 +55,17 @@ namespace SudokuCollective.Test.TestCases.Payloads
         public void HasADefaultConstructor()
         {
             // Arrange and Act
-            sut = new AnnonymousCheckPayload();
+            sut = new AnnonymousCheckRequest();
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<AnnonymousCheckPayload>());
+            Assert.That(sut, Is.InstanceOf<AnnonymousCheckRequest>());
         }
 
         [Test, Category("Payloads")]
         public void HasAConstructorThatAcceptsIntArrays()
         {
             // Arrange and Act
-            sut = new AnnonymousCheckPayload(
+            sut = new AnnonymousCheckRequest(
                 new int[9], 
                 new int[9], 
                 new int[9], 
@@ -77,14 +77,14 @@ namespace SudokuCollective.Test.TestCases.Payloads
                 new int[9]);
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<AnnonymousCheckPayload>());
+            Assert.That(sut, Is.InstanceOf<AnnonymousCheckRequest>());
         }
 
         [Test, Category("Payloads")]
         public void HasAConstructorThatAcceptsIntLists()
         {
             // Arrange and Act
-            sut = new AnnonymousCheckPayload(
+            sut = new AnnonymousCheckRequest(
                 new List<int> { 7, 8, 5, 4, 1, 3, 2, 9, 6 },
                 new List<int> { 1, 4, 2, 8, 6, 9, 5, 7, 3 },
                 new List<int> { 6, 9, 3, 2, 7, 5, 4, 1, 8 },
@@ -96,7 +96,7 @@ namespace SudokuCollective.Test.TestCases.Payloads
                 new List<int> { 9, 7, 6, 5, 2, 4, 8, 3, 1 });
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<AnnonymousCheckPayload>());
+            Assert.That(sut, Is.InstanceOf<AnnonymousCheckRequest>());
         }
 
         [Test, Category("Payloads")]

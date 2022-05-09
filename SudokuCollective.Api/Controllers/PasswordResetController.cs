@@ -20,8 +20,10 @@ namespace SudokuCollective.Api.Controllers
         private readonly IAppsService _appsService;
 
         /// <summary>
-        /// A class constructor for the password reset controller.
+        /// Password Reset Controller Constructor
         /// </summary>
+        /// <param name="usersService"></param>
+        /// <param name="appsService"></param>
         public PasswordResetController(
             IUsersService usersService,
             IAppsService appsService)
@@ -31,11 +33,11 @@ namespace SudokuCollective.Api.Controllers
         }
 
         /// <summary>
-        /// A default method to process password reset requests, does not require a login.
+        /// A default endpoint to process password reset requests, does not require a login.
         /// </summary>
         /// <remarks>
-        /// This is a default method to handle password resets.  It is strongly recommended that you implement a 
-        /// custom password reset action to handle such requests, this method is simply a placeholder to handle
+        /// This is a default endpoint to handle password resets.  It is strongly recommended that you implement a 
+        /// custom password reset action to handle such requests, this endpoint is simply a placeholder to handle
         /// such requests until you've implemented a custom action.  In order to implement such a request you have to 
         /// create it within your app (the details of which are dependent upon your apps particular framework) and 
         /// then enable it by setting the following app properties:
@@ -104,10 +106,10 @@ namespace SudokuCollective.Api.Controllers
 
 
         /// <summary>
-        /// The results of the default method above link back to here upon completion, does not require a login.
+        /// The results of the default endpoint above link back to here upon completion, does not require a login.
         /// </summary>
         /// <remarks>
-        /// This is a default method to handle password resets links back to this method upon completion. The results
+        /// This is a default endpoint to handle password resets links back to this endpoint upon completion. The results
         /// of the default password reset operation are displayed here.
         /// </remarks>
         [AllowAnonymous]

@@ -17,7 +17,7 @@ using SudokuCollective.Data.Models.Requests;
 namespace SudokuCollective.Api.Controllers.V1
 {
     /// <summary>
-    /// User Controller Class
+    /// Users Controller Class
     /// </summary>
     [Authorize]
     [Route("api/v1/[controller]")]
@@ -32,7 +32,7 @@ namespace SudokuCollective.Api.Controllers.V1
         private readonly ILogger<UsersController> _logger;
 
         /// <summary>
-        /// User Controller Constructor
+        /// Users Controller Constructor
         /// </summary>
         /// <param name="usersService"></param>
         /// <param name="appsService"></param>
@@ -57,7 +57,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method which gets a given user relative to the requesting app, available to all roles.
+        /// An endpoint which gets a given user relative to the requesting app, requires the user role.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="request"></param>
@@ -66,8 +66,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues getting a user.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The GetAsync method requires the user to be logged in. Available to all roles. The query parameter id 
-        /// refers to the relevant user. The request body parameter uses the request model.
+        /// The Get endpoint requires the user to be logged in. Requires the user role. The query parameter id refers to the relevant user.
+        /// The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -80,7 +80,7 @@ namespace SudokuCollective.Api.Controllers.V1
         ///     }     
         /// ```
         /// </remarks>
-        [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
+        [Authorize(Roles = "USER")]
         [HttpPost("{id}")]
         public async Task<ActionResult<User>> GetAsync(
             int id,
@@ -134,7 +134,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to update users, available to all roles.
+        /// An endpoint to update users, requires the user role
         /// </summary>
         /// <param name="id"></param>
         /// <param name="request"></param>
@@ -143,8 +143,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues updating a user.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The UpdateAsync method requires the user to be logged in. Available to all roles. The query 
-        /// parameter id refers to the relevant user. The request body parameter uses the request model.
+        /// The Update endpoint requires the user to be logged in. Requires the user role. The query parameter id refers to the relevant user. 
+        /// The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -163,7 +163,7 @@ namespace SudokuCollective.Api.Controllers.V1
         ///     }     
         /// ```
         /// </remarks>
-        [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
+        [Authorize(Roles = "USER")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(
             int id, 
@@ -245,7 +245,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to delete users, available to all roles.
+        /// An endpoint to delete users, requires the user role.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="request"></param>
@@ -254,8 +254,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues deleting a user.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The DeleteAsync method requires the user to be logged in. Available to all roles. The query parameter 
-        /// id refers to the relevant user. The request body parameter uses the request model.
+        /// The Delete endpoint requires the user to be logged in. Requires the user role. The query parameter id refers to the relevant user. 
+        /// The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -268,7 +268,7 @@ namespace SudokuCollective.Api.Controllers.V1
         ///     }     
         /// ```
         /// </remarks>
-        [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
+        [Authorize(Roles = "USER")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<User>> DeleteAsync(
             int id, 
@@ -319,7 +319,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to get a list of all users, requires superuser or admin roles.
+        /// An endpoint to get a list of all users, requires superuser or admin role.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A list of all users.</returns>
@@ -327,8 +327,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues obtaining all users.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The GetUsersAsync method requires the user to be logged in. Requires superuser or admin roles. The request body 
-        /// parameter uses the request model.
+        /// The GetUsers endpoint requires the user to be logged in. Requires superuser or admin roles. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -418,7 +417,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to add roles to a user for a given app, requires superuser or admin roles.
+        /// An endpoint to add roles to a user for a given app, requires superuser or admin roles.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="request"></param>
@@ -427,8 +426,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues adding the role to the user.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The AddRolesAsync method requires the user to be logged in. Requires superuser or admin roles. The query 
-        /// parameter id refers to the relevant user. The request body parameter uses the request model.
+        /// The AddRoles endpoint requires the user to be logged in. Requires superuser or admin roles. The query parameter id refers to the relevant user. 
+        /// The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -497,7 +496,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to remove roles from a user for a given app, requires superuser or admin roles.
+        /// An endpoint to remove roles from a user for a given app, requires superuser or admin roles.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="request"></param>
@@ -506,8 +505,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues adding the role to the user.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The RemoveRolesAsync method requires the user to be logged in. Requires superuser or admin roles. The query 
-        /// parameter id refers to the relevant user. The request body parameter uses the request model.
+        /// The RemoveRoles endpoint requires the user to be logged in. Requires superuser or admin roles. The query parameter id refers to the relevant user. 
+        /// The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -576,7 +575,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to activate a user, requires the superuser role.
+        /// An endpoint to activate a user, requires the superuser role.
         /// </summary>
         /// <param name="id"></param>
         /// <returns>An updated copy of the user with the new active status.</returns>
@@ -584,7 +583,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues activating the user.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The ActivateAsync method requires the user to be logged in. Requires the superuser role.
+        /// The Activate endpoint requires the user to be logged in. Requires the superuser role.
         /// </remarks>
         [Authorize(Roles = "SUPERUSER")]
         [HttpPut("{id}/Activate")]
@@ -620,7 +619,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to deactivate a user, requires the superuser role.
+        /// An endpoint to deactivate a user, requires the superuser role.
         /// </summary>
         /// <param name="id"></param>
         /// <returns>An updated copy of the user with the new active status.</returns>
@@ -628,7 +627,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues deactivating the user.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The DeactivateAsync method requires the user to be logged in. Requires the superuser role.
+        /// The Deactivate endpoint requires the user to be logged in. Requires the superuser role.
         /// </remarks>
         [Authorize(Roles = "SUPERUSER")]
         [HttpPut("{id}/Deactivate")]
@@ -664,7 +663,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to reset user password, your custom password action will plug into this endpoint; does not require a login.
+        /// An endpoint to reset user password, your custom password action will plug into this endpoint; does not require a login.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>An updated copy of the user.</returns>
@@ -672,9 +671,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues resetting the users password.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The ResetPasswordAsync method does not require a login. This method works in conjunction with the custom email action for your 
-        /// app. When your custom action is ready to submit it's data it will submit the token it receives from the email along with the 
-        /// new password to this endpoint. The request body parameter uses a custom request model.
+        /// The ResetPassword endpoint does not require a login. This method works in conjunction with the custom email action for your app. When your custom action 
+        /// is ready to submit it's data it will submit the token it receives from the email along with the new password to this endpoint. The request body parameter 
+        /// uses a custom request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -728,7 +727,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to request that a password reset email; does not require a login.
+        /// An endpoint to request that a password reset email; does not require a login.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A boolean indicating if the password reset email was sent.</returns>
@@ -736,7 +735,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues sending the password reset email.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The RequestPasswordResetAsync method does not require a login. It sends password reset emails. The request body parameter uses a custom request model.
+        /// The RequestPasswordReset endpoint does not require a login. It sends password reset emails. The request body parameter uses a custom request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -804,7 +803,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to request that a password reset email be resent; does not require a login.
+        /// An endpoint to request that a password reset email be resent; does not require a login.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A boolean indicating if the password reset email was resent.</returns>
@@ -812,8 +811,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues resending the password reset email.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The ResendRequestPasswordResetAsync method does not require a login. It resends password reset emails
-        /// if the user has lost the original email. The request body parameter uses a custom request model.
+        /// The ResendRequestPasswordReset endpoint does not require a login. It resends password reset emails if the user has lost the original email. 
+        /// The request body parameter uses a custom request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -885,7 +884,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method which confirms user emails, does not require a login.
+        /// An endpoint which confirms user emails, does not require a login.
         /// </summary>
         /// <param name="token"></param>
         /// <returns>A boolean indicating if the email was confirmed.</returns>
@@ -893,9 +892,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues confirming the users email.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The ConfirmEmailAsync method does not require a login. If you've implemented a custom confirm email action that action will link
-        /// back to this endpoint once confirmed. Your action will send the token to this endpoint to complete the process, the boolean 
-        /// will indicate if the email was confirmed.
+        /// The ConfirmEmail endpoint does not require a login. If you've implemented a custom confirm email action that action will link back to this endpoint once confirmed. 
+        /// Your action will send the token to this endpoint to complete the process, the boolean will indicate if the email was confirmed.
         /// </remarks>
         [AllowAnonymous]
         [HttpGet("ConfirmEmail/{token}")]
@@ -955,7 +953,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method which cancels oustanding email confirmation requests, available to all roles.
+        /// An endpoint which cancels oustanding email confirmation requests, requires the user role.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A boolean indicating if the outstanding email confirmation was cancelled.</returns>
@@ -963,7 +961,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues cancelling outstanding email confirmation requests.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The CancelEmailConfirmationAsync method requires the user to be logged in.  The request body parameter uses the request model.
+        /// The CancelEmailConfirmation endpoint requires the user to be logged in. Requires the user role. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -976,7 +974,7 @@ namespace SudokuCollective.Api.Controllers.V1
         ///     }     
         /// ```
         /// </remarks>
-        [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
+        [Authorize(Roles = "USER")]
         [HttpPut, Route("cancelEmailConfirmation")]
         public async Task<IActionResult> CancelEmailConfirmationAsync([FromBody] Request request)
         {
@@ -1023,7 +1021,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method which cancels oustanding password reset requests, available to all roles.
+        /// An endpoint which cancels oustanding password reset requests, requires the user role.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A boolean indicating if the outstanding password reset request was cancelled.</returns>
@@ -1031,7 +1029,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues cancelling outstanding email confirmation requests.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The CancelPasswordResetAsync method requires the user to be logged in.  The request body parameter uses the request model.
+        /// The CancelPasswordReset endpoint requires the user to be logged in. Requires the user role. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -1044,7 +1042,7 @@ namespace SudokuCollective.Api.Controllers.V1
         ///     }     
         /// ```
         /// </remarks>
-        [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
+        [Authorize(Roles = "USER")]
         [HttpPut, Route("cancelPasswordReset")]
         public async Task<IActionResult> CancelPasswordResetAsync([FromBody] Request request)
         {
@@ -1091,7 +1089,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method which cancels oustanding email confirmation and password reset requests, available to all roles.
+        /// An endpoint which cancels oustanding email confirmation and password reset requests, requires the user role.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A boolean indicating if outstanding email confirmation and password reset requests were cancelled.</returns>
@@ -1099,7 +1097,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues cancelling outstanding email confirmation and password reset requests.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The CancelAllEmailRequestsAsync method requires the user to be logged in.  The request body parameter uses the request model.
+        /// The CancelAllEmailRequests endpoint requires the user to be logged in. Requires the user role. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -1112,7 +1110,7 @@ namespace SudokuCollective.Api.Controllers.V1
         ///     }     
         /// ```
         /// </remarks>
-        [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
+        [Authorize(Roles = "USER")]
         [HttpPut, Route("cancelAllEmailRequests")]
         public async Task<IActionResult> CancelAllEmailRequestsAsync([FromBody] Request request)
         {

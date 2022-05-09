@@ -20,7 +20,6 @@ namespace SudokuCollective.Test.TestCases.Payloads
             // Arrange and Act
             
             // Assert
-            Assert.That(sut.UserId, Is.InstanceOf<int>());
             Assert.That(sut.DifficultyId, Is.InstanceOf<int>());
         }
 
@@ -38,7 +37,7 @@ namespace SudokuCollective.Test.TestCases.Payloads
         public void HasAConstructorThatAcceptsParams()
         {
             // Arrange and Act
-            sut = new CreateGamePayload(1, 2);
+            sut = new CreateGamePayload(2);
 
             // Assert
             Assert.That(sut, Is.InstanceOf<CreateGamePayload>());

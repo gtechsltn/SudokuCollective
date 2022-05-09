@@ -7,20 +7,16 @@ namespace SudokuCollective.Data.Models.Payloads
 {
     public class CreateGamePayload : ICreateGamePayload
     {
-        [Required, JsonPropertyName("userId")]
-        public int UserId { get; set; }
         [Required, JsonPropertyName("difficultyId")]
         public int DifficultyId { get; set; }
 
         public CreateGamePayload()
         {
-            UserId = 0;
             DifficultyId = 0;
         }
 
-        public CreateGamePayload(int userId, int difficultyId)
+        public CreateGamePayload(int difficultyId)
         {
-            UserId = userId;
             DifficultyId = difficultyId;
         }
 

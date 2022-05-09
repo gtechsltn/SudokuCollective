@@ -131,134 +131,12 @@ namespace SudokuCollective.Data.Extensions
                     throw;
                 }
             }
-            else if (type == typeof(AnnonymousCheckPayload))
-            {
-                try
-                {
-                    var firstRow = new List<int>();
-                    var secondRow = new List<int>();
-                    var thirdRow = new List<int>();
-                    var fourthRow = new List<int>();
-                    var fifthRow = new List<int>();
-                    var sixthRow = new List<int>();
-                    var seventhRow = new List<int>();
-                    var eighthRow = new List<int>();
-                    var ninthRow = new List<int>();
-
-                    var firstArray = element.GetProperty("firstRow");
-
-                    foreach (JsonElement number in firstArray.EnumerateArray())
-                    {
-                        firstRow.Add(number.GetInt32());
-                    }
-
-                    var secondArray = element.GetProperty("secondRow");
-
-                    foreach (JsonElement number in secondArray.EnumerateArray())
-                    {
-                        secondRow.Add(number.GetInt32());
-                    }
-
-                    var thirdArray = element.GetProperty("thirdRow");
-
-                    foreach (JsonElement number in thirdArray.EnumerateArray())
-                    {
-                        thirdRow.Add(number.GetInt32());
-                    }
-
-                    var fourthArray = element.GetProperty("fourthRow");
-
-                    foreach (JsonElement number in fourthArray.EnumerateArray())
-                    {
-                        fourthRow.Add(number.GetInt32());
-                    }
-
-                    var fifthArray = element.GetProperty("fifthRow");
-
-                    foreach (JsonElement number in fifthArray.EnumerateArray())
-                    {
-                        fifthRow.Add(number.GetInt32());
-                    }
-
-                    var sixthArray = element.GetProperty("sixthRow");
-
-                    foreach (JsonElement number in sixthArray.EnumerateArray())
-                    {
-                        sixthRow.Add(number.GetInt32());
-                    }
-
-                    var seventhArray = element.GetProperty("seventhRow");
-
-                    foreach (JsonElement number in seventhArray.EnumerateArray())
-                    {
-                        seventhRow.Add(number.GetInt32());
-                    }
-
-                    var eighthArray = element.GetProperty("eighthRow");
-
-                    foreach (JsonElement number in eighthArray.EnumerateArray())
-                    {
-                        eighthRow.Add(number.GetInt32());
-                    }
-
-                    var ninthArray = element.GetProperty("ninthRow");
-
-                    foreach (JsonElement number in ninthArray.EnumerateArray())
-                    {
-                        ninthRow.Add(number.GetInt32());
-                    }
-
-                    result = new AnnonymousCheckPayload()
-                    {
-                        FirstRow = firstRow,
-                        SecondRow = secondRow,
-                        ThirdRow = thirdRow,
-                        FourthRow = fourthRow,
-                        FifthRow = fifthRow,
-                        SixthRow = sixthRow,
-                        SeventhRow = seventhRow,
-                        EighthRow = eighthRow,
-                        NinthRow = ninthRow
-                    };
-
-                    return true;
-                }
-                catch (KeyNotFoundException)
-                {
-                    return false;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            }
-            else if (type == typeof(AnnonymousGamePayload))
-            {
-                try
-                {
-                    result = new AnnonymousGamePayload()
-                    {
-                        DifficultyLevel = (DifficultyLevel)Convert.ToInt32(element.GetProperty("difficultyLevel").ToString())
-                    };
-
-                    return true;
-                }
-                catch (KeyNotFoundException)
-                {
-                    return false;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            }
             else if (type == typeof(CreateGamePayload))
             {
                 try
                 {
                     result = new CreateGamePayload()
                     {
-                        UserId = Convert.ToInt32(element.GetProperty("userId").ToString()),
                         DifficultyId = Convert.ToInt32(element.GetProperty("difficultyId").ToString())
                     };
 
@@ -293,7 +171,7 @@ namespace SudokuCollective.Data.Extensions
                     throw;
                 }
             }
-            else if (type == typeof(UpdateGamePayload))
+            else if (type == typeof(GamePayload))
             {
                 try
                 {
@@ -318,9 +196,8 @@ namespace SudokuCollective.Data.Extensions
                         cells.Add(cell);
                     }
                     // TO DO: add logic to convert sudoku cells
-                    result = new UpdateGamePayload()
+                    result = new GamePayload()
                     {
-                        GameId = Convert.ToInt32(element.GetProperty("gameId").ToString()),
                         SudokuCells = cells
                     };
 

@@ -19,7 +19,7 @@ namespace SudokuCollective.Api.Controllers
         private IConfiguration _configuration { get; }
 
         /// <summary>
-        /// IndexController constructor
+        /// Index Controller Constructor
         /// </summary>
         public IndexController(IConfiguration configuration, IWebHostEnvironment environment)
         {
@@ -28,7 +28,7 @@ namespace SudokuCollective.Api.Controllers
         }
         
         /// <summary>
-        /// A method to obtain and populate the Sudoku Collective mission statement on the index home page.
+        /// An endpoint to obtain and populate the Sudoku Collective mission statement on the index home page.
         /// </summary>
         [AllowAnonymous]
         [HttpGet]
