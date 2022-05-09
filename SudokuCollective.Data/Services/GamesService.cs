@@ -80,7 +80,7 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                var userResponse = await _usersRepository.GetAsync(payload.UserId);
+                var userResponse = await _usersRepository.GetAsync(request.RequestorId);
 
                 if (userResponse.IsSuccess)
                 {
@@ -314,26 +314,12 @@ namespace SudokuCollective.Data.Services
                 return result;
             }
 
-            GamesPayload payload;
-
-            if (request.Payload.ConvertToPayloadSuccessful(typeof(GamesPayload), out IPayload conversionResult))
-            {
-                payload = (GamesPayload)conversionResult;
-            }
-            else
-            {
-                result.IsSuccess = false;
-                result.Message = ServicesMesages.InvalidRequestMessage;
-
-                return result;
-            }
-
             try
             {
                 if (await _appsRepository.HasEntityAsync(request.AppId))
                 {
                     var gameResponse = await _gamesRepository.GetMyGameAsync(
-                        payload.UserId, 
+                        request.RequestorId, 
                         id,
                         request.AppId);
 
@@ -480,11 +466,11 @@ namespace SudokuCollective.Data.Services
         {
             var result = new Result();
 
-            UpdateGamePayload payload;
+            GamePayload payload;
 
-            if (request.Payload.ConvertToPayloadSuccessful(typeof(UpdateGamePayload), out IPayload conversionResult))
+            if (request.Payload.ConvertToPayloadSuccessful(typeof(GamePayload), out IPayload conversionResult))
             {
-                payload = (UpdateGamePayload)conversionResult;
+                payload = (GamePayload)conversionResult;
             }
             else
             {
@@ -729,11 +715,11 @@ namespace SudokuCollective.Data.Services
                 return result;
             }
 
-            UpdateGamePayload payload;
+            GamePayload payload;
 
-            if (request.Payload.ConvertToPayloadSuccessful(typeof(UpdateGamePayload), out IPayload conversionResult))
+            if (request.Payload.ConvertToPayloadSuccessful(typeof(GamePayload), out IPayload conversionResult))
             {
-                payload = (UpdateGamePayload)conversionResult;
+                payload = (GamePayload)conversionResult;
             }
             else
             {

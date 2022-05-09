@@ -43,7 +43,7 @@ namespace SudokuCollective.Test.TestCases.Services
         private IGamesService sutUpdateFailure;
         private Request request;
         private CreateGamePayload createGamePayload;
-        private UpdateGamePayload updateGamePayload;
+        private GamePayload GamePayload;
         private GamesPayload gamesPayload;
 
         [SetUp]
@@ -139,7 +139,6 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
             var payload = new CreateGamePayload()
             {
-                UserId = 5,
                 DifficultyId = 4
             };
             request.Payload = payload;
@@ -158,8 +157,8 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
             var gameId = 1;
             var updatedValue = 6;
-            updateGamePayload = TestObjects.GetUpdateGamePayload(updatedValue);
-            request.Payload = updateGamePayload;
+            GamePayload = TestObjects.GetGamePayload(updatedValue);
+            request.Payload = GamePayload;
 
             // Act
             var result = await sut.UpdateAsync(gameId, request);
@@ -184,8 +183,8 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
             var gameId = 1;
             var updatedValue = 6;
-            updateGamePayload = TestObjects.GetInvalidUpdateGamePayload(updatedValue);
-            request.Payload = updateGamePayload;
+            GamePayload = TestObjects.GetInvalidGamePayload(updatedValue);
+            request.Payload = GamePayload;
 
             // Act
             var result = await sutUpdateFailure.UpdateAsync(gameId, request);
@@ -324,8 +323,8 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
             var gameId = 1;
             var updatedValue = 6;
-            updateGamePayload = TestObjects.GetUpdateGamePayload(updatedValue);
-            request.Payload = updateGamePayload;
+            GamePayload = TestObjects.GetGamePayload(updatedValue);
+            request.Payload = GamePayload;
 
             // Act
             var result = await sut.CheckAsync(gameId, request);
@@ -350,8 +349,8 @@ namespace SudokuCollective.Test.TestCases.Services
         {
             // Arrange
             var gameId = 2;
-            updateGamePayload = TestObjects.GetSolvedUpdateGamePayload();
-            request.Payload = updateGamePayload;
+            GamePayload = TestObjects.GetSolvedGamePayload();
+            request.Payload = GamePayload;
 
             // Act
             var result = await sutSolved.CheckAsync(gameId, request);
@@ -373,8 +372,8 @@ namespace SudokuCollective.Test.TestCases.Services
         {
             // Arrange
             var gameId = 5;
-            updateGamePayload = TestObjects.GetGameNotFoundUpdateGamePayload();
-            request.Payload = updateGamePayload;
+            GamePayload = TestObjects.GetGameNotFoundGamePayload();
+            request.Payload = GamePayload;
 
             // Act
             var result = await sutFailure.CheckAsync(gameId, request);

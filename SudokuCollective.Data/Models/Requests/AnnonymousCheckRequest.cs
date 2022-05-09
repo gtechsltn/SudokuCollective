@@ -2,15 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text.Json;
 using System.Text.Json.Serialization;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Core.Messages;
 using SudokuCollective.Data.Validation.Attributes;
 
 namespace SudokuCollective.Data.Models.Payloads
 {
-    public class AnnonymousCheckPayload : IAnnonymousCheckPayload
+    public class AnnonymousCheckRequest : IAnnonymousCheckRequest
     {
         #region Fields
         private List<int> _firstRow = new();
@@ -199,9 +198,9 @@ namespace SudokuCollective.Data.Models.Payloads
         }
         #endregion
 
-        public AnnonymousCheckPayload() { }
+        public AnnonymousCheckRequest() { }
 
-        public AnnonymousCheckPayload(
+        public AnnonymousCheckRequest(
             int[] firstRow, 
             int[] secondRow, 
             int[] thirdRow, 
@@ -223,7 +222,7 @@ namespace SudokuCollective.Data.Models.Payloads
             NinthRow = ninthRow.ToList();
         }
 
-        public AnnonymousCheckPayload(
+        public AnnonymousCheckRequest(
             List<int> firstRow, 
             List<int> secondRow, 
             List<int> thirdRow, 
@@ -243,11 +242,6 @@ namespace SudokuCollective.Data.Models.Payloads
             SeventhRow = seventhRow;
             EighthRow = eighthRow;
             NinthRow = ninthRow;
-        }
-
-        public static implicit operator JsonElement(AnnonymousCheckPayload v)
-        {
-            return JsonSerializer.SerializeToElement(v, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
         }
     }
 }

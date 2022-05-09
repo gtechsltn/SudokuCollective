@@ -1,18 +1,18 @@
 using NUnit.Framework;
 using SudokuCollective.Core.Enums;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Data.Models.Payloads;
 
 namespace SudokuCollective.Test.TestCases.Payloads
 {
-    public class AnnonymousGamePayloadShould
+    public class AnnonymousGameRequestShould
     {
-        private IAnnonymousGamePayload sut;
+        private IAnnonymousGameRequest sut;
 
         [SetUp]
         public void Setup()
         {
-            sut = new AnnonymousGamePayload();
+            sut = new AnnonymousGameRequest();
         }
 
         [Test, Category("Payloads")]
@@ -28,30 +28,30 @@ namespace SudokuCollective.Test.TestCases.Payloads
         public void HasADefaultConstructor()
         {
             // Arrange and Act
-            sut = new AnnonymousGamePayload();
+            sut = new AnnonymousGameRequest();
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<AnnonymousGamePayload>());
+            Assert.That(sut, Is.InstanceOf<AnnonymousGameRequest>());
         }
 
         [Test, Category("Payloads")]
         public void HasAConstructorThatAcceptsInts()
         {
             // Arrange and Act
-            sut = new AnnonymousGamePayload(1);
+            sut = new AnnonymousGameRequest(1);
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<AnnonymousGamePayload>());
+            Assert.That(sut, Is.InstanceOf<AnnonymousGameRequest>());
         }
 
         [Test, Category("Payloads")]
         public void HasAConstructorThatAcceptsDifficultyLevels()
         {
             // Arrange and Act
-            sut = new AnnonymousGamePayload(DifficultyLevel.EASY);
+            sut = new AnnonymousGameRequest(DifficultyLevel.EASY);
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<AnnonymousGamePayload>());
+            Assert.That(sut, Is.InstanceOf<AnnonymousGameRequest>());
         }
     }
 }

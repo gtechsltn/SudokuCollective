@@ -14,7 +14,7 @@ using SudokuCollective.Data.Models.Params;
 namespace SudokuCollective.Api.Controllers.V1
 {
     /// <summary>
-    /// App Controller Class
+    /// Apps Controller Class
     /// </summary>
     [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
     [Route("api/v1/[controller]")]
@@ -27,7 +27,7 @@ namespace SudokuCollective.Api.Controllers.V1
         private readonly ILogger<AppsController> _logger;
 
         /// <summary>
-        /// App Controller Constructor
+        /// Apps Controller Constructor
         /// </summary>
         /// <param name="appsService"></param>
         /// <param name="requestService"></param>
@@ -46,7 +46,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
         
         /// <summary>
-        /// A method which gets an app, available to all roles.
+        /// An endpoint which gets an app, requires the user role.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="request"></param>
@@ -55,8 +55,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues getting an app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The GetAsync method requires the user to be logged in. Available to all roles. The query parameter id 
-        /// refers to the relevant app. The request body parameter uses the request model.
+        /// The Get endpoint requires the user to be logged in. Requires the user role. The query parameter id refers to the relevant app. 
+        /// The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -69,7 +69,7 @@ namespace SudokuCollective.Api.Controllers.V1
         ///     }     
         /// ```
         /// </remarks>
-        [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
+        [Authorize(Roles = "USER")]
         [HttpPost, Route("{id}")]
         public async Task<ActionResult<App>> GetAsync(
             int id,
@@ -120,7 +120,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to update apps, requires superuser or admin roles.
+        /// An endpoint to update an app, requires the superuser or admin role.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="request"></param>
@@ -129,8 +129,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues updating a app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The UpdateAsync method requires the user to be logged in. Requires superuser or admin roles. The query 
-        /// parameter id refers to the relevant app. The request body parameter uses the request model.
+        /// The Update endpoint requires the user to be logged in. Requires the superuser or admin role. The query parameter id refers to the relevant app. 
+        /// The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -217,7 +217,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
         
         /// <summary>
-        /// A method to delete apps, requires superuser or admin roles.
+        /// An endpoint to delete an app, requires the superuser or admin role.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="license"></param>
@@ -227,8 +227,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues deleting an app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The DeleteAsync method requires the user to be logged in. Requires superuser or admin roles. The query parameters 
-        /// id and license refers to the relevant app. The request body parameter uses the request model.
+        /// The Delete endpoint requires the user to be logged in. Requires the superuser or admin role. The query parameters id and license refers to the relevant app. 
+        /// The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -303,7 +303,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method which gets an app by its license, available to all roles.
+        /// An endpoint which gets an app by its license, requires the superuser or admin role.
         /// </summary>
         /// <param name="license"></param>
         /// <param name="request"></param>
@@ -312,8 +312,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues getting an app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The GetByLicenseAsync method requires the user to be logged in. Available to all roles. The query parameter license 
-        /// refers to the relevant app. The request body parameter uses the request model.
+        /// The GetByLicense endpoint requires the user to be logged in. Requires the superuser or admin role. The query parameter license refers to the relevant app. 
+        /// The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -326,7 +326,7 @@ namespace SudokuCollective.Api.Controllers.V1
         ///     }     
         /// ```
         /// </remarks>
-        [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
+        [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPost, Route("{license}/GetByLicense")]
         public async Task<ActionResult<App>> GetByLicenseAsync(
             string license,
@@ -377,7 +377,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to get a list of all apps, requires superuser or admin roles.
+        /// An endpoint to get a list of all apps, requires the superuser or admin role.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A list of all apps.</returns>
@@ -385,8 +385,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues obtaining all apps.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The GetAppsAsync method requires the user to be logged in. Requires superuser or admin roles. The request body 
-        /// parameter uses the request model.
+        /// The GetApps endpoint requires the user to be logged in. Requires superuser or admin role. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -473,7 +472,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to get a list of all apps associated to the signed in user as owner, requires superuser or admin roles.
+        /// An endpoint to get a list of all apps associated to the signed in user as owner, requires the superuser or admin role.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A list of all apps associated to the signed in user as owner.</returns>
@@ -481,9 +480,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues obtaining all apps.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The GetMyAppsAsync method requires the user to be logged in. Requires superuser or admin roles. Unlike the above GetApps method
-        /// this method specifically gets apps associated with the logged in user as the owner. The request body parameter uses the
-        /// request model.
+        /// The GetMyApps endpoint requires the user to be logged in. Requires the superuser or admin role. Unlike the above GetApps endpoint this endpoint specifically gets 
+        /// apps associated with the logged in user as the owner. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -573,7 +571,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to get a list of all apps associated to the signed in user as a user, requires superuser or admin roles.
+        /// An endpoint to get a list of all apps associated to the signed in user as a user, requires the superuser or admin role.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A list of all apps associated to the signed in user asa user.</returns>
@@ -581,9 +579,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues obtaining all apps.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The GetMyRegisteredAppsAsync method requires the user to be logged in. Requires superuser or admin roles. Unlike the above GetMyApps method
-        /// this method specifically gets apps associated with the logged in user as a user. The request body parameter uses the
-        /// request model.
+        /// The GetMyRegisteredApps endpoint requires the user to be logged in. Requires the superuser or admin role. Unlike the above GetMyApps endpoint this endpoint 
+        /// specifically gets apps associated with the logged in user as a user. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -622,7 +619,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// }
         /// ```
         /// </remarks>
-        [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
+        [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPost, Route("GetMyRegisteredApps")]
         public async Task<ActionResult> GetMyRegisteredAppsAsync(
             [FromBody] Request request)
@@ -672,7 +669,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to get a list of all users registered to an app, requires superuser or admin roles.
+        /// An endpoint to get a list of all users registered to an app, requires the superuser or admin role.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="request"></param>
@@ -681,8 +678,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues obtaining all users.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The GetAppUsersAsync method requires the user to be logged in. Requires superuser or admin roles. Returns a list of all users 
-        /// registered to an app. The request body parameter uses the request model.
+        /// The GetAppUsers endpoint requires the user to be logged in. Requires the superuser or admin role. Returns a list of all users registered to an app. 
+        /// The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -777,7 +774,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to get a list of all users not registered to an app, requires superuser or admin roles.
+        /// An endpoint to get a list of all users not registered to an app, requires the superuser or admin role.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="request"></param>
@@ -786,8 +783,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues obtaining all users.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The GetNonAppUsersAsync method requires the user to be logged in. Requires superuser or admin roles. Returns a list of all users 
-        /// not registered to an app. The request body parameter uses the request model.
+        /// The GetNonAppUsers endpoint requires the user to be logged in. Requires the superuser or admin role. Returns a list of all users not registered to an app. 
+        /// The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -882,7 +879,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method which adds a user to an app, requires superuser or admin roles.
+        /// An endpoint which adds a user to an app, requires the superuser or admin role.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="userId"></param>
@@ -892,9 +889,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues adding a user to an app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The AddUserAsync method requires the user to be logged in. Requires superuser or admin roles. The query parameter id 
-        /// refers to the relevant app and the query parameter userId refers to the relevant user. The request body parameter 
-        /// uses the request model.
+        /// The AddUser endpoint requires the user to be logged in. Requires the superuser or admin role. The query parameter id refers to the relevant app and the 
+        /// query parameter userId refers to the relevant user. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -961,7 +957,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method which removes a user from an app, requires superuser or admin roles.
+        /// An endpoint which removes a user from an app, requires the superuser or admin role.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="userId"></param>
@@ -971,9 +967,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues removing a user from an app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The RemoveUserAsync method requires the user to be logged in. Requires superuser or admin roles. The query parameter id 
-        /// refers to the relevant app and the query parameter userId refers to the relevant user. The request body parameter 
-        /// uses the request model.
+        /// The RemoveUser endpoint requires the user to be logged in. Requires the superuser or admin role. The query parameter id refers to the relevant app and the query 
+        /// parameter userId refers to the relevant user. The request body parameter  uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -1040,7 +1035,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to activate an app, requires superuser or admin roles.
+        /// An endpoint to activate an app, requires the superuser or admin role.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="request"></param>
@@ -1049,8 +1044,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues activating an app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The ActivateAsync method requires the user to be logged in. Requires superuser or admin roles. The query parameter id 
-        /// refers to the relevant app. The request body parameter uses the request model.
+        /// The Activate endpoint requires the user to be logged in. Requires the superuser or admin role. The query parameter id refers to the relevant app. The 
+        /// request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -1114,7 +1109,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to deactivate an app, requires superuser or admin roles.
+        /// An endpoint to deactivate an app, requires the superuser or admin role.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="request"></param>
@@ -1123,8 +1118,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues deactivating an app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The DeactivateAsync method requires the user to be logged in. Requires superuser or admin roles. The query parameter id 
-        /// refers to the relevant app. The request body parameter uses the request model.
+        /// The Deactivate endpoint requires the user to be logged in. Requires the superuser or admin role. The query parameter id refers to the relevant app. The 
+        /// request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -1188,7 +1183,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to reset apps, requires superuser or admin roles.
+        /// An endpoint to reset apps, requires the superuser or admin role.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="request"></param>
@@ -1197,9 +1192,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues resetting an app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The ResetAsync method requires the user to be logged in. Requires superuser or admin roles. Returns a copy of
-        /// the app with all games deleted. The query parameters id refers to the relevant app. The request body 
-        /// parameter uses the request model.
+        /// The Reset endpoint requires the user to be logged in. Requires the superuser or admin role. Returns a copy of the app with all games deleted. The 
+        /// query parameters id refers to the relevant app. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -1271,7 +1265,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to add admin privileges to a given user, requires superuser or admin roles.
+        /// An endpoint to add admin privileges to a given user, requires the superuser or admin role.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="userId"></param>
@@ -1281,9 +1275,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues promoting a user to an admin for a given app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The ActivateAdminPrivilegesAsync method requires the user to be logged in. Requires superuser or admin roles. Returns a copy of
-        /// the relevant user with admin privileges added. The query parameters id refers to the relevant app. The request body 
-        /// parameter uses the request model.
+        /// The ActivateAdminPrivileges endpoint requires the user to be logged in. Requires the superuser or admin role. Returns a copy of the relevant user with admin 
+        /// privileges added. The query parameters id refers to the relevant app. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -1296,7 +1289,7 @@ namespace SudokuCollective.Api.Controllers.V1
         ///     }     
         /// ```
         /// </remarks>
-        [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
+        [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPut, Route("{id}/ActivateAdminPrivileges")]
         public async Task<ActionResult> ActivateAdminPrivilegesAsync(
             int id,
@@ -1350,7 +1343,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to remove admin privileges from a given user, requires superuser or admin roles.
+        /// An endpoint to remove admin privileges from a given user, requires the superuser or admin role.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="userId"></param>
@@ -1360,9 +1353,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues demoting a user from an admin for a given app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The DeactivateAdminPrivilegesAsync method requires the user to be logged in. Requires superuser or admin roles. Returns a copy of
-        /// the relevant user with admin privileges removed. The query parameters id refers to the relevant app. The request body 
-        /// parameter uses the request model.
+        /// The DeactivateAdminPrivileges endpoint requires the user to be logged in. Requires the superuser or admin role. Returns a copy of  the relevant user with admin 
+        /// privileges removed. The query parameters id refers to the relevant app. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```

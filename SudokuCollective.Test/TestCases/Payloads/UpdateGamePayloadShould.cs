@@ -8,14 +8,14 @@ using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Payloads
 {
-    public class UpdateGamePayloadShould
+    public class GamePayloadShould
     {
-        private IUpdateGamePayload sut;
+        private IGamePayload sut;
 
         [SetUp]
         public void Setup()
         {
-            sut = new UpdateGamePayload();
+            sut = new GamePayload();
         }
 
         [Test, Category("Payloads")]
@@ -24,7 +24,6 @@ namespace SudokuCollective.Test.TestCases.Payloads
             // Arrange and Act
 
             // Assert
-            Assert.That(sut.GameId, Is.InstanceOf<int>());
             Assert.That(sut.SudokuCells, Is.InstanceOf<List<SudokuCell>>());
         }
 
@@ -43,10 +42,10 @@ namespace SudokuCollective.Test.TestCases.Payloads
         public void HasADefaultConstructor()
         {
             // Arrange and Act
-            sut = new UpdateGamePayload();
+            sut = new GamePayload();
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<UpdateGamePayload>());
+            Assert.That(sut, Is.InstanceOf<GamePayload>());
         }
 
         [Test, Category("Payloads")]
@@ -58,10 +57,10 @@ namespace SudokuCollective.Test.TestCases.Payloads
                 .ToArray();
 
             // Act
-            sut = new UpdateGamePayload(1, sudokuCellArray);
+            sut = new GamePayload(sudokuCellArray);
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<UpdateGamePayload>());
+            Assert.That(sut, Is.InstanceOf<GamePayload>());
         }
 
         [Test, Category("Payloads")]
@@ -72,10 +71,10 @@ namespace SudokuCollective.Test.TestCases.Payloads
                 .GetValidSudokuCells();
 
             // Act
-            sut = new UpdateGamePayload(1, sudokuCellList);
+            sut = new GamePayload(sudokuCellList);
 
             // Assert
-            Assert.That(sut, Is.InstanceOf<UpdateGamePayload>());
+            Assert.That(sut, Is.InstanceOf<GamePayload>());
         }
 
         [Test, Category("Payloads")]
@@ -89,7 +88,7 @@ namespace SudokuCollective.Test.TestCases.Payloads
 
             // Act and Assert
             Assert.Throws<ArgumentException>(() => 
-                new UpdateGamePayload(1, sudokuCellList));
+                new GamePayload(sudokuCellList));
         }
     }
 }

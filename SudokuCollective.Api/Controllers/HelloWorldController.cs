@@ -14,13 +14,13 @@ namespace SudokuCollective.Api.Controllers
     public class HelloWorldController : ControllerBase
     {
         /// <summary>
-        /// An example method of how to connect to an API for new developers, does not require a login.
+        /// An example endpoint of how to connect to an API for new developers, does not require a login.
         /// </summary>
         /// <returns>A simple message outlining the response model, if a param was included it is echoed in the response.</returns>
         /// <response code="200">A simple message outlining the response model, if a param was included it is echoed in the response.</response>
         /// <remarks>
-        /// The Get method does not require an authorization token.  This method serves as a simple example of how to connect to an 
-        /// api for new developers.  The method accepts a query parameter of 'param', if param is empty it issues a canned response.
+        /// The Get endpoint does not require an authorization token.  This endpoint serves as a simple example of how to connect to an 
+        /// api for new developers.  The endpoint accepts a query parameter of 'param', if param is empty it issues a canned response.
         /// 
         /// An example request is as follows: 
         /// ```
