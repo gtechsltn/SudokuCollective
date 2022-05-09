@@ -277,7 +277,7 @@ namespace SudokuCollective.Api.V1.Controllers
         }
 
         /// <summary>
-        /// An endpoint to get a game, requires the admin roles.
+        /// An endpoint to get a game, requires the superuser or admin roles
         /// </summary>
         /// <param name="id"></param>
         /// <param name="request"></param>
@@ -353,7 +353,7 @@ namespace SudokuCollective.Api.V1.Controllers
         }
 
         /// <summary>
-        /// An endpoint to get all games, requires the admin roles.
+        /// An endpoint to get all games, requires the superuser or admin roles
         /// </summary>
         /// <param name="request"></param>
         /// <returns>All games.</returns>
@@ -361,7 +361,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// <response code="404">A message detailing any issues getting all games.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The GetGames endpoint requires the user to be logged in. Requires the admin roles. The request body parameter uses the request model.
+        /// The GetGames endpoint requires the user to be logged in. Requires the superuser or admin roles The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
