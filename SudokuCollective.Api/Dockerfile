@@ -17,7 +17,6 @@ FROM build AS publish
 RUN dotnet publish "SudokuCollective.Api/SudokuCollective.Api.csproj" -c Release -o /app/publish
 
 FROM base AS final
-ENV ASPNETCORE_ENVIRONMENT Staging
 WORKDIR /app
 COPY --from=publish /app/publish .
-CMD ASPNETCORE_URLS=http://*:$PORT dotnet SudokuCollective.Api.dll
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet SudokuCollective.Api.dll --environment Staging
