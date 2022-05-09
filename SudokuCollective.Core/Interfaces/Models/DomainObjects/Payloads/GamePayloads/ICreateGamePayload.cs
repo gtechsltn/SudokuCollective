@@ -2,7 +2,6 @@
 {
     public interface ICreateGamePayload : IPayload
     {
-        int UserId { get; set; }
         int DifficultyId { get; set; }
     }
 }

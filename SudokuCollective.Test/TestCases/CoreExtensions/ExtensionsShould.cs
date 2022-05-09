@@ -178,32 +178,6 @@ namespace SudokuCollective.Test.TestCases.Extensions
         }
 
         [Test, Category("Extensions")]
-        public void ConvertJsonElementsToUpdateAnnonymousCheckPayload()
-        {
-            // Arrange
-            JsonElement json = new AnnonymousCheckPayload()
-            {
-                FirstRow = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
-                SecondRow = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
-                ThirdRow = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
-                FourthRow = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
-                FifthRow = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
-                SixthRow = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
-                SeventhRow = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
-                EighthRow = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
-                NinthRow = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 }
-            };
-
-            // Act
-            var result = json.ConvertToPayloadSuccessful(typeof(AnnonymousCheckPayload), out IPayload convertedPayload);
-            var payload = (AnnonymousCheckPayload)convertedPayload;
-
-            // Assert
-            Assert.That(result, Is.True);
-            Assert.That(payload, Is.InstanceOf<AnnonymousCheckPayload>());
-        }
-
-        [Test, Category("Extensions")]
         public void ReturnFalseIfConvertJsonElementsToAnnonymousCheckPayloadThrowsKeyNotFoundException()
         {
             // Arrange
@@ -222,27 +196,12 @@ namespace SudokuCollective.Test.TestCases.Extensions
                 new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
             // Act
-            var result = json.ConvertToPayloadSuccessful(typeof(AnnonymousCheckPayload), out IPayload convertedPayload);
-            var payload = (AnnonymousCheckPayload)convertedPayload;
+            var result = json.ConvertToPayloadSuccessful(typeof(AnnonymousCheckRequest), out IPayload convertedPayload);
+            var payload = (AnnonymousCheckRequest)convertedPayload;
 
             // Assert
             Assert.That(result, Is.False);
             Assert.That(payload, Is.Null);
-        }
-
-        [Test, Category("Extensions")]
-        public void ConvertJsonElementsToAnnonymousGamePayload()
-        {
-            // Arrange
-            JsonElement json = new AnnonymousGamePayload();
-
-            // Act
-            var result = json.ConvertToPayloadSuccessful(typeof(AnnonymousGamePayload), out IPayload convertedPayload);
-            var payload = (AnnonymousGamePayload)convertedPayload;
-
-            // Assert
-            Assert.That(result, Is.True);
-            Assert.That(payload, Is.InstanceOf<AnnonymousGamePayload>());
         }
 
         [Test, Category("Extensions")]
@@ -254,8 +213,8 @@ namespace SudokuCollective.Test.TestCases.Extensions
                 new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
             // Act
-            var result = json.ConvertToPayloadSuccessful(typeof(AnnonymousGamePayload), out IPayload convertedPayload);
-            var payload = (AnnonymousGamePayload)convertedPayload;
+            var result = json.ConvertToPayloadSuccessful(typeof(AnnonymousGameRequest), out IPayload convertedPayload);
+            var payload = (AnnonymousGameRequest)convertedPayload;
 
             // Assert
             Assert.That(result, Is.False);
@@ -330,26 +289,25 @@ namespace SudokuCollective.Test.TestCases.Extensions
         }
 
         [Test, Category("Extensions")]
-        public void ConvertJsonElementsToUpdateGamePayload()
+        public void ConvertJsonElementsToGamePayload()
         {
             // Arrange
-            JsonElement json = new UpdateGamePayload()
+            JsonElement json = new GamePayload()
             {
-                GameId = 1,
                 SudokuCells = TestObjects.GetSolvedSudokuCells()
             };
 
             // Act
-            var result = json.ConvertToPayloadSuccessful(typeof(UpdateGamePayload), out IPayload convertedPayload);
-            var payload = (UpdateGamePayload)convertedPayload;
+            var result = json.ConvertToPayloadSuccessful(typeof(GamePayload), out IPayload convertedPayload);
+            var payload = (GamePayload)convertedPayload;
 
             // Assert
             Assert.That(result, Is.True);
-            Assert.That(payload, Is.InstanceOf<UpdateGamePayload>());
+            Assert.That(payload, Is.InstanceOf<GamePayload>());
         }
 
         [Test, Category("Extensions")]
-        public void ReturnFalseIfConvertJsonElementsToUpdateGamePayloadThrowsKeyNotFoundException()
+        public void ReturnFalseIfConvertJsonElementsToGamePayloadThrowsKeyNotFoundException()
         {
             // Arrange
             JsonElement json = JsonSerializer.SerializeToElement(
@@ -360,8 +318,8 @@ namespace SudokuCollective.Test.TestCases.Extensions
                 new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
             // Act
-            var result = json.ConvertToPayloadSuccessful(typeof(UpdateGamePayload), out IPayload convertedPayload);
-            var payload = (UpdateGamePayload)convertedPayload;
+            var result = json.ConvertToPayloadSuccessful(typeof(GamePayload), out IPayload convertedPayload);
+            var payload = (GamePayload)convertedPayload;
 
             // Assert
             Assert.That(result, Is.False);

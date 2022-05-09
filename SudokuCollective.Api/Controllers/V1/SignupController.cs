@@ -54,7 +54,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method which creates new users, does not require a login.
+        /// An endpoint which creates new users, does not require a login.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A newly created user and a authorization token.</returns>
@@ -62,7 +62,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues creating the user.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The PostAsync method does not require a login. The request body parameter uses a custom request model.
+        /// The Post endpoint does not require a login. The request body parameter uses a custom request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -170,7 +170,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method which resends email confirmations, does not require a login.
+        /// An endpoint which resends email confirmations, does not require a login.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A status detailing the result of processing the request.</returns>
@@ -178,7 +178,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues resending the email confirmation.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The ResendEmailConfirmationAsync method does not require a login.  The request body parameter uses a custom request model.
+        /// The ResendEmailConfirmation endpoint does not require a login.  The request body parameter uses a custom request model.
         /// 
         /// The request should be structured as follows:
         /// ```

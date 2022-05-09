@@ -6,7 +6,7 @@ using SudokuCollective.Core.Enums;
 namespace SudokuCollective.Api.Controllers.V1
 {
     /// <summary>
-    /// App Controller Class
+    /// Settings Controller Class
     /// </summary>
     [AllowAnonymous]
     [Route("api/v1/[controller]")]
@@ -14,10 +14,10 @@ namespace SudokuCollective.Api.Controllers.V1
     public class SettingsController : ControllerBase
     {
         /// <summary>
-        /// A method which returns a list of releaseEnvironments
+        /// An endpoint which returns a list of releaseEnvironments, does not require a login.
         /// </summary>
         /// <remarks>
-        /// The GetReleaseEnvironments method returns a list of release environments. Your app can be in
+        /// The GetReleaseEnvironments endpoint returns a list of release environments. Your app can be in
         /// one of the following active environments: local, staging, QA and production.  These states
         /// represent the URL routes the API will direct email links to. So for example, users will 
         /// receive an email when they sign up. This value determines which URL the email will link them 
@@ -27,7 +27,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// When updating the app the value integer will be passed up the API to represent the apps
         /// release environment as the environment property.
         ///
-        /// This method allows you to populate a dropdown list in your app if you want to control the 
+        /// This endpoint allows you to populate a dropdown list in your app if you want to control the 
         /// release environment from your app.
         ///
         /// The array returned is as follows:
@@ -95,10 +95,10 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method which returns a list of timeFrames
+        /// An endpoint which returns a list of timeFrames, does not require a login.
         /// </summary>
         /// <remarks>
-        /// The GetTimeFrames method returns a list of timeFrames. Your app uses JWT Tokens to authorize
+        /// The GetTimeFrames endpoint returns a list of timeFrames. Your app uses JWT Tokens to authorize
         /// requests. As the owner of the app you can set the expiration period for the JWT Tokens, after
         /// which time the user has to reauthenticate themselves. You control the expiration period by
         /// updating two settings on your app: accessDuration and timeFrames.  AccessDuration controls the 
@@ -106,7 +106,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// 
         /// Please note if timeFrame is set to "Years" then accessDuration is limited to 5.
         ///
-        /// This method allows you to populate a dropdown list in your app if you want to control the app
+        /// This endpoint allows you to populate a dropdown list in your app if you want to control the app
         /// token from within your app.
         ///
         /// The array returned is as follows:
@@ -196,10 +196,10 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method which returns a list of sortValues
+        /// An endpoint which returns a list of sortValues, does not require a login.
         /// </summary>
         /// <remarks>
-        /// The GetSortValues method returns a list of sortValues. The SudokuCollective API supports list
+        /// The GetSortValues endpoint returns a list of sortValues. The SudokuCollective API supports list
         /// pagination for apps, users and games. You can use respective fields for each type to paginate
         /// over.  This endpoint returns ths sort values which you can use to sort by. These values can be
         /// used to populate dropdown lists and to populate paginator items. Paginator items are as follows:

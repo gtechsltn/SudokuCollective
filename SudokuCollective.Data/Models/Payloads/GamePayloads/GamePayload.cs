@@ -11,13 +11,11 @@ using SudokuCollective.Core.Validation.Attributes;
 
 namespace SudokuCollective.Data.Models.Payloads
 {
-    public class UpdateGamePayload : IUpdateGamePayload
+    public class GamePayload : IGamePayload
     {
         private List<SudokuCell> _sudokuCells = new();
         private readonly SudokuCellsValidatedAttribute _sudokuCellsValidator = new();
 
-        [Required, JsonPropertyName("gameId")]
-        public int GameId { get; set; }
         [Required, SudokuCellsValidated(ErrorMessage = AttributeMessages.InvalidSudokuCells), JsonPropertyName("sudokuCells")]
         public List<SudokuCell> SudokuCells
         {
@@ -38,25 +36,22 @@ namespace SudokuCollective.Data.Models.Payloads
             }
         }
         
-        public UpdateGamePayload()
+        public GamePayload()
         {
-            GameId = 0;
             SudokuCells = new List<SudokuCell>(); ;
         }
 
-        public UpdateGamePayload(int gameId, SudokuCell[] sudokuCells)
+        public GamePayload(SudokuCell[] sudokuCells)
         {
-            GameId = gameId;
             SudokuCells = sudokuCells.ToList(); ;
         }
 
-        public UpdateGamePayload(int gameId, List<SudokuCell> sudokuCells)
+        public GamePayload(List<SudokuCell> sudokuCells)
         {
-            GameId = gameId;
             SudokuCells = sudokuCells;
         }
 
-        public static implicit operator JsonElement(UpdateGamePayload v)
+        public static implicit operator JsonElement(GamePayload v)
         {
             return JsonSerializer.SerializeToElement(v, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
         }

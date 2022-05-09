@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads
+namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests
 {
-    public interface IAnnonymousCheckPayload : IPayload
+    public interface IAnnonymousCheckRequest
     {
         List<int> FirstRow { get; set; }
         List<int> SecondRow { get; set; }

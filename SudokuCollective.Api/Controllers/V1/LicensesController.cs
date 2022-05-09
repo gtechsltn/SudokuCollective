@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace SudokuCollective.Api.Controllers.V1
 {
     /// <summary>
-    /// License Controller Class
+    /// Licenses Controller Class
     /// </summary>
     [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
     [Route("api/[controller]")]
@@ -27,7 +27,7 @@ namespace SudokuCollective.Api.Controllers.V1
         private readonly ILogger<LicensesController> _logger;
 
         /// <summary>
-        /// App Controller Constructor
+        /// Licenses Controller Constructor
         /// </summary>
         /// <param name="appsService"></param>
         /// <param name="requestService"></param>
@@ -46,7 +46,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to create app licenses, requires superuser or admin roles.
+        /// An endpoint to create app licenses, requires superuser or admin roles.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>An new app.</returns>
@@ -54,8 +54,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues creating a new app.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The PostAsync method requires the user to be logged in. Requires superuser or admin roles. The
-        /// request body parameter uses the request model.
+        /// The Post endpoint requires the user to be logged in. Requires superuser or admin roles. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -123,7 +122,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method to obtain an apps license, requires superuser or admin roles.
+        /// An endpoint to obtain an apps license, requires superuser or admin roles.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="request"></param>
@@ -132,8 +131,8 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues getting an app license.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The GetAsync method requires the user to be logged in. Requires superuser or admin roles. The query parameter id 
-        /// refers to the relevant app. The request body parameter uses the request model.
+        /// The Get endpoint requires the user to be logged in. Requires superuser or admin roles. The query parameter id refers to the relevant app. 
+        /// The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```

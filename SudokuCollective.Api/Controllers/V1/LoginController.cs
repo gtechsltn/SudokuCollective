@@ -45,7 +45,7 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// A method which issues authorization tokens, does not require a login.
+        /// An endpoint which issues authorization tokens, does not require a login.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>An authenticated user and a authorization token.</returns>
@@ -53,7 +53,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <response code="404">A message detailing any issues logging in the user.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The PostAsync method does not require a login. The request body parameter uses a custom request model.
+        /// The Post endpoint does not require a login. The request body parameter uses a custom request model.
         /// 
         /// The request should be structured as follows:
         /// ```
