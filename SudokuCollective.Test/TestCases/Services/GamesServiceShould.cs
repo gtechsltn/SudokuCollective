@@ -307,7 +307,9 @@ namespace SudokuCollective.Test.TestCases.Services
         {
             // Arrange
             var gameId = 1;
-            request.Payload = gamesPayload;
+            var updatedValue = 6;
+            GamePayload = TestObjects.GetGamePayload(updatedValue);
+            request.Payload = GamePayload;
 
             // Act
             var result = await sut.UpdateMyGameAsync(gameId, request);

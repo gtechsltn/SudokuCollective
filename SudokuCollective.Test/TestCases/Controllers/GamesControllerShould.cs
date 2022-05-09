@@ -357,6 +357,42 @@ namespace SudokuCollective.Test.TestCases.Controllers
 
         [Test]
         [Category("Controllers")]
+        public void SuccessfullyUpdateGamesByUserId()
+        {
+            // Arrange
+            request.Payload = updateGamePayload;
+
+            // Act
+            var result = sutSuccess.UpdateMyGameAsync(1, request);
+            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
+            var statusCode = ((OkObjectResult)result.Result).StatusCode;
+
+            // Assert
+            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(message, Is.EqualTo("Status Code 200: Game Updated"));
+            Assert.That(statusCode, Is.EqualTo(200));
+        }
+
+        [Test]
+        [Category("Controllers")]
+        public void IssueErrorAndMessageShouldUpdateGamesByUserIdFail()
+        {
+            // Arrange
+            request.Payload = updateGamePayload;
+
+            // Act
+            var result = sutFailure.UpdateMyGameAsync(1, request);
+            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+
+            // Assert
+            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(message, Is.EqualTo("Status Code 404: Game not Updated"));
+            Assert.That(statusCode, Is.EqualTo(404));
+        }
+
+        [Test]
+        [Category("Controllers")]
         public void SuccessfullyDeleteGameByUserId()
         {
             // Arrange
