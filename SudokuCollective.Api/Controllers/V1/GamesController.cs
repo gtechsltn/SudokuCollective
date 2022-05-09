@@ -422,7 +422,7 @@ namespace SudokuCollective.Api.V1.Controllers
         }
 
         /// <summary>
-        /// An endpoint to get a logged in user's game, requires the superuser or admin role.
+        /// An endpoint to get a logged in user's game, requires the user role.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="request"></param>
