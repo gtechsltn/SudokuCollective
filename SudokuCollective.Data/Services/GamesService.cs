@@ -488,9 +488,11 @@ namespace SudokuCollective.Data.Services
 
                     if (gameResponse.IsSuccess)
                     {
+                        var game = (Game)gameResponse.Object;
+
                         foreach (var cell in payload.SudokuCells)
                         {
-                            foreach (var savedCell in ((Game)gameResponse.Object).SudokuMatrix.SudokuCells)
+                            foreach (var savedCell in (game.SudokuMatrix.SudokuCells))
                             {
                                 if (savedCell.Id == cell.Id && savedCell.Hidden)
                                 {
@@ -499,7 +501,7 @@ namespace SudokuCollective.Data.Services
                             }
                         }
 
-                        var updateGameResponse = await _gamesRepository.UpdateAsync((Game)gameResponse.Object);
+                        var updateGameResponse = await _gamesRepository.UpdateAsync(game);
 
                         if (updateGameResponse.IsSuccess)
                         {
@@ -543,6 +545,109 @@ namespace SudokuCollective.Data.Services
                 {
                     result.IsSuccess = false;
                     result.Message = GamesMessages.GameNotFoundMessage;
+
+                    return result;
+                }
+            }
+            catch (Exception e)
+            {
+                return DataUtilities.ProcessException<GamesService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
+            }
+        }
+
+        public async Task<IResult> UpdateMyGameAsync(int id, IRequest request)
+        {
+            if (request == null) throw new ArgumentNullException(nameof(request));
+
+            var result = new Result();
+
+            GamePayload payload;
+
+            if (request.Payload.ConvertToPayloadSuccessful(typeof(GamePayload), out IPayload conversionResult))
+            {
+                payload = (GamePayload)conversionResult;
+            }
+            else
+            {
+                result.IsSuccess = false;
+                result.Message = ServicesMesages.InvalidRequestMessage;
+
+                return result;
+            }
+
+            try
+            {
+                if (await _appsRepository.HasEntityAsync(request.AppId))
+                {
+                    var gameResponse = await _gamesRepository.GetMyGameAsync(
+                        request.RequestorId, 
+                        id,
+                        request.AppId);
+
+                    if (gameResponse.IsSuccess)
+                    {
+                        var game = (Game)gameResponse.Object;
+
+                        foreach (var cell in payload.SudokuCells)
+                        {
+                            foreach (var savedCell in game.SudokuMatrix.SudokuCells)
+                            {
+                                if (savedCell.Id == cell.Id && savedCell.Hidden)
+                                {
+                                    savedCell.DisplayedValue = cell.DisplayedValue;
+                                }
+                            }
+                        }
+
+                        var updateGameResponse = await _gamesRepository.UpdateAsync(game);
+
+                        if (updateGameResponse.IsSuccess)
+                        {
+                            result.IsSuccess = updateGameResponse.IsSuccess;
+                            result.Message = GamesMessages.GameUpdatedMessage;
+                            result.Payload.Add((Game)updateGameResponse.Object);
+
+                            return result;
+                        }
+                        else if (!updateGameResponse.IsSuccess && updateGameResponse.Exception != null)
+                        {
+                            result.IsSuccess = updateGameResponse.IsSuccess;
+                            result.Message = updateGameResponse.Exception.Message;
+
+                            return result;
+                        }
+                        else
+                        {
+                            result.IsSuccess = false;
+                            result.Message = GamesMessages.GameNotUpdatedMessage;
+
+                            return result;
+                        }
+                    }
+                    else if (!gameResponse.IsSuccess && gameResponse.Exception != null)
+                    {
+                        result.IsSuccess = gameResponse.IsSuccess;
+                        result.Message = gameResponse.Exception.Message;
+
+                        return result;
+                    }
+                    else
+                    {
+                        result.IsSuccess = false;
+                        result.Message = GamesMessages.GameNotFoundMessage;
+
+                        return result;
+                    }
+
+                }
+                else
+                {
+                    result.IsSuccess = false;
+                    result.Message = AppsMessages.AppNotFoundMessage;
 
                     return result;
                 }

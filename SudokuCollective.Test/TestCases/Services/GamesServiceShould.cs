@@ -303,6 +303,23 @@ namespace SudokuCollective.Test.TestCases.Services
         }
 
         [Test, Category("Services")]
+        public async Task UpdateAUsersGame()
+        {
+            // Arrange
+            var gameId = 1;
+            var updatedValue = 6;
+            GamePayload = TestObjects.GetGamePayload(updatedValue);
+            request.Payload = GamePayload;
+
+            // Act
+            var result = await sut.UpdateMyGameAsync(gameId, request);
+
+            // Assert
+            Assert.That(result.IsSuccess, Is.True);
+            Assert.That(result.Message, Is.EqualTo("Game Updated"));
+        }
+
+        [Test, Category("Services")]
         public async Task DeleteAUsersGame()
         {
             // Arrange

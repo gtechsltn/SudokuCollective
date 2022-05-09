@@ -19,7 +19,6 @@ namespace SudokuCollective.Test.Services
 
         internal Mock<IGamesService> SuccessfulRequest { get; set; }
         internal Mock<IGamesService> FailedRequest { get; set; }
-        internal Mock<IGamesService> UpdateFailedRequest { get; set; }
 
         public MockedGamesService(DatabaseContext context)
         {
@@ -27,7 +26,6 @@ namespace SudokuCollective.Test.Services
 
             SuccessfulRequest = new Mock<IGamesService>();
             FailedRequest = new Mock<IGamesService>();
-            UpdateFailedRequest = new Mock<IGamesService>();
 
             #region SuccessfulRequest
             SuccessfulRequest.Setup(Service =>
@@ -169,6 +167,28 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .Objects
                             .ConvertAll(g => (object)g)
+                    } as IResult));
+
+            SuccessfulRequest.Setup(Service =>
+                Service.UpdateMyGameAsync(It.IsAny<int>(), It.IsAny<IRequest>()))
+                .Returns(Task.FromResult(new Result()
+                    {
+                        IsSuccess = MockedGamesRepository
+                            .SuccessfulRequest
+                            .Object
+                            .UpdateAsync(It.IsAny<Game>())
+                            .Result
+                            .IsSuccess,
+                        Message = GamesMessages.GameUpdatedMessage,
+                        Payload = new List<object>()
+                            {
+                                MockedGamesRepository
+                                    .SuccessfulRequest
+                                    .Object
+                                    .AddAsync(It.IsAny<Game>())
+                                    .Result
+                                    .Object
+                            }
                     } as IResult));
 
             SuccessfulRequest.Setup(Service =>
@@ -314,6 +334,19 @@ namespace SudokuCollective.Test.Services
                             .Result
                             .IsSuccess,
                         Message = GamesMessages.GamesNotFoundMessage
+                    } as IResult));
+
+            FailedRequest.Setup(Service =>
+                Service.UpdateMyGameAsync(It.IsAny<int>(), It.IsAny<IRequest>()))
+                .Returns(Task.FromResult(new Result()
+                    {
+                        IsSuccess = MockedGamesRepository
+                            .FailedRequest
+                            .Object
+                            .UpdateAsync(It.IsAny<Game>())
+                            .Result
+                            .IsSuccess,
+                        Message = GamesMessages.GameNotUpdatedMessage
                     } as IResult));
 
             FailedRequest.Setup(Service =>

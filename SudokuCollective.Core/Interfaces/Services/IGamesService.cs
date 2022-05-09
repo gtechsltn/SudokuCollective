@@ -14,6 +14,7 @@ namespace SudokuCollective.Core.Interfaces.Services
         Task<IResult> GetGamesAsync(IRequest request);
         Task<IResult> GetMyGameAsync(int id, IRequest request);
         Task<IResult> GetMyGamesAsync(IRequest request);
+        Task<IResult> UpdateMyGameAsync(int id, IRequest request);
         Task<IResult> DeleteMyGameAsync(int id, IRequest request);
         Task<IResult> CheckAsync(int id, IRequest request);
         Task<IResult> CreateAnnonymousAsync(DifficultyLevel difficultyLevel);
