@@ -20,7 +20,7 @@ namespace SudokuCollective.Test.TestCases.Jobs
         private EventId eventId;
 
         [SetUp]
-        private async Task Setup()
+        public async Task Setup()
         {
             context = await TestDatabase.GetDatabaseContext();
             
