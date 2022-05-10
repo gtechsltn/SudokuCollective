@@ -236,12 +236,12 @@ namespace SudokuCollective.Test.Services
                     } as IResult));
 
             SuccessfulRequest.Setup(Service =>
-                Service.CheckAnnonymousAsync(It.IsAny<List<int>>()))
-                .Returns(Task.FromResult(new Result()
+                Service.CheckAnnonymous(It.IsAny<List<int>>()))
+                .Returns(new Result()
                     {
                         IsSuccess = true,
                         Message = GamesMessages.GameSolvedMessage
-                    } as IResult));
+                    } as IResult);
             #endregion
 
             #region FailedRequest
@@ -384,12 +384,12 @@ namespace SudokuCollective.Test.Services
                     } as IResult));
 
             FailedRequest.Setup(Service =>
-                Service.CheckAnnonymousAsync(It.IsAny<List<int>>()))
-                .Returns(Task.FromResult(new Result()
+                Service.CheckAnnonymous(It.IsAny<List<int>>()))
+                .Returns(new Result()
                     {
                         IsSuccess = false,
                         Message = GamesMessages.GameNotSolvedMessage
-                    } as IResult));
+                    } as IResult);
             #endregion
         }
     }

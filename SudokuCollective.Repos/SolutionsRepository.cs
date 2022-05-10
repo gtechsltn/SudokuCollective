@@ -84,6 +84,58 @@ namespace SudokuCollective.Repos
             }
         }
 
+        public IRepositoryResponse Add(TEntity entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+            var result = new RepositoryResponse();
+
+            if (entity.Id != 0)
+            {
+                result.IsSuccess = false;
+
+                return result;
+            }
+
+            try
+            {
+                _context.Attach(entity);
+
+                foreach (var entry in _context.ChangeTracker.Entries())
+                {
+                    var dbEntry = (IDomainEntity)entry.Entity;
+
+                    if (dbEntry is UserApp)
+                    {
+                        entry.State = EntityState.Modified;
+                    }
+                    else if (dbEntry is UserRole)
+                    {
+                        entry.State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        // Otherwise do nothing...
+                    }
+                }
+
+                _context.SaveChanges();
+
+                result.Object = entity;
+                result.IsSuccess = true;
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                return ReposUtilities.ProcessException<SolutionsRepository<SudokuSolution>>(
+                    _requestService, 
+                    _logger, 
+                    result, 
+                    e);
+            }
+        }
+
         public async Task<IRepositoryResponse> GetAsync(int id)
         {
             var result = new RepositoryResponse();
@@ -132,6 +184,40 @@ namespace SudokuCollective.Repos
                 var query = await _context
                     .SudokuSolutions
                     .ToListAsync();
+
+                if (query.Count == 0)
+                {
+                    result.IsSuccess = false;
+                }
+                else
+                {
+                    result.IsSuccess = true;
+                    result.Objects = query
+                        .ConvertAll(s => (IDomainEntity)s)
+                        .ToList();
+                }
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                return ReposUtilities.ProcessException<SolutionsRepository<SudokuSolution>>(
+                    _requestService, 
+                    _logger, 
+                    result, 
+                    e);
+            }
+        }
+
+        public IRepositoryResponse GetAll()
+        {
+            var result = new RepositoryResponse();
+
+            try
+            {
+                var query = _context
+                    .SudokuSolutions
+                    .ToList();
 
                 if (query.Count == 0)
                 {

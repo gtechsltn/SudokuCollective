@@ -890,7 +890,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [AllowAnonymous]
         [HttpPost("CheckAnnonymous")]
-        public async Task<ActionResult> CheckAnnonymousAsync([FromBody] AnnonymousCheckRequest request)
+        public ActionResult CheckAnnonymous([FromBody] AnnonymousCheckRequest request)
         {
             try
             {
@@ -906,7 +906,7 @@ namespace SudokuCollective.Api.V1.Controllers
                 intList.AddRange(request.EighthRow);
                 intList.AddRange(request.NinthRow);
 
-                var result = await _gamesService.CheckAnnonymousAsync(intList);
+                var result = _gamesService.CheckAnnonymous(intList);
 
                 if (result.IsSuccess)
                 {

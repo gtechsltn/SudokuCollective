@@ -7,6 +7,8 @@ namespace SudokuCollective.Core.Interfaces.Repositories
 {
     public interface ISolutionsRepository<TEntity> : IRepository<TEntity> where TEntity : ISudokuSolution
     {
+        IRepositoryResponse Add(TEntity entity);
+        IRepositoryResponse GetAll();
         Task<IRepositoryResponse> AddSolutionsAsync(List<ISudokuSolution> solutions);
         Task<IRepositoryResponse> GetSolvedSolutionsAsync();
     }
