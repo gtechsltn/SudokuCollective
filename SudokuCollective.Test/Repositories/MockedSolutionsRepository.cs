@@ -69,7 +69,7 @@ namespace SudokuCollective.Test.Repositories
                     } as IRepositoryResponse));
             #endregion
 
-            #region SuccessfulRequest
+            #region FailedRequest
             FailedRequest.Setup(repo =>
                 repo.AddAsync(It.IsAny<SudokuSolution>()))
                     .Returns(Task.FromResult(new RepositoryResponse()

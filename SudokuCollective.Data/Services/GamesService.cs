@@ -6,6 +6,7 @@ using Hangfire;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using SudokuCollective.Core.Enums;
+using SudokuCollective.Core.Interfaces.Jobs;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 using SudokuCollective.Core.Interfaces.Repositories;
@@ -34,6 +35,7 @@ namespace SudokuCollective.Data.Services
         private readonly IRequestService _requestService;
         private readonly IDistributedCache _distributedCache;
         private readonly IBackgroundJobClient _jobClient;
+        private readonly IDataJobs _dataJobs;
         private readonly ILogger<GamesService> _logger;
         #endregion
 
@@ -47,6 +49,7 @@ namespace SudokuCollective.Data.Services
             IRequestService requestService,
             IDistributedCache distributedCache,
             IBackgroundJobClient jobClient,
+            IDataJobs dataJobs,
             ILogger<GamesService> logger)
         {
             _gamesRepository = gamesRepsitory;
@@ -57,6 +60,7 @@ namespace SudokuCollective.Data.Services
             _requestService = requestService;
             _distributedCache = distributedCache;
             _jobClient = jobClient;
+            _dataJobs = dataJobs;
             _logger = logger;
         }
         #endregion
@@ -982,11 +986,7 @@ namespace SudokuCollective.Data.Services
 
                 if (result.IsSuccess)
                 {
-                    _jobClient.Enqueue(() => DataJobs.AddSolutionJob<GamesService>(
-                        _solutionsRepository, 
-                        game.SudokuSolution, 
-                        _logger, 
-                        LogsUtilities.GetHangfireWarningEventId()));
+                    _jobClient.Enqueue(() => _dataJobs.AddSolutionJobAsync(game.SudokuMatrix.ToIntList()));
 
                     result.Message = GamesMessages.GameSolvedMessage;
                 }

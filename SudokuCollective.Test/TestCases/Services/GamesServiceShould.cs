@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 using Moq;
 using NUnit.Framework;
 using SudokuCollective.Core.Enums;
+using SudokuCollective.Core.Interfaces.Jobs;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
@@ -38,6 +39,7 @@ namespace SudokuCollective.Test.TestCases.Services
         private MockedRequestService mockedRequestService;
         private MemoryDistributedCache memoryCache;
         private Mock<IBackgroundJobClient> mockedJobClient;
+        private Mock<IDataJobs> mockedDataJobs;
         private Mock<ILogger<GamesService>> mockedLogger;
 
         private IGamesService sut;
@@ -71,6 +73,10 @@ namespace SudokuCollective.Test.TestCases.Services
                     It.IsAny<Job>(),
                     It.IsAny<EnqueuedState>()), Times.Never);
 
+            mockedDataJobs = new Mock<IDataJobs>();
+            mockedDataJobs.Setup(jobs =>
+                jobs.AddSolutionJobAsync(It.IsAny<List<int>>()));
+
             mockedLogger = new Mock<ILogger<GamesService>>();
 
             sut = new GamesService(
@@ -82,6 +88,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
                 mockedJobClient.Object,
+                mockedDataJobs.Object,
                 mockedLogger.Object);
 
             sutFailure = new GamesService(
@@ -93,6 +100,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
                 mockedJobClient.Object,
+                mockedDataJobs.Object,
                 mockedLogger.Object);
 
             sutSolved = new GamesService(
@@ -104,6 +112,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
                 mockedJobClient.Object,
+                mockedDataJobs.Object,
                 mockedLogger.Object);
 
             sutAnonFailure = new GamesService(
@@ -115,6 +124,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
                 mockedJobClient.Object,
+                mockedDataJobs.Object,
                 mockedLogger.Object);
 
             sutUpdateFailure = new GamesService(
@@ -126,6 +136,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
                 mockedJobClient.Object,
+                mockedDataJobs.Object,
                 mockedLogger.Object);
 
             request = TestObjects.GetRequest();
