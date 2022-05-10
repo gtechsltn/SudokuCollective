@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Hangfire;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Jobs;
@@ -13,7 +12,6 @@ using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Extensions;
-using SudokuCollective.Data.Jobs;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Payloads;
@@ -31,9 +29,7 @@ namespace SudokuCollective.Data.Services
         private readonly IAppsRepository<App> _appsRepository;
         private readonly IUsersRepository<User> _usersRepository;
         private readonly IDifficultiesRepository<Difficulty> _difficultiesRepository;
-        private readonly ISolutionsRepository<SudokuSolution> _solutionsRepository;
         private readonly IRequestService _requestService;
-        private readonly IDistributedCache _distributedCache;
         private readonly IBackgroundJobClient _jobClient;
         private readonly IDataJobs _dataJobs;
         private readonly ILogger<GamesService> _logger;
@@ -45,9 +41,7 @@ namespace SudokuCollective.Data.Services
             IAppsRepository<App> appsRepository,
             IUsersRepository<User> usersRepository, 
             IDifficultiesRepository<Difficulty> difficultiesRepository,
-            ISolutionsRepository<SudokuSolution> solutionsRepository,
             IRequestService requestService,
-            IDistributedCache distributedCache,
             IBackgroundJobClient jobClient,
             IDataJobs dataJobs,
             ILogger<GamesService> logger)
@@ -56,9 +50,7 @@ namespace SudokuCollective.Data.Services
             _appsRepository = appsRepository;
             _usersRepository = usersRepository;
             _difficultiesRepository = difficultiesRepository;
-            _solutionsRepository = solutionsRepository;
             _requestService = requestService;
-            _distributedCache = distributedCache;
             _jobClient = jobClient;
             _dataJobs = dataJobs;
             _logger = logger;

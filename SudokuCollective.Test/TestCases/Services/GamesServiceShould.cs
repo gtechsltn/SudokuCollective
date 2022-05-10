@@ -35,9 +35,7 @@ namespace SudokuCollective.Test.TestCases.Services
         private MockedUsersRepository mockedUsersRepository;
         private MockedDifficultiesRepository mockedDifficultiesRepositorySuccessful;
         private MockedDifficultiesRepository mockedDifficultiesRepositoryFailed;
-        private MockedSolutionsRepository mockedSolutionsRepository;
         private MockedRequestService mockedRequestService;
-        private MemoryDistributedCache memoryCache;
         private Mock<IBackgroundJobClient> mockedJobClient;
         private Mock<IDataJobs> mockedDataJobs;
         private Mock<ILogger<GamesService>> mockedLogger;
@@ -62,10 +60,7 @@ namespace SudokuCollective.Test.TestCases.Services
             mockedUsersRepository = new MockedUsersRepository(context);
             mockedDifficultiesRepositorySuccessful = new MockedDifficultiesRepository(context);
             mockedDifficultiesRepositoryFailed = new MockedDifficultiesRepository(context);
-            mockedSolutionsRepository = new MockedSolutionsRepository(context);
             mockedRequestService = new MockedRequestService();
-            memoryCache = new MemoryDistributedCache(
-                Options.Create(new MemoryDistributedCacheOptions()));
 
             mockedJobClient = new Mock<IBackgroundJobClient>();
             mockedJobClient.Verify(client =>
@@ -84,9 +79,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedAppsRepository.SuccessfulRequest.Object,
                 mockedUsersRepository.SuccessfulRequest.Object,
                 mockedDifficultiesRepositorySuccessful.SuccessfulRequest.Object,
-                mockedSolutionsRepository.SuccessfulRequest.Object,
                 mockedRequestService.SuccessfulRequest.Object,
-                memoryCache,
                 mockedJobClient.Object,
                 mockedDataJobs.Object,
                 mockedLogger.Object);
@@ -96,9 +89,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedAppsRepository.SuccessfulRequest.Object,
                 mockedUsersRepository.SuccessfulRequest.Object,
                 mockedDifficultiesRepositorySuccessful.SuccessfulRequest.Object,
-                mockedSolutionsRepository.SuccessfulRequest.Object,
                 mockedRequestService.SuccessfulRequest.Object,
-                memoryCache,
                 mockedJobClient.Object,
                 mockedDataJobs.Object,
                 mockedLogger.Object);
@@ -108,9 +99,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedAppsRepository.SuccessfulRequest.Object,
                 mockedUsersRepository.SuccessfulRequest.Object,
                 mockedDifficultiesRepositorySuccessful.SuccessfulRequest.Object,
-                mockedSolutionsRepository.SuccessfulRequest.Object,
                 mockedRequestService.SuccessfulRequest.Object,
-                memoryCache,
                 mockedJobClient.Object,
                 mockedDataJobs.Object,
                 mockedLogger.Object);
@@ -120,9 +109,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedAppsRepository.SuccessfulRequest.Object,
                 mockedUsersRepository.SuccessfulRequest.Object,
                 mockedDifficultiesRepositoryFailed.FailedRequest.Object,
-                mockedSolutionsRepository.SuccessfulRequest.Object,
                 mockedRequestService.SuccessfulRequest.Object,
-                memoryCache,
                 mockedJobClient.Object,
                 mockedDataJobs.Object,
                 mockedLogger.Object);
@@ -132,9 +119,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedAppsRepository.SuccessfulRequest.Object,
                 mockedUsersRepository.SuccessfulRequest.Object,
                 mockedDifficultiesRepositorySuccessful.SuccessfulRequest.Object,
-                mockedSolutionsRepository.SuccessfulRequest.Object,
                 mockedRequestService.SuccessfulRequest.Object,
-                memoryCache,
                 mockedJobClient.Object,
                 mockedDataJobs.Object,
                 mockedLogger.Object);

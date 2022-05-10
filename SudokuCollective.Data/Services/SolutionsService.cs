@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
+using Hangfire;
 using SudokuCollective.Core.Extensions;
 using SudokuCollective.Core.Interfaces.Cache;
+using SudokuCollective.Core.Interfaces.Jobs;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
@@ -29,6 +31,8 @@ namespace SudokuCollective.Data.Services
         private readonly IDistributedCache _distributedCache;
         private readonly ICacheService _cacheService;
         private readonly ICacheKeys _cacheKeys;
+        private readonly IBackgroundJobClient _jobClient;
+        private readonly IDataJobs _dataJobs;
         private readonly ILogger<SolutionsService> _logger;
         #endregion
 
@@ -39,6 +43,8 @@ namespace SudokuCollective.Data.Services
             IDistributedCache distributedCache,
             ICacheService cacheService,
             ICacheKeys cacheKeys,
+            IBackgroundJobClient jobClient,
+            IDataJobs dataJobs,
             ILogger<SolutionsService> logger)
         {
             _solutionsRepository = solutionsRepository;
@@ -46,6 +52,8 @@ namespace SudokuCollective.Data.Services
             _distributedCache = distributedCache;
             _cacheService = cacheService;
             _cacheKeys = cacheKeys;
+            _jobClient = jobClient;
+            _dataJobs = dataJobs;
             _logger = logger;
         }
         #endregion
@@ -206,13 +214,6 @@ namespace SudokuCollective.Data.Services
                     return result;
                 }
 
-                var response = await _solutionsRepository.GetAllAsync();
-
-                var solvedSolutions = response
-                    .Objects
-                    .ConvertAll(s => (SudokuSolution)s)
-                    .ToList();
-
                 var intList = new List<int>();
 
                 intList.AddRange(payload.FirstRow);
@@ -231,29 +232,9 @@ namespace SudokuCollective.Data.Services
 
                 if (sudokuSolver.IsValid())
                 {
+                    _jobClient.Enqueue(() => _dataJobs.AddSolutionJobAsync(sudokuSolver.ToIntList()));
+
                     var solution = new SudokuSolution(sudokuSolver.ToIntList());
-
-                    var addResultToDataContext = true;
-
-                    if (solvedSolutions.Count > 0)
-                    {
-                        foreach (var solvedSolution in solvedSolutions)
-                        {
-                            if (solvedSolution.ToString().Equals(solution.ToString()))
-                            {
-                                addResultToDataContext = false;
-                            }
-                        }
-                    }
-
-                    if (addResultToDataContext)
-                    {
-                        solution = (SudokuSolution)(await _solutionsRepository.AddAsync(solution)).Object;
-                    }
-                    else
-                    {
-                        solution = solvedSolutions.Where(s => s.SolutionList.IsThisListEqual(solution.SolutionList)).FirstOrDefault();
-                    }
 
                     result.IsSuccess = true;
                     result.Payload.Add(solution);
@@ -261,6 +242,13 @@ namespace SudokuCollective.Data.Services
                 }
                 else
                 {
+                    var response = await _solutionsRepository.GetAllAsync();
+
+                    var solvedSolutions = response
+                        .Objects
+                        .ConvertAll(s => (SudokuSolution)s)
+                        .ToList();
+
                     intList = sudokuSolver.ToIntList();
 
                     if (solvedSolutions.Count > 0)

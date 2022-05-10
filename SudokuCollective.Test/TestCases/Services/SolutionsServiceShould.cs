@@ -4,9 +4,13 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Hangfire;
+using Hangfire.Common;
+using Hangfire.States;
 using Moq;
 using NUnit.Framework;
 using SudokuCollective.Cache;
+using SudokuCollective.Core.Interfaces.Jobs;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
@@ -28,6 +32,8 @@ namespace SudokuCollective.Test.TestCases.Services
         private MockedRequestService mockedRequestService;
         private MockedCacheService mockedCacheService;
         private MemoryDistributedCache memoryCache;
+        private Mock<IBackgroundJobClient> mockedJobClient;
+        private Mock<IDataJobs> mockedDataJobs;
         private Mock<ILogger<SolutionsService>> mockedLogger;
         private ISolutionsService sut;
         private ISolutionsService sutFailure;
@@ -42,6 +48,17 @@ namespace SudokuCollective.Test.TestCases.Services
             mockedCacheService = new MockedCacheService(context);
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
+
+            mockedJobClient = new Mock<IBackgroundJobClient>();
+            mockedJobClient.Verify(client =>
+                client.Create(
+                    It.IsAny<Job>(),
+                    It.IsAny<EnqueuedState>()), Times.Never);
+
+            mockedDataJobs = new Mock<IDataJobs>();
+            mockedDataJobs.Setup(jobs =>
+                jobs.AddSolutionJobAsync(It.IsAny<List<int>>()));
+
             mockedLogger = new Mock<ILogger<SolutionsService>>();
 
             sut = new SolutionsService(
@@ -50,6 +67,8 @@ namespace SudokuCollective.Test.TestCases.Services
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
+                mockedJobClient.Object,
+                mockedDataJobs.Object,
                 mockedLogger.Object);
 
             sutFailure = new SolutionsService(
@@ -58,6 +77,8 @@ namespace SudokuCollective.Test.TestCases.Services
                 memoryCache,
                 mockedCacheService.FailedRequest.Object,
                 new CacheKeys(),
+                mockedJobClient.Object,
+                mockedDataJobs.Object,
                 mockedLogger.Object);
 
             request = TestObjects.GetRequest();
