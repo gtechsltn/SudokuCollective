@@ -37,7 +37,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         }
 
         [Test, Category("Repository")]
-        public async Task CreateSolutions()
+        public async Task CreateSolutionsAsync()
         {
             // Arrange
 
@@ -50,7 +50,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         }
 
         [Test, Category("Repository")]
-        public async Task ReturnFalseIfCreateSolutionsFails()
+        public async Task ReturnFalseIfCreateSolutionsAsyncFails()
         {
             // Arrange
             newSolution.Id = 10;
@@ -63,7 +63,33 @@ namespace SudokuCollective.Test.TestCases.Repositories
         }
 
         [Test, Category("Repository")]
-        public async Task GetSolutionsById()
+        public void AddSolution()
+        {
+            // Arrange
+
+            // Act
+            var result = sut.Add(newSolution);
+
+            // Assert
+            Assert.That(result.IsSuccess, Is.True);
+            Assert.That((SudokuSolution)result.Object, Is.InstanceOf<SudokuSolution>());
+        }
+
+        [Test, Category("Repository")]
+        public void ReturnFalseIfAddSolutionsFails()
+        {
+            // Arrange
+            newSolution.Id = 10;
+
+            // Act
+            var result = sut.Add(newSolution);
+
+            // Assert
+            Assert.That(result.IsSuccess, Is.False);
+        }
+
+        [Test, Category("Repository")]
+        public async Task GetSolutionsByIdAsync()
         {
             // Arrange
 
@@ -76,7 +102,7 @@ namespace SudokuCollective.Test.TestCases.Repositories
         }
 
         [Test, Category("Repository")]
-        public async Task ReturnFalseIfGetByIdFails()
+        public async Task ReturnFalseIfGetByIdAsyncFails()
         {
             // Arrange
 
@@ -89,12 +115,25 @@ namespace SudokuCollective.Test.TestCases.Repositories
         }
 
         [Test, Category("Repository")]
-        public async Task GetAllSolutions()
+        public async Task GetAllSolutionsAsync()
         {
             // Arrange
 
             // Act
             var result = await sut.GetAllAsync();
+
+            // Assert
+            Assert.That(result.IsSuccess, Is.True);
+            Assert.That(result.Objects.ConvertAll(s => (SudokuSolution)s), Is.InstanceOf<List<SudokuSolution>>());
+        }
+
+        [Test, Category("Repository")]
+        public void GetAllSolutions()
+        {
+            // Arrange
+
+            // Act
+            var result = sut.GetAll();
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);

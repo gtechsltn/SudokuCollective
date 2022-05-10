@@ -477,7 +477,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Assert
-            var result = sutSuccess.CheckAnnonymousAsync(
+            var result = sutSuccess.CheckAnnonymous(
                 new AnnonymousCheckRequest
                 {
                     FirstRow = new List<int> { 2, 9, 8, 1, 3, 4, 6, 7, 5 },
@@ -491,9 +491,9 @@ namespace SudokuCollective.Test.TestCases.Controllers
                     NinthRow = new List<int> { 1, 6, 9, 4, 7, 5, 8, 3, 2 }
                 });
 
-            var success = ((Result)((ObjectResult)result.Result).Value).IsSuccess;
-            var message = ((Result)((ObjectResult)result.Result).Value).Message;
-            var statusCode = ((ObjectResult)result.Result).StatusCode;
+            var success = ((Result)((ObjectResult)result).Value).IsSuccess;
+            var message = ((Result)((ObjectResult)result).Value).Message;
+            var statusCode = ((ObjectResult)result).StatusCode;
 
             // Assert
             Assert.That(success, Is.True);
@@ -508,7 +508,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Assert
-            var result = sutFailure.CheckAnnonymousAsync(
+            var result = sutFailure.CheckAnnonymous(
                 new AnnonymousCheckRequest
                 {
                     FirstRow = new List<int> { 5, 9, 8, 1, 3, 4, 6, 7, 2 },
@@ -522,9 +522,9 @@ namespace SudokuCollective.Test.TestCases.Controllers
                     NinthRow = new List<int> { 1, 6, 9, 4, 7, 5, 8, 3, 2 }
                 });
 
-            var success = ((Result)((ObjectResult)result.Result).Value).IsSuccess;
-            var message = ((Result)((ObjectResult)result.Result).Value).Message;
-            var statusCode = ((ObjectResult)result.Result).StatusCode;
+            var success = ((Result)((ObjectResult)result).Value).IsSuccess;
+            var message = ((Result)((ObjectResult)result).Value).Message;
+            var statusCode = ((ObjectResult)result).StatusCode;
 
             // Assert
             Assert.That(success, Is.False);

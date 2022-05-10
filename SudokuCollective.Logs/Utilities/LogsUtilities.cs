@@ -58,5 +58,20 @@ namespace SudokuCollective.Logs.Utilities
         {
             return new EventId(302, "Repository Event Error");
         }
+
+        internal static EventId GetHangfireEventId()
+        {
+            return new EventId(400, "Hangfire Event");
+        }
+
+        internal static EventId GetHangfireWarningEventId()
+        {
+            return new EventId(401, "Hangfire Event Warning");
+        }
+
+        internal static EventId GetHangfireErrorEventId()
+        {
+            return new EventId(402, "Hangfire Event Error");
+        }
     }
 }

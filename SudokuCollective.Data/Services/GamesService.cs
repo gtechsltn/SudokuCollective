@@ -2,16 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hangfire;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using SudokuCollective.Core.Enums;
-using SudokuCollective.Core.Extensions;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Extensions;
+using SudokuCollective.Data.Jobs;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Payloads;
@@ -32,6 +33,7 @@ namespace SudokuCollective.Data.Services
         private readonly ISolutionsRepository<SudokuSolution> _solutionsRepository;
         private readonly IRequestService _requestService;
         private readonly IDistributedCache _distributedCache;
+        private readonly IBackgroundJobClient _jobClient;
         private readonly ILogger<GamesService> _logger;
         #endregion
 
@@ -44,6 +46,7 @@ namespace SudokuCollective.Data.Services
             ISolutionsRepository<SudokuSolution> solutionsRepository,
             IRequestService requestService,
             IDistributedCache distributedCache,
+            IBackgroundJobClient jobClient,
             ILogger<GamesService> logger)
         {
             _gamesRepository = gamesRepsitory;
@@ -53,6 +56,7 @@ namespace SudokuCollective.Data.Services
             _solutionsRepository = solutionsRepository;
             _requestService = requestService;
             _distributedCache = distributedCache;
+            _jobClient = jobClient;
             _logger = logger;
         }
         #endregion
@@ -951,7 +955,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> CheckAnnonymousAsync(List<int> intList)
+        public IResult CheckAnnonymous(List<int> intList)
         {
             if (intList == null) throw new ArgumentNullException(nameof(intList));
 
@@ -978,29 +982,11 @@ namespace SudokuCollective.Data.Services
 
                 if (result.IsSuccess)
                 {
-                    // Add solution to the database
-                    var response = await _solutionsRepository.GetAllAsync();
-
-                    if (response.IsSuccess)
-                    {
-                        var solutionInDB = false;
-
-                        foreach (var solution in response
-                            .Objects
-                            .ConvertAll(s => (SudokuSolution)s)
-                            .Where(s => s.DateSolved > DateTime.MinValue))
-                        {
-                            if (solution.SolutionList.IsThisListEqual(game.SudokuSolution.SolutionList))
-                            {
-                                solutionInDB = true;
-                            }
-                        }
-
-                        if (!solutionInDB)
-                        {
-                            _ = _solutionsRepository.AddAsync(game.SudokuSolution);
-                        }
-                    }
+                    _jobClient.Enqueue(() => DataJobs.AddSolutionJob<GamesService>(
+                        _solutionsRepository, 
+                        game.SudokuSolution, 
+                        _logger, 
+                        LogsUtilities.GetHangfireWarningEventId()));
 
                     result.Message = GamesMessages.GameSolvedMessage;
                 }

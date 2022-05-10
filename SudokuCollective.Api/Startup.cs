@@ -14,19 +14,21 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Hangfire;
+using Hangfire.Redis;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using SudokuCollective.Api.Models;
 using SudokuCollective.Cache;
 using SudokuCollective.Core.Interfaces.Cache;
-using SudokuCollective.Core.Models;
 using SudokuCollective.Core.Interfaces.Services;
+using SudokuCollective.Core.Interfaces.ServiceModels;
 using SudokuCollective.Core.Interfaces.Repositories;
+using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Authentication;
 using SudokuCollective.Data.Services;
 using SudokuCollective.Repos;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using SudokuCollective.Core.Interfaces.ServiceModels;
 
 namespace SudokuCollective.Api
 {
@@ -129,6 +131,35 @@ namespace SudokuCollective.Api
 
             services.AddSingleton<ITokenManagement>(tokenManagement);
 
+            var redisConnection = !_environment.IsStaging() ? 
+                Configuration.GetConnectionString("CacheConnection") : 
+                GetHerokuRedisConnectionString();
+
+            // Add cache
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = redisConnection;
+                options.InstanceName = "SudokuCollective";
+            });
+
+            // Add Hangfire services.
+            services.AddHangfire(configuration => configuration
+                .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings()
+                .UseRedisStorage(redisConnection, new RedisStorageOptions
+                {
+                    InvisibilityTimeout = TimeSpan.FromMinutes(30),
+                    FetchTimeout = TimeSpan.FromHours(1),
+                    Prefix = "Hangfire:SudokuCollective:",
+                    Db = 10,
+                    SucceededListSize = 10000,
+                    DeletedListSize = 1000
+                }));
+
+            // Add the processing server as IHostedService
+            services.AddHangfireServer();
+
             services
                 .AddMvc(options => options.EnableEndpointRouting = false);
 
@@ -176,12 +207,6 @@ namespace SudokuCollective.Api
             services.AddSingleton<IEmailMetaData>(emailMetaData);
             services.AddSingleton<ICacheKeys, CacheKeys>();
             services.AddSingleton<ICachingStrategy, CachingStrategy>();
-
-            services.AddStackExchangeRedisCache(options =>
-            {
-                options.Configuration = !_environment.IsStaging() ? Configuration.GetConnectionString("CacheConnection") : GetHerokuRedisConnectionString();
-                options.InstanceName = "SudokuCollective";
-            });
 
             services.AddScoped<IAppsRepository<App>, AppsRepository<App>>();
             services.AddScoped<IUsersRepository<User>, UsersRepository<User>>();
@@ -248,6 +273,8 @@ namespace SudokuCollective.Api
 
             app.UseDefaultFiles(defaultFile);
 
+            app.UseHangfireDashboard();
+
             app.UseStaticFiles();
 
             app.UseMvc();
@@ -255,6 +282,7 @@ namespace SudokuCollective.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHangfireDashboard();
             });
 
             app.Use(async (context, next) => {

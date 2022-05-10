@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hangfire;
+using Hangfire.Common;
+using Hangfire.States;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
@@ -34,6 +37,7 @@ namespace SudokuCollective.Test.TestCases.Services
         private MockedSolutionsRepository mockedSolutionsRepository;
         private MockedRequestService mockedRequestService;
         private MemoryDistributedCache memoryCache;
+        private Mock<IBackgroundJobClient> mockedJobClient;
         private Mock<ILogger<GamesService>> mockedLogger;
 
         private IGamesService sut;
@@ -60,6 +64,13 @@ namespace SudokuCollective.Test.TestCases.Services
             mockedRequestService = new MockedRequestService();
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
+
+            mockedJobClient = new Mock<IBackgroundJobClient>();
+            mockedJobClient.Verify(client =>
+                client.Create(
+                    It.IsAny<Job>(),
+                    It.IsAny<EnqueuedState>()), Times.Never);
+
             mockedLogger = new Mock<ILogger<GamesService>>();
 
             sut = new GamesService(
@@ -70,6 +81,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedSolutionsRepository.SuccessfulRequest.Object,
                 mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
+                mockedJobClient.Object,
                 mockedLogger.Object);
 
             sutFailure = new GamesService(
@@ -80,6 +92,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedSolutionsRepository.SuccessfulRequest.Object,
                 mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
+                mockedJobClient.Object,
                 mockedLogger.Object);
 
             sutSolved = new GamesService(
@@ -90,6 +103,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedSolutionsRepository.SuccessfulRequest.Object,
                 mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
+                mockedJobClient.Object,
                 mockedLogger.Object);
 
             sutAnonFailure = new GamesService(
@@ -100,6 +114,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedSolutionsRepository.SuccessfulRequest.Object,
                 mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
+                mockedJobClient.Object,
                 mockedLogger.Object);
 
             sutUpdateFailure = new GamesService(
@@ -110,6 +125,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 mockedSolutionsRepository.SuccessfulRequest.Object,
                 mockedRequestService.SuccessfulRequest.Object,
                 memoryCache,
+                mockedJobClient.Object,
                 mockedLogger.Object);
 
             request = TestObjects.GetRequest();
@@ -433,7 +449,7 @@ namespace SudokuCollective.Test.TestCases.Services
         }
 
         [Test, Category("Services")]
-        public async Task CheckAnnonymousGames()
+        public void CheckAnnonymousGames()
         {
             // Arrange
             var intList = new List<int> {
@@ -448,7 +464,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 1, 6, 9, 4, 7, 5, 8, 3, 2 };
 
             // Act
-            var result = await sut.CheckAnnonymousAsync(intList);
+            var result = sut.CheckAnnonymous(intList);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -456,7 +472,7 @@ namespace SudokuCollective.Test.TestCases.Services
         }
 
         [Test, Category("Services")]
-        public async Task CheckAnnonymousGamesShouldReturnMessageIfSolutionNotFound()
+        public void CheckAnnonymousGamesShouldReturnMessageIfSolutionNotFound()
         {
             // Arrange
             var intList = new List<int> {
@@ -471,7 +487,7 @@ namespace SudokuCollective.Test.TestCases.Services
                 1, 6, 9, 4, 7, 5, 8, 3, 2 };
 
             // Act
-            var result = await sut.CheckAnnonymousAsync(intList);
+            var result = sut.CheckAnnonymous(intList);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
