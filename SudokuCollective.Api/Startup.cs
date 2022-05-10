@@ -29,6 +29,8 @@ using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Authentication;
 using SudokuCollective.Data.Services;
 using SudokuCollective.Repos;
+using SudokuCollective.Core.Interfaces.Jobs;
+using SudokuCollective.Data.Jobs;
 
 namespace SudokuCollective.Api
 {
@@ -208,6 +210,7 @@ namespace SudokuCollective.Api
             services.AddSingleton<ICacheKeys, CacheKeys>();
             services.AddSingleton<ICachingStrategy, CachingStrategy>();
 
+            services.AddScoped<IDataJobs, DataJobs>();
             services.AddScoped<IAppsRepository<App>, AppsRepository<App>>();
             services.AddScoped<IUsersRepository<User>, UsersRepository<User>>();
             services.AddScoped<IAppAdminsRepository<AppAdmin>, AppAdminsRepository<AppAdmin>>();

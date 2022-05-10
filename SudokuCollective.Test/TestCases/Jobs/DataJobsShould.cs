@@ -14,34 +14,28 @@ namespace SudokuCollective.Test.TestCases.Jobs
     public class DataJobsShould
     {
         private DatabaseContext context;
-        private MockedSolutionsRepository mockedSolutionsRepository;
+        private Mock<ILogger<DataJobs>> mockedLogger;
         private Game game;
-        private Mock<ILogger<GamesService>> mockedLogger;
-        private EventId eventId;
+        private DataJobs sut;
 
         [SetUp]
         public async Task Setup()
         {
             context = await TestDatabase.GetDatabaseContext();
-            
-            mockedSolutionsRepository = new MockedSolutionsRepository(context);
+            mockedLogger = new Mock<ILogger<DataJobs>>();
             game = new Game();
             game.SudokuMatrix.GenerateSolution();
-            mockedLogger = new Mock<ILogger<GamesService>>();
-            eventId = new EventId(401, "Hangfire Event Warning");
+
+            sut = new DataJobs(context, mockedLogger.Object);
         }
         
         [Test, Category("Services")]
-        public void AddSolutions()
+        public async Task AddSolutions()
         {
             try
             {
                 // Arrange and Assert
-                DataJobs.AddSolutionJob(
-                    mockedSolutionsRepository.SuccessfulRequest.Object, 
-                    game.SudokuSolution, 
-                    mockedLogger.Object, 
-                    eventId);
+                await sut.AddSolutionJobAsync(game.SudokuMatrix.ToIntList());
 
                 Assert.That(true);
             }
