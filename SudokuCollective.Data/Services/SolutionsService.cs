@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Hangfire;
-using SudokuCollective.Core.Extensions;
 using SudokuCollective.Core.Interfaces.Cache;
 using SudokuCollective.Core.Interfaces.Jobs;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
