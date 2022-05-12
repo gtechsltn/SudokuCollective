@@ -809,8 +809,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// <response code="404">A message detailing any issues creating an annonymous game</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The CreateAnnonymous endpoint does not require a logged in user. The query parameter id  refers to the relevant app. The request body parameter uses 
-        /// AnnonymousGameRequest model.
+        /// The CreateAnnonymous endpoint does not require a logged in user. The request body parameter uses the AnnonymousGameRequest model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -870,8 +869,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// <response code="404">A message detailing any issues solving a given sudoku puzzle.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
-        /// The CheckAnnonymous endpoint does not require a logged in user. The query parameter id efers to the relevant app. The request body parameter uses 
-        /// AnnonymousCheckRequest model.
+        /// The CheckAnnonymous endpoint does not require a logged in user. The request body parameter uses the AnnonymousCheckRequest model.
         /// 
         /// The request should be structured as follows:
         /// ```

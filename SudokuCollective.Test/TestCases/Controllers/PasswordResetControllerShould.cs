@@ -35,30 +35,30 @@ namespace SudokuCollective.Test.TestCases.Controllers
 
         [Test]
         [Category("Controllers")]
-        public void SuccessfullyInitiateResetPasswordRequests()
+        public async Task SuccessfullyInitiateResetPasswordRequests()
         {
             // Arrange
 
             // Act
-            var result = sut.Index(passwordResetToken);
+            var result = await sut.Index(passwordResetToken);
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
         }
 
         [Test]
         [Category("Controllers")]
-        public void SuccessfullyProcessResetPasswordRequests()
+        public async Task SuccessfullyProcessResetPasswordRequests()
         {
             // Arrange
             var appId = context.Apps.Where(a => a.Id == 1).Select(a => a.Id);
 
             // Act
-            var result = sut.Result(
+            var result = await sut.Result(
                 TestObjects.GetPasswordReset());
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
         }
     }
 }

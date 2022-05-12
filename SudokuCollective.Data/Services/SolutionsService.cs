@@ -19,6 +19,7 @@ using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Payloads;
 using SudokuCollective.Data.Utilities;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 
 namespace SudokuCollective.Data.Services
 {
@@ -115,6 +116,7 @@ namespace SudokuCollective.Data.Services
             if (request == null) throw new ArgumentNullException(nameof(request));
 
             var result = new Result();
+
             var response = new RepositoryResponse();
 
             try
@@ -190,8 +192,7 @@ namespace SudokuCollective.Data.Services
             }
         }
 
-        public async Task<IResult> SolveAsync(
-            IRequest request)
+        public async Task<IResult> SolveAsync(IAnnonymousCheckRequest request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
 
@@ -199,31 +200,17 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                SolutionPayload payload;
-
-                if (request.Payload.ConvertToPayloadSuccessful(typeof(SolutionPayload), out IPayload conversionResult))
-                {
-                    payload = (SolutionPayload)conversionResult;
-                }
-                else
-                {
-                    result.IsSuccess = false;
-                    result.Message = ServicesMesages.InvalidRequestMessage;
-
-                    return result;
-                }
-
                 var intList = new List<int>();
 
-                intList.AddRange(payload.FirstRow);
-                intList.AddRange(payload.SecondRow);
-                intList.AddRange(payload.ThirdRow);
-                intList.AddRange(payload.FourthRow);
-                intList.AddRange(payload.FifthRow);
-                intList.AddRange(payload.SixthRow);
-                intList.AddRange(payload.SeventhRow);
-                intList.AddRange(payload.EighthRow);
-                intList.AddRange(payload.NinthRow);
+                intList.AddRange(request.FirstRow);
+                intList.AddRange(request.SecondRow);
+                intList.AddRange(request.ThirdRow);
+                intList.AddRange(request.FourthRow);
+                intList.AddRange(request.FifthRow);
+                intList.AddRange(request.SixthRow);
+                intList.AddRange(request.SeventhRow);
+                intList.AddRange(request.EighthRow);
+                intList.AddRange(request.NinthRow);
 
                 var sudokuSolver = new SudokuMatrix(intList);
 
@@ -304,55 +291,20 @@ namespace SudokuCollective.Data.Services
 
         public async Task<IResult> GenerateAsync()
         {
+            var result = new Result();
+            
             try
             {
-                var result = new Result();
+                var game = new Game();
 
-                var continueLoop = true;
+                game.SudokuMatrix.GenerateSolution();
 
-                do
-                {
-                    var matrix = new SudokuMatrix();
+                result.Payload.Add(game.SudokuSolution);
+                
+                _jobClient.Enqueue(() => _dataJobs.AddSolutionJobAsync(
+                    ((SudokuSolution)result.Payload[0]).SolutionList));
 
-                    matrix.GenerateSolution();
-
-                    var cacheServiceResponse = await _cacheService.GetAllWithCacheAsync<SudokuSolution>(
-                        _solutionsRepository,
-                        _distributedCache,
-                        _cacheKeys.GetSolutionsCacheKey,
-                        DateTime.Now.AddHours(1),
-                        result);
-
-                    var response = cacheServiceResponse.Item1;
-                    result = (Result)cacheServiceResponse.Item2;
-
-                    var matrixNotInDB = true;
-
-                    if (response.IsSuccess)
-                    {
-                        foreach (var solution in response
-                            .Objects
-                            .ConvertAll(s => (SudokuSolution)s)
-                            .Where(s => s.DateSolved > DateTime.MinValue))
-                        {
-                            if (solution.SolutionList.Count > 0 && solution.ToString().Equals(matrix))
-                            {
-                                matrixNotInDB = false;
-                            }
-                        }
-                    }
-
-                    if (matrixNotInDB)
-                    {
-                        result.Payload.Add(new SudokuSolution(
-                            matrix.ToIntList()));
-
-                        continueLoop = false;
-                    }
-
-                } while (continueLoop);
-
-                var solutionResponse = await _solutionsRepository.AddAsync((SudokuSolution)result.Payload[0]);
+                var solutionResponse = await _solutionsRepository.AddAsync(game.SudokuSolution);
 
                 if (solutionResponse.IsSuccess)
                 {
@@ -369,17 +321,37 @@ namespace SudokuCollective.Data.Services
                     return result;
                 }
             }
-            catch
+            catch (Exception e)
             {
-                throw;
+                return DataUtilities.ProcessException<SolutionsService>(
+                    _requestService,
+                    _logger,
+                    result,
+                    e);
             }
         }
 
-        public async Task<IResult> Async(int limitArg)
+        public IResult GenerateSolutions(IRequest request)
         {
+            if (request == null) throw new ArgumentNullException(nameof(request));
+
             var result = new Result();
 
-            if (limitArg == 0)
+            AddSolutionsPayload payload;
+
+            if (request.Payload.ConvertToPayloadSuccessful(typeof(AddSolutionsPayload), out IPayload conversionResult))
+            {
+                payload = (AddSolutionsPayload)conversionResult;
+            }
+            else
+            {
+                result.IsSuccess = false;
+                result.Message = ServicesMesages.InvalidRequestMessage;
+
+                return result;
+            }
+
+            if (payload.Limit == 0)
             {
                 result.IsSuccess = false;
                 result.Message = SolutionsMessages.SolutionsNotAddedMessage;
@@ -387,112 +359,27 @@ namespace SudokuCollective.Data.Services
                 return result;
             }
 
+            if (payload.Limit > 1000)
+            {
+                result.IsSuccess = false;
+                result.Message = SolutionsMessages.LimitExceedsSolutionsLimitMessage(payload.Limit.ToString());
+
+                return result;
+            }
+
             var limit = 1000;
 
-            if (limitArg <= limit)
+            if (payload.Limit <= limit)
             {
-                limit = limitArg;
+                limit = payload.Limit;
             }
+            
+            _jobClient.Enqueue(() => _dataJobs.GenerateSolutionsJobAsync(limit));
 
-            var reduceLimitBy = 0;
+            result.IsSuccess = true;
+            result.Message = SolutionsMessages.SolutionsAddedMessage;
 
-            var solutionsInDB = new List<List<int>>();
-
-            try
-            {
-                var solutions = (await _solutionsRepository.GetSolvedSolutionsAsync())
-                    .Objects.ConvertAll(s => (SudokuSolution)s);
-
-                foreach (var solution in solutions)
-                {
-                    solutionsInDB.Add(solution.SolutionList);
-                }
-            }
-            catch (Exception e)
-            {
-                return DataUtilities.ProcessException<SolutionsService>(
-                    _requestService,
-                    _logger,
-                    result,
-                    e);
-            }
-
-            var matrix = new SudokuMatrix();
-
-            try
-            {
-                List<List<int>> solutionsList = new();
-                List<SudokuSolution> newSolutions = new();
-
-                var continueLoop = true;
-
-                do
-                {
-                    for (var i = 0; i < limit - reduceLimitBy; i++)
-                    {
-                        matrix.GenerateSolution();
-
-                        if (!solutionsInDB.Contains(matrix.ToIntList()))
-                        {
-                            solutionsList.Add(matrix.ToIntList());
-                        }
-                    }
-
-                    solutionsList = solutionsList
-                        .Distinct()
-                        .ToList();
-
-                    if (limit == solutionsList.Count)
-                    {
-                        continueLoop = false;
-
-                    }
-                    else
-                    {
-                        reduceLimitBy = limit - solutionsList.Count;
-                    }
-
-                } while (continueLoop);
-
-                foreach (var solutionList in solutionsList)
-                {
-                    newSolutions.Add(new SudokuSolution(solutionList));
-                }
-
-                var solutionsResponse = await _solutionsRepository
-                    .AddSolutionsAsync(newSolutions.ConvertAll(s => (ISudokuSolution)s));
-
-                if (solutionsResponse.IsSuccess)
-                {
-                    result.IsSuccess = solutionsResponse.IsSuccess;
-                    result.Message = SolutionsMessages.SolutionsAddedMessage;
-
-                    return result;
-                }
-                else if (!solutionsResponse.IsSuccess && solutionsResponse.Exception != null)
-                {
-                    result.IsSuccess = solutionsResponse.IsSuccess;
-                    result.Message = solutionsResponse.Exception.Message;
-
-                    return result;
-                }
-                else
-                {
-                    result.IsSuccess = false;
-                    result.Message = SolutionsMessages.SolutionsNotAddedMessage;
-
-                    return result;
-                }
-
-            }
-            catch (Exception e)
-            {
-                return DataUtilities.ProcessException<SolutionsService>(
-                    _requestService,
-                    _logger,
-                    result,
-                    e);
-            }
+            return result;
         }
         #endregion
     }

@@ -19,5 +19,6 @@ namespace SudokuCollective.Data.Messages
         internal const string SudokuSolutionNotFoundMessage = "Sudoku Solution not Found";
         internal const string SolutionGeneratedMessage = "Solution Generated";
         internal const string SolutionNotGeneratedMessage = "Solution not Generated";
+        internal static string LimitExceedsSolutionsLimitMessage(string limit) => string.Format("The Amount of Solutions Requested, {0}, Exceeds the Service's 1,000 Limit", limit);
     }
 }

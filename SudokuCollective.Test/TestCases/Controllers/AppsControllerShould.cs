@@ -61,19 +61,19 @@ namespace SudokuCollective.Test.TestCases.Controllers
         }
 
         [Test, Category("Controllers")]
-        public void SuccessfullyGetApp()
+        public async Task SuccessfullyGetApp()
         {
             // Arrange
             var appId = 1;
 
             // Act
-            var result = sutSuccess.GetAsync(appId, request);
-            var app = (App)((Result)((OkObjectResult)result.Result.Result).Value).Payload[0];
-            var message = ((Result)((OkObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((OkObjectResult)result.Result.Result).StatusCode;
+            var result = await sutSuccess.GetAsync(appId, request);
+            var app = (App)((Result)((OkObjectResult)result.Result).Value).Payload[0];
+            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
+            var statusCode = ((OkObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<App>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<App>>());
             Assert.That(message, Is.EqualTo("Status Code 200: App Found"));
             Assert.That(statusCode, Is.EqualTo(200));
             Assert.That(app, Is.InstanceOf<App>());
@@ -81,547 +81,548 @@ namespace SudokuCollective.Test.TestCases.Controllers
         }
 
         [Test, Category("Controllers")]
-        public void IssueErrorAndMessageShouldGetAppFail()
+        public async Task IssueErrorAndMessageShouldGetAppFail()
         {
             // Arrange
             var appId = 1;
 
             // Act
-            var result = sutFailure.GetAsync(appId, request);
-            var message = ((Result)((NotFoundObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result.Result).StatusCode;
+            var result = await sutFailure.GetAsync(appId, request);
+            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<App>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<App>>());
             Assert.That(message, Is.EqualTo("Status Code 404: App not Found"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test, Category("Controllers")]
-        public void SuccessfullyGetAppByLicense()
+        public async Task SuccessfullyGetAppByLicense()
         {
             // Arrange
 
             // Act
-            var result = sutSuccess.GetByLicenseAsync(
+            var result = await sutSuccess.GetByLicenseAsync(
                 TestObjects.GetLicense(), 
                 request);
-            var app = (App)((Result)((OkObjectResult)result.Result.Result).Value).Payload[0];
-            var message = ((Result)((OkObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((OkObjectResult)result.Result.Result).StatusCode;
+            var app = (App)((Result)((OkObjectResult)result.Result).Value).Payload[0];
+            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
+            var statusCode = ((OkObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<App>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<App>>());
             Assert.That(message, Is.EqualTo("Status Code 200: App Found"));
             Assert.That(app, Is.InstanceOf<App>());
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
         [Test, Category("Controllers")]
-        public void IssueErrorAndMessageShouldGetAppByLicenseFail()
+        public async Task IssueErrorAndMessageShouldGetAppByLicenseFail()
         {
             // Arrange
 
             // Act
-            var result = sutFailure.GetByLicenseAsync(
+            var result = await sutFailure.GetByLicenseAsync(
                 TestObjects.GetInvalidLicense(),
                 request);
-            var message = ((Result)((NotFoundObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result.Result).StatusCode;
+            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<App>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<App>>());
             Assert.That(message, Is.EqualTo("Status Code 404: App not Found"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test, Category("Controllers")]
-        public void SuccessfullyGetApps()
+        public async Task SuccessfullyGetApps()
         {
             // Arrange
 
             // Act
-            var result = sutSuccess.GetAppsAsync(request);
-            var apps = ((Result)((OkObjectResult)result.Result.Result).Value).Payload.ConvertAll(a => (App)a);
-            var message = ((Result)((OkObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((OkObjectResult)result.Result.Result).StatusCode;
+            var result = await sutSuccess.GetAppsAsync(request);
+            var apps = ((Result)((OkObjectResult)result.Result).Value).Payload.ConvertAll(a => (App)a);
+            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
+            var statusCode = ((OkObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<IEnumerable<App>>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<IEnumerable<App>>>());
             Assert.That(message, Is.EqualTo("Status Code 200: Apps Found"));
             Assert.That(statusCode, Is.EqualTo(200));
             Assert.That(apps, Is.InstanceOf<List<App>>());
         }
 
         [Test, Category("Controllers")]
-        public void IssueErrorAndMessageShouldSuccessfullyGetAppsFail()
+        public async Task IssueErrorAndMessageShouldSuccessfullyGetAppsFail()
         {
             // Arrange
 
             // Act
-            var result = sutFailure.GetAppsAsync(request);
-            var message = ((Result)((NotFoundObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result.Result).StatusCode;
+            var result = await sutFailure.GetAppsAsync(request);
+            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<IEnumerable<App>>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<IEnumerable<App>>>());
             Assert.That(message, Is.EqualTo("Status Code 404: Apps not Found"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test, Category("Controllers")]
-        public void SuccessfullyUpdateApps()
+        public async Task SuccessfullyUpdateApps()
         {
             // Arrange
             request.Payload = TestObjects.GetAppPayload();
 
             // Act
-            var result = sutSuccess.UpdateAsync(1, request);
-            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
+            var result = await sutSuccess.UpdateAsync(1, request);
+            var message = ((Result)((OkObjectResult)result).Value).Message;
+            var statusCode = ((OkObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
             Assert.That(message, Is.EqualTo("Status Code 200: App Updated"));
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
         [Test, Category("Controllers")]
-        public void IssueErrorAndMessageShouldSuccessfullyUpdateAppsFail()
+        public async Task IssueErrorAndMessageShouldSuccessfullyUpdateAppsFail()
         {
             // Arrange
             request.Payload = TestObjects.GetInvalidAppPayload();
 
             // Act
-            var result = sutFailure.UpdateAsync(1, request);
-            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var result = await sutFailure.UpdateAsync(1, request);
+            var message = ((Result)((NotFoundObjectResult)result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
             Assert.That(message, Is.EqualTo("Status Code 404: App not Updated"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test, Category("Controllers")]
-        public void SuccessfullyGetAppUsers()
+        public async Task SuccessfullyGetAppUsers()
         {
             // Arrange
 
             // Act
-            var result = sutSuccess.GetAppUsersAsync(
+            var result = await sutSuccess.GetAppUsersAsync(
                 1,
                 request);
 
-            var message = ((Result)((OkObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((OkObjectResult)result.Result.Result).StatusCode;
-            var users = ((Result)((OkObjectResult)result.Result.Result).Value).Payload.ConvertAll(u => (User)u);
+            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
+            var statusCode = ((OkObjectResult)result.Result).StatusCode;
+            var users = ((Result)((OkObjectResult)result.Result).Value).Payload.ConvertAll(u => (User)u);
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<IEnumerable<User>>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<IEnumerable<User>>>());
             Assert.That(message, Is.EqualTo("Status Code 200: Users Found"));
             Assert.That(statusCode, Is.EqualTo(200));
             Assert.That(users.Count, Is.EqualTo(2));
         }
 
         [Test, Category("Controllers")]
-        public void IssueErrorAndMessageShouldSuccessfullyGetAppUsersFail()
+        public async Task IssueErrorAndMessageShouldSuccessfullyGetAppUsersFail()
         {
             // Arrange
 
             // Act
-            var result = sutFailure.GetAppUsersAsync(
+            var result = await sutFailure.GetAppUsersAsync(
                 1,
                 request);
 
-            var message = ((Result)((NotFoundObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result.Result).StatusCode;
+            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<IEnumerable<User>>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<IEnumerable<User>>>());
             Assert.That(message, Is.EqualTo("Status Code 404: Users not Found"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test, Category("Controllers")]
-        public void SuccessfullyAddUserToApp()
+        public async Task SuccessfullyAddUserToApp()
         {
             // Arrange
 
             // Act
-            var result = sutSuccess.AddUserAsync(1, 3, request);
-            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
-            var user = (User)((Result)((OkObjectResult)result.Result).Value).Payload[0];
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
+            var result = await sutSuccess.AddUserAsync(1, 3, request);
+            var message = ((Result)((OkObjectResult)result).Value).Message;
+            var user = (User)((Result)((OkObjectResult)result).Value).Payload[0];
+            var statusCode = ((OkObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
             Assert.That(message, Is.EqualTo("Status Code 200: User Added to App"));
             Assert.That(user, Is.InstanceOf<User>());
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
         [Test, Category("Controllers")]
-        public void IssueErrorAndMessageShouldSuccessfullyAddUserToAppFail()
+        public async Task IssueErrorAndMessageShouldSuccessfullyAddUserToAppFail()
         {
             // Arrange
 
             // Act
-            var result = sutFailure.AddUserAsync(1, 3, request);
-            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var result = await sutFailure.AddUserAsync(1, 3, request);
+            var message = ((Result)((NotFoundObjectResult)result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
             Assert.That(message, Is.EqualTo("Status Code 404: User not Added to App"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test, Category("Controllers")]
-        public void SuccessfullyRemoveUserFromApp()
+        public async Task SuccessfullyRemoveUserFromApp()
         {
             // Arrange
 
             // Act
-            var result = sutSuccess.RemoveUserAsync(1, 3, request);
-            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
-            var user = (User)((Result)((OkObjectResult)result.Result).Value).Payload[0];
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
+            var result = await sutSuccess.RemoveUserAsync(1, 3, request);
+            var message = ((Result)((OkObjectResult)result).Value).Message;
+            var user = (User)((Result)((OkObjectResult)result).Value).Payload[0];
+            var statusCode = ((OkObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
             Assert.That(message, Is.EqualTo("Status Code 200: User Removed from App"));
             Assert.That(user, Is.InstanceOf<User>());
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
         [Test, Category("Controllers")]
-        public void IssueErrorAndMessageShouldSuccessfullyRemoveUserFromAppFail()
+        public async Task IssueErrorAndMessageShouldSuccessfullyRemoveUserFromAppFail()
         {
             // Arrange
 
             // Act
-            var result = sutFailure.RemoveUserAsync(1, 3, request);
-            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var result = await sutFailure.RemoveUserAsync(1, 3, request);
+            var message = ((Result)((NotFoundObjectResult)result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
             Assert.That(message, Is.EqualTo("Status Code 404: User not Removed from App"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test, Category("Controllers")]
-        public void SuccessfullyActivateAnApp()
+        public async Task SuccessfullyActivateAnApp()
         {
             // Arrange
 
             // Act
-            var result = sutSuccess.ActivateAsync(1, request);
-            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
-            var app = (App)((Result)((OkObjectResult)result.Result).Value).Payload[0];
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
+            var result = await sutSuccess.ActivateAsync(1, request);
+            var message = ((Result)((OkObjectResult)result).Value).Message;
+            var app = (App)((Result)((OkObjectResult)result).Value).Payload[0];
+            var statusCode = ((OkObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
             Assert.That(message, Is.EqualTo("Status Code 200: App Activated"));
             Assert.That(app, Is.InstanceOf<App>());
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
         [Test, Category("Controllers")]
-        public void IssueErrorAndMessageShouldSuccessfullyActivateAnAppFail()
+        public async Task IssueErrorAndMessageShouldSuccessfullyActivateAnAppFail()
         {
             // Arrange
 
             // Act
-            var result = sutFailure.ActivateAsync(1, request);
-            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var result = await sutFailure.ActivateAsync(1, request);
+            var message = ((Result)((NotFoundObjectResult)result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
             Assert.That(message, Is.EqualTo("Status Code 404: App not Activated"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test, Category("Controllers")]
-        public void SuccessfullyDeactivateAnApp()
+        public async Task SuccessfullyDeactivateAnApp()
         {
             // Arrange
 
             // Act
-            var result = sutSuccess.DeactivateAsync(1, request);
-            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
-            var app = (App)((Result)((OkObjectResult)result.Result).Value).Payload[0];
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
+            var result = await sutSuccess.DeactivateAsync(1, request);
+            var message = ((Result)((OkObjectResult)result).Value).Message;
+            var app = (App)((Result)((OkObjectResult)result).Value).Payload[0];
+            var statusCode = ((OkObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
             Assert.That(message, Is.EqualTo("Status Code 200: App Deactivated"));
             Assert.That(app, Is.InstanceOf<App>());
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
         [Test, Category("Controllers")]
-        public void IssueErrorAndMessageShouldSuccessfullyDeactivateAnAppFail()
+        public async Task IssueErrorAndMessageShouldSuccessfullyDeactivateAnAppFail()
         {
             // Arrange
 
             // Act
-            var result = sutFailure.DeactivateAsync(1, request);
-            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var result = await sutFailure.DeactivateAsync(1, request);
+            var message = ((Result)((NotFoundObjectResult)result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
             Assert.That(message, Is.EqualTo("Status Code 404: App not Deactivated"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test, Category("Controllers")]
-        public void ReturnBadRequestResponseShouldLicenseValidationFail()
+        public async Task ReturnBadRequestResponseShouldLicenseValidationFail()
         {
             // Arrange
             var appId = 1;
 
             // Act
-            var resultOne = sutInvalid.GetAsync(appId, request);
+            var resultOne = await sutInvalid.GetAsync(appId, request);
             var messageOne = ((Result)
-                ((BadRequestObjectResult)resultOne.Result.Result)
+                ((BadRequestObjectResult)resultOne.Result)
                     .Value)
                     .Message;
-            var statusCodeOne = ((BadRequestObjectResult)resultOne.Result.Result).StatusCode;
+            var statusCodeOne = ((BadRequestObjectResult)resultOne.Result).StatusCode;
 
-            var resultTwo = sutInvalid.GetAppsAsync(request);
+            var resultTwo = await sutInvalid.GetAppsAsync(request);
             var messageTwo = ((Result)
-                ((BadRequestObjectResult)resultOne.Result.Result)
+                ((BadRequestObjectResult)resultTwo.Result)
                     .Value)
                     .Message;
-            var statusCodeTwo = ((BadRequestObjectResult)resultTwo.Result.Result).StatusCode;
+            var statusCodeTwo = ((BadRequestObjectResult)resultTwo.Result).StatusCode;
 
-            var resultThree = sutInvalid.UpdateAsync(1, request);
+            var resultThree = await sutInvalid.UpdateAsync(1, request);
             var messageThree = ((Result)
-                ((BadRequestObjectResult)resultOne.Result.Result)
+                ((BadRequestObjectResult)resultThree)
                     .Value)
                     .Message;
-            var statusCodeThree = ((BadRequestObjectResult)resultThree.Result).StatusCode;
+            var statusCodeThree = ((BadRequestObjectResult)resultThree).StatusCode;
 
-            var resultFour = sutInvalid.GetAppUsersAsync(1, request);
+            var resultFour = await sutInvalid.GetAppUsersAsync(1, request);
             var messageFour = ((Result)
-                ((BadRequestObjectResult)resultOne.Result.Result)
+                ((BadRequestObjectResult)resultFour.Result)
                     .Value)
                     .Message;
-            var statusCodeFour = ((BadRequestObjectResult)resultFour.Result.Result).StatusCode;
+            var statusCodeFour = ((BadRequestObjectResult)resultFour.Result).StatusCode;
 
-            var resultFive = sutInvalid.AddUserAsync(1, 3, request);
+            var resultFive = await sutInvalid.AddUserAsync(1, 3, request);
             var messageFive = ((Result)
-                ((BadRequestObjectResult)resultOne.Result.Result)
+                ((BadRequestObjectResult)resultFive)
                     .Value)
                     .Message;
-            var statusCodeFive = ((BadRequestObjectResult)resultFour.Result.Result).StatusCode;
+            var statusCodeFive = ((BadRequestObjectResult)resultFour.Result).StatusCode;
 
-            var resultSix = sutInvalid.RemoveUserAsync(1, 3, request);
+            var resultSix = await sutInvalid.RemoveUserAsync(1, 3, request);
             var messageSix = ((Result)
-                ((BadRequestObjectResult)resultOne.Result.Result)
+                ((BadRequestObjectResult)resultSix)
                     .Value)
                     .Message;
-            var statusCodeSix = ((BadRequestObjectResult)resultFour.Result.Result).StatusCode;
+            var statusCodeSix = ((BadRequestObjectResult)resultFour.Result).StatusCode;
 
             // Assert
-            Assert.That(resultOne.Result, Is.InstanceOf<ActionResult<App>>());
+            Assert.That(resultOne, Is.InstanceOf<ActionResult<App>>());
             Assert.That(messageOne, Is.EqualTo("Status Code 400: Invalid Request on this Token"));
             Assert.That(statusCodeOne, Is.EqualTo(400));
-            Assert.That(resultTwo.Result, Is.InstanceOf<ActionResult<IEnumerable<App>>>());
+            Assert.That(resultTwo, Is.InstanceOf<ActionResult<IEnumerable<App>>>());
             Assert.That(messageTwo, Is.EqualTo("Status Code 400: Invalid Request on this Token"));
             Assert.That(statusCodeTwo, Is.EqualTo(400));
-            Assert.That(resultThree.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(resultThree, Is.InstanceOf<ActionResult>());
             Assert.That(messageThree, Is.EqualTo("Status Code 400: Invalid Request on this Token"));
             Assert.That(statusCodeThree, Is.EqualTo(400));
-            Assert.That(resultFour.Result, Is.InstanceOf<ActionResult<IEnumerable<User>>>());
+            Assert.That(resultFour, Is.InstanceOf<ActionResult<IEnumerable<User>>>());
             Assert.That(messageFour, Is.EqualTo("Status Code 400: Invalid Request on this Token"));
             Assert.That(statusCodeFour, Is.EqualTo(400));
-            Assert.That(resultFive.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(resultFive, Is.InstanceOf<ActionResult>());
             Assert.That(messageFive, Is.EqualTo("Status Code 400: Invalid Request on this Token"));
             Assert.That(statusCodeFive, Is.EqualTo(400));
-            Assert.That(resultSix.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(resultSix, Is.InstanceOf<ActionResult>());
             Assert.That(messageSix, Is.EqualTo("Status Code 400: Invalid Request on this Token"));
             Assert.That(statusCodeSix, Is.EqualTo(400));
         }
 
         [Test, Category("Controllers")]
-        public void SuccessfullyAllowSuperuserToDeleteApps()
+        public async Task SuccessfullyAllowSuperuserToDeleteApps()
         {
             // Arrange
 
             // Act
-            var result = sutSuccess.DeleteAsync(
+            var result = await sutSuccess.DeleteAsync(
                 2, 
                 TestObjects.GetSecondLicense(),
                 request);
-            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
+            var message = ((Result)((OkObjectResult)result).Value).Message;
+            var statusCode = ((OkObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
             Assert.That(message, Is.EqualTo("Status Code 200: App Deleted"));
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
         [Test, Category("Controllers")]
-        public void IssueErrorAndMessageShouldSuccessfullyAllowSuperuserToDeleteAppsFail()
+        public async Task IssueErrorAndMessageShouldSuccessfullyAllowSuperuserToDeleteAppsFail()
         {
             // Arrange
 
             // Act
-            var result = sutFailure.DeleteAsync(
+            var result = await sutFailure.DeleteAsync(
                 2,
                 TestObjects.GetSecondLicense(),
                 request);
+
             var errorMessage = ((Result)
-                ((BadRequestObjectResult)result.Result)
+                ((BadRequestObjectResult)result)
                     .Value)
                     .Message;
-            var statusCode = ((BadRequestObjectResult)result.Result).StatusCode;
+            var statusCode = ((BadRequestObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
             Assert.That(errorMessage, Is.EqualTo("Status Code 400: You are not the Owner of this App"));
             Assert.That(statusCode, Is.EqualTo(400));
         }
 
         [Test, Category("Controllers")]
-        public void SuccessfullyPromoteUserToAppAdmin()
+        public async Task SuccessfullyPromoteUserToAppAdmin()
         {
             // Arrange
 
             // Act
-            var result = sutSuccess.ActivateAdminPrivilegesAsync(1, 3, request);
-            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
-            var user = (User)((Result)((OkObjectResult)result.Result).Value).Payload[0];
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
+            var result = await sutSuccess.ActivateAdminPrivilegesAsync(1, 3, request);
+            var message = ((Result)((OkObjectResult)result).Value).Message;
+            var user = (User)((Result)((OkObjectResult)result).Value).Payload[0];
+            var statusCode = ((OkObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
             Assert.That(message, Is.EqualTo("Status Code 200: User has been Promoted to Admin"));
             Assert.That(statusCode, Is.EqualTo(200));
             Assert.That(user, Is.InstanceOf<User>());
         }
 
         [Test, Category("Controllers")]
-        public void IssueErrorAndMessageShouldSuccessfullyPromoteUserToAppAdminFail()
+        public async Task IssueErrorAndMessageShouldSuccessfullyPromoteUserToAppAdminFail()
         {
             // Arrange
 
             // Act
-            var result = sutPromoteUserFailure.ActivateAdminPrivilegesAsync(1, 3, request);
-            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var result = await sutPromoteUserFailure.ActivateAdminPrivilegesAsync(1, 3, request);
+            var message = ((Result)((NotFoundObjectResult)result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
             Assert.That(message, Is.EqualTo("Status Code 404: User has not been Promoted to Admin"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test, Category("Controllers")]
-        public void SuccessfullyDeactivateAdminPrivileges()
+        public async Task SuccessfullyDeactivateAdminPrivileges()
         {
             // Arrange
 
             // Act
-            var result = sutSuccess.DeactivateAdminPrivilegesAsync(1, 3, request);
-            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
-            var user = (User)((Result)((OkObjectResult)result.Result).Value).Payload[0];
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
+            var result = await sutSuccess.DeactivateAdminPrivilegesAsync(1, 3, request);
+            var message = ((Result)((OkObjectResult)result).Value).Message;
+            var user = (User)((Result)((OkObjectResult)result).Value).Payload[0];
+            var statusCode = ((OkObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
             Assert.That(message, Is.EqualTo("Status Code 200: Admin Privileges Deactivated"));
             Assert.That(statusCode, Is.EqualTo(200));
             Assert.That(user, Is.InstanceOf<User>());
         }
 
         [Test, Category("Controllers")]
-        public void IssueErrorAndMessageShouldSuccessfullyDeactivateAdminPrivilegesFail()
+        public async Task IssueErrorAndMessageShouldSuccessfullyDeactivateAdminPrivilegesFail()
         {
             // Arrange
 
             // Act
-            var result = sutPromoteUserFailure.DeactivateAdminPrivilegesAsync(1, 3, request);
-            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var result = await sutPromoteUserFailure.DeactivateAdminPrivilegesAsync(1, 3, request);
+            var message = ((Result)((NotFoundObjectResult)result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
             Assert.That(message, Is.EqualTo("Status Code 404: Deactivation of Admin Privileges Failed"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test, Category("Controllers")]
-        public void SuccessfullyGetMyApps()
+        public async Task SuccessfullyGetMyApps()
         {
             // Arrange
 
             // Act
-            var result = sutSuccess.GetMyAppsAsync(request);
-            var apps = ((Result)((OkObjectResult)result.Result.Result).Value).Payload.ConvertAll(a => (App)a);
-            var message = ((Result)((OkObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((OkObjectResult)result.Result.Result).StatusCode;
+            var result = await sutSuccess.GetMyAppsAsync(request);
+            var apps = ((Result)((OkObjectResult)result.Result).Value).Payload.ConvertAll(a => (App)a);
+            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
+            var statusCode = ((OkObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<IEnumerable<App>>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<IEnumerable<App>>>());
             Assert.That(message, Is.EqualTo("Status Code 200: Apps Found"));
             Assert.That(statusCode, Is.EqualTo(200));
             Assert.That(apps, Is.InstanceOf<List<App>>());
         }
 
         [Test, Category("Controllers")]
-        public void IssueErrorAndMessageShouldSuccessfullyGetMyAppsFail()
+        public async Task IssueErrorAndMessageShouldSuccessfullyGetMyAppsFail()
         {
             // Arrange
 
             // Act
-            var result = sutFailure.GetMyAppsAsync(request);
-            var message = ((Result)((NotFoundObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result.Result).StatusCode;
+            var result = await sutFailure.GetMyAppsAsync(request);
+            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<IEnumerable<App>>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<IEnumerable<App>>>());
             Assert.That(message, Is.EqualTo("Status Code 404: Apps not Found"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test, Category("Controllers")]
-        public void SuccessfullyGetMyRegisteredApps()
+        public async Task SuccessfullyGetMyRegisteredApps()
         {
             // Arrange
 
             // Act
-            var result = sutSuccess.GetMyRegisteredAppsAsync(request);
-            var apps = ((Result)((OkObjectResult)result.Result).Value).Payload.ConvertAll(a =>(App)a);
-            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
+            var result = await sutSuccess.GetMyRegisteredAppsAsync(request);
+            var apps = ((Result)((OkObjectResult)result).Value).Payload.ConvertAll(a =>(App)a);
+            var message = ((Result)((OkObjectResult)result).Value).Message;
+            var statusCode = ((OkObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<OkObjectResult>());
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
             Assert.That(message, Is.EqualTo("Status Code 200: Apps Found"));
             Assert.That(statusCode, Is.EqualTo(200));
             Assert.That(apps, Is.InstanceOf<List<App>>());
         }
 
         [Test, Category("Controllers")]
-        public void IssueErrorAndMessageShouldSuccessfullyGetRegisteredAppsFail()
+        public async Task IssueErrorAndMessageShouldSuccessfullyGetRegisteredAppsFail()
         {
             // Arrange
 
             // Act
-            var result = sutFailure.GetMyRegisteredAppsAsync(request);
-            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var result = await sutFailure.GetMyRegisteredAppsAsync(request);
+            var message = ((Result)((NotFoundObjectResult)result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<NotFoundObjectResult>());
+            Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
             Assert.That(message, Is.EqualTo("Status Code 404: Apps not Found"));
             Assert.That(statusCode, Is.EqualTo(404));
         }

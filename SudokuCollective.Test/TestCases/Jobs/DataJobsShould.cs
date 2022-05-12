@@ -5,8 +5,6 @@ using NUnit.Framework;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Jobs;
 using SudokuCollective.Data.Models;
-using SudokuCollective.Data.Services;
-using SudokuCollective.Test.Repositories;
 using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Jobs
@@ -29,13 +27,29 @@ namespace SudokuCollective.Test.TestCases.Jobs
             sut = new DataJobs(context, mockedLogger.Object);
         }
         
-        [Test, Category("Services")]
+        [Test, Category("Jobs")]
         public async Task AddSolutions()
         {
             try
             {
                 // Arrange and Assert
                 await sut.AddSolutionJobAsync(game.SudokuMatrix.ToIntList());
+
+                Assert.That(true);
+            }
+            catch
+            {
+                Assert.That(false);
+            }
+        }
+        
+        [Test, Category("Jobs")]
+        public async Task GenerateSolutions()
+        {
+            try
+            {
+                // Arrange and Assert
+                await sut.GenerateSolutionsJobAsync(1000);
 
                 Assert.That(true);
             }

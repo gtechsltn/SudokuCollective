@@ -10,7 +10,6 @@ using SudokuCollective.Data.Models.Authentication;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Requests;
 using SudokuCollective.Data.Models.Results;
-using Microsoft.AspNetCore.Http;
 
 namespace SudokuCollective.Test.TestCases.Controllers
 {
@@ -81,73 +80,73 @@ namespace SudokuCollective.Test.TestCases.Controllers
         }
 
         [Test, Category("Controllers")]
-        public void AuthenticateUsers()
+        public async Task AuthenticateUsers()
         {
             // Arrange
 
             // Act
-            var result = sut.PostAsync(loginRequest);
-            var returnedValue = ((OkObjectResult)result.Result).Value;
-            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
+            var result = await sut.PostAsync(loginRequest);
+            var returnedValue = ((OkObjectResult)result).Value;
+            var message = ((Result)((OkObjectResult)result).Value).Message;
+            var statusCode = ((OkObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.TypeOf<Task<ActionResult>>());
+            Assert.That(result, Is.TypeOf<OkObjectResult>());
             Assert.That(returnedValue, Is.TypeOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 200: User Found"));
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
         [Test, Category("Controllers")]
-        public void ReturnBadRequestMessageWhenUserNameIsInvalid()
+        public async Task ReturnBadRequestMessageWhenUserNameIsInvalid()
         {
             // Arrange
 
             // Act
-            var result = sutInvalidUserName.PostAsync(loginRequest);
-            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var result = await sutInvalidUserName.PostAsync(loginRequest);
+            var message = ((Result)((NotFoundObjectResult)result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.TypeOf<Task<ActionResult>>());
+            Assert.That(result, Is.TypeOf<NotFoundObjectResult>());
             Assert.That(message, Is.EqualTo("Status Code 404: No User Has This User Name"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test, Category("Controllers")]
-        public void ReturnBadRequestMessageWhenPasswordIsInvalid()
+        public async Task ReturnBadRequestMessageWhenPasswordIsInvalid()
         {
             // Arrange
 
             // Act
-            var result = sutInvalidPassword.PostAsync(loginRequest);
-            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var result = await sutInvalidPassword.PostAsync(loginRequest);
+            var message = ((Result)((NotFoundObjectResult)result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.TypeOf<Task<ActionResult>>());
+            Assert.That(result, Is.TypeOf<NotFoundObjectResult>());
             Assert.That(message, Is.EqualTo("Status Code 404: Password Invalid"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test, Category("Controllers")]
-        public void ReturnBadRequestMessageWhenUsersArentAuthenticated()
+        public async Task ReturnBadRequestMessageWhenUsersArentAuthenticated()
         {
             // Arrange
 
             // Act
-            var result = sutInvalid.PostAsync(loginRequest);
-            var message = ((NotFoundObjectResult)result.Result).Value;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var result = await sutInvalid.PostAsync(loginRequest);
+            var message = ((NotFoundObjectResult)result).Value;
+            var statusCode = ((NotFoundObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.TypeOf<Task<ActionResult>>());
+            Assert.That(result, Is.TypeOf<NotFoundObjectResult>());
             Assert.That(message, Is.EqualTo("Status Code 404: User not Found"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test, Category("Controllers")]
-        public void ReturnUserName()
+        public async Task ReturnUserName()
         {
             // Arrange
             var request = new ConfirmUserNameRequest
@@ -157,18 +156,18 @@ namespace SudokuCollective.Test.TestCases.Controllers
             };
 
             // Act
-            var result = sut.ConfirmUserNameAsync(request);
-            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
-            var username = ((AuthenticatedUserNameResult)((Result)((OkObjectResult)result.Result).Value).Payload[0]).UserName;
+            var result = await sut.ConfirmUserNameAsync(request);
+            var message = ((Result)((OkObjectResult)result).Value).Message;
+            var username = ((AuthenticatedUserNameResult)((Result)((OkObjectResult)result).Value).Payload[0]).UserName;
 
             // Assert
-            Assert.That(result, Is.TypeOf<Task<ActionResult>>());
+            Assert.That(result, Is.TypeOf<OkObjectResult>());
             Assert.That(message, Is.EqualTo("Status Code 200: User Name Confirmed"));
             Assert.That(username, Is.EqualTo(userName));
         }
 
         [Test, Category("Controllers")]
-        public void ReturnErrorMessageIfUserNameNotFound()
+        public async Task ReturnErrorMessageIfUserNameNotFound()
         {
             // Arrange
             var request = new ConfirmUserNameRequest
@@ -178,11 +177,11 @@ namespace SudokuCollective.Test.TestCases.Controllers
             };
 
             // Act
-            var result = sutUserNameNotFound.ConfirmUserNameAsync(request);
-            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
+            var result = await sutUserNameNotFound.ConfirmUserNameAsync(request);
+            var message = ((Result)((NotFoundObjectResult)result).Value).Message;
 
             // Assert
-            Assert.That(result, Is.TypeOf<Task<ActionResult>>());
+            Assert.That(result, Is.TypeOf<NotFoundObjectResult>());
             Assert.That(message, Is.EqualTo("Status Code 404: No User is using this Email"));
         }
     }

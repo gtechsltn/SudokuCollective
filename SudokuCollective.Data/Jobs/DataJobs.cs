@@ -36,7 +36,6 @@ namespace SudokuCollective.Data.Jobs
 
                 if (solutions.Count > 0)
                 {
-
                     foreach (var solution in solutions.Where(s => s.DateSolved > DateTime.MinValue))
                     {
                         if (solution.SolutionList.IsThisListEqual(sudokuSolution.SolutionList))
@@ -51,6 +50,67 @@ namespace SudokuCollective.Data.Jobs
                     _context.Add(sudokuSolution);
                     await _context.SaveChangesAsync();
                 }
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+                _logger.LogWarning(LogsUtilities.GetControllerWarningEventId(), message);
+            }
+        }
+
+        public async Task GenerateSolutionsJobAsync(int limit)
+        {
+            var reduceLimitBy = 0;
+
+            var solutionsInDB = new List<List<int>>();
+
+            try
+            {
+                var solutions = await _context.SudokuSolutions.Where(s => s.DateCreated > DateTime.MinValue).ToListAsync();
+
+                foreach (var solution in solutions)
+                {
+                    solutionsInDB.Add(solution.SolutionList);
+                }
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+                _logger.LogWarning(LogsUtilities.GetControllerWarningEventId(), message);
+            }
+
+            var matrix = new SudokuMatrix();
+
+            try
+            {
+                List<List<int>> solutionsList = new();
+                List<SudokuSolution> newSolutions = new();
+
+                for (var i = 0; i < limit - reduceLimitBy; i++)
+                {
+                    var continueLoop = true;
+
+                    do
+                    {
+                        matrix.GenerateSolution();
+
+                        if (!solutionsInDB.Contains(matrix.ToIntList()))
+                        {
+                            solutionsList.Add(matrix.ToIntList());
+                            continueLoop = false;
+                        }
+
+                    } while (continueLoop);
+                }
+
+                foreach (var solutionList in solutionsList)
+                {
+                    newSolutions.Add(new SudokuSolution(solutionList));
+                }
+                
+                await _context.SudokuSolutions.AddRangeAsync(newSolutions);
+                
+                await _context.SaveChangesAsync();
             }
             catch (Exception e)
             {

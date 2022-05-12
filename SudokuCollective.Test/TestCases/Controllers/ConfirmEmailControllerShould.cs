@@ -39,27 +39,27 @@ namespace SudokuCollective.Test.TestCases.Controllers
         }
 
         [Test, Category("Controllers")]
-        public void SuccessfullyConfirmUserEmails()
+        public async Task SuccessfullyConfirmUserEmails()
         {
             // Arrange
 
             // Act
-            var result = sutSuccess.Index(emailConfirmationToken);
+            var result = await sutSuccess.Index(emailConfirmationToken);
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
         }
 
         [Test, Category("Controllers")]
-        public void ProcessRequestIfConfirmEmailTokenAlreadyProcessed()
+        public async Task ProcessRequestIfConfirmEmailTokenAlreadyProcessed()
         {
             // Arrange
 
             // Act
-            var result = sutFailure.Index(emailConfirmationToken);
+            var result = await sutFailure.Index(emailConfirmationToken);
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
         }
     }
 }
