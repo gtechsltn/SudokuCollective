@@ -63,19 +63,19 @@ namespace SudokuCollective.Test.TestCases.Controllers
 
         [Test]
         [Category("Controllers")]
-        public void SuccessfullyGetGame()
+        public async Task SuccessfullyGetGame()
         {
             // Arrange
             var gameId = 1;
 
             // Act
-            var result = sutSuccess.GetGameAsync(gameId, request);
-            var message = ((Result)((OkObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((OkObjectResult)result.Result.Result).StatusCode;
-            var game = (Game)((Result)((OkObjectResult)result.Result.Result).Value).Payload[0];
+            var result = await sutSuccess.GetGameAsync(gameId, request);
+            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
+            var statusCode = ((OkObjectResult)result.Result).StatusCode;
+            var game = (Game)((Result)((OkObjectResult)result.Result).Value).Payload[0];
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<Game>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<Game>>());
             Assert.That(message, Is.EqualTo("Status Code 200: Game Found"));
             Assert.That(statusCode, Is.EqualTo(200));
             Assert.That(game, Is.InstanceOf<Game>());
@@ -83,141 +83,141 @@ namespace SudokuCollective.Test.TestCases.Controllers
 
         [Test]
         [Category("Controllers")]
-        public void IssueErrorAndMessageShouldGetGameFail()
+        public async Task IssueErrorAndMessageShouldGetGameFail()
         {
             // Arrange
             var gameId = 1;
 
             // Act
-            var result = sutFailure.GetGameAsync(gameId, request);
-            var message = ((Result)((NotFoundObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result.Result).StatusCode;
+            var result = await sutFailure.GetGameAsync(gameId, request);
+            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<Game>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<Game>>());
             Assert.That(message, Is.EqualTo("Status Code 404: Game not Found"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test]
         [Category("Controllers")]
-        public void SuccessfullyGetGames()
+        public async Task SuccessfullyGetGames()
         {
             // Arrange
 
             // Act
-            var result = sutSuccess.GetGamesAsync(request);
-            var message = ((Result)((OkObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((OkObjectResult)result.Result.Result).StatusCode;
+            var result = await sutSuccess.GetGamesAsync(request);
+            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
+            var statusCode = ((OkObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<IEnumerable<Game>>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<IEnumerable<Game>>>());
             Assert.That(message, Is.EqualTo("Status Code 200: Games Found"));
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
         [Test]
         [Category("Controllers")]
-        public void IssueErrorAndMessageShouldGetGamesFail()
+        public async Task IssueErrorAndMessageShouldGetGamesFail()
         {
             // Arrange
 
             // Act
-            var result = sutFailure.GetGamesAsync(request);
-            var message = ((Result)((NotFoundObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result.Result).StatusCode;
+            var result = await sutFailure.GetGamesAsync(request);
+            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<IEnumerable<Game>>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<IEnumerable<Game>>>());
             Assert.That(message, Is.EqualTo("Status Code 404: Games not Found"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test]
         [Category("Controllers")]
-        public void SuccessfullyDeleteGames()
+        public async Task SuccessfullyDeleteGames()
         {
             // Arrange
 
             // Act
-            var result = sutSuccess.DeleteAsync(1, request);
-            var message = ((Result)((OkObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((OkObjectResult)result.Result.Result).StatusCode;
+            var result = await sutSuccess.DeleteAsync(1, request);
+            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
+            var statusCode = ((OkObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<Game>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<Game>>());
             Assert.That(message, Is.EqualTo("Status Code 200: Game Deleted"));
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
         [Test]
         [Category("Controllers")]
-        public void IssueErrorAndMessageShouldDeleteGamesFail()
+        public async Task IssueErrorAndMessageShouldDeleteGamesFail()
         {
             // Arrange
 
             // Act
-            var result = sutFailure.DeleteAsync(1, request);
-            var message = ((Result)((NotFoundObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result.Result).StatusCode;
+            var result = await sutFailure.DeleteAsync(1, request);
+            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<Game>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<Game>>());
             Assert.That(message, Is.EqualTo("Status Code 404: Game not Deleted"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test]
         [Category("Controllers")]
-        public void SuccessfullyUpdateGames()
+        public async Task SuccessfullyUpdateGames()
         {
             // Arrange
             request.Payload = updateGamePayload;
 
             // Act
-            var result = sutSuccess.UpdateAsync(1, request);
-            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
+            var result = await sutSuccess.UpdateAsync(1, request);
+            var message = ((Result)((OkObjectResult)result).Value).Message;
+            var statusCode = ((OkObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
             Assert.That(message, Is.EqualTo("Status Code 200: Game Updated"));
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
         [Test]
         [Category("Controllers")]
-        public void IssueErrorAndMessageShouldUpdateGamesFail()
+        public async Task IssueErrorAndMessageShouldUpdateGamesFail()
         {
             // Arrange
             request.Payload = updateGamePayload;
 
             // Act
-            var result = sutFailure.UpdateAsync(1, request);
-            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var result = await sutFailure.UpdateAsync(1, request);
+            var message = ((Result)((NotFoundObjectResult)result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
             Assert.That(message, Is.EqualTo("Status Code 404: Game not Updated"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test]
         [Category("Controllers")]
-        public void SuccessfullyCreateGames()
+        public async Task SuccessfullyCreateGames()
         {
             // Arrange
             request.Payload = createGamePayload;
 
             // Act
-            var result = sutSuccess.PostAsync(request);
-            var message = ((Result)((ObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((ObjectResult)result.Result.Result).StatusCode;
-            var game = (Game)((Result)((ObjectResult)result.Result.Result).Value).Payload[0];
+            var result = await sutSuccess.PostAsync(request);
+            var message = ((Result)((ObjectResult)result.Result).Value).Message;
+            var statusCode = ((ObjectResult)result.Result).StatusCode;
+            var game = (Game)((Result)((ObjectResult)result.Result).Value).Payload[0];
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<Game>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<Game>>());
             Assert.That(message, Is.EqualTo("Status Code 201: Game Created"));
             Assert.That(statusCode, Is.EqualTo(201));
             Assert.That(game, Is.InstanceOf<Game>());
@@ -225,37 +225,37 @@ namespace SudokuCollective.Test.TestCases.Controllers
 
         [Test]
         [Category("Controllers")]
-        public void IssueErrorAndMessageShouldCreateGamesFail()
+        public async Task IssueErrorAndMessageShouldCreateGamesFail()
         {
             // Arrange
             request.Payload = createGamePayload;
 
             // Act
-            var result = sutFailure.PostAsync(request);
-            var message = ((Result)((NotFoundObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result.Result).StatusCode;
+            var result = await sutFailure.PostAsync(request);
+            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<Game>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<Game>>());
             Assert.That(message, Is.EqualTo("Status Code 404: Game not Created"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test]
         [Category("Controllers")]
-        public void SuccessfullyCheckGames()
+        public async Task SuccessfullyCheckGames()
         {
             // Arrange
             request.Payload = updateGamePayload;
 
             // Act
-            var result = sutSuccess.CheckAsync(1, request);
-            var message = ((Result)((OkObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((OkObjectResult)result.Result.Result).StatusCode;
-            var game = (Game)((Result)((OkObjectResult)result.Result.Result).Value).Payload[0];
+            var result = await sutSuccess.CheckAsync(1, request);
+            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
+            var statusCode = ((OkObjectResult)result.Result).StatusCode;
+            var game = (Game)((Result)((OkObjectResult)result.Result).Value).Payload[0];
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<Game>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<Game>>());
             Assert.That(message, Is.EqualTo("Status Code 200: Game Solved"));
             Assert.That(statusCode, Is.EqualTo(200));
             Assert.That(game, Is.InstanceOf<Game>());
@@ -263,38 +263,38 @@ namespace SudokuCollective.Test.TestCases.Controllers
 
         [Test]
         [Category("Controllers")]
-        public void IssueErrorAndMessageShouldCheckGamesFail()
+        public async Task IssueErrorAndMessageShouldCheckGamesFail()
         {
             // Arrange
             request.Payload = updateGamePayload;
 
             // Act
-            var result = sutFailure.CheckAsync(1, request);
-            var message = ((Result)((NotFoundObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result.Result).StatusCode;
+            var result = await sutFailure.CheckAsync(1, request);
+            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<Game>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<Game>>());
             Assert.That(message, Is.EqualTo("Status Code 404: Game not Updated"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test]
         [Category("Controllers")]
-        public void SuccessfullyGetGameByUserId()
+        public async Task SuccessfullyGetGameByUserId()
         {
             // Arrange
             var userId = 1;
             request.Payload = updateGamePayload;
 
             // Act
-            var result = sutSuccess.GetMyGameAsync(userId, request);
-            var message = ((Result)((OkObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((OkObjectResult)result.Result.Result).StatusCode;
-            var game = (Game)((Result)((OkObjectResult)result.Result.Result).Value).Payload[0];
+            var result = await sutSuccess.GetMyGameAsync(userId, request);
+            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
+            var statusCode = ((OkObjectResult)result.Result).StatusCode;
+            var game = (Game)((Result)((OkObjectResult)result.Result).Value).Payload[0];
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<Game>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<Game>>());
             Assert.That(message, Is.EqualTo("Status Code 200: Game Found"));
             Assert.That(statusCode, Is.EqualTo(200));
             Assert.That(game, Is.InstanceOf<Game>());
@@ -302,170 +302,170 @@ namespace SudokuCollective.Test.TestCases.Controllers
 
         [Test]
         [Category("Controllers")]
-        public void IssueErrorAndMessageShouldGetGameByUserIdFail()
+        public async Task IssueErrorAndMessageShouldGetGameByUserIdFail()
         {
             // Arrange
             var userId = 1;
             request.Payload = updateGamePayload;
 
             // Act
-            var result = sutFailure.GetMyGameAsync(userId, request);
-            var message = ((Result)((NotFoundObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result.Result).StatusCode;
+            var result = await sutFailure.GetMyGameAsync(userId, request);
+            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<Game>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<Game>>());
             Assert.That(message, Is.EqualTo("Status Code 404: Game not Found"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test]
         [Category("Controllers")]
-        public void SuccessfullyGetGamesByUserId()
+        public async Task SuccessfullyGetGamesByUserId()
         {
             // Arrange
             request.Payload = updateGamePayload;
 
             // Act
-            var result = sutSuccess.GetMyGamesAsync(request);
-            var message = ((Result)((OkObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((OkObjectResult)result.Result.Result).StatusCode;
+            var result = await sutSuccess.GetMyGamesAsync(request);
+            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
+            var statusCode = ((OkObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<IEnumerable<Game>>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<IEnumerable<Game>>>());
             Assert.That(message, Is.EqualTo("Status Code 200: Games Found"));
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
         [Test]
         [Category("Controllers")]
-        public void IssueErrorAndMessageShouldGetGamesByUserIdFail()
+        public async Task IssueErrorAndMessageShouldGetGamesByUserIdFail()
         {
             // Arrange
             request.Payload = updateGamePayload;
 
             // Act
-            var result = sutFailure.GetMyGamesAsync(request);
-            var message = ((Result)((NotFoundObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result.Result).StatusCode;
+            var result = await sutFailure.GetMyGamesAsync(request);
+            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<IEnumerable<Game>>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<IEnumerable<Game>>>());
             Assert.That(message, Is.EqualTo("Status Code 404: Games not Found"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test]
         [Category("Controllers")]
-        public void SuccessfullyUpdateGamesByUserId()
+        public async Task SuccessfullyUpdateGamesByUserId()
         {
             // Arrange
             request.Payload = updateGamePayload;
 
             // Act
-            var result = sutSuccess.UpdateMyGameAsync(1, request);
-            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
+            var result = await sutSuccess.UpdateMyGameAsync(1, request);
+            var message = ((Result)((OkObjectResult)result).Value).Message;
+            var statusCode = ((OkObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
             Assert.That(message, Is.EqualTo("Status Code 200: Game Updated"));
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
         [Test]
         [Category("Controllers")]
-        public void IssueErrorAndMessageShouldUpdateGamesByUserIdFail()
+        public async Task IssueErrorAndMessageShouldUpdateGamesByUserIdFail()
         {
             // Arrange
             request.Payload = updateGamePayload;
 
             // Act
-            var result = sutFailure.UpdateMyGameAsync(1, request);
-            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var result = await sutFailure.UpdateMyGameAsync(1, request);
+            var message = ((Result)((NotFoundObjectResult)result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult>());
             Assert.That(message, Is.EqualTo("Status Code 404: Game not Updated"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test]
         [Category("Controllers")]
-        public void SuccessfullyDeleteGameByUserId()
+        public async Task SuccessfullyDeleteGameByUserId()
         {
             // Arrange
             var userId = 1;
             request.Payload = updateGamePayload;
 
             // Act
-            var result = sutSuccess.DeleteMyGameAsync(userId, request);
-            var message = ((Result)((OkObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((OkObjectResult)result.Result.Result).StatusCode;
+            var result = await sutSuccess.DeleteMyGameAsync(userId, request);
+            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
+            var statusCode = ((OkObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<Game>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<Game>>());
             Assert.That(message, Is.EqualTo("Status Code 200: Game Deleted"));
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
         [Test]
         [Category("Controllers")]
-        public void IssueErrorAndMessageShouldDeleteGameByUserIdFail()
+        public async Task IssueErrorAndMessageShouldDeleteGameByUserIdFail()
         {
             // Arrange
             var userId = 1;
             request.Payload = updateGamePayload;
 
             // Act
-            var result = sutFailure.DeleteMyGameAsync(userId, request);
-            var message = ((Result)((NotFoundObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result.Result).StatusCode;
+            var result = await sutFailure.DeleteMyGameAsync(userId, request);
+            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<Game>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<Game>>());
             Assert.That(message, Is.EqualTo("Status Code 404: Game not Deleted"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test]
         [Category("Controllers")]
-        public void SuccessfullyCreateAnnonymousGames()
+        public async Task SuccessfullyCreateAnnonymousGames()
         {
             // Arrange
 
             // Assert
-            var result = sutSuccess.CreateAnnonymousAsync(
+            var result = await sutSuccess.CreateAnnonymousAsync(
                 new AnnonymousGameRequest { 
                     DifficultyLevel = DifficultyLevel.TEST 
                 });
-            var message = ((Result)((ObjectResult)result.Result).Value).Message;
-            var statusCode = ((ObjectResult)result.Result).StatusCode;
+            var message = ((Result)((ObjectResult)result).Value).Message;
+            var statusCode = ((ObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<OkObjectResult>());
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
             Assert.That(message, Is.EqualTo("Status Code 200: Game Created"));
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
         [Test]
         [Category("Controllers")]
-        public void IssueMessageShouldCreateAnnonymousGamesFail()
+        public async Task IssueMessageShouldCreateAnnonymousGamesFail()
         {
             // Arrange
 
             // Assert
-            var result = sutFailure.CreateAnnonymousAsync(
+            var result = await sutFailure.CreateAnnonymousAsync(
                 new AnnonymousGameRequest
                 {
                     DifficultyLevel = DifficultyLevel.TEST
                 });
-            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var message = ((Result)((NotFoundObjectResult)result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<NotFoundObjectResult>());
+            Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
             Assert.That(message, Is.EqualTo("Status Code 404: Game not Created"));
             Assert.That(statusCode, Is.EqualTo(404));
         }

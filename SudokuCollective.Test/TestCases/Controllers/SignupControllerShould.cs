@@ -68,69 +68,69 @@ namespace SudokuCollective.Test.TestCases.Controllers
         }
 
         [Test, Category("Controllers")]
-        public void SuccessfullyRegisterUsers()
+        public async Task SuccessfullyRegisterUsers()
         {
             // Arrange
 
             // Act
-            var result = sutSuccess.PostAsync(signupRequest);
-            var message = ((Result)((ObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((ObjectResult)result.Result.Result).StatusCode;
-            var user = ((UserCreatedResult)((Result)((ObjectResult)result.Result.Result).Value).Payload[0]).User;
+            var result = await sutSuccess.PostAsync(signupRequest);
+            var message = ((Result)((ObjectResult)result.Result).Value).Message;
+            var statusCode = ((ObjectResult)result.Result).StatusCode;
+            var user = ((UserCreatedResult)((Result)((ObjectResult)result.Result).Value).Payload[0]).User;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<User>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<User>>());
             Assert.That(message, Is.EqualTo("Status Code 201: User Created"));
             Assert.That(statusCode, Is.EqualTo(201));
             Assert.That(user, Is.InstanceOf<AuthenticatedUser>());
         }
 
         [Test, Category("Controllers")]
-        public void IssueErrorAndMessageShouldSuccessfullyRegisterUsersFail()
+        public async Task IssueErrorAndMessageShouldSuccessfullyRegisterUsersFail()
         {
             // Arrange
 
             // Act
-            var result = sutFailure.PostAsync(signupRequest);
-            var errorMessage = ((Result)((NotFoundObjectResult)result.Result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result.Result).StatusCode;
+            var result = await sutFailure.PostAsync(signupRequest);
+            var errorMessage = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult<User>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<User>>());
             Assert.That(errorMessage, Is.EqualTo("Status Code 404: User not Created"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
 
         [Test, Category("Controllers")]
-        public void SuccessfullyResendEmailConfirmation()
+        public async Task SuccessfullyResendEmailConfirmation()
         {
             // Arrange
 
             // Act
-            var result = sutSuccess.ResendEmailConfirmationAsync(Request);
-            var message = ((Result)((ObjectResult)result.Result).Value).Message;
-            var statusCode = ((ObjectResult)result.Result).StatusCode;
-            var emailResent = ((UserResult)((Result)((ObjectResult)result.Result).Value).Payload[0]).ConfirmationEmailSuccessfullySent;
+            var result = await sutSuccess.ResendEmailConfirmationAsync(Request);
+            var message = ((Result)((ObjectResult)result).Value).Message;
+            var statusCode = ((ObjectResult)result).StatusCode;
+            var emailResent = ((UserResult)((Result)((ObjectResult)result).Value).Payload[0]).ConfirmationEmailSuccessfullySent;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<OkObjectResult>());
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
             Assert.That(message, Is.EqualTo("Status Code 200: Email Confirmation Email Resent"));
             Assert.That(statusCode, Is.EqualTo(200));
             Assert.That(emailResent, Is.True);
         }
 
         [Test, Category("Controllers")]
-        public void IssueErrorAndMessageShouldSuccessfullyResendEmailConfirmationFail()
+        public async Task IssueErrorAndMessageShouldSuccessfullyResendEmailConfirmationFail()
         {
             // Arrange
 
             // Act
-            var result = sutFailure.ResendEmailConfirmationAsync(Request);
-            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var result = await sutFailure.ResendEmailConfirmationAsync(Request);
+            var message = ((Result)((NotFoundObjectResult)result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<NotFoundObjectResult>());
+            Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
             Assert.That(message, Is.EqualTo("Status Code 404: Email Confirmation Email not Resent"));
             Assert.That(statusCode, Is.EqualTo(404));
         }

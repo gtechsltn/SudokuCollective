@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 
 namespace SudokuCollective.Core.Interfaces.Services
 {
@@ -7,8 +8,8 @@ namespace SudokuCollective.Core.Interfaces.Services
     {
         Task<IResult> GetAsync(int id);
         Task<IResult> GetSolutionsAsync(IRequest request);
-        Task<IResult> SolveAsync(IRequest request);
+        Task<IResult> SolveAsync(IAnnonymousCheckRequest request);
         Task<IResult> GenerateAsync();
-        Task<IResult> Async(int limitArg);
+        IResult GenerateSolutions(IRequest request);
     }
 }

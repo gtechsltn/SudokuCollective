@@ -6,5 +6,6 @@ namespace SudokuCollective.Core.Interfaces.Jobs
     public interface IDataJobs
     {
         Task AddSolutionJobAsync(List<int> intList);
+        Task GenerateSolutionsJobAsync(int limit);
     }
 }

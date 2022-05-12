@@ -142,7 +142,7 @@ namespace SudokuCollective.Test.TestCases.Services
         public async Task SolveSudokuMatrices()
         {
             // Arrange
-            var payload = new SolutionPayload()
+            var solveRequest = new AnnonymousCheckRequest()
             {
                 FirstRow = new List<int> { 0, 2, 0, 5, 0, 0, 8, 7, 6 },
                 SecondRow = new List<int> { 7, 0, 0, 1, 8, 0, 0, 5, 0 },
@@ -154,10 +154,9 @@ namespace SudokuCollective.Test.TestCases.Services
                 EighthRow = new List<int> { 9, 0, 4, 0, 0, 7, 2, 0, 8 },
                 NinthRow = new List<int> { 0, 0, 0, 0, 0, 2, 4, 6, 0 }
             };
-            request.Payload = payload;
 
             // Act
-            var result = await sut.SolveAsync(request);
+            var result = await sut.SolveAsync(solveRequest);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -180,12 +179,13 @@ namespace SudokuCollective.Test.TestCases.Services
         }
 
         [Test, Category("Services")]
-        public async Task AddSolutions()
+        public void AddSolutions()
         {
             // Arrange
+            request.Payload = new AddSolutionsPayload { Limit = 10 };
 
             // Act
-            var result = await sut.Async(10);
+            var result = sut.GenerateSolutions(request);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
@@ -193,16 +193,17 @@ namespace SudokuCollective.Test.TestCases.Services
         }
 
         [Test, Category("Services")]
-        public async Task IssueMessageIfAddSolutionsFails()
+        public void IssueMessageIfAddSolutionsFails()
         {
             // Arrange
+            request.Payload = new AddSolutionsPayload { Limit = 1001 };
 
             // Act
-            var result = await sutFailure.Async(10);
+            var result = sutFailure.GenerateSolutions(request);
 
             // Assert
             Assert.That(result.IsSuccess, Is.False);
-            Assert.That(result.Message, Is.EqualTo("Solutions not Added"));
+            Assert.That(result.Message, Is.EqualTo("The Amount of Solutions Requested, 1001, Exceeds the Service's 1,000 Limit"));
         }
     }
 }
