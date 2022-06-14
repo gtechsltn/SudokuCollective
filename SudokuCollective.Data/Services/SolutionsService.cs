@@ -20,6 +20,7 @@ using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Payloads;
 using SudokuCollective.Data.Utilities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
+using SudokuCollective.Data.Models.Results;
 
 namespace SudokuCollective.Data.Services
 {
@@ -197,6 +198,7 @@ namespace SudokuCollective.Data.Services
             if (request == null) throw new ArgumentNullException(nameof(request));
 
             var result = new Result();
+            var gameResult = new AnnonymousGameResult();
 
             try
             {
@@ -220,10 +222,17 @@ namespace SudokuCollective.Data.Services
                 {
                     _jobClient.Enqueue(() => _dataJobs.AddSolutionJobAsync(sudokuSolver.ToIntList()));
 
+                    result.IsSuccess = true;
+
                     var solution = new SudokuSolution(sudokuSolver.ToIntList());
 
-                    result.IsSuccess = true;
-                    result.Payload.Add(solution);
+                    for (var i = 0; i < 73; i += 9)
+                    {
+                        gameResult.SudokuMatrix.Add(solution.SolutionList.GetRange(i, 9));
+                    }
+                    
+                    result.Payload.Add(gameResult);
+
                     result.Message = SolutionsMessages.SudokuSolutionFoundMessage;
                 }
                 else
@@ -258,7 +267,9 @@ namespace SudokuCollective.Data.Services
                             {
                                 solutonInDB = possibleSolution;
                                 result.IsSuccess = possibleSolution;
-                                result.Payload.Add(solution);
+
+                                var solutionMatrix = new SudokuMatrix(solution.SolutionList);
+                                result.Payload.Add(solutionMatrix);
                                 result.Message = SolutionsMessages.SudokuSolutionFoundMessage;
                                 break;
                             }
@@ -292,6 +303,7 @@ namespace SudokuCollective.Data.Services
         public async Task<IResult> GenerateAsync()
         {
             var result = new Result();
+            var gameResult = new AnnonymousGameResult();
             
             try
             {
@@ -299,10 +311,15 @@ namespace SudokuCollective.Data.Services
 
                 game.SudokuMatrix.GenerateSolution();
 
-                result.Payload.Add(game.SudokuSolution);
+                for (var i = 0; i < 73; i += 9)
+                {
+                    gameResult.SudokuMatrix.Add(game.SudokuMatrix.ToIntList().GetRange(i, 9));
+                }
+                
+                result.Payload.Add(gameResult);
                 
                 _jobClient.Enqueue(() => _dataJobs.AddSolutionJobAsync(
-                    ((SudokuSolution)result.Payload[0]).SolutionList));
+                    (game.SudokuSolution.SolutionList)));
 
                 var solutionResponse = await _solutionsRepository.AddAsync(game.SudokuSolution);
 

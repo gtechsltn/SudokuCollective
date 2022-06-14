@@ -922,8 +922,6 @@ namespace SudokuCollective.Data.Services
 
                     game.SudokuMatrix.GenerateSolution();
 
-                    var sudokuMatrix = new List<List<int>>();
-
                     for (var i = 0; i < 73; i += 9)
                     {
                         gameResult.SudokuMatrix.Add(game.SudokuMatrix.ToDisplayedIntList().GetRange(i, 9));
