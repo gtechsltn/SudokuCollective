@@ -22,6 +22,7 @@ using SudokuCollective.Test.Cache;
 using SudokuCollective.Test.Repositories;
 using SudokuCollective.Test.Services;
 using SudokuCollective.Test.TestData;
+using SudokuCollective.Data.Models.Results;
 
 namespace SudokuCollective.Test.TestCases.Services
 {
@@ -161,7 +162,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Sudoku Solution Found"));
-            Assert.That((SudokuSolution)result.Payload[0], Is.TypeOf<SudokuSolution>());
+            Assert.That((AnnonymousGameResult)result.Payload[0], Is.TypeOf<AnnonymousGameResult>());
         }
 
         [Test, Category("Services")]
@@ -175,7 +176,7 @@ namespace SudokuCollective.Test.TestCases.Services
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Solution Generated"));
-            Assert.That((SudokuSolution)result.Payload[0], Is.TypeOf<SudokuSolution>());
+            Assert.That((AnnonymousGameResult)result.Payload[0], Is.TypeOf<AnnonymousGameResult>());
         }
 
         [Test, Category("Services")]
