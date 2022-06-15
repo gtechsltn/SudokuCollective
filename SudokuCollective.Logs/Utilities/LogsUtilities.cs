@@ -1,10 +1,10 @@
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 
-[assembly:InternalsVisibleTo("SudokuCollective.Api")]
-[assembly:InternalsVisibleTo("SudokuCollective.Data")]
-[assembly:InternalsVisibleTo("SudokuCollective.Repos")]
-[assembly:InternalsVisibleTo("SudokuCollective.Test")]
+[assembly: InternalsVisibleTo("SudokuCollective.Api")]
+[assembly: InternalsVisibleTo("SudokuCollective.Data")]
+[assembly: InternalsVisibleTo("SudokuCollective.Repos")]
+[assembly: InternalsVisibleTo("SudokuCollective.Test")]
 namespace SudokuCollective.Logs.Utilities
 {
     internal static class LogsUtilities

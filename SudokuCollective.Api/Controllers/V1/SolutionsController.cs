@@ -324,7 +324,7 @@ namespace SudokuCollective.Api.V1.Controllers
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
         ///       "payload": {
-        ///         "limit": integer, // Amount of solutions to generate, limited to 1000
+        ///         "limit": integer, // Amount of solutions to generate, limited to 100
         ///       }
         ///     }     
         /// ```

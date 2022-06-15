@@ -376,15 +376,15 @@ namespace SudokuCollective.Data.Services
                 return result;
             }
 
-            if (payload.Limit > 1000)
+            var limit = 100;
+
+            if (payload.Limit > limit)
             {
                 result.IsSuccess = false;
                 result.Message = SolutionsMessages.LimitExceedsSolutionsLimitMessage(payload.Limit.ToString());
 
                 return result;
             }
-
-            var limit = 1000;
 
             if (payload.Limit <= limit)
             {
