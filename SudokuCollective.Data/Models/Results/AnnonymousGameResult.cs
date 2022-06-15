@@ -7,7 +7,7 @@ namespace SudokuCollective.Data.Models.Results
 {
     public class AnnonymousGameResult : IAnnonymousGameResult
     {
-        [JsonPropertyName("sudokuMatrix")]
+        [JsonPropertyName("rows")]
         public List<List<int>> SudokuMatrix { get; set; }
 
         public AnnonymousGameResult()
