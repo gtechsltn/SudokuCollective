@@ -11,6 +11,7 @@ using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Payloads;
+using SudokuCollective.Data.Models.Results;
 
 namespace SudokuCollective.Api.V1.Controllers
 {
@@ -222,7 +223,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [AllowAnonymous]
         [HttpPost, Route("Solve")]
-        public async Task<ActionResult<SudokuSolution>> SolveAsync(
+        public async Task<ActionResult<AnnonymousGameResult>> SolveAsync(
             [FromBody] AnnonymousCheckRequest request)
         {
             try
@@ -275,7 +276,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [AllowAnonymous]
         [HttpPost, Route("Generate")]
-        public async Task<ActionResult<SudokuSolution>> GenerateAsync()
+        public async Task<ActionResult<AnnonymousGameResult>> GenerateAsync()
         {
             try
             {

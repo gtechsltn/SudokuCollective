@@ -13,6 +13,7 @@ using SudokuCollective.Core.Enums;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Api.Utilities;
 using SudokuCollective.Data.Models.Payloads;
+using SudokuCollective.Data.Models.Results;
 
 namespace SudokuCollective.Api.V1.Controllers
 {
@@ -820,7 +821,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [AllowAnonymous]
         [HttpGet("CreateAnnonymous")]
-        public async Task<ActionResult> CreateAnnonymousAsync([FromQuery] AnnonymousGameRequest request)
+        public async Task<ActionResult<AnnonymousGameResult>> CreateAnnonymousAsync([FromQuery] AnnonymousGameRequest request)
         {
             try
             {
@@ -888,7 +889,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [AllowAnonymous]
         [HttpPost("CheckAnnonymous")]
-        public ActionResult CheckAnnonymous([FromBody] AnnonymousCheckRequest request)
+        public ActionResult<AnnonymousGameResult> CheckAnnonymous([FromBody] AnnonymousCheckRequest request)
         {
             try
             {
