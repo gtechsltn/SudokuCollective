@@ -12,6 +12,7 @@ using Moq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using SudokuCollective.Data.Models.Payloads;
+using SudokuCollective.Data.Models.Results;
 
 namespace SudokuCollective.Test.TestCases.Controllers
 {
@@ -172,7 +173,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var statusCode = ((OkObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult<SudokuSolution>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<AnnonymousGameResult>>());
             Assert.That(message, Is.EqualTo("Status Code 200: Sudoku Solution Found"));
             Assert.That(statusCode, Is.EqualTo(200));
         }
@@ -189,7 +190,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult<SudokuSolution>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<AnnonymousGameResult>>());
             Assert.That(message, Is.EqualTo("Status Code 404: Sudoku Solution not Found"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
@@ -206,7 +207,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var statusCode = ((OkObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult<SudokuSolution>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<AnnonymousGameResult>>());
             Assert.That(message, Is.EqualTo("Status Code 200: Solution Generated"));
             Assert.That(statusCode, Is.EqualTo(200));
         }
@@ -223,7 +224,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult<SudokuSolution>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<AnnonymousGameResult>>());
             Assert.That(message, Is.EqualTo("Status Code 404: Solution not Generated"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
@@ -240,7 +241,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var statusCode = ((OkObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult<SudokuSolution>>());
+            Assert.That(result, Is.InstanceOf<ActionResult<AnnonymousGameResult>>());
             Assert.That(message, Is.EqualTo("Status Code 200: Sudoku Solution not Found"));
             Assert.That(statusCode, Is.EqualTo(200));
         }
