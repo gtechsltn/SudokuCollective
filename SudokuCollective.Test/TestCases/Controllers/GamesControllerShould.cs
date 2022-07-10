@@ -13,6 +13,7 @@ using SudokuCollective.Core.Enums;
 using SudokuCollective.Test.Services;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Payloads;
+using SudokuCollective.Data.Models.Results;
 
 namespace SudokuCollective.Test.TestCases.Controllers
 {
@@ -440,11 +441,11 @@ namespace SudokuCollective.Test.TestCases.Controllers
                 new AnnonymousGameRequest { 
                     DifficultyLevel = DifficultyLevel.TEST 
                 });
-            var message = ((Result)((ObjectResult)result).Value).Message;
-            var statusCode = ((ObjectResult)result).StatusCode;
+            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
+            var statusCode = ((OkObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult<AnnonymousGameResult>>());
             Assert.That(message, Is.EqualTo("Status Code 200: Game Created"));
             Assert.That(statusCode, Is.EqualTo(200));
         }
@@ -461,11 +462,11 @@ namespace SudokuCollective.Test.TestCases.Controllers
                 {
                     DifficultyLevel = DifficultyLevel.TEST
                 });
-            var message = ((Result)((NotFoundObjectResult)result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result).StatusCode;
+            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
+            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
+            Assert.That(result, Is.InstanceOf<ActionResult<AnnonymousGameResult>>());
             Assert.That(message, Is.EqualTo("Status Code 404: Game not Created"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
@@ -491,9 +492,9 @@ namespace SudokuCollective.Test.TestCases.Controllers
                     NinthRow = new List<int> { 1, 6, 9, 4, 7, 5, 8, 3, 2 }
                 });
 
-            var success = ((Result)((ObjectResult)result).Value).IsSuccess;
-            var message = ((Result)((ObjectResult)result).Value).Message;
-            var statusCode = ((ObjectResult)result).StatusCode;
+            var success = ((Result)((ObjectResult)result.Result).Value).IsSuccess;
+            var message = ((Result)((ObjectResult)result.Result).Value).Message;
+            var statusCode = ((ObjectResult)result.Result).StatusCode;
 
             // Assert
             Assert.That(success, Is.True);
@@ -522,9 +523,9 @@ namespace SudokuCollective.Test.TestCases.Controllers
                     NinthRow = new List<int> { 1, 6, 9, 4, 7, 5, 8, 3, 2 }
                 });
 
-            var success = ((Result)((ObjectResult)result).Value).IsSuccess;
-            var message = ((Result)((ObjectResult)result).Value).Message;
-            var statusCode = ((ObjectResult)result).StatusCode;
+            var success = ((Result)((ObjectResult)result.Result).Value).IsSuccess;
+            var message = ((Result)((ObjectResult)result.Result).Value).Message;
+            var statusCode = ((ObjectResult)result.Result).StatusCode;
 
             // Assert
             Assert.That(success, Is.False);

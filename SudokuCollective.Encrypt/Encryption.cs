@@ -1,6 +1,6 @@
-using System.Text;
-using System.Security.Cryptography;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
+using System.Text;
 
 [assembly:InternalsVisibleTo("SudokuCollective.Data")]
 [assembly:InternalsVisibleTo("SudokuCollective.Repos")]
