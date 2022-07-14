@@ -240,8 +240,7 @@ namespace SudokuCollective.Data.Extensions
                     result = new UpdateRolePayload()
                     {
                         Id = Convert.ToInt32(element.GetProperty("id").ToString()),
-                        Name = element.GetProperty("name").ToString(),
-                        RoleLevel = (RoleLevel)Convert.ToInt32(element.GetProperty("roleLevel").ToString())
+                        Name = element.GetProperty("name").ToString()
                     };
 
                     return true;

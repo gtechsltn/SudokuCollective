@@ -6,6 +6,5 @@ namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads
     {
         int Id { get; set; }
         string Name { get; set; }
-        RoleLevel RoleLevel { get; set; }
     }
 }
