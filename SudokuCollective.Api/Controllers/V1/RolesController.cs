@@ -15,57 +15,58 @@ using SudokuCollective.Data.Models.Params;
 namespace SudokuCollective.Api.Controllers.V1
 {
     /// <summary>
-    /// Difficulties Controller Class
+    /// Roles Controller Class
     /// </summary>
     [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class DifficultiesController : ControllerBase
+    public class RolesController : ControllerBase
     {
-        private readonly IDifficultiesService _difficultiesService;
+        private readonly IRolesService _rolesService;
         private readonly IAppsService _appsService;
         private readonly IRequestService _requestService;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ILogger<DifficultiesController> _logger;
+        private readonly ILogger<RolesController> _logger;
+
 
         /// <summary>
-        /// Difficulties Controller Constructor
+        /// Roles Controller Constructor
         /// </summary>
-        /// <param name="difficultiesService"></param>
+        /// <param name="rolesService"></param>
         /// <param name="appsService"></param>
         /// <param name="requestService"></param>
         /// <param name="httpContextAccessor"></param>
         /// <param name="logger"></param>
-        public DifficultiesController(
-            IDifficultiesService difficultiesService,
+        public RolesController(
+            IRolesService rolesService,
             IAppsService appsService,
             IRequestService requestService,
             IHttpContextAccessor httpContextAccessor,
-            ILogger<DifficultiesController> logger)
+            ILogger<RolesController> logger)
         {
-            _difficultiesService = difficultiesService;
+            _rolesService = rolesService;
             _appsService = appsService;
             _requestService = requestService;
             _httpContextAccessor = httpContextAccessor;
             _logger = logger;
         }
-
+ 
         /// <summary>
-        /// An endpoint to get a difficulty, does not require a login.
+        /// An endpoint to get a role, does not require a login.
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>A difficulty.</returns>
-        /// <response code="200">A difficulty.</response>
+        /// <returns>A role.</returns>
+        /// <response code="200">A role.</response>
         /// <remarks>
-        /// The Get endpoint does not require an authorization token.  Id refers to the requested difficulty id.  Returns a difficulty.
+        /// The Get endpoint does not require an authorization token.  Id refers to the requested role id.  Returns a role.
         /// </remarks>
         [AllowAnonymous]
         [HttpGet("{id}")]
-        public async Task<ActionResult<Difficulty>> GetAsync(int id)
+        public async Task<ActionResult<Role>> GetAsync(int id)
         {
             try
             {
-                var result = await _difficultiesService.GetAsync(id);
+                var result = await _rolesService.GetAsync(id);
 
                 if (result.IsSuccess)
                 {
@@ -93,20 +94,20 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// An endpoint to get a list of difficulties, does not require a login.
+        /// An endpoint to get a list of roles, does not require a login.
         /// </summary>
-        /// <returns>A list of difficulties.</returns>
-        /// <response code="200">A list of difficulties.</response>
+        /// <returns>A list of roles.</returns>
+        /// <response code="200">A list of roles.</response>
         /// <remarks>
-        /// The GetDifficulties endpoint does not require an authorization token.  Returns all available difficulties.
+        /// The GetRoles endpoint does not require an authorization token.  Returns all available roles.
         /// </remarks>
         [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Difficulty>>> GetDifficultiesAsync()
+        public async Task<ActionResult<IEnumerable<Role>>> GetRolesAsync()
         {
             try
             {
-                var result = await _difficultiesService.GetDifficultiesAsync();
+                var result = await _rolesService.GetRolesAsync();
 
                 if (result.IsSuccess)
                 {
@@ -132,14 +133,14 @@ namespace SudokuCollective.Api.Controllers.V1
                 return StatusCode((int)HttpStatusCode.InternalServerError, result);
             }
         }
-        
+               
         /// <summary>
-        /// An endpoint to create a difficult, requires the superuser role.
+        /// An endpoint to create a role, requires the superuser role.
         /// </summary>
         /// <param name="request"></param>
-        /// <returns>A difficulty.</returns>
-        /// <response code="200">A difficulty.</response>
-        /// <response code="404">A message detailing any issues creating a difficulty.</response>
+        /// <returns>A role.</returns>
+        /// <response code="200">A role.</response>
+        /// <response code="404">A message detailing any issues creating a role.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
         /// The Post endpoint requires the user to be logged in. Requires the superuser role. The request body parameter uses the request model.
@@ -152,16 +153,15 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
         ///       "payload": {
-        ///         "name": string,             // a name for the new difficulty
-        ///         "displayName": integeer,    // a display name for the new difficulty
-        ///         "difficultyLevel": integer, // integer for the new difficulty level
+        ///         "name": string,       // a name for the new role
+        ///         "roleLevel": integer, // integer for the new role level
         ///       }
         ///     }     
         /// ```
         /// </remarks>
         [Authorize(Roles = "SUPERUSER")]
         [HttpPost]
-        public async Task<ActionResult<Difficulty>> PostAsync(
+        public async Task<ActionResult<Role>> PostAsync(
             [FromBody] Request request)
         {
             try
@@ -176,7 +176,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _difficultiesService.CreateAsync(request);
+                    var result = await _rolesService.CreateAsync(request);
 
                     if (result.IsSuccess)
                     {
@@ -198,7 +198,7 @@ namespace SudokuCollective.Api.Controllers.V1
             }
             catch (Exception e)
             {
-                return ControllerUtilities.ProcessException<DifficultiesController>(
+                return ControllerUtilities.ProcessException<RolesController>(
                     this,
                     _requestService,
                     _logger,
@@ -207,13 +207,13 @@ namespace SudokuCollective.Api.Controllers.V1
         }
         
         /// <summary>
-        /// An endpoint to update a difficult, requires the superuser role.
+        /// An endpoint to update a role, requires the superuser role.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="request"></param>
-        /// <returns>An updated difficulty.</returns>
-        /// <response code="200">An updated difficulty.</response>
-        /// <response code="404">A message detailing any issues updating a difficulty.</response>
+        /// <returns>An updated role.</returns>
+        /// <response code="200">An updated role.</response>
+        /// <response code="404">A message detailing any issues updating a role.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
         /// The Update endpoint requires the user to be logged in. Requires the superuser role. The request body parameter uses the request model.
@@ -226,9 +226,9 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "appId": integer,       // the app id for the app the requesting user is logged into
         ///       "paginator": paginator, // an object to control list pagination, not applicable here
         ///       "payload": {
-        ///         "id": integer,           // id for the difficulty
-        ///         "name": string,          // a name for the difficulty
-        ///         "displayName": integeer, // a display name for the difficulty
+        ///         "id": integer,         // id for the role
+        ///         "name": string,        // a name for the role
+        ///         "roleLevel": integeer, // integer for the new role level
         ///       }
         ///     }     
         /// ```
@@ -251,7 +251,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _difficultiesService.UpdateAsync(id, request);
+                    var result = await _rolesService.UpdateAsync(id, request);
 
                     if (result.IsSuccess)
                     {
@@ -273,7 +273,7 @@ namespace SudokuCollective.Api.Controllers.V1
             }
             catch (Exception e)
             {
-                return ControllerUtilities.ProcessException<DifficultiesController>(
+                return ControllerUtilities.ProcessException<RolesController>(
                     this,
                     _requestService,
                     _logger,
@@ -282,13 +282,13 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// An endpoint to delete a difficult, requires the superuser role.
+        /// An endpoint to delete a role, requires the superuser role.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="request"></param>
-        /// <returns>A message indicating if the difficulty was deleted.</returns>
-        /// <response code="200">A message indicating if the difficulty was deleted.</response>
-        /// <response code="404">A message detailing any issues deleting a difficulty.</response>
+        /// <returns>A message indicating if the role was deleted.</returns>
+        /// <response code="200">A message indicating if the role was deleted.</response>
+        /// <response code="404">A message detailing any issues deleting a role.</response>
         /// <response code="500">A description of any errors processing the request.</response>
         /// <remarks>
         /// The Delete endpoint requires the user to be logged in. Requires the superuser role. The request body parameter uses the request model.
@@ -307,7 +307,7 @@ namespace SudokuCollective.Api.Controllers.V1
         [Authorize(Roles = "SUPERUSER")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAsync(
-            int id,
+            int id, 
             [FromBody] Request request)
         {
             try
@@ -322,7 +322,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     request.AppId,
                     request.RequestorId))
                 {
-                    var result = await _difficultiesService.DeleteAsync(id);
+                    var result = await _rolesService.DeleteAsync(id);
 
                     if (result.IsSuccess)
                     {
@@ -334,17 +334,17 @@ namespace SudokuCollective.Api.Controllers.V1
                     {
                         result.Message = ControllerMessages.StatusCode404(result.Message);
 
-                        return NotFound(result.Message);
+                        return NotFound(result);
                     }
                 }
                 else
                 {
                     return ControllerUtilities.ProcessTokenError(this);
                 }
-            } 
+            }
             catch (Exception e)
             {
-                return ControllerUtilities.ProcessException<DifficultiesController>(
+                return ControllerUtilities.ProcessException<RolesController>(
                     this,
                     _requestService,
                     _logger,
