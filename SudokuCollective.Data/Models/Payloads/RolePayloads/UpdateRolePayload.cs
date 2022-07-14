@@ -12,28 +12,17 @@ namespace SudokuCollective.Data.Models.Payloads
         public int Id { get; set; }
         [Required, JsonPropertyName("name")]
         public string Name { get; set; }
-        [Required, JsonPropertyName("roleLevel")]
-        public RoleLevel RoleLevel { get; set; }
 
         public UpdateRolePayload()
         {
             Id = 0;
             Name = string.Empty;
-            RoleLevel = RoleLevel.NULL;
         }
 
-        public UpdateRolePayload(int id, string name, int roleLevel)
+        public UpdateRolePayload(int id, string name)
         {
             Id = id;
             Name = name;
-            RoleLevel = (RoleLevel)roleLevel;
-        }
-
-        public UpdateRolePayload(int id, string name, RoleLevel roleLevel)
-        {
-            Id = id;
-            Name = name;
-            RoleLevel = roleLevel;
         }
 
         public static implicit operator JsonElement(UpdateRolePayload v)

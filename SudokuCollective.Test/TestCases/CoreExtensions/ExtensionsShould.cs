@@ -384,7 +384,7 @@ namespace SudokuCollective.Test.TestCases.Extensions
                 new
                 {
                     Id = 1,
-                    name = "Name"
+                    RoleName = "Name"
                 },
                 new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 

@@ -568,15 +568,20 @@ namespace SudokuCollective.Test.TestData
             new UpdateRolePayload()
             {
                 Id = 1,
-                Name = "Null UPDATED!",
-                RoleLevel = RoleLevel.NULL
+                Name = "Null UPDATED!"
             };
 
         public static UpdateRolePayload GetInvalidUpdateRolePayload() =>
             new UpdateRolePayload()
             {
                 Id = 10,
-                Name = "Null UPDATED!",
+                Name = "Null UPDATED!"
+            };
+
+        public static CreateRolePayload GetCreateRolePayload() => 
+            new CreateRolePayload()
+            {
+                Name = "Test Role",
                 RoleLevel = RoleLevel.NULL
             };
 
