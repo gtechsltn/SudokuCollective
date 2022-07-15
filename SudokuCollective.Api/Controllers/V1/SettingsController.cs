@@ -1,7 +1,11 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SudokuCollective.Core.Enums;
+using SudokuCollective.Core.Interfaces.Services;
+using SudokuCollective.Data.Messages;
+using SudokuCollective.Data.Models.Params;
+using SudokuCollective.Data.Models.Settings;
 
 namespace SudokuCollective.Api.Controllers.V1
 {
@@ -13,6 +17,60 @@ namespace SudokuCollective.Api.Controllers.V1
     [ApiController]
     public class SettingsController : ControllerBase
     {
+        private readonly ISettingsService _settingsService;
+
+        /// <summary>
+        /// Settings Controller Constructor
+        /// </summary>
+        /// <param name="settingsService"></param>
+        public SettingsController(ISettingsService settingsService)
+        {
+            _settingsService = settingsService;
+        }
+
+        /// <summary>
+        /// An endpoint used to return all menu items you will use you in your settings, does not require a login.
+        /// </summary>
+        /// <remarks>
+        /// The Get endpoint returns all menu items you will use in your various drop down settings.  The results
+        /// are as follows:
+        /// 
+        /// ```
+        /// {
+        ///   "isSuccess": true,                                // An indicator if the request was successful
+        ///   "isFromCache": false,                             // An indicator if the payload was obtained from the cache
+        ///   "message": "Status Code 200: Settings Retrieved", // A brief description of the result
+        ///   "payload": [
+        ///    {
+        ///     difficulties: [],        // an array of all difficulties that can be applied to a game
+        ///     releaseEnvironments: [], // an array of all release environment states you app can be in
+        ///     sortValues, [],          // an array of all possible sort values that apps, users, and games can apply
+        ///     timeFrames, [],          // an array of all intervals that can be applied to your apps auth token
+        ///    }
+        ///   ]
+        /// }
+        /// ```
+        /// </remarks>
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<ActionResult<Result>> GetAsync()
+        {
+            var result = await _settingsService.GetAsync();
+
+            if (result.IsSuccess)
+            {
+                result.Message = ControllerMessages.StatusCode200(result.Message);
+
+                return Ok(result);
+            }
+            else
+            {
+                result.Message = ControllerMessages.StatusCode400(result.Message);
+
+                return NotFound(result);
+            }
+        }
+
         /// <summary>
         /// An endpoint which returns a list of releaseEnvironments, does not require a login.
         /// </summary>
@@ -69,128 +127,7 @@ namespace SudokuCollective.Api.Controllers.V1
         [HttpGet, Route("getReleaseEnvironments")]
         public ActionResult<List<EnumListItem>> GetReleaseEnvironments()
         {
-            var releaseEnvironment = new List<string> { "releaseEnvironment" };
-
-            var result = new List<EnumListItem>
-            {
-                new EnumListItem { 
-                    Label = "Local", 
-                    Value = (int)ReleaseEnvironment.LOCAL,
-                    AppliesTo = releaseEnvironment },
-                new EnumListItem { 
-                    Label = "Staging", 
-                    Value = (int)ReleaseEnvironment.STAGING,
-                    AppliesTo = releaseEnvironment },
-                new EnumListItem { 
-                    Label = "Quality Assurance", 
-                    Value = (int)ReleaseEnvironment.QA,
-                    AppliesTo = releaseEnvironment },
-                new EnumListItem { 
-                    Label = "Production", 
-                    Value = (int)ReleaseEnvironment.PROD,
-                    AppliesTo = releaseEnvironment },
-            };
-
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// An endpoint which returns a list of timeFrames, does not require a login.
-        /// </summary>
-        /// <remarks>
-        /// The GetTimeFrames endpoint returns a list of timeFrames. Your app uses JWT Tokens to authorize
-        /// requests. As the owner of the app you can set the expiration period for the JWT Tokens, after
-        /// which time the user has to reauthenticate themselves. You control the expiration period by
-        /// updating two settings on your app: accessDuration and timeFrames.  AccessDuration controls the 
-        /// magnitude of the expiration period and timeFrame controls the period: seconds, minutes, etc...
-        /// 
-        /// Please note if timeFrame is set to "Years" then accessDuration is limited to 5.
-        ///
-        /// This endpoint allows you to populate a dropdown list in your app if you want to control the app
-        /// token from within your app.
-        ///
-        /// The array returned is as follows:
-        ///
-        /// ```
-        /// [
-        ///   {
-        ///     "label": "Seconds",
-        ///     "value": 1,
-        ///     "appliesTo": [ 
-        ///       "authToken"
-        ///     ]
-        ///   },
-        ///   {
-        ///     "label": "Minutes",
-        ///     "value": 2,
-        ///     "appliesTo": [ 
-        ///       "authToken"
-        ///     ]
-        ///   },
-        ///   {
-        ///     "label": "Hours",
-        ///     "value": 3,
-        ///     "appliesTo": [ 
-        ///       "authToken"
-        ///     ]
-        ///   },
-        ///   {
-        ///     "label": "Days",
-        ///     "value": 4,
-        ///     "appliesTo": [ 
-        ///       "authToken"
-        ///     ]
-        ///   },
-        ///   {
-        ///     "label": "Months",
-        ///     "value": 5,
-        ///     "appliesTo": [ 
-        ///       "authToken"
-        ///     ]
-        ///   },
-        ///   {
-        ///     "label": "Years",
-        ///     "value": 6,
-        ///     "appliesTo": [ 
-        ///       "authToken"
-        ///     ]
-        ///   },
-        /// ]
-        /// ```
-        /// </remarks>
-        [AllowAnonymous]
-        [HttpGet, Route("getTimeFrames")]
-        public ActionResult<List<EnumListItem>> GetTimeFrames()
-        {
-            var authToken = new List<string> { "authToken" };
-
-            var result = new List<EnumListItem>
-            {
-                new EnumListItem { 
-                    Label = "Seconds", 
-                    Value = (int)TimeFrame.SECONDS,
-                    AppliesTo = authToken },
-                new EnumListItem { 
-                    Label = "Minutes", 
-                    Value = (int)TimeFrame.MINUTES,
-                    AppliesTo = authToken },
-                new EnumListItem { 
-                    Label = "Hours", 
-                    Value = (int)TimeFrame.HOURS,
-                    AppliesTo = authToken },
-                new EnumListItem { 
-                    Label = "Days", 
-                    Value = (int)TimeFrame.DAYS,
-                    AppliesTo = authToken },
-                new EnumListItem { 
-                    Label = "Months", 
-                    Value = (int)TimeFrame.MONTHS,
-                    AppliesTo = authToken },
-                new EnumListItem {
-                    Label = "Years",
-                    Value = (int)TimeFrame.YEARS,
-                    AppliesTo = authToken },
-            };
+            var result = _settingsService.GetReleaseEnvironments();
 
             return Ok(result);
         }
@@ -331,101 +268,82 @@ namespace SudokuCollective.Api.Controllers.V1
         [HttpGet, Route("getSortValues")]
         public ActionResult<List<EnumListItem>> GetSortValues()
         {
-            var all = new List<string> { "apps", "users", "games" };
-            var apps = new List<string> { "apps" };
-            var users = new List<string> { "users" };
-            var games = new List<string> { "games" };
+            var result = _settingsService.GetSortValues();
 
-            var result = new List<EnumListItem>
-            {
-                new EnumListItem { 
-                    Label = "Id", 
-                    Value = (int)SortValue.ID,
-                    AppliesTo = all },
-                new EnumListItem { 
-                    Label = "Username", 
-                    Value = (int)SortValue.USERNAME,
-                    AppliesTo = users },
-                new EnumListItem { 
-                    Label = "First Name", 
-                    Value = (int)SortValue.FIRSTNAME,
-                    AppliesTo = users },
-                new EnumListItem { 
-                    Label = "Last Name", 
-                    Value = (int)SortValue.LASTNAME,
-                    AppliesTo = users },
-                new EnumListItem { 
-                    Label = "Full Name", 
-                    Value = (int)SortValue.FULLNAME,
-                    AppliesTo = users },
-                new EnumListItem { 
-                    Label = "Nick Name", 
-                    Value = (int)SortValue.NICKNAME,
-                    AppliesTo = users },
-                new EnumListItem { 
-                    Label = "Game Count", 
-                    Value = (int)SortValue.GAMECOUNT,
-                    AppliesTo = users },
-                new EnumListItem { 
-                    Label = "App Count", 
-                    Value = (int)SortValue.APPCOUNT,
-                    AppliesTo = users },
-                new EnumListItem { 
-                    Label = "Name", 
-                    Value = (int)SortValue.NAME,
-                    AppliesTo = apps },
-                new EnumListItem { 
-                    Label = "Date Created", 
-                    Value = (int)SortValue.DATECREATED,
-                    AppliesTo = all },
-                new EnumListItem { 
-                    Label = "Date Updated", 
-                    Value = (int)SortValue.DATEUPDATED,
-                    AppliesTo = all },
-                new EnumListItem { 
-                    Label = "Difficulty Level", 
-                    Value = (int)SortValue.DIFFICULTYLEVEL,
-                    AppliesTo = games },
-                new EnumListItem {
-                    Label = "User Count",
-                    Value = (int)SortValue.USERCOUNT,
-                    AppliesTo = apps },
-                new EnumListItem { 
-                    Label = "Score", 
-                    Value = (int)SortValue.SCORE,
-                    AppliesTo = games }
-            };
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// An endpoint which returns a list of timeFrames, does not require a login.
+        /// </summary>
+        /// <remarks>
+        /// The GetTimeFrames endpoint returns a list of timeFrames. Your app uses JWT Tokens to authorize
+        /// requests. As the owner of the app you can set the expiration period for the JWT Tokens, after
+        /// which time the user has to reauthenticate themselves. You control the expiration period by
+        /// updating two settings on your app: accessDuration and timeFrames.  AccessDuration controls the 
+        /// magnitude of the expiration period and timeFrame controls the period: seconds, minutes, etc...
+        /// 
+        /// Please note if timeFrame is set to "Years" then accessDuration is limited to 5.
+        ///
+        /// This endpoint allows you to populate a dropdown list in your app if you want to control the app
+        /// token from within your app.
+        ///
+        /// The array returned is as follows:
+        ///
+        /// ```
+        /// [
+        ///   {
+        ///     "label": "Seconds",
+        ///     "value": 1,
+        ///     "appliesTo": [ 
+        ///       "authToken"
+        ///     ]
+        ///   },
+        ///   {
+        ///     "label": "Minutes",
+        ///     "value": 2,
+        ///     "appliesTo": [ 
+        ///       "authToken"
+        ///     ]
+        ///   },
+        ///   {
+        ///     "label": "Hours",
+        ///     "value": 3,
+        ///     "appliesTo": [ 
+        ///       "authToken"
+        ///     ]
+        ///   },
+        ///   {
+        ///     "label": "Days",
+        ///     "value": 4,
+        ///     "appliesTo": [ 
+        ///       "authToken"
+        ///     ]
+        ///   },
+        ///   {
+        ///     "label": "Months",
+        ///     "value": 5,
+        ///     "appliesTo": [ 
+        ///       "authToken"
+        ///     ]
+        ///   },
+        ///   {
+        ///     "label": "Years",
+        ///     "value": 6,
+        ///     "appliesTo": [ 
+        ///       "authToken"
+        ///     ]
+        ///   },
+        /// ]
+        /// ```
+        /// </remarks>
+        [AllowAnonymous]
+        [HttpGet, Route("getTimeFrames")]
+        public ActionResult<List<EnumListItem>> GetTimeFrames()
+        {
+            var result = _settingsService.GetTimeFrames();
 
             return Ok(result);
         }
     }
-
-    /// <summary>
-    /// A class to transmit enum list items to clients
-    /// </summary>
-    public class EnumListItem 
-    {
-        /// <summary>
-        /// A label for dropdown items
-        /// </summary>
-        public string Label { get; set; }
-        /// <summary>
-        /// A value for dropdown items
-        /// </summary>
-        public int Value { get; set; }
-        /// <summary>
-        /// An array for filtering dropdown items
-        /// </summary>
-        public List<string> AppliesTo { get; set; }
-
-        /// <summary>
-        /// The default constructor
-        /// </summary>
-        public EnumListItem()
-        {
-            Label = string.Empty;
-            Value = 0;
-            AppliesTo = new List<string>();
-        }
-    };
 }
