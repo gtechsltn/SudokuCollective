@@ -244,5 +244,16 @@ namespace SudokuCollective.Test.TestCases.Cache
             // Assert
             Assert.That(sut.GetRolesCacheKey, Is.EqualTo(":GetRoles"));
         }
+
+        [Test, Category("Cache")]
+        public void HaveGetSettingsKey()
+        {
+            // Arrange
+
+            // Act
+
+            // Assert
+            Assert.That(sut.GetSettingsKey, Is.EqualTo(":GetSettings"));
+        }
     }
 }

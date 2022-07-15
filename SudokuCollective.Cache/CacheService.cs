@@ -10,6 +10,9 @@ using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Data.Models;
+using SudokuCollective.Data.Models.Settings;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Settings;
+using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 
 namespace SudokuCollective.Cache
 {
@@ -1346,6 +1349,65 @@ namespace SudokuCollective.Cache
                 }
 
                 return result;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<Tuple<ISettings, IResult>> GetSettingsAsync(
+            IDifficultiesRepository<Difficulty> repo, 
+            IDistributedCache cache, 
+            string cacheKey, 
+            DateTime expiration,
+            List<IEnumListItem> releaseEnvironments,
+            List<IEnumListItem> sortValues,
+            List<IEnumListItem> timeFrames,
+            IResult result = null)
+        {
+            try
+            {
+                ISettings settings;
+
+                var cachedItem = await cache.GetAsync(cacheKey);
+
+                if (cachedItem != null)
+                {
+                    var serializedItem = Encoding.UTF8.GetString(cachedItem);
+                    settings = JsonSerializer.Deserialize<Settings>(serializedItem);
+
+                    if (result != null)
+                    {
+                        result.IsFromCache = true;
+                    }
+                }
+                else
+                {
+                    settings = new Settings();
+                    
+                    settings.Difficulties = (await repo.GetAllAsync()).Objects.ConvertAll(d => (IDifficulty)d);
+                    settings.ReleaseEnvironments = releaseEnvironments;
+                    settings.SortValues = sortValues;
+                    settings.TimeFrames = timeFrames;
+
+                    var serializedItem = JsonSerializer.Serialize<Settings>(
+                        (Settings)settings, 
+                        new JsonSerializerOptions 
+                        { 
+                            ReferenceHandler = ReferenceHandler.IgnoreCycles 
+                        });
+                    var encodedItem = Encoding.UTF8.GetBytes(serializedItem);
+                    var options = new DistributedCacheEntryOptions()
+                        .SetAbsoluteExpiration(expiration);
+
+                    await cache.SetAsync(
+                        cacheKey,
+                        encodedItem,
+                        options);
+                }
+
+                return new Tuple<ISettings, IResult>(settings, result);
             }
             catch
             {
