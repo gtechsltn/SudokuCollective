@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
@@ -14,6 +15,7 @@ using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Payloads;
 using SudokuCollective.Data.Models.Results;
+using SudokuCollective.Data.Models.Settings;
 
 namespace SudokuCollective.Test.TestData
 {
@@ -772,5 +774,126 @@ namespace SudokuCollective.Test.TestData
                 QaUrl = "https://testapp3.qa.com",
                 ProdUrl = "https://testapp3.com"
             };
+
+        public static Settings GetSettings()
+        {
+            var context = TestDatabase.GetDatabaseContext().Result;
+            var releaseEnvironment = new List<string> { "releaseEnvironment" };
+            var all = new List<string> { "apps", "users", "games" };
+            var apps = new List<string> { "apps" };
+            var users = new List<string> { "users" };
+            var games = new List<string> { "games" };
+            var authToken = new List<string> { "authToken" };
+            
+            return new Settings
+            {
+                Difficulties = context.Difficulties.ToList(),
+                ReleaseEnvironments = new List<EnumListItem>
+                    {
+                        new EnumListItem { 
+                            Label = "Local", 
+                            Value = (int)ReleaseEnvironment.LOCAL,
+                            AppliesTo = releaseEnvironment },
+                        new EnumListItem { 
+                            Label = "Staging", 
+                            Value = (int)ReleaseEnvironment.STAGING,
+                            AppliesTo = releaseEnvironment },
+                        new EnumListItem { 
+                            Label = "Quality Assurance", 
+                            Value = (int)ReleaseEnvironment.QA,
+                            AppliesTo = releaseEnvironment },
+                        new EnumListItem { 
+                            Label = "Production", 
+                            Value = (int)ReleaseEnvironment.PROD,
+                            AppliesTo = releaseEnvironment },
+                    },
+                SortValues = new List<EnumListItem>
+                    {
+                        new EnumListItem { 
+                            Label = "Id", 
+                            Value = (int)SortValue.ID,
+                            AppliesTo = all },
+                        new EnumListItem { 
+                            Label = "Username", 
+                            Value = (int)SortValue.USERNAME,
+                            AppliesTo = users },
+                        new EnumListItem { 
+                            Label = "First Name", 
+                            Value = (int)SortValue.FIRSTNAME,
+                            AppliesTo = users },
+                        new EnumListItem { 
+                            Label = "Last Name", 
+                            Value = (int)SortValue.LASTNAME,
+                            AppliesTo = users },
+                        new EnumListItem { 
+                            Label = "Full Name", 
+                            Value = (int)SortValue.FULLNAME,
+                            AppliesTo = users },
+                        new EnumListItem { 
+                            Label = "Nick Name", 
+                            Value = (int)SortValue.NICKNAME,
+                            AppliesTo = users },
+                        new EnumListItem { 
+                            Label = "Game Count", 
+                            Value = (int)SortValue.GAMECOUNT,
+                            AppliesTo = users },
+                        new EnumListItem { 
+                            Label = "App Count", 
+                            Value = (int)SortValue.APPCOUNT,
+                            AppliesTo = users },
+                        new EnumListItem { 
+                            Label = "Name", 
+                            Value = (int)SortValue.NAME,
+                            AppliesTo = apps },
+                        new EnumListItem { 
+                            Label = "Date Created", 
+                            Value = (int)SortValue.DATECREATED,
+                            AppliesTo = all },
+                        new EnumListItem { 
+                            Label = "Date Updated", 
+                            Value = (int)SortValue.DATEUPDATED,
+                            AppliesTo = all },
+                        new EnumListItem { 
+                            Label = "Difficulty Level", 
+                            Value = (int)SortValue.DIFFICULTYLEVEL,
+                            AppliesTo = games },
+                        new EnumListItem {
+                            Label = "User Count",
+                            Value = (int)SortValue.USERCOUNT,
+                            AppliesTo = apps },
+                        new EnumListItem { 
+                            Label = "Score", 
+                            Value = (int)SortValue.SCORE,
+                            AppliesTo = games }
+                    },
+                TimeFrames = new List<EnumListItem>
+                    {
+                        new EnumListItem { 
+                            Label = "Seconds", 
+                            Value = (int)TimeFrame.SECONDS,
+                            AppliesTo = authToken },
+                        new EnumListItem { 
+                            Label = "Minutes", 
+                            Value = (int)TimeFrame.MINUTES,
+                            AppliesTo = authToken },
+                        new EnumListItem { 
+                            Label = "Hours", 
+                            Value = (int)TimeFrame.HOURS,
+                            AppliesTo = authToken },
+                        new EnumListItem { 
+                            Label = "Days", 
+                            Value = (int)TimeFrame.DAYS,
+                            AppliesTo = authToken },
+                        new EnumListItem { 
+                            Label = "Months", 
+                            Value = (int)TimeFrame.MONTHS,
+                            AppliesTo = authToken },
+                        new EnumListItem {
+                            Label = "Years",
+                            Value = (int)TimeFrame.YEARS,
+                            AppliesTo = authToken },
+                    }
+            };
+        }
     }
 }

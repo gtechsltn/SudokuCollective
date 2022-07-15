@@ -23,5 +23,6 @@
         string GetSolutionsCacheKey { get; }
         string GetRoleCacheKey { get; }
         string GetRolesCacheKey { get; }
+        string GetSettingsKey { get; }
     }
 }

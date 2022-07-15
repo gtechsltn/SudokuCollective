@@ -138,7 +138,7 @@ namespace SudokuCollective.Test.TestCases.Services
         }
 
         [Test, Category("Services")]
-        public async Task UpdateADifficulty()
+        public async Task UpdateARole()
         {
             // Arrange
             request = TestObjects.GetRequest();
