@@ -599,7 +599,14 @@ namespace SudokuCollective.Data.Services
 
                     foreach (var app in result.Payload.ConvertAll(a => (App)a))
                     {
-                        app.SMTPServerSettings.Sanitize();
+                        if (!app.UseCustomSMTPServer)
+                        {
+                            app.NullifySMTPServerSettings();
+                        }
+                        else
+                        {
+                            app.SMTPServerSettings.Sanitize();
+                        }
                     }
 
                     return result;
