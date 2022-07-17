@@ -45,7 +45,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var statusCode = ((OkObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.TypeOf<ActionResult<List<EnumListItem>>>());
+            Assert.That(result, Is.TypeOf<ActionResult<Result>>());
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
@@ -57,7 +57,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var statusCode = ((OkObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.TypeOf<ActionResult<List<EnumListItem>>>());
+            Assert.That(result, Is.TypeOf<ActionResult<Result>>());
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
@@ -69,43 +69,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var statusCode = ((OkObjectResult)result.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.TypeOf<ActionResult<List<EnumListItem>>>());
-            Assert.That(statusCode, Is.EqualTo(200));
-        }
-
-        [Test, Category("Controller")]
-        public void HaveAListOfSortValuesFilterableForApps()
-        {
-            // Arrange and Act
-            var result = sut.GetSortValues();
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
-
-            // Assert
-            Assert.That(result, Is.TypeOf<ActionResult<List<EnumListItem>>>());
-            Assert.That(statusCode, Is.EqualTo(200));
-        }
-
-        [Test, Category("Controller")]
-        public void HaveAListOfSortValuesFilterableForUsers()
-        {
-            // Arrange and Act
-            var result = sut.GetSortValues();
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
-
-            // Assert
-            Assert.That(result, Is.TypeOf<ActionResult<List<EnumListItem>>>());
-            Assert.That(statusCode, Is.EqualTo(200));
-        }
-
-        [Test, Category("Controller")]
-        public void HaveAListOfSortValuesFilterableForGames()
-        {
-            // Arrange and Act
-            var result = sut.GetSortValues();
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
-
-            // Assert
-            Assert.That(result, Is.TypeOf<ActionResult<List<EnumListItem>>>());
+            Assert.That(result, Is.TypeOf<ActionResult<Result>>());
             Assert.That(statusCode, Is.EqualTo(200));
         }
     }
