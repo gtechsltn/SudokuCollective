@@ -35,15 +35,15 @@ namespace SudokuCollective.Test.Services
 
             Request.Setup(service =>
                 service.GetReleaseEnvironments())
-                .Returns(_releaseEnvironments.ConvertAll(x => (IEnumListItem)x));
+                .Returns(TestObjects.GetResult() as IResult);
 
             Request.Setup(service =>
                 service.GetSortValues())
-                .Returns(_sortValues.ConvertAll(x => (IEnumListItem)x));
+                .Returns(TestObjects.GetResult() as IResult);
 
             Request.Setup(service =>
                 service.GetTimeFrames())
-                .Returns(_timeFrames.ConvertAll(x => (IEnumListItem)x));
+                .Returns(TestObjects.GetResult() as IResult);
         }
     }
 }

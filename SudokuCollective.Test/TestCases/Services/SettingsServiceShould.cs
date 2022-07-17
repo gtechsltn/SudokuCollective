@@ -61,10 +61,11 @@ namespace SudokuCollective.Test.TestCases.Services
         {
             // Arrange and Act
             var result = sut.GetReleaseEnvironments();
+            var releaseEnvironments = result.Payload[0] as List<IEnumListItem>;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<List<IEnumListItem>>());
-            Assert.That(result.Count, Is.EqualTo(4));
+            Assert.That(result, Is.InstanceOf<IResult>());
+            Assert.That(releaseEnvironments.Count, Is.EqualTo(4));
         }
 
         [Test, Category("Services")]
@@ -72,10 +73,11 @@ namespace SudokuCollective.Test.TestCases.Services
         {
             // Arrange and Act
             var result = sut.GetSortValues();
+            var sortValues = result.Payload[0] as List<IEnumListItem>;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<List<IEnumListItem>>());
-            Assert.That(result.Count, Is.EqualTo(14));
+            Assert.That(result, Is.InstanceOf<IResult>());
+            Assert.That(sortValues.Count, Is.EqualTo(14));
         }
 
         [Test, Category("Services")]
@@ -83,10 +85,11 @@ namespace SudokuCollective.Test.TestCases.Services
         {
             // Arrange and Act
             var result = sut.GetTimeFrames();
+            var timeFrames = result.Payload[0] as List<IEnumListItem>;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<List<IEnumListItem>>());
-            Assert.That(result.Count, Is.EqualTo(6));
+            Assert.That(result, Is.InstanceOf<IResult>());
+            Assert.That(timeFrames.Count, Is.EqualTo(6));
         }
     }
 }

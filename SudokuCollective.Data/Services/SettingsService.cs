@@ -43,14 +43,19 @@ namespace SudokuCollective.Data.Services
 
             try
             {
+                var releaseEnvironments = (GetReleaseEnvironments()).Payload[0] as List<IEnumListItem>;
+                var sortValues = (GetSortValues()).Payload[0] as List<IEnumListItem>;
+                var timeFrames = (GetTimeFrames()).Payload[0] as List<IEnumListItem>;
+
                 var response = await _cacheService.GetSettingsAsync(
                     _difficultiesRepository, 
                     _distributedCache, 
                     _cacheKeys.GetSettingsKey, 
                     _cachingStrategy.Heavy,
-                    GetReleaseEnvironments(),
-                    GetSortValues(),
-                    GetTimeFrames(), result);
+                    releaseEnvironments,
+                    sortValues,
+                    timeFrames, 
+                    result);
 
                 result = (Result)response.Item2;
 
@@ -68,130 +73,187 @@ namespace SudokuCollective.Data.Services
             return result;
         }
 
-        public List<IEnumListItem> GetReleaseEnvironments()
+        public IResult GetReleaseEnvironments()
         {
-            var releaseEnvironment = new List<string> { "releaseEnvironment" };
+            var result = new Result();
 
-            return new List<IEnumListItem>
+            try
             {
-                new EnumListItem { 
-                    Label = "Local", 
-                    Value = (int)ReleaseEnvironment.LOCAL,
-                    AppliesTo = releaseEnvironment },
-                new EnumListItem { 
-                    Label = "Staging", 
-                    Value = (int)ReleaseEnvironment.STAGING,
-                    AppliesTo = releaseEnvironment },
-                new EnumListItem { 
-                    Label = "Quality Assurance", 
-                    Value = (int)ReleaseEnvironment.QA,
-                    AppliesTo = releaseEnvironment },
-                new EnumListItem { 
-                    Label = "Production", 
-                    Value = (int)ReleaseEnvironment.PROD,
-                    AppliesTo = releaseEnvironment },
-            };
+                var releaseEnvironment = new List<string> { "releaseEnvironment" };
+
+                var items = new List<IEnumListItem>
+                {
+                    new EnumListItem { 
+                        Label = "Local", 
+                        Value = (int)ReleaseEnvironment.LOCAL,
+                        AppliesTo = releaseEnvironment },
+                    new EnumListItem { 
+                        Label = "Staging", 
+                        Value = (int)ReleaseEnvironment.STAGING,
+                        AppliesTo = releaseEnvironment },
+                    new EnumListItem { 
+                        Label = "Quality Assurance", 
+                        Value = (int)ReleaseEnvironment.QA,
+                        AppliesTo = releaseEnvironment },
+                    new EnumListItem { 
+                        Label = "Production", 
+                        Value = (int)ReleaseEnvironment.PROD,
+                        AppliesTo = releaseEnvironment },
+                };
+
+                result.IsSuccess = true;
+
+                result.Message = SettingsMessages.ReleaseEnvironmentsRetrieved;
+
+                result.Payload.Add(items);
+
+                return result;
+            }
+            catch
+            {
+                result.Message = SettingsMessages.ReleaseEnvironmentsNotRetrieved;
+
+                return result;
+            }
         }
 
-        public List<IEnumListItem> GetSortValues()
+        public IResult GetSortValues()
         {
-            var all = new List<string> { "apps", "users", "games" };
-            var apps = new List<string> { "apps" };
-            var users = new List<string> { "users" };
-            var games = new List<string> { "games" };
+            var result = new Result();
 
-            return new List<IEnumListItem>
+            try
             {
-                new EnumListItem { 
-                    Label = "Id", 
-                    Value = (int)SortValue.ID,
-                    AppliesTo = all },
-                new EnumListItem { 
-                    Label = "Username", 
-                    Value = (int)SortValue.USERNAME,
-                    AppliesTo = users },
-                new EnumListItem { 
-                    Label = "First Name", 
-                    Value = (int)SortValue.FIRSTNAME,
-                    AppliesTo = users },
-                new EnumListItem { 
-                    Label = "Last Name", 
-                    Value = (int)SortValue.LASTNAME,
-                    AppliesTo = users },
-                new EnumListItem { 
-                    Label = "Full Name", 
-                    Value = (int)SortValue.FULLNAME,
-                    AppliesTo = users },
-                new EnumListItem { 
-                    Label = "Nick Name", 
-                    Value = (int)SortValue.NICKNAME,
-                    AppliesTo = users },
-                new EnumListItem { 
-                    Label = "Game Count", 
-                    Value = (int)SortValue.GAMECOUNT,
-                    AppliesTo = users },
-                new EnumListItem { 
-                    Label = "App Count", 
-                    Value = (int)SortValue.APPCOUNT,
-                    AppliesTo = users },
-                new EnumListItem { 
-                    Label = "Name", 
-                    Value = (int)SortValue.NAME,
-                    AppliesTo = apps },
-                new EnumListItem { 
-                    Label = "Date Created", 
-                    Value = (int)SortValue.DATECREATED,
-                    AppliesTo = all },
-                new EnumListItem { 
-                    Label = "Date Updated", 
-                    Value = (int)SortValue.DATEUPDATED,
-                    AppliesTo = all },
-                new EnumListItem { 
-                    Label = "Difficulty Level", 
-                    Value = (int)SortValue.DIFFICULTYLEVEL,
-                    AppliesTo = games },
-                new EnumListItem {
-                    Label = "User Count",
-                    Value = (int)SortValue.USERCOUNT,
-                    AppliesTo = apps },
-                new EnumListItem { 
-                    Label = "Score", 
-                    Value = (int)SortValue.SCORE,
-                    AppliesTo = games }
-            };
+                var all = new List<string> { "apps", "users", "games" };
+                var apps = new List<string> { "apps" };
+                var users = new List<string> { "users" };
+                var games = new List<string> { "games" };
+
+                var items = new List<IEnumListItem>
+                {
+                    new EnumListItem { 
+                        Label = "Id", 
+                        Value = (int)SortValue.ID,
+                        AppliesTo = all },
+                    new EnumListItem { 
+                        Label = "Username", 
+                        Value = (int)SortValue.USERNAME,
+                        AppliesTo = users },
+                    new EnumListItem { 
+                        Label = "First Name", 
+                        Value = (int)SortValue.FIRSTNAME,
+                        AppliesTo = users },
+                    new EnumListItem { 
+                        Label = "Last Name", 
+                        Value = (int)SortValue.LASTNAME,
+                        AppliesTo = users },
+                    new EnumListItem { 
+                        Label = "Full Name", 
+                        Value = (int)SortValue.FULLNAME,
+                        AppliesTo = users },
+                    new EnumListItem { 
+                        Label = "Nick Name", 
+                        Value = (int)SortValue.NICKNAME,
+                        AppliesTo = users },
+                    new EnumListItem { 
+                        Label = "Game Count", 
+                        Value = (int)SortValue.GAMECOUNT,
+                        AppliesTo = users },
+                    new EnumListItem { 
+                        Label = "App Count", 
+                        Value = (int)SortValue.APPCOUNT,
+                        AppliesTo = users },
+                    new EnumListItem { 
+                        Label = "Name", 
+                        Value = (int)SortValue.NAME,
+                        AppliesTo = apps },
+                    new EnumListItem { 
+                        Label = "Date Created", 
+                        Value = (int)SortValue.DATECREATED,
+                        AppliesTo = all },
+                    new EnumListItem { 
+                        Label = "Date Updated", 
+                        Value = (int)SortValue.DATEUPDATED,
+                        AppliesTo = all },
+                    new EnumListItem { 
+                        Label = "Difficulty Level", 
+                        Value = (int)SortValue.DIFFICULTYLEVEL,
+                        AppliesTo = games },
+                    new EnumListItem {
+                        Label = "User Count",
+                        Value = (int)SortValue.USERCOUNT,
+                        AppliesTo = apps },
+                    new EnumListItem { 
+                        Label = "Score", 
+                        Value = (int)SortValue.SCORE,
+                        AppliesTo = games }
+                };
+
+                result.IsSuccess = true;
+
+                result.Message = SettingsMessages.SortValuesRetrieved;
+
+                result.Payload.Add(items);
+
+                return result;
+            }
+            catch
+            {
+                result.Message = SettingsMessages.SortValuesNotRetrieved;
+
+                return result;
+            }
         }
 
-        public List<IEnumListItem> GetTimeFrames()
+        public IResult GetTimeFrames()
         {
-            var authToken = new List<string> { "authToken" };
+            var result = new Result();
 
-            return new List<IEnumListItem>
+            try
             {
-                new EnumListItem { 
-                    Label = "Seconds", 
-                    Value = (int)TimeFrame.SECONDS,
-                    AppliesTo = authToken },
-                new EnumListItem { 
-                    Label = "Minutes", 
-                    Value = (int)TimeFrame.MINUTES,
-                    AppliesTo = authToken },
-                new EnumListItem { 
-                    Label = "Hours", 
-                    Value = (int)TimeFrame.HOURS,
-                    AppliesTo = authToken },
-                new EnumListItem { 
-                    Label = "Days", 
-                    Value = (int)TimeFrame.DAYS,
-                    AppliesTo = authToken },
-                new EnumListItem { 
-                    Label = "Months", 
-                    Value = (int)TimeFrame.MONTHS,
-                    AppliesTo = authToken },
-                new EnumListItem {
-                    Label = "Years",
-                    Value = (int)TimeFrame.YEARS,
-                    AppliesTo = authToken },
-            };
+                var authToken = new List<string> { "authToken" };
+
+                var items = new List<IEnumListItem>
+                {
+                    new EnumListItem { 
+                        Label = "Seconds", 
+                        Value = (int)TimeFrame.SECONDS,
+                        AppliesTo = authToken },
+                    new EnumListItem { 
+                        Label = "Minutes", 
+                        Value = (int)TimeFrame.MINUTES,
+                        AppliesTo = authToken },
+                    new EnumListItem { 
+                        Label = "Hours", 
+                        Value = (int)TimeFrame.HOURS,
+                        AppliesTo = authToken },
+                    new EnumListItem { 
+                        Label = "Days", 
+                        Value = (int)TimeFrame.DAYS,
+                        AppliesTo = authToken },
+                    new EnumListItem { 
+                        Label = "Months", 
+                        Value = (int)TimeFrame.MONTHS,
+                        AppliesTo = authToken },
+                    new EnumListItem {
+                        Label = "Years",
+                        Value = (int)TimeFrame.YEARS,
+                        AppliesTo = authToken },
+                };
+
+                result.IsSuccess = true;
+
+                result.Message = SettingsMessages.TimeFramesRetrieved;
+
+                result.Payload.Add(items);
+
+                return result;
+            }
+            catch
+            {
+                result.Message = SettingsMessages.TimeFramesNotRetrieved;
+
+                return result;
+            }
         }
     }
 }

@@ -125,11 +125,22 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [AllowAnonymous]
         [HttpGet, Route("getReleaseEnvironments")]
-        public ActionResult<List<EnumListItem>> GetReleaseEnvironments()
+        public ActionResult<Result> GetReleaseEnvironments()
         {
             var result = _settingsService.GetReleaseEnvironments();
 
-            return Ok(result);
+            if (result.IsSuccess)
+            {
+                result.Message = ControllerMessages.StatusCode200(result.Message);
+
+                return Ok(result);
+            }
+            else
+            {
+                result.Message = ControllerMessages.StatusCode400(result.Message);
+
+                return NotFound(result);
+            }
         }
 
         /// <summary>
@@ -266,11 +277,22 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
         [HttpGet, Route("getSortValues")]
-        public ActionResult<List<EnumListItem>> GetSortValues()
+        public ActionResult<Result> GetSortValues()
         {
             var result = _settingsService.GetSortValues();
 
-            return Ok(result);
+            if (result.IsSuccess)
+            {
+                result.Message = ControllerMessages.StatusCode200(result.Message);
+
+                return Ok(result);
+            }
+            else
+            {
+                result.Message = ControllerMessages.StatusCode400(result.Message);
+
+                return NotFound(result);
+            }
         }
 
         /// <summary>
@@ -339,11 +361,22 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [AllowAnonymous]
         [HttpGet, Route("getTimeFrames")]
-        public ActionResult<List<EnumListItem>> GetTimeFrames()
+        public ActionResult<Result> GetTimeFrames()
         {
             var result = _settingsService.GetTimeFrames();
 
-            return Ok(result);
+            if (result.IsSuccess)
+            {
+                result.Message = ControllerMessages.StatusCode200(result.Message);
+
+                return Ok(result);
+            }
+            else
+            {
+                result.Message = ControllerMessages.StatusCode400(result.Message);
+
+                return NotFound(result);
+            }
         }
     }
 }
