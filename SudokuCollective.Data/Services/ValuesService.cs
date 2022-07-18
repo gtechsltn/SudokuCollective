@@ -5,17 +5,17 @@ using Microsoft.Extensions.Caching.Distributed;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Cache;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Settings;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Values;
 using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Params;
-using SudokuCollective.Data.Models.Settings;
+using SudokuCollective.Data.Models.Values;
 
 namespace SudokuCollective.Data.Services
 {
-    public class SettingsService : ISettingsService
+    public class ValuesService : IValuesService
     {
         private IDifficultiesRepository<Difficulty> _difficultiesRepository;
         private readonly IDistributedCache _distributedCache;
@@ -23,7 +23,7 @@ namespace SudokuCollective.Data.Services
         private readonly ICacheKeys _cacheKeys;
         private readonly ICachingStrategy _cachingStrategy;
 
-        public SettingsService(
+        public ValuesService(
             IDifficultiesRepository<Difficulty> difficultiesRepository,
             IDistributedCache distributedCache,
             ICacheService cacheService,
@@ -47,10 +47,10 @@ namespace SudokuCollective.Data.Services
                 var sortValues = (GetSortValues()).Payload[0] as List<IEnumListItem>;
                 var timeFrames = (GetTimeFrames()).Payload[0] as List<IEnumListItem>;
 
-                var response = await _cacheService.GetSettingsAsync(
+                var response = await _cacheService.GetValuesAsync(
                     _difficultiesRepository, 
                     _distributedCache, 
-                    _cacheKeys.GetSettingsKey, 
+                    _cacheKeys.GetValuesKey, 
                     _cachingStrategy.Heavy,
                     releaseEnvironments,
                     sortValues,
@@ -63,7 +63,7 @@ namespace SudokuCollective.Data.Services
 
                 result.IsSuccess = true;
 
-                result.Message = SettingsMessages.SettingsRetrieved;
+                result.Message = ValuesMessages.ValuesRetrieved;
             }
             catch (Exception e)
             {
@@ -103,15 +103,15 @@ namespace SudokuCollective.Data.Services
 
                 result.IsSuccess = true;
 
-                result.Message = SettingsMessages.ReleaseEnvironmentsRetrieved;
+                result.Message = ValuesMessages.ReleaseEnvironmentsRetrieved;
 
-                result.Payload.Add(items);
+                result.Payload = items.ConvertAll(x => (object)x);
 
                 return result;
             }
             catch
             {
-                result.Message = SettingsMessages.ReleaseEnvironmentsNotRetrieved;
+                result.Message = ValuesMessages.ReleaseEnvironmentsNotRetrieved;
 
                 return result;
             }
@@ -190,15 +190,15 @@ namespace SudokuCollective.Data.Services
 
                 result.IsSuccess = true;
 
-                result.Message = SettingsMessages.SortValuesRetrieved;
+                result.Message = ValuesMessages.SortValuesRetrieved;
 
-                result.Payload.Add(items);
+                result.Payload = items.ConvertAll(x => (object)x);
 
                 return result;
             }
             catch
             {
-                result.Message = SettingsMessages.SortValuesNotRetrieved;
+                result.Message = ValuesMessages.SortValuesNotRetrieved;
 
                 return result;
             }
@@ -242,15 +242,15 @@ namespace SudokuCollective.Data.Services
 
                 result.IsSuccess = true;
 
-                result.Message = SettingsMessages.TimeFramesRetrieved;
+                result.Message = ValuesMessages.TimeFramesRetrieved;
 
-                result.Payload.Add(items);
+                result.Payload = items.ConvertAll(x => (object)x);
 
                 return result;
             }
             catch
             {
-                result.Message = SettingsMessages.TimeFramesNotRetrieved;
+                result.Message = ValuesMessages.TimeFramesNotRetrieved;
 
                 return result;
             }

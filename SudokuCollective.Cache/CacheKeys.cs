@@ -26,7 +26,7 @@ namespace SudokuCollective.Cache
         private const string _getSolutionsCacheKey = ":GetSolutions";
         private const string _getRoleCacheKey = ":GetRole:{0}";
         private const string _getRolesCacheKey = ":GetRoles";
-        private const string _getSettingsKey = ":GetSettings";
+        private const string _getValuesKey = ":GetValues";
         #endregion
 
         #region Properties
@@ -51,7 +51,7 @@ namespace SudokuCollective.Cache
         public string GetSolutionsCacheKey { get => _getSolutionsCacheKey; }
         public string GetRoleCacheKey { get => _getRoleCacheKey; }
         public string GetRolesCacheKey { get => _getRolesCacheKey; }
-        public string GetSettingsKey  { get => _getSettingsKey; }
+        public string GetValuesKey  { get => _getValuesKey; }
         #endregion
     }
 }

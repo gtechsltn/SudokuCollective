@@ -3,16 +3,16 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using SudokuCollective.Core.Interfaces.Models;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Settings;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Values;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Core.Utilities;
 
-namespace SudokuCollective.Data.Models.Settings
+namespace SudokuCollective.Data.Models.Values
 {
-    public class Settings : ISettings
+    public class Values : IValues
     {
         [JsonIgnore]
-        ICollection<IDifficulty> ISettings.Difficulties
+        ICollection<IDifficulty> IValues.Difficulties
         {
             get => Difficulties.ConvertAll(d => (IDifficulty)d);
             set => Difficulties = value.ToList().ConvertAll(d => (Difficulty)d);
@@ -20,7 +20,7 @@ namespace SudokuCollective.Data.Models.Settings
         [JsonPropertyName("difficulties"), JsonConverter(typeof(IDomainEntityListConverter<List<Difficulty>>))]
         public List<Difficulty> Difficulties { get; set; }
         [JsonIgnore]
-        ICollection<IEnumListItem> ISettings.ReleaseEnvironments
+        ICollection<IEnumListItem> IValues.ReleaseEnvironments
         {
             get => ReleaseEnvironments.ConvertAll(r => (IEnumListItem)r);
             set => ReleaseEnvironments = value.ToList().ConvertAll(r => (EnumListItem)r);
@@ -28,7 +28,7 @@ namespace SudokuCollective.Data.Models.Settings
         [JsonPropertyName("releaseEnvironments")]
         public List<EnumListItem> ReleaseEnvironments { get; set; }
         [JsonIgnore]
-        ICollection<IEnumListItem> ISettings.SortValues
+        ICollection<IEnumListItem> IValues.SortValues
         {
             get => SortValues.ConvertAll(r => (IEnumListItem)r);
             set => SortValues = value.ToList().ConvertAll(r => (EnumListItem)r);
@@ -36,7 +36,7 @@ namespace SudokuCollective.Data.Models.Settings
         [JsonPropertyName("sortValues")]
         public List<EnumListItem> SortValues { get; set; }
         [JsonIgnore]
-        ICollection<IEnumListItem> ISettings.TimeFrames
+        ICollection<IEnumListItem> IValues.TimeFrames
         {
             get => TimeFrames.ConvertAll(t => (IEnumListItem)t);
             set => TimeFrames = value.ToList().ConvertAll(t => (EnumListItem)t);
@@ -44,7 +44,7 @@ namespace SudokuCollective.Data.Models.Settings
         [JsonPropertyName("timeFrames")]
         public List<EnumListItem> TimeFrames { get; set; }
 
-        public Settings()
+        public Values()
         {
             Difficulties = new List<Difficulty>();
             ReleaseEnvironments = new List<EnumListItem>();

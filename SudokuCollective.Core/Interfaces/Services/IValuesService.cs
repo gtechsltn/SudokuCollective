@@ -3,7 +3,7 @@ using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 
 namespace SudokuCollective.Core.Interfaces.Services
 {
-    public interface ISettingsService
+    public interface IValuesService
     {
         Task<IResult> GetAsync();
         IResult GetReleaseEnvironments();
