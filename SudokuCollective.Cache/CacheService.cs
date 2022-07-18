@@ -1368,14 +1368,14 @@ namespace SudokuCollective.Cache
         {
             try
             {
-                IValues settings;
+                IValues values;
 
                 var cachedItem = await cache.GetAsync(cacheKey);
 
                 if (cachedItem != null)
                 {
                     var serializedItem = Encoding.UTF8.GetString(cachedItem);
-                    settings = JsonSerializer.Deserialize<Values>(serializedItem);
+                    values = JsonSerializer.Deserialize<Values>(serializedItem);
 
                     if (result != null)
                     {
@@ -1384,15 +1384,15 @@ namespace SudokuCollective.Cache
                 }
                 else
                 {
-                    settings = new Values();
+                    values = new Values();
                     
-                    settings.Difficulties = (await repo.GetAllAsync()).Objects.ConvertAll(d => (IDifficulty)d);
-                    settings.ReleaseEnvironments = releaseEnvironments;
-                    settings.SortValues = sortValues;
-                    settings.TimeFrames = timeFrames;
+                    values.Difficulties = (await repo.GetAllAsync()).Objects.ConvertAll(d => (IDifficulty)d);
+                    values.ReleaseEnvironments = releaseEnvironments;
+                    values.SortValues = sortValues;
+                    values.TimeFrames = timeFrames;
 
                     var serializedItem = JsonSerializer.Serialize<Values>(
-                        (Values)settings, 
+                        (Values)values, 
                         new JsonSerializerOptions 
                         { 
                             ReferenceHandler = ReferenceHandler.IgnoreCycles 
@@ -1407,7 +1407,7 @@ namespace SudokuCollective.Cache
                         options);
                 }
 
-                return new Tuple<IValues, IResult>(settings, result);
+                return new Tuple<IValues, IResult>(values, result);
             }
             catch
             {
