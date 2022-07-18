@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Settings
+namespace SudokuCollective.Core.Interfaces.Models.DomainObjects.Values
 {
     public interface IEnumListItem
     {

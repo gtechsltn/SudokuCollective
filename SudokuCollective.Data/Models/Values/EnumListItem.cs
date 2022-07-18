@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Settings;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Values;
 
-namespace SudokuCollective.Data.Models.Settings
+namespace SudokuCollective.Data.Models.Values
 {
     public class EnumListItem : IEnumListItem
     {

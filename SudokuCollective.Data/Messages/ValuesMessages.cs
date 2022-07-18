@@ -1,9 +1,9 @@
 namespace SudokuCollective.Data.Messages
 {
-    internal static class SettingsMessages
+    internal static class ValuesMessages
     {
-        internal const string SettingsRetrieved = "Settings retrieved";
-        internal const string SettingsNotRetrieved = "Settings not retrieved";
+        internal const string ValuesRetrieved = "Values retrieved";
+        internal const string ValuesNotRetrieved = "Values not retrieved";
         internal const string ReleaseEnvironmentsRetrieved = "Release environments retrieved";
         internal const string ReleaseEnvironmentsNotRetrieved = "Release environments not retrieved";
         internal const string SortValuesRetrieved = "Sort values retrieved";

@@ -10,8 +10,8 @@ using SudokuCollective.Core.Interfaces.Repositories;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Data.Models;
-using SudokuCollective.Data.Models.Settings;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Settings;
+using SudokuCollective.Data.Models.Values;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Values;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 
 namespace SudokuCollective.Cache
@@ -1356,7 +1356,7 @@ namespace SudokuCollective.Cache
             }
         }
 
-        public async Task<Tuple<ISettings, IResult>> GetSettingsAsync(
+        public async Task<Tuple<IValues, IResult>> GetValuesAsync(
             IDifficultiesRepository<Difficulty> repo, 
             IDistributedCache cache, 
             string cacheKey, 
@@ -1368,14 +1368,14 @@ namespace SudokuCollective.Cache
         {
             try
             {
-                ISettings settings;
+                IValues settings;
 
                 var cachedItem = await cache.GetAsync(cacheKey);
 
                 if (cachedItem != null)
                 {
                     var serializedItem = Encoding.UTF8.GetString(cachedItem);
-                    settings = JsonSerializer.Deserialize<Settings>(serializedItem);
+                    settings = JsonSerializer.Deserialize<Values>(serializedItem);
 
                     if (result != null)
                     {
@@ -1384,15 +1384,15 @@ namespace SudokuCollective.Cache
                 }
                 else
                 {
-                    settings = new Settings();
+                    settings = new Values();
                     
                     settings.Difficulties = (await repo.GetAllAsync()).Objects.ConvertAll(d => (IDifficulty)d);
                     settings.ReleaseEnvironments = releaseEnvironments;
                     settings.SortValues = sortValues;
                     settings.TimeFrames = timeFrames;
 
-                    var serializedItem = JsonSerializer.Serialize<Settings>(
-                        (Settings)settings, 
+                    var serializedItem = JsonSerializer.Serialize<Values>(
+                        (Values)settings, 
                         new JsonSerializerOptions 
                         { 
                             ReferenceHandler = ReferenceHandler.IgnoreCycles 
@@ -1407,7 +1407,7 @@ namespace SudokuCollective.Cache
                         options);
                 }
 
-                return new Tuple<ISettings, IResult>(settings, result);
+                return new Tuple<IValues, IResult>(settings, result);
             }
             catch
             {

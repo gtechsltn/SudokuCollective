@@ -1,31 +1,29 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Params;
-using SudokuCollective.Data.Models.Settings;
 
 namespace SudokuCollective.Api.Controllers.V1
 {
     /// <summary>
-    /// Settings Controller Class
+    /// Values Controller Class
     /// </summary>
     [AllowAnonymous]
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class SettingsController : ControllerBase
+    public class ValuesController : ControllerBase
     {
-        private readonly ISettingsService _settingsService;
+        private readonly IValuesService _valuesService;
 
         /// <summary>
-        /// Settings Controller Constructor
+        /// Values Controller Constructor
         /// </summary>
-        /// <param name="settingsService"></param>
-        public SettingsController(ISettingsService settingsService)
+        /// <param name="valuesService"></param>
+        public ValuesController(IValuesService valuesService)
         {
-            _settingsService = settingsService;
+            _valuesService = valuesService;
         }
 
         /// <summary>
@@ -39,7 +37,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// {
         ///   "isSuccess": true,                                // An indicator if the request was successful
         ///   "isFromCache": false,                             // An indicator if the payload was obtained from the cache
-        ///   "message": "Status Code 200: Settings Retrieved", // A brief description of the result
+        ///   "message": "Status Code 200: Values Retrieved", // A brief description of the result
         ///   "payload": [
         ///    {
         ///     difficulties: [],        // an array of all difficulties that can be applied to a game
@@ -55,7 +53,7 @@ namespace SudokuCollective.Api.Controllers.V1
         [HttpGet]
         public async Task<ActionResult<Result>> GetAsync()
         {
-            var result = await _settingsService.GetAsync();
+            var result = await _valuesService.GetAsync();
 
             if (result.IsSuccess)
             {
@@ -88,7 +86,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// This endpoint allows you to populate a dropdown list in your app if you want to control the 
         /// release environment from your app.
         ///
-        /// The array returned is as follows:
+        /// The uses the standard result object and the payload is as follows:
         ///
         /// ```
         /// [
@@ -127,7 +125,7 @@ namespace SudokuCollective.Api.Controllers.V1
         [HttpGet, Route("getReleaseEnvironments")]
         public ActionResult<Result> GetReleaseEnvironments()
         {
-            var result = _settingsService.GetReleaseEnvironments();
+            var result = _valuesService.GetReleaseEnvironments();
 
             if (result.IsSuccess)
             {
@@ -165,7 +163,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// The integer "value" is used to populate "sortBy", thus indicating to the API which value you want
         /// to sort by.
         ///
-        /// The array returned is as follows:
+        /// The uses the standard result object and the payload is as follows:
         /// ```
         /// [
         ///   {
@@ -279,7 +277,7 @@ namespace SudokuCollective.Api.Controllers.V1
         [HttpGet, Route("getSortValues")]
         public ActionResult<Result> GetSortValues()
         {
-            var result = _settingsService.GetSortValues();
+            var result = _valuesService.GetSortValues();
 
             if (result.IsSuccess)
             {
@@ -310,7 +308,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// This endpoint allows you to populate a dropdown list in your app if you want to control the app
         /// token from within your app.
         ///
-        /// The array returned is as follows:
+        /// The uses the standard result object and the payload is as follows:
         ///
         /// ```
         /// [
@@ -363,7 +361,7 @@ namespace SudokuCollective.Api.Controllers.V1
         [HttpGet, Route("getTimeFrames")]
         public ActionResult<Result> GetTimeFrames()
         {
-            var result = _settingsService.GetTimeFrames();
+            var result = _valuesService.GetTimeFrames();
 
             if (result.IsSuccess)
             {

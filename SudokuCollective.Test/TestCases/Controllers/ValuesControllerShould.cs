@@ -1,32 +1,30 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using SudokuCollective.Api.Controllers.V1;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
-using SudokuCollective.Data.Models.Settings;
 using SudokuCollective.Test.Services;
 using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Controllers
 {
-    public class SettingsControllerShould
+    public class ValuesControllerShould
     {
         private DatabaseContext context;
-        private SettingsController sut;
-        private MockedSettingsService mockedSettingsService;
+        private ValuesController sut;
+        private MockedValuesService mockedValuesService;
 
         [SetUp]
         public async Task SetUp()
         {
             context = await TestDatabase.GetDatabaseContext();
-            mockedSettingsService = new MockedSettingsService(context);
-            sut = new SettingsController(mockedSettingsService.Request.Object);
+            mockedValuesService = new MockedValuesService(context);
+            sut = new ValuesController(mockedValuesService.Request.Object);
         }
 
         [Test, Category("Controller")]
-        public async Task GetSettings()
+        public async Task GetValues()
         {
             // Arrange and Act
             var result = await sut.GetAsync();

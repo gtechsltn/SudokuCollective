@@ -8,7 +8,7 @@ using SudokuCollective.Cache;
 using SudokuCollective.Core.Interfaces.Models;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Settings;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Values;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Services;
 using SudokuCollective.Test.Cache;
@@ -17,9 +17,9 @@ using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Services
 {
-    public class SettingsServiceShould
+    public class ValuesServiceShould
     {
-        private SettingsService sut;
+        private ValuesService sut;
         private DatabaseContext context;
         private MockedDifficultiesRepository mockedDifficultiesRepository;
         private MockedCacheService mockedCacheService;
@@ -35,7 +35,7 @@ namespace SudokuCollective.Test.TestCases.Services
             memoryCache = new MemoryDistributedCache(
                 Options.Create(new MemoryDistributedCacheOptions()));
 
-            sut = new SettingsService(mockedDifficultiesRepository.SuccessfulRequest.Object,
+            sut = new ValuesService(mockedDifficultiesRepository.SuccessfulRequest.Object,
                 memoryCache,
                 mockedCacheService.SuccessfulRequest.Object,
                 new CacheKeys(),
@@ -43,11 +43,11 @@ namespace SudokuCollective.Test.TestCases.Services
             );
         }
 
-        public async Task GetSettings()
+        public async Task GetValues()
         {
             // Arrange and Act
             var result = await sut.GetAsync();
-            var settings = (ISettings)result.Payload[0];
+            var settings = (IValues)result.Payload[0];
 
             Assert.That(result, Is.InstanceOf<IResult>());
             Assert.That(settings.Difficulties, Is.InstanceOf<List<IDifficulty>>());
@@ -61,7 +61,7 @@ namespace SudokuCollective.Test.TestCases.Services
         {
             // Arrange and Act
             var result = sut.GetReleaseEnvironments();
-            var releaseEnvironments = result.Payload[0] as List<IEnumListItem>;
+            var releaseEnvironments = result.Payload.ConvertAll(x => (IEnumListItem)x);
 
             // Assert
             Assert.That(result, Is.InstanceOf<IResult>());
@@ -73,7 +73,7 @@ namespace SudokuCollective.Test.TestCases.Services
         {
             // Arrange and Act
             var result = sut.GetSortValues();
-            var sortValues = result.Payload[0] as List<IEnumListItem>;
+            var sortValues = result.Payload.ConvertAll(x => (IEnumListItem)x);
 
             // Assert
             Assert.That(result, Is.InstanceOf<IResult>());
@@ -85,7 +85,7 @@ namespace SudokuCollective.Test.TestCases.Services
         {
             // Arrange and Act
             var result = sut.GetTimeFrames();
-            var timeFrames = result.Payload[0] as List<IEnumListItem>;
+            var timeFrames = result.Payload.ConvertAll(x => (IEnumListItem)x);
 
             // Assert
             Assert.That(result, Is.InstanceOf<IResult>());
