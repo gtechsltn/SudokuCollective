@@ -43,9 +43,9 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                var releaseEnvironments = (GetReleaseEnvironments()).Payload[0] as List<IEnumListItem>;
-                var sortValues = (GetSortValues()).Payload[0] as List<IEnumListItem>;
-                var timeFrames = (GetTimeFrames()).Payload[0] as List<IEnumListItem>;
+                var releaseEnvironments = (GetReleaseEnvironments()).Payload.ConvertAll(x => (IEnumListItem)x);
+                var sortValues = (GetSortValues()).Payload.ConvertAll(x => (IEnumListItem)x);
+                var timeFrames = (GetTimeFrames()).Payload.ConvertAll(x => (IEnumListItem)x);
 
                 var response = await _cacheService.GetValuesAsync(
                     _difficultiesRepository, 
