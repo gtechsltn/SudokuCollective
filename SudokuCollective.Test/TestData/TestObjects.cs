@@ -15,7 +15,7 @@ using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Payloads;
 using SudokuCollective.Data.Models.Results;
-using SudokuCollective.Data.Models.Settings;
+using SudokuCollective.Data.Models.Values;
 
 namespace SudokuCollective.Test.TestData
 {
@@ -30,8 +30,8 @@ namespace SudokuCollective.Test.TestData
         public static string GetThirdLicense() => "aaa6c3ec-ec85-46e7-9793-68a6e2bf4904";
 
         public static string GetToken() => "d17f0ed3-be9a-450a-a146-f6733db2bbdb";
+        
         public static string GetEncryptionKey() => "0b13b6b05d7c498ea8d222f28b921f5f";
-
 
         public static Paginator GetPaginator() => new Paginator()
             {
@@ -775,7 +775,7 @@ namespace SudokuCollective.Test.TestData
                 ProdUrl = "https://testapp3.com"
             };
 
-        public static Settings GetSettings()
+        public static Values GetValues()
         {
             var context = TestDatabase.GetDatabaseContext().Result;
             var releaseEnvironment = new List<string> { "releaseEnvironment" };
@@ -785,7 +785,7 @@ namespace SudokuCollective.Test.TestData
             var games = new List<string> { "games" };
             var authToken = new List<string> { "authToken" };
             
-            return new Settings
+            return new Values
             {
                 Difficulties = context.Difficulties.ToList(),
                 ReleaseEnvironments = new List<EnumListItem>

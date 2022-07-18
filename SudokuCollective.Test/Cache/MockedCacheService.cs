@@ -12,7 +12,7 @@ using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Test.Repositories;
 using SudokuCollective.Test.TestData;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Settings;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Values;
 using SudokuCollective.Core.Interfaces.Models;
 
 namespace SudokuCollective.Test.Cache
@@ -871,7 +871,7 @@ namespace SudokuCollective.Test.Cache
                 .Returns(Task.FromResult(true));
 
             SuccessfulRequest.Setup(cache =>
-                cache.GetSettingsAsync(
+                cache.GetValuesAsync(
                     It.IsAny<IDifficultiesRepository<Difficulty>>(),
                     It.IsAny<IDistributedCache>(),
                     It.IsAny<string>(),
@@ -880,8 +880,8 @@ namespace SudokuCollective.Test.Cache
                     It.IsAny<List<IEnumListItem>>(),
                     It.IsAny<List<IEnumListItem>>(),
                     It.IsAny<IResult>()
-                )).Returns(Task.FromResult(new Tuple<ISettings, IResult>(
-                    (ISettings)(TestObjects.GetSettings()), 
+                )).Returns(Task.FromResult(new Tuple<IValues, IResult>(
+                    (IValues)(TestObjects.GetValues()), 
                     TestObjects.GetResult())));
             #endregion
 

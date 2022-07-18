@@ -246,14 +246,14 @@ namespace SudokuCollective.Test.TestCases.Cache
         }
 
         [Test, Category("Cache")]
-        public void HaveGetSettingsKey()
+        public void HaveGetValuesKey()
         {
             // Arrange
 
             // Act
 
             // Assert
-            Assert.That(sut.GetSettingsKey, Is.EqualTo(":GetSettings"));
+            Assert.That(sut.GetValuesKey, Is.EqualTo(":GetValues"));
         }
     }
 }

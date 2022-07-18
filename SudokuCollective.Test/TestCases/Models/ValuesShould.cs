@@ -2,19 +2,19 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using SudokuCollective.Core.Interfaces.Models;
 using SudokuCollective.Core.Interfaces.Models.DomainEntities;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Settings;
-using SudokuCollective.Data.Models.Settings;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Values;
+using SudokuCollective.Data.Models.Values;
 
 namespace SudokuCollective.Test.TestCases.Models
 {
-    public class SettingsServiceShould
+    public class ValuesServiceShould
     {
-        private ISettings sut;
+        private IValues sut;
 
         [SetUp]
         public void Setup()
         {
-            sut = new Settings();
+            sut = new Values();
         }
 
         [Test, Category("Models")]

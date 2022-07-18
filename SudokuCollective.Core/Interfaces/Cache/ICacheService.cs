@@ -8,7 +8,7 @@ using SudokuCollective.Core.Interfaces.Models;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Core.Enums;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Settings;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Values;
 
 namespace SudokuCollective.Core.Interfaces.Cache
 {
@@ -165,7 +165,7 @@ namespace SudokuCollective.Core.Interfaces.Cache
             string cacheKey,
             DateTime expiration,
             RoleLevel roleLevel);
-        Task<Tuple<ISettings, IResult>> GetSettingsAsync(
+        Task<Tuple<IValues, IResult>> GetValuesAsync(
             IDifficultiesRepository<Difficulty> repo,
             IDistributedCache cache,
             string cacheKey,
