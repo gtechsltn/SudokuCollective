@@ -1,18 +1,17 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Moq;
 using NUnit.Framework;
+using SudokuCollective.Data.Models.Payloads;
 using SudokuCollective.Core.Models;
 using SudokuCollective.Test.TestData;
 using SudokuCollective.Api.V1.Controllers;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Test.Services;
 using SudokuCollective.Data.Models.Params;
-using Moq;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using SudokuCollective.Data.Models.Payloads;
-using SudokuCollective.Data.Models.Results;
 
 namespace SudokuCollective.Test.TestCases.Controllers
 {

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using SudokuCollective.Api.Controllers.V1;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Test.Services;
