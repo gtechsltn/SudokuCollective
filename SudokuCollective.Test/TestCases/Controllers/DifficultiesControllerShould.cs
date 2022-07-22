@@ -1,6 +1,8 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Moq;
 using NUnit.Framework;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Data.Models;
@@ -10,9 +12,6 @@ using SudokuCollective.Api.Controllers.V1;
 using SudokuCollective.Test.Services;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Payloads;
-using Moq;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 
 namespace SudokuCollective.Test.TestCases.Controllers
 {
@@ -79,16 +78,18 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var difficultyId = 2;
 
             // Act
-            var result = await sutSuccess.GetAsync(difficultyId);
-            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
-            var difficulty = (Difficulty)((Result)((OkObjectResult)result.Result).Value).Payload[0];
+            var actionResult = await sutSuccess.GetAsync(difficultyId);
+            var result = (Result)((OkObjectResult)actionResult.Result).Value;
+            var difficulty = (Difficulty)result.Payload[0];
+            var message = result.Message;
+            var statusCode = ((OkObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult<Difficulty>>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
+            Assert.That(difficulty, Is.InstanceOf<Difficulty>());
             Assert.That(message, Is.EqualTo("Status Code 200: Difficulty Found"));
             Assert.That(statusCode, Is.EqualTo(200));
-            Assert.That(difficulty, Is.InstanceOf<Difficulty>());
         }
 
         [Test]
@@ -99,12 +100,14 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var difficultyId = 2;
 
             // Act
-            var result = await sutFailure.GetAsync(difficultyId);
-            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var actionResult = await sutFailure.GetAsync(difficultyId);
+            var result = (Result)((NotFoundObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var statusCode = ((NotFoundObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult<Difficulty>>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 404: Difficulty not Found"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
@@ -116,13 +119,15 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = await sutSuccess.GetDifficultiesAsync();
-            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
-            var difficulties = ((Result)((OkObjectResult)result.Result).Value).Payload.ConvertAll(d => (Difficulty)d);
+            var actionResult = await sutSuccess.GetDifficultiesAsync();
+            var result = (Result)((OkObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var difficulties = result.Payload.ConvertAll(d => (Difficulty)d);
+            var statusCode = ((OkObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult<IEnumerable<Difficulty>>>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 200: Difficulties Found"));
             Assert.That(statusCode, Is.EqualTo(200));
             Assert.That(difficulties.Count, Is.EqualTo(4));
@@ -135,12 +140,14 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = await sutFailure.GetDifficultiesAsync();
-            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var actionResult = await sutFailure.GetDifficultiesAsync();
+            var result = (Result)((NotFoundObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var statusCode = ((NotFoundObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult<IEnumerable<Difficulty>>>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 404: Difficulties not Found"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
@@ -153,12 +160,14 @@ namespace SudokuCollective.Test.TestCases.Controllers
             request.Payload = updateDifficultyPayload;
 
             // Act
-            var result = await sutSuccess.UpdateAsync(1, request);
-            var message = ((Result)((OkObjectResult)result).Value).Message;
-            var statusCode = ((OkObjectResult)result).StatusCode;
+            var actionResult = await sutSuccess.UpdateAsync(1, request);
+            var result = (Result)((OkObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var statusCode = ((OkObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 200: Difficulty Updated"));
             Assert.That(statusCode, Is.EqualTo(200));
         }
@@ -171,12 +180,14 @@ namespace SudokuCollective.Test.TestCases.Controllers
             request.Payload = updateDifficultyPayload;
 
             // Act
-            var result = await sutFailure.UpdateAsync(1, request);
-            var message = ((Result)((NotFoundObjectResult)result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result).StatusCode;
+            var actionResult = await sutFailure.UpdateAsync(1, request);
+            var result = (Result)((NotFoundObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var statusCode = ((NotFoundObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 404: Difficulty not Updated"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
@@ -189,13 +200,15 @@ namespace SudokuCollective.Test.TestCases.Controllers
             request.Payload = createDifficultyPayload;
 
             // Act
-            var result = await sutSuccess.PostAsync(request);
-            var message = ((Result)((ObjectResult)result.Result).Value).Message;
-            var statusCode = ((ObjectResult)result.Result).StatusCode;
-            var difficulty = (Difficulty)((Result)((ObjectResult)result.Result).Value).Payload[0];
+            var actionResult = await sutSuccess.PostAsync(request);
+            var result = (Result)((ObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var difficulty = (Difficulty)result.Payload[0];
+            var statusCode = ((ObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult<Difficulty>>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 201: Difficulty Created"));
             Assert.That(statusCode, Is.EqualTo(201));
             Assert.That(difficulty, Is.InstanceOf<Difficulty>());
@@ -209,12 +222,14 @@ namespace SudokuCollective.Test.TestCases.Controllers
             request.Payload = createDifficultyPayload;
 
             // Act
-            var result = await sutFailure.PostAsync(request);
-            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var actionResult = await sutFailure.PostAsync(request);
+            var result = (Result)((NotFoundObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var statusCode = ((NotFoundObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult<Difficulty>>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 404: Difficulty not Created"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
@@ -227,12 +242,14 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var difficultyId = 2;
 
             // Act
-            var result = await sutSuccess.DeleteAsync(difficultyId, request);
-            var message = ((Result)((OkObjectResult)result).Value).Message;
-            var statusCode = ((OkObjectResult)result).StatusCode;
+            var actionResult = await sutSuccess.DeleteAsync(difficultyId, request);
+            var result = (Result)((OkObjectResult)actionResult.Result).Value;
+            var message = ((Result)((OkObjectResult)actionResult.Result).Value).Message;
+            var statusCode = ((OkObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 200: Difficulty Deleted"));
             Assert.That(statusCode, Is.EqualTo(200));
         }
@@ -245,12 +262,14 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var difficultyId = 2;
 
             // Act
-            var result = await sutFailure.DeleteAsync(difficultyId, request);
-            var message = ((NotFoundObjectResult)result).Value;
-            var statusCode = ((NotFoundObjectResult)result).StatusCode;
+            var actionResult = await sutFailure.DeleteAsync(difficultyId, request);
+            var result = (Result)((NotFoundObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var statusCode = ((NotFoundObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 404: Difficulty not Deleted"));
             Assert.That(statusCode, Is.EqualTo(404));
         }

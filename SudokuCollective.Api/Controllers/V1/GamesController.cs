@@ -7,13 +7,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SudokuCollective.Core.Interfaces.Services;
-using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Api.Utilities;
 using SudokuCollective.Data.Models.Payloads;
-using SudokuCollective.Data.Models.Results;
 
 namespace SudokuCollective.Api.V1.Controllers
 {
@@ -80,8 +78,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [Authorize(Roles = "USER")]
         [HttpPost]
-        public async Task<ActionResult<Game>> PostAsync(
-            [FromBody] Request request)
+        public async Task<ActionResult<Result>> PostAsync([FromBody] Request request)
         {
             try
             {
@@ -153,7 +150,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAsync(
+        public async Task<ActionResult<Result>> UpdateAsync(
             int id,
             [FromBody] Request request)
         {
@@ -229,7 +226,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Game>> DeleteAsync(
+        public async Task<ActionResult<Result>> DeleteAsync(
             int id,
             [FromBody] Request request)
         {
@@ -303,7 +300,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPost("{id}")]
-        public async Task<ActionResult<Game>> GetGameAsync(
+        public async Task<ActionResult<Result>> GetGameAsync(
             int id,
             [FromBody] Request request)
         {
@@ -377,8 +374,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPost, Route("GetGames")]
-        public async Task<ActionResult<IEnumerable<Game>>> GetGamesAsync(
-            [FromBody] Request request)
+        public async Task<ActionResult<Result>> GetGamesAsync([FromBody] Request request)
         {
             try
             {
@@ -449,7 +445,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [Authorize(Roles = "USER")]
         [HttpPost, Route("{id}/GetMyGame")]
-        public async Task<ActionResult<Game>> GetMyGameAsync(
+        public async Task<ActionResult<Result>> GetMyGameAsync(
             int id,
             [FromBody] Request request)
         {
@@ -524,8 +520,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [Authorize(Roles = "USER")]
         [HttpPost, Route("GetMyGames")]
-        public async Task<ActionResult<IEnumerable<Game>>> GetMyGamesAsync(
-            [FromBody] Request request)
+        public async Task<ActionResult<Result>> GetMyGamesAsync([FromBody] Request request)
         {
             try
             {
@@ -598,7 +593,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [Authorize(Roles = "USER")]
         [HttpPut("{id}/UpdateMyGame")]
-        public async Task<IActionResult> UpdateMyGameAsync(
+        public async Task<ActionResult<Result>> UpdateMyGameAsync(
             int id,
             [FromBody] Request request)
         {
@@ -675,7 +670,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [Authorize(Roles = "USER")]
         [HttpDelete("{id}/DeleteMyGame")]
-        public async Task<ActionResult<Game>> DeleteMyGameAsync(
+        public async Task<ActionResult<Result>> DeleteMyGameAsync(
             int id,
             [FromBody] Request request)
         {
@@ -753,7 +748,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [Authorize(Roles = "USER")]
         [HttpPut, Route("{id}/Check")]
-        public async Task<ActionResult<Game>> CheckAsync(
+        public async Task<ActionResult<Result>> CheckAsync(
             int id,
             [FromBody] Request request)
         {
@@ -821,7 +816,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [AllowAnonymous]
         [HttpGet("CreateAnnonymous")]
-        public async Task<ActionResult<AnnonymousGameResult>> CreateAnnonymousAsync([FromQuery] AnnonymousGameRequest request)
+        public async Task<ActionResult<Result>> CreateAnnonymousAsync([FromQuery] AnnonymousGameRequest request)
         {
             try
             {
@@ -889,7 +884,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [AllowAnonymous]
         [HttpPost("CheckAnnonymous")]
-        public ActionResult<AnnonymousGameResult> CheckAnnonymous([FromBody] AnnonymousCheckRequest request)
+        public ActionResult<Result> CheckAnnonymous([FromBody] AnnonymousCheckRequest request)
         {
             try
             {

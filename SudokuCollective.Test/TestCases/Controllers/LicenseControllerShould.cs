@@ -60,13 +60,15 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var appId = 1;
 
             // Act
-            var result = await sutSuccess.GetAsync(appId, request);
-            var message = ((LicenseResult)((OkObjectResult)result).Value).Message;
-            var statusCode = ((OkObjectResult)result).StatusCode;
-            var license = ((LicenseResult)((OkObjectResult)result).Value).License;
+            var actionResult = await sutSuccess.GetAsync(appId, request);
+            var result = (LicenseResult)((OkObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var license = result.License;
+            var statusCode = ((OkObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<LicenseResult>());
             Assert.That(message, Is.EqualTo("Status Code 200: App Found"));
             Assert.That(statusCode, Is.EqualTo(200));
             Assert.That(license, Is.InstanceOf<string>());
@@ -80,12 +82,14 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var appId = 1;
 
             // Act
-            var result = await sutFailure.GetAsync(appId, request);
-            var message = ((LicenseResult)((NotFoundObjectResult)result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result).StatusCode;
+            var actionResult = await sutFailure.GetAsync(appId, request);
+            var result = (LicenseResult)((NotFoundObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var statusCode = ((NotFoundObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<LicenseResult>());
             Assert.That(message, Is.EqualTo("Status Code 404: App not Found"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
@@ -98,13 +102,15 @@ namespace SudokuCollective.Test.TestCases.Controllers
             request.Payload = licensePayload;
 
             // Act
-            var result = await sutSuccess.PostAsync(request);
-            var app = (App)((Result)((ObjectResult)result.Result).Value).Payload[0];
-            var message = ((Result)((ObjectResult)result.Result).Value).Message;
-            var statusCode = ((ObjectResult)result.Result).StatusCode;
+            var actionResult = await sutSuccess.PostAsync(request);
+            var result = (Result)((ObjectResult)actionResult.Result).Value;
+            var app = (App)result.Payload[0];
+            var message = result.Message;
+            var statusCode = ((ObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult<App>>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 201: App Created"));
             Assert.That(statusCode, Is.EqualTo(201));
             Assert.That(app, Is.InstanceOf<App>());
@@ -118,12 +124,14 @@ namespace SudokuCollective.Test.TestCases.Controllers
             request.Payload = licensePayload;
 
             // Act
-            var result = await sutFailure.PostAsync(request);
-            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var actionResult = await sutFailure.PostAsync(request);
+            var result = (Result)((NotFoundObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var statusCode = ((NotFoundObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult<App>>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 404: App not Created"));
             Assert.That(statusCode, Is.EqualTo(404));
 

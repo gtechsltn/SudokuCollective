@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using System.Net;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SudokuCollective.Api.Utilities;
 using SudokuCollective.Core.Interfaces.Services;
-using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Params;
-using System;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace SudokuCollective.Api.Controllers.V1
 {
@@ -76,8 +75,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPost]
-        public async Task<ActionResult<App>> PostAsync(
-            [FromBody] Request request)
+        public async Task<ActionResult<Result>> PostAsync([FromBody] Request request)
         {
             try
             {
@@ -147,7 +145,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpGet, Route("{id}")]
-        public async Task<ActionResult> GetAsync(
+        public async Task<ActionResult<Result>> GetAsync(
             int id,
             [FromBody] Request request)
         {
