@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -8,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SudokuCollective.Api.Utilities;
 using SudokuCollective.Core.Interfaces.Services;
-using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Params;
 
@@ -61,7 +59,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [AllowAnonymous]
         [HttpGet("{id}")]
-        public async Task<ActionResult<Difficulty>> GetAsync(int id)
+        public async Task<ActionResult<Result>> GetAsync(int id)
         {
             try
             {
@@ -102,7 +100,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Difficulty>>> GetDifficultiesAsync()
+        public async Task<ActionResult<Result>> GetDifficultiesAsync()
         {
             try
             {
@@ -161,8 +159,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER")]
         [HttpPost]
-        public async Task<ActionResult<Difficulty>> PostAsync(
-            [FromBody] Request request)
+        public async Task<ActionResult<Result>> PostAsync([FromBody] Request request)
         {
             try
             {
@@ -235,7 +232,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAsync(
+        public async Task<ActionResult<Result>> UpdateAsync(
             int id,
             [FromBody] Request request)
         {
@@ -306,7 +303,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER")]
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteAsync(
+        public async Task<ActionResult<Result>> DeleteAsync(
             int id,
             [FromBody] Request request)
         {
@@ -334,7 +331,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     {
                         result.Message = ControllerMessages.StatusCode404(result.Message);
 
-                        return NotFound(result.Message);
+                        return NotFound(result);
                     }
                 }
                 else

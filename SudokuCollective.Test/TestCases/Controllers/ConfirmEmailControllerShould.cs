@@ -47,7 +47,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var result = await sutSuccess.Index(emailConfirmationToken);
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<IActionResult>());
         }
 
         [Test, Category("Controllers")]
@@ -59,7 +59,7 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var result = await sutFailure.Index(emailConfirmationToken);
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult>());
+            Assert.That(result, Is.InstanceOf<IActionResult>());
         }
     }
 }

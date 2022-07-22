@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
@@ -11,8 +12,7 @@ using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Test.Services;
 using SudokuCollective.Data.Models.Requests;
 using SudokuCollective.Data.Models.Results;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Http;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 
 namespace SudokuCollective.Test.TestCases.Controllers
 {
@@ -73,13 +73,15 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = await sutSuccess.PostAsync(signupRequest);
-            var message = ((Result)((ObjectResult)result.Result).Value).Message;
-            var statusCode = ((ObjectResult)result.Result).StatusCode;
-            var user = ((UserCreatedResult)((Result)((ObjectResult)result.Result).Value).Payload[0]).User;
+            var actionResult = await sutSuccess.PostAsync(signupRequest);
+            var result = (Result)((ObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var user = ((UserCreatedResult)result.Payload[0]).User;
+            var statusCode = ((ObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult<User>>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 201: User Created"));
             Assert.That(statusCode, Is.EqualTo(201));
             Assert.That(user, Is.InstanceOf<AuthenticatedUser>());
@@ -91,12 +93,14 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = await sutFailure.PostAsync(signupRequest);
-            var errorMessage = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var actionResult = await sutFailure.PostAsync(signupRequest);
+            var result = (Result)((NotFoundObjectResult)actionResult.Result).Value;
+            var errorMessage = result.Message;
+            var statusCode = ((NotFoundObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult<User>>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(errorMessage, Is.EqualTo("Status Code 404: User not Created"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
@@ -107,13 +111,15 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = await sutSuccess.ResendEmailConfirmationAsync(Request);
-            var message = ((Result)((ObjectResult)result).Value).Message;
-            var statusCode = ((ObjectResult)result).StatusCode;
-            var emailResent = ((UserResult)((Result)((ObjectResult)result).Value).Payload[0]).ConfirmationEmailSuccessfullySent;
+            var actionResult = await sutSuccess.ResendEmailConfirmationAsync(Request);
+            var result = (Result)((ObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var emailResent = ((UserResult)result.Payload[0]).ConfirmationEmailSuccessfullySent;
+            var statusCode = ((ObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 200: Email Confirmation Email Resent"));
             Assert.That(statusCode, Is.EqualTo(200));
             Assert.That(emailResent, Is.True);
@@ -125,12 +131,14 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = await sutFailure.ResendEmailConfirmationAsync(Request);
-            var message = ((Result)((NotFoundObjectResult)result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result).StatusCode;
+            var actionResult = await sutFailure.ResendEmailConfirmationAsync(Request);
+            var result = (Result)((NotFoundObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var statusCode = ((NotFoundObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 404: Email Confirmation Email not Resent"));
             Assert.That(statusCode, Is.EqualTo(404));
         }

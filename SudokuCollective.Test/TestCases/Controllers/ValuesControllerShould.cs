@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using SudokuCollective.Api.Controllers.V1;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Test.Services;
@@ -27,11 +28,13 @@ namespace SudokuCollective.Test.TestCases.Controllers
         public async Task GetValues()
         {
             // Arrange and Act
-            var result = await sut.GetAsync();
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
+            var actionResult = await sut.GetAsync();
+            var result = (Result)((OkObjectResult)actionResult.Result).Value;
+            var statusCode = ((OkObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.TypeOf<ActionResult<Result>>());
+            Assert.That(actionResult, Is.TypeOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
@@ -39,11 +42,13 @@ namespace SudokuCollective.Test.TestCases.Controllers
         public void GetAListOfReleaseEnvironments()
         {
             // Arrange and Act
-            var result = sut.GetReleaseEnvironments();
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
+            var actionResult = sut.GetReleaseEnvironments();
+            var result = (Result)((OkObjectResult)actionResult.Result).Value;
+            var statusCode = ((OkObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.TypeOf<ActionResult<Result>>());
+            Assert.That(actionResult, Is.TypeOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
@@ -51,11 +56,13 @@ namespace SudokuCollective.Test.TestCases.Controllers
         public void GetAListOfTimeFrames()
         {
             // Arrange and Act
-            var result = sut.GetTimeFrames();
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
+            var actionResult = sut.GetTimeFrames();
+            var result = (Result)((OkObjectResult)actionResult.Result).Value;
+            var statusCode = ((OkObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.TypeOf<ActionResult<Result>>());
+            Assert.That(actionResult, Is.TypeOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(statusCode, Is.EqualTo(200));
         }
 
@@ -63,11 +70,13 @@ namespace SudokuCollective.Test.TestCases.Controllers
         public void GetAListOfSortValues()
         {
             // Arrange and Act
-            var result = sut.GetSortValues();
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
+            var actionResult = sut.GetSortValues();
+            var result = (Result)((OkObjectResult)actionResult.Result).Value;
+            var statusCode = ((OkObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.TypeOf<ActionResult<Result>>());
+            Assert.That(actionResult, Is.TypeOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(statusCode, Is.EqualTo(200));
         }
     }

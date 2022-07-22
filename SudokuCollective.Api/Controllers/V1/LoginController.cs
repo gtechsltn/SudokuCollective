@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SudokuCollective.Api.Utilities;
 using SudokuCollective.Core.Enums;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Authentication;
+using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Requests;
 
 namespace SudokuCollective.Api.Controllers.V1
@@ -66,7 +68,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult> PostAsync([FromBody] LoginRequest request)
+        public async Task<ActionResult<Result>> PostAsync([FromBody] LoginRequest request)
         {
             try
             {
@@ -110,7 +112,8 @@ namespace SudokuCollective.Api.Controllers.V1
                     }
                     else
                     {
-                        return NotFound(ControllerMessages.StatusCode404(result.Message));
+                        result.Message = ControllerMessages.StatusCode404(result.Message);
+                        return NotFound(result);
                     }
                 }
             }
@@ -145,7 +148,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [AllowAnonymous]
         [HttpPost("ConfirmUserName")]
-        public async Task<ActionResult> ConfirmUserNameAsync([FromBody] ConfirmUserNameRequest request)
+        public async Task<ActionResult<Result>> ConfirmUserNameAsync([FromBody] ConfirmUserNameRequest request)
         {
             try
             {

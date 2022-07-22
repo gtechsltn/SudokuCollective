@@ -78,7 +78,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [Authorize(Roles = "USER")]
         [HttpPost("{id}")]
-        public async Task<ActionResult<SudokuSolution>> GetAsync(
+        public async Task<ActionResult<Result>> GetAsync(
             int id,
             [FromBody] Request request)
         {
@@ -150,8 +150,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [Authorize(Roles = "USER")]
         [HttpPost]
-        public async Task<ActionResult<IEnumerable<SudokuSolution>>> GetSolutionsAsync(
-            [FromBody] Request request)
+        public async Task<ActionResult<Result>> GetSolutionsAsync([FromBody] Request request)
         {
             try
             {
@@ -223,8 +222,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [AllowAnonymous]
         [HttpPost, Route("Solve")]
-        public async Task<ActionResult<AnnonymousGameResult>> SolveAsync(
-            [FromBody] AnnonymousCheckRequest request)
+        public async Task<ActionResult<Result>> SolveAsync([FromBody] AnnonymousCheckRequest request)
         {
             try
             {
@@ -276,7 +274,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [AllowAnonymous]
         [HttpPost, Route("Generate")]
-        public async Task<ActionResult<AnnonymousGameResult>> GenerateAsync()
+        public async Task<ActionResult<Result>> GenerateAsync()
         {
             try
             {
@@ -331,8 +329,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPost, Route("AddSolutions")]
-        public async Task<IActionResult> AddSolutionsAsync(
-            [FromBody] Request request)
+        public async Task<ActionResult<Result>> AddSolutionsAsync([FromBody] Request request)
         {
             try
             {

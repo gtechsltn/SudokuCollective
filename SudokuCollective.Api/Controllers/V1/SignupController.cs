@@ -9,10 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SudokuCollective.Api.Utilities;
+using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Core.Interfaces.Services;
-using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Authentication;
+using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Requests;
 using SudokuCollective.Data.Models.Results;
 
@@ -79,7 +80,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<User>> PostAsync([FromBody] SignupRequest request)
+        public async Task<ActionResult<Result>> PostAsync([FromBody] SignupRequest request)
         {
             try
             {
@@ -191,7 +192,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [AllowAnonymous]
         [HttpPut("ResendEmailConfirmation")]
-        public async Task<ActionResult> ResendEmailConfirmationAsync([FromBody] ResendEmailConfirmationRequest request)
+        public async Task<ActionResult<Result>> ResendEmailConfirmationAsync([FromBody] ResendEmailConfirmationRequest request)
         {
             try
             {
