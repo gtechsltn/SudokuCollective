@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SudokuCollective.Data.Messages;
@@ -38,23 +39,33 @@ namespace SudokuCollective.Api.Controllers
         /// </remarks>
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult Get(string param = null)
+        public ActionResult<Result> Get(string param = null)
         {
-            var result = new Result
-            {
-                IsSuccess = true,
-            };
+            var result = new Result();
 
-            if (string.IsNullOrEmpty(param))
+            try
             {
-                result.Message = ControllerMessages.StatusCode200(ControllerMessages.HelloWorld);
-            }
-            else
-            {
-                result.Message = ControllerMessages.StatusCode200(ControllerMessages.Echo(param));
-            }
+                result.IsSuccess = true;
 
-            return Ok(result);
+                if (string.IsNullOrEmpty(param))
+                {
+                    result.Message = ControllerMessages.StatusCode200(ControllerMessages.HelloWorld);
+                }
+                else
+                {
+                    result.Message = ControllerMessages.StatusCode200(ControllerMessages.Echo(param));
+                }
+
+                return Ok(result);
+            }
+            catch(Exception e)
+            {
+                result.IsSuccess = false;
+
+                result.Message = ControllerMessages.StatusCode500(e.Message);
+
+                return BadRequest(result);
+            }
         }
     }
 }

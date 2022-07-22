@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -7,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SudokuCollective.Api.Utilities;
 using SudokuCollective.Core.Interfaces.Services;
-using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Params;
 
@@ -71,7 +69,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "USER")]
         [HttpPost, Route("{id}")]
-        public async Task<ActionResult<App>> GetAsync(
+        public async Task<ActionResult<Result>> GetAsync(
             int id,
             [FromBody] Request request)
         {
@@ -168,7 +166,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPut, Route("{id}")]
-        public async Task<IActionResult> UpdateAsync(
+        public async Task<ActionResult<Result>> UpdateAsync(
             int id,
             [FromBody] Request request)
         {
@@ -243,7 +241,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpDelete, Route("{id}")]
-        public async Task<ActionResult> DeleteAsync(
+        public async Task<ActionResult<Result>> DeleteAsync(
             int id,
             string license,
             [FromBody] Request request)
@@ -328,7 +326,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPost, Route("{license}/GetByLicense")]
-        public async Task<ActionResult<App>> GetByLicenseAsync(
+        public async Task<ActionResult<Result>> GetByLicenseAsync(
             string license,
             [FromBody] Request request)
         {
@@ -426,8 +424,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPost]
-        public async Task<ActionResult<IEnumerable<App>>> GetAppsAsync(
-            [FromBody] Request request)
+        public async Task<ActionResult<Result>> GetAppsAsync([FromBody] Request request)
         {
             try
             {
@@ -522,8 +519,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPost, Route("GetMyApps")]
-        public async Task<ActionResult<IEnumerable<App>>> GetMyAppsAsync(
-            [FromBody] Request request)
+        public async Task<ActionResult<Result>> GetMyAppsAsync([FromBody] Request request)
         {
             try
             {
@@ -621,8 +617,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPost, Route("GetMyRegisteredApps")]
-        public async Task<ActionResult> GetMyRegisteredAppsAsync(
-            [FromBody] Request request)
+        public async Task<ActionResult<Result>> GetMyRegisteredAppsAsync([FromBody] Request request)
         {
             try
             {
@@ -720,7 +715,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPost, Route("{id}/GetAppUsers")]
-        public async Task<ActionResult<IEnumerable<User>>> GetAppUsersAsync(
+        public async Task<ActionResult<Result>> GetAppUsersAsync(
             int id,
             [FromBody] Request request)
         {
@@ -825,7 +820,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPost, Route("{id}/GetNonAppUsers")]
-        public async Task<ActionResult<IEnumerable<User>>> GetNonAppUsersAsync(
+        public async Task<ActionResult<Result>> GetNonAppUsersAsync(
             int id,
             [FromBody] Request request)
         {
@@ -905,7 +900,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPut, Route("{id}/AddUser")]
-        public async Task<IActionResult> AddUserAsync(
+        public async Task<ActionResult<Result>> AddUserAsync(
             int id,
             int userId,
             [FromBody] Request request)
@@ -983,7 +978,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPut, Route("{id}/RemoveUser")]
-        public async Task<IActionResult> RemoveUserAsync(
+        public async Task<ActionResult<Result>> RemoveUserAsync(
             int id,
             int userId,
             [FromBody] Request request)
@@ -1060,7 +1055,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPut, Route("{id}/Activate")]
-        public async Task<IActionResult> ActivateAsync(
+        public async Task<ActionResult<Result>> ActivateAsync(
             int id, 
             [FromBody] Request request)
         {
@@ -1134,7 +1129,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPut, Route("{id}/Deactivate")]
-        public async Task<IActionResult> DeactivateAsync(
+        public async Task<ActionResult<Result>> DeactivateAsync(
             int id,
             [FromBody] Request request)
         {
@@ -1208,7 +1203,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPut, Route("{id}/Reset")]
-        public async Task<ActionResult> ResetAsync(
+        public async Task<ActionResult<Result>> ResetAsync(
             int id,
             [FromBody] Request request)
         {
@@ -1291,7 +1286,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPut, Route("{id}/ActivateAdminPrivileges")]
-        public async Task<ActionResult> ActivateAdminPrivilegesAsync(
+        public async Task<ActionResult<Result>> ActivateAdminPrivilegesAsync(
             int id,
             int userId,
             [FromBody] Request request)
@@ -1369,7 +1364,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPut, Route("{id}/DeactivateAdminPrivileges")]
-        public async Task<ActionResult> DeactivateAdminPrivilegesAsync(
+        public async Task<ActionResult<Result>> DeactivateAdminPrivilegesAsync(
             int id,
             int userId,
             [FromBody] Request request)

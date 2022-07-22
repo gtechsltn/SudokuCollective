@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -82,7 +81,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "USER")]
         [HttpPost("{id}")]
-        public async Task<ActionResult<User>> GetAsync(
+        public async Task<ActionResult<Result>> GetAsync(
             int id,
             [FromBody] Request request)
         {
@@ -165,7 +164,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "USER")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAsync(
+        public async Task<ActionResult<Result>> UpdateAsync(
             int id, 
             [FromBody] Request request)
         {
@@ -270,7 +269,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "USER")]
         [HttpDelete("{id}")]
-        public async Task<ActionResult<User>> DeleteAsync(
+        public async Task<ActionResult<Result>> DeleteAsync(
             int id, 
             [FromBody] Request request)
         {
@@ -368,7 +367,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPost]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsersAsync(
+        public async Task<ActionResult<Result>> GetUsersAsync(
             [FromBody] Request request)
         {
             try
@@ -444,7 +443,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPut("{id}/AddRoles")]
-        public async Task<IActionResult> AddRolesAsync(
+        public async Task<ActionResult<Result>> AddRolesAsync(
             int id,
             [FromBody] Request request)
         {
@@ -523,7 +522,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPut("{id}/RemoveRoles")]
-        public async Task<IActionResult> RemoveRolesAsync(
+        public async Task<ActionResult<Result>> RemoveRolesAsync(
             int id,
             [FromBody] Request request)
         {
@@ -587,7 +586,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER")]
         [HttpPut("{id}/Activate")]
-        public async Task<IActionResult> ActivateAsync(int id)
+        public async Task<ActionResult<Result>> ActivateAsync(int id)
         {
             try
             {
@@ -631,7 +630,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "SUPERUSER")]
         [HttpPut("{id}/Deactivate")]
-        public async Task<IActionResult> DeactivateAsync(int id)
+        public async Task<ActionResult<Result>> DeactivateAsync(int id)
         {
             try
             {
@@ -685,7 +684,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [AllowAnonymous]
         [HttpPut("ResetPassword")]
-        public async Task<IActionResult> ResetPasswordAsync([FromBody] ResetPasswordRequest request)
+        public async Task<ActionResult<Result>> ResetPasswordAsync([FromBody] ResetPasswordRequest request)
         {
             try
             {
@@ -747,7 +746,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [AllowAnonymous]
         [HttpPost("RequestPasswordReset")]
-        public async Task<IActionResult> RequestPasswordResetAsync([FromBody] RequestPasswordResetRequest request)
+        public async Task<ActionResult<Result>> RequestPasswordResetAsync([FromBody] RequestPasswordResetRequest request)
         {
             try
             {
@@ -824,7 +823,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [AllowAnonymous]
         [HttpPut("ResendRequestPasswordReset")]
-        public async Task<IActionResult> ResendRequestPasswordResetAsync([FromBody] ResendRequestPasswordRequest request)
+        public async Task<ActionResult<Result>> ResendRequestPasswordResetAsync([FromBody] ResendRequestPasswordRequest request)
         {
             try
             {
@@ -897,7 +896,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [AllowAnonymous]
         [HttpGet("ConfirmEmail/{token}")]
-        public async Task<IActionResult> ConfirmEmailAsync(string token)
+        public async Task<ActionResult<Result>> ConfirmEmailAsync(string token)
         {
             try
             {
@@ -976,7 +975,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "USER")]
         [HttpPut, Route("cancelEmailConfirmation")]
-        public async Task<IActionResult> CancelEmailConfirmationAsync([FromBody] Request request)
+        public async Task<ActionResult<Result>> CancelEmailConfirmationAsync([FromBody] Request request)
         {
             try
             {
@@ -1044,7 +1043,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "USER")]
         [HttpPut, Route("cancelPasswordReset")]
-        public async Task<IActionResult> CancelPasswordResetAsync([FromBody] Request request)
+        public async Task<ActionResult<Result>> CancelPasswordResetAsync([FromBody] Request request)
         {
             try
             {
@@ -1112,7 +1111,7 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </remarks>
         [Authorize(Roles = "USER")]
         [HttpPut, Route("cancelAllEmailRequests")]
-        public async Task<IActionResult> CancelAllEmailRequestsAsync([FromBody] Request request)
+        public async Task<ActionResult<Result>> CancelAllEmailRequestsAsync([FromBody] Request request)
         {
             try
             {

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -7,11 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SudokuCollective.Api.Utilities;
 using SudokuCollective.Core.Interfaces.Services;
-using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Payloads;
-using SudokuCollective.Data.Models.Results;
 
 namespace SudokuCollective.Api.V1.Controllers
 {
@@ -78,7 +75,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [Authorize(Roles = "USER")]
         [HttpPost("{id}")]
-        public async Task<ActionResult<SudokuSolution>> GetAsync(
+        public async Task<ActionResult<Result>> GetAsync(
             int id,
             [FromBody] Request request)
         {
@@ -150,8 +147,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [Authorize(Roles = "USER")]
         [HttpPost]
-        public async Task<ActionResult<IEnumerable<SudokuSolution>>> GetSolutionsAsync(
-            [FromBody] Request request)
+        public async Task<ActionResult<Result>> GetSolutionsAsync([FromBody] Request request)
         {
             try
             {
@@ -223,8 +219,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [AllowAnonymous]
         [HttpPost, Route("Solve")]
-        public async Task<ActionResult<AnnonymousGameResult>> SolveAsync(
-            [FromBody] AnnonymousCheckRequest request)
+        public async Task<ActionResult<Result>> SolveAsync([FromBody] AnnonymousCheckRequest request)
         {
             try
             {
@@ -276,7 +271,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [AllowAnonymous]
         [HttpPost, Route("Generate")]
-        public async Task<ActionResult<AnnonymousGameResult>> GenerateAsync()
+        public async Task<ActionResult<Result>> GenerateAsync()
         {
             try
             {
@@ -331,8 +326,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </remarks>
         [Authorize(Roles = "SUPERUSER, ADMIN")]
         [HttpPost, Route("AddSolutions")]
-        public async Task<IActionResult> AddSolutionsAsync(
-            [FromBody] Request request)
+        public async Task<ActionResult<Result>> AddSolutionsAsync([FromBody] Request request)
         {
             try
             {

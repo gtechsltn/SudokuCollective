@@ -69,13 +69,15 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var roleId = 1;
 
             // Act
-            var result = await sutSuccess.GetAsync(roleId);
-            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
-            var role = (Role)((Result)((OkObjectResult)result.Result).Value).Payload[0];
+            var actionResult = await sutSuccess.GetAsync(roleId);
+            var result = (Result)((OkObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var role = (Role)result.Payload[0];
+            var statusCode = ((OkObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult<Role>>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 200: Role Found"));
             Assert.That(statusCode, Is.EqualTo(200));
             Assert.That(role, Is.InstanceOf<Role>());
@@ -89,12 +91,14 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var roleId = 2;
 
             // Act
-            var result = await sutFailure.GetAsync(roleId);
-            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var actionResult = await sutFailure.GetAsync(roleId);
+            var result = (Result)((NotFoundObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var statusCode = ((NotFoundObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult<Role>>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 404: Role not Found"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
@@ -106,12 +110,14 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = await sutSuccess.GetRolesAsync( );
-            var message = ((Result)((OkObjectResult)result.Result).Value).Message;
-            var statusCode = ((OkObjectResult)result.Result).StatusCode;
+            var actionResult = await sutSuccess.GetRolesAsync( );
+            var result = (Result)((OkObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var statusCode = ((OkObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult<IEnumerable<Role>>>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 200: Roles Found"));
             Assert.That(statusCode, Is.EqualTo(200));
         }
@@ -123,12 +129,14 @@ namespace SudokuCollective.Test.TestCases.Controllers
             // Arrange
 
             // Act
-            var result = await sutFailure.GetRolesAsync();
-            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var actionResult = await sutFailure.GetRolesAsync();
+            var result = (Result)((NotFoundObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var statusCode = ((NotFoundObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult<IEnumerable<Role>>>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 404: Roles not Found"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
@@ -141,12 +149,14 @@ namespace SudokuCollective.Test.TestCases.Controllers
             request.Payload = updateRolePayload;
 
             // Act
-            var result = await sutSuccess.UpdateAsync(1, request);
-            var message = ((Result)((OkObjectResult)result).Value).Message;
-            var statusCode = ((OkObjectResult)result).StatusCode;
+            var actionResult = await sutSuccess.UpdateAsync(1, request);
+            var result = (Result)((OkObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var statusCode = ((OkObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 200: Role Updated"));
             Assert.That(statusCode, Is.EqualTo(200));
         }
@@ -159,12 +169,14 @@ namespace SudokuCollective.Test.TestCases.Controllers
             request.Payload = updateRolePayload;
 
             // Act
-            var result = await sutFailure.UpdateAsync(1, request);
-            var message = ((Result)((NotFoundObjectResult)result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result).StatusCode;
+            var actionResult = await sutFailure.UpdateAsync(1, request);
+            var result = (Result)((NotFoundObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var statusCode = ((NotFoundObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 404: Role not Updated"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
@@ -177,12 +189,14 @@ namespace SudokuCollective.Test.TestCases.Controllers
             request.Payload = createRolePayload;
 
             // Act
-            var result = await sutSuccess.PostAsync(request);
-            var message = ((Result)((ObjectResult)result.Result).Value).Message;
-            var statusCode = ((ObjectResult)result.Result).StatusCode;
+            var actionResult = await sutSuccess.PostAsync(request);
+            var result = (Result)((ObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var statusCode = ((ObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult<Role>>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 201: Role Created"));
             Assert.That(statusCode, Is.EqualTo(201));
         }
@@ -195,12 +209,14 @@ namespace SudokuCollective.Test.TestCases.Controllers
             request.Payload = createRolePayload;
 
             // Act
-            var result = await sutFailure.PostAsync(request);
-            var message = ((Result)((NotFoundObjectResult)result.Result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result.Result).StatusCode;
+            var actionResult = await sutFailure.PostAsync(request);
+            var result = (Result)((NotFoundObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var statusCode = ((NotFoundObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result.Result, Is.InstanceOf<ActionResult>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 404: Role not Created"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
@@ -213,12 +229,14 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var roleId = 1;
 
             // Act
-            var result = await sutSuccess.DeleteAsync(roleId, request);
-            var message = ((Result)((OkObjectResult)result).Value).Message;
-            var statusCode = ((OkObjectResult)result).StatusCode;
+            var actionResult = await sutSuccess.DeleteAsync(roleId, request);
+            var result = (Result)((OkObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var statusCode = ((OkObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 200: Role Deleted"));
             Assert.That(statusCode, Is.EqualTo(200));
         }
@@ -231,12 +249,14 @@ namespace SudokuCollective.Test.TestCases.Controllers
             var roleId = 1;
 
             // Act
-            var result = await sutFailure.DeleteAsync(roleId, request);
-            var message = ((Result)((NotFoundObjectResult)result).Value).Message;
-            var statusCode = ((NotFoundObjectResult)result).StatusCode;
+            var actionResult = await sutFailure.DeleteAsync(roleId, request);
+            var result = (Result)((NotFoundObjectResult)actionResult.Result).Value;
+            var message = result.Message;
+            var statusCode = ((NotFoundObjectResult)actionResult.Result).StatusCode;
 
             // Assert
-            Assert.That(result, Is.InstanceOf<ActionResult>());
+            Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
+            Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(message, Is.EqualTo("Status Code 404: Role not Deleted"));
             Assert.That(statusCode, Is.EqualTo(404));
         }
