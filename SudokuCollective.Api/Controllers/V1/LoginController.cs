@@ -50,11 +50,11 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </summary>
         /// <param name="request"></param>
         /// <returns>An authenticated user and a authorization token.</returns>
-        /// <response code="200">An authenticated user and a authorization token.</response>
-        /// <response code="404">A message detailing any issues logging in the user.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the an authenticated user and authorization token included in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the user was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors logging in the user.</response>
         /// <remarks>
-        /// The Post endpoint does not require a login. The request body parameter uses a custom request model.
+        /// The Post endpoint does not require a login. The request body parameter uses the custom LoginRequest model documented in the schema.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -131,11 +131,11 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </summary>
         /// <param name="request"></param>
         /// <returns>The user name associated with the given email.</returns>
-        /// <response code="200">The user name associated with the given email.</response>
-        /// <response code="404">A message detailing any issues obtaining the user name.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the user name included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the user name was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors finding the user name.</response>
         /// <remarks>
-        /// The ConfirmUserNameAsync method does not require a login. The request body parameter uses a custom request model.
+        /// The ConfirmUserNameAsync method does not require a login. The request body parameter uses a custom ConfirmUserNameRequest model documented in the schema.
         /// 
         /// The request should be structured as follows:
         /// ```

@@ -33,6 +33,8 @@ namespace SudokuCollective.Api.Controllers
         /// <summary>
         /// A default endpoint to process confirm email requests, does not require a login.
         /// </summary>
+        /// <returns>A redirect to the default email confirmation view.</returns>
+        /// <response code="200">A redirect to the default email confirmation view.</response>
         /// <remarks>
         /// This is a default endpoint to handle email confirmations.  It is strongly recommended that you implement a 
         /// custom email confirmation action to handle such requests, this endpoint is simply a placeholder to handle

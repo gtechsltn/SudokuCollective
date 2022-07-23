@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -31,6 +34,8 @@ using SudokuCollective.Data.Services;
 using SudokuCollective.Repos;
 using SudokuCollective.Core.Interfaces.Jobs;
 using SudokuCollective.Data.Jobs;
+using SudokuCollective.Data.Models.Payloads;
+using SudokuCollective.Data.Models.Requests;
 
 namespace SudokuCollective.Api
 {
@@ -111,7 +116,47 @@ namespace SudokuCollective.Api
                         Array.Empty<string>()
                     }
                 });
+                swagger.MapType(typeof(JsonElement), () => new OpenApiSchema {
+                    Type = "object",
+                    Example = new OpenApiString("{}")
+                });
+
+                var swashbucklePayloadArray = new OpenApiArray();
+                swashbucklePayloadArray.Add(new OpenApiObject());
+
+                swagger.MapType(typeof(List<object>), () => new OpenApiSchema {
+                    Type = "array",
+                    Example = swashbucklePayloadArray
+                });
+
                 swagger.DocumentFilter<PathLowercaseDocumentFilter>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<App>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<AuthenticatedUser>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<Difficulty>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<Game>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<Role>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<SMTPServerSettings>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<SudokuCell>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<SudokuMatrix>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<SudokuSolution>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<User>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<AppPayload>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<CreateDifficultyPayload>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<UpdateDifficultyPayload>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<CreateGamePayload>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<GamePayload>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<GamesPayload>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<LicensePayload>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<CreateRolePayload>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<UpdateRolePayload>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<AddSolutionsPayload>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<SolutionPayload>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<PasswordResetPayload>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<RequestPasswordResetPayload>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<UpdateUserPayload>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<UpdateUserRolePayload>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<AnnonymousGameRequest>>();
+                swagger.DocumentFilter<CustomModelDocumentFilter<UpdatePasswordRequest>>();
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var filePath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -360,6 +405,20 @@ namespace SudokuCollective.Api
         {
             var parts = key.Split('/').Select(part => part.Contains('}') ? part : part.ToLowerInvariant());
             return string.Join('/', parts);
+        }
+    }
+
+    /// <summary>
+    /// A custom document filter to include models in the swagger documentation.
+    /// </summary>
+    public class CustomModelDocumentFilter<T> : IDocumentFilter where T : class
+    {
+        /// <summary>
+        /// A method to apply the filter
+        /// </summary>
+        public void Apply(OpenApiDocument openapiDoc, DocumentFilterContext context)
+        {
+            context.SchemaGenerator.GenerateSchema(typeof(T), context.SchemaRepository);
         }
     }
 }

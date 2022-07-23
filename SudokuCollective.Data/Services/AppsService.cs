@@ -1409,7 +1409,6 @@ namespace SudokuCollective.Data.Services
 
                     if (userReponse.IsSuccess)
                     {
-
                         var user = (User)userReponse.Object;
 
                         if (user.IsSuperUser)
@@ -1473,7 +1472,6 @@ namespace SudokuCollective.Data.Services
                                 }
                             }
                         }
-
 
                         if (!user.IsAdmin)
                         {
@@ -1789,24 +1787,24 @@ namespace SudokuCollective.Data.Services
 
             try
             {
-                var activateAppResponse = await _cacheService.DeactivatetWithCacheAsync(
+                var deactivateAppResponse = await _cacheService.DeactivatetWithCacheAsync(
                     _appsRepository,
                     _distributedCache,
                     _cacheKeys,
                     id);
 
-                if (activateAppResponse.IsSuccess)
+                if (deactivateAppResponse.IsSuccess)
                 {
-                    result.IsSuccess = activateAppResponse.IsSuccess;
+                    result.IsSuccess = deactivateAppResponse.IsSuccess;
                     result.Message = AppsMessages.AppDeactivatedMessage;
-                    result.Payload.Add(activateAppResponse.Object);
+                    result.Payload.Add(deactivateAppResponse.Object);
 
                     return result;
                 }
-                else if (!activateAppResponse.IsSuccess && activateAppResponse.Exception != null)
+                else if (!deactivateAppResponse.IsSuccess && deactivateAppResponse.Exception != null)
                 {
-                    result.IsSuccess = activateAppResponse.IsSuccess;
-                    result.Message = activateAppResponse.Exception.Message;
+                    result.IsSuccess = deactivateAppResponse.IsSuccess;
+                    result.Message = deactivateAppResponse.Exception.Message;
 
                     return result;
                 }

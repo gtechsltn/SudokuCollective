@@ -8,7 +8,7 @@ using SudokuCollective.Api.Utilities;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Params;
-using SudokuCollective.Data.Models.Payloads;
+using SudokuCollective.Data.Models.Requests;
 
 namespace SudokuCollective.Api.V1.Controllers
 {
@@ -55,9 +55,9 @@ namespace SudokuCollective.Api.V1.Controllers
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>A solution.</returns>
-        /// <response code="200">A solution.</response>
-        /// <response code="404">A message detailing any issues getting a solution.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the a solution included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the solution was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors finding the solution.</response>
         /// <remarks>
         /// The Get endpoint requires the user to be logged in. Requires the user role. The query parameter id refers to the relevant solution. 
         /// The request body parameter uses the request model.
@@ -128,9 +128,9 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A list of solutions.</returns>
-        /// <response code="200">A list of solutiosn.</response>
-        /// <response code="404">A message detailing any issues getting a list of solutions.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with solutions included as the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating solutions were not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors getting solutions.</response>
         /// <remarks>
         /// The GetSolutions endpoint requires the user to be logged in. Requires the user role. The request body parameter uses the request model.
         /// 
@@ -145,7 +145,7 @@ namespace SudokuCollective.Api.V1.Controllers
         ///     }     
         /// ```
         /// </remarks>
-        [Authorize(Roles = "USER")]
+        [Authorize(Roles = "SUPERUSER, ADMIN, USER")]
         [HttpPost]
         public async Task<ActionResult<Result>> GetSolutionsAsync([FromBody] Request request)
         {
@@ -196,9 +196,9 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns>If solvable, a solved sudoku puzzle.</returns>
-        /// <response code="200">If solvable, a solved sudoku puzzle.</response>
-        /// <response code="404">A message detailing any issues solving a given sudoku puzzle.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the a solved sudoku puzzle included as the first element in the payload array.</response>
+        /// <response code="400">Returns a result object with the message stating why the request could not be fulfilled.</response>
+        /// <response code="500">Returns a result object with the message stating any errors solving the sudoku puzzle.</response>
         /// <remarks>
         /// The Solve endpoint does not require a logged in user. The request body parameter uses the AnnonymousCheckRequest model.
         /// 
@@ -244,9 +244,9 @@ namespace SudokuCollective.Api.V1.Controllers
                 }
                 else
                 {
-                    result.Message = ControllerMessages.StatusCode404(result.Message);
+                    result.Message = ControllerMessages.StatusCode400(result.Message);
 
-                    return NotFound(result);
+                    return BadRequest(result);
                 }
             }
             catch (Exception e)
@@ -263,9 +263,9 @@ namespace SudokuCollective.Api.V1.Controllers
         /// An endpoint to generate sudoku puzzles, does not require a login.
         /// </summary>
         /// <returns>A sudoku puzzle.</returns>
-        /// <response code="200">A sudoku puzzle.</response>
-        /// <response code="404">A message detailing any issues generating a sudoku puzzle.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the a sudoku puzzle included as the first element in the payload array.</response>
+        /// <response code="400">Returns a result object with the message stating why the request could not be fulfilled.</response>
+        /// <response code="500">Returns a result object with the message stating any errors generating the sudoku puzzle.</response>
         /// <remarks>
         /// The Generate endpoint does not require a logged in user.
         /// </remarks>
@@ -285,9 +285,9 @@ namespace SudokuCollective.Api.V1.Controllers
                 }
                 else
                 {
-                    result.Message = ControllerMessages.StatusCode404(result.Message);
+                    result.Message = ControllerMessages.StatusCode400(result.Message);
 
-                    return NotFound(result);
+                    return BadRequest(result);
                 }
             }
             catch (Exception e)
@@ -305,13 +305,13 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A message indicating that solutions are being created.</returns>
-        /// <response code="200">A message indicating that solutions are being created.</response>
-        /// <response code="404">A message detailing any issues generating solutions.</response>
-        /// <response code="500">A description of any errors generating solutions.</response>
+        /// <response code="200">Returns a result object with a message indicating sudoku solutions are being generated.</response>
+        /// <response code="400">Returns a result object with the message stating why the request could not be fulfilled.</response>
+        /// <response code="500">Returns a result object with the message stating any errors generating the sudoku solutions.</response>
         /// <remarks>
         /// The AddSolutions endpoint requires the user to be logged in. Requires the superuser or admin roles The request body parameter uses the request model.
         /// 
-        /// The request should be structured as follows:
+        /// The payload should be an AddSolutionsPayload as documented in the schema. The request should be structured as follows:
         /// ```
         ///     {                                 
         ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
@@ -346,9 +346,9 @@ namespace SudokuCollective.Api.V1.Controllers
                     }
                     else
                     {
-                        result.Message = ControllerMessages.StatusCode404(result.Message);
+                        result.Message = ControllerMessages.StatusCode400(result.Message);
 
-                        return NotFound(result);
+                        return BadRequest(result);
                     }
                 }
                 else

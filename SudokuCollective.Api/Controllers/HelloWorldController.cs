@@ -18,7 +18,8 @@ namespace SudokuCollective.Api.Controllers
         /// An example endpoint of how to connect to an API for new developers, does not require a login.
         /// </summary>
         /// <returns>A simple message outlining the response model, if a param was included it is echoed in the response.</returns>
-        /// <response code="200">A simple message outlining the response model, if a param was included it is echoed in the response.</response>
+        /// <response code="200">Returns a result object with a message summarizing the response, if a param was included it is echoed in the message.</response>
+        /// <response code="400">Returns a result object with the message summarizing why the request could not be completed.</response>
         /// <remarks>
         /// The Get endpoint does not require an authorization token.  This endpoint serves as a simple example of how to connect to an 
         /// api for new developers.  The endpoint accepts a query parameter of 'param', if param is empty it issues a canned response.

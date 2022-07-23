@@ -156,6 +156,14 @@ namespace SudokuCollective.Data.Services
 
             try
             {
+                if (id == 1 || id == 2)
+                {
+                    result.IsSuccess = false;
+                    result.Message = DifficultiesMessages.NullAndTestDifficultiesAreNotAvailableThroughTheApi;
+
+                    return result;
+                }
+
                 var cacheServiceResponse = await _cacheService.GetWithCacheAsync(
                     _difficultiesRepository,
                     _distributedCache,

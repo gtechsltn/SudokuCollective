@@ -58,11 +58,11 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A newly created user and a authorization token.</returns>
-        /// <response code="201">A newly created user and a authorization token.</response>
-        /// <response code="404">A message detailing any issues creating the user.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="201">Returns a result object with the an authenticated user and authorization token included in the payload array.</response>
+        /// <response code="400">Returns a result object with the message stating why the request could not be fulfilled.</response>
+        /// <response code="500">Returns a result object with the message stating any errors signing up the user.</response>
         /// <remarks>
-        /// The Post endpoint does not require a login. The request body parameter uses a custom request model.
+        /// The Post endpoint does not require a login. The request body parameter uses the custom SignupRequest model documented in the schema.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -154,9 +154,9 @@ namespace SudokuCollective.Api.Controllers.V1
                 }
                 else
                 {
-                    result.Message = ControllerMessages.StatusCode404(result.Message);
+                    result.Message = ControllerMessages.StatusCode400(result.Message);
 
-                    return NotFound(result);
+                    return BadRequest(result);
                 }
             }
             catch (Exception e)
@@ -174,11 +174,11 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A status detailing the result of processing the request.</returns>
-        /// <response code="200">Provides a success message detailing the email confirmation was resent.</response>
-        /// <response code="404">A message detailing any issues resending the email confirmation.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the message detailing the email confirmation was resent.</response>
+        /// <response code="404">Returns a result object with the message stating the email confirmation was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors resending the email confirmation.</response>
         /// <remarks>
-        /// The ResendEmailConfirmation endpoint does not require a login.  The request body parameter uses a custom request model.
+        /// The ResendEmailConfirmation endpoint does not require a login.  The request body parameter uses the custom ResendEmailConfirmationRequest model documented in the schema.
         /// 
         /// The request should be structured as follows:
         /// ```

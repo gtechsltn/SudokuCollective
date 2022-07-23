@@ -35,6 +35,8 @@ namespace SudokuCollective.Api.Controllers
         /// <summary>
         /// A default endpoint to process password reset requests, does not require a login.
         /// </summary>
+        /// <returns>A redirect to the default password reset view.</returns>
+        /// <response code="200">A redirect to the default password reset view.</response>
         /// <remarks>
         /// This is a default endpoint to handle password resets.  It is strongly recommended that you implement a 
         /// custom password reset action to handle such requests, this endpoint is simply a placeholder to handle
@@ -108,6 +110,8 @@ namespace SudokuCollective.Api.Controllers
         /// <summary>
         /// The results of the default endpoint above link back to here upon completion, does not require a login.
         /// </summary>
+        /// <returns>A redirect to the default password reset result view.</returns>
+        /// <response code="200">A redirect to the default password reset result view.</response>
         /// <remarks>
         /// This is a default endpoint to handle password resets links back to this endpoint upon completion. The results
         /// of the default password reset operation are displayed here.

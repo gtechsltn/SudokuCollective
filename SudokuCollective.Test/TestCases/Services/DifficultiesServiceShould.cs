@@ -71,12 +71,28 @@ namespace SudokuCollective.Test.TestCases.Services
             // Arrange
 
             // Act
-            var result = await sut.GetAsync(1);
+            var result = await sut.GetAsync(3);
 
             // Assert
             Assert.That(result.IsSuccess, Is.True);
             Assert.That(result.Message, Is.EqualTo("Difficulty Found"));
             Assert.That((Difficulty)result.Payload[0], Is.TypeOf<Difficulty>());
+        }
+
+        [Test, Category("Services")]
+        public async Task FailGetADifficultyOfIdOneOrTwo()
+        {
+            // Arrange
+
+            // Act
+            var resultOne = await sut.GetAsync(1);
+            var resultTwo = await sut.GetAsync(2);
+
+            // Assert
+            Assert.That(resultOne.IsSuccess, Is.False);
+            Assert.That(resultTwo.IsSuccess, Is.False);
+            Assert.That(resultOne.Message, Is.EqualTo("Null and Test Difficulties are not Available Through the Api"));
+            Assert.That(resultTwo.Message, Is.EqualTo("Null and Test Difficulties are not Available Through the Api"));
         }
 
         [Test, Category("Services")]

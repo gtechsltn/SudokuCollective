@@ -49,13 +49,13 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </summary>
         /// <param name="request"></param>
         /// <returns>An new app.</returns>
-        /// <response code="200">An new app.</response>
-        /// <response code="404">A message detailing any issues creating a new app.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="201">Returns a result object with the new app included as the first element in the payload array.</response>
+        /// <response code="400">Returns a result object with the message stating why the request could not be fulfilled.</response>
+        /// <response code="500">Returns a result object with the message stating any errors creating the app.</response>
         /// <remarks>
         /// The Post endpoint requires the user to be logged in. Requires superuser or admin roles. The request body parameter uses the request model.
         /// 
-        /// The request should be structured as follows:
+        /// The payload should be a LicensePayload as documented in the schema. The request should be structured as follows:
         /// ```
         ///     {                                 
         ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
@@ -99,9 +99,9 @@ namespace SudokuCollective.Api.Controllers.V1
                     }
                     else
                     {
-                        result.Message = ControllerMessages.StatusCode404(result.Message);
+                        result.Message = ControllerMessages.StatusCode400(result.Message);
 
-                        return NotFound(result);
+                        return BadRequest(result);
                     }
                 }
                 else
@@ -125,9 +125,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>A license for a given app.</returns>
-        /// <response code="200">A license for a given app.</response>
-        /// <response code="404">A message detailing any issues getting an app license.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the app license included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the app was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors finding the app license.</response>
         /// <remarks>
         /// The Get endpoint requires the user to be logged in. Requires superuser or admin roles. The query parameter id refers to the relevant app. 
         /// The request body parameter uses the request model.

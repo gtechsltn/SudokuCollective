@@ -17,5 +17,7 @@ namespace SudokuCollective.Data.Messages
         internal const string RoleNotDeletedMessage = "Role not Deleted";
         internal const string RoleAlreadyExistsMessage = "Role Already Exists";
         internal const string RoleDoesNotExistMessage = "Role does not Exist";
+        internal const string RolesCannotBeAddedUsingThisEndpoint = "Roles cannot be Added Using this Endpoint";
+        internal const string RolesCannotBeRemovedUsingThisEndpoint = "RolesCannotBeRemovedUsingThisEndpoint";
     }
 }

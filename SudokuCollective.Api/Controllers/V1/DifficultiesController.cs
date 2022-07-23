@@ -53,9 +53,12 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </summary>
         /// <param name="id"></param>
         /// <returns>A difficulty.</returns>
-        /// <response code="200">A difficulty.</response>
+        /// <response code="200">Returns a result object with the difficulty included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the difficulty was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors getting the difficulty.</response>
         /// <remarks>
-        /// The Get endpoint does not require an authorization token.  Id refers to the requested difficulty id.  Returns a difficulty.
+        /// The Get endpoint does not require an authorization token.  Id refers to the requested difficulty id.  Returns a difficulty.  Does not
+        /// return difficulties of id 1 or 2 as those difficulties are not functional.
         /// </remarks>
         [AllowAnonymous]
         [HttpGet("{id}")]
@@ -94,7 +97,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// An endpoint to get a list of difficulties, does not require a login.
         /// </summary>
         /// <returns>A list of difficulties.</returns>
-        /// <response code="200">A list of difficulties.</response>
+        /// <response code="200">Returns a result object with difficulties included as the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating difficuties were not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors getting difficulties.</response>
         /// <remarks>
         /// The GetDifficulties endpoint does not require an authorization token.  Returns all available difficulties.
         /// </remarks>
@@ -132,17 +137,18 @@ namespace SudokuCollective.Api.Controllers.V1
         }
         
         /// <summary>
-        /// An endpoint to create a difficult, requires the superuser role.
+        /// An endpoint to create a difficulty, requires the superuser role.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A difficulty.</returns>
-        /// <response code="200">A difficulty.</response>
-        /// <response code="404">A message detailing any issues creating a difficulty.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="201">Returns a result object with the new difficulty included as the first element of payload array.</response>
+        /// <response code="400">Returns a result object with the message stating why the request could not be fulfilled.</response>
+        /// <response code="500">Returns a result object with the message stating any errors creating the new difficulty.</response>
         /// <remarks>
         /// The Post endpoint requires the user to be logged in. Requires the superuser role. The request body parameter uses the request model.
+        /// Please not that in order to this action to be successful the difficulty level would have to be unique.
         /// 
-        /// The request should be structured as follows:
+        /// The payload should be a CreateDifficultyPayload as documented in the schema. The request should be structured as follows:
         /// ```
         ///     {                                 
         ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
@@ -152,7 +158,7 @@ namespace SudokuCollective.Api.Controllers.V1
         ///       "payload": {
         ///         "name": string,             // a name for the new difficulty
         ///         "displayName": integeer,    // a display name for the new difficulty
-        ///         "difficultyLevel": integer, // integer for the new difficulty level
+        ///         "difficultyLevel": integer, // integer for the new difficulty level, this value would have to be unique and added as an enumeration
         ///       }
         ///     }     
         /// ```
@@ -183,9 +189,9 @@ namespace SudokuCollective.Api.Controllers.V1
                     }
                     else
                     {
-                        result.Message = ControllerMessages.StatusCode404(result.Message);
+                        result.Message = ControllerMessages.StatusCode400(result.Message);
 
-                        return NotFound(result);
+                        return BadRequest(result);
                     }
                 }
                 else
@@ -209,13 +215,13 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>An updated difficulty.</returns>
-        /// <response code="200">An updated difficulty.</response>
-        /// <response code="404">A message detailing any issues updating a difficulty.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the updated difficulty included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the difficulty was not updated</response>
+        /// <response code="500">Returns a result object with the message stating any errors updating the difficulty.</response>
         /// <remarks>
         /// The Update endpoint requires the user to be logged in. Requires the superuser role. The request body parameter uses the request model.
         /// 
-        /// The request should be structured as follows:
+        /// The payload should be an UpdateDifficultyPayload as documented in the schema. The request should be structured as follows:
         /// ```
         ///     {
         ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
@@ -284,9 +290,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>A message indicating if the difficulty was deleted.</returns>
-        /// <response code="200">A message indicating if the difficulty was deleted.</response>
-        /// <response code="404">A message detailing any issues deleting a difficulty.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the message indicating the difficulty was deleted.</response>
+        /// <response code="404">Returns a result object with the message stating the difficulty was not found</response>
+        /// <response code="500">Returns a result object with the message stating any errors deleting the difficulty.</response>
         /// <remarks>
         /// The Delete endpoint requires the user to be logged in. Requires the superuser role. The request body parameter uses the request model.
         /// 

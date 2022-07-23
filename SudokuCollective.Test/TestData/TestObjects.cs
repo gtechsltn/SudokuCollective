@@ -14,6 +14,7 @@ using SudokuCollective.Core.Models;
 using SudokuCollective.Data.Models;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Payloads;
+using SudokuCollective.Data.Models.Requests;
 using SudokuCollective.Data.Models.Results;
 using SudokuCollective.Data.Models.Values;
 
