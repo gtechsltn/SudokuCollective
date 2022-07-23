@@ -284,7 +284,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     var result = new Result
                     {
                         IsSuccess = false,
-                        Message = ControllerMessages.NotOwnerMessage
+                        Message = ControllerMessages.StatusCode400(ControllerMessages.NotOwnerMessage)
                     };
 
                     return BadRequest(result);
@@ -1243,7 +1243,7 @@ namespace SudokuCollective.Api.Controllers.V1
                     var result = new Result
                     {
                         IsSuccess = false,
-                        Message = ControllerMessages.NotOwnerMessage
+                        Message = ControllerMessages.StatusCode400(ControllerMessages.NotOwnerMessage)
                     };
 
                     return BadRequest(result);

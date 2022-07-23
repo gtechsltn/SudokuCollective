@@ -63,7 +63,7 @@ namespace SudokuCollective.Api.Controllers
             {
                 result.IsSuccess = false;
 
-                result.Message = ControllerMessages.StatusCode500(e.Message);
+                result.Message = ControllerMessages.StatusCode400(e.Message);
 
                 return BadRequest(result);
             }
