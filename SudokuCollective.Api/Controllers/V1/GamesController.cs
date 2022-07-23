@@ -802,7 +802,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// <param name="request"></param>
         /// <returns>An annonymous game.</returns>
         /// <response code="200">Returns a result object with the annonymous game included as the first element in the payload array.</response>
-        /// <response code="404">Returns a result object with the message stating if the annonymous game was not created.</response>
+        /// <response code="400">Returns a result object with the message stating if the annonymous game was not created.</response>
         /// <response code="500">Returns a result object with the message stating any errors creating the annonymous game.</response>
         /// <remarks>
         /// The CreateAnnonymous endpoint does not require a logged in user. The request body parameter uses the AnnonymousGameRequest model documented in the schema.
@@ -862,7 +862,7 @@ namespace SudokuCollective.Api.V1.Controllers
         /// <param name="request"></param>
         /// <returns>A message indicating if the sudoku puzzle has been solved.</returns>
         /// <response code="200">Returns a result object with the solved sudoku puzzle included as the first element in the payload array.</response>
-        /// <response code="404">Returns a result object with the message stating if the annonymous game was not solved.</response>
+        /// <response code="400">Returns a result object with the message stating if the annonymous game was not solved.</response>
         /// <response code="500">Returns a result object with the message stating any errors solving the sudoku puzzle.</response>
         /// <remarks>
         /// The CheckAnnonymous endpoint does not require a logged in user. The request body parameter uses the AnnonymousCheckRequest model documented in the schema.
