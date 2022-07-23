@@ -30,6 +30,8 @@ namespace SudokuCollective.Api.Controllers
         /// <summary>
         /// An endpoint to obtain and populate the Sudoku Collective mission statement on the index home page.
         /// </summary>
+        /// <returns>The mission statement used for the API home landing page.</returns>
+        /// <remarks>Returns the mission statement used for the API home landing page.</remarks>
         [AllowAnonymous]
         [HttpGet]
         public IActionResult Get()

@@ -7,7 +7,7 @@ using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 using SudokuCollective.Core.Messages;
 using SudokuCollective.Data.Validation.Attributes;
 
-namespace SudokuCollective.Data.Models.Payloads
+namespace SudokuCollective.Data.Models.Requests
 {
     public class AnnonymousCheckRequest : IAnnonymousCheckRequest
     {

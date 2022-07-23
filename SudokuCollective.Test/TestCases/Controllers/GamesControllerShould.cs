@@ -13,6 +13,7 @@ using SudokuCollective.Core.Enums;
 using SudokuCollective.Test.Services;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Data.Models.Payloads;
+using SudokuCollective.Data.Models.Requests;
 
 namespace SudokuCollective.Test.TestCases.Controllers
 {
@@ -250,15 +251,15 @@ namespace SudokuCollective.Test.TestCases.Controllers
 
             // Act
             var actionResult = await sutFailure.PostAsync(request);
-            var result = (Result)((NotFoundObjectResult)actionResult.Result).Value;
+            var result = (Result)((BadRequestObjectResult)actionResult.Result).Value;
             var message = result.Message;
-            var statusCode = ((NotFoundObjectResult)actionResult.Result).StatusCode;
+            var statusCode = ((BadRequestObjectResult)actionResult.Result).StatusCode;
 
             // Assert
             Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
             Assert.That(result, Is.InstanceOf<Result>());
-            Assert.That(message, Is.EqualTo("Status Code 404: Game not Created"));
-            Assert.That(statusCode, Is.EqualTo(404));
+            Assert.That(message, Is.EqualTo("Status Code 400: Game not Created"));
+            Assert.That(statusCode, Is.EqualTo(400));
         }
 
         [Test]
@@ -503,15 +504,15 @@ namespace SudokuCollective.Test.TestCases.Controllers
                 {
                     DifficultyLevel = DifficultyLevel.TEST
                 });
-            var result = (Result)((NotFoundObjectResult)actionResult.Result).Value;
+            var result = (Result)((BadRequestObjectResult)actionResult.Result).Value;
             var message = result.Message;
-            var statusCode = ((NotFoundObjectResult)actionResult.Result).StatusCode;
+            var statusCode = ((BadRequestObjectResult)actionResult.Result).StatusCode;
 
             // Assert
             Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
             Assert.That(result, Is.InstanceOf<Result>());
-            Assert.That(message, Is.EqualTo("Status Code 404: Game not Created"));
-            Assert.That(statusCode, Is.EqualTo(404));
+            Assert.That(message, Is.EqualTo("Status Code 400: Game not Created"));
+            Assert.That(statusCode, Is.EqualTo(400));
         }
 
         [Test]
@@ -567,17 +568,17 @@ namespace SudokuCollective.Test.TestCases.Controllers
                     EighthRow = new List<int> { 8, 4, 2, 3, 1, 9, 7, 5, 6 },
                     NinthRow = new List<int> { 1, 6, 9, 4, 7, 5, 8, 3, 2 }
                 });
-            var result = (Result)((ObjectResult)actionResult.Result).Value;
+            var result = (Result)((BadRequestObjectResult)actionResult.Result).Value;
             var success = result.IsSuccess;
             var message = result.Message;
-            var statusCode = ((ObjectResult)actionResult.Result).StatusCode;
+            var statusCode = ((BadRequestObjectResult)actionResult.Result).StatusCode;
 
             // Assert
             Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
             Assert.That(result, Is.InstanceOf<Result>());
             Assert.That(success, Is.False);
-            Assert.That(message, Is.EqualTo("Status Code 404: Game not Solved"));
-            Assert.That(statusCode, Is.EqualTo(404));
+            Assert.That(message, Is.EqualTo("Status Code 400: Game not Solved"));
+            Assert.That(statusCode, Is.EqualTo(400));
         }
     }
 }

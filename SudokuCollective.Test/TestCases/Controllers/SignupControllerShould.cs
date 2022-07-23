@@ -12,7 +12,6 @@ using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Test.Services;
 using SudokuCollective.Data.Models.Requests;
 using SudokuCollective.Data.Models.Results;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 
 namespace SudokuCollective.Test.TestCases.Controllers
 {
@@ -94,15 +93,15 @@ namespace SudokuCollective.Test.TestCases.Controllers
 
             // Act
             var actionResult = await sutFailure.PostAsync(signupRequest);
-            var result = (Result)((NotFoundObjectResult)actionResult.Result).Value;
+            var result = (Result)((BadRequestObjectResult)actionResult.Result).Value;
             var errorMessage = result.Message;
-            var statusCode = ((NotFoundObjectResult)actionResult.Result).StatusCode;
+            var statusCode = ((BadRequestObjectResult)actionResult.Result).StatusCode;
 
             // Assert
             Assert.That(actionResult, Is.InstanceOf<ActionResult<Result>>());
             Assert.That(result, Is.InstanceOf<Result>());
-            Assert.That(errorMessage, Is.EqualTo("Status Code 404: User not Created"));
-            Assert.That(statusCode, Is.EqualTo(404));
+            Assert.That(errorMessage, Is.EqualTo("Status Code 400: User not Created"));
+            Assert.That(statusCode, Is.EqualTo(400));
         }
 
         [Test, Category("Controllers")]

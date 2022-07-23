@@ -1238,6 +1238,14 @@ namespace SudokuCollective.Data.Services
             {
                 if (await _rolesRepository.IsListValidAsync(payload.RoleIds))
                 {
+                    if (payload.RoleIds.Contains(2) || payload.RoleIds.Contains(4))
+                    {
+                        result.IsSuccess = false;
+                        result.Message = RolesMessages.RolesCannotBeAddedUsingThisEndpoint;
+
+                        return result;
+                    }
+
                     var response = await _usersRepository.AddRolesAsync(userid, payload.RoleIds);
 
                     var cacheServiceResponse = new Tuple<IRepositoryResponse, IResult>(
@@ -1397,6 +1405,14 @@ namespace SudokuCollective.Data.Services
             {
                 if (await _rolesRepository.IsListValidAsync(payload.RoleIds))
                 {
+                    if (payload.RoleIds.Contains(2) || payload.RoleIds.Contains(4))
+                    {
+                        result.IsSuccess = false;
+                        result.Message = RolesMessages.RolesCannotBeRemovedUsingThisEndpoint;
+
+                        return result;
+                    }
+
                     var response = await _usersRepository.RemoveRolesAsync(userid, payload.RoleIds);
 
                     var cacheServiceResponse = new Tuple<IRepositoryResponse, IResult>(

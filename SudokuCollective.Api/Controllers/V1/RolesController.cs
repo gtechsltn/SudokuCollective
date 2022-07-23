@@ -54,7 +54,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </summary>
         /// <param name="id"></param>
         /// <returns>A role.</returns>
-        /// <response code="200">A role.</response>
+        /// <response code="200">Returns a result object with the role included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the role was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors getting the role.</response>
         /// <remarks>
         /// The Get endpoint does not require an authorization token.  Id refers to the requested role id.  Returns a role.
         /// </remarks>
@@ -95,7 +97,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// An endpoint to get a list of roles, does not require a login.
         /// </summary>
         /// <returns>A list of roles.</returns>
-        /// <response code="200">A list of roles.</response>
+        /// <response code="200">Returns a result object with roles included as the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating roles were not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors getting roles.</response>
         /// <remarks>
         /// The GetRoles endpoint does not require an authorization token.  Returns all available roles.
         /// </remarks>
@@ -137,13 +141,13 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A role.</returns>
-        /// <response code="200">A role.</response>
-        /// <response code="404">A message detailing any issues creating a role.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="201">Returns a result object with the new role included as the first element of payload array.</response>
+        /// <response code="400">Returns a result object with the message stating why the request could not be fulfilled.</response>
+        /// <response code="500">Returns a result object with the message stating any errors creating the new role.</response>
         /// <remarks>
         /// The Post endpoint requires the user to be logged in. Requires the superuser role. The request body parameter uses the request model.
         /// 
-        /// The request should be structured as follows:
+        /// The payload should be a CreateRolePayload as documented in the schema. The request should be structured as follows:
         /// ```
         ///     {                                 
         ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
@@ -183,9 +187,9 @@ namespace SudokuCollective.Api.Controllers.V1
                     }
                     else
                     {
-                        result.Message = ControllerMessages.StatusCode404(result.Message);
+                        result.Message = ControllerMessages.StatusCode400(result.Message);
 
-                        return NotFound(result);
+                        return BadRequest(result);
                     }
                 }
                 else
@@ -209,13 +213,13 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>An updated role.</returns>
-        /// <response code="200">An updated role.</response>
-        /// <response code="404">A message detailing any issues updating a role.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the updated role included as the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the role was not updated</response>
+        /// <response code="500">Returns a result object with the message stating any errors updating the role.</response>
         /// <remarks>
         /// The Update endpoint requires the user to be logged in. Requires the superuser role. The request body parameter uses the request model.
         /// 
-        /// The request should be structured as follows:
+        /// The payload should be an UpdateRolePayload as documented in the schema. The request should be structured as follows:
         /// ```
         ///     {
         ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
@@ -284,9 +288,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>A message indicating if the role was deleted.</returns>
-        /// <response code="200">A message indicating if the role was deleted.</response>
-        /// <response code="404">A message detailing any issues deleting a role.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the message indicating the role was deleted.</response>
+        /// <response code="404">Returns a result object with the message stating the role was not found</response>
+        /// <response code="500">Returns a result object with the message stating any errors deleting the role.</response>
         /// <remarks>
         /// The Delete endpoint requires the user to be logged in. Requires the superuser role. The request body parameter uses the request model.
         /// 

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
 
-namespace SudokuCollective.Data.Models.Payloads
+namespace SudokuCollective.Data.Models.Requests
 {
     public class AnnonymousGameRequest : IAnnonymousGameRequest
     {

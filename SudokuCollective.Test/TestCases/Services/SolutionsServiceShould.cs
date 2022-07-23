@@ -23,6 +23,7 @@ using SudokuCollective.Test.Repositories;
 using SudokuCollective.Test.Services;
 using SudokuCollective.Test.TestData;
 using SudokuCollective.Data.Models.Results;
+using SudokuCollective.Data.Models.Requests;
 
 namespace SudokuCollective.Test.TestCases.Services
 {
