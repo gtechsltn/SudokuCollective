@@ -61,9 +61,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>Records for a given user relative to the requesting app.</returns>
-        /// <response code="200">Records for a given user relative to the given app.</response>
-        /// <response code="404">A message detailing any issues getting a user.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the user included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the user was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors getting the user.</response>
         /// <remarks>
         /// The Get endpoint requires the user to be logged in. Requires the user role. The query parameter id refers to the relevant user.
         /// The request body parameter uses the request model.
@@ -138,14 +138,14 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>An updated user.</returns>
-        /// <response code="200">An updated user.</response>
-        /// <response code="404">A message detailing any issues updating a user.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the updated user included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the user was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors updating the user.</response>
         /// <remarks>
         /// The Update endpoint requires the user to be logged in. Requires the user role. The query parameter id refers to the relevant user. 
         /// The request body parameter uses the request model.
         /// 
-        /// The request should be structured as follows:
+        /// The payload should be an UpdateUserPayload as documented in the schema. The request should be structured as follows:
         /// ```
         ///     {                                 
         ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
@@ -249,9 +249,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>A message documenting the result of the delete request.</returns>
-        /// <response code="200">A message documenting the result of the delete request.</response>
-        /// <response code="404">A message detailing any issues deleting a user.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with a message documenting the result of the delete request.</response>
+        /// <response code="404">Returns a result object with the message stating the user was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors deleting the user.</response>
         /// <remarks>
         /// The Delete endpoint requires the user to be logged in. Requires the user role. The query parameter id refers to the relevant user. 
         /// The request body parameter uses the request model.
@@ -322,9 +322,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A list of all users.</returns>
-        /// <response code="200">A list of all users.</response>
-        /// <response code="404">A message detailing any issues obtaining all users.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with all user included as the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating all users were not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors getting all users.</response>
         /// <remarks>
         /// The GetUsers endpoint requires the user to be logged in. Requires superuser or admin roles. The request body parameter uses the request model.
         /// 
@@ -421,14 +421,15 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>An updated copy of the user with the added role.</returns>
-        /// <response code="200">An updated copy of the user with the added role.</response>
-        /// <response code="404">A message detailing any issues adding the role to the user.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the updated user included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the user or role was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors adding the role to the user.</response>
         /// <remarks>
-        /// The AddRoles endpoint requires the user to be logged in. Requires superuser or admin roles. The query parameter id refers to the relevant user. 
-        /// The request body parameter uses the request model.
+        /// The AddRoles endpoint requires the user to be logged in. Requires superuser or admin roles.  Only the admin role (role id 3) can be added to 
+        /// a user, the superuser role cannot be added using this endpoint. The query parameter id refers to the relevant user. The request body 
+        /// parameter uses the request model.
         /// 
-        /// The request should be structured as follows:
+        /// The payload should be an UpdateUserRolePayload as documented in the schema. The request should be structured as follows:
         /// ```
         ///     {                                 
         ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
@@ -500,14 +501,14 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>An updated copy of the user with the removed role.</returns>
-        /// <response code="200">An updated copy of the user with the removed role.</response>
-        /// <response code="404">A message detailing any issues adding the role to the user.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the updated user included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the user or role was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors remove the roles from the user.</response>
         /// <remarks>
         /// The RemoveRoles endpoint requires the user to be logged in. Requires superuser or admin roles. The query parameter id refers to the relevant user. 
         /// The request body parameter uses the request model.
         /// 
-        /// The request should be structured as follows:
+        /// The payload should be an UpdateUserRolePayload as documented in the schema. The request should be structured as follows:
         /// ```
         ///     {                                 
         ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
@@ -578,9 +579,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </summary>
         /// <param name="id"></param>
         /// <returns>An updated copy of the user with the new active status.</returns>
-        /// <response code="200">An updated copy of the user with the new active status.</response>
-        /// <response code="404">A message detailing any issues activating the user.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the updated user included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the user was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors activating the user.</response>
         /// <remarks>
         /// The Activate endpoint requires the user to be logged in. Requires the superuser role.
         /// </remarks>
@@ -622,9 +623,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </summary>
         /// <param name="id"></param>
         /// <returns>An updated copy of the user with the new active status.</returns>
-        /// <response code="200">An updated copy of the user with the new active status.</response>
-        /// <response code="404">A message detailing any issues deactivating the user.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the updated user included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the user was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors deactivating the user.</response>
         /// <remarks>
         /// The Deactivate endpoint requires the user to be logged in. Requires the superuser role.
         /// </remarks>
@@ -662,17 +663,154 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
+        /// An endpoint which confirms user emails, does not require a login.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns>A boolean indicating if the email was confirmed.</returns>
+        /// <response code="200">Returns a result object with the message and isSuccess value indicating if the user's email was confirmed.</response>
+        /// <response code="404">Returns a result object with the message stating user was not found. </response>
+        /// <response code="500">Returns a result object with the message stating any errors processing the request.</response>
+        /// <remarks>
+        /// The ConfirmEmail endpoint does not require a login. If you've implemented a custom confirm email action that action will link back to this endpoint once confirmed. 
+        /// Your action will send the token to this endpoint to complete the process, the boolean will indicate if the email was confirmed.
+        /// </remarks>
+        [AllowAnonymous]
+        [HttpGet("ConfirmEmail/{token}")]
+        public async Task<ActionResult<Result>> ConfirmEmailAsync(string token)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(token)) throw new ArgumentNullException(nameof(token));
+
+                string baseUrl;
+
+                if (Request != null)
+                {
+                    baseUrl = Request.Host.ToString();
+                }
+                else
+                {
+                    baseUrl = "https://SudokuCollective.com";
+                }
+
+                string emailtTemplatePath;
+
+                if (!string.IsNullOrEmpty(_hostEnvironment.WebRootPath))
+                {
+                    emailtTemplatePath = Path.Combine(_hostEnvironment.WebRootPath, "/Content/EmailTemplates/confirm-new-email-inlined.html");
+
+                    emailtTemplatePath = string.Format("../SudokuCollective.Api{0}", emailtTemplatePath);
+                }
+                else
+                {
+                    emailtTemplatePath = "../../Content/EmailTemplates/confirm-new-email-inlined.html";
+                }
+
+                var result = await _usersService.ConfirmEmailAsync(token, baseUrl, emailtTemplatePath);
+
+                if (result.IsSuccess)
+                {
+                    result.Message = ControllerMessages.StatusCode200(result.Message);
+
+                    return Ok(result);
+                }
+                else
+                {
+                    result.Message = ControllerMessages.StatusCode404(result.Message);
+
+                    return NotFound(result);
+                }
+            }
+            catch (Exception e)
+            {
+                return ControllerUtilities.ProcessException<UsersController>(
+                    this,
+                    _requestService,
+                    _logger,
+                    e);
+            }
+        }
+
+        /// <summary>
+        /// An endpoint which cancels oustanding email confirmation requests, requires the user role.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>A boolean indicating if the outstanding email confirmation was cancelled.</returns>
+        /// <response code="200">Returns a result object with the message and isSuccess value indicating if the user's email confirmation request was cancelled.</response>
+        /// <response code="404">Returns a result object with the message stating the user's email confirmation was not found. </response>
+        /// <response code="500">Returns a result object with the message stating any errors processing the request.</response>
+        /// <remarks>
+        /// The CancelEmailConfirmation endpoint requires the user to be logged in. Requires the user role. The request body parameter uses the request model.
+        /// 
+        /// The request should be structured as follows:
+        /// ```
+        ///     {                                 
+        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
+        ///       "requestorId": integer, // the user id for the requesting logged in user
+        ///       "appId": integer,       // the app id for the app the requesting user is logged into
+        ///       "paginator": paginator, // an object to control list pagination, not applicable here
+        ///       "payload": {},          // an object holding additional request parameters, not applicable here
+        ///     }     
+        /// ```
+        /// </remarks>
+        [Authorize(Roles = "USER")]
+        [HttpPut, Route("cancelEmailConfirmation")]
+        public async Task<ActionResult<Result>> CancelEmailConfirmationAsync([FromBody] Request request)
+        {
+            try
+            {
+                if (request == null) throw new ArgumentNullException(nameof(request));
+
+                _requestService.Update(request);
+
+                if (await _appsService.IsRequestValidOnThisTokenAsync(
+                    _httpContextAccessor,
+                    request.License,
+                    request.AppId,
+                    request.RequestorId))
+                {
+                    var result = await _usersService.CancelEmailConfirmationRequestAsync(request.RequestorId, request.AppId);
+
+                    if (result.IsSuccess)
+                    {
+                        result.Message = ControllerMessages.StatusCode200(result.Message);
+
+                        return Ok(result);
+                    }
+                    else
+                    {
+                        result.Message = ControllerMessages.StatusCode404(result.Message);
+
+                        return NotFound(result);
+                    }
+                }
+                else
+                {
+                    return ControllerUtilities.ProcessTokenError(this);
+                }
+            }
+            catch (Exception e)
+            {
+                return ControllerUtilities.ProcessException<UsersController>(
+                    this,
+                    _requestService,
+                    _logger,
+                    e);
+            }
+        }
+
+        /// <summary>
         /// An endpoint to reset user password, your custom password action will plug into this endpoint; does not require a login.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>An updated copy of the user.</returns>
-        /// <response code="200">An updated copy of the user.</response>
-        /// <response code="404">A message detailing any issues resetting the users password.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the updated user included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the user was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors resetting the user's password.</response>
         /// <remarks>
         /// The ResetPassword endpoint does not require a login. This method works in conjunction with the custom email action for your app. When your custom action 
         /// is ready to submit it's data it will submit the token it receives from the email along with the new password to this endpoint. The request body parameter 
-        /// uses a custom request model.
+        /// uses the custom ResetPasswordRequest model documented in the schema.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -730,11 +868,12 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A boolean indicating if the password reset email was sent.</returns>
-        /// <response code="200">A boolean indicating if the password reset email was sent.</response>
-        /// <response code="404">A message detailing any issues sending the password reset email.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the message and isSuccess value indicating if the password reset email was sent.</response>
+        /// <response code="404">Returns a result object with the message stating the user was not found. </response>
+        /// <response code="500">Returns a result object with the message stating any errors processing the request.</response>
         /// <remarks>
-        /// The RequestPasswordReset endpoint does not require a login. It sends password reset emails. The request body parameter uses a custom request model.
+        /// The RequestPasswordReset endpoint does not require a login. It sends password reset emails. The request body parameter uses the custom RequestPasswordResetRequest 
+        /// model documented in the schema.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -806,12 +945,12 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A boolean indicating if the password reset email was resent.</returns>
-        /// <response code="200">A boolean indicating if the password reset email was resent.</response>
-        /// <response code="404">A message detailing any issues resending the password reset email.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the message and isSuccess value indicating if the password reset email was resent.</response>
+        /// <response code="404">Returns a result object with the message stating the user or request password reset were not found. </response>
+        /// <response code="500">Returns a result object with the message stating any errors processing the request.</response>
         /// <remarks>
         /// The ResendRequestPasswordReset endpoint does not require a login. It resends password reset emails if the user has lost the original email. 
-        /// The request body parameter uses a custom request model.
+        /// The request body parameter uses the custom ResendRequestPasswordRequest model documented in the schema.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -883,150 +1022,13 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// An endpoint which confirms user emails, does not require a login.
-        /// </summary>
-        /// <param name="token"></param>
-        /// <returns>A boolean indicating if the email was confirmed.</returns>
-        /// <response code="200">A boolean indicating if the email was confirmed.</response>
-        /// <response code="404">A message detailing any issues confirming the users email.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
-        /// <remarks>
-        /// The ConfirmEmail endpoint does not require a login. If you've implemented a custom confirm email action that action will link back to this endpoint once confirmed. 
-        /// Your action will send the token to this endpoint to complete the process, the boolean will indicate if the email was confirmed.
-        /// </remarks>
-        [AllowAnonymous]
-        [HttpGet("ConfirmEmail/{token}")]
-        public async Task<ActionResult<Result>> ConfirmEmailAsync(string token)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(token)) throw new ArgumentNullException(nameof(token));
-
-                string baseUrl;
-
-                if (Request != null)
-                {
-                    baseUrl = Request.Host.ToString();
-                }
-                else
-                {
-                    baseUrl = "https://SudokuCollective.com";
-                }
-
-                string emailtTemplatePath;
-
-                if (!string.IsNullOrEmpty(_hostEnvironment.WebRootPath))
-                {
-                    emailtTemplatePath = Path.Combine(_hostEnvironment.WebRootPath, "/Content/EmailTemplates/confirm-new-email-inlined.html");
-
-                    emailtTemplatePath = string.Format("../SudokuCollective.Api{0}", emailtTemplatePath);
-                }
-                else
-                {
-                    emailtTemplatePath = "../../Content/EmailTemplates/confirm-new-email-inlined.html";
-                }
-
-                var result = await _usersService.ConfirmEmailAsync(token, baseUrl, emailtTemplatePath);
-
-                if (result.IsSuccess)
-                {
-                    result.Message = ControllerMessages.StatusCode200(result.Message);
-
-                    return Ok(result);
-                }
-                else
-                {
-                    result.Message = ControllerMessages.StatusCode404(result.Message);
-
-                    return NotFound(result);
-                }
-            }
-            catch (Exception e)
-            {
-                return ControllerUtilities.ProcessException<UsersController>(
-                    this,
-                    _requestService,
-                    _logger,
-                    e);
-            }
-        }
-
-        /// <summary>
-        /// An endpoint which cancels oustanding email confirmation requests, requires the user role.
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns>A boolean indicating if the outstanding email confirmation was cancelled.</returns>
-        /// <response code="200">A boolean indicating if the outstanding email confirmation was cancelled.</response>
-        /// <response code="404">A message detailing any issues cancelling outstanding email confirmation requests.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
-        /// <remarks>
-        /// The CancelEmailConfirmation endpoint requires the user to be logged in. Requires the user role. The request body parameter uses the request model.
-        /// 
-        /// The request should be structured as follows:
-        /// ```
-        ///     {                                 
-        ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
-        ///       "requestorId": integer, // the user id for the requesting logged in user
-        ///       "appId": integer,       // the app id for the app the requesting user is logged into
-        ///       "paginator": paginator, // an object to control list pagination, not applicable here
-        ///       "payload": {},          // an object holding additional request parameters, not applicable here
-        ///     }     
-        /// ```
-        /// </remarks>
-        [Authorize(Roles = "USER")]
-        [HttpPut, Route("cancelEmailConfirmation")]
-        public async Task<ActionResult<Result>> CancelEmailConfirmationAsync([FromBody] Request request)
-        {
-            try
-            {
-                if (request == null) throw new ArgumentNullException(nameof(request));
-
-                _requestService.Update(request);
-
-                if (await _appsService.IsRequestValidOnThisTokenAsync(
-                    _httpContextAccessor,
-                    request.License,
-                    request.AppId,
-                    request.RequestorId))
-                {
-                    var result = await _usersService.CancelEmailConfirmationRequestAsync(request.RequestorId, request.AppId);
-
-                    if (result.IsSuccess)
-                    {
-                        result.Message = ControllerMessages.StatusCode200(result.Message);
-
-                        return Ok(result);
-                    }
-                    else
-                    {
-                        result.Message = ControllerMessages.StatusCode404(result.Message);
-
-                        return NotFound(result);
-                    }
-                }
-                else
-                {
-                    return ControllerUtilities.ProcessTokenError(this);
-                }
-            }
-            catch (Exception e)
-            {
-                return ControllerUtilities.ProcessException<UsersController>(
-                    this,
-                    _requestService,
-                    _logger,
-                    e);
-            }
-        }
-
-        /// <summary>
         /// An endpoint which cancels oustanding password reset requests, requires the user role.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A boolean indicating if the outstanding password reset request was cancelled.</returns>
-        /// <response code="200">A boolean indicating if the outstanding email confirmations were cancelled.</response>
-        /// <response code="404">A message detailing any issues cancelling outstanding email confirmation requests.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the message and isSuccess value indicating if the user's password reset request was cancelled.</response>
+        /// <response code="404">Returns a result object with the message stating the user or the password request request were not found. </response>
+        /// <response code="500">Returns a result object with the message stating any errors processing the request.</response>
         /// <remarks>
         /// The CancelPasswordReset endpoint requires the user to be logged in. Requires the user role. The request body parameter uses the request model.
         /// 
@@ -1092,9 +1094,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A boolean indicating if outstanding email confirmation and password reset requests were cancelled.</returns>
-        /// <response code="200">A boolean indicating if outstanding email confirmation and password reset requests were cancelled.</response>
-        /// <response code="404">A message detailing any issues cancelling outstanding email confirmation and password reset requests.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the message and isSuccess value indicating if the user's cancel email request and password reset request was cancelled.</response>
+        /// <response code="404">Returns a result object with the message stating if the user or requests were not found. </response>
+        /// <response code="500">Returns a result object with the message stating any errors processing the request.</response>
         /// <remarks>
         /// The CancelAllEmailRequests endpoint requires the user to be logged in. Requires the user role. The request body parameter uses the request model.
         /// 

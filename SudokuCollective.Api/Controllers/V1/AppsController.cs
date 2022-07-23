@@ -49,9 +49,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>Records for a given app.</returns>
-        /// <response code="200">Records for a given app.</response>
-        /// <response code="404">A message detailing any issues getting an app.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the app included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the app was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors getting the app.</response>
         /// <remarks>
         /// The Get endpoint requires the user to be logged in. Requires the user role. The query parameter id refers to the relevant app. 
         /// The request body parameter uses the request model.
@@ -123,14 +123,14 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>An updated app.</returns>
-        /// <response code="200">An updated app.</response>
-        /// <response code="404">A message detailing any issues updating a app.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the updated app included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the app was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors updating the app.</response>
         /// <remarks>
         /// The Update endpoint requires the user to be logged in. Requires the superuser or admin role. The query parameter id refers to the relevant app. 
         /// The request body parameter uses the request model.
         /// 
-        /// The request should be structured as follows:
+        /// The payload should be an AppPayload as documented in the schema. The request should be structured as follows:
         /// ```
         ///     {                                 
         ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
@@ -221,9 +221,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="license"></param>
         /// <param name="request"></param>
         /// <returns>A message documenting the result of the delete request.</returns>
-        /// <response code="200">A message documenting the result of the delete request.</response>
-        /// <response code="404">A message detailing any issues deleting an app.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the message documenting the result of the delete request.</response>
+        /// <response code="404">Returns a result object with the message stating the app was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors deleting the app.</response>
         /// <remarks>
         /// The Delete endpoint requires the user to be logged in. Requires the superuser or admin role. The query parameters id and license refers to the relevant app. 
         /// The request body parameter uses the request model.
@@ -306,9 +306,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="license"></param>
         /// <param name="request"></param>
         /// <returns>Records for a given app.</returns>
-        /// <response code="200">Records for a given app.</response>
-        /// <response code="404">A message detailing any issues getting an app.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the app included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the app was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors getting the app.</response>
         /// <remarks>
         /// The GetByLicense endpoint requires the user to be logged in. Requires the superuser or admin role. The query parameter license refers to the relevant app. 
         /// The request body parameter uses the request model.
@@ -379,9 +379,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A list of all apps.</returns>
-        /// <response code="200">A list of all apps.</response>
-        /// <response code="404">A message detailing any issues obtaining all apps.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with all apps included as the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating all apps were not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors getting all apps.</response>
         /// <remarks>
         /// The GetApps endpoint requires the user to be logged in. Requires superuser or admin role. The request body parameter uses the request model.
         /// 
@@ -469,13 +469,13 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// An endpoint to get a list of all apps associated to the signed in user as owner, requires the superuser or admin role.
+        /// An endpoint to get a list of all apps associated to the logged in user as owner, requires the superuser or admin role.
         /// </summary>
         /// <param name="request"></param>
-        /// <returns>A list of all apps associated to the signed in user as owner.</returns>
-        /// <response code="200">A list of all apps associated to the signed in user as owner.</response>
-        /// <response code="404">A message detailing any issues obtaining all apps.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <returns>A list of all apps associated to the logged in user as owner.</returns>
+        /// <response code="200">Returns a result object with the logged in user's apps included as the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the logged in user's apps were not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors getting the logged in user's apps.</response>
         /// <remarks>
         /// The GetMyApps endpoint requires the user to be logged in. Requires the superuser or admin role. Unlike the above GetApps endpoint this endpoint specifically gets 
         /// apps associated with the logged in user as the owner. The request body parameter uses the request model.
@@ -567,13 +567,13 @@ namespace SudokuCollective.Api.Controllers.V1
         }
 
         /// <summary>
-        /// An endpoint to get a list of all apps associated to the signed in user as a user, requires the superuser or admin role.
+        /// An endpoint to get a list of all apps associated to the logged in user as a user, requires the superuser or admin role.
         /// </summary>
         /// <param name="request"></param>
-        /// <returns>A list of all apps associated to the signed in user asa user.</returns>
-        /// <response code="200">A list of all apps associated to the signed in user as a user.</response>
-        /// <response code="404">A message detailing any issues obtaining all apps.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <returns>A list of all apps associated to the logged in user asa user.</returns>
+        /// <response code="200">Returns a result object with the logged in user's registered apps included as the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the logged in user's registered apps were not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors getting the logged in user's registered apps.</response>
         /// <remarks>
         /// The GetMyRegisteredApps endpoint requires the user to be logged in. Requires the superuser or admin role. Unlike the above GetMyApps endpoint this endpoint 
         /// specifically gets apps associated with the logged in user as a user. The request body parameter uses the request model.
@@ -669,9 +669,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>A list of all users registered to an app.</returns>
-        /// <response code="200">A list of all users registered to an app.</response>
-        /// <response code="404">A message detailing any issues obtaining all users.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with an apps registered users included as the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the apps registered users were not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors getting the apps registered users.</response>
         /// <remarks>
         /// The GetAppUsers endpoint requires the user to be logged in. Requires the superuser or admin role. Returns a list of all users registered to an app. 
         /// The request body parameter uses the request model.
@@ -774,9 +774,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>A list of all users not registered to an app.</returns>
-        /// <response code="200">A list of all users not registered to an app.</response>
-        /// <response code="404">A message detailing any issues obtaining all users.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with all users not registered to an app included as the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating users not registered to an app were not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors getting users not registered to an app.</response>
         /// <remarks>
         /// The GetNonAppUsers endpoint requires the user to be logged in. Requires the superuser or admin role. Returns a list of all users not registered to an app. 
         /// The request body parameter uses the request model.
@@ -880,12 +880,12 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="userId"></param>
         /// <param name="request"></param>
         /// <returns>A user added to an app.</returns>
-        /// <response code="200">A user added to an app.</response>
-        /// <response code="404">A message detailing any issues adding a user to an app.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the added user included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the user was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors adding the user to the app.</response>
         /// <remarks>
         /// The AddUser endpoint requires the user to be logged in. Requires the superuser or admin role. The query parameter id refers to the relevant app and the 
-        /// query parameter userId refers to the relevant user. The request body parameter uses the request model.
+        /// query parameter userId refers to the relevant user to be added to the app. The request body parameter uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -958,12 +958,12 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="userId"></param>
         /// <param name="request"></param>
         /// <returns>A message detailing a user has been removed from an app.</returns>
-        /// <response code="200">A message detailing a user has been removed from an app.</response>
-        /// <response code="404">A message detailing any issues removing a user from an app.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the message detailing a user has been removed from an app.</response>
+        /// <response code="404">Returns a result object with the message stating the app was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors removing the user from the app.</response>
         /// <remarks>
         /// The RemoveUser endpoint requires the user to be logged in. Requires the superuser or admin role. The query parameter id refers to the relevant app and the query 
-        /// parameter userId refers to the relevant user. The request body parameter  uses the request model.
+        /// parameter userId refers to the relevant user to be removed from the app. The request body parameter  uses the request model.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -1035,9 +1035,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>A message detailing if an app has been activated.</returns>
-        /// <response code="200">A message detailing if an app has been activated.</response>
-        /// <response code="404">A message detailing any issues activating an app.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the activated app included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the app was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors activating the app.</response>
         /// <remarks>
         /// The Activate endpoint requires the user to be logged in. Requires the superuser or admin role. The query parameter id refers to the relevant app. The 
         /// request body parameter uses the request model.
@@ -1109,9 +1109,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>A message detailing if an app has been deactivated.</returns>
-        /// <response code="200">A message detailing if an app has been deactivated.</response>
-        /// <response code="404">A message detailing any issues deactivating an app.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the deactivated app included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the app was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors deactivating the app.</response>
         /// <remarks>
         /// The Deactivate endpoint requires the user to be logged in. Requires the superuser or admin role. The query parameter id refers to the relevant app. The 
         /// request body parameter uses the request model.
@@ -1183,9 +1183,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>A reset app with all games deleted.</returns>
-        /// <response code="200">A message documenting the result of the reset request.</response>
-        /// <response code="404">A message detailing any issues resetting an app.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the reset app included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the app was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors resetting the app.</response>
         /// <remarks>
         /// The Reset endpoint requires the user to be logged in. Requires the superuser or admin role. Returns a copy of the app with all games deleted. The 
         /// query parameters id refers to the relevant app. The request body parameter uses the request model.
@@ -1266,9 +1266,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="userId"></param>
         /// <param name="request"></param>
         /// <returns>A copy of the user with admin privileges added for the given app.</returns>
-        /// <response code="200">A message documenting the result of the promotion request.</response>
-        /// <response code="404">A message detailing any issues promoting a user to an admin for a given app.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the promoted user included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the user was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors promoting the user within the app.</response>
         /// <remarks>
         /// The ActivateAdminPrivileges endpoint requires the user to be logged in. Requires the superuser or admin role. Returns a copy of the relevant user with admin 
         /// privileges added. The query parameters id refers to the relevant app. The request body parameter uses the request model.
@@ -1344,9 +1344,9 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <param name="userId"></param>
         /// <param name="request"></param>
         /// <returns>A copy of the user with admin privileges removed for the given app.</returns>
-        /// <response code="200">A message documenting the result of the demotion request.</response>
-        /// <response code="404">A message detailing any issues demoting a user from an admin for a given app.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the demoted user included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the user was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors demoting the user within the app.</response>
         /// <remarks>
         /// The DeactivateAdminPrivileges endpoint requires the user to be logged in. Requires the superuser or admin role. Returns a copy of  the relevant user with admin 
         /// privileges removed. The query parameters id refers to the relevant app. The request body parameter uses the request model.

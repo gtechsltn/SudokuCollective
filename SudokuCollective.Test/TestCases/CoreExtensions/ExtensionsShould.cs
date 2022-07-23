@@ -8,6 +8,7 @@ using SudokuCollective.Core.Extensions;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Payloads;
 using SudokuCollective.Data.Extensions;
 using SudokuCollective.Data.Models.Payloads;
+using SudokuCollective.Data.Models.Requests;
 using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Extensions

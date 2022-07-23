@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using SudokuCollective.Core.Interfaces.Models.DomainObjects.Requests;
-using SudokuCollective.Data.Models.Payloads;
+using SudokuCollective.Data.Models.Requests;
 using SudokuCollective.Test.TestData;
 
 namespace SudokuCollective.Test.TestCases.Payloads

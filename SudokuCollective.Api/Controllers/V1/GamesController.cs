@@ -11,7 +11,7 @@ using SudokuCollective.Data.Messages;
 using SudokuCollective.Core.Enums;
 using SudokuCollective.Data.Models.Params;
 using SudokuCollective.Api.Utilities;
-using SudokuCollective.Data.Models.Payloads;
+using SudokuCollective.Data.Models.Requests;
 
 namespace SudokuCollective.Api.V1.Controllers
 {
@@ -56,13 +56,13 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A game.</returns>
-        /// <response code="200">A game.</response>
-        /// <response code="404">A message detailing any issues creating a game.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="201">Returns a result object with the new game included as the first element in the payload array.</response>
+        /// <response code="400">Returns a result object with the message stating why the request could not be fulfilled.</response>
+        /// <response code="500">Returns a result object with the message stating any errors creating the game.</response>
         /// <remarks>
         /// The Post endpoint requires the user to be logged in. Requires the user role. The request body parameter uses the request model.
         /// 
-        /// The request should be structured as follows:
+        /// The payload should be a CreateGamePayload as documented in the schema. The request should be structured as follows:
         /// ```
         ///     {                                 
         ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
@@ -102,9 +102,9 @@ namespace SudokuCollective.Api.V1.Controllers
                     }
                     else
                     {
-                        result.Message = ControllerMessages.StatusCode404(result.Message);
+                        result.Message = ControllerMessages.StatusCode400(result.Message);
 
-                        return NotFound(result);
+                        return BadRequest(result);
                     }
                 }
                 else
@@ -128,14 +128,14 @@ namespace SudokuCollective.Api.V1.Controllers
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>An updated game.</returns>
-        /// <response code="200">An updated game.</response>
-        /// <response code="404">A message detailing any issues updating a game.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the updated game included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating game was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors updating the game.</response>
         /// <remarks>
         /// The Update endpoint requires the user to be logged in. Requires the superuser or admin roles. The query parameter id refers to the relevant game. 
         /// The request body parameter uses the request model.
         /// 
-        /// The request should be structured as follows:
+        /// The payload should be a GamePayload as documented in the schema. The request should be structured as follows:
         /// ```
         ///     {                                 
         ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
@@ -206,9 +206,9 @@ namespace SudokuCollective.Api.V1.Controllers
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>A message indicating if the game was deleted.</returns>
-        /// <response code="200">A message indicating if the game was deleted.</response>
-        /// <response code="404">A message detailing any issues deleting a game.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the message indicating the game was deleted.</response>
+        /// <response code="404">Returns a result object with the message stating the game was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors deleting the game.</response>
         /// <remarks>
         /// The Delete endpoint requires the user to be logged in. Requires the superuser or admin roles. The query parameter id refers to the relevant game. 
         /// The request body parameter uses the request model.
@@ -280,9 +280,9 @@ namespace SudokuCollective.Api.V1.Controllers
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>A game.</returns>
-        /// <response code="200">A game.</response>
-        /// <response code="404">A message detailing any issues getting a game.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the game included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating game was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors getting the game.</response>
         /// <remarks>
         /// The GetGame endpoint requires the user to be logged in. Requires superuser or admin roles. The query parameter id refers to the relevant game. 
         /// The request body parameter uses the request model.
@@ -355,9 +355,9 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns>All games.</returns>
-        /// <response code="200">All games.</response>
-        /// <response code="404">A message detailing any issues getting all games.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with all games included as the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating all games were not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors getting all games.</response>
         /// <remarks>
         /// The GetGames endpoint requires the user to be logged in. Requires the superuser or admin roles The request body parameter uses the request model.
         /// 
@@ -424,9 +424,9 @@ namespace SudokuCollective.Api.V1.Controllers
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>A logged in user's game.</returns>
-        /// <response code="200">A logged in user's game.</response>
-        /// <response code="404">A message detailing any issues getting a user's game.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with all signed in user's game included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating all signed in user's game was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors getting all the signed in user's game.</response>
         /// <remarks>
         /// The GetMyGame endpoint requires the user to be logged in. Requires the user role. This endpoint provides additional checks to ensure the requesting user
         /// is the originator of the game. User is indicated by the request requestorId. The query parameter  id refers to the relevant game. The request body 
@@ -500,9 +500,9 @@ namespace SudokuCollective.Api.V1.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A logged in user's games.</returns>
-        /// <response code="200">A logged in user's games.</response>
-        /// <response code="404">A message detailing any issues getting a user's games.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with all signed in user's games included as the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating all signed in user's games were not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors getting all signed in user's games.</response>
         /// <remarks>
         /// The GetMyGames endpoint requires the user to be logged in. Requires the user role. This endpoint provides additional checks to ensure the requesting user
         /// is the originator of the game. User is indicated by the request requestorId. The request body parameter uses the request model.
@@ -570,15 +570,15 @@ namespace SudokuCollective.Api.V1.Controllers
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>An updated logged in user's game.</returns>
-        /// <response code="200">An updated logged in user's game.</response>
-        /// <response code="404">A message detailing any issues updating a logged in user's game.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the signed in user's updated game included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating all signed in user's game was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors updating the signed in user's games.</response>
         /// <remarks>
         /// The UpdateMyGame endpoint requires the user to be logged in. Requires the user role. The query parameter id refers to the relevant game. 
         /// This endpoint provides additional checks to ensure the requesting user is the originator of the game. User is indicated by the 
         /// request requestorId. The request body parameter uses the request model.
         /// 
-        /// The request should be structured as follows:
+        /// The payload should be a GamePayload as documented in the schema. The request should be structured as follows:
         /// ```
         ///     {                                 
         ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
@@ -649,9 +649,9 @@ namespace SudokuCollective.Api.V1.Controllers
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>A message indicating if the user's game was deleted.</returns>
-        /// <response code="200">A message indicating if the user's game was deleted.</response>
-        /// <response code="404">A message detailing any issues deleting a user's game.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the message indicating the signed in user's game was deleted.</response>
+        /// <response code="404">Returns a result object with the message stating the signed in user's game was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors deleting the signed in user's game.</response>
         /// <remarks>
         /// The DeleteMyGame endpoint requires the user to be logged in. Requires the user role. This endpoint provides additional checks to ensure the requesting user
         /// is the originator of the games. User is indicated by the request requestorId. The query parameter id refers to the relevant game. The request body parameter 
@@ -726,14 +726,14 @@ namespace SudokuCollective.Api.V1.Controllers
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns>A checked game to see if it's been solved.</returns>
-        /// <response code="200">A checked game to see if it's been solved.</response>
-        /// <response code="404">A message detailing any issues checking a game.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the checked game included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating the game was not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors checking the game.</response>
         /// <remarks>
         /// The Check endpoint requires the user to be logged in. Requires the user role. The query parameter id refers to the relevant game. The request body 
         /// parameter uses the request model.
         /// 
-        /// The request should be structured as follows:
+        /// The payload should be a GamePayload as documented in the schema. The request should be structured as follows:
         /// ```
         ///     {                                 
         ///       "license": string,      // the app license must be valid using the applicable regex pattern as documented in the request schema below
@@ -797,15 +797,15 @@ namespace SudokuCollective.Api.V1.Controllers
         }
 
         /// <summary>
-        /// An endpoint to create an annonymous game, a game without a signed in user. Does not require a login.
+        /// An endpoint to create an annonymous game without a signed in user, does not require a login.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>An annonymous game.</returns>
-        /// <response code="200">An annonymous game.</response>
-        /// <response code="404">A message detailing any issues creating an annonymous game</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the annonymous game included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating if the annonymous game was not created.</response>
+        /// <response code="500">Returns a result object with the message stating any errors creating the annonymous game.</response>
         /// <remarks>
-        /// The CreateAnnonymous endpoint does not require a logged in user. The request body parameter uses the AnnonymousGameRequest model.
+        /// The CreateAnnonymous endpoint does not require a logged in user. The request body parameter uses the AnnonymousGameRequest model documented in the schema.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -839,9 +839,9 @@ namespace SudokuCollective.Api.V1.Controllers
                 }
                 else
                 {
-                    result.Message = ControllerMessages.StatusCode404(result.Message);
+                    result.Message = ControllerMessages.StatusCode400(result.Message);
 
-                    return NotFound(result);
+                    return BadRequest(result);
                 }
             }
             catch (Exception e)
@@ -857,15 +857,15 @@ namespace SudokuCollective.Api.V1.Controllers
         }
 
         /// <summary>
-        /// An endpoint to check an annonymous game, a game without a signed in user. Does not require a login.
+        /// An endpoint to check an annonymous game without a signed in user, does not require a login.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A message indicating if the sudoku puzzle has been solved.</returns>
-        /// <response code="200">A message indicating if the sudoku puzzle has been solved.</response>
-        /// <response code="404">A message detailing any issues solving a given sudoku puzzle.</response>
-        /// <response code="500">A description of any errors processing the request.</response>
+        /// <response code="200">Returns a result object with the solved sudoku puzzle included as the first element in the payload array.</response>
+        /// <response code="404">Returns a result object with the message stating if the annonymous game was not solved.</response>
+        /// <response code="500">Returns a result object with the message stating any errors solving the sudoku puzzle.</response>
         /// <remarks>
-        /// The CheckAnnonymous endpoint does not require a logged in user. The request body parameter uses the AnnonymousCheckRequest model.
+        /// The CheckAnnonymous endpoint does not require a logged in user. The request body parameter uses the AnnonymousCheckRequest model documented in the schema.
         /// 
         /// The request should be structured as follows:
         /// ```
@@ -910,9 +910,9 @@ namespace SudokuCollective.Api.V1.Controllers
                 }
                 else
                 {
-                    result.Message = ControllerMessages.StatusCode404(result.Message);
+                    result.Message = ControllerMessages.StatusCode400(result.Message);
 
-                    return NotFound(result);
+                    return BadRequest(result);
                 }
             }
             catch (Exception e)

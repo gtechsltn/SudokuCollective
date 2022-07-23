@@ -14,5 +14,6 @@
         internal const string DifficultyNotDeletedMessage = "Difficulty not Deleted";
         internal const string DifficultyAlreadyExistsMessage = "Difficulty Already Exists";
         internal const string DifficultyDoesNotExistMessage = "Difficulty does not Exist";
+        internal const string NullAndTestDifficultiesAreNotAvailableThroughTheApi = "Null and Test Difficulties are not Available Through the Api";
     }
 }

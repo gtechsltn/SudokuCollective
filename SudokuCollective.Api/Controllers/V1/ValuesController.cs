@@ -1,7 +1,7 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SudokuCollective.Core.Interfaces.Models.DomainObjects.Params;
 using SudokuCollective.Core.Interfaces.Services;
 using SudokuCollective.Data.Messages;
 using SudokuCollective.Data.Models.Params;
@@ -30,6 +30,10 @@ namespace SudokuCollective.Api.Controllers.V1
         /// <summary>
         /// An endpoint used to return all menu items you will use you in your settings, does not require a login.
         /// </summary>
+        /// <returns>Values for all dropdowns for difficulties, release environments, sort values, and time frames.</returns>
+        /// <response code="200">Returns a result object with the payload array including difficulties, release environments, sort values, and time frames.</response>
+        /// <response code="404">Returns a result object with the message stating the values were not found.</response>
+        /// <response code="500">Returns a result object with the message stating any errors getting the values.</response>
         /// <remarks>
         /// The Get endpoint returns all menu items you will use in your various drop down settings.  The results
         /// are as follows:
@@ -54,25 +58,40 @@ namespace SudokuCollective.Api.Controllers.V1
         [HttpGet]
         public async Task<ActionResult<Result>> GetAsync()
         {
-            var result = await _valuesService.GetAsync();
+            var result = new Result();
 
-            if (result.IsSuccess)
+            try
             {
-                result.Message = ControllerMessages.StatusCode200(result.Message);
+                result = (Result)await _valuesService.GetAsync();
 
-                return Ok(result);
+                if (result.IsSuccess)
+                {
+                    result.Message = ControllerMessages.StatusCode200(result.Message);
+
+                    return Ok(result);
+                }
+                else
+                {
+                    result.Message = ControllerMessages.StatusCode400(result.Message);
+
+                    return NotFound(result);
+                }
             }
-            else
+            catch (Exception e)
             {
-                result.Message = ControllerMessages.StatusCode400(result.Message);
+                result.IsSuccess = false;
+                result.Message = ControllerMessages.StatusCode500(e.Message);
 
-                return NotFound(result);
+                return result;
             }
         }
 
         /// <summary>
         /// An endpoint which returns a list of releaseEnvironments, does not require a login.
         /// </summary>
+        /// <returns>Values for release environment dropdowns.</returns>
+        /// <response code="200">Returns a result object with the payload array including release environments.</response>
+        /// <response code="400">Returns a result object with the message stating why the request could not be fulfilled.</response>
         /// <remarks>
         /// The GetReleaseEnvironments endpoint returns a list of release environments. Your app can be in
         /// one of the following active environments: local, staging, QA and production.  These states
@@ -138,13 +157,16 @@ namespace SudokuCollective.Api.Controllers.V1
             {
                 result.Message = ControllerMessages.StatusCode400(result.Message);
 
-                return NotFound(result);
+                return BadRequest(result);
             }
         }
 
         /// <summary>
         /// An endpoint which returns a list of sortValues, does not require a login.
         /// </summary>
+        /// <returns>Values for sort value dropdowns.</returns>
+        /// <response code="200">Returns a result object with the payload array including sort values.</response>
+        /// <response code="400">Returns a result object with the message stating why the request could not be fulfilled.</response>
         /// <remarks>
         /// The GetSortValues endpoint returns a list of sortValues. The SudokuCollective API supports list
         /// pagination for apps, users and games. You can use respective fields for each type to paginate
@@ -290,13 +312,16 @@ namespace SudokuCollective.Api.Controllers.V1
             {
                 result.Message = ControllerMessages.StatusCode400(result.Message);
 
-                return NotFound(result);
+                return BadRequest(result);
             }
         }
 
         /// <summary>
         /// An endpoint which returns a list of timeFrames, does not require a login.
         /// </summary>
+        /// <returns>Values for time frame dropdowns.</returns>
+        /// <response code="200">Returns a result object with the payload array including time frames.</response>
+        /// <response code="400">Returns a result object with the message stating why the request could not be fulfilled.</response>
         /// <remarks>
         /// The GetTimeFrames endpoint returns a list of timeFrames. Your app uses JWT Tokens to authorize
         /// requests. As the owner of the app you can set the expiration period for the JWT Tokens, after
@@ -374,7 +399,7 @@ namespace SudokuCollective.Api.Controllers.V1
             {
                 result.Message = ControllerMessages.StatusCode400(result.Message);
 
-                return NotFound(result);
+                return BadRequest(result);
             }
         }
     }
