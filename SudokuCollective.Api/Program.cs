@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -22,7 +23,15 @@ namespace SudokuCollective.Api
         /// </summary>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureLogging((hostingContext, logging) => {
+                .ConfigureAppConfiguration((context, builder) =>
+                {
+                    if (context.HostingEnvironment.IsProduction())
+                    {
+                        builder.AddSystemsManager("/sudokuCollective");
+                    }
+                })
+                .ConfigureLogging((hostingContext, logging) =>
+                {
                     logging.AddConfiguration(
                         hostingContext.Configuration.GetSection("Logging"));
                     logging.AddConsole();
