@@ -216,6 +216,23 @@ namespace SudokuCollective.Api
             services
                 .AddMvc(options => options.EnableEndpointRouting = false);
 
+            AWSOptions awsoptions;
+
+            if (_environment.IsDevelopment())
+            {
+                awsoptions = Configuration.GetAWSOptions();
+            }
+            else
+            {
+                awsoptions = new AWSOptions
+                {
+                    Region = Amazon.RegionEndpoint.GetBySystemName(Environment.GetEnvironmentVariable("AWS_REGION")),
+                    Profile = Environment.GetEnvironmentVariable("AWS_PROFILE")
+                };
+            }
+
+            services.AddDefaultAWSOptions(awsoptions);
+
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
