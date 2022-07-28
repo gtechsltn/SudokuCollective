@@ -36,6 +36,7 @@ using SudokuCollective.Core.Interfaces.Jobs;
 using SudokuCollective.Data.Jobs;
 using SudokuCollective.Data.Models.Payloads;
 using SudokuCollective.Data.Models.Requests;
+using Amazon.Extensions.NETCore.Setup;
 
 namespace SudokuCollective.Api
 {
