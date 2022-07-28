@@ -36,6 +36,7 @@ using SudokuCollective.Core.Interfaces.Jobs;
 using SudokuCollective.Data.Jobs;
 using SudokuCollective.Data.Models.Payloads;
 using SudokuCollective.Data.Models.Requests;
+using Amazon.Extensions.NETCore.Setup;
 
 namespace SudokuCollective.Api
 {
@@ -215,6 +216,23 @@ namespace SudokuCollective.Api
 
             services
                 .AddMvc(options => options.EnableEndpointRouting = false);
+
+            AWSOptions awsoptions;
+
+            if (_environment.IsDevelopment())
+            {
+                awsoptions = Configuration.GetAWSOptions();
+            }
+            else
+            {
+                awsoptions = new AWSOptions
+                {
+                    Region = Amazon.RegionEndpoint.GetBySystemName(Environment.GetEnvironmentVariable("AWS_REGION")),
+                    Profile = Environment.GetEnvironmentVariable("AWS_PROFILE")
+                };
+            }
+
+            services.AddDefaultAWSOptions(awsoptions);
 
             services.AddAuthentication(x =>
             {
