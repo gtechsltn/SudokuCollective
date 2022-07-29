@@ -23,13 +23,6 @@ namespace SudokuCollective.Api
         /// </summary>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((context, builder) =>
-                {
-                    if (context.HostingEnvironment.IsProduction())
-                    {
-                        builder.AddSystemsManager("/sudokuCollective");
-                    }
-                })
                 .ConfigureLogging((hostingContext, logging) =>
                 {
                     logging.AddConfiguration(
