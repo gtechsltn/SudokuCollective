@@ -36,7 +36,6 @@ using SudokuCollective.Core.Interfaces.Jobs;
 using SudokuCollective.Data.Jobs;
 using SudokuCollective.Data.Models.Payloads;
 using SudokuCollective.Data.Models.Requests;
-using Amazon.Extensions.NETCore.Setup;
 
 namespace SudokuCollective.Api
 {
@@ -46,6 +45,7 @@ namespace SudokuCollective.Api
     public class Startup
     {
         private IWebHostEnvironment _environment;
+        private bool _isStaging;
 
         /// <summary>
         /// Startup Class Configuration
@@ -61,6 +61,7 @@ namespace SudokuCollective.Api
         {
             Configuration = configuration;
             _environment = environment;
+            _isStaging = _environment.IsStaging();
         }
 
         /// <summary>
@@ -71,18 +72,16 @@ namespace SudokuCollective.Api
         {
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseNpgsql(
-                    _environment.IsDevelopment() ? 
+                    !_isStaging ? 
                         Configuration.GetConnectionString("DatabaseConnection") : 
-                        _environment.IsProduction() ?
-                            Environment.GetEnvironmentVariable("DatabaseConnection") :
-                            GetHerokuPostgresConnectionString(),
+                        GetHerokuPostgresConnectionString(),
                     b => b.MigrationsAssembly("SudokuCollective.Api")));
 
-            var swaggerDescription = _environment.IsDevelopment() ? 
+            var swaggerDescription = !_isStaging ? 
                 Configuration.GetSection("MissionStatement").Value : 
                 Environment.GetEnvironmentVariable("MISSIONSTATEMENT");
 
-            var sandboxLicense = _environment.IsDevelopment() ?
+            var sandboxLicense = !_isStaging ?
                 Configuration.GetSection("DefaultSandboxApp:License").Value :
                 Environment.GetEnvironmentVariable("SANDBOX_APP_LICENSE");
 
@@ -135,6 +134,8 @@ namespace SudokuCollective.Api
                 });
 
                 swagger.DocumentFilter<PathLowercaseDocumentFilter>();
+
+                // Add domain model documentation to Swashbuckler
                 swagger.DocumentFilter<CustomModelDocumentFilter<App>>();
                 swagger.DocumentFilter<CustomModelDocumentFilter<AuthenticatedUser>>();
                 swagger.DocumentFilter<CustomModelDocumentFilter<Difficulty>>();
@@ -168,7 +169,7 @@ namespace SudokuCollective.Api
                 swagger.IncludeXmlComments(filePath);
             });
 
-            var tokenManagement = _environment.IsDevelopment() ? 
+            var tokenManagement = !_isStaging ? 
                 Configuration.GetSection("tokenManagement").Get<TokenManagement>() : 
                 new TokenManagement 
                 { 
@@ -183,11 +184,9 @@ namespace SudokuCollective.Api
 
             services.AddSingleton<ITokenManagement>(tokenManagement);
 
-            var redisConnection = _environment.IsDevelopment() ? 
+            var redisConnection = !_isStaging ? 
                 Configuration.GetConnectionString("CacheConnection") : 
-                _environment.IsProduction() ?
-                    Environment.GetEnvironmentVariable("CacheConnection") :
-                    GetHerokuRedisConnectionString();
+                GetHerokuRedisConnectionString();
 
             // Add cache
             services.AddStackExchangeRedisCache(options =>
@@ -216,23 +215,6 @@ namespace SudokuCollective.Api
 
             services
                 .AddMvc(options => options.EnableEndpointRouting = false);
-
-            AWSOptions awsoptions;
-
-            if (_environment.IsDevelopment())
-            {
-                awsoptions = Configuration.GetAWSOptions();
-            }
-            else
-            {
-                awsoptions = new AWSOptions
-                {
-                    Region = Amazon.RegionEndpoint.GetBySystemName(Environment.GetEnvironmentVariable("AWS_REGION")),
-                    Profile = Environment.GetEnvironmentVariable("AWS_PROFILE")
-                };
-            }
-
-            services.AddDefaultAWSOptions(awsoptions);
 
             services.AddAuthentication(x =>
             {
@@ -264,7 +246,7 @@ namespace SudokuCollective.Api
                     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                 });
 
-            var emailMetaData = _environment.IsDevelopment() ? 
+            var emailMetaData = !_isStaging ? 
                 Configuration.GetSection("emailMetaData").Get<EmailMetaData>() :
                 new EmailMetaData
                 {
@@ -407,7 +389,7 @@ namespace SudokuCollective.Api
     }
 
     /// <summary>
-    /// A filter which displays api paths in lower case.
+    /// A Swashbuckler filter which displays api paths in lower case.
     /// </summary>
     public class PathLowercaseDocumentFilter : IDocumentFilter
     {
