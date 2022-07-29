@@ -1,9 +1,9 @@
-# This dockerfile is for heroku deployments to staging
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine AS base
 WORKDIR /app
-#EXPOSE 80
-#EXPOSE 443
+EXPOSE 80
+EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
 WORKDIR /src
@@ -19,4 +19,4 @@ RUN dotnet publish "SudokuCollective.Api/SudokuCollective.Api.csproj" -c Release
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-CMD ASPNETCORE_URLS=http://*:$PORT dotnet SudokuCollective.Api.dll --environment=Staging
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet SudokuCollective.Api.dll

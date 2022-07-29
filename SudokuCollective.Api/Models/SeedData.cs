@@ -29,6 +29,8 @@ namespace SudokuCollective.Api.Models
             {
                 var createdDate = DateTime.UtcNow;
 
+                var isStaging = env.IsStaging();
+
                 DatabaseContext context = servicesScope.ServiceProvider.GetRequiredService<DatabaseContext>();
                 context.Database.Migrate();
 
@@ -95,24 +97,24 @@ namespace SudokuCollective.Api.Models
                     context.Users.Add(
                         new User(
                             0,
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultUserAccounts:SuperUser:UserName") : 
                                 Environment.GetEnvironmentVariable("SUPER_USER_USERNAME"),
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultUserAccounts:SuperUser:FirstName") : 
                                 Environment.GetEnvironmentVariable("SUPER_USER_FIRSTNAME"),
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultUserAccounts:SuperUser:LastName") : 
                                 Environment.GetEnvironmentVariable("SUPER_USER_LASTNAME"),
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultUserAccounts:SuperUser:NickName") : 
                                 Environment.GetEnvironmentVariable("SUPER_USER_NICKNAME"),
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultUserAccounts:SuperUser:Email") : 
                                 Environment.GetEnvironmentVariable("SUPER_USER_EMAIL"),
                             true,
                             false,
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 BCrypt.Net.BCrypt.HashPassword(config.GetValue<string>("DefaultUserAccounts:SuperUser:Password", salt)) : 
                                 BCrypt.Net.BCrypt.HashPassword(config.GetValue<string>("SUPER_USER_PASSWORD", salt)),
                             false,
@@ -125,24 +127,24 @@ namespace SudokuCollective.Api.Models
                     context.Users.AddRange(
                         new User(
                             0,
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultUserAccounts:AdminUser:UserName") : 
                                 Environment.GetEnvironmentVariable("ADMIN_USER_USERNAME"),
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultUserAccounts:AdminUser:FirstName") : 
                                 Environment.GetEnvironmentVariable("ADMIN_USER_FIRSTNAME"),
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultUserAccounts:AdminUser:LastName") : 
                                 Environment.GetEnvironmentVariable("ADMIN_USER_LASTNAME"),
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultUserAccounts:AdminUser:NickName") : 
                                 Environment.GetEnvironmentVariable("ADMIN_USER_NICKNAME"),
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultUserAccounts:AdminUser:Email") : 
                                 Environment.GetEnvironmentVariable("ADMIN_USER_EMAIL"),
                             true,
                             false,
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 BCrypt.Net.BCrypt.HashPassword(config.GetValue<string>("DefaultUserAccounts:AdminUser:Password", salt)) : 
                                 BCrypt.Net.BCrypt.HashPassword(config.GetValue<string>("ADMIN_USER_PASSWORD", salt)),
                             false,
@@ -158,23 +160,23 @@ namespace SudokuCollective.Api.Models
                     context.Apps.Add(
                         new App(
                             0,
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultAdminApp:Name") : 
                                 Environment.GetEnvironmentVariable("ADMIN_APP_NAME"),
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultAdminApp:License") : 
                                 Environment.GetEnvironmentVariable("ADMIN_APP_LICENSE"),
                             1,
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultAdminApp:LocalUrl") : 
                                 Environment.GetEnvironmentVariable("ADMIN_APP_LOCAL_URL"),
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultAdminApp:StagingUrl") : 
                                 Environment.GetEnvironmentVariable("ADMIN_APP_STAGING_URL"),
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultAdminApp:QaUrl") : 
                                 Environment.GetEnvironmentVariable("ADMIN_APP_QA_URL"),
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultAdminApp:ProdUrl") : 
                                 Environment.GetEnvironmentVariable("ADMIN_APP_PROD_URL"),
                             true,
@@ -182,10 +184,10 @@ namespace SudokuCollective.Api.Models
                             true,
                             ReleaseEnvironment.LOCAL,
                             true,
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultAdminApp:CustomEmailAction") : 
                                 Environment.GetEnvironmentVariable("ADMIN_APP_CUSTOM_EMAIL_ACTION"),
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultAdminApp:CustomPasswordAction") : 
                                 Environment.GetEnvironmentVariable("ADMIN_APP_CUSTOM_PASSWORD_ACTION"),
                             false,
@@ -199,23 +201,23 @@ namespace SudokuCollective.Api.Models
                     context.Apps.Add(
                         new App(
                             0,
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultClientApp:Name") : 
                                 Environment.GetEnvironmentVariable("CLIENT_APP_NAME"),
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultClientApp:License") : 
                                 Environment.GetEnvironmentVariable("CLIENT_APP_LICENSE"),
                             2,
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultClientApp:LocalUrl") : 
                                 Environment.GetEnvironmentVariable("CLIENT_APP_LOCAL_URL"),
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultClientApp:StagingUrl") : 
                                 Environment.GetEnvironmentVariable("CLIENT_APP_STAGING_URL"),
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultClientApp:QaUrl") : 
                                 Environment.GetEnvironmentVariable("CLIENT_APP_QA_URL"),
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultClientApp:ProdUrl") : 
                                 Environment.GetEnvironmentVariable("CLIENT_APP_PROD_URL"),
                             false,
@@ -223,10 +225,10 @@ namespace SudokuCollective.Api.Models
                             true,
                             ReleaseEnvironment.LOCAL,
                             true,
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultClientApp:CustomEmailAction") : 
                                 Environment.GetEnvironmentVariable("CLIENT_APP_CUSTOM_EMAIL_ACTION"),
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultClientApp:CustomPasswordAction") : 
                                 Environment.GetEnvironmentVariable("CLIENT_APP_CUSTOM_PASSWORD_ACTION"),
                             false,
@@ -240,23 +242,23 @@ namespace SudokuCollective.Api.Models
                     context.Apps.Add(
                         new App(
                             0,
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultSandboxApp:Name") : 
                                 Environment.GetEnvironmentVariable("SANDBOX_APP_NAME"),
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultSandboxApp:License") : 
                                 Environment.GetEnvironmentVariable("SANDBOX_APP_LICENSE"),
                             1,
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultSandboxApp:LocalUrl") : 
                                 Environment.GetEnvironmentVariable("SANDBOX_APP_LOCAL_URL"),
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultSandboxApp:StagingUrl") : 
                                 Environment.GetEnvironmentVariable("SANDBOX_APP_STAGING_URL"),
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultSandboxApp:QaUrl") : 
                                 Environment.GetEnvironmentVariable("SANDBOX_APP_QA_URL"),
-                            !env.IsStaging() ? 
+                            !isStaging ? 
                                 config.GetValue<string>("DefaultSandboxApp:ProdUrl") : 
                                 Environment.GetEnvironmentVariable("SANDBOX_APP_PROD_URL"),
                             true,

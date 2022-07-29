@@ -45,6 +45,7 @@ namespace SudokuCollective.Api
     public class Startup
     {
         private IWebHostEnvironment _environment;
+        private bool _isStaging;
 
         /// <summary>
         /// Startup Class Configuration
@@ -60,6 +61,7 @@ namespace SudokuCollective.Api
         {
             Configuration = configuration;
             _environment = environment;
+            _isStaging = _environment.IsStaging();
         }
 
         /// <summary>
@@ -70,14 +72,16 @@ namespace SudokuCollective.Api
         {
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseNpgsql(
-                    !_environment.IsStaging() ? Configuration.GetConnectionString("DatabaseConnection") : GetHerokuPostgresConnectionString(),
+                    !_isStaging ? 
+                        Configuration.GetConnectionString("DatabaseConnection") : 
+                        GetHerokuPostgresConnectionString(),
                     b => b.MigrationsAssembly("SudokuCollective.Api")));
 
-            var swaggerDescription = !_environment.IsStaging() ? 
+            var swaggerDescription = !_isStaging ? 
                 Configuration.GetSection("MissionStatement").Value : 
                 Environment.GetEnvironmentVariable("MISSIONSTATEMENT");
 
-            var sandboxLicense = !_environment.IsStaging() ?
+            var sandboxLicense = !_isStaging ?
                 Configuration.GetSection("DefaultSandboxApp:License").Value :
                 Environment.GetEnvironmentVariable("SANDBOX_APP_LICENSE");
 
@@ -130,6 +134,8 @@ namespace SudokuCollective.Api
                 });
 
                 swagger.DocumentFilter<PathLowercaseDocumentFilter>();
+
+                // Add domain model documentation to Swashbuckler
                 swagger.DocumentFilter<CustomModelDocumentFilter<App>>();
                 swagger.DocumentFilter<CustomModelDocumentFilter<AuthenticatedUser>>();
                 swagger.DocumentFilter<CustomModelDocumentFilter<Difficulty>>();
@@ -163,7 +169,7 @@ namespace SudokuCollective.Api
                 swagger.IncludeXmlComments(filePath);
             });
 
-            var tokenManagement = !_environment.IsStaging() ? 
+            var tokenManagement = !_isStaging ? 
                 Configuration.GetSection("tokenManagement").Get<TokenManagement>() : 
                 new TokenManagement 
                 { 
@@ -178,7 +184,7 @@ namespace SudokuCollective.Api
 
             services.AddSingleton<ITokenManagement>(tokenManagement);
 
-            var redisConnection = !_environment.IsStaging() ? 
+            var redisConnection = !_isStaging ? 
                 Configuration.GetConnectionString("CacheConnection") : 
                 GetHerokuRedisConnectionString();
 
@@ -240,7 +246,7 @@ namespace SudokuCollective.Api
                     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                 });
 
-            var emailMetaData = !_environment.IsStaging() ? 
+            var emailMetaData = !_isStaging ? 
                 Configuration.GetSection("emailMetaData").Get<EmailMetaData>() :
                 new EmailMetaData
                 {
@@ -383,7 +389,7 @@ namespace SudokuCollective.Api
     }
 
     /// <summary>
-    /// A filter which displays api paths in lower case.
+    /// A Swashbuckler filter which displays api paths in lower case.
     /// </summary>
     public class PathLowercaseDocumentFilter : IDocumentFilter
     {

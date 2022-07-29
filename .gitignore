@@ -271,6 +271,7 @@ __pycache__/
 */appsettings.Docker.json
 */appsettings.Development.json
 */appsettings.Staging.json
+*/appsettings.Production.json
 
 # docker compose
 docker-compose.yml
