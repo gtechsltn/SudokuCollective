@@ -45,7 +45,6 @@ namespace SudokuCollective.Api
     public class Startup
     {
         private IWebHostEnvironment _environment;
-        private bool _isStaging;
 
         /// <summary>
         /// Startup Class Configuration
@@ -61,7 +60,6 @@ namespace SudokuCollective.Api
         {
             Configuration = configuration;
             _environment = environment;
-            _isStaging = _environment.IsStaging();
         }
 
         /// <summary>
@@ -72,16 +70,16 @@ namespace SudokuCollective.Api
         {
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseNpgsql(
-                    !_isStaging ? 
+                    !_environment.IsStaging() ? 
                         Configuration.GetConnectionString("DatabaseConnection") : 
                         GetHerokuPostgresConnectionString(),
                     b => b.MigrationsAssembly("SudokuCollective.Api")));
 
-            var swaggerDescription = !_isStaging ? 
+            var swaggerDescription = !_environment.IsStaging() ? 
                 Configuration.GetSection("MissionStatement").Value : 
                 Environment.GetEnvironmentVariable("MISSIONSTATEMENT");
 
-            var sandboxLicense = !_isStaging ?
+            var sandboxLicense = !_environment.IsStaging() ?
                 Configuration.GetSection("DefaultSandboxApp:License").Value :
                 Environment.GetEnvironmentVariable("SANDBOX_APP_LICENSE");
 
@@ -169,7 +167,7 @@ namespace SudokuCollective.Api
                 swagger.IncludeXmlComments(filePath);
             });
 
-            var tokenManagement = !_isStaging ? 
+            var tokenManagement = !_environment.IsStaging() ? 
                 Configuration.GetSection("tokenManagement").Get<TokenManagement>() : 
                 new TokenManagement 
                 { 
@@ -184,7 +182,7 @@ namespace SudokuCollective.Api
 
             services.AddSingleton<ITokenManagement>(tokenManagement);
 
-            var redisConnection = !_isStaging ? 
+            var redisConnection = !_environment.IsStaging() ? 
                 Configuration.GetConnectionString("CacheConnection") : 
                 GetHerokuRedisConnectionString();
 
@@ -246,7 +244,7 @@ namespace SudokuCollective.Api
                     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                 });
 
-            var emailMetaData = !_isStaging ? 
+            var emailMetaData = !_environment.IsStaging() ? 
                 Configuration.GetSection("emailMetaData").Get<EmailMetaData>() :
                 new EmailMetaData
                 {
